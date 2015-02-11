@@ -1,0 +1,30 @@
+{"name":"blocks-js",
+ "description": "A library for building and styling web components in pure-javascript.",
+ "keywords": ["web", "components", "html", "css", "style"],
+ "version":"0.1.0",
+ "main": "blocks.js",
+ "contributors": [
+    "Billy Tetrud <bitetrudpublic@gmail.com> (https://github.com/fresheneesz/)",
+    "Robbert Wijtman (https://github.com/Bucky24)"
+ ],
+ "license": {
+   "name": "MIT",
+   "url": "http://www.opensource.org/licenses/mit-license.php"
+ },
+ "repository": {
+   "type": "git",
+   "url": "git://github.com/Tixit/blocks.js"
+ },
+ "dependencies":{
+    "proto": "",
+    "observe": "",
+    "trimArguments":"https://github.com/fresheneesz/trimArguments/archive/c9c023c9ff1e0aec4b67370a80a92dacadcf8b11.tar.gz",
+    "colors":"",
+    "hashmap": ""
+ },
+ "devDependencies": {
+    "deadunit":"",
+    "build-modules":"2.0.3",
+    "async-future":""
+ }
+}

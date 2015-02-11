@@ -1,0 +1,40 @@
+<body></body>
+<script src="blocks.umd.js"></script>
+
+<script>
+
+var hiWords = "Hi"
+var toggleButton = blocks.Button(hiWords)
+toggleButton.on('click', function() {
+    if(toggleButton.text === hiWords) {
+        toggleButton.text = "RAWRR!!!"
+    } else {
+        toggleButton.text = hiWords
+    }
+})
+
+blocks.attach(toggleButton)     // append it to the document body
+
+toggleButton.style = blocks.Style({
+    color: 'rgb(128, 0, 0)',
+    marginRight: 34
+})
+
+var NameInput = function() {
+    blocks.Block.init.call(this)
+}
+var Intermediate = function(){}
+Intermediate.prototype = blocks.Block.prototype
+NameInput.prototype = new Intermediate()
+NameInput.prototype.name = 'NameInput'
+NameInput.prototype.create = function() {
+    var nameField
+    this.add(blocks.Text("Your Name: "), nameField = blocks.TextField())
+    nameField.on('keyup', function() {
+        toggleButton.text = hiWords = "Hi "+nameField.val
+    })
+}
+
+blocks.attach(new NameInput())
+
+</script>

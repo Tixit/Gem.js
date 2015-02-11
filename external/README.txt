@@ -1,0 +1,1 @@
+This folder holds dependencies that aren't part of any package management system, and therefore we're storing them in the repository. 
