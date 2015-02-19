@@ -1,0 +1,42 @@
+<!DOCTYPE html><html>
+<head></head>
+<body><div id='warning'>If this screen is just blank, you should probably start the test server and load the tests at localhost:8100</div>
+<h2 id="demoTitle">Demos (click to toggle)</h2>
+<div id='demos'></div>
+<div id='results'></div>
+</body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!--<script src="/blocks.umd.js"></script> Currently, these are being bundled into blocksTests.umd.js-->
+<script src="/src/external/syn.js"></script>
+<script src="/src/test/blocksTests.umd.js"></script>
+
+<script>
+    var demosHidden = false
+    var toggle;
+    $("#demoTitle").click(toggle = function() {
+        //  hides without using display none, because if elements aren't visible, some of the tests won't work (eg. domNode.offsetWidth is always 0)
+        if(demosHidden) {
+            $("#demos").css("left", 0)
+            $("#demos").css("position", "relative")
+        } else {
+            $("#demos").css("left", document.body.offsetWidth+200)
+            $("#demos").css("position", "absolute")
+        }
+
+        demosHidden = !demosHidden
+    })
+    toggle()
+
+    // wait for it to start being dumb and scrolling weird to scroll back
+    // doing it multiple times cause its being extra stupid
+    ;[100,1000,2000].forEach(function(timeout) {
+        setTimeout(function() {window.scrollTo(0,0);},timeout) // wait for it to start being dumb and scrolling weird to scroll back
+    })
+
+    blocksTests().events({
+        end: function() {
+            window.scrollTo(0,0);
+        }
+    })
+</script>

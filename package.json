@@ -2,7 +2,7 @@
  "description": "A library for building and styling web components in pure-javascript.",
  "keywords": ["web", "components", "html", "css", "style"],
  "version":"0.1.0",
- "main": "blocks.js",
+ "main": "src/blocks.js",
  "contributors": [
     "Billy Tetrud <bitetrudpublic@gmail.com> (https://github.com/fresheneesz/)",
     "Robbert Wijtman (https://github.com/Bucky24)"
@@ -23,7 +23,7 @@
     "hashmap": ""
  },
  "devDependencies": {
-    "deadunit":"",
+    "deadunit":"5.1.8",
     "build-modules":"2.0.3",
     "async-future":""
  }

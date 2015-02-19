@@ -1,0 +1,32 @@
+var testUtils = require('../testUtils')
+var Container = require("Components/Container")
+
+var Text = require('Components/Text');
+
+module.exports = function() {
+
+    var container = Container()
+    testUtils.demo("Text", container)
+
+	this.test('basic usage',function(t) {
+		var obj = new Text();
+        container.add(obj)
+        t.eq(obj.text,"");
+
+        obj.text = "   "
+		t.ok(obj.domNode.offsetWidth > 0); // make sure the spaces aren't collapsed (by default)
+
+        var obj2 = Text("<div>whatever</div>")
+        container.add(obj2)
+        t.eq(obj2.text,"<div>whatever</div>");
+        t.eq(obj2.domNode.innerText, "<div>whatever</div>")
+
+	});
+
+    this.test("label argument", function() {
+        var t = Text("label", "text")
+
+        this.eq(t.label, "label")
+        this.eq(t.domNode.innerText, "text")
+    })
+};

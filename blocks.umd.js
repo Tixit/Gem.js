@@ -54,36 +54,47 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.BlockBase = __webpack_require__(27)
+	exports.Block = __webpack_require__(1)
 	exports.Style = __webpack_require__(2)
 	
-	exports.Block = __webpack_require__(28)
+	exports.Container = __webpack_require__(3)
 	exports.Button = __webpack_require__(4)
 	exports.CheckBox = __webpack_require__(5)
-	exports.Label = __webpack_require__(6)
-	exports.Radio = __webpack_require__(7)
-	exports.Select = __webpack_require__(8)
-	exports.Table = __webpack_require__(9)
-	exports.TableCell = __webpack_require__(10)
-	exports.TableHeader = __webpack_require__(11)
-	exports.TableRow = __webpack_require__(12)
-	exports.TextArea = __webpack_require__(13)
-	exports.TextField = __webpack_require__(14)
-	exports.Text = __webpack_require__(15)
+	exports.Radio = __webpack_require__(6)
+	//exports.Select = require("Components/Select")
+	exports.MultiSelect = __webpack_require__(7)
+	exports.Table = __webpack_require__(8)
+	exports.TextArea = __webpack_require__(9)
+	exports.TextField = __webpack_require__(10)
+	exports.Text = __webpack_require__(11)
 	
-	var domUtils = __webpack_require__(17)
 	
 	// todo:
-	//exports.List = require('./src/Components/List')
-	//exports.Image = require('./src/Components/Image')
-	//exports.Canvas = require('./src/Components/Canvas')
+	//exports.List = require('Components/List')
+	//exports.Image = require('Components/Image')
+	//exports.Canvas = require('Components/Canvas')
 	
+	// todo in separate module (a Blocks utility kit or something):
+	// RadioSet (a set of labeled radio buttons)
+	// TextEditor
+	
+	
+	Object.defineProperty(this, 'dev', {
+	    get: function() {
+	        return exports.Block.dev
+	    }, set: function(v) {
+	        exports.Block.dev = v
+	    }
+	})
 	
 	// appends components to the body
-	exports.attach = function(components) {
-	    if(!(components instanceof Array)) {
-	        components = [components]
+	exports.attach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
 	    }
+	
 	    if(document.body === null) throw new Error("Your document does not have a body.")
 	
 	    for(var n=0; n<components.length; n++) {
@@ -91,9 +102,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	}
 	// removes components from the body
-	exports.detach = function(components) {
-	    if(!(components instanceof Array)) {
-	        components = [components]
+	exports.detach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
 	    }
 	
 	    for(var n=0; n<components.length; n++) {
@@ -102,10 +115,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	// creates a body tag (only call this if document.body is null)
+	
 	exports.createBody = function(callback) {
 	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
 	    var body = dom.createElement("body")
-	    dom.firstChild.appendChild(body)
+	    dom.documentElement.appendChild(body)
 	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
 	        callback()
 	    },0)
@@ -113,15 +127,515 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 1 */,
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitter = __webpack_require__(19).EventEmitter
+	var proto = __webpack_require__(20);
+	var trimArguments = __webpack_require__(22)
+	var utils = __webpack_require__(13)
+	var domUtils = __webpack_require__(14)
+	var observe = __webpack_require__(23)
+	
+	var Style = __webpack_require__(2)
+	Style.isDev = function() {return module.exports.dev}
+	
+	var components = {};
+	
+	// events:
+	    // newParent - emits this when a component gets a new parent
+	    // parentRemoved - emits this when a component is detached from its parent
+	var Block = module.exports = proto(EventEmitter,function(superclass) {
+	
+	    // static properties
+	
+		// this should not be static, but breaks if it's made into an instance variable
+	    this.emits = [];
+	
+		
+	    Object.defineProperty(this, 'label', {
+	        get: function() {
+	            return this._label
+	        }, set: function(v) {
+	            if(this._label === undefined) {
+	                this._label = v
+	
+	                if(module.exports.dev) {
+	                    this.attr('label', this.label)
+	                }
+	            } else {
+	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
+	            }
+	        }
+	    })
+	
+	
+	    // constructor
+		this.init = function() {
+	        if(this.name === undefined) {
+	            throw new Error("The 'name' property is required for Blocks")
+	        }
+	
+	        this.children = []
+			this.unbubbledEvents = []
+			this.bubbles = []
+	        this.state = observe({})
+	
+	        this.parent = undefined;
+	
+			if (this.id !== undefined) {
+				components[this.id] = this;
+			}
+	
+	        if(this.domNode === undefined) {
+	            this.domNode = domUtils.div()
+	        }
+	
+	        this.create.apply(this, arguments)
+	
+	        if(module.exports.dev) {
+	            this.attr('blockName', this.name)
+	        }
+	
+	        this.domNode.className = Style.defaultClassName
+		}
+	
+	    // sub-constructor - called by the constructor
+	    // parameters:
+	        // label - (Optional) A label that can be used to style a component differently.
+	                   // Intended to be some string describing what the component is being used for.
+	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
+	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
+	    this.create = function(/*[label,] domNode*/) {
+	        if(arguments.length === 1) {
+	            this.domNode = arguments[0]
+	        } else if(arguments.length >= 2) {
+	            this.label = arguments[0]
+	            this.domNode = arguments[1]
+	        }
+	    }
+		
+	
+		// instance properties
+	
+		
+		this.domNode;
+	    this.label;
+	
+	    // adds elements to the components main domNode
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.add = function() {
+	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
+		}
+	
+	    // adds nodes at a particular index
+	    // nodes can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addAt = function(index/*, nodes...*/) {
+	        var nodes = normalizeAddAtArguments.apply(this, arguments)
+	
+	        for (var i=0;i<nodes.length;i++) {
+				var node = nodes[i];
+	            this.children.splice(index+i, 0, node)
+	
+	            if(!isBlock(node)) {
+	                throw new Error("node is not a Block")
+	            }
+	
+	            node.parent = undefined
+	            node.emit('parentRemoved')
+	
+	            var beforeChild = this.children[1+i+index]
+	            if(beforeChild === undefined) {
+	                this.domNode.appendChild(node.domNode)
+	            } else {
+	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
+	            }
+	
+	            node.parent = this;
+	            node.emit('newParent')
+	
+	            // apply styles
+	            //if(itsaBlock) { // its always a component now
+	                var that = this
+	                node.getParentStyleMap = function() {return that.computedStyleMap}
+	                propogateStyleSet([node], this.computedStyleMap)
+	            //}
+			}
+	    }
+	
+		// add a list of nodes before a particular node
+	    // if beforeChild is undefined, this will append the given nodes
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addBefore = this.addBeforeNode = function(beforeChild) {
+	        var nodes = trimArguments(arguments).slice(1)
+	        if(beforeChild === undefined) {
+	            this.add.apply(this, nodes)
+	        } else {
+	            var index = this.children.indexOf(beforeChild)
+	            this.addAt.apply(this, [index].concat(nodes))
+	        }
+	    }
+	
+	
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // index, index, index, ... - each index is the numerical index to remove
+	        // arrayOfComponents
+	        // arrayOfIndexes
+	    this.remove = function() {
+	        var removals = normalizeRemoveArguments.apply(this, arguments)
+	        removals = removals.sort(function(a,b) {
+	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
+	        })
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	            var c = this.children[r]
+	
+	            if(c === undefined) {
+	                throw new Error("There is no child at index "+r)
+	            }
+	
+	            c.parent = undefined
+	            this.children.splice(r, 1)
+	            this.domNode.removeChild(this.domNode.childNodes[r])
+	
+	            c.emit('parentRemoved')
+	        }
+	    }
+	
+		this.hide = function() {
+			if (this.domNode !== undefined && this.domNode.style.display !== 'none' ) {
+	            this.displayStyle = this.domNode.style.display
+	            this.domNode.style.display = 'none'
+			}
+		}
+	
+		this.show = function() {
+			if (this.domNode !== undefined) {
+	            this.domNode.style.display = this.displayStyle
+			}
+		}
+	
+		this.hidden = function() {
+			return this.domNode.style.display === 'none';
+		}
+	
+	    // sets or gets an attribute on the components domNode
+	    // parameter sets:
+	    // if one argument is passed, the attribute's value is returned
+	    // if there are two arguments passed, the attribute is set
+	        // if 'value' is undefined, the attribute is removed
+	    this.attr = function(/*attribute, value OR attributeObject*/) {
+	        if(arguments.length === 1) {
+	            if(arguments[0] instanceof Object) {
+	                var attributes = arguments[0]
+	                for(var attribute in attributes) {
+	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
+	                }
+	            } else {
+	                return this.domNode.getAttribute(arguments[0])
+	            }
+	        } else {
+	            var attribute = arguments[0]
+	            if(arguments[1] !== undefined) {
+	                var value = arguments[1]
+	                domUtils.setAttribute(this.domNode, arguments[0], value)
+	            } else {
+	                this.domNode.removeAttribute(attribute)
+	            }
+	        }
+	    }
+	
+	    this.focus = function() {
+	        this.domNode.focus()
+	    }
+	    this.blur = function() {
+	        this.domNode.blur()
+	    }
+	
+	
+	    Object.defineProperty(this, 'style', {
+	        get: function() {
+	            return this._style
+	
+	        // sets the style, replacing one if one already exists
+	        }, set: function(styleObject) {
+	            if(styleObject === undefined) {
+	                var styleMap = this.getParentStyleMap()
+	                if(styleMap !== undefined) {
+	                    setCurrentStyle(this, styleMap[this.name])
+	                } else {
+	                    setCurrentStyle(this, undefined)
+	                }
+	
+	                this.computedStyleMap = styleMap
+	
+	            } else {
+	                setCurrentStyle(this, styleObject)
+	                var specificStyle = styleObject.get(this)
+	                if(this.getParentStyleMap() !== undefined) {
+	                    this.computedStyleMap = styleMapConjunction(this.getParentStyleMap(), specificStyle.componentStyleMap)
+	                } else {
+	                    this.computedStyleMap = specificStyle.componentStyleMap
+	                }
+	            }
+	
+	            this._style = styleObject
+	            propogateStyleSet(this.children, this.computedStyleMap) // propogate styles to children
+	        }
+	    })
+	
+		this.on = function(event,callback) {
+			var foundBubble = this.attachBubbleEvent(event,callback);
+			if (!foundBubble) {
+				superclass.prototype.on.call(this,event,callback);
+				this.unbubbledEvents.push({event:event,callback:callback});
+			}
+		}
+	
+		this.bubble = function(component) {
+			if (!isBlock(component)) {
+				console.log("Cannot bubble events from an object that is not a Block");
+				return;
+			}
+			for (var i=0;i<component.emits.length;i++) {
+				this.emits.push(component.emits[i]);
+			}
+			this.bubbles.push(component);
+			
+			// now run through all our unbubbled events and see if any of them handle this
+			var newUnbubbled = [];
+			for (var i=0;i<this.unbubbledEvents.length;i++) {
+				var success = this.attachBubbleEvent(this.unbubbledEvents[i].event,this.unbubbledEvents[i].callback);
+				if (success !== true) {
+					newUnbubbled.push(this.unbubbledEvents[i]);
+				}
+			}
+			this.unbubbledEvents = newUnbubbled;
+		}
+	
+	    this.bubbleEvents = function(component, events) {
+	        var that = this
+	        events.forEach(function(event) {
+	            component.on(event, function(eventObject) {
+	                that.emit(event, eventObject)
+	            })
+	        })
+	    }
+	
+		this.attachBubbleEvent = function(event,callback) {
+			var foundBubble = false;
+			for (var i=0;i<this.bubbles.length;i++) {
+				if (this.bubbles[i].handlesEvent(event)) {
+					// if the bubbled component does handle this event, then attach the callback handler
+					// note this could mean the callback is attached to multiple components
+					this.bubbles[i].on(event,callback);
+					foundBubble = true;
+				}
+			}
+			return foundBubble;
+		}
+	
+		this.handlesEvent = function(event) {
+			for (var i=0;i<this.emits.length;i++) {
+				if (this.emits[i] === event) {
+					return true;
+				}
+			}
+			return false;
+		}
+	
+	    this.setSelection = function(start, end) {
+	        domUtils.setSelection(this.domNode, start, end)
+	    }
+	    this.getCaretOffset = function() {
+	        return domUtils.getCaretOffset(this.domNode)
+	    }
+	
+	
+		// private instance variables/functions
+	
+	
+	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
+	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
+	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
+	
+		this.style;              // the object's explicit Style object (undefined if it inherits a style)
+	    this.currentStyle;       // the object's current Style (inherited or explicit)
+	    this.displayStyle='block';       // stores the display style for use when 'show' is called (default is 'block')
+	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
+	});
+	
+	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
+	
+	// returns a list of indexes to remove from Block.remove's arguments
+	var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
+	    var that = this
+	
+	    if(arguments[0] instanceof Array) {
+	        var removals = arguments[0]
+	    } else {
+	        var removals = Array.prototype.slice.call(arguments)
+	    }
+	
+	    return removals.map(function(removal, parameterIndex) {
+	        if(isBlock(removal)) {
+	            var index = that.children.indexOf(removal)
+	            if(index === -1) {
+	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
+	            }
+	            return index
+	        } else {
+	            return removal
+	        }
+	
+	    })
+	}
+	
+	// returns a list of nodes to add
+	var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
+	    if(arguments.length === 2) {
+	        if(arguments[1] instanceof Array) {
+	            return arguments[1]
+	        } else {
+	            return [arguments[1]]
+	        }
+	    } else { // > 2
+	        return trimArguments(arguments).slice(1)
+	    }
+	}
+	
+	
+	// propogates a style-set change to a set of components
+	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
+	function propogateStyleSet(components, styleMap) {
+	    for(var n=0; n<components.length; n++) {
+	        var c = components[n]
+	        //if(isBlock(c)) {   //
+	            // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
+	            if(c.style === undefined) {
+	                if(styleMap === undefined) {
+	                    setCurrentStyle(c, undefined)
+	                } else if(styleMap[c.name] !== undefined) {
+	                    setCurrentStyle(c, styleMap[c.name])
+	                }
+	            }
+	
+	            // set the computed style set
+	            var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
+	            if(c.style !== undefined) {
+	                mainStyle = c.style.get(c)
+	            } else if(styleMap !== undefined) {
+	                mainStyle = styleMap[c.name]
+	                if(mainStyle !== undefined) {
+	                    mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
+	                }
+	            }
+	
+	            if(mainStyle !== undefined) {
+	                if(styleMap !== undefined) {
+	                    c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
+	                } else {
+	                    c.computedStyleMap = mainStyle.componentStyleMap
+	                }
+	            } else {
+	                c.computedStyleMap = styleMap
+	            }
+	
+	            propogateStyleSet(c.children, c.computedStyleMap)
+	        //}
+	    }
+	}
+	
+	// returns the conjunction of two style maps
+	// gets it from the computedStyles cache if its already in there
+	function styleMapConjunction(secondaryStyleMap, primaryStyleMap) {
+	    var cachedStyleMap = Style.computedStyles.get()
+	    if(cachedStyleMap === undefined) {
+	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
+	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
+	    }
+	
+	    return cachedStyleMap
+	}
+	
+	// takes lables into account
+	function setCurrentStyle(component, style) {
+	    if(style === component.currentStyle) return; // do nothing
+	
+	    if(style !== undefined)
+	        var specificStyle = style.get(component)
+	    else
+	        var specificStyle = style
+	
+	    setStyleClass(component, specificStyle)
+	    applyStyleKillFunction(component)
+	    component.currentStyle = specificStyle
+	    applyStyleSetupFunction(component, specificStyle)
+	    applyStateHandler(component, specificStyle)
+	}
+	
+	// applies kill appropriately
+	function applyStyleKillFunction(component) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
+	        if(currentStyle.kill === undefined)
+	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
+	
+	        currentStyle.kill(component)
+	    }
+	}
+	// applies setup appropriately
+	function applyStyleSetupFunction(component, style) {
+	    if(style !== undefined && style.setup !== undefined) {
+	        style.setup(component) // call setup on the component
+	    }
+	}
+	// initializes and sets up state-change handler
+	function applyStateHandler(component, style) {
+	    if(style !== undefined && style.stateHandler !== undefined) {
+	        style.stateHandler(component.state, component.domNode.style)
+	        component.state.on('change', function() {
+	            style.stateHandler(component.state.subject, component.domNode.style)
+	        })
+	    }
+	}
+	
+	// sets the style, replacing one if one already exists
+	function setStyleClass(component, style) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined) {
+	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
+	    }
+	    if(style !== undefined) {
+	        component.domNode.className += ' '+style.className
+	    }
+	}
+	
+	function isBlock(c) {
+	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
+	}
+	function isDomNode(node) {
+	    return node.nodeName !== undefined
+	}
+
+
+/***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var jss = __webpack_require__(18)
+	var jss = __webpack_require__(12)
 	var proto = __webpack_require__(20)
-	var HashMap = __webpack_require__(23) // .HashMap // weirdly, it looks like this is being treated like an AMD module
+	var HashMap = __webpack_require__(21) // .HashMap // weirdly, it looks like this is being treated like an AMD module
 	
-	var utils = __webpack_require__(16)
+	var utils = __webpack_require__(13)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -503,12 +1017,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    checked: {
 	        check: function(component) {
-	            return component.val()
+	            return component.selected
 	        },
 	        setup: function(component, startCallback, endCallback) {
 	            var setupState = {}
 	            component.on("change", setupState.listener = function() {
-	                if(component.val()) {
+	                if(component.selected) {
 	                    startCallback()
 	                } else {
 	                    endCallback()
@@ -887,11 +1401,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	var computedStyles = module.exports.computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
 
 /***/ },
-/* 3 */,
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(1)
+	var proto = __webpack_require__(20)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'Container'
+	
+	
+		// instance properties
+	
+		this.init = function (/*[label,] content*/) {
+	        if(arguments.length === 1) {
+	            var contentArgs = [arguments[0]]
+	        } else if(arguments.length > 1) {
+	            if(typeof(arguments[0]) === 'string') {
+	                var label = arguments[0]
+	                var contentArgs = Array.prototype.slice.call(arguments, 1)
+	            } else {
+	                var contentArgs = arguments
+	            }
+	        }
+	
+			var that = this
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	
+			if(contentArgs !== undefined)
+	            this.add.apply(this,contentArgs)
+	
+			this.domNode.addEventListener("click",function(data) {
+				that.emit("click",data);
+			})
+		}
+	})
+
+
+/***/ },
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(27)
+	var Block = __webpack_require__(1)
 	var proto = __webpack_require__(20)
 	
 	module.exports = proto(Block, function(superclass) {
@@ -899,19 +1455,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // static variables
 	
 	    this.name = 'Button'
-		this.emits = ["click"];
+		this.emits = ["click"]
 	
 	
 	    // instance properties
 	
-		this.init = function(text) {
-	        superclass.init.call(this, undefined, document.createElement("input")) // superclass constructor
-			var that = this
+		this.init = function(/*[label,] text*/) {
+	        if(arguments.length >= 2) {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        } else {
+	            var text = arguments[0]
+	        }
 	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
 			this.attr('type','button');
-			this.attr('value',text);
-			
-			this.domNode.addEventListener("click",function(data) {
+			this.text = text
+	
+	        var that = this
+	        this.domNode.addEventListener("click",function(data) {
 				that.emit("click",data);
 			})
 		}
@@ -925,16 +1490,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    })
 	
-	});
+	})
 
 
 /***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(27)
+	var Block = __webpack_require__(1)
 	var proto = __webpack_require__(20)
-	var Label = __webpack_require__(6);
 	
 	module.exports = proto(Block, function(superclass) {
 		// static variables
@@ -942,311 +1506,641 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		// instance methods
 		this.init = function(label) {
-			if (label === undefined) label = "";
-	        superclass.init.call(this, label, document.createElement("input")) // superclass constructor
+	        var that = this
 	
-			var that = this
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
 	
-			this.attr('type','checkbox');
+	        this.label = label
+			this.attr('type','checkbox')
+	
 			this.domNode.addEventListener("click",function(e) {
-				that.emit("click",e);
-			});
-			
-			this.domNode.addEventListener("change",function() {
-				that.emit("change",that.domNode.checked)
+	            //this.val = !this.val // toggle dat shit
+				that.emit("click",e)
+	            that.emit('change')
 			})
 		}
 	
-	    // if no parameters are passed, it returns whether or not the checkbox is checked
-	    // if one parameter is passed, it sets the value of the checkbox to the passed value (true for checked)
-	    this.check = this.val = function() {
-	        if(arguments.length === 0) {
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the checkbox is checked
+	        get: function() {
 	            return this.domNode.checked
-	        } else {
-	            this.domNode.checked = arguments[0]
-	            this.emit('change', arguments[0]) // the browser has no listenable event that is triggered on change of the 'checked' property
+	        },
+	        // sets the value of the checkbox to the passed value (true for checked)
+	        set: function(checked) {
+	            var newValue = checked === true
+	            var curValue = this.domNode.checked
+	            if(curValue === newValue) return;  // do nothing if nothing's changing
+	
+	            this.domNode.checked = newValue
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
 	        }
-	    }
-	});
+	    })
+	})
 
 
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(27)
 	var proto = __webpack_require__(20)
+	var EventEmitter = __webpack_require__(19).EventEmitter
 	
-	module.exports = proto(Block, function(superclass) {
-		////////////////////////
-		// static variables
-		////////////////////////
-	    this.name = 'Label'
+	var Block = __webpack_require__(1)
 	
-		////////////////////////
-		// instance methods
-		////////////////////////
-		this.init = function(text,header) {
-	        if (header === undefined) header = false;
+	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
 	
+	// A group of radio buttons
+	module.exports = proto(EventEmitter, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'Radio'
+	
+		// instance properties
+	
+	
+	    // required - If true, a radio button must always be selected. Otherwise, radio buttons can be deselected by clicking on them.
+		this.init = function(required) {
+	        //this.selected
+	        this.required = required === true || required === undefined
+	        this.buttons = {} // maps values to the buttons that have each value
+	        this.randomStart = randomStart++
+		}
+	
+	    // returns a new radio button
+	    this.button = function(/*[label,] value*/) {
+	        if(arguments.length >= 2) {
+	            var label = arguments[0]
+	            var value = arguments[1]
+	        } else {
+	            var value = arguments[0]
+	        }
+	
+	        if(this.buttons[value] !== undefined) {
+	            throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
+	        }
+	
+	        var button = RadioButton(this, label, value, "_radioblock"+this.randomStart)
+	        this.buttons[value] = button
+	
+	        if(this.required && this._selected === undefined) {
+	            button.selected = true
+	        }
+	
+	        return button
+	    }
+	
+	    // returns the RadioButton in the group that's selected (or undefined if none are selected)
+	    Object.defineProperty(this, 'selected', {
+	        get: function() {
+	            return this._selected
+	        },
+	        set: function() {
+	            throw new Error("Can't set selected on a Radio object")
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the selected radio button in the group (undefined if none are selected)
+	        get: function() {
+	            var selected = this._selected
+	            if(selected === undefined) return undefined
+	            // else
+	            return selected.attr('value')
+	        },
+	
+	        // sets the value of the checkbox to the passed value (true for checked)
+	        // throws an exception if none of the radio buttons have that value
+	        // throws an exception if an unset is attempted for a required Radio set
+	        set: function(value) {
+	            if(value === undefined) {
+	                var selected = this._selected
+	                if(selected !== undefined) {
+	                    selected.selected = false
+	                }
+	            } else {
+	                var button = this.buttons[value]
+	                if(button === undefined) throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
+	
+	                button.selected = true
+	            }
+	        }
+	    })
+	
+	
+	    // arguments can be one of the following:
+	        // RadioButton, RadioButton, RadioButton, ...
+	        // value, value, value, ... - each value is the value of the RadioButton to remove
+	        // arrayOfRadioButtons
+	        // arrayOfValues
+	    this.remove = function() {
+	        if(arguments[0] instanceof Array) {
+	            var removals = arguments[0]
+	        } else {
+	            var removals = arguments
+	        }
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	
+	            if(r instanceof RadioButton) {
+	                var button = r
+	                var value = r.val
+	
+	                if(this.buttons[value] !== r) {
+	                    throw new Error("The button passed at index "+n+" is not part of the group.")
+	                }
+	            } else {
+	                var button = this.buttons[r]
+	                var value = r
+	
+	                if(button === undefined) {
+	                    throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
+	                }
+	            }
+	
+	            var originalSelected = this.selected
+	            if(this.selected === button) {
+	                this._selected = undefined
+	            }
+	
+	            this.buttons[value].group = undefined // fully remove it from the group
+	            delete this.buttons[value]
+	        }
+	
+	        if(this.required && this.selected === undefined) {
+	            for(var v in this.buttons) {
+	                this.buttons[v].selected = true // just select the first one
+	                break; // yes this doesn't loop
+	            }
+	        } else if(originalSelected !== this.selected) {
+	            this.emit('change')
+	        }
+	    }
+	
+	})
+	
+	var RadioButton = proto(Block, function(superclass) {
+	    this.name = 'RadioButton'
+	
+	    this.init = function(radioGroup, label, value, name) {
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        superclass.init.call(this) // superclass constructor
-			var that = this
 	
-			var style = "";
-			if (header)
-	            style = "display: block;";
-			this.attr('style', style)
+	        this.label = label
+	        this.group = radioGroup
 	
-			this.domNode.textContent = text;
-			this.domNode.addEventListener("click",function(e) {
-				that.emit("click",e);
-			});
-		}
-		
-		this.set = function(text) {
-			this.domNode.textContent = text;
-		}
+	        this.attr('type', 'radio')
+	        this.attr('name', name) // the name is needed so that using tab to move through page elements can tab between different radio groups
+	        this.val = value
 	
-		// this is needed for stuff like html entities
-		this.setRaw = function(text) {
-			this.domNode.innerHTML = text;
-		}
-		
-		this.get = function() {
-			return this.domNode.textContent;
-		}
+	        var that = this
+			this.domNode.addEventListener("mousedown",function(event) {
+	            event.preventDefault()           // this needs to be here otherwise the radio button can't be changed
 	
-		this.width = function(width) {
-			if (width === undefined) {
-				return parseInt(this.domNode.style.width.replace("px",""));
-			} else {
-				this.domNode.style.width = width + "px";
-			}
-		}
-	});
-
+				if(that.group.required) {
+	                if(that.selected === false) {
+	                    that.selected = true
+	                }
+	            } else {
+	                that.selected = !that.selected // toggle
+	            }
+			})
+	        this.domNode.addEventListener("click",function(event) {
+	            event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
+	            that.emit('click', event)
+	        })
+	        this.domNode.addEventListener("keydown",function(event) {
+	            if(event.keyCode === 40 || event.keyCode === 39) { // down or right
+	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                that.selectNext()
+	            } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
+	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                that.selectPrevious()
+	            }
+	        })
+	    }
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value attribute of the checkbox
+	        get: function() {
+	            return this.attr('value')
+	        },
+	
+	        // sets the value attribute of the checkbox
+	        set: function(value) {
+	            if(this.group.buttons[value] !== undefined) {
+	                throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
+	            }
+	
+	            var oldValue = this.val
+	            this.attr('value', value)
+	            if(oldValue !== undefined) delete this.group.buttons[oldValue]
+	            this.group.buttons[value] = this
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the checkbox is checked
+	        get: function() {
+	            return this.domNode.checked
+	        },
+	
+	        // sets the selected state of the checkbox to the passed value (true for checked)
+	        set: function(value) {
+	            var booleanValue = value === true
+	            if(this.selected === value) return; // ignore if there's no change
+	
+	            if(booleanValue) {
+	                var previouslySelected = this.group.selected
+	                setButtonInGroup(this.group, this)
+	                if(previouslySelected !== undefined)
+	                    previouslySelected.emit('change')
+	            } else {
+	                if(this.group.required) throw new Error("Can't unset this Radio set, a value is required.")
+	                this.domNode.checked = false
+	                this.group._selected = undefined
+	            }
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	            this.group.emit('change')
+	        }
+	    })
+	
+	    this.selectNext = function() {
+	        selectSibling(this,1)
+	    }
+	    this.selectPrevious = function() {
+	        selectSibling(this,-1)
+	    }
+	
+	})
+	
+	// direction can be +1 or -1
+	function selectSibling(button, direction) {
+	    var buttons = button.group.buttons
+	    var values = Object.keys(buttons)
+	    var index = values.indexOf(button.attr('value'))
+	    if(direction === 1 && index === values.length-1) {
+	        var buttonToSelect = buttons[values[0]]
+	    } else if(direction === -1 && index === 0) {
+	        var buttonToSelect = buttons[values[values.length-1]]
+	
+	    } else {
+	        var buttonToSelect = buttons[values[index+direction]]
+	    }
+	
+	    buttonToSelect.selected = true
+	    buttonToSelect.focus()
+	}
+	
+	function setButtonInGroup(group, button) {
+	    var selected = group._selected
+	    if(selected !== undefined) selected.domNode.checked = false
+	    button.domNode.checked = true
+	    group._selected = button
+	}
+	
+	function getRandomInt(min, max) {
+	  return Math.floor(Math.random() * (max - min)) + min;
+	}
 
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Block = __webpack_require__(1)
 	var proto = __webpack_require__(20)
 	
-	var Block = __webpack_require__(27)
-	var domUtils = __webpack_require__(17)
-	var Label = __webpack_require__(6)
+	var Option = __webpack_require__(15)
 	
-	
+	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Block, function(superclass) {
-		/////////////////////////
+	
 		// static variables
-		/////////////////////////
-	    this.name = 'Radio'
 	
-		//////////////////////////
-		// instance methods
-		//////////////////////////
-		this.init = function(groupName,options) {
+	    this.name = 'MultiSelect'
+	
+	    this.Option = Option
+	
+		this.init = function(/*[label,] options*/) {
+	        if(arguments[0] instanceof Object) {
+	            var options = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var options = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        superclass.init.call(this) // superclass constructor
-			var that = this
+			this.attr('multiple','multiple')
+	        this.label = label
 	
-			options.forEach(function(elem,index) {
-				var elem = document.createElement('input');
-				domUtils.setAttribute(elem,'type','radio');
-				domUtils.setAttribute(elem,'name',groupName);
-				domUtils.setAttribute(elem,'value',elem.value);
-				
-				elem.addEventListener("click",function(data) {
-					that.emit("change",data);
-					data.value = elem.value;
-					that.emit("click",data);
-				});
-				
-				that.domNode.appendChild(elem);
-				that.add(new Label(elem.text));
-				that.domNode.appendChild(document.createElement("br"));
-			});
+	        this.options = {}
+	
+			for(var value in options) {
+				this.option(value, options[value])
+			}
+	
+	        /*
+			var that = this
+	        that.domNode.addEventListener('mousedown', function() {
+	            console.log("parent mousedown")
+	            var enterHandler, upHandler;
+	            that.children.forEach(function(child) {
+	                child.domNode.addEventListener('mouseover', enterHandler = function() {
+	                    console.log("child mouseover")
+	                    child.selected = true
+	                })
+	            })
+	
+	            that.domNode.addEventListener('mouseup', upHandler = function() {
+	                console.log("parent mouseup")
+	                that.children.forEach(function(child) {
+	                    child.domNode.removeEventListener('mouseover', enterHandler)
+	                })
+	
+	                that.domNode.removeEventListener('mouseup', upHandler)
+	            })
+	        })*/
 		}
-	});
+	
+	
+		// instance methods
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns a list of the values that are selected
+	        get: function() {
+	            var result = []
+	            for(var value in this.options) {
+	                if(this.options[value].selected) {
+	                    result.push(value)
+	                }
+	            }
+	
+	            return result
+	        },
+	
+	        // values can either be an array, or a single value to select
+	        set: function(values) {
+	            if(!(values instanceof Array))
+	                values = [values]
+	
+	            var that = this
+	            values.forEach(function(value) {
+	                if(that.options[value] === undefined) {
+	                    throw new Error("There is no Option in the MultiSelect with the value: '"+value+"'")
+	                }
+	            })
+	
+	            var stringifiedValues = values.map(function(v){return v.toString()})
+	
+	            var somethingChanged = false
+	            for(var value in this.options) {
+	                var selected = stringifiedValues.indexOf(value) !== -1
+	                var option = this.options[value]
+	
+	                if(option.selected !== selected) {  // selected state change
+	                    somethingChanged = true
+	                    option.setSelectedQuiet(selected)
+	                }
+	            }
+	
+	            if(somethingChanged) {
+	                this.emit('change')
+	            }
+	        }
+	    })
+		
+		this.option = function(/*[label,] value,text*/) {
+	        if(arguments.length === 2) {
+	            var value = arguments[0]
+	            var text = arguments[1]
+	        } else if(arguments.length === 3) {
+	            var label = arguments[0]
+	            var value = arguments[1]
+	            var text = arguments[2]
+	        } else {
+	            throw new Error("Invalid number of arguments")
+	        }
+	
+	        var newOption = Option(label, value,text)
+	        this.add(newOption)
+	
+	        return newOption
+	
+		}
+	
+	    // same interface as Block.addAt
+	    /*override*/ this.addAt = function(index/*, nodes...*/) {
+	        var that = this
+	
+	        var nodesToAdd = Block.normalizeAddAtArguments.apply(this, arguments)
+	
+	        // validation first
+	        nodesToAdd.forEach(function(option) {
+	            if(that.options[option.val] !== undefined) {
+	                throw new Error("Can't give an Option the same value as another in the MultiSelect (value: '"+option.val+"')")
+	            }
+	        })
+	
+	        superclass.addAt.call(this, index, nodesToAdd)
+	
+	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var anyWereSelected = false
+	        nodesToAdd.forEach(function(option) {
+	            if(option.selected) anyWereSelected = true
+	            that.options[option.val] = option
+	
+	
+	            // set up multi-select events
+	            // todo: remove events when the Option is removed
+	
+	            option.domNode.addEventListener("mousedown",function(event) {
+	                event.preventDefault()           // this needs to be here otherwise the options can't be deselected
+	
+	                option.parent.focus() // without this, the parent doesn't gain focus
+	                option.focus()
+	                if(event.shiftKey || event.ctrlKey) {
+	                    option.selected = !option.selected // toggle
+	                } else {
+	                    var parentVal = option.parent.val
+	                    var onlyThisIsSelected = parentVal.length === 1 && parentVal[0] === option.val
+	                    if(onlyThisIsSelected) {
+	                        option.selected = false
+	                    } else {
+	                        option.parent.val = [option.val] // select only this one
+	                    }
+	                }
+	            })
+	            option.domNode.addEventListener("click",function(event) {
+	                //event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
+	                option.emit('click', event)
+	            })
+	            option.domNode.addEventListener("mousemove",function(event) {
+	                event.preventDefault()         // this needs to be here otherwise the radio button is unset as soon as you move the mouse (when the mouse is down)
+	            })
+	            /*this.domNode.addEventListener("keydown",function(event) {
+	                if(event.keyCode === 40 || event.keyCode === 39) { // down or right
+	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                    option.selectNext()
+	                } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
+	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                    option.selectPrevious()
+	                }
+	            })*/
+	
+	            /*;['click', 'drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop', 'cancel',
+	                'mousedown', 'mouseenter', 'mousemove', 'mouseleave', 'mouseout', 'mouseover', 'mouseup'
+	            ].forEach(function(eventType) {
+	                option.domNode.addEventListener(eventType, function( event ) {
+	                    //event.preventDefault()
+	                    console.log(eventType)
+	                });
+	            })*/
+	
+	        })
+	
+	        if(anyWereSelected) {
+	            this.emit('change')
+	        }
+	    }
+	
+	    // same interface as Block.remove
+	    /*override*/ this.remove = function() {
+	        var that = this
+	
+	        var removalIndexes = Block.normalizeRemoveArguments.apply(this, arguments)
+	        var removals = removalIndexes.map(function(index) {
+	            return that.children[index]
+	        })
+	
+	        superclass.remove.call(this, removalIndexes)
+	
+	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var anyWereSelected = false
+	        removals.forEach(function(option) {
+	            if(option.selected) anyWereSelected = true
+	            delete that.options[option.val]
+	        })
+	
+	        if(anyWereSelected) {
+	            this.emit('change')
+	        }
+	    }
+	
+	
+	    // private
+	
+	    this.prepareForValueChange = function() {} // no-op
+	})
+	
 
 
 /***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(27)
+	var Block = __webpack_require__(1)
 	var proto = __webpack_require__(20)
+	var Header = __webpack_require__(16);
+	var Row = __webpack_require__(17);
+	var Cell = __webpack_require__(18);
 	
 	module.exports = proto(Block, function(superclass) {
-		//////////////////////
-		// static variables
-		//////////////////////
-	    this.name = 'Select';
-		
-	    this.Option = proto(Block, function(superclass) {
-			//////////////////////
-			// staic variables
-			//////////////////////
-	        this.name = 'Option'
 	
-			//////////////////////
-			// instance methods
-			//////////////////////
-	        this.init = function(value, text) {
-	            superclass.init.call(this, undefined, document.createElement("option")) // superclass constructor
+		// static properties
 	
-	            this.domNode.innerHTML = text
-	            this.domNode.value = value
-	        }
+		this.name = 'Table'
 	
-	        this.select = function(selected) {
-	            this.domNode.selected = selected
-	        }
-	    })
+	    this.Row = Row
+		this.Header = Header
+	    this.Cell = Cell
 	
-		///////////////////////
-		// instance methods
-		///////////////////////
-		this.init = function(options,multiple,selectedValue) {
-	        superclass.init.call(this, undefined, document.createElement("select")) // superclass constructor
 	
-			var that = this
-			this.multiple = multiple;
+		// instance properties
 	
-			var elem = this.domNode;
-			if (multiple) {
-				this.createAttribute(elem,'multiple','multiple');
-			}
-			
-			for (var i=0;i<options.length;i++) {
-				var val = undefined;
-				var text = undefined;
-				if (typeof options[i] === "string") {
-					val = options[i];
-					text = options[i];
-				} else {
-					val = options[i].value;
-					text = options[i].text;
-				}
-				var selected = false;
-				if (val === selectedValue) {
-					selected = true;
-				}
-				this.addOption(val,text,selected)
-			}
-			
-			elem.addEventListener("change",function(e) {
-				that.emit("change",{value:that.value()});
-			});
-		}
-	
-	    this.value = function() {
-			if(!this.multiple) {
-	            return this.domNode.value
+		this.init = function(/*[label,] tableInit*/) {
+			if(arguments[0] instanceof Array) {
+	            var tableInit = arguments[0]
 	        } else {
-	            var values = [];
-	            if (this.domNode.length == 0) return values;
-	            for (var i=0;i<this.domNode.length;i++) {
-	                var option = this.domNode.options[i];
-	                if (option.selected) {
-	                    values.push(option.value);
-	                    if (!this.multiple) break;
-	                }
-	            }
-	            if (values.length === 0 && !this.multiple) {
-	                values.push(this.domNode.options[0].value);
-	            }
-	            return values;
+	            var label = arguments[0]
+	            var tableInit = arguments[1]
 	        }
-	    }
+	
+	        this.domNode = document.createElement("table") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+			this.attr("cellspacing",0);   // todo: move this to a default style when that's supported
+	        this.label = label
+	
+	        if(tableInit !== undefined) {
+	            for(var n=0; n<tableInit.length; n++) {
+	                this.row(tableInit[n])
+	            }
+	        }
+		}
 		
-		this.addOption = function(value,text,selected) {
-			var option = this.Option(value,text)
-	        if (selected !== undefined) option.select(selected)
-			this.add(option)
+		this.header = function(/*[]label,] listOfBlocksOrText*/) {
+	        return headerOrRegularRow(this, Header, arguments)
 		}
 	
-	    this.removeOption = function(value) {
-	        for (var i=0;i<this.domNode.length;i++) {
-	            var option = this.domNode.options[i];
-	            if(option.value === value) {
-	                this.remove(option)
-	            }
-	        }
-	    }
-		
-		this.set = this.setValue = function(value) {
-	        if(!this.multiple) {
-	            if(this.domNode.value !== value) {
-	                this.domNode.value = value
-	                this.emit("change",{value:value});
-	            }
-	        } else {
-	            var set = false;
-	            for (var i=0;i<this.domNode.length;i++) {
-	                var option = this.domNode.options[i];
-	                if (option.value == value) {
-	                    if (option.selected === false) set = true;
-	                    option.selected = true
-	                } else {
-	                    option.selected = false;
-	                }
-	            }
-	            if (set) {
-	                this.emit("change",{value:value});
-	            }
-	        }
+		this.row = function() {
+			return headerOrRegularRow(this, Row, arguments)
 		}
-	})
-
+	});
+	
+	function headerOrRegularRow(that, Prototype, args) {
+	    var row = Prototype.apply(undefined, args)
+	    that.add(row)
+	    return row
+	}
 
 /***/ },
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(27)
+	var Block = __webpack_require__(1)
 	var proto = __webpack_require__(20)
-	var TableHeader = __webpack_require__(11);
-	var TableRow = __webpack_require__(12);
-	var TableCell = __webpack_require__(10);
 	
 	module.exports = proto(Block, function(superclass) {
-		//////////////////////
+	
 		// static variables
-		//////////////////////
-		this.name = 'Table'
 	
-	    this.Row = TableRow
-		this.Header = TableHeader;
-	    this.Cell = TableCell
+	    this.name = 'TextArea'
 	
-		///////////////////////////
-		// instance methods
-		///////////////////////////
-		this.init = function() {
-			superclass.init.call(this, undefined, document.createElement("table")) // superclass constructor
-			this.attr("cellspacing",0);
-		}
-		
-		this.addHeader = function(posDom) {
-			var row = new TableHeader();
-			if (posDom === undefined) {
-				this.add(row);
-			} else {
-				this.addBeforeNode(posDom,[row]);
-			}
-			return row;
+		this.init = function(label) {
+	        this.domNode = document.createElement("textarea") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        var that = this
+			this.domNode.addEventListener("click",function(e) {
+				that.emit("click",e);
+			});	
+			this.domNode.addEventListener("change",function(e) {
+				that.emit("change",e);
+			});
 		}
 	
-		this.addRow = function() {
-			var row = new TableRow();
-			this.add(row);
-			return row;
-		}
-		
-		this.rowCount = function() {
-			return this.domNode.childNodes.length;
-		}
+	
+		// instance properties
+	
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.domNode.value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.val === value) return; // do nothing if there's no change
+	
+	            this.domNode.value = value
+	            this.emit('change')
+	        }
+	    })
 	});
 
 
@@ -1254,159 +2148,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(27)
+	var Block = __webpack_require__(1)
 	var proto = __webpack_require__(20)
 	
-	module.exports = proto(Block, function(superclass) {
-		/////////////////////////////
-		// static variables
-		/////////////////////////////
-		this.name = 'TableCell'
-		
-		//////////////////////
-		// instance methods
-		//////////////////////
-		this.init = function(data) {
-			superclass.init.call(this, undefined, document.createElement("td")) // superclass constructor
-			if (data !== undefined) {
-				this.add(data);
-			}
-		}
-	
-		this.columns = function(cols) {
-			this.attr('colspan',cols);
-		}
-		
-		this.removeSelf = function() {
-			this.parent.remove(this);
-		}
-	});
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(27)
-	var proto = __webpack_require__(20)
-	var TableRow = __webpack_require__(12);
-	
-	module.exports = proto(TableRow, function(superclass) {
-		///////////////////////
-		// static variables
-		///////////////////////
-		this.name = 'TableHeader'
-		
-		///////////////////////
-		// instance methods
-		///////////////////////
-		this.init = function() {
-			superclass.init.call(this) // superclass constructor
-			var that = this
-		}
-	});
-
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(27)
-	var proto = __webpack_require__(20)
-	var TableCell = __webpack_require__(10);
-	
-	var TableRow = module.exports = proto(Block, function(superclass) {
-		///////////////////////////
-		// static variables
-		///////////////////////////
-		this.name = 'TableRow'
-		
-		/////////////////////////////
-		// instance methods
-		/////////////////////////////
-		this.init = function() {
-			superclass.init.call(this,  undefined, document.createElement("tr")) // superclass constructor
-		}
-		
-		this.addCell = function(data) {
-			if (data === undefined) data = [];
-			var cell = new TableCell(data);
-			this.add(cell);
-			return cell;
-		}
-	
-		this.addCells = function(cellList) {
-			var cells = [];
-			for (var i=0;i<cellList.length;i++) {
-				var cell = cellList[i];
-				if (cellList[i].name !== "TableCell") {
-					cell = new TableCell(cell);
-				}
-				this.add(cell);
-				cells.push(cell);
-			}
-			return cells;
-		}
-		
-		this.removeSelf = function() {
-			this.parent.remove(this);
-		}
-		
-		this.addAfter = function() {
-			var row = new TableRow();
-			this.parent.addAfter(this,[row]);
-			return row;
-		}
-		
-		this.addBefore = function() {
-			var row = new TableRow();
-			this.parent.addBefore(this,[row]);
-			return row;
-		}
-	});
-
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(27)
-	var proto = __webpack_require__(20)
-	
-	module.exports = proto(Block, function(superclass) {
-		////////////////////////
-		// static variables
-		////////////////////////
-	    this.name = 'TextArea'
-	
-		this.init = function() {
-	        superclass.init.call(this, undefined, document.createElement("textarea")) // superclass constructor
-			var that = this
-	
-			var elem = this.domNode
-			elem.addEventListener("click",function(e) {
-				that.emit("click",e);
-			});	
-			elem.addEventListener("change",function(e) {
-				that.emit("change",e);
-			});
-		}
-	
-		//////////////////////
-		// instance properties
-		//////////////////////
-	
-	});
-
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(27)
-	var proto = __webpack_require__(20)
-	
-	var domUtils = __webpack_require__(17)
+	var domUtils = __webpack_require__(14)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -1414,27 +2159,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.name = 'TextField'
 	
-		this.init = function(password) {
-	        superclass.init.call(this, undefined, document.createElement("input")) // superclass constructor
+		this.init = function(/*[label,] password*/) {
+	        if(arguments.length === 1) {
+	            var password = arguments[0]
+	        } else if(arguments.length > 1) {
+	            var label = arguments[0]
+	            var password = arguments[1]
+	        }
 	
-			var that = this
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
 	
-			var elem = this.elem = this.domNode
-	        elem.className = 'field'
-			domUtils.setAttribute(elem,'type','text');
+			this.label = label
+	        this.domNode.className = 'field'
+			domUtils.setAttribute(this.domNode,'type','text');
 	        if(password)
-	            domUtils.setAttribute(elem, 'type', 'password')
+	            domUtils.setAttribute(this.domNode, 'type', 'password')
 	
-			elem.addEventListener("click",function(e) {
+	
+	        var that = this
+			this.domNode.addEventListener("click",function(e) {
 				that.emit("click",e);
 			});
-			elem.addEventListener("change",function(e) {
+			this.domNode.addEventListener("change",function(e) {
 				that.emit("change",e);
 			});
-	        elem.addEventListener("keypress",function(e) {
+	        this.domNode.addEventListener("keypress",function(e) {
 				that.emit("keypress",e);
 			})
-	        elem.addEventListener("keyup",function(e) {
+	        this.domNode.addEventListener("keyup",function(e) {
 				that.emit("keyup",e);
 			})
 		}
@@ -1443,30 +2196,28 @@ return /******/ (function(modules) { // webpackBootstrap
 		// instance properties
 	
 	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
 	        get: function() {
-	            return this.elem.value
-	        }, set: function(v) {
-	            this.elem.value = v
+	            return this.domNode.value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.val === value) return; // do nothing if there's no change
+	
+	            this.domNode.value = value
+	            this.emit('change')
 	        }
 	    })
-	
-	    // obsolete - user the val property instead
-	    this.value = function() {
-	        return this.elem.value
-	    }
-	
-	    this.focus = function() {
-	        this.elem.focus()
-	    }
 	
 	});
 
 
 /***/ },
-/* 15 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(27)
+	var Block = __webpack_require__(1)
 	var proto = __webpack_require__(20)
 	
 	module.exports = proto(Block, function(superclass) {
@@ -1491,21 +2242,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.label = label
 	        this.text = text
-	        this.domNode.style["white-space"] = "pre";
+	        this.domNode.style["white-space"] = "pre";      // todo: move this to a default style when that's supproted
 	        this.domNode.addEventListener("click",function(e) {
 	                that.emit("click",e);
 	        });
 	
 	        this.domNode.addEventListener("input",function(data) {
-	                var eventData = {newText:data.srcElement.textContent,oldText:that.oldText};
-	                that.oldText = eventData.newText;
-	                that.emit("input",eventData);
+	            var eventData = {newText:data.srcElement.textContent,oldText:that.oldText};
+	            that.oldText = eventData.newText;
+	            that.emit("input",eventData);
 	        });
 	
 	        this.domNode.addEventListener("blur",function(data) {
-	                var eventData = {newText:data.srcElement.textContent,oldText:that.lastFocus};
-	                that.lastFocus = eventData.newText;
-	                that.emit("blur",eventData);
+	            var eventData = {newText:data.srcElement.textContent,oldText:that.lastFocus};
+	            that.lastFocus = eventData.newText;
+	            that.emit("blur",eventData);
 	        });
 	    }
 	
@@ -1515,222 +2266,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        get: function() {
 	            return this.domNode.textContent
 	        }, set: function(v) {
-	            this.domNode.innerHTML = v.toString().replace(/</g, '&lt;').replace(/\n/g, '<br>')
+	            this.domNode.innerText = v   // apparently textContent can't be set or something
 	        }
 	    })
 	});
 
 
 /***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	var path = __webpack_require__(24)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
-	exports.objectConjunction = function(a, b) {
-	    var objectCopy = {}
-	    merge(objectCopy, a)
-	    merge(objectCopy, b)
-	    return objectCopy
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       }
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	// creates a dom element optionally with a class and attributes
-	 var node = module.exports.node = function(type, className, options) {
-	    var elem = document.createElement(type)
-	
-	    if(options !== undefined) {
-	        if(options.attr !== undefined) {
-	            for(var attribute in options.attr) {
-	                createAttribute(elem, attribute, options.attr[attribute])
-	            }
-	        }
-	        if(options.textContent !== undefined) {
-	            elem.textContent = options.textContent
-	        }
-	    }
-	
-	    if(className !== undefined)
-	        elem.className = className
-	
-	    return elem
-	}
-	
-	// convenience function for creating a div
-	module.exports.div = function(className, options) {
-	    return node('div', className, options)
-	}
-	
-	// adds an attribute to a domNode
-	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
-	    if (arguments.length === 2) {
-	        var domNode = this.domNode;
-	        var type = arguments[0];
-	        var value = arguments[1];
-	    } else if (arguments.length === 3) {
-	        var domNode = arguments[0];
-	        var type = arguments[1];
-	        var value = arguments[2];
-	    } else {
-	        throw new Error("This function expects arguments to be: [domNode,] type, value");
-	    }
-	    var attr = document.createAttribute(type)
-	    attr.value = value
-	    domNode.setAttributeNode(attr)
-	}
-	
-	
-	// sets the selection
-	//
-	// works for contenteditable elements
-	exports.setSelection = function(node, start, end) {
-	    // memoize
-	    if (window.getSelection && document.createRange) {
-	        exports.setSelection = function(containerEl, start, end) {
-	            var charIndex = 0, range = document.createRange();
-	            range.setStart(containerEl, 0);
-	            range.collapse(true);
-	            var nodeStack = [containerEl], node, foundStart = false, stop = false;
-	
-	            while (!stop && (node = nodeStack.pop())) {
-	                if (node.nodeType == 3) {
-	                    var hiddenCharacters = findHiddenCharacters(node, node.length)
-	                    var nextCharIndex = charIndex + node.length - hiddenCharacters;
-	
-	                    if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-	                        var nodeIndex = start-charIndex
-	                        var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
-	                        range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
-	                        foundStart = true;
-	                    }
-	                    if (foundStart && end >= charIndex && end <= nextCharIndex) {
-	                        var nodeIndex = end-charIndex
-	                        var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
-	                        range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
-	                        stop = true;
-	                    }
-	                    charIndex = nextCharIndex;
-	                } else {
-	                    var i = node.childNodes.length;
-	                    while (i--) {
-	                        nodeStack.push(node.childNodes[i]);
-	                    }
-	                }
-	            }
-	
-	            var sel = window.getSelection();
-	            sel.removeAllRanges();
-	            sel.addRange(range);
-	        }
-	    } else if (document.selection) {
-	        exports.setSelection = function(containerEl, start, end) {
-	            var textRange = document.body.createTextRange();
-	            textRange.moveToElementText(containerEl);
-	            textRange.collapse(true);
-	            textRange.moveEnd("character", end);
-	            textRange.moveStart("character", start);
-	            textRange.select();
-	        };
-	    }
-	
-	    var findHiddenCharacters = function(node, beforeCaretIndex) {
-	        var hiddenCharacters = 0
-	        var lastCharWasWhiteSpace=true
-	        for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
-	            if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
-	                if(lastCharWasWhiteSpace)
-	                    hiddenCharacters++
-	                else
-	                    lastCharWasWhiteSpace = true
-	            } else {
-	                lastCharWasWhiteSpace = false
-	            }
-	        }
-	
-	        return hiddenCharacters
-	    }
-	
-	    exports.setSelection(node, start, end)
-	}
-	
-	// gets the character offsets of a selection within a particular dom node
-	exports.getCaretOffset = function (node) {
-	    // memoize
-	    if(typeof window.getSelection != "undefined") {
-	        exports.getCaretOffset = function (element) {
-	            if (window.getSelection().type === "None" || window.getSelection().rangeCount === 0)
-	                return 0;
-	
-	            var range = window.getSelection().getRangeAt(0);
-	            var preCaretRange = range.cloneRange();
-	            preCaretRange.selectNodeContents(element);
-	            preCaretRange.setEnd(range.endContainer, range.endOffset);
-	            return preCaretRange.toString().length;
-	        }
-	    } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
-	        exports.getCaretOffset = function (element) {
-	            var textRange = document.selection.createRange();
-	            var preCaretTextRange = document.body.createTextRange();
-	            preCaretTextRange.moveToElementText(element);
-	            preCaretTextRange.setEndPoint("EndToEnd", textRange);
-	            return preCaretTextRange.text.length;
-	        }
-	    }
-	
-	    return exports.getCaretOffset(node);
-	}
-
-/***/ },
-/* 18 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -2023,6 +2566,376 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	var path = __webpack_require__(25)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
+	exports.objectConjunction = function(a, b) {
+	    var objectCopy = {}
+	    merge(objectCopy, a)
+	    merge(objectCopy, b)
+	    return objectCopy
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       }
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	// creates a dom element optionally with a class and attributes
+	 var node = module.exports.node = function(type, className, options) {
+	    var elem = document.createElement(type)
+	
+	    if(options !== undefined) {
+	        if(options.attr !== undefined) {
+	            for(var attribute in options.attr) {
+	                createAttribute(elem, attribute, options.attr[attribute])
+	            }
+	        }
+	        if(options.textContent !== undefined) {
+	            elem.textContent = options.textContent
+	        }
+	    }
+	
+	    if(className !== undefined)
+	        elem.className = className
+	
+	    return elem
+	}
+	
+	// convenience function for creating a div
+	module.exports.div = function(className, options) {
+	    return node('div', className, options)
+	}
+	
+	// adds an attribute to a domNode
+	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
+	    if (arguments.length === 2) {
+	        var domNode = this.domNode;
+	        var type = arguments[0];
+	        var value = arguments[1];
+	    } else if (arguments.length === 3) {
+	        var domNode = arguments[0];
+	        var type = arguments[1];
+	        var value = arguments[2];
+	    } else {
+	        throw new Error("This function expects arguments to be: [domNode,] type, value");
+	    }
+	    var attr = document.createAttribute(type)
+	    attr.value = value
+	    domNode.setAttributeNode(attr)
+	}
+	
+	
+	// sets the selection
+	//
+	// works for contenteditable elements
+	exports.setSelection = function(node, start, end) {
+	    // memoize
+	    if (window.getSelection && document.createRange) {
+	        exports.setSelection = function(containerEl, start, end) {
+	            var charIndex = 0, range = document.createRange();
+	            range.setStart(containerEl, 0);
+	            range.collapse(true);
+	            var nodeStack = [containerEl], node, foundStart = false, stop = false;
+	
+	            while (!stop && (node = nodeStack.pop())) {
+	                if (node.nodeType == 3) {
+	                    var hiddenCharacters = findHiddenCharacters(node, node.length)
+	                    var nextCharIndex = charIndex + node.length - hiddenCharacters;
+	
+	                    if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+	                        var nodeIndex = start-charIndex
+	                        var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
+	                        range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
+	                        foundStart = true;
+	                    }
+	                    if (foundStart && end >= charIndex && end <= nextCharIndex) {
+	                        var nodeIndex = end-charIndex
+	                        var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
+	                        range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
+	                        stop = true;
+	                    }
+	                    charIndex = nextCharIndex;
+	                } else {
+	                    var i = node.childNodes.length;
+	                    while (i--) {
+	                        nodeStack.push(node.childNodes[i]);
+	                    }
+	                }
+	            }
+	
+	            var sel = window.getSelection();
+	            sel.removeAllRanges();
+	            sel.addRange(range);
+	        }
+	    } else if (document.selection) {
+	        exports.setSelection = function(containerEl, start, end) {
+	            var textRange = document.body.createTextRange();
+	            textRange.moveToElementText(containerEl);
+	            textRange.collapse(true);
+	            textRange.moveEnd("character", end);
+	            textRange.moveStart("character", start);
+	            textRange.select();
+	        };
+	    }
+	
+	    var findHiddenCharacters = function(node, beforeCaretIndex) {
+	        var hiddenCharacters = 0
+	        var lastCharWasWhiteSpace=true
+	        for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
+	            if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
+	                if(lastCharWasWhiteSpace)
+	                    hiddenCharacters++
+	                else
+	                    lastCharWasWhiteSpace = true
+	            } else {
+	                lastCharWasWhiteSpace = false
+	            }
+	        }
+	
+	        return hiddenCharacters
+	    }
+	
+	    exports.setSelection(node, start, end)
+	}
+	
+	// gets the character offsets of a selection within a particular dom node
+	exports.getCaretOffset = function (node) {
+	    // memoize
+	    if(typeof window.getSelection != "undefined") {
+	        exports.getCaretOffset = function (element) {
+	            if (window.getSelection().type === "None" || window.getSelection().rangeCount === 0)
+	                return 0;
+	
+	            var range = window.getSelection().getRangeAt(0);
+	            var preCaretRange = range.cloneRange();
+	            preCaretRange.selectNodeContents(element);
+	            preCaretRange.setEnd(range.endContainer, range.endOffset);
+	            return preCaretRange.toString().length;
+	        }
+	    } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
+	        exports.getCaretOffset = function (element) {
+	            var textRange = document.selection.createRange();
+	            var preCaretTextRange = document.body.createTextRange();
+	            preCaretTextRange.moveToElementText(element);
+	            preCaretTextRange.setEndPoint("EndToEnd", textRange);
+	            return preCaretTextRange.text.length;
+	        }
+	    }
+	
+	    return exports.getCaretOffset(node);
+	}
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// note: this is  not intended to be used directly - only through Select and MultiSelect
+	
+	var Block = __webpack_require__(1)
+	var proto = __webpack_require__(20)
+	//var htmlEntities = require('he')
+	
+	// emits a 'change' event when its 'selected' value changes
+	module.exports = proto(Block, function(superclass) {
+	
+	    // staic members
+	
+	    this.name = 'Option'
+	
+	
+	    // instance members
+	
+	    this.init = function(label, value, text) {
+	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	
+	        this.text = text
+	        this.val = value
+	    }
+	
+	    this.select = function(selected) {
+	        this.domNode.selected = selected
+	    }
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.attr('value')
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.parent !== undefined) {
+	                if(this.parent.options[value] !== undefined) {
+	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: '"+value+"')")
+	                }
+	
+	                if(this.val !== null) {
+	                    delete this.parent.options[this.val]
+	                }
+	
+	                this.parent.options[value] = this
+	            }
+	
+	            this.attr('value', value)
+	
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the option is selected
+	        get: function() {
+	            return this.domNode.selected
+	        },
+	
+	        // sets the selected state of the checkbox to the passed value (true for checked)
+	        set: function(value) {
+	            var booleanValue = value === true
+	            if(this.selected === booleanValue) return false; // ignore if there's no change
+	
+	            if(this.parent !== undefined)
+	                this.parent.prepareForValueChange([this.val])
+	
+	            this.setSelectedQuiet(booleanValue)
+	
+	            if(this.parent !== undefined)
+	                this.parent.emit('change')
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode.textContent
+	        },
+	
+	        set: function(text) {
+	            this.domNode.innerText = text // apparently textContent can't be set or something? unclear
+	        }
+	    })
+	
+	
+	    // private
+	
+	    // does everything for setting the selected state except emit the parent's change event
+	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
+	        if(this.selected === booleanValue) return; // ignore if there's no change
+	
+	        this.domNode.selected = booleanValue
+	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	    }
+	})
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	var RowlikeGenerator = __webpack_require__(24);
+	
+	module.exports = RowlikeGenerator('th', "Header")
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(24);
+	
+	module.exports = RowlikeGenerator('tr', "Row")
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(1)
+	var proto = __webpack_require__(20)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'TableCell'
+		
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Block) {
+				this.add(contents)
+			} else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	
+		this.colspan = function(cols) {
+			this.attr('colspan',cols);
+		}
+	});
+
 
 /***/ },
 /* 19 */
@@ -2459,9 +3372,222 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * HashMap - HashMap Class for JavaScript
+	 * @author Ariel Flesler <aflesler@gmail.com>
+	 * @version 2.0.0
+	 * Homepage: https://github.com/flesler/hashmap
+	 */
+	
+	(function (factory) {
+		if (true) {
+			// AMD. Register as an anonymous module.
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof exports === 'object') {
+			// Node js environment
+			exports.HashMap = factory();
+		} else {
+			// Browser globals (this is window)
+			this.HashMap = factory();
+		}
+	}(function () {
+		
+		function HashMap(other) {
+			this.clear();
+			switch (arguments.length) {
+				case 0: break;
+				case 1: this.copy(other); break;
+				default: multi(this, arguments); break;
+			}
+		}
+	
+		var proto = HashMap.prototype = {
+			constructor:HashMap,
+	
+			get:function(key) {
+				var data = this._data[this.hash(key)];
+				return data && data[1];
+			},
+			
+			set:function(key, value) {
+				// Store original key as well (for iteration)
+				this._data[this.hash(key)] = [key, value];
+			},
+	
+			multi:function() {
+				multi(this, arguments);
+			},
+	
+			copy:function(other) {
+				for (var key in other._data) {
+					this._data[key] = other._data[key];
+				}
+			},
+			
+			has:function(key) {
+				return this.hash(key) in this._data;
+			},
+			
+			search:function(value) {
+				for (var key in this._data) {
+					if (this._data[key][1] === value) {
+						return this._data[key][0];
+					}
+				}
+	
+				return null;
+			},
+			
+			remove:function(key) {
+				delete this._data[this.hash(key)];
+			},
+	
+			type:function(key) {
+				var str = Object.prototype.toString.call(key);
+				var type = str.slice(8, -1).toLowerCase();
+				// Some browsers yield DOMWindow for null and undefined, works fine on Node
+				if (type === 'domwindow' && !key) {
+					return key + '';
+				}
+				return type;
+			},
+	
+			keys:function() {
+				var keys = [];
+				this.forEach(function(value, key) { keys.push(key); });
+				return keys;
+			},
+	
+			values:function() {
+				var values = [];
+				this.forEach(function(value) { values.push(value); });
+				return values;
+			},
+	
+			count:function() {
+				return this.keys().length;
+			},
+	
+			clear:function() {
+				// TODO: Would Object.create(null) make any difference
+				this._data = {};
+			},
+	
+			clone:function() {
+				return new HashMap(this);
+			},
+	
+			hash:function(key) {
+				switch (this.type(key)) {
+					case 'undefined':
+					case 'null':
+					case 'boolean':
+					case 'number':
+					case 'regexp':
+						return key + '';
+	
+					case 'date':
+						return ':' + key.getTime();
+	
+					case 'string':
+						return '"' + key;
+	
+					case 'array':
+						var hashes = [];
+						for (var i = 0; i < key.length; i++)
+							hashes[i] = this.hash(key[i]);
+						return '[' + hashes.join('|');
+	
+					case 'object':
+					default:
+						// TODO: Don't use expandos when Object.defineProperty is not available?
+						if (!key._hmuid_) {
+							key._hmuid_ = ++HashMap.uid;
+							hide(key, '_hmuid_');
+						}
+	
+						return '{' + key._hmuid_;
+				}
+			},
+	
+			forEach:function(func) {
+				for (var key in this._data) {
+					var data = this._data[key];
+					func.call(this, data[1], data[0]);
+				}
+			}
+		};
+	
+		HashMap.uid = 0;
+	
+		//- Automatically add chaining to some methods
+	
+		for (var method in proto) {
+			// Skip constructor, valueOf, toString and any other built-in method
+			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
+				continue;
+			}
+			var fn = proto[method];
+			if (fn.toString().indexOf('return ') === -1) {
+				proto[method] = chain(fn);
+			}
+		}
+	
+		//- Utils
+	
+		function multi(map, args) {
+			for (var i = 0; i < args.length; i += 2) {
+				map.set(args[i], args[i+1])
+			}
+		}
+	
+		function chain(fn) {
+			return function() {
+				fn.apply(this, arguments);
+				return this;
+			};
+		}
+	
+		function hide(obj, prop) {
+			// Make non iterable if supported
+			if (Object.defineProperty) {
+				Object.defineProperty(obj, prop, {enumerable:false});
+			}
+		};
+	
+		return HashMap;
+	
+	}));
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
+	
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	        else
+	            break
+	    }
+	    args.splice(args.length-count, count)
+	    return args
+	}
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var proto = __webpack_require__(20)
 	var EventEmitter = __webpack_require__(19).EventEmitter
-	var utils = __webpack_require__(25)
+	var utils = __webpack_require__(26)
 	
 	
 	// emits the event:
@@ -2877,220 +4003,57 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
+	var Block = __webpack_require__(1)
+	var proto = __webpack_require__(20)
+	var Cell = __webpack_require__(18);
 	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	        else
-	            break
-	    }
-	    args.splice(args.length-count, count)
-	    return args
+	// generates either a Header or a Row, depending on what you pass in
+	// elementType should either be "tr" or "th
+	// name should either be "Header" or "Row
+	module.exports = function(elementType, name) {
+	    return proto(Block, function(superclass) {
+	
+	        // static properties
+	
+	        this.name = name
+	
+	        // todo: add default styling of display: table-row
+	
+	
+	        // instance properties
+	
+	        this.init = function(/*[label,] rowInit*/) {
+	            if(arguments[0] instanceof Array) {
+	                var rowInit = arguments[0]
+	            } else {
+	                var label = arguments[0]
+	                var rowInit = arguments[1]
+	            }
+	
+	            this.domNode = document.createElement(elementType) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	            superclass.init.call(this) // superclass constructor
+	            this.label = label
+	
+	            if(rowInit !== undefined) {
+	                for(var n=0; n<rowInit.length; n++) {
+	                    this.cell(rowInit[n])
+	                }
+	            }
+	        }
+	
+	        this.cell = function(/*[label,] contents*/) {
+	            var cell = Cell.apply(undefined, arguments);
+	            this.add(cell);
+	            return cell;
+	        }
+	    })
 	}
 
 /***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
-	 * HashMap - HashMap Class for JavaScript
-	 * @author Ariel Flesler <aflesler@gmail.com>
-	 * @version 2.0.0
-	 * Homepage: https://github.com/flesler/hashmap
-	 */
-	
-	(function (factory) {
-		if (true) {
-			// AMD. Register as an anonymous module.
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else if (typeof exports === 'object') {
-			// Node js environment
-			exports.HashMap = factory();
-		} else {
-			// Browser globals (this is window)
-			this.HashMap = factory();
-		}
-	}(function () {
-		
-		function HashMap(other) {
-			this.clear();
-			switch (arguments.length) {
-				case 0: break;
-				case 1: this.copy(other); break;
-				default: multi(this, arguments); break;
-			}
-		}
-	
-		var proto = HashMap.prototype = {
-			constructor:HashMap,
-	
-			get:function(key) {
-				var data = this._data[this.hash(key)];
-				return data && data[1];
-			},
-			
-			set:function(key, value) {
-				// Store original key as well (for iteration)
-				this._data[this.hash(key)] = [key, value];
-			},
-	
-			multi:function() {
-				multi(this, arguments);
-			},
-	
-			copy:function(other) {
-				for (var key in other._data) {
-					this._data[key] = other._data[key];
-				}
-			},
-			
-			has:function(key) {
-				return this.hash(key) in this._data;
-			},
-			
-			search:function(value) {
-				for (var key in this._data) {
-					if (this._data[key][1] === value) {
-						return this._data[key][0];
-					}
-				}
-	
-				return null;
-			},
-			
-			remove:function(key) {
-				delete this._data[this.hash(key)];
-			},
-	
-			type:function(key) {
-				var str = Object.prototype.toString.call(key);
-				var type = str.slice(8, -1).toLowerCase();
-				// Some browsers yield DOMWindow for null and undefined, works fine on Node
-				if (type === 'domwindow' && !key) {
-					return key + '';
-				}
-				return type;
-			},
-	
-			keys:function() {
-				var keys = [];
-				this.forEach(function(value, key) { keys.push(key); });
-				return keys;
-			},
-	
-			values:function() {
-				var values = [];
-				this.forEach(function(value) { values.push(value); });
-				return values;
-			},
-	
-			count:function() {
-				return this.keys().length;
-			},
-	
-			clear:function() {
-				// TODO: Would Object.create(null) make any difference
-				this._data = {};
-			},
-	
-			clone:function() {
-				return new HashMap(this);
-			},
-	
-			hash:function(key) {
-				switch (this.type(key)) {
-					case 'undefined':
-					case 'null':
-					case 'boolean':
-					case 'number':
-					case 'regexp':
-						return key + '';
-	
-					case 'date':
-						return ':' + key.getTime();
-	
-					case 'string':
-						return '"' + key;
-	
-					case 'array':
-						var hashes = [];
-						for (var i = 0; i < key.length; i++)
-							hashes[i] = this.hash(key[i]);
-						return '[' + hashes.join('|');
-	
-					case 'object':
-					default:
-						// TODO: Don't use expandos when Object.defineProperty is not available?
-						if (!key._hmuid_) {
-							key._hmuid_ = ++HashMap.uid;
-							hide(key, '_hmuid_');
-						}
-	
-						return '{' + key._hmuid_;
-				}
-			},
-	
-			forEach:function(func) {
-				for (var key in this._data) {
-					var data = this._data[key];
-					func.call(this, data[1], data[0]);
-				}
-			}
-		};
-	
-		HashMap.uid = 0;
-	
-		//- Automatically add chaining to some methods
-	
-		for (var method in proto) {
-			// Skip constructor, valueOf, toString and any other built-in method
-			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
-				continue;
-			}
-			var fn = proto[method];
-			if (fn.toString().indexOf('return ') === -1) {
-				proto[method] = chain(fn);
-			}
-		}
-	
-		//- Utils
-	
-		function multi(map, args) {
-			for (var i = 0; i < args.length; i += 2) {
-				map.set(args[i], args[i+1])
-			}
-		}
-	
-		function chain(fn) {
-			return function() {
-				fn.apply(this, arguments);
-				return this;
-			};
-		}
-	
-		function hide(obj, prop) {
-			// Make non iterable if supported
-			if (Object.defineProperty) {
-				Object.defineProperty(obj, prop, {enumerable:false});
-			}
-		};
-	
-		return HashMap;
-	
-	}));
-
-
-/***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -3318,15 +4281,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var path = __webpack_require__(24)
+	var path = __webpack_require__(25)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -3370,7 +4333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// shim for using process in browser
@@ -3459,517 +4422,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	process.chdir = function (dir) {
 	    throw new Error('process.chdir is not supported');
 	};
-
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var emitter = __webpack_require__(19).EventEmitter
-	var proto = __webpack_require__(20);
-	var trimArguments = __webpack_require__(22)
-	var utils = __webpack_require__(16)
-	var domUtils = __webpack_require__(17)
-	var observe = __webpack_require__(21)
-	
-	var Style = __webpack_require__(2)
-	Style.isDev = function() {return module.exports.dev}
-	
-	var components = {};
-	
-	// events:
-	    // newParent - emits this when a component gets a new parent
-	    // parentRemoved - emits this when a component is detached from its parent
-	var Block = module.exports = proto(emitter,function(superclass) {
-	
-	    // static properties
-	
-		// this should not be static, but breaks if it's made into an instance variable
-	    this.emits = [];
-	
-		
-	    Object.defineProperty(this, 'label', {
-	        get: function() {
-	            return this._label
-	        }, set: function(v) {
-	            if(this._label === undefined) {
-	                this._label = v
-	
-	                if(module.exports.dev) {
-	                    this.attr('label', this.label)
-	                }
-	            } else {
-	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
-	            }
-	        }
-	    })
-		
-	
-		// instance properties
-	
-		
-		this.domNode;
-	
-	
-	    // constructor
-		this.init = function() {
-	        if(this.name === undefined) {
-	            throw new Error("The 'name' property is required for Blocks")
-	        }
-	
-	        this.children = []
-			this.unbubbledEvents = []
-			this.bubbles = []
-	        this.state = observe({})
-	
-	        if(module.exports.dev) {
-	            this.attr('name', this.name)
-	        }
-	
-	        this.parent = undefined;
-			
-			if (this.id !== undefined) {
-				components[this.id] = this;
-			}
-	
-	        if(this.domNode === undefined) {
-	            this.domNode = domUtils.div()
-	        }
-	
-	        this.create.apply(this, arguments)
-	
-	        this.domNode.className = Style.defaultClassName
-		}
-	
-	    // sub-constructor - called by the constructor
-	    // parameters:
-	        // label - (Optional) A label that can be used to style a component differently.
-	                   // Intended to be some string describing what the component is being used for.
-	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
-	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
-	    this.create = function(/*[label,] domNode*/) {
-	        if(arguments.length === 1) {
-	            this.domNode = arguments[0]
-	        } else if(arguments.length >= 2) {
-	            this.label = arguments[0]
-	            this.domNode = arguments[1]
-	        }
-	    }
-	
-	    // sets or gets an attribute on the components domNode
-	    // parameter sets:
-	    // if one argument is passed, the attribute's value is returned
-	    // if there are two arguments passed, the attribute is set
-	        // if 'value' is undefined, the attribute is removed
-	    this.attr = function(attribute, value) {
-	        if(arguments.length === 1) {
-	            return this.domNode.getAttribute(attribute)
-	        } else {
-	            if(value !== undefined) {
-	                domUtils.setAttribute(this.domNode, attribute, value)
-	            } else {
-	                this.domNode.removeAttribute(attribute)
-	            }
-	        }
-	    }
-	
-	    this.focus = function() {
-	        this.domNode.focus()
-	    }
-	    this.blur = function() {
-	        this.domNode.blur()
-	    }
-	
-	
-	    Object.defineProperty(this, 'style', {
-	        get: function() {
-	            return this._style
-	
-	        // sets the style, replacing one if one already exists
-	        }, set: function(styleObject) {
-	            if(styleObject === undefined) {
-	                var styleMap = this.getParentStyleMap()
-	                if(styleMap !== undefined) {
-	                    setCurrentStyle(this, styleMap[this.name])
-	                } else {
-	                    setCurrentStyle(this, undefined)
-	                }
-	
-	                this.computedStyleMap = styleMap
-	
-	            } else {
-	                setCurrentStyle(this, styleObject)
-	                var specificStyle = styleObject.get(this)
-	                if(this.getParentStyleMap() !== undefined) {
-	                    this.computedStyleMap = styleMapConjunction(this.getParentStyleMap(), specificStyle.componentStyleMap)
-	                } else {
-	                    this.computedStyleMap = specificStyle.componentStyleMap
-	                }
-	            }
-	
-	            this._style = styleObject
-	            propogateStyleSet(this.children, this.computedStyleMap) // propogate styles to children
-	        }
-	    })
-	
-		this.bubble = function(component) {
-			if (!isBlock(component)) {
-				console.log("Cannot bubble events from an object that is not a Block");
-				return;
-			}
-			for (var i=0;i<component.emits.length;i++) {
-				this.emits.push(component.emits[i]);
-			}
-			this.bubbles.push(component);
-			
-			// now run through all our unbubbled events and see if any of them handle this
-			var newUnbubbled = [];
-			for (var i=0;i<this.unbubbledEvents.length;i++) {
-				var success = this.attachBubbleEvent(this.unbubbledEvents[i].event,this.unbubbledEvents[i].callback);
-				if (success !== true) {
-					newUnbubbled.push(this.unbubbledEvents[i]);
-				}
-			}
-			this.unbubbledEvents = newUnbubbled;
-		}
-	
-	    this.bubbleEvents = function(component, events) {
-	        var that = this
-	        events.forEach(function(event) {
-	            component.on(event, function(eventObject) {
-	                that.emit(event, eventObject)
-	            })
-	        })
-	    }
-	
-		this.attachBubbleEvent = function(event,callback) {
-			var foundBubble = false;
-			for (var i=0;i<this.bubbles.length;i++) {
-				if (this.bubbles[i].handlesEvent(event)) {
-					// if the bubbled component does handle this event, then attach the callback handler
-					// note this could mean the callback is attached to multiple components
-					this.bubbles[i].on(event,callback);
-					foundBubble = true;
-				}
-			}
-			return foundBubble;
-		}
-	
-		this.handlesEvent = function(event) {
-			for (var i=0;i<this.emits.length;i++) {
-				if (this.emits[i] === event) {
-					return true;
-				}
-			}
-			return false;
-		}
-	
-		this.on = function(event,callback) {
-			var foundBubble = this.attachBubbleEvent(event,callback);
-			if (!foundBubble) {
-				superclass.prototype.on.call(this,event,callback);
-				this.unbubbledEvents.push({event:event,callback:callback});
-			}
-		}
-	
-	    // adds elements to the components main domNode
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.add = function() {
-	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
-		}
-	
-	    // adds nodes at a particular index
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addAt = function(index/*, nodes...*/) {
-	        if(arguments.length === 2) {
-	            if(arguments[1] instanceof Array) {
-	                var nodes = arguments[1]
-	            } else {
-	                var nodes = [arguments[1]]
-	            }
-	        } else { // > 2
-	            var nodes = trimArguments(arguments).slice(1)
-	        }
-	
-	        for (var i=0;i<nodes.length;i++) {
-				var node = nodes[i];
-	            this.children.splice(index+i, 0, node)
-	
-	            if(!isBlock(node)) {
-	                throw new Error("node is not a Block")
-	            }
-	
-	            node.parent = undefined
-	            node.emit('parentRemoved')
-	
-	            var beforeChild = this.children[1+i+index]
-	            if(beforeChild === undefined) {
-	                this.domNode.appendChild(node.domNode)
-	            } else {
-	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
-	            }
-	
-	            node.parent = this;
-	            node.emit('newParent')
-	
-	            // apply styles
-	            //if(itsaBlock) { // its always a component now
-	                var that = this
-	                node.getParentStyleMap = function() {return that.computedStyleMap}
-	                propogateStyleSet([node], this.computedStyleMap)
-	            //}
-			}
-	    }
-		
-		// add a list of nodes before a particular node
-	    // if beforeChild is undefined, this will append the given nodes
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addBefore = this.addBeforeNode = function(beforeChild) {
-	        var nodes = trimArguments(arguments).slice(1)
-	        if(beforeChild === undefined) {
-	            this.add.apply(this, nodes)
-	        } else {
-	            var index = this.children.indexOf(beforeChild)
-	            this.addAt.apply(this, [index].concat(nodes))
-	        }
-	    }
-		
-	
-	    // arguments can be one of the following:
-	        // object, object, object, ...
-	        // listOfObjects
-	    // where 'object' is either an:
-	        // index - the numerical index to remove
-	        // component - a component to remove
-	    this.remove = function() {
-	        if(arguments[0] instanceof Array) {
-	            var removals = arguments[0]
-	        } else {
-	            var removals = arguments
-	        }
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	            var itsaBlock = isBlock(r)
-	            if(itsaBlock) {
-	                r.parent = undefined
-	                var index = this.children.indexOf(r)
-	                this.children.splice(index, 1)
-	                this.domNode.removeChild(r.domNode)
-	
-	                r.emit('parentRemoved')
-	
-	            } else { // index
-	                var c = this.children[r]
-	                this.children[r].parent = undefined
-	                this.children.splice(r, 1)
-	                this.domNode.removeChild(this.domNode.childNodes[r])
-	
-	                c.emit('parentRemoved')
-	            }
-	        }
-	    }
-		
-		this.hide = function() {
-			if (this.domNode !== undefined && this.domNode.style.display !== 'none' ) {
-	            this.displayStyle = this.domNode.style.display
-	            this.domNode.style.display = 'none'
-			}
-		}
-		
-		this.show = function() {
-			if (this.domNode !== undefined) {
-	            this.domNode.style.display = this.displayStyle
-			}		
-		}
-	
-		this.hidden = function() {
-			return this.domNode.style.display === 'none';
-		}
-	
-	    this.setSelection = function(start, end) {
-	        domUtils.setSelection(this.domNode, start, end)
-	    }
-	    this.getCaretOffset = function() {
-	        return domUtils.getCaretOffset(this.domNode)
-	    }
-	
-	
-		// private instance variables/functions
-	
-	
-	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
-	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
-	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
-	
-		this.style;              // the object's explicit Style object (undefined if it inherits a style)
-	    this.currentStyle;       // the object's current Style (inherited or explicit)
-	    this.displayStyle='block';       // stores the display style for use when 'show' is called (default is 'block')
-	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
-	});
-	
-	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
-	
-	
-	// propogates a style-set change to a set of components
-	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
-	function propogateStyleSet(components, styleMap) {
-	    for(var n=0; n<components.length; n++) {
-	        var c = components[n]
-	        //if(isBlock(c)) {   //
-	            // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
-	            if(c.style === undefined) {
-	                if(styleMap === undefined) {
-	                    setCurrentStyle(c, undefined)
-	                } else if(styleMap[c.name] !== undefined) {
-	                    setCurrentStyle(c, styleMap[c.name])
-	                }
-	            }
-	
-	            // set the computed style set
-	            var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
-	            if(c.style !== undefined) {
-	                mainStyle = c.style.get(c)
-	            } else if(styleMap !== undefined) {
-	                mainStyle = styleMap[c.name]
-	                if(mainStyle !== undefined) {
-	                    mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
-	                }
-	            }
-	
-	            if(mainStyle !== undefined) {
-	                if(styleMap !== undefined) {
-	                    c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
-	                } else {
-	                    c.computedStyleMap = mainStyle.componentStyleMap
-	                }
-	            } else {
-	                c.computedStyleMap = styleMap
-	            }
-	
-	            propogateStyleSet(c.children, c.computedStyleMap)
-	        //}
-	    }
-	}
-	
-	// returns the conjunction of two style maps
-	// gets it from the computedStyles cache if its already in there
-	function styleMapConjunction(secondaryStyleMap, primaryStyleMap) {
-	    var cachedStyleMap = Style.computedStyles.get()
-	    if(cachedStyleMap === undefined) {
-	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
-	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
-	    }
-	
-	    return cachedStyleMap
-	}
-	
-	// takes lables into account
-	function setCurrentStyle(component, style) {
-	    if(style === component.currentStyle) return; // do nothing
-	
-	    if(style !== undefined)
-	        var specificStyle = style.get(component)
-	    else
-	        var specificStyle = style
-	
-	    setStyleClass(component, specificStyle)
-	    applyStyleKillFunction(component)
-	    component.currentStyle = specificStyle
-	    applyStyleSetupFunction(component, specificStyle)
-	    applyStateHandler(component, specificStyle)
-	}
-	
-	// applies kill appropriately
-	function applyStyleKillFunction(component) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
-	        if(currentStyle.kill === undefined)
-	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
-	
-	        currentStyle.kill(component)
-	    }
-	}
-	// applies setup appropriately
-	function applyStyleSetupFunction(component, style) {
-	    if(style !== undefined && style.setup !== undefined) {
-	        style.setup(component) // call setup on the component
-	    }
-	}
-	// initializes and sets up state-change handler
-	function applyStateHandler(component, style) {
-	    if(style !== undefined && style.stateHandler !== undefined) {
-	        style.stateHandler(component.state, component.domNode.style)
-	        component.state.on('change', function() {
-	            style.stateHandler(component.state.subject, component.domNode.style)
-	        })
-	    }
-	}
-	
-	// sets the style, replacing one if one already exists
-	function setStyleClass(component, style) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined) {
-	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
-	    }
-	    if(style !== undefined) {
-	        component.domNode.className += ' '+style.className
-	    }
-	}
-	
-	function isBlock(c) {
-	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
-	}
-	function isDomNode(node) {
-	    return node.nodeName !== undefined
-	}
-
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(27)
-	var proto = __webpack_require__(20)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Block'
-	
-	
-		// instance properties
-	
-		this.init = function (/*[label,] content*/) {
-	        if(arguments.length === 0) {
-	            var content = []
-	        } else if(arguments.length === 1) {
-	            var content = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var content = arguments[1]
-	        }
-	
-			var that = this
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	
-			if(content !== undefined)
-	            this.add(content)
-	
-			this.domNode.addEventListener("click",function(data) {
-				that.emit("click",data);
-			});
-		}
-	});
 
 
 /***/ }
