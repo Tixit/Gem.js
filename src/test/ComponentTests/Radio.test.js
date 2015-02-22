@@ -1,4 +1,4 @@
-var testUtils = require('../testUtils')
+var testUtils = require('testUtils')
 var syn = require("fsyn")
 
 var Container = require("Components/Container")

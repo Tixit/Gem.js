@@ -1,5 +1,5 @@
 var syn = require("fsyn")
-var testUtils = require('../testUtils')
+var testUtils = require('testUtils')
 
 var CheckBox = require('Components/CheckBox')
 

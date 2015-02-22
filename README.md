@@ -5,6 +5,10 @@ A library of extensible web components for building and styling web applications
 
 The power of functions and variables is unparalleled, and yet languages like HTML and CSS, which don't have any ability to compose structures together, are still the primary ways people build web applications. Blocks.js is here to change that. Finally, modern application development for the browser!
 
+Framework after framework has come along to try and solve the problem of making web pages dynamic. Angular, Backbone, Ember, jQuery, mooTools, Dojo, YUI, etc have all tried to be everything to everyone. But what they fail at providing is simplicity and modularity. They end up with bloated libraries filled with features you're not using. And many of them are oh-so-opinionated.
+
+Blocks.js is
+
 Examples
 =======
 
@@ -35,7 +39,7 @@ toggleButton.style = blocks.Style({
 // custom blocks (use your favorite javascript class library - here proto is being used)
 var proto = require('proto')
 var NameInput = proto(blocks.Block, function() { // inherit from Block
-    this.create = function(LabelText) {              // a create method initializes the custom Container
+    this.build = function(LabelText) {              // the `build` method initializes the custom Block
         var nameField = blocks.TextField()
         this.add(blocks.Text(LabelText), nameField)
         nameField.on('change', function() {
@@ -47,6 +51,19 @@ var NameInput = proto(blocks.Block, function() { // inherit from Block
 blocks.attach(NameInput("Your Name: "))
 
 ```
+
+What `blocks.js` is ***not***
+=======================
+
+Blocks.js is not:
+* **a compatibility layer**. Blocks.js uses modern browser features and is built to rely on polyfills to add older browser support. If you're looking for a compatibility system, try [modernizr](http://modernizr.com/).
+* **a path router**. If you're looking for a path routing module, try [grapetree](https://github.com/fresheneesz/grapetree).
+* **a class system**. If you're looking for a system for creating classes and prototypes, try [proto](https://github.com/fresheneesz/proto).
+* **a module system, script bundler, or loader**. If you're looking for an excellent module system and bundler, look no further than [webpack](http://webpack.github.io/).
+* **a templating system**. In blocks.js, you use functions and objects to compose together a page, rather than templates.
+* **an animation library**. If you're looking for animations, try [Émile](https://github.com/madrobby/emile).
+* **a framework**. A framework is a system that calls *your* code. A module is a set of functions that your code can call. Blocks.js is the latter.  Blocks.js can work well right alongside traditionally written html and css, and you can choose to wrap dom constructs in a Block only if you want to.
+* **super heroic**. It does one thing well: web components. It embraces the [single-responsibility principle ](http://en.wikipedia.org/wiki/Single_responsibility_principle) and is entirely stand-alone.
 
 Install
 =======
@@ -108,6 +125,11 @@ These conventional properties, constructor parameters, and behavior are encourag
 Every standard Block has an optional first parameter `label`.
 This makes it easy and non-intrusive to label parts of your custom Blocks for easy styling.
 
+In as many cases as possible, Blocks will use properties defined with getters and setters rather than using methods. Some examples:
+* `focus` - gets whether the element has focus, or sets it to in-focus or out-of-focus
+* `visible` - gets whether the element is visible (display !== 'none'), and can set its visibility status.
+* `selection` - gets the selection on the element, and can set the selection
+
 There are a few standard properties that some blocks have:
 * `text` - Gets and sets some visual text that a Block has. `Button`, `Text`, and `Select.Option` have this property.
 * `selected` - Gets and sets the selected-state of the Block. `CheckBox`, `Select.Option`, and `Radio.Button` have this property.
@@ -123,18 +145,26 @@ Some blocks have sub-blocks specifically related to them. For example, `Select` 
 Todo
 ======
 
-* Switch to using EventEmitter2 so you can set up catch-all event handlers
+* Use `ifon` and `ifoff` for proxying browser events through Blocks
 * Override the `on` method so that standard browser events are automatically attached to domNodes
     * provide a way to exclude certain events, so they can be set up in an alternate way
-* Create a way to set unobtrusive default styles for custom Blocks (so you can, for example, make Option blocks display: block)
 * Change styles to require actual references to blocks its' styling
-* Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
+* Create a way to set unobtrusive default styles for custom Blocks (so you can, for example, make Option blocks display: block)
+
+ * Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
 * Make all controls usable via the keybaord
   * eg. checkboxes should be toggled if you press enter while they're focused on
+* Consider making Style objects dynamically changable, and also inheritable/extendable so that you can extend the style object of a Block instead of having to extend the object passed to a Style prototype
 
 Changelog
 ========
 
+* 0.9.1
+    * Adding tests for all the public Block properties that didn't already have tests
+    * Changing API of focus/blur, show/hide, and selection methods to getter/setter style properties
+    * Replacing getCaretPosition to selectionRange that returns the full selection range
+    * Made the selection stuff work for inputs and text areas
+    * Adding `ifon` and `ifoff` methods
 * 0.1.1 - Creating a bunch of conventions that all the standard blocks conform to
 * 0.1.0 - Initial commit - code transferred from private project.
 

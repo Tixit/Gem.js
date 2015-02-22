@@ -1,4 +1,4 @@
-var testUtils = require('../testUtils')
+var testUtils = require('testUtils')
 var Container = require("Components/Container")
 
 var Text = require('Components/Text');

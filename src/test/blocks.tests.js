@@ -13,6 +13,7 @@ module.exports = function() {
 
         //*
         this.test('Block',require('./Block.test'))
+        this.test('EventEmitterB',require('./EventEmitterB.test'))
         this.test('Style',require('./Style.test'))
 
         this.test("standard components", function(t) {

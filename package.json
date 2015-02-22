@@ -20,7 +20,8 @@
     "observe": "",
     "trimArguments":"https://github.com/fresheneesz/trimArguments/archive/c9c023c9ff1e0aec4b67370a80a92dacadcf8b11.tar.gz",
     "colors":"",
-    "hashmap": ""
+    "hashmap": "",
+    "eventemitter2": ""
  },
  "devDependencies": {
     "deadunit":"5.1.8",

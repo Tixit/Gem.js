@@ -1,6 +1,6 @@
 var proto = require('proto')
 
-var testUtils = require('./testUtils')
+var testUtils = require('testUtils')
 var blocks = require("../blocks")
 var Block = blocks.Block
 var domUtils = require('domUtils')
@@ -27,8 +27,7 @@ module.exports = function(t) {
         var C = proto(Block, function(superclass) {
             this.name = 'C'
 
-            this.init = function() {
-                superclass.init.call(this)
+            this.build = function() {
                 this.style = S
 
                 this.domNode.textContent = "hi"
@@ -58,9 +57,7 @@ module.exports = function(t) {
         var C = proto(Block, function(superclass) {
             this.name = 'C'
 
-            this.init = function() {
-                superclass.init.call(this)
-
+            this.build = function() {
                 this.style = S
 
                 this.add(Text('one'), CheckBox())
@@ -95,9 +92,7 @@ module.exports = function(t) {
         var C = proto(Block, function(superclass) {
             this.name = 'C'
 
-            this.init = function() {
-                superclass.init.call(this)
-
+            this.build = function() {
                 this.add(Text('test'))
                 this.style = S
             }
@@ -133,9 +128,7 @@ module.exports = function(t) {
         var Parent = proto(Block, function(superclass) {
             this.name = 'Parent'
 
-            this.init = function() {
-                superclass.init.call(this)
-
+            this.build = function() {
                 this.add(Text('inParent'))
             }
         })
@@ -143,9 +136,7 @@ module.exports = function(t) {
         var Grandparent = proto(Block, function(superclass) {
             this.name = 'Grandparent'
 
-            this.init = function() {
-                superclass.init.call(this)
-
+            this.build = function() {
                 this.style = S    // setting the style before adding components should also work
                 this.add(Parent())
                 this.add(Text('inGrandparent'))
@@ -183,8 +174,7 @@ module.exports = function(t) {
         var C = proto(Block, function(superclass) {
             this.name = 'C'
 
-            this.init = function() {
-                superclass.init.call(this)
+            this.build = function() {
                 this.style = S
             }
         })
@@ -204,8 +194,7 @@ module.exports = function(t) {
         var C = proto(Block, function(superclass) {
             this.name = 'C'
 
-            this.init = function(style) {
-                superclass.init.call(this)
+            this.build = function(style) {
                 this.style = style
 
                 this.add(Text('testLabel'))
@@ -292,8 +281,7 @@ module.exports = function(t) {
         var Parent = proto(Block, function(superclass) {
             this.name = 'Parent'
 
-            this.init = function() {
-                superclass.init.call(this)
+            this.build = function() {
                 this.style = S2
 
                 this.label = Text('inParent')
@@ -305,8 +293,7 @@ module.exports = function(t) {
         var Grandparent = proto(Block, function(superclass) {
             this.name = 'Grandparent'
 
-            this.init = function() {
-                superclass.init.call(this)
+            this.build = function() {
                 this.style = S
 
                 this.parentComponent = Parent()
@@ -333,8 +320,7 @@ module.exports = function(t) {
         var C = proto(Block, function(superclass) {
             this.name = 'C'
 
-            this.init = function() {
-                superclass.init.call(this)
+            this.build = function() {
                 this.style = style
                 this.add(
                     Text('one'),
@@ -422,8 +408,7 @@ module.exports = function(t) {
             var C = proto(Block, function(superclass) {
                 this.name = 'C'
 
-                this.init = function() {
-                    superclass.init.call(this)
+                this.build = function() {
                     this.style = style
 
                     var container = Container([CheckBox()])
@@ -628,8 +613,9 @@ module.exports = function(t) {
             var C = proto(Block, function(superclass) {
                 this.name = 'C'
 
-                this.init = function(text, link) {
-                    superclass.init.call(this, undefined, domUtils.node('a'))
+                this.build = function(text, link) {
+                    this.domNode = domUtils.node('a')
+
                     this.attr('href', link)
                     this.attr('style', "display:block;")
                     this.domNode.textContent = text
@@ -661,7 +647,7 @@ module.exports = function(t) {
             // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
             testUtils.demo('Manually verify these: component :visited pseudo-class styling', Container([component1, component2, component3]))
 
-            component2.focus()
+            component2.focus = true
 
             this.test('errors', function() {
                 this.count(1)
@@ -689,8 +675,7 @@ module.exports = function(t) {
             var C = proto(Block, function(superclass) {
                 this.name = 'C'
 
-                this.init = function() {
-                    superclass.init.call(this)
+                this.build = function() {
                     this.add(Text("a"))
                     this.add(Text("b"))
                     this.add(Text("c"))
@@ -733,8 +718,7 @@ module.exports = function(t) {
             var C = proto(Block, function(superclass) {
                 this.name = 'C'
 
-                this.init = function() {
-                    superclass.init.call(this)
+                this.build = function() {
                     this.add(Text("a"))
                     this.add(Text("b"))
                     this.add(Text("c"))
@@ -889,8 +873,7 @@ module.exports = function(t) {
         var C = proto(Block, function(superclass) {
             this.name = 'C'
 
-            this.init = function() {
-                superclass.init.call(this)
+            this.build = function() {
                 this.style = S
                 this.add(inheritsFromText('inParent'))
             }

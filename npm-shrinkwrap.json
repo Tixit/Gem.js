@@ -1,0 +1,51 @@
+{
+  "name": "blocks-js",
+  "version": "0.1.0",
+  "dependencies": {
+    "colors": {
+      "version": "1.0.3",
+      "from": "colors@",
+      "resolved": "https://registry.npmjs.org/colors/-/colors-1.0.3.tgz"
+    },
+    "eventemitter2": {
+      "version": "0.4.14",
+      "from": "eventemitter2@",
+      "resolved": "https://registry.npmjs.org/eventemitter2/-/eventemitter2-0.4.14.tgz"
+    },
+    "hashmap": {
+      "version": "2.0.0",
+      "from": "hashmap@",
+      "resolved": "https://registry.npmjs.org/hashmap/-/hashmap-2.0.0.tgz"
+    },
+    "observe": {
+      "version": "1.0.1",
+      "from": "observe@"
+    },
+    "proto": {
+      "version": "1.0.11",
+      "from": "proto@"
+    },
+    "trimArguments": {
+      "version": "1.0.1",
+      "from": "https://github.com/fresheneesz/trimArguments/archive/c9c023c9ff1e0aec4b67370a80a92dacadcf8b11.tar.gz",
+      "resolved": "https://github.com/fresheneesz/trimArguments/archive/c9c023c9ff1e0aec4b67370a80a92dacadcf8b11.tar.gz",
+      "dependencies": {
+        "deadunit": {
+          "version": "0.3.0",
+          "from": "deadunit@git+https://git@github.com/fresheneesz/deadunit.git",
+          "resolved": "git+https://git@github.com/fresheneesz/deadunit.git#265e51abe8ec240610b267459a4768eb453db17a",
+          "dependencies": {
+            "colors": {
+              "version": "0.6.2",
+              "from": "colors@"
+            },
+            "stack-trace": {
+              "version": "0.0.7",
+              "from": "stack-trace@"
+            }
+          }
+        }
+      }
+    }
+  }
+}

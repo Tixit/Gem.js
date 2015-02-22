@@ -75,7 +75,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var Unit = __webpack_require__(14)
+	var Unit = __webpack_require__(15)
 	
 	var blocks = __webpack_require__(1)
 	blocks.dev = true
@@ -88,21 +88,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        //*
 	        this.test('Block',__webpack_require__(2))
-	        this.test('Style',__webpack_require__(3))
+	        this.test('EventEmitterB',__webpack_require__(3))
+	        this.test('Style',__webpack_require__(4))
 	
 	        this.test("standard components", function(t) {
 	            this.count(10)
 	
-	            this.test('Button',__webpack_require__(4));
-	            this.test('CheckBox',__webpack_require__(5));
-	            this.test('Container',__webpack_require__(6));
-	            this.test('MultiSelect',__webpack_require__(7));
-	            this.test('Radio',__webpack_require__(8));
-	            this.test('Select',__webpack_require__(9));
-	            this.test('table',__webpack_require__(10));
-	            this.test('text',__webpack_require__(11));
-	            this.test('textarea',__webpack_require__(12)).complete.then(function() {
-	                return t.test('textfield',__webpack_require__(13)).complete
+	            this.test('Button',__webpack_require__(5));
+	            this.test('CheckBox',__webpack_require__(6));
+	            this.test('Container',__webpack_require__(7));
+	            this.test('MultiSelect',__webpack_require__(8));
+	            this.test('Radio',__webpack_require__(9));
+	            this.test('Select',__webpack_require__(10));
+	            this.test('table',__webpack_require__(11));
+	            this.test('text',__webpack_require__(12));
+	            this.test('textarea',__webpack_require__(13)).complete.then(function() {
+	                return t.test('textfield',__webpack_require__(14)).complete
 	            }).done()
 	        })
 	
@@ -118,19 +119,19 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.Block = __webpack_require__(16)
-	exports.Style = __webpack_require__(17)
+	exports.Block = __webpack_require__(18)
+	exports.Style = __webpack_require__(19)
 	
-	exports.Container = __webpack_require__(21)
-	exports.Button = __webpack_require__(20)
-	exports.CheckBox = __webpack_require__(22)
-	exports.Radio = __webpack_require__(23)
+	exports.Container = __webpack_require__(22)
+	exports.Button = __webpack_require__(23)
+	exports.CheckBox = __webpack_require__(24)
+	exports.Radio = __webpack_require__(25)
 	//exports.Select = require("Components/Select")
-	exports.MultiSelect = __webpack_require__(24)
-	exports.Table = __webpack_require__(25)
-	exports.TextArea = __webpack_require__(26)
-	exports.TextField = __webpack_require__(27)
-	exports.Text = __webpack_require__(28)
+	exports.MultiSelect = __webpack_require__(26)
+	exports.Table = __webpack_require__(27)
+	exports.TextArea = __webpack_require__(28)
+	exports.TextField = __webpack_require__(29)
+	exports.Text = __webpack_require__(30)
 	
 	
 	// todo:
@@ -194,10 +195,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(31)
-	var Future = __webpack_require__(32)
+	var proto = __webpack_require__(34)
+	var Future = __webpack_require__(33)
 	
-	var testUtils = __webpack_require__(15)
+	var syn = __webpack_require__(16)
+	var testUtils = __webpack_require__(17)
 	var blocks = __webpack_require__(1)
 	var Block = blocks.Block
 	
@@ -208,18 +210,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = function(t) {
 	
+	    // basic test block
+	    var TestThinger = proto(Block,function(superclass) {
+	        this.name = 'TestThinger'
+	    })
+	
+	
 	
 	    //*
-	    //this.count(3);
 	
 		this.test('testEvent',function(t) {
 	        this.count(2);
+	
 			var obj = new Button("some text");
-			obj.on("click",function(data) {
+			obj.on("flick",function(data) {
 				t.ok(true);
 				t.ok(data.obj === "blah");
 			});
-			obj.emit("click",{obj:"blah"});
+	
+			obj.emit("flick",{obj:"blah"});
 		});
 	
 	    this.test('add, addAt, addBefore', function() {
@@ -422,46 +431,321 @@ return /******/ (function(modules) { // webpackBootstrap
 				
 			})
 	    })
-		
-		this.test('testBubbledEvent',function(t) {
-			this.count(2);
 	
-	        var Button = __webpack_require__(20);
+	    this.test('attr', function() {
+	        var thinger = TestThinger()
+	        thinger.attr("moose", '5')
+	        this.eq(thinger.domNode.getAttribute("moose"), '5')
+	        this.eq(thinger.attr('moose'), '5')
 	
-	        var BubbleTester = proto(Block,function(superclass) {
-	            this.name = 'BubbleTester'
+	        thinger.attr("moose", 'ha ha ha \'\"haaaaaaa <moose></moose>')
+	        this.eq(thinger.domNode.getAttribute("moose"), 'ha ha ha \'\"haaaaaaa <moose></moose>')
+	        this.eq(thinger.attr('moose'), 'ha ha ha \'\"haaaaaaa <moose></moose>')
 	
-	            this.init = function() {
-	                superclass.init.call(this) // superclass constructor
-	                var that = this
+	        thinger.attr('moose', undefined)
+	        this.eq(thinger.domNode.getAttribute("moose"), null)
+	        this.eq(thinger.attr('moose'), undefined)
+	    })
 	
-	                var button = new Button("Test button");
-	                this.button = button;
-	                this.add(button);
-	            }
-				
-				this.setBubble = function() {
-	                this.bubble(this.button);
-				}
+	    this.test('label property', function() {
+	        blocks.dev = false // turn off dev for a second
+	
+	        var thinger = TestThinger()
+	        this.eq(thinger.label, undefined)
+	        this.eq(thinger.attr('label'), undefined)
+	
+	        thinger.label = "moose"
+	        this.eq(thinger.label, 'moose')
+	        this.eq(thinger.attr('label'), undefined) // only set in dev mode
+	
+	        var thinger2 = TestThinger()
+	        blocks.dev = true // turn back on
+	        thinger2.label = "moose2"
+	        this.eq(thinger2.label, "moose2")
+	        this.eq(thinger2.attr('label'), "moose2")
+	
+	        try {
+	            thinger.label = 'setagainfails'
+	        } catch(e) {
+	            this.eq(e.message, "A Block's label can only be set once (was already set to: moose)")
+	        }
+	    })
+	
+	    this.test('visible', function() {
+	        var container = blocks.Container()
+	        testUtils.demo("visible test", container)
+	
+	        var thinger = TestThinger()
+	        container.add(thinger)
+	        this.eq(thinger.visible, true)
+	        this.eq($(thinger.domNode).css('display'), "inline-block")
+	
+	        thinger.visible = true                       // does nothing if its already showing
+	        this.eq(thinger.visible, true)
+	        this.eq($(thinger.domNode).css('display'), "inline-block")
+	
+	        thinger.visible = false
+	        this.eq(thinger.visible, false)
+	//        this.eq(thinger.domNode.style.display, "none")
+	        this.eq($(thinger.domNode).css('display'), "none")
+	
+	        thinger.visible = false                      // does nothing if its already hiding
+	        this.eq(thinger.visible, false)
+	        this.eq($(thinger.domNode).css('display'), "none")
+	
+	        thinger.visible = true
+	        this.eq(thinger.visible, true)
+	        this.eq($(thinger.domNode).css('display'), "inline-block")
+	
+	        this.test("with styled css display", function() {
+	            var thinger = TestThinger()
+	            container.add(thinger)
+	            thinger.style = blocks.Style({display: 'inline'})
+	
+	            this.eq($(thinger.domNode).css('display'), "inline")
+	
+	            thinger.visible = false
+	            this.eq($(thinger.domNode).css('display'), "none")
+	            this.eq(thinger.visible, false)
+	
+	            thinger.visible = true
+	            this.eq(thinger.visible, true)
+	            this.eq($(thinger.domNode).css('display'), "inline")
 	        })
 	
-			var obj = new BubbleTester();
-			obj.setBubble();
-			obj.on("click",function(data) {
-				t.ok(true);
-			});
-			var clickEvent = new Event("click");
-			$(obj.button.domNode)[0].dispatchEvent(clickEvent);
-			
-			obj = new BubbleTester();
-			obj.on("click",function(data) {
-				t.ok(true);
-			});
-			obj.setBubble();
-			var clickEvent = new Event("click");
-			$(obj.button.domNode)[0].dispatchEvent(clickEvent);
-		});
+	        this.test("with inline css", function() {
+	            var thinger = TestThinger()
+	            container.add(thinger)
+	            thinger.domNode.style.display = 'block'
 	
+	            this.eq($(thinger.domNode).css('display'), "block")
+	
+	            thinger.visible = false
+	            this.eq($(thinger.domNode).css('display'), "none")
+	            this.eq(thinger.visible, false)
+	
+	            thinger.visible = true
+	            this.eq(thinger.visible, true)
+	            this.eq($(thinger.domNode).css('display'), "block")
+	        })
+	    })
+	
+	    this.test("focus", function() {
+	        var input = blocks.TextField()
+	        testUtils.demo("focus test", input)
+	
+	        this.ok(input.domNode !== document.activeElement)
+	
+	        input.focus = true
+	        this.ok(input.domNode === document.activeElement)
+	
+	        input.focus = false
+	        this.ok(input.domNode !== document.activeElement)
+	    })
+	
+	    this.test("setSelection and getCaratOffset", function() {
+	        var container = blocks.Container()
+	        testUtils.demo("setSelection and getCaratOffset", container)
+	
+	        this.test('input textfield', function() {
+	            var input = blocks.TextField()
+	            container.add(input)
+	            input.val = "whatever yo"
+	
+	            this.eq(input.selectionRange, undefined)
+	
+	            input.selectionRange = [1,1]
+	            this.eq(input.selectionRange[0], 1)
+	            this.eq(input.selectionRange[1], 1)
+	
+	            input.selectionRange = [2,5]
+	            this.eq(input.selectionRange[0], 2)
+	            this.eq(input.selectionRange[1], 5)
+	
+	            this.test("input textfields that are next to eachother", function() {
+	                var c = blocks.Container()
+	                container.add(c)
+	                var input = blocks.TextField(), input2 = blocks.TextField()
+	                c.add(input, input2)
+	                input.val = "whatever yo"
+	                input2.val = 'more whatever'
+	
+	                this.eq(input.selectionRange, undefined)
+	                this.eq(input2.selectionRange, undefined)
+	
+	                input.focus = true
+	
+	                // when its focused on after being set programatically, it should have the active caret (note that this is different from gaining focus by being tabbed to)
+	                // seems to start its caret at the end of the input
+	                this.eq(input.selectionRange[0], input.val.length)
+	                this.eq(input.selectionRange[1], input.val.length)
+	                this.eq(input2.selectionRange, undefined)
+	
+	                input.selectionRange = [2,4]
+	                this.eq(input.selectionRange[0], 2)
+	                this.eq(input.selectionRange[1], 4)
+	                this.eq(input2.selectionRange, undefined)
+	
+	                input2.selectionRange = [3,5]
+	                this.eq(input.selectionRange, undefined)
+	                this.eq(input2.selectionRange[0], 3)
+	                this.eq(input2.selectionRange[1], 5)
+	
+	            })
+	        })
+	
+	        this.test('textarea', function() {
+	            var input = blocks.TextArea()
+	            container.add(input)
+	            input.val = "whatever yo"
+	
+	            this.eq(input.selectionRange, undefined)
+	
+	            input.selectionRange = [1,1]
+	            this.eq(input.selectionRange[0], 1)
+	            this.eq(input.selectionRange[1], 1)
+	
+	            input.selectionRange = [2,5]
+	            this.eq(input.selectionRange[0], 2)
+	            this.eq(input.selectionRange[1], 5)
+	        })
+	
+	        this.test("regular div", function() {
+	            var div = blocks.Text("Whatever")
+	            div.attr("contenteditable", true)
+	            container.add(div)
+	
+	            this.eq(div.selectionRange, undefined)
+	
+	            div.selectionRange = [1,1]
+	            this.eq(div.selectionRange[0], 1)
+	            this.eq(div.selectionRange[1], 1)
+	
+	            div.selectionRange = [2,5]
+	            this.eq(div.selectionRange[0], 2)
+	            this.eq(div.selectionRange[1], 5)
+	        })
+	
+	        this.test("contenteditable div", function() {
+	            var input = blocks.Text("Whatever")
+	            input.attr("contenteditable", true)
+	            container.add(input)
+	
+	            this.eq(input.selectionRange, undefined)
+	
+	            input.selectionRange = [1,1]
+	            this.eq(input.selectionRange[0], 1)
+	            this.eq(input.selectionRange[1], 1)
+	
+	            input.selectionRange = [2,5]
+	            this.eq(input.selectionRange[0], 2)
+	            this.eq(input.selectionRange[1], 5)
+	
+	            input.domNode.innerHTML = "<span>hi</span><span>lo</span><span>mo<br>scrow</span>"
+	            this.eq(input.selectionRange[0], 0)
+	            this.eq(input.selectionRange[1], 11)           // is this right?
+	
+	            input.selectionRange = [4,11]
+	            this.eq(input.selectionRange[0], 4)
+	            this.eq(input.selectionRange[1], 11)
+	
+	        })
+	
+	        this.test("selectionRange across nodes", function() {
+	            var one = Text('one'), two = Text("two"), three = Text("three")
+	            var c = blocks.Container(one, two, three)
+	            container.add(c)
+	
+	            c.selectionRange = [2,8]
+	            this.eq(c.selectionRange[0], 2)
+	            this.eq(c.selectionRange[1], 8)
+	            this.eq(one.selectionRange[0], 2)
+	            this.eq(one.selectionRange[1], 3)
+	            this.eq(two.selectionRange[0], 0)
+	            this.eq(two.selectionRange[1], 3)
+	            this.eq(three.selectionRange[0], 0)
+	            this.eq(three.selectionRange[1], 2)
+	        })
+	    })
+	
+	    this.test("on, addListener, once, removeListener, removeAllListeners", function(t) {
+	        this.count(10)
+	
+	        var EventWhore = proto(Block,function(superclass) {
+	            this.name = 'EventWhore'
+	        })
+	
+	        var e = EventWhore()
+	
+	        var event = testUtils.seq(
+	          function(eventName, data) {
+	            t.eq(eventName, 'a')
+	            t.eq(data, 1)
+	        },function(eventName, data) {
+	            t.eq(eventName, 'a')
+	            t.eq(data, 2)
+	
+	        },function(eventName, data) {
+	            t.eq(eventName, 'b')
+	            t.eq(data, 3)
+	        },function(eventName, data) {
+	            t.eq(eventName, 'b')
+	            t.eq(data, 4)
+	
+	        },function(eventName, data) {
+	            t.eq(eventName, 'c')
+	            t.eq(data, 5)
+	        })
+	
+	        var acb, bcb, ccb;
+	        e.on('a', acb = function(data) {
+	            event('a', data)
+	        })
+	        e.addListener('b', bcb = function bcb(data) {
+	            event('b', data)
+	        })
+	        e.once('c', cbc = function(data) {
+	            event('c', data)
+	        })
+	
+	        e.emit('a', 1)
+	        e.emit('a', 2)
+	
+	        e.emit('b', 3)
+	        e.emit('b', 4)
+	
+	        e.emit('c', 5)
+	        e.emit('c', 6)
+	
+	        e.removeListener('a', acb)
+	        e.emit('a', 7)
+	
+	        e.removeAllListeners('b')
+	        e.emit('b', 8)
+	
+	        e.on('d', acb = function(data) {
+	            event('a', data)
+	        })
+	        e.removeAllListeners()
+	        e.emit('d', 9)
+	    })
+	
+	
+	    this.test('listening on standard browser events', function() {
+	        var EventWhore = proto(Block,function(superclass) {
+	            this.name = 'EventWhore'
+	
+	            this.build = function() {
+	                var button = new Button("Test button");
+	                this.add(button);
+	
+	                var that = this
+	                button.onAny(function() {
+	                    that.emit(this.event, "BOOM")
+	                })
+	            }
+	        })
+	    })
 	
 	    //*/
 	}
@@ -472,12 +756,437 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(31)
+	var proto = __webpack_require__(34);
+	var testUtils = __webpack_require__(17)
+	var EventEmitterB = __webpack_require__(20);
 	
-	var testUtils = __webpack_require__(15)
+	module.exports = function(t) {
+	
+	    this.test("ifon, ifoff", function() {
+	
+	        var EventWhore = proto(EventEmitterB,function(superclass) {
+	            this.name = 'EventWhore'
+	        })
+	
+	        this.test("normal usage", function(t) {
+	            this.count(56)
+	
+	            var e = EventWhore()
+	
+	            var event = testUtils.seq(
+	            // e.on('a', cb1)
+	              function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.on('b', cb2)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.removeListener('b', cb2)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.removeListener('a', cb2)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.once('a', cb3)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.emit('a')
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.on('a', cb1)
+	            // e.on('b', cb1)
+	            // e.on('a', cb2)
+	            // e.on('b', cb2)
+	            // e.on('c', cb1)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'c')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.removeAllListeners('a')
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.removeAllListeners()
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'c')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	            })
+	
+	            e.ifon('a', function() {
+	                event('a', 'on')
+	            })
+	            e.ifoff('a', function() {
+	                event('a', 'off')
+	            })
+	            e.ifon('b', function() {
+	                event('b', 'on')
+	            })
+	            e.ifoff('b', function() {
+	                event('b', 'off')
+	            })
+	
+	            e.ifon(function(eventName) {
+	                event(eventName, 'on', true)
+	            })
+	            e.ifoff(function(eventName) {
+	                event(eventName, 'off', true)
+	            })
+	
+	            var cb1 = function(){}
+	            var cb2 = function(){}
+	            var cb3 = function(){}
+	
+	            e.on('a', cb1)
+	            e.on('b', cb2)
+	            e.on('a', cb2)
+	            e.removeListener('a', cb1)
+	            e.removeListener('b', cb2)
+	            e.removeListener('a', cb2)
+	
+	            e.once('a', cb3)
+	            e.emit('a')
+	
+	            e.on('a', cb1)
+	            e.on('b', cb1)
+	            e.on('a', cb2)
+	            e.on('b', cb2)
+	            e.on('c', cb1)
+	            e.removeAllListeners('a')
+	            e.removeAllListeners()
+	        })
+	
+	        this.test("remove ifon", function(t) {
+	            this.count(26)
+	
+	            var e = EventWhore()
+	
+	            var event = testUtils.seq(
+	            // remove a
+	              function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'b')
+	            },function(eventName) {
+	                t.eq(eventName, 'b2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove bs
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove ifon-all callback
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            })
+	
+	            var a,a2, b,b2, c,c2, all1,all2
+	            e.ifon('a', a = function() {
+	                event('a')
+	            })
+	            e.ifon('a', a2=function() {
+	                event('a2')
+	            })
+	            e.ifon('b', b=function() {
+	                event('b')
+	            })
+	            e.ifon('b', b2=function() {
+	                event('b2')
+	            })
+	            e.ifon('c', c=function() {
+	                event('c')
+	            })
+	            e.ifon('c', c2=function() {
+	                event('c2')
+	            })
+	
+	            e.ifon(all1=function() {
+	                event('all1')
+	            })
+	            e.ifon(all2=function() {
+	                event('all2')
+	            })
+	
+	            t.log('remove a')
+	            e.removeIfon('a', a)
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	
+	            e.removeAllListeners()
+	
+	            t.log('remove bs')
+	            e.removeIfon('b')
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	
+	            e.removeAllListeners()
+	
+	            t.log('remove ifon-all callback')
+	            e.removeIfon(all1)
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	
+	            e.removeAllListeners()
+	
+	            t.log('remove all')
+	            e.removeIfon()
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	        })
+	
+	        this.test("remove ifoff", function(t) {
+	            this.count(26)
+	
+	            var e = EventWhore()
+	
+	            var event = testUtils.seq(
+	            // remove a
+	              function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'b')
+	            },function(eventName) {
+	                t.eq(eventName, 'b2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove bs
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove ifoff-all callback
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            })
+	
+	            var a,a2, b,b2, c,c2, all1, all2
+	            e.ifoff('a', a = function() {
+	                event('a')
+	            })
+	            e.ifoff('a', a2=function() {
+	                event('a2')
+	            })
+	            e.ifoff('b', b=function() {
+	                event('b')
+	            })
+	            e.ifoff('b', b2=function() {
+	                event('b2')
+	            })
+	            e.ifoff('c', c=function() {
+	                event('c')
+	            })
+	            e.ifoff('c', c2=function() {
+	                event('c2')
+	            })
+	
+	            e.ifoff(all1=function() {
+	                event('all1')
+	            })
+	            e.ifoff(all2=function() {
+	                event('all2')
+	            })
+	
+	            var a,b,c
+	
+	            t.log('remove a')
+	            e.removeIfoff('a', a)
+	            e.on('a',a=function(){})
+	            e.on('b',b=function(){})
+	            e.on('c',c=function(){})
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	
+	            e.on('a',a)
+	            e.on('b',b)
+	            e.on('c',c)
+	
+	            t.log('remove bs')
+	            e.removeIfoff('b')
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	
+	            e.on('a',a)
+	            e.on('b',b)
+	            e.on('c',c)
+	
+	            t.log('remove ifoff-all callback')
+	            e.removeIfoff(all1)
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	
+	            e.on('a',a)
+	            e.on('b',b)
+	            e.on('c',c)
+	
+	            t.log('remove all')
+	            e.removeIfoff()
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	        })
+	})
+	};
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(34)
+	
+	var testUtils = __webpack_require__(17)
 	var blocks = __webpack_require__(1)
 	var Block = blocks.Block
-	var domUtils = __webpack_require__(18)
+	var domUtils = __webpack_require__(21)
 	
 	var Style = blocks.Style
 	var Text = blocks.Text
@@ -501,8 +1210,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var C = proto(Block, function(superclass) {
 	            this.name = 'C'
 	
-	            this.init = function() {
-	                superclass.init.call(this)
+	            this.build = function() {
 	                this.style = S
 	
 	                this.domNode.textContent = "hi"
@@ -532,9 +1240,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var C = proto(Block, function(superclass) {
 	            this.name = 'C'
 	
-	            this.init = function() {
-	                superclass.init.call(this)
-	
+	            this.build = function() {
 	                this.style = S
 	
 	                this.add(Text('one'), CheckBox())
@@ -569,9 +1275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var C = proto(Block, function(superclass) {
 	            this.name = 'C'
 	
-	            this.init = function() {
-	                superclass.init.call(this)
-	
+	            this.build = function() {
 	                this.add(Text('test'))
 	                this.style = S
 	            }
@@ -607,9 +1311,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var Parent = proto(Block, function(superclass) {
 	            this.name = 'Parent'
 	
-	            this.init = function() {
-	                superclass.init.call(this)
-	
+	            this.build = function() {
 	                this.add(Text('inParent'))
 	            }
 	        })
@@ -617,9 +1319,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var Grandparent = proto(Block, function(superclass) {
 	            this.name = 'Grandparent'
 	
-	            this.init = function() {
-	                superclass.init.call(this)
-	
+	            this.build = function() {
 	                this.style = S    // setting the style before adding components should also work
 	                this.add(Parent())
 	                this.add(Text('inGrandparent'))
@@ -657,8 +1357,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var C = proto(Block, function(superclass) {
 	            this.name = 'C'
 	
-	            this.init = function() {
-	                superclass.init.call(this)
+	            this.build = function() {
 	                this.style = S
 	            }
 	        })
@@ -678,8 +1377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var C = proto(Block, function(superclass) {
 	            this.name = 'C'
 	
-	            this.init = function(style) {
-	                superclass.init.call(this)
+	            this.build = function(style) {
 	                this.style = style
 	
 	                this.add(Text('testLabel'))
@@ -766,8 +1464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var Parent = proto(Block, function(superclass) {
 	            this.name = 'Parent'
 	
-	            this.init = function() {
-	                superclass.init.call(this)
+	            this.build = function() {
 	                this.style = S2
 	
 	                this.label = Text('inParent')
@@ -779,8 +1476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var Grandparent = proto(Block, function(superclass) {
 	            this.name = 'Grandparent'
 	
-	            this.init = function() {
-	                superclass.init.call(this)
+	            this.build = function() {
 	                this.style = S
 	
 	                this.parentComponent = Parent()
@@ -807,8 +1503,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var C = proto(Block, function(superclass) {
 	            this.name = 'C'
 	
-	            this.init = function() {
-	                superclass.init.call(this)
+	            this.build = function() {
 	                this.style = style
 	                this.add(
 	                    Text('one'),
@@ -896,8 +1591,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var C = proto(Block, function(superclass) {
 	                this.name = 'C'
 	
-	                this.init = function() {
-	                    superclass.init.call(this)
+	                this.build = function() {
 	                    this.style = style
 	
 	                    var container = Container([CheckBox()])
@@ -1102,8 +1796,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var C = proto(Block, function(superclass) {
 	                this.name = 'C'
 	
-	                this.init = function(text, link) {
-	                    superclass.init.call(this, undefined, domUtils.node('a'))
+	                this.build = function(text, link) {
+	                    this.domNode = domUtils.node('a')
+	
 	                    this.attr('href', link)
 	                    this.attr('style', "display:block;")
 	                    this.domNode.textContent = text
@@ -1135,7 +1830,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
 	            testUtils.demo('Manually verify these: component :visited pseudo-class styling', Container([component1, component2, component3]))
 	
-	            component2.focus()
+	            component2.focus = true
 	
 	            this.test('errors', function() {
 	                this.count(1)
@@ -1163,8 +1858,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var C = proto(Block, function(superclass) {
 	                this.name = 'C'
 	
-	                this.init = function() {
-	                    superclass.init.call(this)
+	                this.build = function() {
 	                    this.add(Text("a"))
 	                    this.add(Text("b"))
 	                    this.add(Text("c"))
@@ -1207,8 +1901,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var C = proto(Block, function(superclass) {
 	                this.name = 'C'
 	
-	                this.init = function() {
-	                    superclass.init.call(this)
+	                this.build = function() {
 	                    this.add(Text("a"))
 	                    this.add(Text("b"))
 	                    this.add(Text("c"))
@@ -1363,8 +2056,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var C = proto(Block, function(superclass) {
 	            this.name = 'C'
 	
-	            this.init = function() {
-	                superclass.init.call(this)
+	            this.build = function() {
 	                this.style = S
 	                this.add(inheritsFromText('inParent'))
 	            }
@@ -1472,13 +2164,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var syn = __webpack_require__(19)
-	var testUtils = __webpack_require__(15)
+	var syn = __webpack_require__(16)
+	var testUtils = __webpack_require__(17)
 	
-	var Button = __webpack_require__(20)
+	var Button = __webpack_require__(23)
 	
 	module.exports = function(t) {
 	    t.count(5)
@@ -1501,13 +2193,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var syn = __webpack_require__(19)
-	var testUtils = __webpack_require__(15)
+	var syn = __webpack_require__(16)
+	var testUtils = __webpack_require__(17)
 	
-	var CheckBox = __webpack_require__(22)
+	var CheckBox = __webpack_require__(24)
 	
 	module.exports = function(t) {
 	    t.count(14)
@@ -1556,14 +2248,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var syn = __webpack_require__(19)
-	var testUtils = __webpack_require__(15)
+	var syn = __webpack_require__(16)
+	var testUtils = __webpack_require__(17)
 	
-	var Container = __webpack_require__(21)
-	var Text = __webpack_require__(28)
+	var Container = __webpack_require__(22)
+	var Text = __webpack_require__(30)
 	
 	module.exports = function(t) {
 	    t.count(18)
@@ -1624,16 +2316,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(15)
-	var syn = __webpack_require__(19)
+	var testUtils = __webpack_require__(17)
+	var syn = __webpack_require__(16)
 	
-	var Container = __webpack_require__(21)
-	var Text = __webpack_require__(28)
+	var Container = __webpack_require__(22)
+	var Text = __webpack_require__(30)
 	
-	var MultiSelect = __webpack_require__(24)
+	var MultiSelect = __webpack_require__(26)
 	
 	module.exports = function() {
 	
@@ -2038,16 +2730,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(15)
-	var syn = __webpack_require__(19)
+	var testUtils = __webpack_require__(17)
+	var syn = __webpack_require__(16)
 	
-	var Container = __webpack_require__(21)
-	var Text = __webpack_require__(28)
+	var Container = __webpack_require__(22)
+	var Text = __webpack_require__(30)
 	
-	var Radio = __webpack_require__(23)
+	var Radio = __webpack_require__(25)
 	
 	
 	module.exports = function(t) {
@@ -2321,16 +3013,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(15)
-	var syn = __webpack_require__(19)
+	var testUtils = __webpack_require__(17)
+	var syn = __webpack_require__(16)
 	
-	var Container = __webpack_require__(21)
-	var Text = __webpack_require__(28)
+	var Container = __webpack_require__(22)
+	var Text = __webpack_require__(30)
 	
-	var Select = __webpack_require__(29)
+	var Select = __webpack_require__(31)
 	
 	module.exports = function() {
 	
@@ -2660,14 +3352,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(15)
-	var Container = __webpack_require__(21)
+	var testUtils = __webpack_require__(17)
+	var Container = __webpack_require__(22)
 	
-	var Text = __webpack_require__(28)
-	var Table = __webpack_require__(25)
+	var Text = __webpack_require__(30)
+	var Table = __webpack_require__(27)
 	
 	module.exports = function(t) {
 	
@@ -2897,13 +3589,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(15)
-	var Container = __webpack_require__(21)
+	var testUtils = __webpack_require__(17)
+	var Container = __webpack_require__(22)
 	
-	var Text = __webpack_require__(28);
+	var Text = __webpack_require__(30);
 	
 	module.exports = function() {
 	
@@ -2935,14 +3627,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(15)
-	var Container = __webpack_require__(21)
-	var syn = __webpack_require__(19)
+	var testUtils = __webpack_require__(17)
+	var Container = __webpack_require__(22)
+	var syn = __webpack_require__(16)
 	
-	var TextArea = __webpack_require__(26)
+	var TextArea = __webpack_require__(28)
 	
 	module.exports = function(t) {
 	
@@ -2995,14 +3687,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(15)
-	var Container = __webpack_require__(21)
-	var syn = __webpack_require__(19)
+	var testUtils = __webpack_require__(17)
+	var Container = __webpack_require__(22)
+	var syn = __webpack_require__(16)
 	
-	var TextField = __webpack_require__(27)
+	var TextField = __webpack_require__(29)
 	
 	module.exports = function() {
 	
@@ -3061,17 +3753,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var deadunitInternal = __webpack_require__(30)
-	var Future = __webpack_require__(43)
+	var deadunitInternal = __webpack_require__(32)
+	var Future = __webpack_require__(45)
 	
 	module.exports = deadunitInternal({
-	    deadunitCore: __webpack_require__(40),
+	    deadunitCore: __webpack_require__(42),
 	
 	    environmentSpecificMethods: function() {
 	        var red = 'rgb(200,30,30)'
@@ -3146,10 +3838,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(32)
+	// requires: syn (loaded as a global variable from an html script tag)
+	
+	var Future = __webpack_require__(33)
+	
+	exports.click = wrap(syn.click)
+	exports.type = wrap(syn.type)
+	exports.key = wrap(syn.key)
+	
+	
+	function wrap(fn) {
+	    return function() {
+	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
+	
+	        // for chaining
+	        var target = arguments[0]
+	        resultFuture.click = function() {
+	            exports.click.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.type = function() {
+	            exports.type.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.key = function() {
+	            exports.key.apply(this, [target].concat(arguments))
+	        }
+	
+	        return resultFuture
+	    }
+	}
+	
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(33)
 	
 	// compares arrays and objects for value equality (all elements and members must match)
 	exports.equal = function(a,b) {
@@ -3217,7 +3944,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function() {
 	        n++
 	        if(n>=fns.length)
-	            throw new Error("Unexpected call: "+n)
+	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
 	        // else
 	        fns[n].apply(this,arguments)
 	    }
@@ -3256,17 +3983,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitter = __webpack_require__(39).EventEmitter
-	var proto = __webpack_require__(31);
-	var trimArguments = __webpack_require__(44)
-	var utils = __webpack_require__(33)
-	var domUtils = __webpack_require__(18)
-	var observe = __webpack_require__(45)
+	var EventEmitterB = __webpack_require__(20)
+	var proto = __webpack_require__(34);
+	var trimArguments = __webpack_require__(46)
+	var utils = __webpack_require__(35)
+	var domUtils = __webpack_require__(21)
+	var observe = __webpack_require__(47)
 	
-	var Style = __webpack_require__(17)
+	var Style = __webpack_require__(19)
 	Style.isDev = function() {return module.exports.dev}
 	
 	var components = {};
@@ -3274,30 +4001,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	// events:
 	    // newParent - emits this when a component gets a new parent
 	    // parentRemoved - emits this when a component is detached from its parent
-	var Block = module.exports = proto(EventEmitter,function(superclass) {
+	var Block = module.exports = proto(EventEmitterB,function(superclass) {
 	
 	    // static properties
-	
-		// this should not be static, but breaks if it's made into an instance variable
-	    this.emits = [];
-	
-		
-	    Object.defineProperty(this, 'label', {
-	        get: function() {
-	            return this._label
-	        }, set: function(v) {
-	            if(this._label === undefined) {
-	                this._label = v
-	
-	                if(module.exports.dev) {
-	                    this.attr('label', this.label)
-	                }
-	            } else {
-	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
-	            }
-	        }
-	    })
-	
 	
 	    // constructor
 		this.init = function() {
@@ -3305,11 +4011,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            throw new Error("The 'name' property is required for Blocks")
 	        }
 	
-	        this.children = []
-			this.unbubbledEvents = []
-			this.bubbles = []
-	        this.state = observe({})
+	        superclass.init.call(this)
 	
+	        this.children = []
+	        this.state = observe({})
 	        this.parent = undefined;
 	
 			if (this.id !== undefined) {
@@ -3320,13 +4025,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.domNode = domUtils.div()
 	        }
 	
-	        this.create.apply(this, arguments)
+	        this.build.apply(this, arguments)
 	
 	        if(module.exports.dev) {
 	            this.attr('blockName', this.name)
 	        }
 	
-	        this.domNode.className = Style.defaultClassName
+	        this.domNode.className = Style.defaultClassName+' '+this.domNode.className
 		}
 	
 	    // sub-constructor - called by the constructor
@@ -3335,7 +4040,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                   // Intended to be some string describing what the component is being used for.
 	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
 	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
-	    this.create = function(/*[label,] domNode*/) {
+	    this.build = function(/*[label,] domNode*/) {
 	        if(arguments.length === 1) {
 	            this.domNode = arguments[0]
 	        } else if(arguments.length >= 2) {
@@ -3350,6 +4055,23 @@ return /******/ (function(modules) { // webpackBootstrap
 		
 		this.domNode;
 	    this.label;
+	
+	
+	    Object.defineProperty(this, 'label', {
+	        get: function() {
+	            return this._label
+	        }, set: function(v) {
+	            if(this._label === undefined) {
+	                this._label = v
+	
+	                if(module.exports.dev) {
+	                    this.attr('label', this._label)
+	                }
+	            } else {
+	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
+	            }
+	        }
+	    })
 	
 	    // adds elements to the components main domNode
 	    // arguments can be one of the following:
@@ -3439,26 +4161,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }
 	
-		this.hide = function() {
-			if (this.domNode !== undefined && this.domNode.style.display !== 'none' ) {
-	            this.displayStyle = this.domNode.style.display
-	            this.domNode.style.display = 'none'
-			}
-		}
+	    Object.defineProperty(this, 'visible', {
+	        // returns true if the element is in focus
+	        get: function() {
+	            return this.domNode.style.display !== 'none';
 	
-		this.show = function() {
-			if (this.domNode !== undefined) {
-	            this.domNode.style.display = this.displayStyle
-			}
-		}
+	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
+	        }, set: function(setToVisible) {
+	            if(setToVisible) {
+	                if (this._displayStyle !== undefined) {
+	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
+	                    this._displayStyle = undefined
+	                } else {
+	                    this.domNode.style.display = ''
+	                }
+	            } else {
+	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
+	                    this._displayStyle = this.domNode.style.display
+	                }
 	
-		this.hidden = function() {
-			return this.domNode.style.display === 'none';
-		}
+	                this.domNode.style.display = 'none'
+	            }
+	        }
+	    })
+	
 	
 	    // sets or gets an attribute on the components domNode
 	    // parameter sets:
-	    // if one argument is passed, the attribute's value is returned
+	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
 	    // if there are two arguments passed, the attribute is set
 	        // if 'value' is undefined, the attribute is removed
 	    this.attr = function(/*attribute, value OR attributeObject*/) {
@@ -3469,7 +4199,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
 	                }
 	            } else {
-	                return this.domNode.getAttribute(arguments[0])
+	                var attribute = this.domNode.getAttribute(arguments[0])
+	                if(attribute === null) {
+	                    return undefined // screw null
+	                } else {
+	                    return attribute
+	                }
 	            }
 	        } else {
 	            var attribute = arguments[0]
@@ -3482,13 +4217,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }
 	
-	    this.focus = function() {
-	        this.domNode.focus()
-	    }
-	    this.blur = function() {
-	        this.domNode.blur()
-	    }
+	    Object.defineProperty(this, 'focus', {
+	        // returns true if the element is in focus
+	        get: function() {
+	            return document.activeElement === this.domNode
 	
+	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
+	        }, set: function(setToInFocus) {
+	            if(setToInFocus) {
+	                this.domNode.focus()
+	            } else {
+	                this.domNode.blur()
+	            }
+	        }
+	    })
 	
 	    Object.defineProperty(this, 'style', {
 	        get: function() {
@@ -3521,73 +4263,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    })
 	
-		this.on = function(event,callback) {
-			var foundBubble = this.attachBubbleEvent(event,callback);
-			if (!foundBubble) {
-				superclass.prototype.on.call(this,event,callback);
-				this.unbubbledEvents.push({event:event,callback:callback});
-			}
-		}
+	    Object.defineProperty(this, 'selectionRange', {
+	        // returns the visible character selection range inside the element
+	        // returns an array like [offsetStart, offsetEnd]
+	        get: function() {
+	            return domUtils.getSelectionRange(this.domNode)
 	
-		this.bubble = function(component) {
-			if (!isBlock(component)) {
-				console.log("Cannot bubble events from an object that is not a Block");
-				return;
-			}
-			for (var i=0;i<component.emits.length;i++) {
-				this.emits.push(component.emits[i]);
-			}
-			this.bubbles.push(component);
-			
-			// now run through all our unbubbled events and see if any of them handle this
-			var newUnbubbled = [];
-			for (var i=0;i<this.unbubbledEvents.length;i++) {
-				var success = this.attachBubbleEvent(this.unbubbledEvents[i].event,this.unbubbledEvents[i].callback);
-				if (success !== true) {
-					newUnbubbled.push(this.unbubbledEvents[i]);
-				}
-			}
-			this.unbubbledEvents = newUnbubbled;
-		}
-	
-	    this.bubbleEvents = function(component, events) {
-	        var that = this
-	        events.forEach(function(event) {
-	            component.on(event, function(eventObject) {
-	                that.emit(event, eventObject)
-	            })
-	        })
-	    }
-	
-		this.attachBubbleEvent = function(event,callback) {
-			var foundBubble = false;
-			for (var i=0;i<this.bubbles.length;i++) {
-				if (this.bubbles[i].handlesEvent(event)) {
-					// if the bubbled component does handle this event, then attach the callback handler
-					// note this could mean the callback is attached to multiple components
-					this.bubbles[i].on(event,callback);
-					foundBubble = true;
-				}
-			}
-			return foundBubble;
-		}
-	
-		this.handlesEvent = function(event) {
-			for (var i=0;i<this.emits.length;i++) {
-				if (this.emits[i] === event) {
-					return true;
-				}
-			}
-			return false;
-		}
-	
-	    this.setSelection = function(start, end) {
-	        domUtils.setSelection(this.domNode, start, end)
-	    }
-	    this.getCaretOffset = function() {
-	        return domUtils.getCaretOffset(this.domNode)
-	    }
-	
+	        // sets the visible character selection range
+	        }, set: function(selection) {
+	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
+	        }
+	    })
 	
 		// private instance variables/functions
 	
@@ -3598,7 +4284,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		this.style;              // the object's explicit Style object (undefined if it inherits a style)
 	    this.currentStyle;       // the object's current Style (inherited or explicit)
-	    this.displayStyle='block';       // stores the display style for use when 'show' is called (default is 'block')
+	    this._displayStyle;      // temporariliy stores an inline display style while the element is hidden (for use when 'show' is called)
 	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
 	});
 	
@@ -3755,16 +4441,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return node.nodeName !== undefined
 	}
 
-
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var jss = __webpack_require__(34)
-	var proto = __webpack_require__(31)
-	var HashMap = __webpack_require__(46) // .HashMap // weirdly, it looks like this is being treated like an AMD module
+	var jss = __webpack_require__(36)
+	var proto = __webpack_require__(34)
+	var HashMap = __webpack_require__(48) // .HashMap // weirdly, it looks like this is being treated like an AMD module
 	
-	var utils = __webpack_require__(33)
+	var utils = __webpack_require__(35)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -4166,11 +4851,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    required: {
 	        check: function(component) {
-	            return component.attr('required') !== null
+	            return component.attr('required') !== undefined
 	        },
 	        setup: function(component, startCallback, endCallback) {
 	            var observer = new MutationObserver(function() {
-	                if(component.attr('required') !== null) {
+	                if(component.attr('required') !== undefined) {
 	                    startCallback()
 	                } else {
 	                    endCallback()
@@ -4511,7 +5196,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'text-align': 'left',
 	    'text-indent': '0',
 	    'text-transform': 'none',
-	    'visibility': 'visible',
+	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
 	    'voice-family': '',
 	    'volume': '',
 	    'white-space': 'normal',
@@ -4530,10 +5215,179 @@ return /******/ (function(modules) { // webpackBootstrap
 	var computedStyles = module.exports.computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var EventEmitter = __webpack_require__(41).EventEmitter
+	var proto = __webpack_require__(34);
 	
+	module.exports = proto(EventEmitter, function(superclass) {
+	
+	    this.init = function() {
+	        superclass.apply(this, arguments)
+	
+	        this.ifonHandlers = {}
+	        this.ifoffHandlers = {}
+	        this.ifonAllHandlers = []
+	        this.ifoffAllHandlers = []
+	    }
+	
+	    // callback will be triggered immediately if there is already a listener attached, or
+	    // callback will be triggered when the first listener for the event is added
+	    // (regardless of whether its done through on or once)
+	    // parameters can be:
+	        // event, callback - attach an ifon handler for the passed event
+	        // callback - attach an ifon handler for all events
+	    this.ifon = function(event, callback) {
+	        if(event instanceof Function) {     // event not passed, only a callback
+	            for(var event in this._events) {
+	                if(this._events[event].length > 0) {
+	                    callback()
+	                    break;
+	                }
+	            }
+	        } else if(this.listeners(event).length > 0) {
+	            callback()
+	        }
+	
+	        addHandlerToList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfon() - all ifon handlers (if no arguments are passed), or
+	        // removeIfon(event) - all ifon handlers for the passed event, or
+	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
+	        // removeIfon(event, callback) - the specific passed callback for the passed event
+	    this.removeIfon = function(event, callback) {
+	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
+	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
+	    // parameters can be:
+	        // event, callback - attach an ifoff handler for the passed event
+	        // callback - attach an ifoff handler for all events
+	    this.ifoff = function(event, callback) {
+	        addHandlerToList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfon() - all ifon handlers (if no arguments are passed), or
+	        // removeIfon(event) - all ifon handlers for the passed event, or
+	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
+	        // removeIfon(event, callback) - the specific passed callback for the passed event
+	    this.removeIfoff = function(event, callback) {
+	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    /*override*/ this.on = this.addListener = function(event, callback) {
+	        var triggerIfOn = this.listeners(event).length === 0
+	        superclass.prototype.on.apply(this,arguments)
+	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
+	    }
+	
+	    /*override*/ this.removeListener = function(event, callback) {
+	        var triggerIfOff = this.listeners(event).length === 1
+	        superclass.prototype.removeListener.apply(this,arguments)
+	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
+	    }
+	    /*override*/ this.removeAllListeners = function(event) {
+	        var triggerIfOffForEvents = []
+	        if(event !== undefined) {
+	            if(this.listeners(event).length > 0) {
+	                triggerIfOffForEvents.push(event)
+	            }
+	        } else {
+	            for(var event in this._events) {
+	                if(this.listeners(event).length > 0) {
+	                    triggerIfOffForEvents.push(event)
+	                }
+	            }
+	        }
+	
+	        superclass.prototype.removeAllListeners.apply(this,arguments)
+	
+	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
+	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
+	        }
+	    }
+	
+	})
+	
+	
+	// triggers the if handlers from the normal list and the "all" list
+	function triggerIfHandlers(that, handlerListName, event) {
+	    triggerIfHandlerList(that[handlerListName][event], event)
+	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
+	}
+	
+	
+	// triggers the if handlers from a specific list
+	// ya these names are confusing, sorry : (
+	function triggerIfHandlerList(handlerList, event) {
+	    if(handlerList !== undefined) {
+	        for(var n=0; n<handlerList.length; n++) {
+	            handlerList[n](event)
+	        }
+	    }
+	}
+	
+	function addHandlerToList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        var handlerList = that[handlerListName][event]
+	        if(handlerList === undefined) {
+	            handlerList = that[handlerListName][event] = []
+	        }
+	
+	        handlerList.push(callback)
+	    } else {
+	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
+	    }
+	}
+	
+	function removeFromHandlerList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        removeCallbackFromList(that[handlerListName][event], callback)
+	    } else if(event !== undefined) {
+	        delete that[handlerListName][event]
+	    } else if(callback !== undefined) {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        removeCallbackFromList(that[allHandlerListName], callback)
+	    } else {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        that[handlerListName] = {}
+	        that[allHandlerListName] = []
+	    }
+	}
+	
+	function normalHandlerToAllHandlerProperty(handlerListName) {
+	    if(handlerListName === 'ifonHandlers')
+	        return 'ifonAllHandlers'
+	    if(handlerListName === 'ifoffHandlers')
+	        return 'ifoffAllHandlers'
+	}
+	
+	function removeCallbackFromList(list, callback) {
+	    var index = list.indexOf(callback)
+	    list.splice(index,1)
+	}
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
 	
 	// creates a dom element optionally with a class and attributes
 	 var node = module.exports.node = function(type, className, options) {
@@ -4583,146 +5437,196 @@ return /******/ (function(modules) { // webpackBootstrap
 	// sets the selection
 	//
 	// works for contenteditable elements
-	exports.setSelection = function(node, start, end) {
-	    // memoize
-	    if (window.getSelection && document.createRange) {
-	        exports.setSelection = function(containerEl, start, end) {
-	            var charIndex = 0, range = document.createRange();
-	            range.setStart(containerEl, 0);
-	            range.collapse(true);
-	            var nodeStack = [containerEl], node, foundStart = false, stop = false;
+	exports.setSelectionRange = function(containerEl, start, end) {
 	
-	            while (!stop && (node = nodeStack.pop())) {
-	                if (node.nodeType == 3) {
-	                    var hiddenCharacters = findHiddenCharacters(node, node.length)
-	                    var nextCharIndex = charIndex + node.length - hiddenCharacters;
+	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
+	        containerEl.setSelectionRange(start, end)
+	    } else {
+	        var charIndex = 0, range = document.createRange();
+	        range.setStart(containerEl, 0);
+	        range.collapse(true);
+	        var foundStart = false;
 	
-	                    if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-	                        var nodeIndex = start-charIndex
-	                        var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
-	                        range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
-	                        foundStart = true;
-	                    }
-	                    if (foundStart && end >= charIndex && end <= nextCharIndex) {
-	                        var nodeIndex = end-charIndex
-	                        var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
-	                        range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
-	                        stop = true;
-	                    }
-	                    charIndex = nextCharIndex;
-	                } else {
-	                    var i = node.childNodes.length;
-	                    while (i--) {
-	                        nodeStack.push(node.childNodes[i]);
-	                    }
-	                }
+	        iterateThroughLeafNodes(containerEl, function(node) {
+	            var hiddenCharacters = findHiddenCharacters(node, node.length)
+	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
+	
+	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+	                var nodeIndex = start-charIndex
+	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
+	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
+	                foundStart = true;
 	            }
 	
-	            var sel = window.getSelection();
-	            sel.removeAllRanges();
-	            sel.addRange(range);
-	        }
-	    } else if (document.selection) {
-	        exports.setSelection = function(containerEl, start, end) {
-	            var textRange = document.body.createTextRange();
-	            textRange.moveToElementText(containerEl);
-	            textRange.collapse(true);
-	            textRange.moveEnd("character", end);
-	            textRange.moveStart("character", start);
-	            textRange.select();
-	        };
-	    }
-	
-	    var findHiddenCharacters = function(node, beforeCaretIndex) {
-	        var hiddenCharacters = 0
-	        var lastCharWasWhiteSpace=true
-	        for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
-	            if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
-	                if(lastCharWasWhiteSpace)
-	                    hiddenCharacters++
-	                else
-	                    lastCharWasWhiteSpace = true
-	            } else {
-	                lastCharWasWhiteSpace = false
+	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
+	                var nodeIndex = end-charIndex
+	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
+	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
+	                return true; // stop the iteration - we're done here
 	            }
-	        }
 	
-	        return hiddenCharacters
+	            charIndex = nextCharIndex
+	        })
+	
+	        var sel = window.getSelection();
+	        sel.removeAllRanges();
+	        sel.addRange(range);
 	    }
-	
-	    exports.setSelection(node, start, end)
 	}
 	
 	// gets the character offsets of a selection within a particular dom node
-	exports.getCaretOffset = function (node) {
-	    // memoize
-	    if(typeof window.getSelection != "undefined") {
-	        exports.getCaretOffset = function (element) {
-	            if (window.getSelection().type === "None" || window.getSelection().rangeCount === 0)
-	                return 0;
+	// returns undefined if there is no selection in the element
+	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
+	exports.getSelectionRange = function (element) {
 	
-	            var range = window.getSelection().getRangeAt(0);
-	            var preCaretRange = range.cloneRange();
-	            preCaretRange.selectNodeContents(element);
-	            preCaretRange.setEnd(range.endContainer, range.endOffset);
-	            return preCaretRange.toString().length;
+	    var selection = window.getSelection()
+	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
+	
+	    for(var n=0; n<selection.rangeCount; n++) {
+	        var range = selection.getRangeAt(0)
+	        if(isInputOrArea) {
+	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
+	                return [element.selectionStart, element.selectionEnd]
+	            }
+	        } else {
+	            var startsInElement = element.contains(range.startContainer)
+	            if(startsInElement) {
+	                var elementToIterateThrough = element
+	                var startFound = true
+	            } else {
+	                var elementToIterateThrough = range.commonAncestorContainer
+	                var startFound = false
+	                var startContainerFound = false
+	            }
+	
+	            var visibleCharacterOffset = 0, start, end;
+	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
+	                if(!startFound) {
+	                    if(leaf === range.startContainer) {
+	                        startContainerFound = true
+	                    }
+	
+	                    if(!element.contains(leaf) || !startContainerFound)
+	                        return; // continue
+	                    else if(startContainerFound)
+	                       startFound = true
+	                } else if(!startsInElement && !element.contains(leaf)) {
+	                    return true // done!
+	                }
+	
+	                if(leaf === range.startContainer) {
+	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
+	                }
+	                if(leaf === range.endContainer) {
+	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
+	                    return true // done!
+	                }
+	
+	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
+	            })
+	
+	            if(start === undefined && !startFound) {
+	                return undefined
+	            } else {
+	                if(start === undefined) {
+	                    start = 0 // start is at the beginning
+	                }
+	                if(end === undefined) {
+	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
+	                }
+	
+	                return [start, end]
+	            }
 	        }
-	    } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
-	        exports.getCaretOffset = function (element) {
-	            var textRange = document.selection.createRange();
-	            var preCaretTextRange = document.body.createTextRange();
-	            preCaretTextRange.moveToElementText(element);
-	            preCaretTextRange.setEndPoint("EndToEnd", textRange);
-	            return preCaretTextRange.text.length;
+	    }
+	}
+	
+	
+	// iterate through the leaf nodes inside element
+	// callback(node) - a function called for each leaf node
+	    // returning true from this ends the iteration
+	function iterateThroughLeafNodes(element, callback) {
+	    var nodeStack = [element], node;
+	
+	    while (node = nodeStack.pop()) {
+	        if (node.nodeType == 3) {
+	            if(callback(node) === true)
+	                break;
+	        } else {
+	            var i = node.childNodes.length;
+	            while (i--) {
+	                nodeStack.push(node.childNodes[i]);
+	            }
+	        }
+	    }
+	}
+	
+	function findHiddenCharacters(node, beforeCaretIndex) {
+	    var hiddenCharacters = 0
+	    var lastCharWasWhiteSpace=true
+	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
+	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
+	            if(lastCharWasWhiteSpace)
+	                hiddenCharacters++
+	            else
+	                lastCharWasWhiteSpace = true
+	        } else {
+	            lastCharWasWhiteSpace = false
 	        }
 	    }
 	
-	    return exports.getCaretOffset(node);
+	    return hiddenCharacters
 	}
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// requires: syn (loaded as a global variable from an html script tag)
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
 	
-	var Future = __webpack_require__(32)
-	var testUtils = __webpack_require__(15)
+	module.exports = proto(Block, function(superclass) {
 	
-	exports.click = wrap(syn.click)
-	exports.type = wrap(syn.type)
-	exports.key = wrap(syn.key)
+		// static properties
 	
+	    this.name = 'Container'
 	
 	
-	function wrap(fn) {
-	    return function() {
-	        var resultFuture = testUtils.wrapSingleParameter(fn).apply(this,arguments)
+		// instance properties
 	
-	        // for chaining
-	        var target = arguments[0]
-	        resultFuture.click = function() {
-	            exports.click.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.type = function() {
-	            exports.type.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.key = function() {
-	            exports.key.apply(this, [target].concat(arguments))
+		this.init = function (/*[label,] content*/) {
+	        if(arguments.length === 1) {
+	            var contentArgs = [arguments[0]]
+	        } else if(arguments.length > 1) {
+	            if(typeof(arguments[0]) === 'string') {
+	                var label = arguments[0]
+	                var contentArgs = Array.prototype.slice.call(arguments, 1)
+	            } else {
+	                var contentArgs = arguments
+	            }
 	        }
 	
-	        return resultFuture
-	    }
-	}
+			var that = this
+	        superclass.init.call(this) // superclass constructor
 	
+	        this.label = label
+	
+			if(contentArgs !== undefined)
+	            this.add.apply(this,contentArgs)
+	
+			this.domNode.addEventListener("click",function(data) {
+				that.emit("click",data);
+			})
+		}
+	})
 
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -4768,54 +5672,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Container'
-	
-	
-		// instance properties
-	
-		this.init = function (/*[label,] content*/) {
-	        if(arguments.length === 1) {
-	            var contentArgs = [arguments[0]]
-	        } else if(arguments.length > 1) {
-	            if(typeof(arguments[0]) === 'string') {
-	                var label = arguments[0]
-	                var contentArgs = Array.prototype.slice.call(arguments, 1)
-	            } else {
-	                var contentArgs = arguments
-	            }
-	        }
-	
-			var that = this
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	
-			if(contentArgs !== undefined)
-	            this.add.apply(this,contentArgs)
-	
-			this.domNode.addEventListener("click",function(data) {
-				that.emit("click",data);
-			})
-		}
-	})
-
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
 	
 	module.exports = proto(Block, function(superclass) {
 		// static variables
@@ -4857,13 +5718,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(31)
-	var EventEmitter = __webpack_require__(39).EventEmitter
+	var proto = __webpack_require__(34)
+	var EventEmitter = __webpack_require__(41).EventEmitter
 	
-	var Block = __webpack_require__(16)
+	var Block = __webpack_require__(18)
 	
 	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
 	
@@ -5124,13 +5985,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 24 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
 	
-	var Option = __webpack_require__(35)
+	var Option = __webpack_require__(40)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Block, function(superclass) {
@@ -5277,8 +6138,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            option.domNode.addEventListener("mousedown",function(event) {
 	                event.preventDefault()           // this needs to be here otherwise the options can't be deselected
 	
-	                option.parent.focus() // without this, the parent doesn't gain focus
-	                option.focus()
+	                option.parent.focus = true // without this, the parent doesn't gain focus
+	                option.focus = true
 	                if(event.shiftKey || event.ctrlKey) {
 	                    option.selected = !option.selected // toggle
 	                } else {
@@ -5356,14 +6217,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
-	var Header = __webpack_require__(36);
-	var Row = __webpack_require__(37);
-	var Cell = __webpack_require__(38);
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
+	var Header = __webpack_require__(37);
+	var Row = __webpack_require__(38);
+	var Cell = __webpack_require__(39);
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -5414,11 +6275,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 26 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -5462,13 +6323,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
 	
-	var domUtils = __webpack_require__(18)
+	var domUtils = __webpack_require__(21)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -5531,11 +6392,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 28 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -5590,13 +6451,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
 	
-	var Option = __webpack_require__(35)
+	var Option = __webpack_require__(40)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Block, function(superclass) {
@@ -5747,7 +6608,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5757,10 +6618,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var exports = {}
 	
 	    var deadunitCore = options.deadunitCore
-	    var proto = __webpack_require__(49)
+	    var proto = __webpack_require__(51)
 	
-	    var defaultFormats = __webpack_require__(41)
-	    exports.format = __webpack_require__(42)
+	    var defaultFormats = __webpack_require__(43)
+	    exports.format = __webpack_require__(44)
 	
 	    exports.error = deadunitCore.error
 	
@@ -5787,136 +6648,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    function ProtoObjectFactory() {     // result object factory
-	        var x = new F()                 // empty object
-	
-	        if(prototype[init]) {
-	            var result = prototype[init].apply(x, arguments)    // populate object via the constructor
-	            if(result === proto[protoUndefined])
-	                return undefined
-	            else if(result !== undefined)
-	                return result
-	            else
-	                return x
-	        } else {
-	            return x
-	        }
-	    }
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet (to get thing in like
-	    for(var n in parent) {
-	        if(Object.hasOwnProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                }
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	        var IntermediateInheritor = function() {}
-	            IntermediateInheritor.prototype = ErrorObject.prototype
-	        NormalizedError.prototype = new IntermediateInheritor()
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var trimArgs = __webpack_require__(53)
+	var trimArgs = __webpack_require__(55)
 	
 	
 	module.exports = Future
@@ -6003,6 +6740,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if(object) me = object
 	        fn.apply(me, args)
 	        return future
+	    }
+	}
+	
+	// future wraps a function who's callback only takes one parameter - the return value (no error is available)
+	// eg: function(result) {}
+	Future.wrapSingleParameter = function() {
+	    if(arguments.length === 1) {
+	        var fn = arguments[0]
+	    } else {
+	        var object = arguments[0]
+	        var method = arguments[1]
+	        var fn = object[method]
+	    }
+	
+	    return function() {
+	        var args = Array.prototype.slice.call(arguments)
+			var future = new Future
+			args.push(function(result) {
+			    future.return(result)
+			})
+			var me = this
+	        if(object) me = object
+	        fn.apply(me, args)
+			return future
 	    }
 	}
 	
@@ -6257,12 +7018,136 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 33 */
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    function ProtoObjectFactory() {     // result object factory
+	        var x = new F()                 // empty object
+	
+	        if(prototype[init]) {
+	            var result = prototype[init].apply(x, arguments)    // populate object via the constructor
+	            if(result === proto[protoUndefined])
+	                return undefined
+	            else if(result !== undefined)
+	                return result
+	            else
+	                return x
+	        } else {
+	            return x
+	        }
+	    }
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet (to get thing in like
+	    for(var n in parent) {
+	        if(Object.hasOwnProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                }
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	        var IntermediateInheritor = function() {}
+	            IntermediateInheritor.prototype = ErrorObject.prototype
+	        NormalizedError.prototype = new IntermediateInheritor()
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var path = __webpack_require__(48)
+	var path = __webpack_require__(50)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -6314,7 +7199,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 34 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -6609,13 +7494,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
 
 /***/ },
-/* 35 */
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	var RowlikeGenerator = __webpack_require__(49);
+	
+	module.exports = RowlikeGenerator('th', "Header")
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(49);
+	
+	module.exports = RowlikeGenerator('tr', "Row")
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'TableCell'
+		
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Block) {
+				this.add(contents)
+			} else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	
+		this.colspan = function(cols) {
+			this.attr('colspan',cols);
+		}
+	});
+
+
+/***/ },
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// note: this is  not intended to be used directly - only through Select and MultiSelect
 	
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
 	//var htmlEntities = require('he')
 	
 	// emits a 'change' event when its 'selected' value changes
@@ -6712,66 +7656,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})
 
 /***/ },
-/* 36 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	var RowlikeGenerator = __webpack_require__(47);
-	
-	module.exports = RowlikeGenerator('th', "Header")
-
-/***/ },
-/* 37 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var RowlikeGenerator = __webpack_require__(47);
-	
-	module.exports = RowlikeGenerator('tr', "Row")
-
-/***/ },
-/* 38 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-		this.name = 'TableCell'
-		
-	
-		// instance properties
-	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
-	
-	        if(contents instanceof Block) {
-				this.add(contents)
-			} else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
-		}
-	
-		this.colspan = function(cols) {
-			this.attr('colspan',cols);
-		}
-	});
-
-
-/***/ },
-/* 39 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -7078,27 +7963,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 40 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var deadunitCore = __webpack_require__(50)
-	var browserConfig = __webpack_require__(51)
+	var deadunitCore = __webpack_require__(52)
+	var browserConfig = __webpack_require__(53)
 	
 	module.exports = deadunitCore(browserConfig())
 
 /***/ },
-/* 41 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var util = __webpack_require__(55)
+	var util = __webpack_require__(57)
 	
-	var Future = __webpack_require__(43)
+	var Future = __webpack_require__(45)
 	
-	var formatBasic = __webpack_require__(42)
-	var indent = __webpack_require__(52)
+	var formatBasic = __webpack_require__(44)
+	var indent = __webpack_require__(54)
 	
 	// unitTest is a deadunit-core UnitTest object
 	// if consoleColoring is true, the string will contain console color annotations
@@ -7597,10 +8482,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 42 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(43)
+	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(45)
 	
 	// built in test formatting helper
 	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
@@ -7754,12 +8639,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(56)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(58)))
 
 /***/ },
-/* 43 */
-[91, 59],
-/* 44 */
+/* 45 */
+[93, 61],
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// resolves varargs variable into more usable form
@@ -7780,12 +8665,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 45 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(31)
-	var EventEmitter = __webpack_require__(39).EventEmitter
-	var utils = __webpack_require__(54)
+	var proto = __webpack_require__(34)
+	var EventEmitter = __webpack_require__(41).EventEmitter
+	var utils = __webpack_require__(56)
 	
 	
 	// emits the event:
@@ -8201,7 +9086,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 46 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -8393,12 +9278,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 47 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(16)
-	var proto = __webpack_require__(31)
-	var Cell = __webpack_require__(38);
+	var Block = __webpack_require__(18)
+	var proto = __webpack_require__(34)
+	var Cell = __webpack_require__(39);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -8443,7 +9328,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 48 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -8671,10 +9556,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(56)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(58)))
 
 /***/ },
-/* 49 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8774,21 +9659,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 50 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(48)
-	var Url = __webpack_require__(60)
+	var path = __webpack_require__(50)
+	var Url = __webpack_require__(62)
 	
-	var proto = __webpack_require__(49)
-	var Future = __webpack_require__(62)
-	var SourceMapConsumer = __webpack_require__(64).SourceMapConsumer
+	var proto = __webpack_require__(51)
+	var Future = __webpack_require__(65)
+	var SourceMapConsumer = __webpack_require__(66).SourceMapConsumer
 	
-	var processResults = __webpack_require__(57)
-	var isRelative = __webpack_require__(58)
+	var processResults = __webpack_require__(59)
+	var isRelative = __webpack_require__(60)
 	
 	// returns a module intended for a specific environment (that environment being described by the options)
 	// options can contain:
@@ -9670,22 +10555,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 51 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(48);
+	var path = __webpack_require__(50);
 	
-	var Future = __webpack_require__(62)
-	var proto = __webpack_require__(49)
-	var stackinfo = __webpack_require__(63)
-	var ajax = __webpack_require__(65)
-	var resolveSourceMap = Future.wrap(__webpack_require__(66).resolveSourceMap)
+	var Future = __webpack_require__(65)
+	var proto = __webpack_require__(51)
+	var stackinfo = __webpack_require__(64)
+	var ajax = __webpack_require__(68)
+	var resolveSourceMap = Future.wrap(__webpack_require__(67).resolveSourceMap)
 	
-	var deadunitCore = __webpack_require__(50)
-	var isRelative = __webpack_require__(58)
+	var deadunitCore = __webpack_require__(52)
+	var isRelative = __webpack_require__(60)
 	
 	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
 	
@@ -9835,7 +10720,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})
 
 /***/ },
-/* 52 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -9845,7 +10730,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 53 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// resolves varargs variable into more usable form
@@ -9864,12 +10749,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 54 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var path = __webpack_require__(48)
+	var path = __webpack_require__(50)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -9913,7 +10798,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 55 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -10441,7 +11326,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(61);
+	exports.isBuffer = __webpack_require__(63);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -10485,7 +11370,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(67);
+	exports.inherits = __webpack_require__(69);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -10503,10 +11388,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(56)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(58)))
 
 /***/ },
-/* 56 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// shim for using process in browser
@@ -10598,7 +11483,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 57 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function returnResults(unitTestObject) {
@@ -10732,10 +11617,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 58 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var path = __webpack_require__(48)
+	var path = __webpack_require__(50)
 	
 	module.exports = function isRelative(p) {
 	    var normal = path.normalize(p)
@@ -10744,9 +11629,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 59 */
-53,
-/* 60 */
+/* 61 */
+55,
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -10770,7 +11655,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var punycode = __webpack_require__(73);
+	var punycode = __webpack_require__(75);
 	
 	exports.parse = urlParse;
 	exports.resolve = urlResolve;
@@ -10842,7 +11727,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'gopher:': true,
 	      'file:': true
 	    },
-	    querystring = __webpack_require__(74);
+	    querystring = __webpack_require__(76);
 	
 	function urlParse(url, parseQueryString, slashesDenoteHost) {
 	  if (url && isObject(url) && url instanceof Url) return url;
@@ -11459,7 +12344,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 61 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function isBuffer(arg) {
@@ -11470,12 +12355,88 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 62 */
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var printStackTrace = __webpack_require__(78)
+	var parsers = __webpack_require__(70)
+	var mode = __webpack_require__(71)
+	
+	module.exports = function(ex) {
+	    if(parsers[mode] === undefined)
+	        throw new Error("browser "+mode+" not supported")
+	
+	    var options = undefined
+	    if(ex !== undefined) {
+	        if(mode === 'ie' && ex.number === undefined)
+	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
+	        options = {e:ex, guess: true}
+	    }
+	    var trace = printStackTrace(options)
+	
+	    if(ex === undefined) {
+	        trace.splice(0,4) // strip stacktrace-js internals
+	    }
+	
+	    return parseStacktrace(trace)
+	}
+	
+	function TraceInfo(traceline) {
+	    this.traceline = traceline
+	}
+	TraceInfo.prototype = {
+	    get file() {
+	        return getInfo(this).file
+	    },
+	    get function() {
+	        return getInfo(this).function
+	    },
+	    get line() {
+	        return getInfo(this).line
+	    },
+	    get column() {
+	        return getInfo(this).column
+	    },
+	    get info() {
+	        return getInfo(this)
+	    }
+	}
+	
+	function getInfo(traceInfo) {
+	    if(traceInfo.cache === undefined) {
+	        var info = parsers[mode](traceInfo.traceline)
+	        if(info.line !== undefined)
+	            info.line = parseInt(info.line)
+	        if(info.column !== undefined)
+	            info.column = parseInt(info.column)
+	
+	        traceInfo.cache = info
+	    }
+	
+	    return traceInfo.cache
+	}
+	
+	function parseStacktrace(trace) {
+	    var results = []
+	    for(var n = 0; n<trace.length; n++) {
+	        results.push(new TraceInfo(trace[n]))
+	    }
+	    return results
+	}
+	
+	// here because i'm lazy, they're here for testing only
+	module.exports.parsers = parsers
+	module.exports.mode = mode
+	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
+
+
+/***/ },
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var trimArgs = __webpack_require__(76)
+	var trimArgs = __webpack_require__(82)
 	
 	
 	module.exports = Future
@@ -11789,83 +12750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 63 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var printStackTrace = __webpack_require__(77)
-	var parsers = __webpack_require__(68)
-	var mode = __webpack_require__(69)
-	
-	module.exports = function(ex) {
-	    if(parsers[mode] === undefined)
-	        throw new Error("browser "+mode+" not supported")
-	
-	    var options = undefined
-	    if(ex !== undefined) {
-	        if(mode === 'ie' && ex.number === undefined)
-	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
-	        options = {e:ex, guess: true}
-	    }
-	    var trace = printStackTrace(options)
-	
-	    if(ex === undefined) {
-	        trace.splice(0,4) // strip stacktrace-js internals
-	    }
-	
-	    return parseStacktrace(trace)
-	}
-	
-	function TraceInfo(traceline) {
-	    this.traceline = traceline
-	}
-	TraceInfo.prototype = {
-	    get file() {
-	        return getInfo(this).file
-	    },
-	    get function() {
-	        return getInfo(this).function
-	    },
-	    get line() {
-	        return getInfo(this).line
-	    },
-	    get column() {
-	        return getInfo(this).column
-	    },
-	    get info() {
-	        return getInfo(this)
-	    }
-	}
-	
-	function getInfo(traceInfo) {
-	    if(traceInfo.cache === undefined) {
-	        var info = parsers[mode](traceInfo.traceline)
-	        if(info.line !== undefined)
-	            info.line = parseInt(info.line)
-	        if(info.column !== undefined)
-	            info.column = parseInt(info.column)
-	
-	        traceInfo.cache = info
-	    }
-	
-	    return traceInfo.cache
-	}
-	
-	function parseStacktrace(trace) {
-	    var results = []
-	    for(var n = 0; n<trace.length; n++) {
-	        results.push(new TraceInfo(trace[n]))
-	    }
-	    return results
-	}
-	
-	// here because i'm lazy, they're here for testing only
-	module.exports.parsers = parsers
-	module.exports.mode = mode
-	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
-
-
-/***/ },
-/* 64 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -11873,127 +12758,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Licensed under the New BSD license. See LICENSE.txt or:
 	 * http://opensource.org/licenses/BSD-3-Clause
 	 */
-	exports.SourceMapGenerator = __webpack_require__(70).SourceMapGenerator;
-	exports.SourceMapConsumer = __webpack_require__(71).SourceMapConsumer;
-	exports.SourceNode = __webpack_require__(72).SourceNode;
+	exports.SourceMapGenerator = __webpack_require__(72).SourceMapGenerator;
+	exports.SourceMapConsumer = __webpack_require__(73).SourceMapConsumer;
+	exports.SourceNode = __webpack_require__(74).SourceNode;
 
 
 /***/ },
-/* 65 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Future = __webpack_require__(82)
-	
-	// returns the XHR function or equivalent for use with ajax
-	// memoizes the function for faster repeated use
-	var createXMLHTTPObject = function() {
-	    var versions = ["Msxml2.XMLHTTP",
-	                    "Msxml3.XMLHTTP",
-	                    "Microsoft.XMLHTTP",
-	                    "MSXML2.XmlHttp.6.0",
-	                    "MSXML2.XmlHttp.5.0",
-	                    "MSXML2.XmlHttp.4.0",
-	                    "MSXML2.XmlHttp.3.0",
-	                    "MSXML2.XmlHttp.2.0"
-	    ]
-	
-	    if(XMLHttpRequest !== undefined) {  // For non-IE browsers
-	        createXMLHTTPObject = function() {  // Use memoization to cache the factory
-	            return new XMLHttpRequest()
-	        }
-	        return createXMLHTTPObject()
-	
-	    } else { // IE
-	        for(var i=0, n=versions.length; i<n; i++) {
-	            try {
-	                var version = versions[i]
-	                var fn = function() {
-	                    return new ActiveXObject(version)
-	                }
-	                createXMLHTTPObject = fn   // Use memoization to cache the factory
-	                return createXMLHTTPObject()
-	
-	            } catch(e) {   }
-	        }
-	    }
-	
-	    throw new Error('Cant get XmlHttpRequest object')
-	}
-	
-	
-	
-	var HEADER = "([^\\s]+): (.*)"
-	
-	// returns the contents and headers from a given URL
-	exports = module.exports = function(url) {
-	    if(getFromCache(url))
-	        return getFromCache(url)
-	
-	    var futureResult = new Future
-	    setOnCache(url, futureResult)
-	
-	    var req = createXMLHTTPObject()
-	    req.onreadystatechange = function() {
-	        if( req.readyState === 4 ) {
-	            if( req.status === 200 ) {
-	                var headers = {}
-	                req.getAllResponseHeaders().split('\n').forEach(function(line) {
-	                    var match = line.match(HEADER)
-	                    if(match !== null) {
-	                        var name = match[1]
-	                        var value = match[2]
-	
-	                        headers[name] = value
-	                    }
-	                })
-	
-	                futureResult.return({text: req.responseText, headers: headers})
-	
-	            } else {
-	                var error = new Error('Error in request: Status '+req.status)
-	                error.status = req.status
-	                futureResult.throw(error)
-	            }
-	        }
-	    }
-	
-	    req.onerror = function(e) {
-	        futureResult.throw(e)
-	    }
-	
-	
-	    req.open('GET', url, asynchronous)
-	    try {
-	        req.send()
-	    } catch(e) {
-	        futureResult.throw(e)
-	    }
-	
-	    return futureResult
-	}
-	
-	var cache = {}
-	var getFromCache = function(url) {
-	    return cache[url]
-	}
-	var setOnCache = function(url, futureResponse) {
-	    cache[url] = futureResponse
-	}
-	
-	var asynchronous = true
-	exports.setSynchronous = function(synchronous) { // this is here so I can work around this bug in chrome: https://code.google.com/p/chromium/issues/detail?id=368444
-	    asynchronous = !synchronous
-	}
-	
-	exports.cacheGet = function(fn) {
-	    getFromCache = fn
-	}
-	exports.cacheSet = function(fn) {
-	    setOnCache = fn
-	}
-
-/***/ },
-/* 66 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(setImmediate) {// Copyright 2014 Simon Lydell
@@ -12233,10 +13004,124 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(75).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(77).setImmediate))
 
 /***/ },
-/* 67 */
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(84)
+	
+	// returns the XHR function or equivalent for use with ajax
+	// memoizes the function for faster repeated use
+	var createXMLHTTPObject = function() {
+	    var versions = ["Msxml2.XMLHTTP",
+	                    "Msxml3.XMLHTTP",
+	                    "Microsoft.XMLHTTP",
+	                    "MSXML2.XmlHttp.6.0",
+	                    "MSXML2.XmlHttp.5.0",
+	                    "MSXML2.XmlHttp.4.0",
+	                    "MSXML2.XmlHttp.3.0",
+	                    "MSXML2.XmlHttp.2.0"
+	    ]
+	
+	    if(XMLHttpRequest !== undefined) {  // For non-IE browsers
+	        createXMLHTTPObject = function() {  // Use memoization to cache the factory
+	            return new XMLHttpRequest()
+	        }
+	        return createXMLHTTPObject()
+	
+	    } else { // IE
+	        for(var i=0, n=versions.length; i<n; i++) {
+	            try {
+	                var version = versions[i]
+	                var fn = function() {
+	                    return new ActiveXObject(version)
+	                }
+	                createXMLHTTPObject = fn   // Use memoization to cache the factory
+	                return createXMLHTTPObject()
+	
+	            } catch(e) {   }
+	        }
+	    }
+	
+	    throw new Error('Cant get XmlHttpRequest object')
+	}
+	
+	
+	
+	var HEADER = "([^\\s]+): (.*)"
+	
+	// returns the contents and headers from a given URL
+	exports = module.exports = function(url) {
+	    if(getFromCache(url))
+	        return getFromCache(url)
+	
+	    var futureResult = new Future
+	    setOnCache(url, futureResult)
+	
+	    var req = createXMLHTTPObject()
+	    req.onreadystatechange = function() {
+	        if( req.readyState === 4 ) {
+	            if( req.status === 200 ) {
+	                var headers = {}
+	                req.getAllResponseHeaders().split('\n').forEach(function(line) {
+	                    var match = line.match(HEADER)
+	                    if(match !== null) {
+	                        var name = match[1]
+	                        var value = match[2]
+	
+	                        headers[name] = value
+	                    }
+	                })
+	
+	                futureResult.return({text: req.responseText, headers: headers})
+	
+	            } else {
+	                var error = new Error('Error in request: Status '+req.status)
+	                error.status = req.status
+	                futureResult.throw(error)
+	            }
+	        }
+	    }
+	
+	    req.onerror = function(e) {
+	        futureResult.throw(e)
+	    }
+	
+	
+	    req.open('GET', url, asynchronous)
+	    try {
+	        req.send()
+	    } catch(e) {
+	        futureResult.throw(e)
+	    }
+	
+	    return futureResult
+	}
+	
+	var cache = {}
+	var getFromCache = function(url) {
+	    return cache[url]
+	}
+	var setOnCache = function(url, futureResponse) {
+	    cache[url] = futureResponse
+	}
+	
+	var asynchronous = true
+	exports.setSynchronous = function(synchronous) { // this is here so I can work around this bug in chrome: https://code.google.com/p/chromium/issues/detail?id=368444
+	    asynchronous = !synchronous
+	}
+	
+	exports.cacheGet = function(fn) {
+	    getFromCache = fn
+	}
+	exports.cacheSet = function(fn) {
+	    setOnCache = fn
+	}
+
+/***/ },
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	if (typeof Object.create === 'function') {
@@ -12265,7 +13150,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 68 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -12367,7 +13252,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
 
 /***/ },
-/* 69 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -12422,7 +13307,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 70 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -12436,9 +13321,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var base64VLQ = __webpack_require__(78);
+	  var base64VLQ = __webpack_require__(80);
 	  var util = __webpack_require__(79);
-	  var ArraySet = __webpack_require__(80).ArraySet;
+	  var ArraySet = __webpack_require__(81).ArraySet;
 	
 	  /**
 	   * An instance of the SourceMapGenerator represents a source map which is
@@ -12825,7 +13710,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 71 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -12840,9 +13725,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
 	  var util = __webpack_require__(79);
-	  var binarySearch = __webpack_require__(81);
-	  var ArraySet = __webpack_require__(80).ArraySet;
-	  var base64VLQ = __webpack_require__(78);
+	  var binarySearch = __webpack_require__(83);
+	  var ArraySet = __webpack_require__(81).ArraySet;
+	  var base64VLQ = __webpack_require__(80);
 	
 	  /**
 	   * A SourceMapConsumer instance represents a parsed source map which we can
@@ -13309,7 +14194,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 72 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -13323,7 +14208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var SourceMapGenerator = __webpack_require__(70).SourceMapGenerator;
+	  var SourceMapGenerator = __webpack_require__(72).SourceMapGenerator;
 	  var util = __webpack_require__(79);
 	
 	  /**
@@ -13702,7 +14587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 73 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -14234,23 +15119,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(87)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)(module), (function() { return this; }())))
 
 /***/ },
-/* 74 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	exports.decode = exports.parse = __webpack_require__(83);
-	exports.encode = exports.stringify = __webpack_require__(84);
+	exports.decode = exports.parse = __webpack_require__(87);
+	exports.encode = exports.stringify = __webpack_require__(88);
 
 
 /***/ },
-/* 75 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(89).nextTick;
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(91).nextTick;
 	var slice = Array.prototype.slice;
 	var immediateIds = {};
 	var nextImmediateId = 0;
@@ -14304,12 +15189,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(75).setImmediate, __webpack_require__(75).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(77).setImmediate, __webpack_require__(77).clearImmediate))
 
 /***/ },
-/* 76 */
-53,
-/* 77 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Domain Public by Eric Wendelin http://eriwen.com/ (2008)
@@ -14776,156 +15659,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}));
 
 /***/ },
-/* 78 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 *
-	 * Based on the Base 64 VLQ implementation in Closure Compiler:
-	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
-	 *
-	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
-	 * Redistribution and use in source and binary forms, with or without
-	 * modification, are permitted provided that the following conditions are
-	 * met:
-	 *
-	 *  * Redistributions of source code must retain the above copyright
-	 *    notice, this list of conditions and the following disclaimer.
-	 *  * Redistributions in binary form must reproduce the above
-	 *    copyright notice, this list of conditions and the following
-	 *    disclaimer in the documentation and/or other materials provided
-	 *    with the distribution.
-	 *  * Neither the name of Google Inc. nor the names of its
-	 *    contributors may be used to endorse or promote products derived
-	 *    from this software without specific prior written permission.
-	 *
-	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var base64 = __webpack_require__(88);
-	
-	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
-	  // length quantities we use in the source map spec, the first bit is the sign,
-	  // the next four bits are the actual value, and the 6th bit is the
-	  // continuation bit. The continuation bit tells us whether there are more
-	  // digits in this value following this digit.
-	  //
-	  //   Continuation
-	  //   |    Sign
-	  //   |    |
-	  //   V    V
-	  //   101011
-	
-	  var VLQ_BASE_SHIFT = 5;
-	
-	  // binary: 100000
-	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
-	
-	  // binary: 011111
-	  var VLQ_BASE_MASK = VLQ_BASE - 1;
-	
-	  // binary: 100000
-	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
-	
-	  /**
-	   * Converts from a two-complement value to a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
-	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
-	   */
-	  function toVLQSigned(aValue) {
-	    return aValue < 0
-	      ? ((-aValue) << 1) + 1
-	      : (aValue << 1) + 0;
-	  }
-	
-	  /**
-	   * Converts to a two-complement value from a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
-	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
-	   */
-	  function fromVLQSigned(aValue) {
-	    var isNegative = (aValue & 1) === 1;
-	    var shifted = aValue >> 1;
-	    return isNegative
-	      ? -shifted
-	      : shifted;
-	  }
-	
-	  /**
-	   * Returns the base 64 VLQ encoded value.
-	   */
-	  exports.encode = function base64VLQ_encode(aValue) {
-	    var encoded = "";
-	    var digit;
-	
-	    var vlq = toVLQSigned(aValue);
-	
-	    do {
-	      digit = vlq & VLQ_BASE_MASK;
-	      vlq >>>= VLQ_BASE_SHIFT;
-	      if (vlq > 0) {
-	        // There are still more digits in this value, so we must make sure the
-	        // continuation bit is marked.
-	        digit |= VLQ_CONTINUATION_BIT;
-	      }
-	      encoded += base64.encode(digit);
-	    } while (vlq > 0);
-	
-	    return encoded;
-	  };
-	
-	  /**
-	   * Decodes the next base 64 VLQ value from the given string and returns the
-	   * value and the rest of the string.
-	   */
-	  exports.decode = function base64VLQ_decode(aStr) {
-	    var i = 0;
-	    var strLen = aStr.length;
-	    var result = 0;
-	    var shift = 0;
-	    var continuation, digit;
-	
-	    do {
-	      if (i >= strLen) {
-	        throw new Error("Expected more digits in base 64 VLQ value.");
-	      }
-	      digit = base64.decode(aStr.charAt(i++));
-	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
-	      digit &= VLQ_BASE_MASK;
-	      result = result + (digit << shift);
-	      shift += VLQ_BASE_SHIFT;
-	    } while (continuation);
-	
-	    return {
-	      value: fromVLQSigned(result),
-	      rest: aStr.slice(i)
-	    };
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
 /* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -15242,6 +15975,156 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Copyright 2011 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
 	 * http://opensource.org/licenses/BSD-3-Clause
+	 *
+	 * Based on the Base 64 VLQ implementation in Closure Compiler:
+	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
+	 *
+	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
+	 * Redistribution and use in source and binary forms, with or without
+	 * modification, are permitted provided that the following conditions are
+	 * met:
+	 *
+	 *  * Redistributions of source code must retain the above copyright
+	 *    notice, this list of conditions and the following disclaimer.
+	 *  * Redistributions in binary form must reproduce the above
+	 *    copyright notice, this list of conditions and the following
+	 *    disclaimer in the documentation and/or other materials provided
+	 *    with the distribution.
+	 *  * Neither the name of Google Inc. nor the names of its
+	 *    contributors may be used to endorse or promote products derived
+	 *    from this software without specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var base64 = __webpack_require__(90);
+	
+	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
+	  // length quantities we use in the source map spec, the first bit is the sign,
+	  // the next four bits are the actual value, and the 6th bit is the
+	  // continuation bit. The continuation bit tells us whether there are more
+	  // digits in this value following this digit.
+	  //
+	  //   Continuation
+	  //   |    Sign
+	  //   |    |
+	  //   V    V
+	  //   101011
+	
+	  var VLQ_BASE_SHIFT = 5;
+	
+	  // binary: 100000
+	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
+	
+	  // binary: 011111
+	  var VLQ_BASE_MASK = VLQ_BASE - 1;
+	
+	  // binary: 100000
+	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
+	
+	  /**
+	   * Converts from a two-complement value to a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
+	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
+	   */
+	  function toVLQSigned(aValue) {
+	    return aValue < 0
+	      ? ((-aValue) << 1) + 1
+	      : (aValue << 1) + 0;
+	  }
+	
+	  /**
+	   * Converts to a two-complement value from a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
+	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
+	   */
+	  function fromVLQSigned(aValue) {
+	    var isNegative = (aValue & 1) === 1;
+	    var shifted = aValue >> 1;
+	    return isNegative
+	      ? -shifted
+	      : shifted;
+	  }
+	
+	  /**
+	   * Returns the base 64 VLQ encoded value.
+	   */
+	  exports.encode = function base64VLQ_encode(aValue) {
+	    var encoded = "";
+	    var digit;
+	
+	    var vlq = toVLQSigned(aValue);
+	
+	    do {
+	      digit = vlq & VLQ_BASE_MASK;
+	      vlq >>>= VLQ_BASE_SHIFT;
+	      if (vlq > 0) {
+	        // There are still more digits in this value, so we must make sure the
+	        // continuation bit is marked.
+	        digit |= VLQ_CONTINUATION_BIT;
+	      }
+	      encoded += base64.encode(digit);
+	    } while (vlq > 0);
+	
+	    return encoded;
+	  };
+	
+	  /**
+	   * Decodes the next base 64 VLQ value from the given string and returns the
+	   * value and the rest of the string.
+	   */
+	  exports.decode = function base64VLQ_decode(aStr) {
+	    var i = 0;
+	    var strLen = aStr.length;
+	    var result = 0;
+	    var shift = 0;
+	    var continuation, digit;
+	
+	    do {
+	      if (i >= strLen) {
+	        throw new Error("Expected more digits in base 64 VLQ value.");
+	      }
+	      digit = base64.decode(aStr.charAt(i++));
+	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
+	      digit &= VLQ_BASE_MASK;
+	      result = result + (digit << shift);
+	      shift += VLQ_BASE_SHIFT;
+	    } while (continuation);
+	
+	    return {
+	      value: fromVLQSigned(result),
+	      rest: aStr.slice(i)
+	    };
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 81 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
 	 */
 	if (false) {
 	    var define = require('amdefine')(module, require);
@@ -15337,7 +16220,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 81 */
+/* 82 */
+55,
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -15424,189 +16309,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 82 */
-[91, 90],
-/* 83 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	'use strict';
-	
-	// If obj.hasOwnProperty has been overridden, then calling
-	// obj.hasOwnProperty(prop) will break.
-	// See: https://github.com/joyent/node/issues/1707
-	function hasOwnProperty(obj, prop) {
-	  return Object.prototype.hasOwnProperty.call(obj, prop);
-	}
-	
-	module.exports = function(qs, sep, eq, options) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  var obj = {};
-	
-	  if (typeof qs !== 'string' || qs.length === 0) {
-	    return obj;
-	  }
-	
-	  var regexp = /\+/g;
-	  qs = qs.split(sep);
-	
-	  var maxKeys = 1000;
-	  if (options && typeof options.maxKeys === 'number') {
-	    maxKeys = options.maxKeys;
-	  }
-	
-	  var len = qs.length;
-	  // maxKeys <= 0 means that we should not limit keys count
-	  if (maxKeys > 0 && len > maxKeys) {
-	    len = maxKeys;
-	  }
-	
-	  for (var i = 0; i < len; ++i) {
-	    var x = qs[i].replace(regexp, '%20'),
-	        idx = x.indexOf(eq),
-	        kstr, vstr, k, v;
-	
-	    if (idx >= 0) {
-	      kstr = x.substr(0, idx);
-	      vstr = x.substr(idx + 1);
-	    } else {
-	      kstr = x;
-	      vstr = '';
-	    }
-	
-	    k = decodeURIComponent(kstr);
-	    v = decodeURIComponent(vstr);
-	
-	    if (!hasOwnProperty(obj, k)) {
-	      obj[k] = v;
-	    } else if (isArray(obj[k])) {
-	      obj[k].push(v);
-	    } else {
-	      obj[k] = [obj[k], v];
-	    }
-	  }
-	
-	  return obj;
-	};
-	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
-
-
-/***/ },
 /* 84 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	'use strict';
-	
-	var stringifyPrimitive = function(v) {
-	  switch (typeof v) {
-	    case 'string':
-	      return v;
-	
-	    case 'boolean':
-	      return v ? 'true' : 'false';
-	
-	    case 'number':
-	      return isFinite(v) ? v : '';
-	
-	    default:
-	      return '';
-	  }
-	};
-	
-	module.exports = function(obj, sep, eq, name) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  if (obj === null) {
-	    obj = undefined;
-	  }
-	
-	  if (typeof obj === 'object') {
-	    return map(objectKeys(obj), function(k) {
-	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-	      if (isArray(obj[k])) {
-	        return map(obj[k], function(v) {
-	          return ks + encodeURIComponent(stringifyPrimitive(v));
-	        }).join(sep);
-	      } else {
-	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-	      }
-	    }).join(sep);
-	
-	  }
-	
-	  if (!name) return '';
-	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-	         encodeURIComponent(stringifyPrimitive(obj));
-	};
-	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
-	
-	function map (xs, f) {
-	  if (xs.map) return xs.map(f);
-	  var res = [];
-	  for (var i = 0; i < xs.length; i++) {
-	    res.push(f(xs[i], i));
-	  }
-	  return res;
-	}
-	
-	var objectKeys = Object.keys || function (obj) {
-	  var res = [];
-	  for (var key in obj) {
-	    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-	  }
-	  return res;
-	};
-
-
-/***/ },
+[93, 92],
 /* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -15747,6 +16451,187 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	// If obj.hasOwnProperty has been overridden, then calling
+	// obj.hasOwnProperty(prop) will break.
+	// See: https://github.com/joyent/node/issues/1707
+	function hasOwnProperty(obj, prop) {
+	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	}
+	
+	module.exports = function(qs, sep, eq, options) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  var obj = {};
+	
+	  if (typeof qs !== 'string' || qs.length === 0) {
+	    return obj;
+	  }
+	
+	  var regexp = /\+/g;
+	  qs = qs.split(sep);
+	
+	  var maxKeys = 1000;
+	  if (options && typeof options.maxKeys === 'number') {
+	    maxKeys = options.maxKeys;
+	  }
+	
+	  var len = qs.length;
+	  // maxKeys <= 0 means that we should not limit keys count
+	  if (maxKeys > 0 && len > maxKeys) {
+	    len = maxKeys;
+	  }
+	
+	  for (var i = 0; i < len; ++i) {
+	    var x = qs[i].replace(regexp, '%20'),
+	        idx = x.indexOf(eq),
+	        kstr, vstr, k, v;
+	
+	    if (idx >= 0) {
+	      kstr = x.substr(0, idx);
+	      vstr = x.substr(idx + 1);
+	    } else {
+	      kstr = x;
+	      vstr = '';
+	    }
+	
+	    k = decodeURIComponent(kstr);
+	    v = decodeURIComponent(vstr);
+	
+	    if (!hasOwnProperty(obj, k)) {
+	      obj[k] = v;
+	    } else if (isArray(obj[k])) {
+	      obj[k].push(v);
+	    } else {
+	      obj[k] = [obj[k], v];
+	    }
+	  }
+	
+	  return obj;
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+
+
+/***/ },
+/* 88 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	var stringifyPrimitive = function(v) {
+	  switch (typeof v) {
+	    case 'string':
+	      return v;
+	
+	    case 'boolean':
+	      return v ? 'true' : 'false';
+	
+	    case 'number':
+	      return isFinite(v) ? v : '';
+	
+	    default:
+	      return '';
+	  }
+	};
+	
+	module.exports = function(obj, sep, eq, name) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  if (obj === null) {
+	    obj = undefined;
+	  }
+	
+	  if (typeof obj === 'object') {
+	    return map(objectKeys(obj), function(k) {
+	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+	      if (isArray(obj[k])) {
+	        return map(obj[k], function(v) {
+	          return ks + encodeURIComponent(stringifyPrimitive(v));
+	        }).join(sep);
+	      } else {
+	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+	      }
+	    }).join(sep);
+	
+	  }
+	
+	  if (!name) return '';
+	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+	         encodeURIComponent(stringifyPrimitive(obj));
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+	
+	function map (xs, f) {
+	  if (xs.map) return xs.map(f);
+	  var res = [];
+	  for (var i = 0; i < xs.length; i++) {
+	    res.push(f(xs[i], i));
+	  }
+	  return res;
+	}
+	
+	var objectKeys = Object.keys || function (obj) {
+	  var res = [];
+	  for (var key in obj) {
+	    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+	  }
+	  return res;
+	};
+
+
+/***/ },
+/* 89 */
+/***/ function(module, exports, __webpack_require__) {
+
 	module.exports = function(module) {
 		if(!module.webpackPolyfill) {
 			module.deprecate = function() {};
@@ -15760,7 +16645,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 88 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -15808,7 +16693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 89 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// shim for using process in browser
@@ -15871,9 +16756,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 90 */
-53,
-/* 91 */
+/* 92 */
+55,
+/* 93 */
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/

@@ -1,7 +1,8 @@
 var proto = require('proto')
 var Future = require("async-future")
 
-var testUtils = require('./testUtils')
+var syn = require("fsyn")
+var testUtils = require('testUtils')
 var blocks = require("../blocks")
 var Block = blocks.Block
 
@@ -12,18 +13,25 @@ var Button = blocks.Button
 
 module.exports = function(t) {
 
+    // basic test block
+    var TestThinger = proto(Block,function(superclass) {
+        this.name = 'TestThinger'
+    })
+
+
 
     //*
-    //this.count(3);
 
 	this.test('testEvent',function(t) {
         this.count(2);
+
 		var obj = new Button("some text");
-		obj.on("click",function(data) {
+		obj.on("flick",function(data) {
 			t.ok(true);
 			t.ok(data.obj === "blah");
 		});
-		obj.emit("click",{obj:"blah"});
+
+		obj.emit("flick",{obj:"blah"});
 	});
 
     this.test('add, addAt, addBefore', function() {
@@ -226,46 +234,321 @@ module.exports = function(t) {
 			
 		})
     })
-	
-	this.test('testBubbledEvent',function(t) {
-		this.count(2);
 
-        var Button = require('Components/Button');
+    this.test('attr', function() {
+        var thinger = TestThinger()
+        thinger.attr("moose", '5')
+        this.eq(thinger.domNode.getAttribute("moose"), '5')
+        this.eq(thinger.attr('moose'), '5')
 
-        var BubbleTester = proto(Block,function(superclass) {
-            this.name = 'BubbleTester'
+        thinger.attr("moose", 'ha ha ha \'\"haaaaaaa <moose></moose>')
+        this.eq(thinger.domNode.getAttribute("moose"), 'ha ha ha \'\"haaaaaaa <moose></moose>')
+        this.eq(thinger.attr('moose'), 'ha ha ha \'\"haaaaaaa <moose></moose>')
 
-            this.init = function() {
-                superclass.init.call(this) // superclass constructor
-                var that = this
+        thinger.attr('moose', undefined)
+        this.eq(thinger.domNode.getAttribute("moose"), null)
+        this.eq(thinger.attr('moose'), undefined)
+    })
 
-                var button = new Button("Test button");
-                this.button = button;
-                this.add(button);
-            }
-			
-			this.setBubble = function() {
-                this.bubble(this.button);
-			}
+    this.test('label property', function() {
+        blocks.dev = false // turn off dev for a second
+
+        var thinger = TestThinger()
+        this.eq(thinger.label, undefined)
+        this.eq(thinger.attr('label'), undefined)
+
+        thinger.label = "moose"
+        this.eq(thinger.label, 'moose')
+        this.eq(thinger.attr('label'), undefined) // only set in dev mode
+
+        var thinger2 = TestThinger()
+        blocks.dev = true // turn back on
+        thinger2.label = "moose2"
+        this.eq(thinger2.label, "moose2")
+        this.eq(thinger2.attr('label'), "moose2")
+
+        try {
+            thinger.label = 'setagainfails'
+        } catch(e) {
+            this.eq(e.message, "A Block's label can only be set once (was already set to: moose)")
+        }
+    })
+
+    this.test('visible', function() {
+        var container = blocks.Container()
+        testUtils.demo("visible test", container)
+
+        var thinger = TestThinger()
+        container.add(thinger)
+        this.eq(thinger.visible, true)
+        this.eq($(thinger.domNode).css('display'), "inline-block")
+
+        thinger.visible = true                       // does nothing if its already showing
+        this.eq(thinger.visible, true)
+        this.eq($(thinger.domNode).css('display'), "inline-block")
+
+        thinger.visible = false
+        this.eq(thinger.visible, false)
+//        this.eq(thinger.domNode.style.display, "none")
+        this.eq($(thinger.domNode).css('display'), "none")
+
+        thinger.visible = false                      // does nothing if its already hiding
+        this.eq(thinger.visible, false)
+        this.eq($(thinger.domNode).css('display'), "none")
+
+        thinger.visible = true
+        this.eq(thinger.visible, true)
+        this.eq($(thinger.domNode).css('display'), "inline-block")
+
+        this.test("with styled css display", function() {
+            var thinger = TestThinger()
+            container.add(thinger)
+            thinger.style = blocks.Style({display: 'inline'})
+
+            this.eq($(thinger.domNode).css('display'), "inline")
+
+            thinger.visible = false
+            this.eq($(thinger.domNode).css('display'), "none")
+            this.eq(thinger.visible, false)
+
+            thinger.visible = true
+            this.eq(thinger.visible, true)
+            this.eq($(thinger.domNode).css('display'), "inline")
         })
 
-		var obj = new BubbleTester();
-		obj.setBubble();
-		obj.on("click",function(data) {
-			t.ok(true);
-		});
-		var clickEvent = new Event("click");
-		$(obj.button.domNode)[0].dispatchEvent(clickEvent);
-		
-		obj = new BubbleTester();
-		obj.on("click",function(data) {
-			t.ok(true);
-		});
-		obj.setBubble();
-		var clickEvent = new Event("click");
-		$(obj.button.domNode)[0].dispatchEvent(clickEvent);
-	});
+        this.test("with inline css", function() {
+            var thinger = TestThinger()
+            container.add(thinger)
+            thinger.domNode.style.display = 'block'
 
+            this.eq($(thinger.domNode).css('display'), "block")
+
+            thinger.visible = false
+            this.eq($(thinger.domNode).css('display'), "none")
+            this.eq(thinger.visible, false)
+
+            thinger.visible = true
+            this.eq(thinger.visible, true)
+            this.eq($(thinger.domNode).css('display'), "block")
+        })
+    })
+
+    this.test("focus", function() {
+        var input = blocks.TextField()
+        testUtils.demo("focus test", input)
+
+        this.ok(input.domNode !== document.activeElement)
+
+        input.focus = true
+        this.ok(input.domNode === document.activeElement)
+
+        input.focus = false
+        this.ok(input.domNode !== document.activeElement)
+    })
+
+    this.test("setSelection and getCaratOffset", function() {
+        var container = blocks.Container()
+        testUtils.demo("setSelection and getCaratOffset", container)
+
+        this.test('input textfield', function() {
+            var input = blocks.TextField()
+            container.add(input)
+            input.val = "whatever yo"
+
+            this.eq(input.selectionRange, undefined)
+
+            input.selectionRange = [1,1]
+            this.eq(input.selectionRange[0], 1)
+            this.eq(input.selectionRange[1], 1)
+
+            input.selectionRange = [2,5]
+            this.eq(input.selectionRange[0], 2)
+            this.eq(input.selectionRange[1], 5)
+
+            this.test("input textfields that are next to eachother", function() {
+                var c = blocks.Container()
+                container.add(c)
+                var input = blocks.TextField(), input2 = blocks.TextField()
+                c.add(input, input2)
+                input.val = "whatever yo"
+                input2.val = 'more whatever'
+
+                this.eq(input.selectionRange, undefined)
+                this.eq(input2.selectionRange, undefined)
+
+                input.focus = true
+
+                // when its focused on after being set programatically, it should have the active caret (note that this is different from gaining focus by being tabbed to)
+                // seems to start its caret at the end of the input
+                this.eq(input.selectionRange[0], input.val.length)
+                this.eq(input.selectionRange[1], input.val.length)
+                this.eq(input2.selectionRange, undefined)
+
+                input.selectionRange = [2,4]
+                this.eq(input.selectionRange[0], 2)
+                this.eq(input.selectionRange[1], 4)
+                this.eq(input2.selectionRange, undefined)
+
+                input2.selectionRange = [3,5]
+                this.eq(input.selectionRange, undefined)
+                this.eq(input2.selectionRange[0], 3)
+                this.eq(input2.selectionRange[1], 5)
+
+            })
+        })
+
+        this.test('textarea', function() {
+            var input = blocks.TextArea()
+            container.add(input)
+            input.val = "whatever yo"
+
+            this.eq(input.selectionRange, undefined)
+
+            input.selectionRange = [1,1]
+            this.eq(input.selectionRange[0], 1)
+            this.eq(input.selectionRange[1], 1)
+
+            input.selectionRange = [2,5]
+            this.eq(input.selectionRange[0], 2)
+            this.eq(input.selectionRange[1], 5)
+        })
+
+        this.test("regular div", function() {
+            var div = blocks.Text("Whatever")
+            div.attr("contenteditable", true)
+            container.add(div)
+
+            this.eq(div.selectionRange, undefined)
+
+            div.selectionRange = [1,1]
+            this.eq(div.selectionRange[0], 1)
+            this.eq(div.selectionRange[1], 1)
+
+            div.selectionRange = [2,5]
+            this.eq(div.selectionRange[0], 2)
+            this.eq(div.selectionRange[1], 5)
+        })
+
+        this.test("contenteditable div", function() {
+            var input = blocks.Text("Whatever")
+            input.attr("contenteditable", true)
+            container.add(input)
+
+            this.eq(input.selectionRange, undefined)
+
+            input.selectionRange = [1,1]
+            this.eq(input.selectionRange[0], 1)
+            this.eq(input.selectionRange[1], 1)
+
+            input.selectionRange = [2,5]
+            this.eq(input.selectionRange[0], 2)
+            this.eq(input.selectionRange[1], 5)
+
+            input.domNode.innerHTML = "<span>hi</span><span>lo</span><span>mo<br>scrow</span>"
+            this.eq(input.selectionRange[0], 0)
+            this.eq(input.selectionRange[1], 11)           // is this right?
+
+            input.selectionRange = [4,11]
+            this.eq(input.selectionRange[0], 4)
+            this.eq(input.selectionRange[1], 11)
+
+        })
+
+        this.test("selectionRange across nodes", function() {
+            var one = Text('one'), two = Text("two"), three = Text("three")
+            var c = blocks.Container(one, two, three)
+            container.add(c)
+
+            c.selectionRange = [2,8]
+            this.eq(c.selectionRange[0], 2)
+            this.eq(c.selectionRange[1], 8)
+            this.eq(one.selectionRange[0], 2)
+            this.eq(one.selectionRange[1], 3)
+            this.eq(two.selectionRange[0], 0)
+            this.eq(two.selectionRange[1], 3)
+            this.eq(three.selectionRange[0], 0)
+            this.eq(three.selectionRange[1], 2)
+        })
+    })
+
+    this.test("on, addListener, once, removeListener, removeAllListeners", function(t) {
+        this.count(10)
+
+        var EventWhore = proto(Block,function(superclass) {
+            this.name = 'EventWhore'
+        })
+
+        var e = EventWhore()
+
+        var event = testUtils.seq(
+          function(eventName, data) {
+            t.eq(eventName, 'a')
+            t.eq(data, 1)
+        },function(eventName, data) {
+            t.eq(eventName, 'a')
+            t.eq(data, 2)
+
+        },function(eventName, data) {
+            t.eq(eventName, 'b')
+            t.eq(data, 3)
+        },function(eventName, data) {
+            t.eq(eventName, 'b')
+            t.eq(data, 4)
+
+        },function(eventName, data) {
+            t.eq(eventName, 'c')
+            t.eq(data, 5)
+        })
+
+        var acb, bcb, ccb;
+        e.on('a', acb = function(data) {
+            event('a', data)
+        })
+        e.addListener('b', bcb = function bcb(data) {
+            event('b', data)
+        })
+        e.once('c', cbc = function(data) {
+            event('c', data)
+        })
+
+        e.emit('a', 1)
+        e.emit('a', 2)
+
+        e.emit('b', 3)
+        e.emit('b', 4)
+
+        e.emit('c', 5)
+        e.emit('c', 6)
+
+        e.removeListener('a', acb)
+        e.emit('a', 7)
+
+        e.removeAllListeners('b')
+        e.emit('b', 8)
+
+        e.on('d', acb = function(data) {
+            event('a', data)
+        })
+        e.removeAllListeners()
+        e.emit('d', 9)
+    })
+
+
+    this.test('listening on standard browser events', function() {
+        var EventWhore = proto(Block,function(superclass) {
+            this.name = 'EventWhore'
+
+            this.build = function() {
+                var button = new Button("Test button");
+                this.add(button);
+
+                var that = this
+                button.onAny(function() {
+                    that.emit(this.event, "BOOM")
+                })
+            }
+        })
+    })
 
     //*/
 }
