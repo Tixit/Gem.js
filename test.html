@@ -10,6 +10,7 @@
 </body>
 <script src="blocks.umd.js"></script>
 <script src="src/external/syn.js"></script>
+<script src="src/external/jss.js"></script>
 
 <script>
 
@@ -103,6 +104,22 @@
     var t = document.getElementById("t")
     console.log("selection start: "+t.selectionStart)
 
+
+
+
+
+    var jss1 = jss.forDocument(document)
+    jss1.defaultSheet = jss1._createSheet()
+    var jss2 = jss.forDocument(document)
+    jss2.defaultSheet = jss2._createSheet()
+
+    jss2.set('#A', {
+        color: 'green'
+    })
+    jss1.set('#A', {
+        color: 'red'
+    })
+    //*/
 
 
     //*/

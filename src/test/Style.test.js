@@ -16,6 +16,8 @@ module.exports = function(t) {
 
 
 
+
+
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -138,6 +140,83 @@ module.exports = function(t) {
         this.eq(textNode.css('color'), 'rgb(0, 0, 0)')
         this.eq(textNode.css('textAlign'), 'left')
         this.eq($(node.domNode).css('textAlign'), 'left')
+
+    })
+
+    this.test('default Block styles',function(t) {
+        this.count(13)
+
+        var S = Style({
+            color: 'rgb(0, 0, 128)'
+        })
+
+        debugger; // fukc you
+        var C = proto(Text, function(superclass) {
+            this.defaultStyle = Style({
+                color: 'rgb(0, 128, 0)',
+                backgroundColor: 'rgb(0, 100, 100)',
+                borderColor: 'rgb(120, 130, 140)'
+            })
+        })
+        var D = proto(C, function(superclass) {
+            this.defaultStyle = Style({
+                backgroundColor: 'rgb(1, 2, 3)'
+            })
+        })
+
+        var node = C("yeahhh")
+        var node2 = D("NOOOOO")
+        var container = Container(node, node2)
+        testUtils.demo('default Block styles', container) // node has to be apart of the page before css class styles are applied to it
+
+        var div = $(node.domNode)
+        this.eq(div.css('color'), 'rgb(0, 128, 0)')
+        this.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')
+
+        var div2 = $(node2.domNode)
+        this.eq(div2.css('color'), 'rgb(0, 128, 0)')
+        this.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
+        this.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
+
+        node.style = S
+        node2.style = S
+
+        setTimeout(function() { // looks like when a css classname is changed, it doesn't take effect immediately (is this really true????)
+            t.eq(div.css('color'), 'rgb(0, 0, 128)')
+            t.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')   // the default backgroundColor bleeds through for default stylings (unlike normal stylings)
+
+            t.eq(div2.css('color'), 'rgb(0, 0, 128)')
+            t.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
+            t.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
+        },0)
+
+        try {
+            proto(Text, function() {
+                this.defaultStyle = Style({
+                    Text: {}
+                })
+            })()
+        } catch(e) {
+            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+        }
+        try {
+            proto(Text, function() {
+                this.defaultStyle = Style({
+                    $label: {}
+                })
+            })()
+        } catch(e) {
+            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+        }
+        try {
+            proto(Text, function() {
+                this.defaultStyle = Style({
+                    $$hover: {}
+                })
+            })()
+        } catch(e) {
+            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+        }
 
     })
 

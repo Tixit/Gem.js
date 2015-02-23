@@ -91,30 +91,6 @@ define(['blocks.umd.js'], function(blocks) { ... } // amd
 
 MORE USAGE DOCS COMING SOON
 
-Custom Blocks
-=========
-
-Blocks.js is all about custom blocks. That's part of the point. Your application should be built as a composition of custom blocks on top of custom blocks, so instead of a million divs, you have semantically appropriate javascript web components.
-
-
-
-```javascript
-var NameInput = function() {
-    blocks.Container.init.call(this)
-}
-var Intermediate = function(){}
-Intermediate.prototype = blocks.Container.prototype
-NameInput.prototype = new Intermediate()
-NameInput.prototype.name = 'NameInput'
-NameInput.prototype.create = function() {
-    var nameField
-    this.add(blocks.Text("Your Name: "), nameField = blocks.TextField())
-    nameField.on('change', function() {
-        toggleButton.text = hiWords = "Hi "+nameField.val
-    })
-}
-```
-
 
 Conventions
 ===========
@@ -142,6 +118,35 @@ Some blocks have sub-blocks specifically related to them. For example, `Select` 
 * There will also be a property with the name of the sub-block, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has a `options` map.
 * For these types of blocks, there will be a method on the main Block (examples of main Blocks: Select or Table) to create a new sub-block (e.g. Option or Row) and will return that sub-block. The method will be named the same as the sub-block but in lower-case (e.g. selectBlock.option(...) will return an Option block).
 
+Custom Blocks
+=========
+
+Blocks.js is all about custom blocks. That's part of the point. Your application should be built as a composition of custom blocks on top of custom blocks, so instead of a million divs, you have semantically appropriate javascript web components.
+
+
+
+```javascript
+var NameInput = function() {
+    blocks.Container.init.call(this)
+}
+var Intermediate = function(){}
+Intermediate.prototype = blocks.Container.prototype
+NameInput.prototype = new Intermediate()
+NameInput.prototype.name = 'NameInput'
+NameInput.prototype.create = function() {
+    var nameField
+    this.add(blocks.Text("Your Name: "), nameField = blocks.TextField())
+    nameField.on('change', function() {
+        toggleButton.text = hiWords = "Hi "+nameField.val
+    })
+}
+```
+
+If you're building Blocks from scratch (without a class libary), note that blocks.js relies on the following properties:
+* block.constructor - must point to the Block prototype class (in the proto example, the object returned by the call to proto). This is a standard property that all good class libraries should set.
+* block.constructor.parent - must point either to the parent of the block's constructor, or undefined if there is no parent. Note that while `proto` sets this automatically, it is not a standard property and if you're using a different library from proto, you must set this manually.
+* block.constructor.name - the constructors must have the same name property that instances can access. Note that while `proto` sets this appropriately, most class libraries probably don't and it isn't simple to manually set. See here for details: http://stackoverflow.com/a/28665860/122422
+
 Decisions
 =========
 
@@ -151,17 +156,18 @@ Decisions
 Todo
 ======
 
-* Create a way to set unobtrusive default styles for custom Blocks (so you can, for example, make Option blocks display: block)
-
 * Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
 * Make all controls usable via the keybaord
   * eg. checkboxes should be toggled if you press enter while they're focused on
+* Figure out how to make defaultStyle objects able to take into account Block styles etc
+    * Make sure everything in styles is overridable (including run/kill javascript) so that
 * Consider making Style objects dynamically changable, and also inheritable/extendable so that you can extend the style object of a Block instead of having to extend the object passed to a Style prototype
 
 Changelog
 ========
 
-* 0.9.3 - * Support styling blocks via their inheritance tree (ie if A inherits from B, styling A should style A and B, but a B style should override an A style)
+* 0.9.4 - Create a way to set unobtrusive default styles for custom Blocks (so you can, for example, make Option blocks display: block)
+* 0.9.3 - Support styling blocks via their inheritance tree (ie if A inherits from B, styling A should style A and B, but a B style should override an A style)
 * 0.9.2
     * Using `ifon` and `ifoff` for proxying browser events through Blocks
     * Override the `on` method so that standard browser events are automatically attached to domNodes
