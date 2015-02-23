@@ -20,6 +20,9 @@ module.exports = function(t) {
 
 
 
+
+
+
     //*
 
 	this.test('testEvent',function(t) {
@@ -534,19 +537,87 @@ module.exports = function(t) {
     })
 
 
-    this.test('listening on standard browser events', function() {
-        var EventWhore = proto(Block,function(superclass) {
-            this.name = 'EventWhore'
+    this.test('listening on standard browser events', function(t) {
+        var container = blocks.Container()
+        testUtils.demo('listening on standard browser events', container)
+        this.test("basic browser events", function (t) {
+            this.count(1)
 
-            this.build = function() {
-                var button = new Button("Test button");
-                this.add(button);
+            var EventEmitter = require("events").EventEmitter
 
-                var that = this
-                button.onAny(function() {
-                    that.emit(this.event, "BOOM")
+            var EventWhore = proto(Block,function(superclass) {
+                this.name = 'EventWhore'
+            })
+
+            var e = EventWhore()
+            container.add(e)
+
+            var testEvent = testUtils.seq(function(eventName) {
+                t.eq(eventName, 'click')
+            })
+
+            // events shouldn't be emitted unless bound with the EventEmitterB/Block `on` method (the EventEmitter `on` method bypasses the critical dom event handling setup)
+            var eventEmitterPrototypeHandler;
+            EventEmitter.prototype.on.call(e, "click", eventEmitterPrototypeHandler=function() {
+                testEvent('EventEmitter click')
+            })
+
+            var handler;
+            syn.click(e.domNode).then(function() {
+                EventEmitter.prototype.removeListener.call(e, "click", eventEmitterPrototypeHandler) // get rid of the EventEmitter listener, cause otherwise it'll mess out stuff up
+
+                e.on('click', handler = function() {
+                    testEvent('click')
                 })
-            }
+
+                return syn.click(e.domNode)
+            }).then(function() {
+                e.removeListener('click', handler)
+
+                return syn.click(e.domNode)
+            }).then(function() {
+                e.on('click', handler = function() {
+                    event('click')
+                })
+
+                e.removeAllListeners('click')
+
+                return syn.click(e.domNode)
+            }).then(function() {
+                e.on('click', handler = function() {
+                    event('click')
+                })
+
+                e.removeAllListeners()
+
+                return syn.click(e.domNode)
+            }).done()
+        })
+
+        this.test("browser events with exclusion", function(t) {
+            this.count(1)
+
+            var EventWhore = proto(Block,function(superclass) {
+                this.name = 'EventWhore'
+
+                this.excludeDomEvents = {click: 1}
+            })
+
+            var e = EventWhore()
+            container.add(e)
+
+            var testEvent = testUtils.seq(function(eventName) {
+                t.eq(eventName, 'mousedown')
+            })
+
+            e.on('click', function() {
+                testEvent('click')
+            })
+            e.on('mousedown', function() {
+                testEvent('mousedown')
+            })
+
+            syn.click(e.domNode).done()
         })
     })
 

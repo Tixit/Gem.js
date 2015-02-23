@@ -4,16 +4,15 @@ var EventEmitterB = require("EventEmitterB");
 
 module.exports = function(t) {
 
-    this.test("ifon, ifoff", function() {
 
-        var EventWhore = proto(EventEmitterB,function(superclass) {
-            this.name = 'EventWhore'
-        })
+
+    //*
+    this.test("ifon, ifoff", function() {
 
         this.test("normal usage", function(t) {
             this.count(56)
 
-            var e = EventWhore()
+            var e = EventEmitterB()
 
             var event = testUtils.seq(
             // e.on('a', cb1)
@@ -163,7 +162,7 @@ module.exports = function(t) {
         this.test("remove ifon", function(t) {
             this.count(26)
 
-            var e = EventWhore()
+            var e = EventEmitterB()
 
             var event = testUtils.seq(
             // remove a
@@ -286,7 +285,7 @@ module.exports = function(t) {
         this.test("remove ifoff", function(t) {
             this.count(26)
 
-            var e = EventWhore()
+            var e = EventEmitterB()
 
             var event = testUtils.seq(
             // remove a
@@ -416,5 +415,112 @@ module.exports = function(t) {
             e.removeListener('b',b)
             e.removeListener('c',c)
         })
-})
+    })
+
+    this.test("proxy events", function() {
+        this.test("proxy all", function(t){
+            this.count(2)
+
+            var A = EventEmitterB()
+            var B = EventEmitterB()
+
+            var testEvent = testUtils.seq(
+              function(eventName) {
+                t.eq(eventName, 'moose')
+            },function(eventName) {
+                t.eq(eventName, 'bark')
+            })
+
+
+            A.proxy(B)   // proxy all events
+
+            A.on('moose', function() {
+                testEvent('moose')
+            })
+            A.on('bark', function() {
+                testEvent('bark')
+            })
+
+            B.emit('moose')
+            B.emit('bark')
+        })
+
+        this.test("proxy only", function(t){
+            this.count(1)
+
+            var A = EventEmitterB()
+            var B = EventEmitterB()
+
+            var testEvent = testUtils.seq(
+              function(eventName) {
+                t.eq(eventName, 'moose')
+            })
+
+
+            A.proxy(B, {only: ['moose']})   // proxy only the 'moose' event
+
+            A.on('moose', function() {
+                testEvent('moose')
+            })
+            A.on('bark', function() {
+                testEvent('bark')
+            })
+
+            B.emit('moose')
+            B.emit('bark')
+        })
+
+        this.test("proxy except", function(t){
+            this.count(1)
+
+            var A = EventEmitterB()
+            var B = EventEmitterB()
+
+            var testEvent = testUtils.seq(
+              function(eventName) {
+                t.eq(eventName, 'bark')
+            })
+
+
+            A.proxy(B, {except: ['moose']})   // proxy only the 'moose' event
+
+            A.on('moose', function() {
+                testEvent('moose')
+            })
+            A.on('bark', function() {
+                testEvent('bark')
+            })
+
+            B.emit('moose')
+            B.emit('bark')
+        })
+
+        this.test("proxy removeListener and removeAllListeners", function() {
+            var A = EventEmitterB()
+            var B = EventEmitterB()
+
+            this.eq(B.listeners('moose').length, 0)
+
+            A.proxy(B)
+
+            var handler;
+            A.on('moose', handler=function() {
+                testEvent('moose')
+            })
+
+            this.eq(B.listeners('moose').length, 1)
+
+            A.removeListener('moose',handler)
+            this.eq(B.listeners('moose').length, 0)
+
+            A.on('moose', handler)
+            A.removeAllListeners('moose')
+            this.eq(B.listeners('moose').length, 0)
+
+            A.on('moose', handler)
+            A.removeAllListeners()
+            this.eq(B.listeners('moose').length, 0)
+        })
+    })
+    //*/
 };

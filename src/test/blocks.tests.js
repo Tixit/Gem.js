@@ -9,28 +9,30 @@ module.exports = function() {
 
 
     var tests = Unit.test("Testing Blocks.js", function(t) {
-
+        this.count(4)
 
         //*
-        this.test('Block',require('./Block.test'))
-        this.test('EventEmitterB',require('./EventEmitterB.test'))
-        this.test('Style',require('./Style.test'))
+        t.test('Block',require('./Block.test')).complete.then(function(){
+            return t.test('EventEmitterB',require('./EventEmitterB.test')).complete
+        }).then(function(){
+            return t.test('Style',require('./Style.test')).complete
+        }).then(function() {
+            return t.test("standard components", function(t) {
+                t.count(10)
 
-        this.test("standard components", function(t) {
-            this.count(10)
-
-            this.test('Button',require('./ComponentTests/Button.test'));
-            this.test('CheckBox',require('./ComponentTests/CheckBox.test'));
-            this.test('Container',require('./ComponentTests/Container.test'));
-            this.test('MultiSelect',require('./ComponentTests/MultiSelect.test'));
-            this.test('Radio',require('./ComponentTests/Radio.test'));
-            this.test('Select',require('./ComponentTests/Select.test'));
-            this.test('table',require('./ComponentTests/Table.test'));
-            this.test('text',require('./ComponentTests/Text.test'));
-            this.test('textarea',require('./ComponentTests/TextArea.test')).complete.then(function() {
-                return t.test('textfield',require('./ComponentTests/TextField.test')).complete
-            }).done()
-        })
+                t.test('Button',require('./ComponentTests/Button.test'));
+                t.test('CheckBox',require('./ComponentTests/CheckBox.test'));
+                t.test('Container',require('./ComponentTests/Container.test'));
+                t.test('MultiSelect',require('./ComponentTests/MultiSelect.test'));
+                t.test('Radio',require('./ComponentTests/Radio.test'));
+                t.test('Select',require('./ComponentTests/Select.test'));
+                t.test('table',require('./ComponentTests/Table.test'));
+                t.test('text',require('./ComponentTests/Text.test'));
+                return t.test('textarea',require('./ComponentTests/TextArea.test')).complete.then(function() {
+                    return t.test('textfield',require('./ComponentTests/TextField.test')).complete
+                })
+            }).complete
+        }).done()
 
         //*/
     })

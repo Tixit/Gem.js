@@ -259,23 +259,23 @@ module.exports = function(t) {
     })
 
     this.test("reinheritance of parent styles", function() {
-        //  (e.g. gramparent sets Label style, parent doesn't but has a Label component in it)
+        //  (e.g. gramparent sets Text style, parent doesn't but has a Text component in it)
 
 
-        var labelStyle1 = Style({
+        var textStyle1 = Style({
                 color: 'rgb(128, 0, 128)'
             })
-        var labelStyle2 = Style({
+        var textStyle2 = Style({
                 color: 'rgb(128, 128, 0)'
             })
-        var labelStyle3 = Style({
+        var textStyle3 = Style({
                 color: 'rgb(0, 128, 0)'
             })
         var S = Style({
-                Text: labelStyle1
+                Text: textStyle1
             })
         var S2 = Style({
-                Text: labelStyle2
+                Text: textStyle2
             })
 
         var Parent = proto(Block, function(superclass) {
@@ -284,9 +284,9 @@ module.exports = function(t) {
             this.build = function() {
                 this.style = S2
 
-                this.label = Text('inParent')
-                this.label.style = labelStyle3
-                this.add(this.label)
+                this.text = Text('inParent')
+                this.text.style = textStyle3
+                this.add(this.text)
             }
         })
 
@@ -304,15 +304,15 @@ module.exports = function(t) {
         var node = Grandparent()
         testUtils.demo("reinheritance of parent styles", node)
 
-        var parentLabel = $(node.parentComponent.label.domNode)
+        var parentText = $(node.parentComponent.text.domNode)
 
-        this.eq(parentLabel.css('color'), 'rgb(0, 128, 0)')
+        this.eq(parentText.css('color'), 'rgb(0, 128, 0)')
 
-        node.parentComponent.label.style = undefined // reinherit from parent
-        this.eq(parentLabel.css('color'), 'rgb(128, 128, 0)')
+        node.parentComponent.text.style = undefined // reinherit from parent
+        this.eq(parentText.css('color'), 'rgb(128, 128, 0)')
 
         node.parentComponent.style = undefined // reinherit from grandparent
-        this.eq(parentLabel.css('color'), 'rgb(128, 0, 128)')
+        this.eq(parentText.css('color'), 'rgb(128, 0, 128)')
     })
 
     this.test('component label styling', function() {
@@ -421,23 +421,40 @@ module.exports = function(t) {
             })
 
             var style = Style({
-                    color: 'rgb(128, 0, 0)',
+                color: 'rgb(128, 0, 0)',
 
-                    CheckBox: {
-                        color: 'rgb(0, 128, 0)',
+                CheckBox: {
+                    color: 'rgb(0, 128, 0)',
 
-                        $$disabled: {
-                            color: 'rgb(123, 130, 130)',
-                            outline: '1px solid rgb(60, 60, 200)'
-                        },
+                    $$disabled: {
+                        color: 'rgb(123, 130, 130)',
+                        outline: '1px solid rgb(60, 60, 200)'
+                    },
 
-                        $$checked: {
+                    $$checked: {
+                        color: 'rgb(128, 128, 128)',
+                        outline: '4px solid rgb(80, 90, 100)',
+                        $$required: {
+                            color: 'rgb(130, 0, 130)',
+                            backgroundColor: 'rgb(1, 2, 3)',
+
+                            $setup: function(c) {
+                                c.someProperty = 'required'
+                            },
+                            $kill: function(c) {
+                                c.someProperty = 'optional'
+                            }
+                        }
+                    }
+                },
+
+                Container: {
+                    CheckBox: {color: 'rgb(0, 128, 0)'},
+                    $$required: {
+                        CheckBox: {
                             color: 'rgb(128, 128, 128)',
-                            outline: '4px solid rgb(80, 90, 100)',
-                            $$required: {
-                                color: 'rgb(130, 0, 130)',
-                                backgroundColor: 'rgb(1, 2, 3)',
 
+                            $$checked: {
                                 $setup: function(c) {
                                     c.someProperty = 'required'
                                 },
@@ -446,26 +463,9 @@ module.exports = function(t) {
                                 }
                             }
                         }
-                    },
-
-                    Container: {
-                        CheckBox: {color: 'rgb(0, 128, 0)'},
-                        $$required: {
-                            CheckBox: {
-                                color: 'rgb(128, 128, 128)',
-
-                                $$checked: {
-                                    $setup: function(c) {
-                                        c.someProperty = 'required'
-                                    },
-                                    $kill: function(c) {
-                                        c.someProperty = 'optional'
-                                    }
-                                }
-                            }
-                        }
                     }
-                })
+                }
+            })
 
             var component = C()
             testUtils.demo("basic psuedo-class styling", component)

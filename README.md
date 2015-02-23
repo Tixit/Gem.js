@@ -142,16 +142,19 @@ Some blocks have sub-blocks specifically related to them. For example, `Select` 
 * There will also be a property with the name of the sub-block, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has a `options` map.
 * For these types of blocks, there will be a method on the main Block (examples of main Blocks: Select or Table) to create a new sub-block (e.g. Option or Row) and will return that sub-block. The method will be named the same as the sub-block but in lower-case (e.g. selectBlock.option(...) will return an Option block).
 
+Decisions
+=========
+
+* `Block.label` is not dynamic (can't be changed) because it is intended to be used to identify a particular Block when multiple Blocks of the same type are used alongside eachother. If you're looking for a way to change styles dynamically, use Block.state.
+* Blocks are styled based on their name rather than their object identity (which would be possible with an array style definition like [Text,{backgroundColor:'...'}]) because otherwise all Blocks would have to be exposed at the top level. Not only does this go against modularity, but creators of 3rd party modules would inevitably fail to expose all their Blocks, which would make styling impossible. With names, you don't have to be able to reach the object, you just have to know its name.
+
 Todo
 ======
 
-* Use `ifon` and `ifoff` for proxying browser events through Blocks
-* Override the `on` method so that standard browser events are automatically attached to domNodes
-    * provide a way to exclude certain events, so they can be set up in an alternate way
-* Change styles to require actual references to blocks its' styling
+* Support styling blocks via their inheritance tree (ie if A inherits from B, styling A should style A and B, but a B style should override an A style)
 * Create a way to set unobtrusive default styles for custom Blocks (so you can, for example, make Option blocks display: block)
 
- * Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
+* Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
 * Make all controls usable via the keybaord
   * eg. checkboxes should be toggled if you press enter while they're focused on
 * Consider making Style objects dynamically changable, and also inheritable/extendable so that you can extend the style object of a Block instead of having to extend the object passed to a Style prototype
@@ -159,6 +162,10 @@ Todo
 Changelog
 ========
 
+* 0.9.2
+    * Using `ifon` and `ifoff` for proxying browser events through Blocks
+    * Override the `on` method so that standard browser events are automatically attached to domNodes
+        * provide a way to exclude certain events, so they can be set up in an alternate way
 * 0.9.1
     * Adding tests for all the public Block properties that didn't already have tests
     * Changing API of focus/blur, show/hide, and selection methods to getter/setter style properties
