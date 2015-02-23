@@ -11,18 +11,23 @@ module.exports = function() {
     var tests = Unit.test("Testing Blocks.js", function(t) {
         this.count(4)
 
+
+
         //*
-        t.test('Block',require('./Block.test')).complete.then(function(){
-            return t.test('EventEmitterB',require('./EventEmitterB.test')).complete
+        t.test('EventEmitterB',require('./EventEmitterB.test')).complete.then(function(){
+            return t.test('Block',require('./Block.test')).complete
         }).then(function(){
             return t.test('Style',require('./Style.test')).complete
         }).then(function() {
             return t.test("standard components", function(t) {
-                t.count(10)
+                t.count(13)
 
                 t.test('Button',require('./ComponentTests/Button.test'));
+                t.test('Canvas',require('./ComponentTests/Canvas.test'));
                 t.test('CheckBox',require('./ComponentTests/CheckBox.test'));
                 t.test('Container',require('./ComponentTests/Container.test'));
+                t.test('Image',require('./ComponentTests/Image.test'));
+                t.test('List',require('./ComponentTests/List.test'));
                 t.test('MultiSelect',require('./ComponentTests/MultiSelect.test'));
                 t.test('Radio',require('./ComponentTests/Radio.test'));
                 t.test('Select',require('./ComponentTests/Select.test'));

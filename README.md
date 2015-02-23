@@ -89,37 +89,11 @@ define(['blocks.umd.js'], function(blocks) { ... } // amd
 
 ```
 
-MORE USAGE DOCS COMING SOON
 
 
-Conventions
-===========
-
-There are some conventions that can help you learn to use standard Blocks, and help make custom Blocks you build more easily understood.
-These conventional properties, constructor parameters, and behavior are encouraged to be used in custom Blocks built by you, especially if you're planning on open-sourcing them.
-
-Every standard Block has an optional first parameter `label`.
-This makes it easy and non-intrusive to label parts of your custom Blocks for easy styling.
-
-In as many cases as possible, Blocks will use properties defined with getters and setters rather than using methods. Some examples:
-* `focus` - gets whether the element has focus, or sets it to in-focus or out-of-focus
-* `visible` - gets whether the element is visible (display !== 'none'), and can set its visibility status.
-* `selection` - gets the selection on the element, and can set the selection
-
-There are a few standard properties that some blocks have:
-* `text` - Gets and sets some visual text that a Block has. `Button`, `Text`, and `Select.Option` have this property.
-* `selected` - Gets and sets the selected-state of the Block. `CheckBox`, `Select.Option`, and `Radio.Button` have this property.
-* `val` - Gets and sets some value that a block has. This will never be the same as either `text` or `selected`. `CheckBox`, `Radio`, `Radio.Button`, `Select`, `TextArea`, and `TextField` all have this property.
-
-There are also a couple standard events that blocks can emit:
-* `change` - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but never both). Change events won't have any information passed with them, you can access the object itself if you need data from it.
-
-Some blocks have sub-blocks specifically related to them. For example, `Select` has `Option` blocks, and `Table` has `Row` blocks, and `Row` has `Cell` Blocks respectively.
-* There will also be a property with the name of the sub-block, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has a `options` map.
-* For these types of blocks, there will be a method on the main Block (examples of main Blocks: Select or Table) to create a new sub-block (e.g. Option or Row) and will return that sub-block. The method will be named the same as the sub-block but in lower-case (e.g. selectBlock.option(...) will return an Option block).
 
 Custom Blocks
-=========
+-------------
 
 Blocks.js is all about custom blocks. That's part of the point. Your application should be built as a composition of custom blocks on top of custom blocks, so instead of a million divs, you have semantically appropriate javascript web components.
 
@@ -147,6 +121,37 @@ If you're building Blocks from scratch (without a class libary), note that block
 * block.constructor.parent - must point either to the parent of the block's constructor, or undefined if there is no parent. Note that while `proto` sets this automatically, it is not a standard property and if you're using a different library from proto, you must set this manually.
 * block.constructor.name - the constructors must have the same name property that instances can access. Note that while `proto` sets this appropriately, most class libraries probably don't and it isn't simple to manually set. See here for details: http://stackoverflow.com/a/28665860/122422
 
+Standard Blocks
+---------------
+
+The built-in standard blocks
+
+### Conventions
+
+There are some conventions that can help you learn to use standard Blocks, and help make custom Blocks you build more easily understood.
+These conventional properties, constructor parameters, and behavior are encouraged to be used in custom Blocks built by you, especially if you're planning on open-sourcing them.
+
+Every standard Block has an optional first parameter `label`.
+This makes it easy and non-intrusive to label parts of your custom Blocks for easy styling.
+
+In as many cases as possible, Blocks will use properties defined with getters and setters rather than using methods. Some examples:
+* `focus` - gets whether the element has focus, or sets it to in-focus or out-of-focus
+* `visible` - gets whether the element is visible (display !== 'none'), and can set its visibility status.
+* `selection` - gets the selection on the element, and can set the selection
+
+There are a few standard properties that some blocks have:
+* `text` - Gets and sets some visual text that a Block has. `Button`, `Text`, and `Select.Option` have this property.
+* `selected` - Gets and sets the selected-state of the Block. `CheckBox`, `Select.Option`, and `Radio.Button` have this property.
+* `val` - Gets and sets some value that a block has. This will never be the same as either `text` or `selected`. `CheckBox`, `Radio`, `Radio.Button`, `Select`, `TextArea`, and `TextField` all have this property.
+
+There are also a couple standard events that blocks can emit:
+* `change` - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but never both). Change events won't have any information passed with them, you can access the object itself if you need data from it.
+
+Some blocks have sub-blocks specifically related to them. For example, `Select` has `Option` blocks, and `Table` has `Row` blocks, and `Row` has `Cell` Blocks respectively.
+* There will also be a property with the name of the sub-block, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has a `options` map.
+* For these types of blocks, there will be a method on the main Block (examples of main Blocks: Select or Table) to create a new sub-block (e.g. Option or Row) and will return that sub-block. The method will be named the same as the sub-block but in lower-case (e.g. selectBlock.option(...) will return an Option block).
+
+
 Decisions
 =========
 
@@ -155,6 +160,9 @@ Decisions
 
 Todo
 ======
+
+
+* write documentation
 
 * Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
 * Make all controls usable via the keybaord
@@ -166,6 +174,8 @@ Todo
 Changelog
 ========
 
+* 0.9.7 - Added List, Image, and Canvas
+* 0.9.6 - Fixed but in EventEmitterB that was causing catch-all ifon handlers to not fire on-call if events were already attached beforehand
 * 0.9.5
     * Used default stying to set defaults on some of the built in Blocks
     * Fixed a bug in ifon when its called without an event and there are already events set up

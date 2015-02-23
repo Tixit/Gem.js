@@ -159,6 +159,38 @@ module.exports = function(t) {
             e.removeAllListeners()
         })
 
+        this.test("ifon after events have been attachd", function(t) {
+            this.count(4)
+
+            var e = EventEmitterB()
+
+            var sequenceEvent = testUtils.seq(
+            // e.on('a', cb1)
+              function(eventName) {
+                t.eq(eventName, 'shmaotown')
+            },function(eventName) {
+                t.eq(eventName, 'you lazy plughole')
+            },function(eventName) {
+                t.eq(eventName, 'all shmaotown')
+            },function(eventName) {
+                t.eq(eventName, 'all you lazy plughole')
+            })
+
+            e.on('shmaotown', function() {})
+            e.on('you lazy plughole', function() {})
+
+
+            e.ifon('shmaotown', function() {
+                sequenceEvent('shmaotown')
+            })
+            e.ifon('you lazy plughole', function() {
+                sequenceEvent('you lazy plughole')
+            })
+            e.ifon(function(eventName) {
+                sequenceEvent('all '+eventName)
+            })
+        })
+
         this.test("remove ifon", function(t) {
             this.count(26)
 

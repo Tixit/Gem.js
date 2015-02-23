@@ -60,18 +60,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Container = __webpack_require__(3)
 	exports.Button = __webpack_require__(4)
 	exports.CheckBox = __webpack_require__(5)
-	exports.Radio = __webpack_require__(6)
-	//exports.Select = require("Components/Select")
-	exports.MultiSelect = __webpack_require__(7)
-	exports.Table = __webpack_require__(8)
-	exports.TextArea = __webpack_require__(9)
-	exports.TextField = __webpack_require__(10)
-	exports.Text = __webpack_require__(11)
+	exports.Image = __webpack_require__(6)
+	exports.List = __webpack_require__(7)
+	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
+	exports.Radio = __webpack_require__(8)
+	exports.Select = __webpack_require__(9)
+	exports.Table = __webpack_require__(10)
+	exports.TextArea = __webpack_require__(11)
+	exports.TextField = __webpack_require__(12)
+	exports.Text = __webpack_require__(13)
 	
 	
 	// todo:
-	//exports.List = require('Components/List')
-	//exports.Image = require('Components/Image')
 	//exports.Canvas = require('Components/Canvas')
 	
 	// todo in separate module (a Blocks utility kit or something):
@@ -130,17 +130,35 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(12)
-	var proto = __webpack_require__(22);
-	var trimArguments = __webpack_require__(21)
-	var utils = __webpack_require__(13)
-	var domUtils = __webpack_require__(14)
-	var observe = __webpack_require__(23)
+	var EventEmitterB = __webpack_require__(14)
+	var proto = __webpack_require__(24);
+	var trimArguments = __webpack_require__(25)
+	var utils = __webpack_require__(15)
+	var domUtils = __webpack_require__(16)
+	var observe = __webpack_require__(26)
+	var HashMap = __webpack_require__(27)
 	
 	var Style = __webpack_require__(2)
 	Style.isDev = function() {return module.exports.dev}
 	
+	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
 	var components = {};
+	
+	var setOfBrowserEvents = utils.arrayToMap([
+	    'abort','afterprint','ainmationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
+	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
+	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu','copy',
+	    'cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
+	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
+	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
+	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
+	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
+	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
+	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
+	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
+	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload','updateready',
+	    'upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
+	])
 	
 	// events:
 	    // newParent - emits this when a component gets a new parent
@@ -151,8 +169,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // constructor
 		this.init = function() {
+	        var that = this
+	
 	        if(this.name === undefined) {
 	            throw new Error("The 'name' property is required for Blocks")
+	        }
+	
+	        var defaultBlockStyle = defaultStyleMap.get(this.constructor)
+	        if(defaultBlockStyle === undefined) {
+	            defaultBlockStyle = createDefaultBlockStyle(this)
 	        }
 	
 	        superclass.init.call(this)
@@ -172,10 +197,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.build.apply(this, arguments)
 	
 	        if(module.exports.dev) {
-	            this.attr('blockName', this.name)
+	            this.attr('blkName', this.name)
 	        }
 	
-	        this.domNode.className = Style.defaultClassName+' '+this.domNode.className
+	        var classList = [this.domNode.className]
+	        if(defaultBlockStyle !== false) classList.push(defaultBlockStyle.className)
+	        classList.push(Style.defaultClassName)
+	        this.domNode.className = classList.join(' ') // note that the order of classes doesn't matter
+	
+	        // set up dom event handlers
+	        var ifonHandler;
+	        that.ifon(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.addEventListener(event, ifonHandler=function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        that.ifoff(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.removeEventListener(event,ifonHandler)
+	            }
+	        })
 		}
 	
 	    // sub-constructor - called by the constructor
@@ -199,6 +242,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		
 		this.domNode;
 	    this.label;
+	    this.excludeDomEvents;
 	
 	
 	    Object.defineProperty(this, 'label', {
@@ -385,7 +429,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if(styleObject === undefined) {
 	                var styleMap = this.getParentStyleMap()
 	                if(styleMap !== undefined) {
-	                    setCurrentStyle(this, styleMap[this.name])
+	                    setCurrentStyle(this, getStyleForComponent(styleMap, this))
 	                } else {
 	                    setCurrentStyle(this, undefined)
 	                }
@@ -419,8 +463,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    })
 	
-		// private instance variables/functions
 	
+		// private instance variables/functions
 	
 	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
 	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
@@ -482,8 +526,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if(c.style === undefined) {
 	                if(styleMap === undefined) {
 	                    setCurrentStyle(c, undefined)
-	                } else if(styleMap[c.name] !== undefined) {
-	                    setCurrentStyle(c, styleMap[c.name])
+	                } else {
+	                    var styleFromMap = getStyleForComponent(styleMap, c)
+	                    if(styleFromMap !== undefined) {
+	                        setCurrentStyle(c, styleFromMap)
+	                    }
 	                }
 	            }
 	
@@ -492,7 +539,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if(c.style !== undefined) {
 	                mainStyle = c.style.get(c)
 	            } else if(styleMap !== undefined) {
-	                mainStyle = styleMap[c.name]
+	                mainStyle = getStyleForComponent(styleMap, c)
 	                if(mainStyle !== undefined) {
 	                    mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
 	                }
@@ -513,10 +560,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	}
 	
+	// gets the right style from the styleMap
+	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
+	function getStyleForComponent(styleMap, block) {
+	    var constructor = block.constructor
+	    while(constructor !== undefined) {
+	        var style = styleMap[constructor.name]
+	        if(style !== undefined) {
+	            return style
+	        } else {
+	            constructor = constructor.parent
+	        }
+	    }
+	}
+	
 	// returns the conjunction of two style maps
 	// gets it from the computedStyles cache if its already in there
 	function styleMapConjunction(secondaryStyleMap, primaryStyleMap) {
-	    var cachedStyleMap = Style.computedStyles.get()
+	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
 	    if(cachedStyleMap === undefined) {
 	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
 	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
@@ -574,8 +635,54 @@ return /******/ (function(modules) { // webpackBootstrap
 	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
 	    }
 	    if(style !== undefined) {
-	        component.domNode.className += ' '+style.className
+	        component.domNode.className = style.className+' '+component.domNode.className // note that the order of classes doesn't matter
 	    }
+	}
+	
+	function validateDefaultStyle(defaultStyle) {
+	    if(!(defaultStyle instanceof Style)) {
+	        throw new Error("defaultStyle property must be a Style object")
+	    } else if(
+	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
+	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
+	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
+	    ) {
+	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+	    }
+	}
+	
+	function createDefaultBlockStyle(that) {
+	    if(that.defaultStyle !== undefined) {
+	        validateDefaultStyle(that.defaultStyle)
+	    }
+	
+	    // get list of default styles
+	    var defaultStyles = []
+	    var nextConstructor = that.constructor
+	    while(nextConstructor !== undefined) {
+	        if(nextConstructor.defaultStyle !== undefined) {
+	            defaultStyles.push(nextConstructor.defaultStyle)
+	        }
+	        nextConstructor = nextConstructor.parent
+	    }
+	
+	    // generate merged default style
+	    var defaultStyleSet = {}
+	    defaultStyles.reverse().forEach(function(style) {
+	        for(var k in style.styleDefinitions) {
+	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
+	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
+	        }
+	
+	    })
+	
+	    if(Object.keys(defaultStyleSet).length > 0)
+	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
+	    else
+	        var defaultBlockStyle = false // no special default
+	
+	    defaultStyleMap.set(that.constructor, defaultBlockStyle)
+	    return defaultBlockStyle
 	}
 	
 	function isBlock(c) {
@@ -589,17 +696,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var jss = __webpack_require__(15)
-	var proto = __webpack_require__(22)
-	var HashMap = __webpack_require__(24) // .HashMap // weirdly, it looks like this is being treated like an AMD module
+	var jssModule = __webpack_require__(17)
+	var proto = __webpack_require__(24)
+	var HashMap = __webpack_require__(27) // .HashMap // weirdly, it looks like this is being treated like an AMD module
 	
-	var utils = __webpack_require__(13)
+	var utils = __webpack_require__(15)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
 	
-	// creates a style object
+	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
+	defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
+	var jss = jssModule.forDocument(document)
+	jss.defaultSheet = jss._createSheet()
 	
+	// creates a style object
 	var Style = module.exports = proto(function() {
 	
 	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
@@ -670,12 +781,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	
-	        jss.set('.'+this.className, cssProperties) // create the css class
+	        // create the css class
+	        if(privateOptions.default) {
+	            var jssSheet = defaultJss
+	        } else {
+	            var jssSheet = jss
+	        }
 	
-	        if(module.exports.isDev) {
+	        jssSheet.set('.'+this.className, cssProperties)
+	
+	        //if(module.exports.isDev) {
 	            this.styleDefinitions = {}
 	            this.styleDefinitions['.'+this.className] = cssProperties
-	        }
+	        //}
 	
 	        // create label styles
 	        if(Object.keys(labelStyles).length > 0) {
@@ -901,7 +1019,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.setup;             // run some javascript on any element this class is applied to
 	    this.kill;              // a function to run on removal of the style (should reverse setup)
 	
-	    // gets the style object for a component (takes into account whether the component has a label
+	    // gets the style object for a component based on the current style object (takes into account whether the component has a label
 	    this.get = function(component) {
 	        if(component.label !== undefined) {
 	            var labelStyle = this.labelStyleMap[component.label]
@@ -963,14 +1081,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return false
 	        },
 	        setup: function(component, startCallback, endCallback) {
-	            component.domNode.addEventListener("mouseover", startCallback)
-	            component.domNode.addEventListener("mouseout", endCallback)
+	            component.on("mouseover", startCallback)
+	            component.on("mouseout", endCallback)
 	
 	            return {start: startCallback, end: endCallback}
 	        },
 	        kill: function(component, state) {
-	            component.domNode.removeEventListener("mouseover", state.start)
-	            component.domNode.removeEventListener("mouseout", state.end)
+	            component.off("mouseover", state.start)
+	            component.off("mouseout", state.end)
 	        }
 	    },
 	    checked: {
@@ -1195,12 +1313,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    // create immediate pseudo class style
-	    jss.set(selector, pseudoClassCss) // create the css class with the pseudoClass
+	    defaultJss.set(selector, pseudoClassCss) // create the css class with the pseudoClass
 	
-	    if(module.exports.isDev) {
+	    //if(module.exports.isDev) {
 	        that.styleDefinitions = {}
 	        that.styleDefinitions[selector] = pseudoClassCss
-	    }
+	    //}
 	}
 	
 	// throws exceptions for various style configurations that are unsupported by pure pseudo classes (ones that can't be emulated usuing javascript)
@@ -1285,7 +1403,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	function isStyleObject(o) {
-	    return o.componentStyleMap !== undefined && o.componentStyleMap !== undefined
+	    return o.componentStyleMap !== undefined
 	}
 	
 	
@@ -1348,9 +1466,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'word-spacing': 'normal'
 	}
 	
-	jss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
+	defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
 	
-	jss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
+	defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
 	    cursor: 'inherit'
 	})
 	
@@ -1363,7 +1481,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
+	var proto = __webpack_require__(24)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -1393,10 +1511,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 			if(contentArgs !== undefined)
 	            this.add.apply(this,contentArgs)
-	
-			this.domNode.addEventListener("click",function(data) {
-				that.emit("click",data);
-			})
 		}
 	})
 
@@ -1406,7 +1520,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
+	var proto = __webpack_require__(24)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -1432,11 +1546,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.label = label
 			this.attr('type','button');
 			this.text = text
-	
-	        var that = this
-	        this.domNode.addEventListener("click",function(data) {
-				that.emit("click",data);
-			})
 		}
 	
 	    Object.defineProperty(this, 'text', {
@@ -1456,7 +1565,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
+	var proto = __webpack_require__(24)
 	
 	module.exports = proto(Block, function(superclass) {
 		// static variables
@@ -1472,11 +1581,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.label = label
 			this.attr('type','checkbox')
 	
-			this.domNode.addEventListener("click",function(e) {
+			/*this.domNode.addEventListener("click",function(e) {
 	            //this.val = !this.val // toggle dat shit
 				that.emit("click",e)
 	            that.emit('change')
-			})
+			})*/
 		}
 	
 	    Object.defineProperty(this, 'selected', {
@@ -1501,8 +1610,126 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(22)
-	var EventEmitter = __webpack_require__(20).EventEmitter
+	var Block = __webpack_require__(1)
+	var proto = __webpack_require__(24)
+	var Style = __webpack_require__(2)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Image'
+	
+	    this.init = function(/*[label,] imageSource*/) {
+	        if(arguments.length === 1) {
+	            var imageSource = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var imageSource = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement('img') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        var that = this
+	
+	        this.label = label
+	        if(imageSource !==  undefined) this.src = imageSource
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'src', {
+	        get: function() {
+	            return this.domNode.src
+	        }, set: function(v) {
+	            this.domNode.src = v
+	        }
+	    })
+	});
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(24)
+	
+	var Block = __webpack_require__(1)
+	var Style = __webpack_require__(2)
+	
+	var Item = __webpack_require__(18);
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'List'
+	
+	    /*this.defaultStyle = Style({
+	        borderSpacing: 0,
+	        borderCollapse: 'separate'
+	    })*/
+	
+		this.Item = Item
+	
+	
+		// instance properties
+	
+		this.init = function(/*[label,] [ordered,] listInit*/) {
+			if(arguments[0] instanceof Array) {
+	            var listInit = arguments[0]
+	        } else {
+	            if(arguments[1] instanceof Array) {
+	                var listInit = arguments[1]
+	            } else if(arguments[2] instanceof Array) {
+	                var listInit = arguments[2]
+	            }
+	
+	            if(typeof(arguments[0]) === 'boolean') {
+	                var ordered = arguments[0]
+	            } else {
+	                if(typeof(arguments[1]) === 'boolean') {
+	                    var ordered = arguments[1]
+	                } else {
+	                    var ordered = false // default
+	                }
+	
+	                if(typeof(arguments[0]) === 'string') {
+	                    var label = arguments[0]
+	                }
+	            }
+	        }
+	
+	        if(ordered)
+	            var type = 'ol'
+	        else
+	            var type = 'ul'
+	
+	        this.domNode = document.createElement(type) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	        this.label = label
+	
+	        if(listInit !== undefined) {
+	            for(var n=0; n<listInit.length; n++) {
+	                this.item(listInit[n])
+	            }
+	        }
+		}
+	
+		this.item = function() {
+			var item = Item.apply(this, arguments)
+	        this.add(item)
+	        return item
+		}
+	});
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(24)
+	var EventEmitter = __webpack_require__(23).EventEmitter
 	
 	var Block = __webpack_require__(1)
 	
@@ -1654,7 +1881,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.val = value
 	
 	        var that = this
-			this.domNode.addEventListener("mousedown",function(event) {
+			this.on("mousedown",function(event) {
 	            event.preventDefault()           // this needs to be here otherwise the radio button can't be changed
 	
 				if(that.group.required) {
@@ -1665,11 +1892,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                that.selected = !that.selected // toggle
 	            }
 			})
-	        this.domNode.addEventListener("click",function(event) {
+	        this.on("click",function(event) {
 	            event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
-	            that.emit('click', event)
 	        })
-	        this.domNode.addEventListener("keydown",function(event) {
+	        this.on("keydown",function(event) {
 	            if(event.keyCode === 40 || event.keyCode === 39) { // down or right
 	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
 	                that.selectNext()
@@ -1765,20 +1991,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
+	var proto = __webpack_require__(24)
 	
-	var Option = __webpack_require__(16)
+	var Option = __webpack_require__(19)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Block, function(superclass) {
 	
 		// static variables
 	
-	    this.name = 'MultiSelect'
+	    this.name = 'Select'
 	
 	    this.Option = Option
 	
@@ -1792,7 +2018,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        superclass.init.call(this) // superclass constructor
-			this.attr('multiple','multiple')
 	        this.label = label
 	
 	        this.options = {}
@@ -1800,74 +2025,25 @@ return /******/ (function(modules) { // webpackBootstrap
 			for(var value in options) {
 				this.option(value, options[value])
 			}
-	
-	        /*
-			var that = this
-	        that.domNode.addEventListener('mousedown', function() {
-	            console.log("parent mousedown")
-	            var enterHandler, upHandler;
-	            that.children.forEach(function(child) {
-	                child.domNode.addEventListener('mouseover', enterHandler = function() {
-	                    console.log("child mouseover")
-	                    child.selected = true
-	                })
-	            })
-	
-	            that.domNode.addEventListener('mouseup', upHandler = function() {
-	                console.log("parent mouseup")
-	                that.children.forEach(function(child) {
-	                    child.domNode.removeEventListener('mouseover', enterHandler)
-	                })
-	
-	                that.domNode.removeEventListener('mouseup', upHandler)
-	            })
-	        })*/
 		}
 	
 	
 		// instance methods
 	
 	    Object.defineProperty(this, 'val', {
-	        // returns a list of the values that are selected
+	        // returns the value that is selected
 	        get: function() {
-	            var result = []
 	            for(var value in this.options) {
 	                if(this.options[value].selected) {
-	                    result.push(value)
+	                    return value
 	                }
 	            }
-	
-	            return result
 	        },
 	
-	        // values can either be an array, or a single value to select
-	        set: function(values) {
-	            if(!(values instanceof Array))
-	                values = [values]
-	
-	            var that = this
-	            values.forEach(function(value) {
-	                if(that.options[value] === undefined) {
-	                    throw new Error("There is no Option in the MultiSelect with the value: '"+value+"'")
-	                }
-	            })
-	
-	            var stringifiedValues = values.map(function(v){return v.toString()})
-	
-	            var somethingChanged = false
-	            for(var value in this.options) {
-	                var selected = stringifiedValues.indexOf(value) !== -1
-	                var option = this.options[value]
-	
-	                if(option.selected !== selected) {  // selected state change
-	                    somethingChanged = true
-	                    option.setSelectedQuiet(selected)
-	                }
-	            }
-	
-	            if(somethingChanged) {
-	                this.emit('change')
-	            }
+	        set: function(value) {
+	            var option = this.options[value]
+	            if(option === undefined) throw new Error("There is no Option in the Select with the value: '"+value+"'")
+	            option.selected = true
 	        }
 	    })
 		
@@ -1899,65 +2075,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // validation first
 	        nodesToAdd.forEach(function(option) {
 	            if(that.options[option.val] !== undefined) {
-	                throw new Error("Can't give an Option the same value as another in the MultiSelect (value: '"+option.val+"')")
+	                throw new Error("Can't give an Option the same value as another in the Select (value: '"+option.val+"')")
 	            }
 	        })
 	
 	        superclass.addAt.call(this, index, nodesToAdd)
 	
-	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
 	        var anyWereSelected = false
 	        nodesToAdd.forEach(function(option) {
 	            if(option.selected) anyWereSelected = true
 	            that.options[option.val] = option
 	
-	
-	            // set up multi-select events
+	            // set up Select events
 	            // todo: remove events when the Option is removed
 	
-	            option.domNode.addEventListener("mousedown",function(event) {
-	                event.preventDefault()           // this needs to be here otherwise the options can't be deselected
-	
-	                option.parent.focus = true // without this, the parent doesn't gain focus
-	                option.focus = true
-	                if(event.shiftKey || event.ctrlKey) {
-	                    option.selected = !option.selected // toggle
-	                } else {
-	                    var parentVal = option.parent.val
-	                    var onlyThisIsSelected = parentVal.length === 1 && parentVal[0] === option.val
-	                    if(onlyThisIsSelected) {
-	                        option.selected = false
-	                    } else {
-	                        option.parent.val = [option.val] // select only this one
-	                    }
-	                }
+	            option.on("mousedown",function(event) {
+	                option.parent.val = option.val      // select this one
 	            })
-	            option.domNode.addEventListener("click",function(event) {
-	                //event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
-	                option.emit('click', event)
-	            })
-	            option.domNode.addEventListener("mousemove",function(event) {
-	                event.preventDefault()         // this needs to be here otherwise the radio button is unset as soon as you move the mouse (when the mouse is down)
-	            })
-	            /*this.domNode.addEventListener("keydown",function(event) {
-	                if(event.keyCode === 40 || event.keyCode === 39) { // down or right
-	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                    option.selectNext()
-	                } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
-	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                    option.selectPrevious()
-	                }
-	            })*/
-	
-	            /*;['click', 'drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop', 'cancel',
-	                'mousedown', 'mouseenter', 'mousemove', 'mouseleave', 'mouseout', 'mouseover', 'mouseup'
-	            ].forEach(function(eventType) {
-	                option.domNode.addEventListener(eventType, function( event ) {
-	                    //event.preventDefault()
-	                    console.log(eventType)
-	                });
-	            })*/
-	
 	        })
 	
 	        if(anyWereSelected) {
@@ -1976,14 +2111,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        superclass.remove.call(this, removalIndexes)
 	
-	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var anyWereSelected = false
+	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var theSelectedWasRemoved = false
 	        removals.forEach(function(option) {
-	            if(option.selected) anyWereSelected = true
+	            if(option.selected) theSelectedWasRemoved = true
 	            delete that.options[option.val]
 	        })
 	
-	        if(anyWereSelected) {
+	        if(theSelectedWasRemoved) {
+	            //this.children[0].selected = true // I think the browser does this automatically??
 	            this.emit('change')
 	        }
 	    }
@@ -1991,26 +2127,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // private
 	
-	    this.prepareForValueChange = function() {} // no-op
+	    this.prepareForValueChange = function(values) {
+	        var value = values[0]
+	
+	        for(var optionValue in this.options) {
+	            if(optionValue !== value) {
+	                var option = this.options[optionValue]
+	                if(option.selected === true) {
+	                    option.setSelectedQuiet(false)
+	                }
+	            }
+	        }
+	    }
 	})
 	
 
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var proto = __webpack_require__(24)
+	
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
-	var Header = __webpack_require__(17);
-	var Row = __webpack_require__(18);
-	var Cell = __webpack_require__(19);
+	var Style = __webpack_require__(2)
+	
+	var Header = __webpack_require__(20);
+	var Row = __webpack_require__(21);
+	var Cell = __webpack_require__(22);
 	
 	module.exports = proto(Block, function(superclass) {
 	
 		// static properties
 	
-		this.name = 'Table'
+	    this.name = 'Table'
+	
+	    this.defaultStyle = Style({
+	        borderSpacing: 0
+	    })
 	
 	    this.Row = Row
 		this.Header = Header
@@ -2029,7 +2183,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.domNode = document.createElement("table") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        superclass.init.call(this) // superclass constructor
-			this.attr("cellspacing",0);   // todo: move this to a default style when that's supported
 	        this.label = label
 	
 	        if(tableInit !== undefined) {
@@ -2055,11 +2208,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
+	var proto = __webpack_require__(24)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -2071,14 +2224,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.domNode = document.createElement("textarea") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        superclass.init.call(this) // superclass constructor
 			this.label = label
-	
-	        var that = this
-			this.domNode.addEventListener("click",function(e) {
-				that.emit("click",e);
-			});	
-			this.domNode.addEventListener("change",function(e) {
-				that.emit("change",e);
-			});
 		}
 	
 	
@@ -2103,13 +2248,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
+	var proto = __webpack_require__(24)
 	
-	var domUtils = __webpack_require__(14)
+	var domUtils = __webpack_require__(16)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -2133,21 +2278,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			domUtils.setAttribute(this.domNode,'type','text');
 	        if(password)
 	            domUtils.setAttribute(this.domNode, 'type', 'password')
-	
-	
-	        var that = this
-			this.domNode.addEventListener("click",function(e) {
-				that.emit("click",e);
-			});
-			this.domNode.addEventListener("change",function(e) {
-				that.emit("change",e);
-			});
-	        this.domNode.addEventListener("keypress",function(e) {
-				that.emit("keypress",e);
-			})
-	        this.domNode.addEventListener("keyup",function(e) {
-				that.emit("keyup",e);
-			})
 		}
 	
 	
@@ -2172,17 +2302,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
+	var proto = __webpack_require__(24)
+	var Style = __webpack_require__(2)
 	
 	module.exports = proto(Block, function(superclass) {
 	
 	    //static properties
 	
 	    this.name = 'Text'
+	
+	    this.defaultStyle = Style({
+	        whiteSpace: 'pre'
+	    })
 	
 	    this.init = function(/*[label,] text*/) {
 	        if(arguments.length === 1) {
@@ -2200,21 +2335,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.label = label
 	        this.text = text
-	        this.domNode.style["white-space"] = "pre";      // todo: move this to a default style when that's supproted
-	        this.domNode.addEventListener("click",function(e) {
-	                that.emit("click",e);
-	        });
 	
-	        this.domNode.addEventListener("input",function(data) {
+	        this.on("input",function(data) {
 	            var eventData = {newText:data.srcElement.textContent,oldText:that.oldText};
 	            that.oldText = eventData.newText;
-	            that.emit("input",eventData);
+	            //that.emit("input",eventData);
 	        });
 	
-	        this.domNode.addEventListener("blur",function(data) {
+	        this.on("blur",function(data) {
 	            var eventData = {newText:data.srcElement.textContent,oldText:that.lastFocus};
 	            that.lastFocus = eventData.newText;
-	            that.emit("blur",eventData);
+	            //that.emit("blur",eventData);
 	        });
 	    }
 	
@@ -2231,11 +2362,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitter = __webpack_require__(20).EventEmitter
-	var proto = __webpack_require__(22);
+	var EventEmitter = __webpack_require__(23).EventEmitter
+	var proto = __webpack_require__(24)
+	var utils = __webpack_require__(15)
 	
 	module.exports = proto(EventEmitter, function(superclass) {
 	
@@ -2256,14 +2388,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // callback - attach an ifon handler for all events
 	    this.ifon = function(event, callback) {
 	        if(event instanceof Function) {     // event not passed, only a callback
-	            for(var event in this._events) {
-	                if(this._events[event].length > 0) {
-	                    callback()
-	                    break;
+	            callback = event // fix the argument
+	            for(var eventName in this._events) {
+	                if(this.listeners(eventName).length > 0) {
+	                    callback(eventName)
 	                }
 	            }
 	        } else if(this.listeners(event).length > 0) {
-	            callback()
+	            callback(event)
 	        }
 	
 	        addHandlerToList(this, 'ifonHandlers', event, callback)
@@ -2296,13 +2428,43 @@ return /******/ (function(modules) { // webpackBootstrap
 	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
 	    }
 	
+	    // emitter is the emitter to proxy handler binding to
+	    // options can have one of the following properties:
+	        // only - an array of events to proxy
+	        // except - an array of events to *not* proxy
+	    this.proxy = function(emitter, options) {
+	        if(options === undefined) options = {}
+	        if(options.except !== undefined) {
+	            var except = utils.arrayToMap(options.except)
+	            var handleIt = function(event){return !(event in except)}
+	        } else if(options.only !== undefined) {
+	            var only = utils.arrayToMap(options.only)
+	            var handleIt = function(event){return event in only}
+	        } else {
+	            var handleIt = function(){return true}
+	        }
+	
+	        var that = this, handler;
+	        this.ifon(function(event) {
+	            if(handleIt(event)) {
+	                emitter.on(event, handler = function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        this.ifoff(function(event) {
+	            if(handleIt(event))
+	                emitter.off(event, handler)
+	        })
+	    }
+	
 	    /*override*/ this.on = this.addListener = function(event, callback) {
 	        var triggerIfOn = this.listeners(event).length === 0
 	        superclass.prototype.on.apply(this,arguments)
 	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
 	    }
 	
-	    /*override*/ this.removeListener = function(event, callback) {
+	    /*override*/ this.off = this.removeListener = function(event, callback) {
 	        var triggerIfOff = this.listeners(event).length === 1
 	        superclass.prototype.removeListener.apply(this,arguments)
 	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
@@ -2401,12 +2563,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var path = __webpack_require__(26)
+	var path = __webpack_require__(29)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -2428,6 +2590,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    merge(objectCopy, a)
 	    merge(objectCopy, b)
 	    return objectCopy
+	}
+	
+	// turns an array of values into a an object where those values are all keys that point to 'true'
+	exports.arrayToMap = function(array) {
+	    var result = {}
+	    array.forEach(function(v) {
+	        result[v] = true
+	    })
+	    return result
 	}
 	
 	function mergeInternal(objects, deep) {
@@ -2458,7 +2629,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -2652,7 +2823,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -2947,13 +3118,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
 
 /***/ },
-/* 16 */
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(1)
+	var proto = __webpack_require__(24)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'ListItem'
+		
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Block) {
+				this.add(contents)
+			} else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	});
+
+
+/***/ },
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// note: this is  not intended to be used directly - only through Select and MultiSelect
 	
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
+	var Style = __webpack_require__(2)
+	var proto = __webpack_require__(24)
 	//var htmlEntities = require('he')
 	
 	// emits a 'change' event when its 'selected' value changes
@@ -2962,6 +3171,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // staic members
 	
 	    this.name = 'Option'
+	
+	    this.defaultStyle = Style({
+	        display: 'block'
+	    })
 	
 	
 	    // instance members
@@ -3050,29 +3263,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	})
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
 	
-	var RowlikeGenerator = __webpack_require__(25);
+	var RowlikeGenerator = __webpack_require__(28);
 	
 	module.exports = RowlikeGenerator('th', "Header")
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var RowlikeGenerator = __webpack_require__(25);
+	var RowlikeGenerator = __webpack_require__(28);
 	
 	module.exports = RowlikeGenerator('tr', "Row")
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
+	var proto = __webpack_require__(24)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3109,7 +3322,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -3416,39 +3629,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	        else
-	            break
-	    }
-	    args.splice(args.length-count, count)
-	    return args
-	}
-
-/***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
 	
 	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
 	function proto() {
 	    var args = arguments // minifiable variables
 	
 	    if(args.length == 1) {
-	        var parent = {}
+	        var parent = {init: noop}   // set noop init so that every parent has an init
 	        var prototypeBuilder = args[0]
 	
 	    } else { // length == 2
@@ -3457,7 +3651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    // special handling for Error objects
-	    var namePointer = {}
+	    var namePointer = {}    // name used only for Error Objects
 	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
 	        parent = normalizeErrorObject(parent, namePointer)
 	    }
@@ -3472,22 +3666,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // the prototype that will be used to make instances
 	    var prototype = new prototypeBuilder(parent)
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
 	    namePointer.name = prototype.name
 	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    function ProtoObjectFactory() {     // result object factory
-	        var x = new F()                 // empty object
+	    var ProtoObjectFactory = namedFunction(prototype.name, function() {     // result object factory
+	        var x = new F()          // empty object
 	
 	        if(prototype[init]) {
 	            var result = prototype[init].apply(x, arguments)    // populate object via the constructor
@@ -3500,20 +3682,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	            return x
 	        }
+	    })
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
 	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
 	
 	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
 	    for(var n in prototype) {
 	        addProperty(ProtoObjectFactory, prototype, n)
 	    }
 	
-	    // add properties from parent that don't exist in the static class object yet (to get thing in like
+	    // add properties from parent that don't exist in the static class object yet
 	    for(var n in parent) {
 	        if(Object.hasOwnProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
 	            addProperty(ProtoObjectFactory, parent, n)
 	        }
 	    }
 	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
 	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
 	
 	    return ProtoObjectFactory;
@@ -3541,9 +3738,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        return this
 	    }
-	        var IntermediateInheritor = function() {}
-	            IntermediateInheritor.prototype = ErrorObject.prototype
-	        NormalizedError.prototype = new IntermediateInheritor()
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
 	    return NormalizedError
 	}
 	
@@ -3559,14 +3758,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // do nothing, if a property (like `name`) can't be set, just ignore it
 	    }
 	}
+	
+	// returns the function named with the passed name
+	function namedFunction(name, fn) {
+	    if(name !== undefined) {
+	        return new Function('fn',
+	            "return function " + name + "(){ return fn.apply(this,arguments)}"
+	        )(fn)
+	    } else {
+	        return fn
+	    }
+	
+	}
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(22)
-	var EventEmitter = __webpack_require__(20).EventEmitter
-	var utils = __webpack_require__(27)
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
+	
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	        else
+	            break
+	    }
+	    args.splice(args.length-count, count)
+	    return args
+	}
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(24)
+	var EventEmitter = __webpack_require__(23).EventEmitter
+	var utils = __webpack_require__(30)
 	
 	
 	// emits the event:
@@ -3982,7 +4214,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 24 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -4174,12 +4406,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var proto = __webpack_require__(24)
+	
 	var Block = __webpack_require__(1)
-	var proto = __webpack_require__(22)
-	var Cell = __webpack_require__(19);
+	var Style = __webpack_require__(2)
+	var Cell = __webpack_require__(22);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -4191,7 +4425,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.name = name
 	
-	        // todo: add default styling of display: table-row
+	        this.defaultStyle = Style({
+	            display: 'table-row'
+	        })
 	
 	
 	        // instance properties
@@ -4224,7 +4460,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -4452,15 +4688,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var path = __webpack_require__(26)
+	var path = __webpack_require__(29)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -4504,7 +4740,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 28 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// shim for using process in browser

@@ -211,16 +211,16 @@ module.exports = function(t) {
 
     this.test("label arguments", function() {
         var table1 = Table('aLabel')
-        var table2 = Table('aLabel2', [['a', 'b'],['c', 'd']])
+        var table2 = Table('aLabel2', [['a', 'b'],['c', 'd'],['e']])
         this.eq(table1.label, 'aLabel')
         this.eq(table2.label, 'aLabel2')
-        this.eq(table2.children.length, 2)
+        this.eq(table2.children.length, 3)
 
         var row1 = table1.row('aLabel3')
-        var row2 = table1.row('aLabel4', ['e','f'])
+        var row2 = table1.row('aLabel4', ['f','g'])
         this.eq(row1.label, 'aLabel3')
         this.eq(row2.label, 'aLabel4')
-        this.eq(table2.children.length, 2)
+        this.eq(table1.children.length, 2)
 
         var cell1 = row1.cell('label5', 'value')
         var cell2 = row1.cell('label6', undefined)

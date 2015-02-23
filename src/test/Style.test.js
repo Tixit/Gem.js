@@ -15,10 +15,69 @@ var Container = blocks.Container
 module.exports = function(t) {
 
 
+     this.test('visited', function() {
+            var C = proto(Block, function(superclass) {
+                this.name = 'C'
+
+                this.build = function(text, link) {
+                    this.domNode = domUtils.node('a')
+
+                    this.attr('href', link)
+                    this.attr('style', "display:block;")
+                    this.domNode.textContent = text
+                    this.on('click', function(e) {
+                        e.preventDefault() // prevents you from going to the link location on-click
+                        console.log("fucks")
+                    })
+
+                    this.style = style
+                }
+            })
+
+            var style = Style({
+                color: 'rgb(150, 0, 0)',
+                $$visited: {
+                    color: 'rgb(0, 128, 0)',
+
+                    $$focus: {
+                        color: 'rgb(0, 70, 200)'
+                    }
+                }
+            })
+
+            var component1 = C("This should be green", "http://www.google.com/")
+            var component2 = C("This should be blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
+                component2.attr('tabindex', 1) // to make it focusable
+            var component3 = C("This should be red (even when clicked on)", "http://www.thisdoesntexistatall.com/notatall")
+                component3.attr('tabindex', 1) // to make it focusable
+
+            // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
+            testUtils.demo('Manually verify these: component :visited pseudo-class styling', Container([component1, component2, component3]))
+
+            component2.focus = true
+
+            this.test('errors', function() {
+                this.count(1)
+
+                try {
+                    Style({
+                        Anything: {
+                            $$visited: {
+                                CheckBox: {
+                                    $setup: function() {
+                                    }
+                                }
+                            }
+                        }
+                    })
+                } catch(e) {
+                    this.eq(e.message, "All properties within the pseudoclasses 'visited' must be css styles")
+                }
+            })
+        })
 
 
-
-    //*
+    /*
     this.test('simple styling',function(t) {
         this.count(2)
 
@@ -150,7 +209,6 @@ module.exports = function(t) {
             color: 'rgb(0, 0, 128)'
         })
 
-        debugger; // fukc you
         var C = proto(Text, function(superclass) {
             this.defaultStyle = Style({
                 color: 'rgb(0, 128, 0)',
@@ -727,6 +785,7 @@ module.exports = function(t) {
                     this.domNode.textContent = text
                     this.on('click', function(e) {
                         e.preventDefault() // prevents you from going to the link location on-click
+                        console.log("fucks")
                     })
 
                     this.style = style
