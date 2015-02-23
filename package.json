@@ -1,7 +1,7 @@
 {"name":"blocks-js",
  "description": "A library for building and styling web components in pure-javascript.",
  "keywords": ["web", "components", "html", "css", "style"],
- "version":"0.1.0",
+ "version":"0.9.3",
  "main": "src/blocks.js",
  "contributors": [
     "Billy Tetrud <bitetrudpublic@gmail.com> (https://github.com/fresheneesz/)",
@@ -16,7 +16,7 @@
    "url": "git://github.com/Tixit/blocks.js"
  },
  "dependencies":{
-    "proto": "",
+    "proto": "1.0.13",
     "observe": "",
     "trimArguments":"https://github.com/fresheneesz/trimArguments/archive/c9c023c9ff1e0aec4b67370a80a92dacadcf8b11.tar.gz",
     "colors":"",

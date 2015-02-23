@@ -151,7 +151,6 @@ Decisions
 Todo
 ======
 
-* Support styling blocks via their inheritance tree (ie if A inherits from B, styling A should style A and B, but a B style should override an A style)
 * Create a way to set unobtrusive default styles for custom Blocks (so you can, for example, make Option blocks display: block)
 
 * Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
@@ -162,6 +161,7 @@ Todo
 Changelog
 ========
 
+* 0.9.3 - * Support styling blocks via their inheritance tree (ie if A inherits from B, styling A should style A and B, but a B style should override an A style)
 * 0.9.2
     * Using `ifon` and `ifoff` for proxying browser events through Blocks
     * Override the `on` method so that standard browser events are automatically attached to domNodes

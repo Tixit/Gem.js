@@ -79,6 +79,33 @@ module.exports = function(t) {
         this.ok(color === 'rgb(0, 0, 128)', color)
     })
 
+    this.test('styling a component via its class-parent', function() {
+        var S = Style({
+            Text: {backgroundColor: 'rgb(128, 0, 0)'}
+        })
+
+        var NextText = proto(Text, function(superclass) {
+            this.name = 'NextText'
+        })
+
+        var C = proto(Block, function(superclass) {
+            this.name = 'C'
+
+            this.build = function() {
+                this.style = S
+
+                this.add(NextText('one'))
+            }
+        })
+
+        var node = C()
+        testUtils.demo('styling a component via its class-parent', node)
+
+        var children = node.domNode.children
+        var color = $(children[0]).css('backgroundColor')
+        this.ok(color === 'rgb(128, 0, 0)', color)
+    })
+
     this.test("styling inner components with the 'components' initialization", function() {
 
         var textStyle1 = Style({
