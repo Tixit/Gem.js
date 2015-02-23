@@ -166,6 +166,9 @@ Todo
 Changelog
 ========
 
+* 0.9.5
+    * Used default stying to set defaults on some of the built in Blocks
+    * Fixed a bug in ifon when its called without an event and there are already events set up
 * 0.9.4 - Create a way to set unobtrusive default styles for custom Blocks (so you can, for example, make Option blocks display: block)
 * 0.9.3 - Support styling blocks via their inheritance tree (ie if A inherits from B, styling A should style A and B, but a B style should override an A style)
 * 0.9.2

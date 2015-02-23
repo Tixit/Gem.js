@@ -1,7 +1,7 @@
 {"name":"blocks-js",
  "description": "A library for building and styling web components in pure-javascript.",
  "keywords": ["web", "components", "html", "css", "style"],
- "version":"0.9.3",
+ "version":"0.9.5",
  "main": "src/blocks.js",
  "contributors": [
     "Billy Tetrud <bitetrudpublic@gmail.com> (https://github.com/fresheneesz/)",

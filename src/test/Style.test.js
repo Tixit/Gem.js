@@ -725,7 +725,7 @@ module.exports = function(t) {
                     this.attr('href', link)
                     this.attr('style', "display:block;")
                     this.domNode.textContent = text
-                    this.domNode.addEventListener('click', function(e) {
+                    this.on('click', function(e) {
                         e.preventDefault() // prevents you from going to the link location on-click
                     })
 
@@ -808,7 +808,7 @@ module.exports = function(t) {
             this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
             this.eq($(children[3]).css('color'), 'rgb(128, 0, 0)')
             var classes = children[3].classList
-            this.eq(classes.length, 2)
+            this.eq(classes.length, 3)  // one is the main default, one is the Text default, and the 3rd is the set styling
 
             // dynamically adding elements
 
