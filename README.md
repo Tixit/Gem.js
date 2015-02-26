@@ -33,7 +33,7 @@ toggleButton.attach()
 // create styles with style objects ..
 toggleButton.style = Style({
     color: 'rgb(128, 0, 0)', // .. that use familiar css values,
-    marginRight: 34          // .. camelCase css properties, and integers interpreted as "px" values
+    marginRight: 34          // .. camelCase css properties, and integers interpreted as "px" values when appropriate
 })
 
 // custom blocks (use your favorite javascript class library - here proto is being used)
@@ -99,29 +99,32 @@ define(['blocks.umd.js'], function(blocks) { ... } // amd
 
 All blocks inherit from `Block` - the basic building-block of the system. Blocks are [EventEmitters](http://nodejs.org/api/events.html), and emitting events is one of the primary ways blocks should communicate.
 
-Block is abstract, and can't be instantiated on its own. See the section ''Custom Blocks'' for details on how to create objects that inherit from Block.
+`Block` is abstract and can't be instantiated on its own. See the section ''Custom Blocks'' for details on how to create objects that inherit from Block.
 
 ### Loading
 
+```javascript
 var Block = require("blocks-js") // or
 var Block = require("blocks-js/Block") // or
 blocks.Block // if you're using the umd package
+```
 
 ### Static properties and methods
 
-`Block.name` - The name of the Block. Used both for naming dom elements for view in browser dev tools and for styling.
-`Block.attach(block, block, ...)` - Appends the passed blocks to `document.body`.
-`Block.detach(block, block, ...)` - Removes the passed blocks to `document.body`.
-`Block.createBody(callback)` - Dynamically creates the body tag. Calls `callback` when done.
+**`Block.name`** - The name of the Block. Used both for naming dom elements for view in browser dev tools and for styling.
+
+**`Block.attach(block, block, ...)`** - Appends the passed blocks to `document.body`.  
+**`Block.detach(block, block, ...)`** - Removes the passed blocks to `document.body`.  
+**`Block.createBody(callback)`** - Dynamically creates the body tag. Calls `callback` when done.  
 
 ### Instance properties and methods
 
-`block.parent` - The Block's parent (which will also be a Block)
-`block.children` - An array of the Block's children (which will all be Blocks themselves).
-`block.domNode` - The Block's dom node.
-`block.label` - A string used for styling. Should be set once when the object is instantiated, and cannot change. *See the section on `Style` objects for details about how this is used*.
-`block.excludeDomEvents` - A set of dom events to exclude from automatic registration. Will have the structure `{eventName1:1, eventName2:1, ...}`. See the documentation for `on` for more details.
-`block.state` - An [observer](https://github.com/Tixit/observe) object that can be listened on for changes. Can be used for any purpose, but is intended for being used to create dynamically changing styles. *See the section on `Style` objects for an example*.
+**`block.parent`** - The Block's parent (which will also be a Block)  
+**`block.children`** - An array of the Block's children (which will all be Blocks themselves).  
+**`block.domNode`** - The Block's dom node.  
+**`block.label`** - A string used for styling. Should be set once when the object is instantiated, and cannot change. *See the section on `Style` objects for details about how this is used*.  
+**`block.excludeDomEvents`** - A set of dom events to exclude from automatic registration. Will have the structure `{eventName1:1, eventName2:1, ...}`. See the documentation for `on` for more details.  
+**`block.state`** - An [observer](https://github.com/Tixit/observe) object that can be listened on for changes. Can be used for any purpose, but is intended for being used to create dynamically changing styles. *See the section on `Style` objects for an example*.  
 
 `block.add(block, block, ...)` - Appends blocks as children to the calling block. This causes the domNodes of the passed blocks to be appended to the calling block's dom node.
 `block.add(listOfBlocks)` - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
