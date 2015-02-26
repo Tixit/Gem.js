@@ -124,35 +124,35 @@ blocks.Block // if you're using the umd package
 **`block.domNode`** - The Block's dom node.  
 **`block.label`** - A string used for styling. Should be set once when the object is instantiated, and cannot change. *See the section on `Style` objects for details about how this is used*.  
 **`block.excludeDomEvents`** - A set of dom events to exclude from automatic registration. Will have the structure `{eventName1:1, eventName2:1, ...}`. See the documentation for `on` for more details.  
-**`block.state`** - An [observer](https://github.com/Tixit/observe) object that can be listened on for changes. Can be used for any purpose, but is intended for being used to create dynamically changing styles. *See the section on `Style` objects for an example*.  
+**`block.state`** - An [observer](https://github.com/Tixit/observe) object that can be listened on for changes. Can be used for any purpose, but is intended for being used to create dynamically changing styles. *See the section on `Style` objects for an example*.
 
-`block.add(block, block, ...)` - Appends blocks as children to the calling block. This causes the domNodes of the passed blocks to be appended to the calling block's dom node.
-`block.add(listOfBlocks)` - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
+**`block.add(block, block, ...)`** - Appends blocks as children to the calling block. This causes the domNodes of the passed blocks to be appended to the calling block's dom node.  
+**`block.add(listOfBlocks)`** - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
 
-`block.addAt(index, block, block, ...)` - Adds blocks as children to the calling block at a particular index.
-`block.addAt(index, listOfBlocks)` - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
+**`block.addAt(index, block, block, ...)`** - Adds blocks as children to the calling block at a particular index.  
+**`block.addAt(index, listOfBlocks)`** - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
 
-`block.addBefore(beforeChild, block, block, ...)` - Adds blocks as children to the calling block before a particular child. If `beforeChild` is undefined, this will append the given nodes.
-`block.addBefore(beforeChild, listOfBlocks)` - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
+**`block.addBefore(beforeChild, block, block, ...)`** - Adds blocks as children to the calling block before a particular child. If `beforeChild` is undefined, this will append the given nodes.  
+**`block.addBefore(beforeChild, listOfBlocks)` - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
 
-`block.remove(block, block, ...)` - Removes the passed blocks as children.
-`block.remove(listOfBlocks)` - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
-`block.remove(index, index, ...)` - Removes, as children, the blocks at the given `index`es in the `children` list.
-`block.remove(listOfIndexes)` - *Same as above, but `listOfIndexes` is an array of indexes to remove.*
+**`block.remove(block, block, ...)`** - Removes the passed blocks as children.  
+**`block.remove(listOfBlocks)`** - *Same as above, but `listOfBlocks` is an array of `Block` objects.*  
+**`block.remove(index, index, ...)`** - Removes, as children, the blocks at the given `index`es in the `children` list.  
+**`block.remove(listOfIndexes)`** - *Same as above, but `listOfIndexes` is an array of indexes to remove.*
 
-`block.attach()` - Appends this `Block`'s domNode to `document.body`.
-`block.detach()` - Removes this `Block`'s domNode from `document.body`.
+**`block.attach()`** - Appends this `Block`'s domNode to `document.body`.  
+**`block.detach()`** - Removes this `Block`'s domNode from `document.body`.
 
-`block.attr(attributeName)` - Return the value of the attribute named `attributeName` on the Block's domNode.
-`block.attr(attributeName, value)` - Set the attribute to the passed `value`.
-`block.attr(attributeObject)` - Set the attributes in the `attributeObject`, where `attributeObject` looks like: `{attribute1: value1, attribute2: value2, ...}`.
+**`block.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Block's domNode.  
+**`block.attr(attributeName, value)` - Set the attribute to the passed `value`.  
+**`block.attr(attributeObject)`** - Set the attributes in the `attributeObject`, where `attributeObject` looks like: `{attribute1: value1, attribute2: value2, ...}`.
 
-`block.style` - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Block's children.
-`block.visible` - Setting this variable to false hides the block using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state.
-`block.focus` - Setting this variable to true gives the block focus on the page. Setting this variable to false `blur`s it. Accessing the variable returns whether or not the block is the focused element on the page.
+**`block.style`** - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Block's children.  
+**`block.visible`** - Setting this variable to false hides the block using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state.  
+**`block.focus`** - Setting this variable to true gives the block focus on the page. Setting this variable to false `blur`s it. Accessing the variable returns whether or not the block is the focused element on the page.
 
-`block.selectionRange` - Returns an array representing the selection range in terms of visible character offsets. E.g. a value of `[2,4]` means that the current element has 2 visible entities (usually characters) selected within it at offset 2 and 4 from the start. Note that if there are hidden characters like multiple spaces in a row, or newlines, or other non-visible characters (mostly only applies to contenteditable nodes), they are ignored.
-`block.selectionRange = [offsetStart, offsetEnd]` - Setting the `selectionRange` property sets the selection inside the Block's domNode based on the given offsets.
+**`block.selectionRange`** - Returns an array representing the selection range in terms of visible character offsets. E.g. a value of `[2,4]` means that the current element has 2 visible entities (usually characters) selected within it at offset 2 and 4 from the start. Note that if there are hidden characters like multiple spaces in a row, or newlines, or other non-visible characters (mostly only applies to contenteditable nodes), they are ignored.  
+**`block.selectionRange = [offsetStart, offsetEnd]`** - Setting the `selectionRange` property sets the selection inside the Block's domNode based on the given offsets.
 
 Example of `selectionRange`:
 
@@ -166,19 +166,19 @@ x.selectionRange = [0,6] // selects "You're"
 
 All methods and properties from `[EventEmitters](http://nodejs.org/api/events.html)` are inherited by `Block`. The important ones:
 
-`block.emit(event, data, data2, ...)` - Emits an event that triggers handlers setup via the Block's `on` or `addListener` methods.
+**`block.emit(event, data, data2, ...)`** - Emits an event that triggers handlers setup via the Block's `on` or `addListener` methods.
 
-`block.on(event, callback)` - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Block.
-`block.addListener(event,callback) - *Same as `on`.*
+**`block.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Block.  
+**`block.addListener(event,callback)`** - *Same as `on`.*  
 * `callback(data, data2, ...)` - the callback gets any arguments passed to `emit` after the event name.
 
-`block.once(event, callback)` - Like `on` but the `callback` will only be called the first time the event happens.
+**`block.once(event, callback)`** - Like `on` but the `callback` will only be called the first time the event happens.
 
-`block.off(event, callback)` - Removes a callback as an event handler (the `callback` won't be called for that event again).
-`block.removeListener(event,callback) - *Same as `off`.*
+**`block.off(event, callback)`** - Removes a callback as an event handler (the `callback` won't be called for that event again).
+**`block.removeListener(event,callback)`** - *Same as `off`.*
 
-`this.removeAllListeners(event)` - Removes all the callbacks for the passed `event`.
-`this.removeAllListeners()` - Removes all callbacks.
+**`this.removeAllListeners(event)`** - Removes all the callbacks for the passed `event`.  
+**`this.removeAllListeners()`** - Removes all callbacks.
 
 #### Instance properties inherited from EventEmitterB
 
@@ -202,16 +202,15 @@ parent.ifoff('someoneClickedTheThing', function() {
 ```
 
 **`block.ifon(event, callback)`** - Registers a callback that will be called when a handler is registered for `event` if it had no handler registered previously. If there is already a listener attached to that event, `callback` is called immediately.
-**
 * `callback(event)` - The callback gets the newly registered event type as its argument.
 
-**`block.ifoff(event, callback)`** - Registers a callback that will be called when the last handler for `event` is unregistered.
+**`block.ifoff(event, callback)`** - Registers a callback that will be called when the last handler for `event` is unregistered.  
 **`block.ifoff(callback)`** - Registers a callback that will be called when the last handler for any event is unregistered.
 * `callback(event)` - The callback gets the unregistered event type as its argument.
 
-**`block.removeIfon()`** - Removes all `ifon` handlers.
-**`block.removeIfon(event)`** - Removes all `ifon` handlers for the passed `event`.
-**`block.removeIfon(callback)`** - Removes `callback` as an "all" `ifon` handler (a callback passed to `ifon` without an event).
+**`block.removeIfon()`** - Removes all `ifon` handlers.  
+**`block.removeIfon(event)`** - Removes all `ifon` handlers for the passed `event`.  
+**`block.removeIfon(callback)`** - Removes `callback` as an "all" `ifon` handler (a callback passed to `ifon` without an event).  
 **`block.removeIfon(event, callback)`** - Removes `callback` as an `ifon` handler for the passed `event`.
 
 **`block.removeIfoff()`** - Removes all `ifoff` handlers.
@@ -245,7 +244,7 @@ B.emit("click", "Ughh..") // console prints "hey hey heyyy! Ughh.."
 
 ### Instance events
 
-**`"newParent"`** - Emitted when a Block gets a new parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
+**`"newParent"`** - Emitted when a Block gets a new parent. *Note: this event is used by `Style` objects, so don't prevent these events.*  
 **`"parentRemoved"`** - Emitted when a Block is detached from its parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
 
 #### Dom Events
@@ -344,185 +343,185 @@ Some blocks have sub-blocks specifically related to them. For example, `Select` 
 
 Your standard html `<button>`.
 
-`Button(text)` - Returns a new button that has the passed text.
-`Button(label, text)`
+**`Button(text)`** - Returns a new button that has the passed text.  
+**`Button(label, text)`**
 
-`button.text` - Sets or gets the button's text dynamically.
+**`button.text`** - Sets or gets the button's text dynamically.
 
 ### Canvas
 
 Your standard html `<canvas>`.
 
-`Canvas(height, width)` - Returns a new Canvas object that has the passed dimensions.
-`Canvas(label, height, width)`
+**`Canvas(height, width)`** - Returns a new Canvas object that has the passed dimensions.  
+**`Canvas(label, height, width)`**
 
-`canvas.height` - Sets and gets the canvas's height.
-`canvas.width` - Sets and gets the canvas's width.
+**`canvas.height`** - Sets and gets the canvas's height.  
+**`canvas.width`** - Sets and gets the canvas's width.
 
-`canvas.context(type, attributes)` - Returns a standard canvas context. The `type` and `attribute` parameters and return value are the same as the html-standard [`getContext`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext).
+**`canvas.context(type, attributes)`** - Returns a standard canvas context. The `type` and `attribute` parameters and return value are the same as the html-standard [`getContext`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext).
 
-`canvas.toImg` - Returns a data-url representing the image currently drawn on the canvas.
-`canvas.toDataURL` - Same as `canvas.toImg`.
+**`canvas.toImg`** - Returns a data-url representing the image currently drawn on the canvas.  
+**`canvas.toDataURL`** - Same as `canvas.toImg`.
 
 ### CheckBox
 
 Your standard html `<input type="checkbox">`.
 
-`CheckBox()` - Returns a new unchecked CheckBox.
-`CheckBox(label)`
+**`CheckBox()`** - Returns a new unchecked CheckBox.  
+**`CheckBox(label)`**
 
-`button.text` - Sets and gets the button's text dynamically.
+**`button.text`** - Sets and gets the button's text dynamically.
 
 ### Container
 
 A `<div>` that contains other blocks.
 
-`Container(block, block, ...)` - Returns a new container with all the passed blocks as children (in the passed order).
-`Container(listOfBlocks)` - Same as above except `listOfBlocks` is an array of blocks.
-`Container(label, block, block, ...)`
-`Container(label, listOfBlocks)`
+**`Container(block, block, ...)`** - Returns a new container with all the passed blocks as children (in the passed order).  
+**`Container(listOfBlocks)`** - Same as above except `listOfBlocks` is an array of blocks.  
+**`Container(label, block, block, ...)`**  
+**`Container(label, listOfBlocks)`**
 
 ### Image
 
 Your standard html `<img>`.
 
-`Image()` - Returns a new empty image.
-`Image(imageSource)` - Returns a new image with the passed `imageSource`.
-`Image(label, imageSource)`
+**`Image()`** - Returns a new empty image.  
+**`Image(imageSource)`** - Returns a new image with the passed `imageSource`.  
+**`Image(label, imageSource)`**
 
-`image.src` - Changes the image's source.
+**`image.src`** - Changes the image's source.
 
 ### List
 
 An `<ol>` or `<ul>` element.
 
-`List()` - Returns a new empty list.
-`List(ordered)` - Returns a new empty list. Is an ordered-list if `ordered` is true, and an unorderd-list otherwise.
-`List(listInit)` - Returns a new populated list. `listInit` is an array containing either `Block`s or strings to add as list items.
-`List(ordered, listInit)`
-`List(label)`
-`List(label, ordered)`
-`List(label, listInit)`
-`List(label, ordered, listInit)`
+**`List()`** - Returns a new empty list.  
+**`List(ordered)`** - Returns a new empty list. Is an ordered-list if `ordered` is true, and an unorderd-list otherwise.  
+**`List(listInit)`** - Returns a new populated list. `listInit` is an array containing either `Block`s or strings to add as list items.  
+**`List(ordered, listInit)`**  
+**`List(label)`**  
+**`List(label, ordered)`**  
+**`List(label, listInit)`**  
+**`List(label, ordered, listInit)`**
 
-`list.item(contents)` - Creates a new `ListItem` with the passed `contents` and appends it to the list, which can either be a `Block` or a string.
-`list.item(label, contents)`
+**`list.item(contents)`** - Creates a new `ListItem` with the passed `contents` and appends it to the list, which can either be a `Block` or a string.  
+**`list.item(label, contents)`**
 
-`List.Item` - The `ListItem` class.
+**`List.Item`** - The `ListItem` class.
 
-`List.Item(contents)` - same as `list.item` above, except doesn't append the item to any list.
-`List.Item(label, contents)`
+**`List.Item(contents)`** - same as `list.item` above, except doesn't append the item to any list.  
+**`List.Item(label, contents)`**
 
 ### Radio - Not a `Block`
 
 A set of radio buttons. `Radio` itself is not a `Block`, but rather contains a set of related `RadioButton`s.
 
-`Radio()` - Returns a new `Radio` object where a button is not required to be set (same as `Radio(false)`).
-`Radio(required)` - Returns a new `Radio` object. If `required` is true, a radio button will always be selected (and buttons cannot be deselected), otherwise radio-buttons can be deselected, and no radio button is selected by default.
+**`Radio()`** - Returns a new `Radio` object where a button is not required to be set (same as `Radio(false)`).  
+**`Radio(required)` - Returns a new `Radio` object. If `required` is true, a radio button will always be selected (and buttons cannot be deselected), otherwise radio-buttons can be deselected, and no radio button is selected by default.
 
-`radio.button(value)` - Creates a new `RadioButton` with the passed string `value` that is a member of the `Radio` object.
-`radio.button(label, value)`
+**`radio.button(value)`** - Creates a new `RadioButton` with the passed string `value` that is a member of the `Radio` object.  
+**`radio.button(label, value)`**
 
-`radio.selected` - Returns the `RadioButton` object that is selected.
-`radio.val` - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis")
+**`radio.selected`** - Returns the `RadioButton` object that is selected.  
+**`radio.val`  - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis")
 
-`radio.remove(radioButton, radioButton, ...)` - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Block` contains the `RadioButton`s.
-`radio.remove(arrayOfRadioButtons)` - Same as above, except the argument is an array of the `RadioButtons` to remove.
-`radio.remove(value, value, ...)` - Removes the radio buttons that have the passed values from the `Radio` object's set.
-`radio.remove(arrayOfValues)` - Same as above, except the argument is an array of the values who's radio buttons should be removed.
+**`radio.remove(radioButton, radioButton, ...)`** - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Block` contains the `RadioButton`s.  
+**`radio.remove(arrayOfRadioButtons)`** - Same as above, except the argument is an array of the `RadioButtons` to remove.  
+**`radio.remove(value, value, ...)`** - Removes the radio buttons that have the passed values from the `Radio` object's set.  
+**`radio.remove(arrayOfValues)`** - Same as above, except the argument is an array of the values who's radio buttons should be removed.
 
-`Radio.Button` - The `RadioButton` class.
+**`Radio.Button`** - The `RadioButton` class.
 
-`radioButton.val` - Gets or sets the value of the radio button.
-`radioButton.selected` - Gets whether the radio button is selected or not. If set to true, selects the button. If set to false, deselects it.
-`radioButton.selectNext()` - Sets the next radio button in the `Radio` object's set.
-`radioButton.selectPrevious()` - Sets the previous radio button in the `Radio` object's set.
+**`radioButton.val`** - Gets or sets the value of the radio button.  
+**`radioButton.selected`** - Gets whether the radio button is selected or not. If set to true, selects the button. If set to false, deselects it.  
+**`radioButton.selectNext()`** - Sets the next radio button in the `Radio` object's set.  
+**`radioButton.selectPrevious()`** - Sets the previous radio button in the `Radio` object's set.
 
 ### Select
 
 Your standard <select> element.
 
-`Select()` - Returns a new empty selection list.
-`Select(selections)` - Returns a new populated selection list.
-`Select(label, selections)`
+**`Select()`** - Returns a new empty selection list.  
+**`Select(selections)`** - Returns a new populated selection list.  
+**`Select(label, selections)`**
 * `selections` - An object with the structure `{optionValue: optionText, ...}`
 
-`select.option(value, text)` - Creates a new `Option` with the passed `value` and `text`, and appends it to the list.
-`select.option(label, value, text)`
+**`select.option(value, text)`** - Creates a new `Option` with the passed `value` and `text`, and appends it to the list.  
+**`select.option(label, value, text)`**
 
-`select.val` - Gets the value of the selected `Option`, or selects the `Option` with the set value (e.g. `select.val = 'moo'` selects the `Option` with the value 'moo').
+**`select.val`** - Gets the value of the selected `Option`, or selects the `Option` with the set value (e.g. `select.val = 'moo'` selects the `Option` with the value 'moo').
 
-`Select.Option` - The `Option` class.
+**`Select.Option`** - The `Option` class.
 
-`Select.Option(contents)` - same as `select.option` above, except doesn't append the `Option` to any list.
-`Select.Option(label, contents)`
+**`Select.Option(contents)`** - same as `select.option` above, except doesn't append the `Option` to any list.  
+**`Select.Option(label, contents)`**
 
-`option.selected` - Gets or sets the selected state of the `Option`.
-`option.text` - Gets or sets the display text of the `Option`.
-`option.val` - Gets or sets the string value of the `Option`.
+**`option.selected`** - Gets or sets the selected state of the `Option`.  
+**`option.text`** - Gets or sets the display text of the `Option`.  
+**`option.val`** - Gets or sets the string value of the `Option`.
 
 ### Table
 
 Your standard <table> element.
 
-`Table()` - Returns a new empty table.
-`Table(tableInit)` - Returns a new populated table.
-`Table(label,tableInit)`
+**`Table()`** - Returns a new empty table.  
+**`Table(tableInit)`** - Returns a new populated table.  
+**`Table(label,tableInit)`**
 * `tableInit` - A list where each element in the list represents a row. Each element itself should be a list where each element is a `Block` or string to put in a table `Cell`. E.g. `Table([['a','b','c'],[Text('x'),Text('y')]])` is a table with two rows and three columns, where there are only two cells in the second row.
 
-`table.row(rowInit)` - Creates a new table `TableRow` (`<tr>`), and appends it to the table.
-`table.row(label, rowInit)`
-`table.header(rowInit)` - Creates a new table `TableHeader` (`<th>`), and appends it to the table.
-`table.header(label, rowInit)`
+**`table.row(rowInit)`** - Creates a new table `TableRow` (`<tr>`), and appends it to the table.  
+**`table.row(label, rowInit)`**  
+**`table.header(rowInit)`  - Creates a new table `TableHeader` (`<th>`), and appends it to the table.  
+**`table.header(label, rowInit)`**
 * `rowInit` - A list where each element is a `Block` or string to put in a table `TableCell`. E.g. `table.row(['a','b','c'])` is a row with three cells.
 
-`Table.Row` - The `TableRow` class.
-`Table.Header` - The `TableHeader` class.
-`Table.TableCell` - The `TableCell` class.
+**`Table.Row`** - The `TableRow` class.  
+**`Table.Header`** - The `TableHeader` class.  
+**`Table.TableCell`** - The `TableCell` class.
 
-`Table.Row(rowInit)` - same as `table.row` above, except doesn't append the `TableRow` to any table.
-`Table.Row(label, rowInit)`
-`Table.Header(rowInit)` - same as `table.header` above, except doesn't append the `TableHeader` to any table.
-`Table.Header(label, rowInit)`
+**`Table.Row(rowInit)`** - same as `table.row` above, except doesn't append the `TableRow` to any table.  
+**`Table.Row(label, rowInit)`**  
+**`Table.Header(rowInit)`** - same as `table.header` above, except doesn't append the `TableHeader` to any table.  
+**`Table.Header(label, rowInit)`**
 
-`row.cell(contents)` - Creates a new table `TableCell` (`<td> and appends it to the `TableRow`.
-`row.cell(label, contents)`
-`header.cell(contents)` - Creates a new table `TableCell` (`<td> and appends it to the `TableHeader`.
-`header.cell(label, contents)`
+**`row.cell(contents)`** - Creates a new table `TableCell` (`<td> and appends it to the `TableRow`.  
+**`row.cell(label, contents)`**  
+**`header.cell(contents)`** - Creates a new table `TableCell` (`<td> and appends it to the `TableHeader`.  
+**`header.cell(label, contents)`**
 
-`Table.Cell(contents)` - Same as `Table.Row`, but doesn't append the cell to any row.
-`Table.Cell(label, contents)`
+**`Table.Cell(contents)`** - Same as `Table.Row`, but doesn't append the cell to any row.  
+**`Table.Cell(label, contents)`**
 
-`cell.colspan(columns)` - Sets the column-span (`colspan` attribute) of the cell.
+**`cell.colspan(columns)`** - Sets the column-span (`colspan` attribute) of the cell.
 
 ### Text
 
 A `<div>` with text in it.
 
-`Text()` - Returns an empty Text object.
-`Text(text)` - Returns a Text object populated with the passed string `text`.
-`Text(label, text)`
+**`Text()`** - Returns an empty Text object.  
+**`Text(text)`** - Returns a Text object populated with the passed string `text`.  
+**`Text(label, text)`**
 
-`text.text` - Sets or gets the object's text.
+**`text.text`** - Sets or gets the object's text.
 
 ### TextArea
 
 A  multi-line text input field. Your standard `<textarea>` element.
 
-`TextArea()` - Returns an empty TextArea.
-`TextArea(label)`
+**`TextArea()`** - Returns an empty TextArea.
+**`TextArea(label)`**
 
-`textArea.val` - Gets or sets the testArea's value (the text inside the text box).
+**`textArea.val`** - Gets or sets the testArea's value (the text inside the text box).
 
 ### TextField
 
 A one-line text input field. Your standard `<input type='text'>` element.
 
-`TextField()` - Returns an empty TextField.
-`TextField(password)` - Returns an empty TextField with the `password` attribute, meaning any text inside the box will be displayed so that only the number of characters can be seen, and not the characters themselves.
-`TextField(label, password)`
+**`TextField()`** - Returns an empty TextField.  
+**`TextField(password)`** - Returns an empty TextField with the `password` attribute, meaning any text inside the box will be displayed so that only the number of characters can be seen, and not the characters themselves.  
+**`TextField(label, password)`
 
-`textField.val` - Gets or sets the textField's value (the text inside the text box).
+**`textField.val`** - Gets or sets the textField's value (the text inside the text box).
 
 
 `Style` objects
