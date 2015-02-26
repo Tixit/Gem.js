@@ -114,7 +114,7 @@ If anything in the documentation is unclear, or you want to see more examples, [
 Why use `blocks.js`?
 ====================
 
-* Makes your web application easier to develop with modular reusable structure objects (`Block`s) *and* `Style` objects
+* Makes your web application easier to develop with modular reusable structure objects (`Block' objects) *and* `Style` objects
 * No HTML. `Blocks.js` is written in 100% javascript. The only requirement is a `document` `body`.
 * No CSS. While blocks.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
 * Fully separate style from structure by using `$setup` javascript in your `Style` objects
@@ -344,7 +344,7 @@ var block = CustomBlock(5) // block.x is 5
 
 ### Releasing custom blocks as separate modules
 
-If you'd like to release a custom `Block` or set of `Block`s, there are a couple of important things to remember to do:
+If you'd like to release a custom `Block` or set of `Block' objects, there are a couple of important things to remember to do:
 * If you're releasing on npm, do *not* add `blocks-js` as a normal "dependency". Instead, it should be added as a ["peerDependency"](http://blog.nodejs.org/2013/02/07/peer-dependencies/) or perhaps a "devDependency". It should't be a normal "dependency" though, because otherwise bundlers may bundle multiple copies of blocks.js when using your custom block module (even though bundlers like webpack dedupe files, if the versions of webpack being used are slightly different, they would still package together both versions of blocks.js)
 * If you're releasing a module distribution intended to be loaded in a `<script>` tag, do *not* bundle blocks.js in your distribution bundle. It should assume the `blocks` global variable (e.g. `blocks.Block`) is available.
 
@@ -472,7 +472,7 @@ An `<ol>` or `<ul>` element.
 
 **`List()`** - Returns a new empty list.  
 **`List(ordered)`** - Returns a new empty list. Is an ordered-list if `ordered` is true, and an unorderd-list otherwise.  
-**`List(listInit)`** - Returns a new populated list. `listInit` is an array containing either `Block`s or strings to add as list items.  
+**`List(listInit)`** - Returns a new populated list. `listInit` is an array containing either `Block' objects or strings to add as list items.
 **`List(ordered, listInit)`**  
 **`List(label)`**  
 **`List(label, ordered)`**  
@@ -635,7 +635,7 @@ c.style = Style({
 
 In the above example, "a" will be bold and blue, and "b" and "c" will be red. But "b" and "c" won't be bold - that property does not cascade. The `Text` styling inside `Container` is isolated from all previous stylings of `Text`, which means you don't have to worry about the styles someone used for elements further up the dom tree. I mentioned, tho, that whole `Style` objects *do* cascade, and that is why "d" will also be blue and bold even though it isn't a direct child of `parentContainer`.
 
-Another difference is that blocks.js doesn't have "selectors" that can style any element on the page. Traditional CSS stylesheets are developed by selecting a group of elements from the entire page (via ids, classes, attributes, pseudoclasses representing element state, etc) and appending styles to them. These styles may overwrite styles written earlier, and they themselves may be overwritten. In blocks.js, `Style` objects can only be attached in a strict hierarchical setting, where only a specific section of the dom can be affected. In the above example, the `Text` style marked 2 doesn't affect anything outside that inner Container. For example, even though the text "d" is a `Text` object inside a `Container` object, it is *not* colored red. That's because styles in blocks.js are not selectors as you're used to from css. They are strictly hierarchical - they only affect descendant `Block`s (children, grandchildren, etc) from the point in the dom they match.
+Another difference is that blocks.js doesn't have "selectors" that can style any element on the page. Traditional CSS stylesheets are developed by selecting a group of elements from the entire page (via ids, classes, attributes, pseudoclasses representing element state, etc) and appending styles to them. These styles may overwrite styles written earlier, and they themselves may be overwritten. In blocks.js, `Style` objects can only be attached in a strict hierarchical setting, where only a specific section of the dom can be affected. In the above example, the `Text` style marked 2 doesn't affect anything outside that inner Container. For example, even though the text "d" is a `Text` object inside a `Container` object, it is *not* colored red. That's because styles in blocks.js are not selectors as you're used to from css. They are strictly hierarchical - they only affect descendant `Block' objects (children, grandchildren, etc) from the point in the dom they match.
 
 The combination of the fact that blocks.js `Style`s only cascade as a whole object and that styles are defined hierarchically makes style modular and provide isolation from other styles on the page, so that it becomes much easier to understand and manage styling for a page.
 
@@ -732,7 +732,7 @@ And what about "c" you ask? Since "c" is given its own *explicit* style, that st
 
 #### `$<label>`
 
-`Block`s can be given a `label` property, which can be used to identify `Block`s of the same type that have different purposes within their parent.
+`Block' objects can be given a `label` property, which can be used to identify `Block' objects of the same type that have different purposes within their parent.
 This is essentially analogous to giving divs class names, and then styling using that class, except that it works in blocks.js's hierarchical way of course. Note, tho, that a `Block` can have only one label.
 For example:
 
