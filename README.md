@@ -66,7 +66,7 @@ Blocks.js is not:
 * **a module system, script bundler, or loader**. If you're looking for an excellent module system and bundler, look no further than [webpack](http://webpack.github.io/).
 * **a templating system**. In blocks.js, you use functions and objects to compose together a page, rather than templates.
 * **an animation library**. If you're looking for animations, try [Émile](https://github.com/madrobby/emile).
-* **a framework**. A framework is a system that calls *your* code. A module is a set of functions that your code can call. Blocks.js is the latter.  Blocks.js can work well right alongside traditionally written html and css, and you can choose to wrap dom constructs in a Block only if you want to.
+* **a framework**. A framework is a system that calls *your* code. A module is a set of functions and classes that your code can call. Blocks.js is the latter.  Blocks.js can work well right alongside traditionally written html and css, and you can choose to wrap dom constructs in a Block only if you want to.
 * **super heroic**. It does one thing well: web components. It embraces the [single-responsibility principle ](http://en.wikipedia.org/wiki/Single_responsibility_principle) and is entirely stand-alone.
 
 Install
@@ -76,7 +76,7 @@ Install
 npm install blocks-js
 ```
 
-or download the built package blocks.umd.js from the 'dist' folder in the repository
+or download the built package `blocks.umd.js` from the 'dist' folder in the repository
 
 Usage
 =====
@@ -162,9 +162,9 @@ x.attach()
 x.selectionRange = [0,6] // selects "You're"
 ```
 
-#### Instance properties inherited from `[EventEmitters](http://nodejs.org/api/events.html)`
+#### Instance properties inherited from [`EventEmitter`](http://nodejs.org/api/events.html)
 
-All methods and properties from `[EventEmitters](http://nodejs.org/api/events.html)` are inherited by `Block`. The important ones:
+All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.html) are inherited by `Block`. The important ones:
 
 **`block.emit(event, data, data2, ...)`** - Emits an event that triggers handlers setup via the Block's `on` or `addListener` methods.
 
@@ -823,10 +823,6 @@ Todo
 * Test hover with and without a parent (see nth-child without a parent for what that means)
 * Fix a bug in last-child where dynamically adding more children leads to 50% of the children being treated as last-child
 * Fix the bug in hover where it fails to style properly after the first hover
-* Test on mouseover, and a couple other standard browser event attachment
-    * there should be a bug in it when you attach multiple types of standard events
-    * fix the bug by making ifonHandler -> ifonHandlers into a map {event: handler, ...}
-* Test psuedoclasses
 * remove the $state style thing - $setup and $kill cover it
 
 * Make it so that psuedoclasses can be styled with `Style` objects as long as their checked to only contain simple styles.
