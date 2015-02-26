@@ -133,7 +133,7 @@ blocks.Block // if you're using the umd package
 **`block.addAt(index, listOfBlocks)`** - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
 
 **`block.addBefore(beforeChild, block, block, ...)`** - Adds blocks as children to the calling block before a particular child. If `beforeChild` is undefined, this will append the given nodes.  
-**`block.addBefore(beforeChild, listOfBlocks)` - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
+**`block.addBefore(beforeChild, listOfBlocks)`** - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
 
 **`block.remove(block, block, ...)`** - Removes the passed blocks as children.  
 **`block.remove(listOfBlocks)`** - *Same as above, but `listOfBlocks` is an array of `Block` objects.*  
@@ -144,8 +144,8 @@ blocks.Block // if you're using the umd package
 **`block.detach()`** - Removes this `Block`'s domNode from `document.body`.
 
 **`block.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Block's domNode.  
-**`block.attr(attributeName, value)` - Set the attribute to the passed `value`.  
-**`block.attr(attributeObject)`** - Set the attributes in the `attributeObject`, where `attributeObject` looks like: `{attribute1: value1, attribute2: value2, ...}`.
+**`block.attr(attributeName, value)`** - Sets the attribute to the passed `value`.  
+**`block.attr(attributeObject)`** - Sets the attributes in the `attributeObject`, where `attributeObject` looks like: `{attribute1: value1, attribute2: value2, ...}`.
 
 **`block.style`** - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Block's children.  
 **`block.visible`** - Setting this variable to false hides the block using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state.  
@@ -264,7 +264,15 @@ In this documentation, we're going to be using the class library [proto](https:/
 For example:
 
 ```javascript
+var CustomBlock = proto(Block, function() {
+	this.name = "CustomBlock"
 
+    this.build = function(x) {
+    	this.x = x
+    }
+})
+
+var block = CustomBlock(5) // block.x is 5
 ```
 
 ### Releasing custom blocks as separate modules
@@ -276,9 +284,9 @@ If you'd like to release a custom `Block` or set of `Block`s, there are a couple
 ### Inheriting from Blocks with a class library other than `proto`
 
 If you're building Blocks with something other than `proto`, note that blocks.js relies on the following properties:
-* block.constructor - must point to the Block prototype class (in the proto example, the object returned by the call to proto). This is a standard property that all good class libraries should set.
-* block.constructor.parent - must point either to the parent of the block's constructor, or undefined if there is no parent. Note that while `proto` sets this automatically, it is not a standard property and if you're using a different library from proto, you must set this manually.
-* block.constructor.name - the constructors must have the same name property that instances can access. Note that while `proto` sets this appropriately, most class libraries probably don't and it isn't simple to manually set. See here for details: http://stackoverflow.com/a/28665860/122422
+* **block.constructor** - must point to the Block prototype class (in the proto example, the object returned by the call to proto). This is a standard property that all good class libraries should set.
+* **block.constructor.parent** - must point either to the parent of the block's constructor, or undefined if there is no parent. Note that while `proto` sets this automatically, it is not a standard property and if you're using a different library from proto, you must set this manually.
+* **block.constructor.name** - the constructors must have the same name property that instances can access. Note that while `proto` sets this appropriately, most class libraries probably don't and it isn't simple to manually set. See here for details: http://stackoverflow.com/a/28665860/122422
 
 Also, make sure that `Block`'s constructor is called on new instances that inherit from `Block`.
 
@@ -323,17 +331,17 @@ Every standard Block has an optional first parameter `label`.
 This makes it easy and non-intrusive to label parts of your custom Blocks for easy styling.
 
 In as many cases as possible, Blocks will use properties defined with getters and setters rather than using methods. Some examples:
-* `focus` - gets whether the element has focus, or sets it to in-focus or out-of-focus
-* `visible` - gets whether the element is visible (display !== 'none'), and can set its visibility status.
-* `selection` - gets the selection on the element, and can set the selection
+* **`focus`** - gets whether the element has focus, or sets it to in-focus or out-of-focus
+* **`visible`** - gets whether the element is visible (display !== 'none'), and can set its visibility status.
+* **`selection`** - gets the selection on the element, and can set the selection
 
 There are a few standard properties that some blocks have:
-* `text` - Gets and sets some visual text that a Block has. `Button`, `Text`, and `Select.Option` have this property.
-* `selected` - Gets and sets the selected-state of the Block. `CheckBox`, `Select.Option`, and `Radio.Button` have this property.
-* `val` - Gets and sets some value that a block has. This will never be the same as either `text` or `selected`. `CheckBox`, `Radio`, `Radio.Button`, `Select`, `TextArea`, and `TextField` all have this property.
+* **`text`** - Gets and sets some visual text that a Block has. `Button`, `Text`, and `Select.Option` have this property.
+* **`selected`** - Gets and sets the selected-state of the Block. `CheckBox`, `Select.Option`, and `Radio.Button` have this property.
+* **`val`** - Gets and sets some value that a block has. This will never be the same as either `text` or `selected`. `CheckBox`, `Radio`, `Radio.Button`, `Select`, `TextArea`, and `TextField` all have this property.
 
 There are also a couple standard events that blocks can emit:
-* `change` - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but never both). Change events won't have any information passed with them, you can access the object itself if you need data from it.
+* **`change`** - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but never both). Change events won't have any information passed with them, you can access the object itself if you need data from it.
 
 Some blocks have sub-blocks specifically related to them. For example, `Select` has `Option` blocks, and `Table` has `Row` blocks, and `Row` has `Cell` Blocks respectively.
 * There will also be a property with the name of the sub-block, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has a `options` map.
@@ -417,13 +425,13 @@ An `<ol>` or `<ul>` element.
 A set of radio buttons. `Radio` itself is not a `Block`, but rather contains a set of related `RadioButton`s.
 
 **`Radio()`** - Returns a new `Radio` object where a button is not required to be set (same as `Radio(false)`).  
-**`Radio(required)` - Returns a new `Radio` object. If `required` is true, a radio button will always be selected (and buttons cannot be deselected), otherwise radio-buttons can be deselected, and no radio button is selected by default.
+**`Radio(required)`** - Returns a new `Radio` object. If `required` is true, a radio button will always be selected (and buttons cannot be deselected), otherwise radio-buttons can be deselected, and no radio button is selected by default.
 
 **`radio.button(value)`** - Creates a new `RadioButton` with the passed string `value` that is a member of the `Radio` object.  
 **`radio.button(label, value)`**
 
 **`radio.selected`** - Returns the `RadioButton` object that is selected.  
-**`radio.val`  - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis")
+**`radio.val`**  - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis")
 
 **`radio.remove(radioButton, radioButton, ...)`** - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Block` contains the `RadioButton`s.  
 **`radio.remove(arrayOfRadioButtons)`** - Same as above, except the argument is an array of the `RadioButtons` to remove.  
@@ -439,7 +447,7 @@ A set of radio buttons. `Radio` itself is not a `Block`, but rather contains a s
 
 ### Select
 
-Your standard <select> element.
+Your standard `<select>` element.
 
 **`Select()`** - Returns a new empty selection list.  
 **`Select(selections)`** - Returns a new populated selection list.  
@@ -462,7 +470,7 @@ Your standard <select> element.
 
 ### Table
 
-Your standard <table> element.
+Your standard `<table>` element.
 
 **`Table()`** - Returns a new empty table.  
 **`Table(tableInit)`** - Returns a new populated table.  
@@ -471,7 +479,7 @@ Your standard <table> element.
 
 **`table.row(rowInit)`** - Creates a new table `TableRow` (`<tr>`), and appends it to the table.  
 **`table.row(label, rowInit)`**  
-**`table.header(rowInit)`  - Creates a new table `TableHeader` (`<th>`), and appends it to the table.  
+**`table.header(rowInit)`**  - Creates a new table `TableHeader` (`<th>`), and appends it to the table.  
 **`table.header(label, rowInit)`**
 * `rowInit` - A list where each element is a `Block` or string to put in a table `TableCell`. E.g. `table.row(['a','b','c'])` is a row with three cells.
 
@@ -484,9 +492,9 @@ Your standard <table> element.
 **`Table.Header(rowInit)`** - same as `table.header` above, except doesn't append the `TableHeader` to any table.  
 **`Table.Header(label, rowInit)`**
 
-**`row.cell(contents)`** - Creates a new table `TableCell` (`<td> and appends it to the `TableRow`.  
+**`row.cell(contents)`** - Creates a new table `TableCell` (`<td>` and appends it to the `TableRow`.  
 **`row.cell(label, contents)`**  
-**`header.cell(contents)`** - Creates a new table `TableCell` (`<td> and appends it to the `TableHeader`.  
+**`header.cell(contents)`** - Creates a new table `TableCell` (`<td>` and appends it to the `TableHeader`.  
 **`header.cell(label, contents)`**
 
 **`Table.Cell(contents)`** - Same as `Table.Row`, but doesn't append the cell to any row.  
@@ -566,7 +574,7 @@ The combination of the fact that blocks.js `Style`s only cascade as a whole obje
 
 ### `Style` constructor
 
-`Style(styleDefinition)` - Creates a `Style` object.
+**`Style(styleDefinition)`** - Creates a `Style` object.
 * `styleDefinition` is an object where key-value pairs can be any of the following:
     * <cssPropertyName>: the value is a valid css value for that style property.
     * <BlockName>: the value can either be a `Style` object or a nested `styleDefinition` object
