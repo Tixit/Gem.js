@@ -1,6 +1,15 @@
+`blocks.js`
+============
+
+A library of extensible web components for building and styling web applications in pure-javascript. Modular, composable web components. Modular, composable styles.
+
+The power of functions and variables is unparalleled, and yet languages like HTML and CSS, which don't have any ability to compose structures together, are still the primary ways people build web applications. Framework after framework has come along to try and solve the problem of making web pages dynamic. Angular, Backbone, Ember, jQuery, mooTools, Dojo, YUI, etc have all tried to be everything to everyone. But what they fail at providing is simplicity and modularity. They end up with bloated libraries filled with features you're not using.
+
+Blocks.js is here to change that. Finally, modern application development for the browser!
+
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [`blocks.js`](#blocksjs)
 - [Examples](#examples)
@@ -11,7 +20,7 @@
     - [Loading](#loading)
     - [Static properties and methods](#static-properties-and-methods)
     - [Instance properties and methods](#instance-properties-and-methods)
-      - [Instance properties inherited from [`EventEmitter`](http://nodejs.org/api/events.html)](#instance-properties-inherited-from-eventemitterhttpnodejsorgapieventshtml)
+      - [Instance properties inherited from `EventEmitter`](#instance-properties-inherited-from-eventemitter)
       - [Instance properties inherited from EventEmitterB](#instance-properties-inherited-from-eventemitterb)
         - [`ifon`](#ifon)
         - [`proxy`](#proxy)
@@ -47,23 +56,11 @@
     - [Standard Pseudoclasses](#standard-pseudoclasses)
 - [Decisions](#decisions)
 - [Todo](#todo)
-- [Changelog
-](#changelog)
-- [How to Contribute!
-](#how-to-contribute)
-- [License
-](#license)
+- [Changelog](#changelog)
+- [How to Contribute!](#how-to-contribute)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-`blocks.js`
-============
-
-A library of extensible web components for building and styling web applications in pure-javascript. Modular, composable web components. Modular, composable styles.
-
-The power of functions and variables is unparalleled, and yet languages like HTML and CSS, which don't have any ability to compose structures together, are still the primary ways people build web applications. Framework after framework has come along to try and solve the problem of making web pages dynamic. Angular, Backbone, Ember, jQuery, mooTools, Dojo, YUI, etc have all tried to be everything to everyone. But what they fail at providing is simplicity and modularity. They end up with bloated libraries filled with features you're not using.
-
-Blocks.js is here to change that. Finally, modern application development for the browser!
 
 Examples
 =======
