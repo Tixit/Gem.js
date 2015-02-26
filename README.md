@@ -11,8 +11,7 @@ Blocks.js is here to change that. Finally, modern application development for th
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [`blocks.js`](#blocksjs)
-- [Examples](#examples)
+- [Example](#example)
 - [What `blocks.js` is ***not***](#what-blocksjs-is-not)
 - [Install](#install)
 - [Usage](#usage)
@@ -62,7 +61,7 @@ Blocks.js is here to change that. Finally, modern application development for th
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-Examples
+Example
 =======
 
 ```javascript
