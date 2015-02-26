@@ -38,7 +38,7 @@ Blocks.js is here to change that. Finally, modern application development for th
     - [Container](#container)
     - [Image](#image)
     - [List](#list)
-    - [Radio - Not a `Block`](#radio---not-a-block)
+    - [Radio](#radio---not-a-block)
     - [Select](#select)
     - [Table](#table)
     - [Text](#text)
@@ -71,7 +71,7 @@ var Block = require("blocks-js")
 var Button = require("blocks-js/Button")
 var Style = require("blocks-js/Style")
 
-var toggleButton = blocks.Button("Hi") // create a button
+var toggleButton = Button("Hi") // create a button
 
 // make it do stuff when you click on it
 toggleButton.on('click', function() {
@@ -111,6 +111,18 @@ NameInput("Your Name: ").attach()
 
 If anything in the documentation is unclear, or you want to see more examples, [the unit tests](https://github.com/Tixit/blocks.js/tree/master/src/test) give a comprehensive and exhaustive set of examples to look at.
 
+Why use `blocks.js`?
+====================
+
+* Makes your web application easier to develop with modular reusable structure objects (`Block`s) *and* `Style` objects
+* No HTML. `Blocks.js` is written in 100% javascript. The only requirement is a `document` `body`.
+* No CSS. While blocks.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
+* Fully separate style from structure by using `$setup` javascript in your `Style` objects
+* Import `Block` modules with real APIs that anyone can release online. HTML snippets are so 1995.
+* Unlike [HTML web components](http://robdodson.me/why-web-components/), `blocks.js` works in modern browsers without polyfills.
+* Also unlike HTML web components, [element name collision](https://groups.google.com/forum/#!topic/polymer-dev/90Dq_2bk8CU) isn't a problem.
+* Has a small footprint: **15.18KB minified and gzipped in umd format**
+
 What `blocks.js` is ***not***
 =======================
 
@@ -147,7 +159,6 @@ define(['blocks.umd.js'], function(blocks) { ... } // amd
 </script>
 
 ```
-
 
 `Block`
 ------
