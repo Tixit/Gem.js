@@ -1,3 +1,61 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [`blocks.js`](#blocksjs)
+- [Examples](#examples)
+- [What `blocks.js` is ***not***](#what-blocksjs-is-not)
+- [Install](#install)
+- [Usage](#usage)
+  - [`Block`](#block)
+    - [Loading](#loading)
+    - [Static properties and methods](#static-properties-and-methods)
+    - [Instance properties and methods](#instance-properties-and-methods)
+      - [Instance properties inherited from [`EventEmitter`](http://nodejs.org/api/events.html)](#instance-properties-inherited-from-eventemitterhttpnodejsorgapieventshtml)
+      - [Instance properties inherited from EventEmitterB](#instance-properties-inherited-from-eventemitterb)
+        - [`ifon`](#ifon)
+        - [`proxy`](#proxy)
+    - [Instance events](#instance-events)
+      - [Dom Events](#dom-events)
+  - [Custom Blocks](#custom-blocks)
+    - [Releasing custom blocks as separate modules](#releasing-custom-blocks-as-separate-modules)
+    - [Inheriting from Blocks with a class library other than `proto`](#inheriting-from-blocks-with-a-class-library-other-than-proto)
+    - [Inheriting from Blocks without a class library](#inheriting-from-blocks-without-a-class-library)
+  - [Standard Blocks](#standard-blocks)
+    - [Conventions](#conventions)
+    - [Button](#button)
+    - [Canvas](#canvas)
+    - [CheckBox](#checkbox)
+    - [Container](#container)
+    - [Image](#image)
+    - [List](#list)
+    - [Radio - Not a `Block`](#radio---not-a-block)
+    - [Select](#select)
+    - [Table](#table)
+    - [Text](#text)
+    - [TextArea](#textarea)
+    - [TextField](#textfield)
+  - [`Style` objects](#style-objects)
+    - [`Style` constructor](#style-constructor)
+      - [`<cssPropertyName>`](#csspropertyname)
+      - [`<BlockName>`](#blockname)
+      - [`$<label>`](#$label)
+      - [`$$<pseudoclass>`](#$$pseudoclass)
+      - [`$setup` and `$kill`](#$setup-and-$kill)
+    - [`Style.addPseudoClass`](#styleaddpseudoclass)
+    - [Built-in Pseudoclasses](#built-in-pseudoclasses)
+    - [Standard Pseudoclasses](#standard-pseudoclasses)
+- [Decisions](#decisions)
+- [Todo](#todo)
+- [Changelog
+](#changelog)
+- [How to Contribute!
+](#how-to-contribute)
+- [License
+](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 `blocks.js`
 ============
 
@@ -544,7 +602,7 @@ While a `Block` is pretty analogous to its HTML node, `Style`s in blocks.js are 
 
 In blocks.js, individual css style properties do *not* cascade. Instead, whole `Style` objects cascade. This may not seem like much of a difference, but it makes all the difference. For example:
 
-```
+```javascript
 var parentContainer = Container([
     Text('a'),
     Container([
@@ -760,7 +818,7 @@ var S = Style({
             }
         })
     },
-    $kill: function(component) {
+    $kill: function(block) {
         block.domNode.style.color = '' // remove the inline style
         block.state.removeListener('change', block.setupHandler) // remove the listner on the block's state
         block.setupHandler = undefined
@@ -818,6 +876,7 @@ Decisions
 Todo
 ======
 
+* allow $setup to return a value that's then passed to $kill (so they aren't forced to set properties on the block)
 * Figure out which style wins when multiple psuedoclasses apply and they're side by side (instead of nested)
     * Do they combine? They shouldn't..
     * But wasn't there a nice magical way we could indicate that they combine?
