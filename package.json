@@ -1,8 +1,8 @@
 {"name":"blocks-js",
  "description": "A library for building and styling web components in pure-javascript.",
  "keywords": ["web", "components", "html", "css", "style"],
- "version":"0.9.7",
- "main": "src/blocks.js",
+ "version":"0.9.8",
+ "main": "src/Block.js",
  "contributors": [
     "Billy Tetrud <bitetrudpublic@gmail.com> (https://github.com/fresheneesz/)",
     "Robbert Wijtman (https://github.com/Bucky24)"
@@ -25,7 +25,7 @@
  },
  "devDependencies": {
     "deadunit":"5.1.8",
-    "build-modules":"2.0.3",
+    "build-modules":"2.0.5",
     "async-future":""
  }
 }
