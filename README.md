@@ -492,9 +492,9 @@ Your standard `<table>` element.
 **`Table.Header(rowInit)`** - same as `table.header` above, except doesn't append the `TableHeader` to any table.  
 **`Table.Header(label, rowInit)`**
 
-**`row.cell(contents)`** - Creates a new table `TableCell` (`<td>` and appends it to the `TableRow`.  
+**`row.cell(contents)`** - Creates a new table `TableCell` (`<td>`) and appends it to the `TableRow`.  
 **`row.cell(label, contents)`**  
-**`header.cell(contents)`** - Creates a new table `TableCell` (`<td>` and appends it to the `TableHeader`.  
+**`header.cell(contents)`** - Creates a new table `TableCell` (`<td>`) and appends it to the `TableHeader`.  
 **`header.cell(label, contents)`**
 
 **`Table.Cell(contents)`** - Same as `Table.Row`, but doesn't append the cell to any row.  
@@ -576,12 +576,12 @@ The combination of the fact that blocks.js `Style`s only cascade as a whole obje
 
 **`Style(styleDefinition)`** - Creates a `Style` object.
 * `styleDefinition` is an object where key-value pairs can be any of the following:
-    * <cssPropertyName>: the value is a valid css value for that style property.
-    * <BlockName>: the value can either be a `Style` object or a nested `styleDefinition` object
-    * $<label>: the value should be a a nested styleDefinition object that does not contain any label styles
-    * $$<pseudoclass>: the value should be a a nested styleDefinition object
-    * $setup: the value is a function to be run on a component when the style is applied to it
-    * $kill: the value is a function to be run on a component when a style is removed from it
+    * `<cssPropertyName>`: the value is a valid css value for that style property.
+    * `<BlockName>`: the value can either be a `Style` object or a nested `styleDefinition` object
+    * `$<label>`: the value should be a a nested styleDefinition object that does not contain any label styles
+    * `$$<pseudoclass>`: the value should be a a nested styleDefinition object
+    * `$setup`: the value is a function to be run on a component when the style is applied to it
+    * `$kill`: the value is a function to be run on a component when a style is removed from it
 
 #### `<cssPropertyName>`
 
@@ -811,7 +811,7 @@ Note that, while the list of built-in pseudoclasses is short now, all standard p
 Decisions
 =========
 
-* `Block.label` is not dynamic (can't be changed) because it is intended to be used to identify a particular Block when multiple Blocks of the same type are used alongside eachother. If you're looking for a way to change styles dynamically, use Block.state.
+* `Block.label` is not dynamic (can't be changed) because it is intended to be used to identify a particular Block when multiple Blocks of the same type are used alongside eachother. If you're looking for a way to change styles dynamically, use `Block.state`.
 * Blocks are styled based on their name rather than their object identity (which would be possible with an array style definition like [Text,{backgroundColor:'...'}]) because otherwise all Blocks would have to be exposed at the top level. Not only does this go against modularity, but creators of 3rd party modules would inevitably fail to expose all their Blocks, which would make styling impossible. With names, you don't have to be able to reach the object, you just have to know its name.
 
 Todo
