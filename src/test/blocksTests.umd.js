@@ -71,13 +71,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	return modules;
 }([
 /* 0 */
+/*!*************************!*\
+  !*** ./blocks.tests.js ***!
+  \*************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var Unit = __webpack_require__(3)
+	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 18)
 	
-	var blocks = __webpack_require__(1)
+	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
 	blocks.dev = true
 	
 	module.exports = function() {
@@ -89,27 +92,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	        //*
-	        t.test('EventEmitterB',__webpack_require__(84)).complete.then(function(){
-	            return t.test('Block',__webpack_require__(85)).complete
+	        t.test('EventEmitterB',__webpack_require__(/*! ./EventEmitterB.test */ 2)).complete.then(function(){
+	            return t.test('Block',__webpack_require__(/*! ./Block.test */ 3)).complete
 	        }).then(function(){
-	            return t.test('Style',__webpack_require__(86)).complete
+	            return t.test('Style',__webpack_require__(/*! ./Style.test */ 4)).complete
 	        }).then(function() {
 	            return t.test("standard components", function(t) {
 	                t.count(13)
 	
-	                t.test('Button',__webpack_require__(87));
-	                t.test('Canvas',__webpack_require__(2));
-	                t.test('CheckBox',__webpack_require__(88));
-	                t.test('Container',__webpack_require__(89));
-	                t.test('Image',__webpack_require__(90));
-	                t.test('List',__webpack_require__(91));
-	                t.test('MultiSelect',__webpack_require__(92));
-	                t.test('Radio',__webpack_require__(93));
-	                t.test('Select',__webpack_require__(94));
-	                t.test('table',__webpack_require__(95));
-	                t.test('text',__webpack_require__(96));
-	                return t.test('textarea',__webpack_require__(97)).complete.then(function() {
-	                    return t.test('textfield',__webpack_require__(98)).complete
+	                t.test('Button',__webpack_require__(/*! ./ComponentTests/Button.test */ 5));
+	                t.test('Canvas',__webpack_require__(/*! ./ComponentTests/Canvas.test */ 6));
+	                t.test('CheckBox',__webpack_require__(/*! ./ComponentTests/CheckBox.test */ 7));
+	                t.test('Container',__webpack_require__(/*! ./ComponentTests/Container.test */ 8));
+	                t.test('Image',__webpack_require__(/*! ./ComponentTests/Image.test */ 9));
+	                t.test('List',__webpack_require__(/*! ./ComponentTests/List.test */ 10));
+	                t.test('MultiSelect',__webpack_require__(/*! ./ComponentTests/MultiSelect.test */ 11));
+	                t.test('Radio',__webpack_require__(/*! ./ComponentTests/Radio.test */ 12));
+	                t.test('Select',__webpack_require__(/*! ./ComponentTests/Select.test */ 13));
+	                t.test('table',__webpack_require__(/*! ./ComponentTests/Table.test */ 14));
+	                t.test('text',__webpack_require__(/*! ./ComponentTests/Text.test */ 15));
+	                return t.test('textarea',__webpack_require__(/*! ./ComponentTests/TextArea.test */ 16)).complete.then(function() {
+	                    return t.test('textfield',__webpack_require__(/*! ./ComponentTests/TextField.test */ 17)).complete
 	                })
 	            }).complete
 	        }).done()
@@ -124,34 +127,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
+/*!****************************!*\
+  !*** ../blocks.browser.js ***!
+  \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.Block = __webpack_require__(4)
-	exports.Style = __webpack_require__(5)
+	exports.Block = __webpack_require__(/*! Block */ 19)
+	exports.Style = __webpack_require__(/*! Style */ 20)
 	
-	exports.Container = __webpack_require__(7)
-	exports.Button = __webpack_require__(8)
-	exports.CheckBox = __webpack_require__(9)
-	exports.Image = __webpack_require__(10)
-	exports.List = __webpack_require__(11)
+	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 25)
+	exports.Container = __webpack_require__(/*! Components/Container */ 26)
+	exports.Button = __webpack_require__(/*! Components/Button */ 27)
+	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 28)
+	exports.Image = __webpack_require__(/*! Components/Image */ 29)
+	exports.List = __webpack_require__(/*! Components/List */ 30)
 	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
-	exports.Radio = __webpack_require__(12)
-	exports.Select = __webpack_require__(13)
-	exports.Table = __webpack_require__(14)
-	exports.TextArea = __webpack_require__(15)
-	exports.TextField = __webpack_require__(16)
-	exports.Text = __webpack_require__(17)
+	exports.Radio = __webpack_require__(/*! Components/Radio */ 31)
+	exports.Select = __webpack_require__(/*! Components/Select */ 32)
+	exports.Table = __webpack_require__(/*! Components/Table */ 33)
+	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 34)
+	exports.TextField = __webpack_require__(/*! Components/TextField */ 35)
+	exports.Text = __webpack_require__(/*! Components/Text */ 36)
 	
 	
-	// todo:
-	//exports.Canvas = require('Components/Canvas')
 	
-	// todo in separate module (a Blocks utility kit or something):
-	// RadioSet (a set of labeled radio buttons)
-	// TextEditor
-	
-	
-	Object.defineProperty(this, 'dev', {
+	Object.defineProperty(exports, 'dev', {
 	    get: function() {
 	        return exports.Block.dev
 	    }, set: function(v) {
@@ -159,53 +159,2452 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	})
 	
-	// appends components to the body
 	exports.attach = function(/*component,component,.. or components*/) {
-	    if(arguments[0] instanceof Array) {
-	        var components = arguments[0]
-	    } else {
-	        var components = arguments
-	    }
-	
-	    if(document.body === null) throw new Error("Your document does not have a body.")
-	
-	    for(var n=0; n<components.length; n++) {
-	        document.body.appendChild(components[n].domNode)
-	    }
+	    exports.Block.attach.apply(this,arguments)
 	}
-	// removes components from the body
 	exports.detach = function(/*component,component,.. or components*/) {
-	    if(arguments[0] instanceof Array) {
-	        var components = arguments[0]
-	    } else {
-	        var components = arguments
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        document.body.removeChild(components[n].domNode)
-	    }
+	    exports.Block.detach.apply(this,arguments)
 	}
-	
-	// creates a body tag (only call this if document.body is null)
 	
 	exports.createBody = function(callback) {
-	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-	    var body = dom.createElement("body")
-	    dom.documentElement.appendChild(body)
-	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
-	        callback()
-	    },0)
+	    exports.Block.detach.apply(this,arguments)
 	}
-
 
 /***/ },
 /* 2 */
+/*!*******************************!*\
+  !*** ./EventEmitterB.test.js ***!
+  \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(6)
-	var Container = __webpack_require__(7)
+	var proto = __webpack_require__(/*! proto */ 40);
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 22);
 	
-	var Canvas = __webpack_require__(18);
+	module.exports = function(t) {
+	
+	
+	
+	    //*
+	    this.test("ifon, ifoff", function() {
+	
+	        this.test("normal usage", function(t) {
+	            this.count(56)
+	
+	            var e = EventEmitterB()
+	
+	            var event = testUtils.seq(
+	            // e.on('a', cb1)
+	              function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.on('b', cb2)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.removeListener('b', cb2)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.removeListener('a', cb2)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.once('a', cb3)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.emit('a')
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.on('a', cb1)
+	            // e.on('b', cb1)
+	            // e.on('a', cb2)
+	            // e.on('b', cb2)
+	            // e.on('c', cb1)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'c')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.removeAllListeners('a')
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.removeAllListeners()
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'c')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	            })
+	
+	            e.ifon('a', function() {
+	                event('a', 'on')
+	            })
+	            e.ifoff('a', function() {
+	                event('a', 'off')
+	            })
+	            e.ifon('b', function() {
+	                event('b', 'on')
+	            })
+	            e.ifoff('b', function() {
+	                event('b', 'off')
+	            })
+	
+	            e.ifon(function(eventName) {
+	                event(eventName, 'on', true)
+	            })
+	            e.ifoff(function(eventName) {
+	                event(eventName, 'off', true)
+	            })
+	
+	            var cb1 = function(){}
+	            var cb2 = function(){}
+	            var cb3 = function(){}
+	
+	            e.on('a', cb1)
+	            e.on('b', cb2)
+	            e.on('a', cb2)
+	            e.removeListener('a', cb1)
+	            e.removeListener('b', cb2)
+	            e.removeListener('a', cb2)
+	
+	            e.once('a', cb3)
+	            e.emit('a')
+	
+	            e.on('a', cb1)
+	            e.on('b', cb1)
+	            e.on('a', cb2)
+	            e.on('b', cb2)
+	            e.on('c', cb1)
+	            e.removeAllListeners('a')
+	            e.removeAllListeners()
+	        })
+	
+	        this.test("ifon after events have been attachd", function(t) {
+	            this.count(4)
+	
+	            var e = EventEmitterB()
+	
+	            var sequenceEvent = testUtils.seq(
+	            // e.on('a', cb1)
+	              function(eventName) {
+	                t.eq(eventName, 'shmaotown')
+	            },function(eventName) {
+	                t.eq(eventName, 'you lazy plughole')
+	            },function(eventName) {
+	                t.eq(eventName, 'all shmaotown')
+	            },function(eventName) {
+	                t.eq(eventName, 'all you lazy plughole')
+	            })
+	
+	            e.on('shmaotown', function() {})
+	            e.on('you lazy plughole', function() {})
+	
+	
+	            e.ifon('shmaotown', function() {
+	                sequenceEvent('shmaotown')
+	            })
+	            e.ifon('you lazy plughole', function() {
+	                sequenceEvent('you lazy plughole')
+	            })
+	            e.ifon(function(eventName) {
+	                sequenceEvent('all '+eventName)
+	            })
+	        })
+	
+	        this.test("remove ifon", function(t) {
+	            this.count(26)
+	
+	            var e = EventEmitterB()
+	
+	            var event = testUtils.seq(
+	            // remove a
+	              function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'b')
+	            },function(eventName) {
+	                t.eq(eventName, 'b2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove bs
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove ifon-all callback
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            })
+	
+	            var a,a2, b,b2, c,c2, all1,all2
+	            e.ifon('a', a = function() {
+	                event('a')
+	            })
+	            e.ifon('a', a2=function() {
+	                event('a2')
+	            })
+	            e.ifon('b', b=function() {
+	                event('b')
+	            })
+	            e.ifon('b', b2=function() {
+	                event('b2')
+	            })
+	            e.ifon('c', c=function() {
+	                event('c')
+	            })
+	            e.ifon('c', c2=function() {
+	                event('c2')
+	            })
+	
+	            e.ifon(all1=function() {
+	                event('all1')
+	            })
+	            e.ifon(all2=function() {
+	                event('all2')
+	            })
+	
+	            t.log('remove a')
+	            e.removeIfon('a', a)
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	
+	            e.removeAllListeners()
+	
+	            t.log('remove bs')
+	            e.removeIfon('b')
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	
+	            e.removeAllListeners()
+	
+	            t.log('remove ifon-all callback')
+	            e.removeIfon(all1)
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	
+	            e.removeAllListeners()
+	
+	            t.log('remove all')
+	            e.removeIfon()
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	        })
+	
+	        this.test("remove ifoff", function(t) {
+	            this.count(26)
+	
+	            var e = EventEmitterB()
+	
+	            var event = testUtils.seq(
+	            // remove a
+	              function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'b')
+	            },function(eventName) {
+	                t.eq(eventName, 'b2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove bs
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove ifoff-all callback
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            })
+	
+	            var a,a2, b,b2, c,c2, all1, all2
+	            e.ifoff('a', a = function() {
+	                event('a')
+	            })
+	            e.ifoff('a', a2=function() {
+	                event('a2')
+	            })
+	            e.ifoff('b', b=function() {
+	                event('b')
+	            })
+	            e.ifoff('b', b2=function() {
+	                event('b2')
+	            })
+	            e.ifoff('c', c=function() {
+	                event('c')
+	            })
+	            e.ifoff('c', c2=function() {
+	                event('c2')
+	            })
+	
+	            e.ifoff(all1=function() {
+	                event('all1')
+	            })
+	            e.ifoff(all2=function() {
+	                event('all2')
+	            })
+	
+	            var a,b,c
+	
+	            t.log('remove a')
+	            e.removeIfoff('a', a)
+	            e.on('a',a=function(){})
+	            e.on('b',b=function(){})
+	            e.on('c',c=function(){})
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	
+	            e.on('a',a)
+	            e.on('b',b)
+	            e.on('c',c)
+	
+	            t.log('remove bs')
+	            e.removeIfoff('b')
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	
+	            e.on('a',a)
+	            e.on('b',b)
+	            e.on('c',c)
+	
+	            t.log('remove ifoff-all callback')
+	            e.removeIfoff(all1)
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	
+	            e.on('a',a)
+	            e.on('b',b)
+	            e.on('c',c)
+	
+	            t.log('remove all')
+	            e.removeIfoff()
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	        })
+	    })
+	
+	    this.test("proxy events", function() {
+	        this.test("proxy all", function(t){
+	            this.count(2)
+	
+	            var A = EventEmitterB()
+	            var B = EventEmitterB()
+	
+	            var testEvent = testUtils.seq(
+	              function(eventName) {
+	                t.eq(eventName, 'moose')
+	            },function(eventName) {
+	                t.eq(eventName, 'bark')
+	            })
+	
+	
+	            A.proxy(B)   // proxy all events
+	
+	            A.on('moose', function() {
+	                testEvent('moose')
+	            })
+	            A.on('bark', function() {
+	                testEvent('bark')
+	            })
+	
+	            B.emit('moose')
+	            B.emit('bark')
+	        })
+	
+	        this.test("proxy only", function(t){
+	            this.count(1)
+	
+	            var A = EventEmitterB()
+	            var B = EventEmitterB()
+	
+	            var testEvent = testUtils.seq(
+	              function(eventName) {
+	                t.eq(eventName, 'moose')
+	            })
+	
+	
+	            A.proxy(B, {only: ['moose']})   // proxy only the 'moose' event
+	
+	            A.on('moose', function() {
+	                testEvent('moose')
+	            })
+	            A.on('bark', function() {
+	                testEvent('bark')
+	            })
+	
+	            B.emit('moose')
+	            B.emit('bark')
+	        })
+	
+	        this.test("proxy except", function(t){
+	            this.count(1)
+	
+	            var A = EventEmitterB()
+	            var B = EventEmitterB()
+	
+	            var testEvent = testUtils.seq(
+	              function(eventName) {
+	                t.eq(eventName, 'bark')
+	            })
+	
+	
+	            A.proxy(B, {except: ['moose']})   // proxy only the 'moose' event
+	
+	            A.on('moose', function() {
+	                testEvent('moose')
+	            })
+	            A.on('bark', function() {
+	                testEvent('bark')
+	            })
+	
+	            B.emit('moose')
+	            B.emit('bark')
+	        })
+	
+	        this.test("proxy removeListener and removeAllListeners", function() {
+	            var A = EventEmitterB()
+	            var B = EventEmitterB()
+	
+	            this.eq(B.listeners('moose').length, 0)
+	
+	            A.proxy(B)
+	
+	            var handler;
+	            A.on('moose', handler=function() {
+	                testEvent('moose')
+	            })
+	
+	            this.eq(B.listeners('moose').length, 1)
+	
+	            A.removeListener('moose',handler)
+	            this.eq(B.listeners('moose').length, 0)
+	
+	            A.on('moose', handler)
+	            A.removeAllListeners('moose')
+	            this.eq(B.listeners('moose').length, 0)
+	
+	            A.on('moose', handler)
+	            A.removeAllListeners()
+	            this.eq(B.listeners('moose').length, 0)
+	        })
+	    })
+	    //*/
+	};
+
+/***/ },
+/* 3 */
+/*!***********************!*\
+  !*** ./Block.test.js ***!
+  \***********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 40)
+	var Future = __webpack_require__(/*! async-future */ 41)
+	
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
+	var Block = blocks.Block
+	
+	var Text = blocks.Text
+	var Button = blocks.Button
+	
+	
+	
+	module.exports = function(t) {
+	
+	    // basic test block
+	    var TestThinger = proto(Block,function(superclass) {
+	        this.name = 'TestThinger'
+	    })
+	
+	
+	
+	
+	    //*
+	
+		this.test('testEvent',function(t) {
+	        this.count(2);
+	
+			var obj = new Button("some text");
+			obj.on("flick",function(data) {
+				t.ok(true);
+				t.ok(data.obj === "blah");
+			});
+	
+			obj.emit("flick",{obj:"blah"});
+		});
+	
+	    this.test('add, addAt, addBefore', function() {
+			this.count(5);
+	        var C = proto(Block, function(superclass) {
+	            this.name = 'addTest'
+	            this.init = function() {
+	                superclass.init.call(this) // set style with constructor
+	            }
+	        })
+	
+	        this.test('add', function() {
+	            var x = C()
+	
+	            x.add(Text('a'))
+	            this.eq(x.domNode.children.length, 1)
+	            this.eq(x.children.length, 1)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode.textContent , 'a')
+	
+	            x.add(Text('x', 'b'))
+	            this.eq(x.domNode.children.length, 2)
+	            this.eq(x.children.length, 2)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode , x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'b')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	
+	            x.add([Text('c'), Text('x', 'd')])
+	            this.eq(x.domNode.children.length, 4)
+	            this.eq(x.children.length, 4)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode , x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'b')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	
+	            this.eq(x.domNode.children[2].textContent , 'c')
+	            this.eq(x.children[2].domNode , x.domNode.children[2])
+	            this.eq(x.domNode.children[3].textContent , 'd')
+	            this.eq(x.children[3].domNode , x.domNode.children[3])
+	
+	        })
+	
+	        this.test('addAt', function() {
+	            var x = C()
+	
+	            x.addAt(0, Text('a'))
+	            this.eq(x.domNode.children.length, 1)
+	            this.eq(x.children.length, 1)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode.textContent , 'a')
+	
+	            x.addAt(0, Text('x', 'b'))
+	            this.eq(x.domNode.children.length, 2)
+	            this.eq(x.children.length, 2)
+	            this.eq(x.domNode.children[0].textContent , 'b')
+	            this.eq(x.children[0].domNode , x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'a')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	
+	            x.addAt(1, [Text('c'), Text('x', 'd')])
+	            this.eq(x.domNode.children.length, 4)
+	            this.eq(x.children.length, 4)
+	            this.eq(x.domNode.children[0].textContent , 'b')
+	            this.eq(x.children[0].domNode, x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'c')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	            this.eq(x.domNode.children[2].textContent , 'd')
+	            this.eq(x.children[2].domNode , x.domNode.children[2])
+	            this.eq(x.domNode.children[3].textContent , 'a')
+	            this.eq(x.children[3].domNode , x.domNode.children[3])
+	        })
+	
+	        this.test('addBefore', function() {
+	            var x = C()
+	
+	            var one = Text('a')
+	            x.addBefore(undefined, one)
+	            this.eq(x.domNode.children.length, 1)
+	            this.eq(x.children.length, 1)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode.textContent , 'a')
+	
+	            var two = Text('x', 'b')
+	            x.addBefore(one, two)
+	            this.eq(x.domNode.children.length, 2)
+	            this.eq(x.children.length, 2)
+	            this.eq(x.domNode.children[0].textContent , 'b')
+	            this.eq(x.children[0].domNode, x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'a')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	
+	            x.addBefore(one, [Text('c'), Text('x', 'd')])
+	            this.eq(x.domNode.children.length, 4)
+	            this.eq(x.children.length, 4)
+	            this.eq(x.domNode.children[0].textContent , 'b')
+	            this.eq(x.children[0].domNode, x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'c')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	            this.eq(x.domNode.children[2].textContent , 'd')
+	            this.eq(x.children[2].domNode , x.domNode.children[2])
+	            this.eq(x.domNode.children[3].textContent , 'a')
+	            this.eq(x.children[3].domNode , x.domNode.children[3])
+	
+	            x.addBefore(undefined, Text('e'))
+	            this.eq(x.domNode.children.length, 5)
+	            this.eq(x.children.length, 5)
+	            this.eq(x.domNode.children[4].textContent , 'e')
+	            this.eq(x.children[4].domNode , x.domNode.children[4])
+	        })
+	
+	        this.test('remove', function() {
+	            var C = proto(Block, function(superclass) {
+	                this.name = 'removeTest'
+	
+	                this.init = function() {
+	                    superclass.init.call(this) // set style with constructor
+	                }
+	            })
+	
+	            var x = C()
+	
+	            var zero = Text('a')
+	            var one = Text('b')
+	            var two = Text('c')
+	            var three = Text('d')
+	            var four = Text('e')
+	            x.add(zero,one,two,three,four)
+	
+	            this.eq(zero.parent, x)
+	            this.eq(one.parent, x)
+	            this.eq(two.parent, x)
+	            this.eq(three.parent, x)
+	            this.eq(four.parent, x)
+	
+	            x.remove(2)
+	            this.eq(two.parent, undefined)
+	            this.eq(x.domNode.children.length, 4)
+	            this.eq(x.children.length, 4)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode , x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'b')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	            this.eq(x.domNode.children[2].textContent , 'd')
+	            this.eq(x.children[2].domNode , x.domNode.children[2])
+	            this.eq(x.domNode.children[3].textContent , 'e')
+	            this.eq(x.children[3].domNode , x.domNode.children[3])
+	
+	            x.remove(one)
+	            this.eq(one.parent, undefined)
+	            this.eq(x.domNode.children.length, 3)
+	            this.eq(x.children.length, 3)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode, x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'd')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	            this.eq(x.domNode.children[2].textContent , 'e')
+	            this.eq(x.children[2].domNode , x.domNode.children[2])
+	
+	            x.remove(zero)
+	            this.eq(zero.parent, undefined)
+	            this.eq(x.domNode.children.length, 2)
+	            this.eq(x.children.length, 2)
+	            this.eq(x.domNode.children[0].textContent , 'd')
+	            this.eq(x.children[0].domNode , x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'e')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	
+	            // what's left is three and four
+	            x.remove([0, four])
+	            this.eq(three.parent, undefined)
+	            this.eq(four.parent, undefined)
+	            this.eq(x.domNode.children.length, 0)
+	            this.eq(x.children.length, 0)
+	        })
+	
+			this.test('setting parent',function() {
+				this.count(2);
+				var C = proto(Block, function(superclass) {
+	                this.name = 'parent'
+	
+	                this.init = function() {
+	                    superclass.init.call(this)
+	                }
+	            })
+	
+				var C2 = proto(Block, function(superclass) {
+	                this.name = 'child'
+	
+	                this.init = function() {
+	                    superclass.init.call(this)
+	                }
+	            })
+	
+				var parent = C();
+				var child = C2();
+				this.eq(child.parent,undefined);
+				parent.add(child);
+				this.eq(child.parent,parent);
+				
+			})
+	    })
+	
+	    this.test('attr', function() {
+	        var thinger = TestThinger()
+	        thinger.attr("moose", '5')
+	        this.eq(thinger.domNode.getAttribute("moose"), '5')
+	        this.eq(thinger.attr('moose'), '5')
+	
+	        thinger.attr("moose", 'ha ha ha \'\"haaaaaaa <moose></moose>')
+	        this.eq(thinger.domNode.getAttribute("moose"), 'ha ha ha \'\"haaaaaaa <moose></moose>')
+	        this.eq(thinger.attr('moose'), 'ha ha ha \'\"haaaaaaa <moose></moose>')
+	
+	        thinger.attr('moose', undefined)
+	        this.eq(thinger.domNode.getAttribute("moose"), null)
+	        this.eq(thinger.attr('moose'), undefined)
+	
+	        thinger.attr({arg:1, blah:2})
+	        this.eq(thinger.attr('arg'), '1')
+	        this.eq(thinger.attr('blah'), '2')
+	    })
+	
+	    this.test('label property', function() {
+	        blocks.dev = false // turn off dev for a second
+	
+	        var thinger = TestThinger()
+	        this.eq(thinger.label, undefined)
+	        this.eq(thinger.attr('label'), undefined)
+	
+	        thinger.label = "moose"
+	        this.eq(thinger.label, 'moose')
+	        this.eq(thinger.attr('label'), undefined) // only set in dev mode
+	
+	        var thinger2 = TestThinger()
+	        blocks.dev = true // turn back on
+	        thinger2.label = "moose2"
+	        this.eq(thinger2.label, "moose2")
+	        this.eq(thinger2.attr('label'), "moose2")
+	
+	        try {
+	            thinger.label = 'setagainfails'
+	        } catch(e) {
+	            this.eq(e.message, "A Block's label can only be set once (was already set to: moose)")
+	        }
+	    })
+	
+	    this.test('visible', function() {
+	        var container = blocks.Container()
+	        testUtils.demo("visible test", container)
+	
+	        var thinger = TestThinger()
+	        container.add(thinger)
+	        this.eq(thinger.visible, true)
+	        this.eq($(thinger.domNode).css('display'), "inline-block")
+	
+	        thinger.visible = true                       // does nothing if its already showing
+	        this.eq(thinger.visible, true)
+	        this.eq($(thinger.domNode).css('display'), "inline-block")
+	
+	        thinger.visible = false
+	        this.eq(thinger.visible, false)
+	//        this.eq(thinger.domNode.style.display, "none")
+	        this.eq($(thinger.domNode).css('display'), "none")
+	
+	        thinger.visible = false                      // does nothing if its already hiding
+	        this.eq(thinger.visible, false)
+	        this.eq($(thinger.domNode).css('display'), "none")
+	
+	        thinger.visible = true
+	        this.eq(thinger.visible, true)
+	        this.eq($(thinger.domNode).css('display'), "inline-block")
+	
+	        this.test("with styled css display", function() {
+	            var thinger = TestThinger()
+	            container.add(thinger)
+	            thinger.style = blocks.Style({display: 'inline'})
+	
+	            this.eq($(thinger.domNode).css('display'), "inline")
+	
+	            thinger.visible = false
+	            this.eq($(thinger.domNode).css('display'), "none")
+	            this.eq(thinger.visible, false)
+	
+	            thinger.visible = true
+	            this.eq(thinger.visible, true)
+	            this.eq($(thinger.domNode).css('display'), "inline")
+	        })
+	
+	        this.test("with inline css", function() {
+	            var thinger = TestThinger()
+	            container.add(thinger)
+	            thinger.domNode.style.display = 'block'
+	
+	            this.eq($(thinger.domNode).css('display'), "block")
+	
+	            thinger.visible = false
+	            this.eq($(thinger.domNode).css('display'), "none")
+	            this.eq(thinger.visible, false)
+	
+	            thinger.visible = true
+	            this.eq(thinger.visible, true)
+	            this.eq($(thinger.domNode).css('display'), "block")
+	        })
+	    })
+	
+	    this.test("focus", function() {
+	        var input = blocks.TextField()
+	        testUtils.demo("focus test", input)
+	
+	        this.ok(input.domNode !== document.activeElement)
+	
+	        input.focus = true
+	        this.ok(input.domNode === document.activeElement)
+	
+	        input.focus = false
+	        this.ok(input.domNode !== document.activeElement)
+	    })
+	
+	    this.test("setSelection and getCaratOffset", function() {
+	        var container = blocks.Container()
+	        testUtils.demo("setSelection and getCaratOffset", container)
+	
+	        this.test('input textfield', function() {
+	            var input = blocks.TextField()
+	            container.add(input)
+	            input.val = "whatever yo"
+	
+	            this.eq(input.selectionRange, undefined)
+	
+	            input.selectionRange = [1,1]
+	            this.eq(input.selectionRange[0], 1)
+	            this.eq(input.selectionRange[1], 1)
+	
+	            input.selectionRange = [2,5]
+	            this.eq(input.selectionRange[0], 2)
+	            this.eq(input.selectionRange[1], 5)
+	
+	            this.test("input textfields that are next to eachother", function() {
+	                var c = blocks.Container()
+	                container.add(c)
+	                var input = blocks.TextField(), input2 = blocks.TextField()
+	                c.add(input, input2)
+	                input.val = "whatever yo"
+	                input2.val = 'more whatever'
+	
+	                this.eq(input.selectionRange, undefined)
+	                this.eq(input2.selectionRange, undefined)
+	
+	                input.focus = true
+	
+	                // when its focused on after being set programatically, it should have the active caret (note that this is different from gaining focus by being tabbed to)
+	                // seems to start its caret at the end of the input
+	                this.eq(input.selectionRange[0], input.val.length)
+	                this.eq(input.selectionRange[1], input.val.length)
+	                this.eq(input2.selectionRange, undefined)
+	
+	                input.selectionRange = [2,4]
+	                this.eq(input.selectionRange[0], 2)
+	                this.eq(input.selectionRange[1], 4)
+	                this.eq(input2.selectionRange, undefined)
+	
+	                input2.selectionRange = [3,5]
+	                this.eq(input.selectionRange, undefined)
+	                this.eq(input2.selectionRange[0], 3)
+	                this.eq(input2.selectionRange[1], 5)
+	
+	            })
+	        })
+	
+	        this.test('textarea', function() {
+	            var input = blocks.TextArea()
+	            container.add(input)
+	            input.val = "whatever yo"
+	
+	            this.eq(input.selectionRange, undefined)
+	
+	            input.selectionRange = [1,1]
+	            this.eq(input.selectionRange[0], 1)
+	            this.eq(input.selectionRange[1], 1)
+	
+	            input.selectionRange = [2,5]
+	            this.eq(input.selectionRange[0], 2)
+	            this.eq(input.selectionRange[1], 5)
+	        })
+	
+	        this.test("regular div", function() {
+	            var div = blocks.Text("Whatever")
+	            div.attr("contenteditable", true)
+	            container.add(div)
+	
+	            this.eq(div.selectionRange, undefined)
+	
+	            div.selectionRange = [1,1]
+	            this.eq(div.selectionRange[0], 1)
+	            this.eq(div.selectionRange[1], 1)
+	
+	            div.selectionRange = [2,5]
+	            this.eq(div.selectionRange[0], 2)
+	            this.eq(div.selectionRange[1], 5)
+	        })
+	
+	        this.test("contenteditable div", function() {
+	            var input = blocks.Text("Whatever")
+	            input.attr("contenteditable", true)
+	            container.add(input)
+	
+	            this.eq(input.selectionRange, undefined)
+	
+	            input.selectionRange = [1,1]
+	            this.eq(input.selectionRange[0], 1)
+	            this.eq(input.selectionRange[1], 1)
+	
+	            input.selectionRange = [2,5]
+	            this.eq(input.selectionRange[0], 2)
+	            this.eq(input.selectionRange[1], 5)
+	
+	            input.domNode.innerHTML = "<span>hi</span><span>lo</span><span>mo<br>scrow</span>"
+	            this.eq(input.selectionRange[0], 0)
+	            this.eq(input.selectionRange[1], 11)           // is this right?
+	
+	            input.selectionRange = [4,11]
+	            this.eq(input.selectionRange[0], 4)
+	            this.eq(input.selectionRange[1], 11)
+	
+	        })
+	
+	        this.test("selectionRange across nodes", function() {
+	            var one = Text('one'), two = Text("two"), three = Text("three")
+	            var c = blocks.Container(one, two, three)
+	            container.add(c)
+	
+	            c.selectionRange = [2,8]
+	            this.eq(c.selectionRange[0], 2)
+	            this.eq(c.selectionRange[1], 8)
+	            this.eq(one.selectionRange[0], 2)
+	            this.eq(one.selectionRange[1], 3)
+	            this.eq(two.selectionRange[0], 0)
+	            this.eq(two.selectionRange[1], 3)
+	            this.eq(three.selectionRange[0], 0)
+	            this.eq(three.selectionRange[1], 2)
+	        })
+	    })
+	
+	    this.test("on, addListener, once, removeListener, removeAllListeners", function(t) {
+	        this.count(10)
+	
+	        var EventWhore = proto(Block,function(superclass) {
+	            this.name = 'EventWhore'
+	        })
+	
+	        var e = EventWhore()
+	
+	        var event = testUtils.seq(
+	          function(eventName, data) {
+	            t.eq(eventName, 'a')
+	            t.eq(data, 1)
+	        },function(eventName, data) {
+	            t.eq(eventName, 'a')
+	            t.eq(data, 2)
+	
+	        },function(eventName, data) {
+	            t.eq(eventName, 'b')
+	            t.eq(data, 3)
+	        },function(eventName, data) {
+	            t.eq(eventName, 'b')
+	            t.eq(data, 4)
+	
+	        },function(eventName, data) {
+	            t.eq(eventName, 'c')
+	            t.eq(data, 5)
+	        })
+	
+	        var acb, bcb, ccb;
+	        e.on('a', acb = function(data) {
+	            event('a', data)
+	        })
+	        e.addListener('b', bcb = function bcb(data) {
+	            event('b', data)
+	        })
+	        e.once('c', cbc = function(data) {
+	            event('c', data)
+	        })
+	
+	        e.emit('a', 1)
+	        e.emit('a', 2)
+	
+	        e.emit('b', 3)
+	        e.emit('b', 4)
+	
+	        e.emit('c', 5)
+	        e.emit('c', 6)
+	
+	        e.removeListener('a', acb)
+	        e.emit('a', 7)
+	
+	        e.removeAllListeners('b')
+	        e.emit('b', 8)
+	
+	        e.on('d', acb = function(data) {
+	            event('a', data)
+	        })
+	        e.removeAllListeners()
+	        e.emit('d', 9)
+	    })
+	
+	
+	    this.test('listening on standard browser events', function(t) {
+	        var container = blocks.Container()
+	        testUtils.demo('listening on standard browser events', container)
+	        this.test("basic browser events", function (t) {
+	            this.count(1)
+	
+	            var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
+	
+	            var EventWhore = proto(Block,function(superclass) {
+	                this.name = 'EventWhore'
+	            })
+	
+	            var e = EventWhore()
+	            container.add(e)
+	
+	            var testEvent = testUtils.seq(function(eventName) {
+	                t.eq(eventName, 'click')
+	            })
+	
+	            // events shouldn't be emitted unless bound with the EventEmitterB/Block `on` method (the EventEmitter `on` method bypasses the critical dom event handling setup)
+	            var eventEmitterPrototypeHandler;
+	            EventEmitter.prototype.on.call(e, "click", eventEmitterPrototypeHandler=function() {
+	                testEvent('EventEmitter click')
+	            })
+	
+	            var handler;
+	            syn.click(e.domNode).then(function() {
+	                EventEmitter.prototype.removeListener.call(e, "click", eventEmitterPrototypeHandler) // get rid of the EventEmitter listener, cause otherwise it'll mess out stuff up
+	
+	                e.on('click', handler = function() {
+	                    testEvent('click')
+	                })
+	
+	                return syn.click(e.domNode)
+	            }).then(function() {
+	                e.removeListener('click', handler)
+	
+	                return syn.click(e.domNode)
+	            }).then(function() {
+	                e.on('click', handler = function() {
+	                    event('click')
+	                })
+	
+	                e.removeAllListeners('click')
+	
+	                return syn.click(e.domNode)
+	            }).then(function() {
+	                e.on('click', handler = function() {
+	                    event('click')
+	                })
+	
+	                e.removeAllListeners()
+	
+	                return syn.click(e.domNode)
+	            }).done()
+	        })
+	
+	        this.test("browser events with exclusion", function(t) {
+	            this.count(1)
+	
+	            var EventWhore = proto(Block,function(superclass) {
+	                this.name = 'EventWhore'
+	
+	                this.excludeDomEvents = {click: 1}
+	            })
+	
+	            var e = EventWhore()
+	            container.add(e)
+	
+	            var testEvent = testUtils.seq(function(eventName) {
+	                t.eq(eventName, 'mousedown')
+	            })
+	
+	            e.on('click', function() {
+	                testEvent('click')
+	            })
+	            e.on('mousedown', function() {
+	                testEvent('mousedown')
+	            })
+	
+	            syn.click(e.domNode).done()
+	        })
+	    })
+	
+	    this.test("former bugs", function() {
+	        // note, i thought this would have been a bug.. but apparently not? I'm unclear how to manifest the incorrect code i see.. but what the hell, i'll just fix the code without a test
+	        this.test("dom events handlers not being unbound correctly when more than one type of event is bound", function(t) {
+	            this.count(1)
+	
+	            var EventWhore = proto(Block,function(superclass) {
+	                this.name = 'EventWhore'
+	            })
+	
+	            var e = EventWhore()
+	
+	            var clickHandler
+	            e.on('click', clickHandler=function() {
+	                t.ok(false)
+	            })
+	            e.on('mousedown', function() {
+	                t.ok(true)
+	            })
+	
+	            e.off('click', clickHandler)
+	
+	            syn.click(e.domNode)
+	        })
+	    })
+	
+	    //*/
+	}
+	
+
+
+/***/ },
+/* 4 */
+/*!***********************!*\
+  !*** ./Style.test.js ***!
+  \***********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 40)
+	
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
+	var Block = blocks.Block
+	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	
+	var Style = blocks.Style
+	var Text = blocks.Text
+	var Button = blocks.Button
+	var CheckBox = blocks.CheckBox
+	var Container = blocks.Container
+	
+	
+	module.exports = function(t) {
+	
+	
+	          /*
+	        this.test('last-child', function(t) {
+	
+	            var C = proto(Block, function(superclass) {
+	                this.name = 'C'
+	
+	                this.build = function() {
+	                    this.add(Text("a"))
+	
+	                    this.style = style
+	                }
+	            })
+	
+	            var style = Style({
+	                Text:{
+	                    $$lastChild: {
+	                        color: 'rgb(128, 0, 0)'
+	                    }
+	                }
+	            })
+	
+	            var component1 = C()
+	            testUtils.demo('last-child', component1)
+	            component1.on('click', function() {
+	                component1.add(Text('e'))
+	            })
+	        })
+	
+	        this.test("hover", function(t) {
+	            this.count(3)
+	
+	            var style = Style({
+	                Text: {
+	                    $$hover: {
+	                        color: 'rgb(200, 0, 0)'
+	                    }
+	                }
+	            })
+	
+	            var c = Container([Text("a")])
+	            c.style = style
+	
+	            testUtils.demo('hover', c)
+	        })      */
+	
+	    //*
+	    this.test('simple styling',function(t) {
+	        this.count(2)
+	
+	        var S = Style({
+	            color: 'rgb(0, 128, 0)'
+	        })
+	
+	        var C = proto(Block, function(superclass) {
+	            this.name = 'C'
+	
+	            this.build = function() {
+	                this.style = S
+	
+	                this.domNode.textContent = "hi"
+	            }
+	        })
+	
+	        var node = C()
+	        testUtils.demo("simple styling", node) // node has to be apart of the page before css class styles are applied to it
+	
+	        var div = $(node.domNode)
+	        this.eq(div.css('color'), 'rgb(0, 128, 0)')
+	
+	        node.style = undefined // unset a style (should return to default)
+	        setTimeout(function() { // looks like when a css classname is changed, it doesn't take effect immediately (is this really true????)
+	            t.eq(div.css('color'), 'rgb(0, 0, 0)')
+	        },0)
+	
+	    })
+	
+	    this.test('styling a more complex component with inner components', function() {
+	        var S = Style({
+	            backgroundColor: 'rgb(0, 128, 0)',
+	            Text: {backgroundColor: 'rgb(128, 0, 0)'},
+	            CheckBox: {backgroundColor: 'rgb(0, 0, 128)'}
+	        })
+	
+	        var C = proto(Block, function(superclass) {
+	            this.name = 'C'
+	
+	            this.build = function() {
+	                this.style = S
+	
+	                this.add(Text('one'), CheckBox())
+	            }
+	        })
+	
+	        var node = C()
+	        testUtils.demo('styling a more complex component with inner components', node)
+	
+	        var color = $(node.domNode).css('backgroundColor')
+	        this.ok(color === 'rgb(0, 128, 0)', color)
+	
+	        var children = node.domNode.children
+	
+	        color = $(children[0]).css('backgroundColor')
+	        this.ok(color === 'rgb(128, 0, 0)', color)
+	
+	        color = $(children[1]).css('backgroundColor')
+	        this.ok(color === 'rgb(0, 0, 128)', color)
+	    })
+	
+	    this.test('styling a component via its class-parent', function() {
+	        var S = Style({
+	            Text: {backgroundColor: 'rgb(128, 0, 0)'}
+	        })
+	
+	        var NextText = proto(Text, function(superclass) {
+	            this.name = 'NextText'
+	        })
+	
+	        var C = proto(Block, function(superclass) {
+	            this.name = 'C'
+	
+	            this.build = function() {
+	                this.style = S
+	
+	                this.add(NextText('one'))
+	            }
+	        })
+	
+	        var node = C()
+	        testUtils.demo('styling a component via its class-parent', node)
+	
+	        var children = node.domNode.children
+	        var color = $(children[0]).css('backgroundColor')
+	        this.ok(color === 'rgb(128, 0, 0)', color)
+	    })
+	
+	    this.test("styling inner components with the 'components' initialization", function() {
+	
+	        var textStyle1 = Style({
+	            color: 'rgb(0, 128, 0)'
+	        })
+	        var S = Style({
+	            textAlign: 'center',
+	            Text: textStyle1
+	        })
+	
+	        var C = proto(Block, function(superclass) {
+	            this.name = 'C'
+	
+	            this.build = function() {
+	                this.add(Text('test'))
+	                this.style = S
+	            }
+	        })
+	
+	        var node = C()
+	        testUtils.demo("styling inner components with the 'components' initialization", node)
+	
+	        var textNode = $(node.domNode.children[0])
+	
+	        this.eq(textNode.css('color'), 'rgb(0, 128, 0)')
+	        this.eq($(node.domNode).css('textAlign'), 'center')
+	        this.eq(textNode.css('textAlign'), 'left') // certain inheritable properties shouldn't be inherited by inner components
+	
+	        node.style = undefined // unset style
+	        this.eq(textNode.css('color'), 'rgb(0, 0, 0)')
+	        this.eq(textNode.css('textAlign'), 'left')
+	        this.eq($(node.domNode).css('textAlign'), 'left')
+	
+	    })
+	
+	    this.test('default Block styles',function(t) {
+	        this.count(13)
+	
+	        var S = Style({
+	            color: 'rgb(0, 0, 128)'
+	        })
+	
+	        var C = proto(Text, function(superclass) {
+	            this.defaultStyle = Style({
+	                color: 'rgb(0, 128, 0)',
+	                backgroundColor: 'rgb(0, 100, 100)',
+	                borderColor: 'rgb(120, 130, 140)'
+	            })
+	        })
+	        var D = proto(C, function(superclass) {
+	            this.defaultStyle = Style({
+	                backgroundColor: 'rgb(1, 2, 3)'
+	            })
+	        })
+	
+	        var node = C("yeahhh")
+	        var node2 = D("NOOOOO")
+	        var container = Container(node, node2)
+	        testUtils.demo('default Block styles', container) // node has to be apart of the page before css class styles are applied to it
+	
+	        var div = $(node.domNode)
+	        this.eq(div.css('color'), 'rgb(0, 128, 0)')
+	        this.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')
+	
+	        var div2 = $(node2.domNode)
+	        this.eq(div2.css('color'), 'rgb(0, 128, 0)')
+	        this.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
+	        this.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
+	
+	        node.style = S
+	        node2.style = S
+	
+	        setTimeout(function() { // looks like when a css classname is changed, it doesn't take effect immediately (is this really true????)
+	            t.eq(div.css('color'), 'rgb(0, 0, 128)')
+	            t.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')   // the default backgroundColor bleeds through for default stylings (unlike normal stylings)
+	
+	            t.eq(div2.css('color'), 'rgb(0, 0, 128)')
+	            t.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
+	            t.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
+	        },0)
+	
+	        try {
+	            proto(Text, function() {
+	                this.defaultStyle = Style({
+	                    Text: {}
+	                })
+	            })()
+	        } catch(e) {
+	            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+	        }
+	        try {
+	            proto(Text, function() {
+	                this.defaultStyle = Style({
+	                    $label: {}
+	                })
+	            })()
+	        } catch(e) {
+	            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+	        }
+	        try {
+	            proto(Text, function() {
+	                this.defaultStyle = Style({
+	                    $$hover: {}
+	                })
+	            })()
+	        } catch(e) {
+	            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+	        }
+	
+	    })
+	
+	    this.test("inheritance of component styles", function() {
+	        //  (e.g. gramparent sets Label style, parent doesn't but has a Label component in it)
+	
+	
+	        var textStyle1 = Style({
+	            color: 'rgb(0, 128, 0)'
+	        })
+	        var S = Style({
+	            Text: textStyle1
+	        })
+	
+	        var Parent = proto(Block, function(superclass) {
+	            this.name = 'Parent'
+	
+	            this.build = function() {
+	                this.add(Text('inParent'))
+	            }
+	        })
+	
+	        var Grandparent = proto(Block, function(superclass) {
+	            this.name = 'Grandparent'
+	
+	            this.build = function() {
+	                this.style = S    // setting the style before adding components should also work
+	                this.add(Parent())
+	                this.add(Text('inGrandparent'))
+	            }
+	        })
+	
+	        var node = Grandparent()
+	        testUtils.demo("inheritance of component styles", node)
+	
+	        var grandparentLabel = $($(node.domNode).children('div')[1])
+	        var parentLabel = $(node.domNode).find('div > div')
+	
+	        this.eq(grandparentLabel.css('color'), 'rgb(0, 128, 0)')
+	        this.eq(parentLabel.css('color'), 'rgb(0, 128, 0)')
+	
+	        node.style = undefined // unset style
+	        this.eq(grandparentLabel.css('color'), 'rgb(0, 0, 0)')
+	        this.eq(parentLabel.css('color'), 'rgb(0, 0, 0)')
+	    })
+	
+	    this.test("the 'setup' javascript initialization", function() {
+	        var S = Style({
+	            $setup: function(component) {
+	                component.mahdiv = domUtils.div()
+	                    component.mahdiv.textContent = "It is set up"
+	
+	                component.domNode.appendChild(component.mahdiv)
+	            },
+	            $kill: function(component) {
+	                component.mahdiv.textContent = 'It has been killed'
+	            }
+	        })
+	        var S2 = Style({}) // empty style
+	
+	        var C = proto(Block, function(superclass) {
+	            this.name = 'C'
+	
+	            this.build = function() {
+	                this.style = S
+	            }
+	        })
+	
+	        var node = C()
+	        testUtils.demo("the 'setup' javascript initialization", node)
+	
+	        var innerDiv = $($(node.domNode).children('div')[0])
+	        this.eq(innerDiv.html(), "It is set up")
+	
+	        node.style = S2
+	        this.eq(innerDiv.html(), 'It has been killed')
+	    })
+	
+	    this.test("changing styles on the fly", function() {
+	
+	        var C = proto(Block, function(superclass) {
+	            this.name = 'C'
+	
+	            this.build = function(style) {
+	                this.style = style
+	
+	                this.add(Text('testLabel'))
+	            }
+	        })
+	
+	        var TextStyle1 = Style({
+	                color:'rgb(0,128,0)'
+	            })
+	        var TextStyle2 = Style({
+	                color:'rgb(128,0,0)'
+	            })
+	
+	        var S1 = Style({
+	                color: 'rgb(0,0,128)',
+	
+	                Text: TextStyle1,
+	                $setup: function(component) {
+	                    component.mahdiv = domUtils.div()
+	                    component.mahdiv.textContent = "It is set up"
+	
+	                    component.domNode.appendChild(component.mahdiv)
+	                },
+	                $kill: function(component) {
+	                    component.domNode.removeChild(component.mahdiv)
+	                }
+	            })
+	
+	        var S2 = Style({
+	                color: 'rgb(0,128,128)',
+	                Text: TextStyle2,
+	                $setup: function(component) {
+	                    component.mahdiv = domUtils.div()
+	                    component.mahdiv.textContent = "Me is set up dood"
+	
+	                    component.domNode.appendChild(component.mahdiv)
+	                }
+	            })
+	
+	        var node = C(S1)
+	        testUtils.demo("changing styles on the fly", node)
+	        node.style = S2 // reset style
+	
+	        var mainComponent = $(node.domNode)
+	        var labelDiv = $(mainComponent.children('div')[0])
+	        var textDiv = $(mainComponent.children('div')[1])
+	
+	        this.eq(mainComponent.css('color'), 'rgb(0, 128, 128)')
+	        this.eq(labelDiv.css('color'), 'rgb(128, 0, 0)')
+	        this.eq(textDiv.html(), "Me is set up dood")
+	
+	
+	        this.test('errors', function() {
+	            this.count(1)
+	
+	            try {
+	                node.style = S1 // if a style that has a 'setup' but no 'kill' is changed, an exception should be thrown
+	            } catch(e) {
+	                this.eq(e.message, 'style has been unset but does not have a "kill" function to undo its "setup" function')
+	            }
+	        })
+	    })
+	
+	    this.test("reinheritance of parent styles", function() {
+	        //  (e.g. gramparent sets Text style, parent doesn't but has a Text component in it)
+	
+	
+	        var textStyle1 = Style({
+	                color: 'rgb(128, 0, 128)'
+	            })
+	        var textStyle2 = Style({
+	                color: 'rgb(128, 128, 0)'
+	            })
+	        var textStyle3 = Style({
+	                color: 'rgb(0, 128, 0)'
+	            })
+	        var S = Style({
+	                Text: textStyle1
+	            })
+	        var S2 = Style({
+	                Text: textStyle2
+	            })
+	
+	        var Parent = proto(Block, function(superclass) {
+	            this.name = 'Parent'
+	
+	            this.build = function() {
+	                this.style = S2
+	
+	                this.text = Text('inParent')
+	                this.text.style = textStyle3
+	                this.add(this.text)
+	            }
+	        })
+	
+	        var Grandparent = proto(Block, function(superclass) {
+	            this.name = 'Grandparent'
+	
+	            this.build = function() {
+	                this.style = S
+	
+	                this.parentComponent = Parent()
+	                this.add(this.parentComponent)
+	            }
+	        })
+	
+	        var node = Grandparent()
+	        testUtils.demo("reinheritance of parent styles", node)
+	
+	        var parentText = $(node.parentComponent.text.domNode)
+	
+	        this.eq(parentText.css('color'), 'rgb(0, 128, 0)')
+	
+	        node.parentComponent.text.style = undefined // reinherit from parent
+	        this.eq(parentText.css('color'), 'rgb(128, 128, 0)')
+	
+	        node.parentComponent.style = undefined // reinherit from grandparent
+	        this.eq(parentText.css('color'), 'rgb(128, 0, 128)')
+	    })
+	
+	    this.test('component label styling', function() {
+	
+	        var C = proto(Block, function(superclass) {
+	            this.name = 'C'
+	
+	            this.build = function() {
+	                this.style = style
+	                this.add(
+	                    Text('one'),
+	                    Text('inner', 'two'),
+	                    Container([Text('three')]),
+	                    Container('inner', [Text('inner', 'four')]),
+	                    Container('inner2', [Text('inner2', 'five')])
+	                )
+	            }
+	        })
+	
+	        var styleObject = Style({
+	            Text: {color: 'rgb(45, 50, 60)'},
+	            $inner2: {
+	                Text: {color: 'rgb(4, 3, 2)'} // shouldn't be used
+	            }
+	        })
+	
+	        var style = Style({
+	                color: 'rgb(128, 0, 0)',
+	
+	                Text: {
+	                    color: 'rgb(0, 128, 0)',
+	                    backgroundColor: 'rgb(1, 2, 3)',
+	                    $inner: {
+	                        color: 'rgb(128, 128, 128)'
+	                    }
+	                },
+	
+	                Container: {
+	                    backgroundColor: 'rgb(0, 120, 130)',
+	
+	                    Text: {
+	                        color: 'rgb(0, 0, 128)'
+	                    },
+	                    $inner: {
+	                        Text: {
+	                            color: 'rgb(0, 128, 128)'
+	                        }
+	                    },
+	                    $inner2: styleObject
+	                }
+	            })
+	
+	        var component = C()
+	        testUtils.demo('component label styling', component)
+	
+	        var children = $(component.domNode).children()
+	        this.eq($(children[0]).css('color'), 'rgb(0, 128, 0)')
+	        this.eq($(children[0]).css('backgroundColor'), 'rgb(1, 2, 3)')
+	
+	        this.eq($(children[1]).css('color'), 'rgb(128, 128, 128)')
+	        this.eq($(children[1]).css('backgroundColor'), 'rgb(1, 2, 3)')
+	
+	        this.eq($(children[2].children[0]).css('color'), 'rgb(0, 0, 128)')
+	
+	        this.eq($(children[3].children[0]).css('color'), 'rgb(0, 128, 128)')
+	
+	        this.eq($(children[4].children[0]).css('color'), 'rgb(45, 50, 60)')
+	        this.eq($(children[4].children[0]).css('backgroundColor'), 'rgba(0, 0, 0, 0)') // nothing should be inherited from the non-label style
+	
+	        this.test('errors', function() {
+	            this.count(1)
+	
+	            try {
+	                Style({
+	                    Anything: {
+	                        $someLabel: {
+	                            $someInnerLabel: {} // not legal - only one label is allowed on a component, so nested label styles wouldn't make sense
+	                        }
+	                    }
+	                })
+	            } catch(e) {
+	                this.eq(e.message, "Can't create nested label style $someInnerLabel because components can only have one label")
+	            }
+	        })
+	    })
+	
+	    this.test('component pseudoclass styling', function() {
+	
+	
+	        this.test("basic psuedoclass styling", function() {
+	            this.count(40)
+	
+	            var C = proto(Block, function(superclass) {
+	                this.name = 'C'
+	
+	                this.build = function() {
+	                    this.style = style
+	
+	                    var container = Container([CheckBox()])
+	
+	                    this.add(
+	                        CheckBox(),
+	                        container
+	                    )
+	                }
+	            })
+	
+	            var style = Style({
+	                color: 'rgb(128, 0, 0)',
+	
+	                CheckBox: {
+	                    color: 'rgb(0, 128, 0)',
+	
+	                    $$disabled: {
+	                        color: 'rgb(123, 130, 130)',
+	                        outline: '1px solid rgb(60, 60, 200)'
+	                    },
+	
+	                    $$checked: {
+	                        color: 'rgb(128, 128, 128)',
+	                        outline: '4px solid rgb(80, 90, 100)',
+	                        $$required: {
+	                            color: 'rgb(130, 0, 130)',
+	                            backgroundColor: 'rgb(1, 2, 3)',
+	
+	                            $setup: function(c) {
+	                                c.someProperty = 'required'
+	                            },
+	                            $kill: function(c) {
+	                                c.someProperty = 'optional'
+	                            }
+	                        }
+	                    }
+	                },
+	
+	                Container: {
+	                    CheckBox: {color: 'rgb(0, 128, 0)'},
+	                    $$required: {
+	                        CheckBox: {
+	                            color: 'rgb(128, 128, 128)',
+	
+	                            $$checked: {
+	                                $setup: function(c) {
+	                                    c.someProperty = 'required'
+	                                },
+	                                $kill: function(c) {
+	                                    c.someProperty = 'optional'
+	                                }
+	                            }
+	                        }
+	                    }
+	                }
+	            })
+	
+	            var component = C()
+	            testUtils.demo("basic psuedo-class styling", component)
+	
+	            var children = component.children
+	
+	            var defaultBackgroundColor = 'rgba(0, 0, 0, 0)'
+	
+	            var firstCheckBoxComponent = children[0]
+	            var firstCheckBox = $(firstCheckBoxComponent.domNode)
+	            this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)')
+	
+	            this.log('just disabled')
+	            firstCheckBoxComponent.attr('disabled', true)
+	            setTimeout(function() {    // need to use a timeout every time an attribute changes because the MutationObserver that listens for attribute changes is asynchornous and won't fire until the scheduler is reached
+	            this.eq(firstCheckBox.css('color'), 'rgb(123, 130, 130)')
+	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(60, 60, 200)')
+	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
+	            this.eq(firstCheckBoxComponent.someProperty, undefined)
+	            firstCheckBoxComponent.attr('disabled', undefined)
+	            setTimeout(function() {
+	
+	            this.log("just checked")
+	            firstCheckBoxComponent.selected = true
+	            this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
+	            this.ok(firstCheckBox.css('outlineColor') !== 'rgb(0, 0, 0)', firstCheckBox.css('outlineColor'))
+	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
+	            this.eq(firstCheckBox.css('outlineWidth'), '4px')
+	            this.eq(firstCheckBoxComponent.someProperty, undefined)
+	            firstCheckBoxComponent.selected = false
+	
+	            this.log("just required")
+	            firstCheckBoxComponent.attr('required', true)
+	            setTimeout(function() {
+	            this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)') // the required pseudoclass doesn't apply because its within the checked psudeoclass (and the box isn't checked)
+	            this.ok(firstCheckBox.css('outlineColor') !== 'rgb(60, 60, 200)', firstCheckBox.css('outlineColor'))
+	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
+	            this.eq(firstCheckBoxComponent.someProperty, undefined)
+	
+	            this.log("required and disabled")
+	            firstCheckBoxComponent.attr('disabled', true)
+	            setTimeout(function() {
+	            this.eq(firstCheckBox.css('color'), 'rgb(123, 130, 130)')
+	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(60, 60, 200)')
+	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
+	            this.eq(firstCheckBoxComponent.someProperty, undefined)
+	            firstCheckBoxComponent.attr('required', undefined)
+	            setTimeout(function() {
+	
+	            this.log("disabled and checked")
+	            firstCheckBoxComponent.selected = true
+	            this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
+	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
+	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
+	            this.eq(firstCheckBoxComponent.someProperty, undefined)
+	            firstCheckBoxComponent.attr('disabled', undefined)
+	
+	            this.log("checked and required")
+	            firstCheckBoxComponent.attr('required', true)
+	            setTimeout(function() {
+	            this.eq(firstCheckBox.css('color'), 'rgb(130, 0, 130)')
+	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
+	            this.eq(firstCheckBox.css('backgroundColor'), 'rgb(1, 2, 3)')
+	            this.eq(firstCheckBox.css('outlineWidth'), '4px')
+	            this.eq(firstCheckBoxComponent.someProperty, 'required')
+	
+	            this.log("all 3: checked, required, and disabled")
+	            firstCheckBoxComponent.attr('disabled', true)
+	            setTimeout(function() {
+	            this.eq(firstCheckBox.css('color'), 'rgb(130, 0, 130)')
+	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
+	            this.eq(firstCheckBox.css('backgroundColor'), 'rgb(1, 2, 3)')
+	            this.eq(firstCheckBoxComponent.someProperty, 'required')
+	
+	            this.log("just required (again)")
+	            firstCheckBoxComponent.attr('disabled', false)
+	            firstCheckBoxComponent.selected = false
+	            setTimeout(function() {
+	            this.eq(firstCheckBoxComponent.someProperty, 'optional')
+	
+	            var secondCheckBoxComponent = children[1].children[0]
+	            var secondCheckBox = $(secondCheckBoxComponent.domNode)
+	            this.eq(secondCheckBox.css('color'), 'rgb(0, 128, 0)')
+	            this.eq(secondCheckBoxComponent.someProperty, undefined)
+	
+	            this.log("just required")
+	            children[1].attr('required', true)
+	            setTimeout(function() {
+	            this.eq(secondCheckBox.css('color'), 'rgb(128, 128, 128)')
+	            this.eq(secondCheckBoxComponent.someProperty, undefined)
+	            children[1].attr('required', undefined)
+	            setTimeout(function() {
+	
+	            this.log("just checked")
+	            secondCheckBoxComponent.selected = true
+	            this.eq(secondCheckBox.css('color'), 'rgb(0, 128, 0)')
+	            this.eq(secondCheckBoxComponent.someProperty, undefined)
+	
+	            this.log("checked and required")
+	            children[1].attr('required', true)
+	            setTimeout(function() {
+	            this.eq(secondCheckBox.css('color'), 'rgb(128, 128, 128)')
+	            this.eq(secondCheckBoxComponent.someProperty, 'required')
+	            }.bind(this),0)
+	            }.bind(this),0)
+	            }.bind(this),0)
+	            }.bind(this),0)
+	            }.bind(this),0)
+	            }.bind(this),0)
+	            }.bind(this),0)
+	            }.bind(this),0)
+	            }.bind(this),0)
+	            }.bind(this),0)
+	            }.bind(this),0)
+	        })
+	
+	        this.test('combination of side-by-side emulated psuedoclasses', function(t) {
+	            var red = 'rgb(128, 0, 0)'
+	            var style = Style({
+	                '$$nthChild(1)': {
+	                    textDecoration: 'underline'
+	                },
+	
+	                '$$nthChild(1+2n)': {
+	                    color: red
+	                }
+	            })
+	
+	            var x,y;
+	            var c = Container([
+	                x = Text('a'),
+	                y = Text('b')
+	            ])
+	            testUtils.demo('combination of side-by-side emulated psuedoclasses', c)
+	            x.style = style
+	            y.style = style
+	
+	            t.eq($(x.domNode).css('color'), red)
+	            t.ok($(x.domNode).css('textDecoration').indexOf('underline') !== -1)
+	            t.ok($(y.domNode).css('color') !== red)
+	            t.eq($(y.domNode).css('textDecoration').indexOf('underline'), -1)
+	        })
+	
+	        this.test('visited', function() {
+	            var C = proto(Block, function(superclass) {
+	                this.name = 'C'
+	
+	                this.build = function(text, link) {
+	                    this.domNode = domUtils.node('a')
+	
+	                    this.attr('href', link)
+	                    this.attr('style', "display:block;")
+	                    this.domNode.textContent = text
+	                    this.on('click', function(e) {
+	                        e.preventDefault() // prevents you from going to the link location on-click
+	                        console.log("fucks")
+	                    })
+	
+	                    this.style = style
+	                }
+	            })
+	
+	            var style = Style({
+	                color: 'rgb(150, 0, 0)',
+	                $$visited: {
+	                    color: 'rgb(0, 128, 0)',
+	
+	                    $$focus: {
+	                        color: 'rgb(0, 70, 200)'
+	                    }
+	                }
+	            })
+	
+	            var component1 = C("This should be green", "http://www.google.com/")
+	            var component2 = C("This should be blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
+	                component2.attr('tabindex', 1) // to make it focusable
+	            var component3 = C("This should be red (even when clicked on)", "http://www.thisdoesntexistatall.com/notatall")
+	                component3.attr('tabindex', 1) // to make it focusable
+	
+	            // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
+	            testUtils.demo('Manually verify these: component :visited pseudo-class styling', Container([component1, component2, component3]))
+	
+	            component2.focus = true
+	
+	            this.test('errors', function() {
+	                this.count(1)
+	
+	                try {
+	                    Style({
+	                        Anything: {
+	                            $$visited: {
+	                                CheckBox: {
+	                                    $setup: function() {
+	                                    }
+	                                }
+	                            }
+	                        }
+	                    })
+	                } catch(e) {
+	                    this.eq(e.message, "All properties within the pseudoclasses 'visited' must be css styles")
+	                }
+	            })
+	        })
+	
+	        this.test('last-child', function(t) {
+	            this.count(7)
+	
+	            var C = proto(Block, function(superclass) {
+	                this.name = 'C'
+	
+	                this.build = function() {
+	                    this.add(Text("a"))
+	                    this.add(Text("b"))
+	                    this.add(Text("c"))
+	                    this.add(Text("d"))
+	
+	                    this.style = style
+	                }
+	            })
+	
+	            var style = Style({
+	                Text:{
+	                    $$lastChild: {
+	                        color: 'rgb(128, 0, 0)'
+	                    }
+	                }
+	            })
+	
+	            var component1 = C()
+	            testUtils.demo('last-child', component1)
+	
+	            var children = component1.domNode.children
+	            this.eq($(children[0]).css('color'), 'rgb(0, 0, 0)')
+	            this.eq($(children[1]).css('color'), 'rgb(0, 0, 0)')
+	            this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
+	            this.eq($(children[3]).css('color'), 'rgb(128, 0, 0)')
+	            var classes = children[3].classList
+	            this.eq(classes.length, 3)  // one is the main default, one is the Text default, and the 3rd is the set styling
+	
+	            // dynamically adding elements
+	
+	            component1.add(Text('e'))
+	
+	            setTimeout(function() {  // the styles won't actually be applied until the thread runs back to the scheduler
+	                t.eq($(children[3]).css('color'), 'rgb(0, 0, 0)')
+	                t.eq($(children[4]).css('color'), 'rgb(128, 0, 0)')
+	            },0)
+	        })
+	
+	        this.test('nth-child', function() {
+	            var C = proto(Block, function(superclass) {
+	                this.name = 'C'
+	
+	                this.build = function() {
+	                    this.add(Text("a"))
+	                    this.add(Text("b"))
+	                    this.add(Text("c"))
+	                    this.add(Text("d"))
+	
+	                    this.style = style
+	                }
+	            })
+	
+	            var style = Style({
+	                Text:{
+	                    '$$nthChild(1)': {
+	                        color: 'rgb(128, 0, 0)'
+	                    },
+	                    '$$nthChild(2n)': {
+	                        color: 'rgb(0, 128, 128)'
+	                    }
+	                }
+	            })
+	
+	            var component1 = C()
+	            testUtils.demo('nth-child', component1)
+	
+	            var children = component1.domNode.children
+	            this.eq($(children[0]).css('color'), 'rgb(128, 0, 0)')
+	            this.eq($(children[1]).css('color'), 'rgb(0, 128, 128)')
+	            this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
+	            this.eq($(children[3]).css('color'), 'rgb(0, 128, 128)')
+	
+	            this.test('nth-child emulation', function(t) {
+	                this.count(5)
+	
+	                var red = 'rgb(128, 0, 0)'
+	                var teal = 'rgb(0, 128, 128)'
+	
+	                var style = Style({
+	                    Container:{
+	                        '$$nthChild(2)': {
+	                            Text: {
+	                                color: red
+	                            }
+	                        },
+	                        '$$nthChild(1+2n)': {
+	                            Text: {
+	                                color: teal
+	                            }
+	                        }
+	                    }
+	                })
+	
+	                var c = Container([])
+	                testUtils.demo('nth-child emulation', c)
+	                c.style = style
+	
+	                c.add(Container([Text('a')]))
+	                c.add(Container([Text('b')]))
+	                c.add(Container([Text('c')]))
+	                c.add(Container([Text('d')]))
+	                c.add(Container([Text('e')]))
+	
+	                setTimeout(function() {
+	                    t.eq($(c.children[0].children[0].domNode).css('color'), teal)
+	                    t.eq($(c.children[1].children[0].domNode).css('color'), red)
+	                    t.eq($(c.children[2].children[0].domNode).css('color'), teal)
+	                    t.eq($(c.children[3].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+	                    t.eq($(c.children[4].children[0].domNode).css('color'), teal)
+	                },0)
+	            })
+	
+	            this.test("nth-child without parent", function(t) {
+	                this.count(3)
+	
+	
+	                var black = 'rgb(0, 0, 0)'
+	                var red = 'rgb(128, 0, 0)'
+	                var style = Style({
+	                    '$$nthChild(1+1n)': {
+	                        color: red
+	                    }
+	                })
+	
+	                var box = Container([])
+	                var c = Container([])
+	                c.style = style
+	
+	                c.add(Text("moo"))
+	                c.add(Text("moo2"))
+	
+	                box.add(c)
+	                testUtils.demo("nth-child without parent", box)
+	
+	                setTimeout(function() {                              // allow the changes to propagate
+	                    t.eq($(c.children[0].domNode).css('color'), red)
+	                    t.eq($(c.children[1].domNode).css('color'), red)
+	
+	                    var one = c.children[1]
+	                    c.remove(one)
+	                    setTimeout(function() {                          // allow the changes to propagate
+	                        box.add(one)
+	                        t.eq($(one.domNode).css('color'), black)
+	                    },0)
+	                },0)
+	            })
+	        })
+	
+	//        todo: do this when you can figure out how syn.move works
+	//        this.test("hover", function(t) {
+	//            this.count(3)
+	//
+	//            var style = Style({
+	//                $$hover: {
+	//                    color: 'rgb(200, 0, 0)'
+	//                }
+	//            })
+	//
+	//            var text = Text("a")
+	//            text.style = style
+	//
+	//            testUtils.demo('hover', text)
+	//
+	//            this.eq($(text.domNode).css('color'), 'rgb(0, 0, 0)')
+	//
+	//            syn.move({pageX: 100, pageY:100}, text.domNode).then(function() {
+	//                t.eq($(text.domNode).css('color'), 'rgb(200, 0, 0)')
+	//
+	//                return syn.move(text.domNode, {pageX: 100, pageY:100})
+	//            }).then(function() {
+	//                t.eq($(text.domNode).css('color'), 'rgb(0, 0, 0)')
+	//            }).done()
+	//        })
+	
+	//            this.test('not', function(t) {
+	//                var red = 'rgb(128, 0, 0)'
+	//                var teal = 'rgb(0, 128, 128)'
+	//                var style = Style({
+	//                    Text: {
+	//                        '$$not(:nthChild(1))': {
+	//                            color: red
+	//                        }
+	//                    },
+	//                    Container:{
+	//                        '$$not(:nthChild(3))': {
+	//                            Text: {
+	//                                color: teal
+	//                            }
+	//                        }
+	//                    }
+	//                })
+	//
+	//                var c = Container([
+	//                    Text('a'),
+	//                    Text('b'),
+	//                    Container([Text('c')]),
+	//                    Container([Text('d')])
+	//                ])
+	//                testUtils.demo('not', c)
+	//                c.style = style
+	//
+	//                t.eq($(c.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+	//                t.eq($(c.children[1].domNode).css('color'), red)
+	//                t.eq($(c.children[2].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+	//                t.eq($(c.children[3].children[0].domNode).css('color'), teal)
+	//
+	//            })
+	
+	    })
+	
+	    this.test("test styling objects that inherit from a component", function() {
+	
+	        var S = Style({
+	            Text: Style({
+	                color: 'rgb(128, 0, 0)'
+	            })
+	        })
+	
+	        var inheritsFromText = proto(Text, function() {})
+	
+	        var C = proto(Block, function(superclass) {
+	            this.name = 'C'
+	
+	            this.build = function() {
+	                this.style = S
+	                this.add(inheritsFromText('inParent'))
+	            }
+	        })
+	
+	        var node = C()
+	        testUtils.demo("test styling objects that inherit from a component", node)
+	
+	        var text = $($(node.domNode).children('div')[0])
+	
+	        this.eq(text.css('color'), 'rgb(128, 0, 0)')
+	    })
+	
+	    this.test("component state", function(t) {
+	        var S = Style({
+	            color: 'rgb(0, 100, 0)',
+	            $state: function(state, style) {
+	                if(state.boggled) {
+	                    style.color = 'rgb(100, 0, 0)'
+	                } else {
+	                    style.color = 'rgb(0, 0, 100)'
+	                }
+	            }
+	        })
+	
+	        var c = Text("hi")
+	        c.style = S
+	
+	        testUtils.demo("component state", c)
+	
+	        var text = $(c.domNode)
+	        this.eq(text.css('color'), 'rgb(0, 0, 100)')
+	
+	        c.state.set('boggled', true)
+	        this.eq(text.css('color'), 'rgb(100, 0, 0)')
+	    })
+	
+	    this.test('former bugs', function() {
+	        this.test('propogating inner style wasnt working', function() {
+	            var S = Style({
+	                    Container: {
+	                        Button: {
+	                            color: 'rgb(1,2,3)'
+	                        }
+	                    }
+	                })
+	
+	            var C = Text('X')
+	                C.style = S
+	                var A = Container()
+	                    var B = Button('b')
+	                A.add(B)
+	            C.add(A)
+	
+	            testUtils.demo('propogating inner style wasnt working', C)
+	
+	            this.eq($(B.domNode).css('color'), 'rgb(1, 2, 3)')
+	        })
+	
+	        this.test('inner styles inside labels werent working right', function() {
+	            var S = Style({
+	                $label: {
+	                    Text: {
+	                        color: 'rgb(1,2,3)'
+	                    }
+	                }
+	            })
+	
+	            var c = Container('label', [Text('hi')])
+	                c.style = S
+	
+	            testUtils.demo('inner styles inside labels werent working right', c)
+	
+	            this.eq($(c.children[0].domNode).css('color'), 'rgb(1, 2, 3)')
+	        })
+	
+	        this.test('inner styles inside labels werent working right when there was a style outside the label', function() {
+	            var S = Style({
+	                $label: {
+	                    Text: {
+	                        color: 'rgb(1,2,3)'
+	                    }
+	                },
+	                Text: {
+	                    color: 'rgb(20,50,90)'
+	                }
+	            })
+	
+	            var c = Container('label', [Text('hi')])
+	                c.style = S
+	
+	            var superContainer = Container([c]) // the component has to be added to a parent for the bug to manifest
+	
+	            testUtils.demo('inner styles inside labels werent working right when there was a style outside the label', superContainer)
+	
+	            this.eq($(c.children[0].domNode).css('color'), 'rgb(1, 2, 3)')
+	        })
+	
+	        this.test('removing the last child component failed', function() {
+	            var c = Container([Text('a')])
+	            c.remove(0)
+	        })
+	    })
+	    //*/
+	}
+
+/***/ },
+/* 5 */
+/*!***************************************!*\
+  !*** ./ComponentTests/Button.test.js ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	
+	var Button = __webpack_require__(/*! Components/Button */ 27)
+	
+	module.exports = function(t) {
+	    t.count(5)
+	
+	    var obj = new Button("Text");
+	    obj.on("click",function() {
+	        t.ok(true);
+	    })
+	
+	    testUtils.demo("Button", obj)
+	
+	    this.eq(obj.text, "Text")
+	    this.eq(obj.domNode.value, "Text")
+	    obj.text = "MOOOO"
+	    this.eq(obj.text, "MOOOO")
+	    this.eq(obj.domNode.value, "MOOOO")
+	
+	    syn.click(obj.domNode)
+	};
+
+
+/***/ },
+/* 6 */
+/*!***************************************!*\
+  !*** ./ComponentTests/Canvas.test.js ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	
+	var Canvas = __webpack_require__(/*! Components/Canvas */ 25);
 	
 	module.exports = function() {
 	
@@ -242,17 +2641,1777 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 3 */
+/* 7 */
+/*!*****************************************!*\
+  !*** ./ComponentTests/CheckBox.test.js ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	
+	var CheckBox = __webpack_require__(/*! Components/CheckBox */ 28)
+	
+	module.exports = function(t) {
+	    t.count(14)
+	
+	    var obj = new CheckBox()
+	    this.test("clicks", function(t) {
+	        this.count(2)
+	        obj.on("click",function() {
+	            t.ok(true)
+	        })
+	    })
+	    this.test("clicks", function(t) {
+	        this.count(4)
+	        obj.on("change",function() {
+	            t.ok(true)
+	        })
+	    })
+	
+	    testUtils.demo("Checkbox", obj)
+	
+	    this.eq(obj.selected, false)
+	    this.eq(obj.domNode.checked, false)
+	
+	    obj.selected = true          // causes a change event (but no click)
+	    this.eq(obj.selected, true)
+	    this.eq(obj.domNode.checked, true)
+	
+	    obj.selected = true          // nothing should happen since its already selected
+	    this.eq(obj.selected, true)
+	    this.eq(obj.domNode.checked, true)
+	
+	    obj.selected = false         // causes a change event (but no click)
+	    this.eq(obj.selected, false)
+	    this.eq(obj.domNode.checked, false)
+	
+	    syn.click(obj.domNode).then(function() {     // causes a change event and a click event
+	        t.eq(obj.selected, true)
+	        t.eq(obj.domNode.checked, true)
+	
+	        return syn.click(obj.domNode)            // causes a change event and a click event
+	    }).then(function(){
+	        t.eq(obj.selected, false)
+	        t.eq(obj.domNode.checked, false)
+	    }).done()
+	};
+
+
+/***/ },
+/* 8 */
+/*!******************************************!*\
+  !*** ./ComponentTests/Container.test.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	var Text = __webpack_require__(/*! Components/Text */ 36)
+	
+	module.exports = function(t) {
+	    t.count(18)
+	
+	    var demoContainer = Container()
+	    testUtils.demo("Container", demoContainer)
+	
+	
+	    var text1 = Text('a')
+	    var c1 = Container(text1)
+	    demoContainer.add(c1)
+	
+	    this.eq(c1.children.length, 1)
+	    this.eq(c1.domNode.childNodes.length, 1)
+	    this.eq(c1.children[0], text1)
+	    this.eq(c1.domNode.childNodes[0], text1.domNode)
+	
+	    c1.on("click",function(e) {
+	        t.ok(e !== undefined)
+	    })
+	
+	    syn.click(text1.domNode)  // produces a click event
+	    syn.click(c1.domNode)     // produces another click event
+	
+	
+	    var text2 = Text('b'), text3 = Text('c')
+	    var c2 = Container(text2, text3)
+	    demoContainer.add(c2)
+	
+	    this.eq(c2.children.length, 2)
+	    this.eq(c2.children[0], text2)
+	    this.eq(c2.children[1], text3)
+	
+	
+	    var text4 = Text('d'), text5 = Text('e')
+	    var c3 = Container([text4, text5])
+	    demoContainer.add(c3)
+	
+	    this.eq(c3.children.length, 2)
+	    this.eq(c3.children[0], text4)
+	    this.eq(c3.children[1], text5)
+	
+	
+	    // test to make sure label arguments work
+	
+	    var c4 = Container('aLabel1', Text('e'))
+	    this.eq(c4.children.length, 1)
+	    this.eq(c4.attr('label', 'aLabel1'))
+	
+	    var c5 = Container('aLabel2', Text('f'), Text('g'))
+	    this.eq(c5.children.length, 2)
+	    this.eq(c5.attr('label', 'aLabel2'))
+	
+	    var c6 = Container('aLabel3', [Text('h')])
+	    this.eq(c6.children.length, 1)
+	    this.eq(c6.attr('label', 'aLabel3'))
+	};
+
+
+/***/ },
+/* 9 */
+/*!**************************************!*\
+  !*** ./ComponentTests/Image.test.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	
+	var Image = __webpack_require__(/*! Components/Image */ 29);
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("Image", container)
+	
+		this.test('basic usage',function(t) {
+			var obj = new Image("https://avatars1.githubusercontent.com/u/149531")
+	        container.add(obj)
+	
+	        t.eq(obj.domNode.nodeName, "IMG")
+	
+	        t.eq(obj.src, "https://avatars1.githubusercontent.com/u/149531")
+	        t.eq(obj.domNode.src, "https://avatars1.githubusercontent.com/u/149531")
+	
+	        obj.src = "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg"
+	        t.eq(obj.src, "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg")
+	        t.eq(obj.domNode.src, "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg")
+		});
+	
+	    this.test("label argument", function() {
+	        var img = Image("label", "https://avatars1.githubusercontent.com/u/149531")
+	
+	        this.eq(img.label, "label")
+	        this.eq(img.src, "https://avatars1.githubusercontent.com/u/149531")
+	        this.eq(img.domNode.src, "https://avatars1.githubusercontent.com/u/149531")
+	    })
+	};
+
+
+/***/ },
+/* 10 */
+/*!*************************************!*\
+  !*** ./ComponentTests/List.test.js ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	
+	var Text = __webpack_require__(/*! Components/Text */ 36)
+	var List = __webpack_require__(/*! Components/List */ 30)
+	
+	module.exports = function(t) {
+	
+	
+	    var container = Container()
+	    testUtils.demo("List", container)
+	
+	    this.test("simple creation - unordered", function() {
+	        var list = List([Text('a'), Text('b'), Text('c')])
+	
+	        container.add(Text("list1"), list)
+	
+	        this.eq(list.children.length, 3)
+	        this.ok(list.children[0] instanceof List.Item)
+	        this.ok(list.children[1] instanceof List.Item)
+	        this.ok(list.children[2] instanceof List.Item)
+	        this.eq(list.domNode.nodeName, 'UL') // default is unordered list
+	
+	        var firstItem = $($(list.domNode).find("li")[0])[0]
+	        this.eq(firstItem.innerText, 'a')
+	
+	        this.test("list constructed with raw strings instead of elements", function() {
+	            var list = List(['a', 'b'])
+	
+	            container.add(Text("list2"), list)
+	
+	            this.eq(list.children.length, 2)
+	            this.eq(list.children[0].domNode.innerText, 'a')
+	        })
+	    })
+	
+	    this.test("simple creation - ordered", function() {
+	        var list = List(true, [Text('a'), Text('b'), Text('c')])
+	        this.eq(list.domNode.nodeName, 'OL')    // the true argument means ordered list
+	        container.add(Text("olist"), list)
+	
+	        var list = List(false, [Text('a'), Text('b'), Text('c')])
+	        this.eq(list.domNode.nodeName, 'UL')    // false means unordered
+	    })
+	
+	    this.test("individual item creation", function() {
+	        var list = List()
+	
+	        this.eq(list.domNode.nodeName, 'UL') // default is unordered list
+	
+	        var item1 = list.item(Text('a'))
+	        this.eq(list.children.length, 1)
+	
+	        var item2 = list.item(Text('B'))
+	
+	        this.eq(list.children.length, 2)
+	        this.ok(list.children[0] instanceof List.Item)
+	        this.ok(list.children[1] instanceof List.Item)
+	        this.ok(list.children[0] === item1)
+	        this.ok(list.children[1] === item2)
+	
+	        this.eq(list.children[0].children[0].text, 'a')
+	        var firstItem = $($(list.domNode).find("li")[0])[0]
+	        this.eq(firstItem.innerText, 'a')
+	
+	        this.test("items constructed with raw strings instead of elements", function() {
+	            var list = List()
+	
+	            var item1 = list.item('a')
+	
+	            this.eq(list.children.length, 1)
+	            this.eq(list.children[0].domNode.innerText, 'a')
+	        })
+	
+	        this.test("ordering argument alone", function() {
+	            var list = List(true)
+	            this.eq(list.domNode.nodeName, 'OL')
+	
+	            var list2 = List(false)
+	            this.eq(list2.domNode.nodeName, 'UL')
+	        })
+	    })
+	
+	    this.test("label arguments", function() {
+	        var list1 = List('aLabel')
+	        var list2 = List('aLabel2', ['a', 'b', 'c'])
+	        this.eq(list1.label, 'aLabel')
+	        this.eq(list2.label, 'aLabel2')
+	        this.eq(list1.domNode.nodeName, 'UL')
+	        this.eq(list2.domNode.nodeName, 'UL')
+	        this.eq(list1.children.length, 0)
+	        this.eq(list2.children.length, 3)
+	
+	        var item1 = list1.item('aLabel4', 'e')
+	        this.eq(list1.children.length, 1)
+	        this.eq(item1.label, 'aLabel4')
+	        this.eq(item1.domNode.innerText, 'e')
+	
+	        var list3 = List('aLabel5', true)
+	        this.eq(list3.label, 'aLabel5')
+	        this.eq(list3.domNode.nodeName, 'OL')
+	        this.eq(list3.children.length, 0)
+	
+	        var list4 = List('aLabel6', false)
+	        this.eq(list4.label, 'aLabel6')
+	        this.eq(list4.domNode.nodeName, 'UL')
+	        this.eq(list4.children.length, 0)
+	
+	        var list5 = List('aLabel7', true, ['x'])
+	        this.eq(list5.label, 'aLabel7')
+	        this.eq(list5.domNode.nodeName, 'OL')
+	        this.eq(list5.children.length, 1)
+	
+	        var list6 = List('aLabel8', false, ['y'])
+	        this.eq(list6.label, 'aLabel8')
+	        this.eq(list6.domNode.nodeName, 'UL')
+	        this.eq(list6.children.length, 1)
+	
+	    })
+	};
+
+
+/***/ },
+/* 11 */
+/*!********************************************!*\
+  !*** ./ComponentTests/MultiSelect.test.js ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	var Text = __webpack_require__(/*! Components/Text */ 36)
+	
+	var MultiSelect = __webpack_require__(/*! Components/MultiSelect */ 37)
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("MultiSelect", container)
+	
+	    this.test("basic usage", function(t) {
+	        this.count(49)
+	
+	        var s1 = MultiSelect({4: 'Option 4', 5: "Option 5"})
+	        container.add(Text("Group 1: "), s1)
+	
+	        this.eq(Object.keys(s1.options).length, 2)
+	        this.eq(s1.options[4].val, "4")
+	        this.eq(s1.options[5].val, "5")
+	        this.eq(s1.val.length, 0)
+	
+	        var option6 = s1.option(6, "Option 6")
+	
+	        this.eq(Object.keys(s1.options).length, 3)
+	        this.eq(s1.options[6], option6)
+	
+	
+	        this.test("events", function(t) {
+	            this.count(43)
+	
+	            s1.on('change', function() {
+	                event('change','s1')
+	            })
+	
+	            s1.options[4].on('click', function() {
+	                event('click', 'option4')
+	            })
+	            s1.options[4].on('change', function() {
+	                event('change', 'option4')
+	            })
+	            s1.options[5].on('click', function() {
+	                event('click', 'option57')
+	            })
+	            s1.options[5].on('change', function() {
+	                event('change', 'option57')
+	            })
+	            option6.on('click', function() {
+	                event('click', 'option6')
+	            })
+	            option6.on('change', function() {
+	                event('change', 'option6')
+	            })
+	
+	            var event = testUtils.seq(
+	
+	            // change 1
+	              function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 1)
+	
+	            // change 2
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 2)
+	
+	            // change 3
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 1)
+	
+	            // change 4
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	                t.eq(s1.options[4].selected, true)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option6')
+	                t.eq(s1.options[6].selected, true)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	                t.eq(s1.options[7].selected, false)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 2)
+	
+	            // change 5
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 1)
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'option6')
+	
+	            // change 6
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option6')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 1)
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'option57')
+	            })
+	
+	        })
+	
+	
+	
+	        this.ok(s1.val instanceof Array, s1.val)
+	        this.eq(s1.val.length, 0)
+	
+	        // change 1
+	        s1.options[4].selected = true
+	        this.eq(s1.val.length, 1)
+	        this.eq(s1.val[0], "4")
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[5].selected, false)
+	        this.eq(s1.options[6].selected, false)
+	
+	        // change 2
+	        s1.options[5].selected = true
+	        this.eq(s1.val.length, 2)
+	        this.eq(s1.val[0], "4")
+	        this.eq(s1.val[1], "5")
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[5].selected, true)
+	        this.eq(s1.options[6].selected, false)
+	
+	        // change option value
+	
+	        s1.options[5].val = 7
+	        this.eq(s1.options[7].val, '7')
+	        this.eq(s1.val[1], '7')
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[5], undefined)     // moved to value 7
+	        this.eq(s1.options[6].selected, false)
+	        this.eq(s1.options[7].selected, true)
+	
+	        // change option text
+	        s1.options[7].text = 'Option 7<select></select>'
+	        this.eq(s1.options[7].domNode.textContent, 'Option 7<select></select>')
+	        this.eq(s1.options[7].text, 'Option 7<select></select>')
+	
+	        // change 3
+	        s1.options[4].selected = false
+	        this.eq(s1.val.length, 1)
+	        this.eq(s1.val[0], "7")
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[6].selected, false)
+	        this.eq(s1.options[7].selected, true)
+	
+	        // change 4
+	        // change the value of the select object directly
+	        s1.val = [4,6]
+	        this.eq(s1.val.length, 2)
+	        this.eq(s1.val[0], "4")
+	        this.eq(s1.val[1], "6")
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[6].selected, true)
+	        this.eq(s1.options[7].selected, false)
+	
+	
+	        // select just one of the already selected options with a click
+	        // change 5
+	        syn.click(option6.domNode).then(function() {
+	            t.eq(s1.val.length, 1)
+	            t.eq(s1.val[0], "6")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, true)
+	            t.eq(s1.options[7].selected, false)
+	
+	            // change 6
+	            // click one that wasn't already selected
+	            return syn.click(s1.options[7].domNode)
+	        }).then(function(){
+	            t.eq(s1.val.length, 1)
+	            t.eq(s1.val[0], "7")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, false)
+	            t.eq(s1.options[7].selected, true)
+	        }).done()
+	
+	        /* todo: test selecting multiple items with shift-clicking once syn supports that
+	        syn.type(option6.domNode, "[shift]").click(option6.domNode).type(option6.domNode, "[shift-up]").then(function() {
+	            t.eq(s1.val.length, 2)
+	            t.eq(s1.val[0], "6")
+	            t.eq(s1.val[1], "7")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, true)
+	            t.eq(s1.options[7].selected, true)
+	
+	            return syn.click(s1.options[7].domNode)
+	        }).then(function(){
+	            t.eq(s1.val.length, 2)
+	            t.eq(s1.val[0], "6")
+	            t.eq(s1.val[1], "7")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, true)
+	            t.eq(s1.options[7].selected, false)
+	        }).done()
+	        */
+	    })
+	
+	
+	    // todo:
+	    /*
+	    this.test("test keyboard events", function() {
+	
+	        this.test("basic changing selected options with the keyboard", function(t) {
+	            var select1 = MultiSelect({1: 'one', 2: 'two', 3: 'three'})
+	
+	            container.add(Text("Another Group: "), select1)
+	
+	            select1.focus()
+	            syn.key(option1A.domNode, "[down]").then(function() {
+	                t.eq(document.activeElement, option1B)
+	                t.eq(select1.val, "2")
+	
+	                return syn.key(option1A.domNode, "[down]")
+	            })/*.then(function() {
+	                t.eq(document.activeElement, option1C)
+	                t.eq(select1.val, "3")
+	
+	                return key(option1A.domNode, "[left]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1B)
+	                t.eq(select1.val, "2")
+	
+	                return key(option1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1A)
+	                t.eq(select1.val, "1")
+	
+	                // test looping
+	                return key(option1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1C)
+	                t.eq(select1.val, "3")
+	
+	                // test looping
+	                return key(option1A.domNode, "[down]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1A)
+	                t.eq(select1.val, "1")
+	            }).done()
+	        })
+	
+	    })
+	    */
+	
+	
+	    this.test("labels", function(t) {
+	        var s1 = MultiSelect("myLabel")
+	        this.eq(s1.label, "myLabel")
+	        this.eq(Object.keys(s1.options).length, 0)
+	
+	        var s2 = MultiSelect("myLabel2", {1: "one"})
+	        this.eq(s2.label, "myLabel2")
+	        this.eq(Object.keys(s2.options).length, 1)
+	
+	        var option = s1.option("myLabel3", "value", "text")
+	        this.eq(option.label, "myLabel3")
+	        this.eq(option.val, "value")
+	        this.eq(option.text, "text")
+	    })
+	
+	
+	    this.test("remove", function(t) {
+	        this.count(13)
+	
+	        var select = MultiSelect()
+	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
+	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
+	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
+	
+	        option0.selected = true
+	
+	        select.on('change', function() {
+	            event(select.val)
+	        })
+	
+	        var event = testUtils.seq(function(values) {
+	            t.eq(values.length, 0)
+	        })
+	
+	
+	        this.eq(option1.parent, select)
+	
+	        select.remove(1)
+	        this.eq(select.val.length, 1)
+	        this.eq(option1.parent, undefined)
+	        this.eq(Object.keys(select.options).length, 5)
+	
+	        try {
+	            select.val = ["option1"]
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option1'")
+	        }
+	
+	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
+	        this.eq(select.val.length, 0)
+	        this.eq(option0.parent, undefined)
+	        this.eq(Object.keys(select.options).length, 4)
+	
+	        try {
+	            select.val = "option0"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option0'")
+	        }
+	
+	        select.remove([2, 3]) // these are option4 and option5
+	
+	
+	        try {
+	            select.val = "option4"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option4'")
+	        }
+	
+	        this.eq(Object.keys(select.options).length, 2)
+	
+	        select.remove([option2])
+	
+	        this.eq(Object.keys(select.options).length, 1)
+	    })
+	
+	    // todo:
+	    /*
+	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
+	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
+	    })
+	     */
+	
+	    this.test("errors", function() {
+	        this.count(9)
+	
+	        var select = MultiSelect({1: "text", 3: 'moretext', 4: "seriously"})
+	
+	        try {
+	            select.option("1", 'text')
+	        } catch(e) {
+	            this.eq(e.message, "Can't give an Option the same value as another in the MultiSelect (value: '1')")
+	        }
+	
+	        var optionB = select.option("2", 'text')
+	        try {
+	            optionB.val = "1"
+	        } catch(e) {
+	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
+	        }
+	
+	        select.options[1].selected = true
+	
+	        // verify the values beforehand (these values should remain the same after the error below)
+	        this.eq(select.val.length, 1)
+	        this.eq(select.val[0], '1')
+	
+	        try {
+	            select.val = "nonexistent"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'nonexistent'")
+	        }
+	
+	        // make sure this didn't change any values (since an exception was thrown, nothing should have been changed)
+	        this.eq(select.val.length, 1)
+	        this.eq(select.val[0], '1')
+	
+	        try {
+	            select.remove(300)
+	        } catch(e) {
+	            this.eq(e.message, "There is no child at index 300")
+	        }
+	
+	        var select2 = MultiSelect({x: 'x', 'y':'y', z:'z'})
+	        try {
+	            select2.remove(optionB)
+	        } catch(e) {
+	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
+	        }
+	    })
+	};
+
+
+/***/ },
+/* 12 */
+/*!**************************************!*\
+  !*** ./ComponentTests/Radio.test.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	var Text = __webpack_require__(/*! Components/Text */ 36)
+	
+	var Radio = __webpack_require__(/*! Components/Radio */ 31)
+	
+	
+	module.exports = function(t) {
+	
+	    var container = Container()
+	    testUtils.demo("Radio", container)
+	
+	    this.test('required',function(t) {
+	        this.test("basic usage", function(t) {
+	            this.count(23)
+	
+	            var radio = Radio() // default is required
+	            var button1 = radio.button("1"), button2 = radio.button("2")
+	            container.add(Text("Required: "),button1, button2)
+	
+	            radio.on('change', function() {
+	                event('change','radio')
+	            })
+	
+	            button1.on('click', function() {
+	                event('click', 'button1')
+	            })
+	            button1.on('change', function() {
+	                event('change', 'button1')
+	            })
+	            button2.on('click', function() {
+	                event('click', 'button2')
+	            })
+	            button2.on('change', function() {
+	                event('change', 'button2')
+	            })
+	
+	            var event = testUtils.seq(function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'button1')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'button1')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'button2')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'radio')
+	
+	                t.eq(radio.val, '2')
+	                t.eq(radio.selected, button2)
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'button2')
+	            })
+	
+	            // for a required one, the first button created will be selected by default
+	            t.eq(button1.domNode.checked, true)
+	            t.eq(button2.domNode.checked, false)
+	            t.eq(radio.selected, button1)
+	            t.eq(radio.val, "1")
+	
+	            // nothing should happen if you click the selected one (for required)
+	            syn.click(button1.domNode).then(function() {
+	                t.eq(button1.domNode.checked, true)
+	                t.eq(button2.domNode.checked, false)
+	                t.eq(radio.selected, button1)
+	                t.eq(radio.val, "1")
+	
+	                // select the other one
+	                return syn.click(button2.domNode)
+	            }).then(function() {
+	                t.eq(button1.domNode.checked, false)
+	                t.eq(button2.domNode.checked, true)
+	                t.eq(radio.val, "2")
+	            }).done()
+	        })
+	
+	        this.test("remove", function(t) {
+	            this.count(14)
+	
+	            var radio = Radio()
+	            var button0 = radio.button("0"), button1 = radio.button("1"), button2 = radio.button("2"), button3 = radio.button("3")
+	            var button4 = radio.button("4"), button5 = radio.button("5")
+	
+	            radio.on('change', function() {
+	                event(radio.val)
+	            })
+	
+	            var event = testUtils.seq(function(value) {
+	                t.eq(value, '2')
+	            },function(value) {
+	                t.eq(value, '4')
+	            },function(value) {
+	                t.eq(value, '5')
+	            })
+	
+	
+	            this.eq(button1.group, radio)
+	
+	            radio.remove(button1)
+	            this.eq(radio.val, "0")
+	            this.eq(button1.group, undefined)
+	            this.eq(Object.keys(radio.buttons).length, 5)
+	
+	            try {
+	                radio.val = "1"
+	            } catch(e) {
+	                this.eq(e.message, "There is no RadioButton in the group with the value: '1'")
+	            }
+	
+	            radio.remove(button0)
+	            this.eq(radio.val, "2")  // for required, another RadioButton is selected
+	            this.eq(button0.group, undefined)
+	            this.eq(Object.keys(radio.buttons).length, 4)
+	
+	            try {
+	                radio.val = "0"
+	            } catch(e) {
+	                this.eq(e.message, "There is no RadioButton in the group with the value: '0'")
+	            }
+	
+	            radio.remove([button2, button3])
+	
+	            this.eq(Object.keys(radio.buttons).length, 2)
+	
+	            radio.remove([button4])
+	
+	            this.eq(Object.keys(radio.buttons).length, 1)
+	        })
+	
+	        // todo: when syn support keyboard events on radio buttons
+	        /*
+	        this.test("changing selected radio buttons with the keyboard", function(t) {
+	            var radio1 = Radio(true)
+	            var button1A = radio1.button("1"), button1B = radio1.button("2"), button1C = radio1.button("3")
+	
+	            container.add(button1A, button1B, button1C)
+	
+	            // todo: add events testing to this too
+	
+	            button1A.focus()
+	            key(button1A.domNode, "[right]").then(function() {
+	                t.eq(document.activeElement, button1B)
+	                t.eq(radio1.val, "2")
+	
+	                return key(button1A.domNode, "[down]")
+	            }).then(function() {
+	                t.eq(document.activeElement, button1C)
+	                t.eq(radio1.val, "3")
+	
+	                return key(button1A.domNode, "[left]")
+	            }).then(function() {
+	                t.eq(document.activeElement, button1B)
+	                t.eq(radio1.val, "2")
+	
+	                return key(button1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, button1A)
+	                t.eq(radio1.val, "1")
+	
+	                // test looping
+	                return key(button1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, button1C)
+	                t.eq(radio1.val, "3")
+	
+	                // test looping
+	                return key(button1A.domNode, "[down]")
+	            }).then(function() {
+	                t.eq(document.activeElement, button1A)
+	                t.eq(radio1.val, "1")
+	            }).done()
+	        })
+	
+	        this.test("tabbing", function() {
+	            var radio1 = Radio(true)
+	            var button1A = radio1.button("1"), button1B = radio1.button("2")
+	            var radio2 = Radio(true)
+	            var button2A = radio2.button("1"), button2B = radio2.button("2")
+	
+	            container.add(button1A, button1B, button2A, button2B)
+	        })*/
+	
+		})
+	
+	    this.test("notRequired", function(t) {
+	        var radio = Radio(false)
+	        var button1 = radio.button("1"), button2 = radio.button("2")
+	        container.add(Text("Not required: "), button1, button2)
+	
+	        // for a non-required Radio group, the group starts out without
+	        t.eq(button1.domNode.checked, false)
+	        t.eq(button2.domNode.checked, false)
+	        t.eq(radio.selected, undefined)
+	        t.eq(radio.val, undefined)
+	
+	        radio.val = "1"
+	        t.eq(radio.val, "1")
+	
+	        syn.click(button1.domNode).then(function() {
+	            t.eq(radio.val, undefined)
+	        }).done()
+	    })
+	
+	    this.test("labels", function(t) {
+	        var radio = Radio()
+	        var button1 = radio.button("myLabel", "1")
+	
+	        t.eq(button1.val, "1")
+	        t.eq(button1.label, "myLabel")
+	    })
+	
+	    this.test("edge cases", function() {
+	        this.test("changing a button's value", function() {
+	            var radio = Radio()
+	            var button1 = radio.button("1")
+	            var button2 = radio.button("2")
+	
+	            button2.val = "3"
+	            this.eq(button2.val, "3")
+	
+	            radio.val = "3"
+	            this.eq(radio.selected, button2)
+	            this.eq(radio.val, "3")
+	
+	            var button3 = radio.button("2")
+	            radio.val = "2"
+	            this.eq(radio.selected, button3)
+	            this.eq(radio.val, "2")
+	
+	        })
+	    })
+	
+	    this.test("errors", function() {
+	        this.count(5)
+	
+	        var radio = Radio()
+	        radio.button("1")
+	
+	        try {
+	            radio.button("1")
+	        } catch(e) {
+	            this.eq(e.message, "Can't give a RadioButton the same value as another in the group (value: '"+1+"')")
+	        }
+	
+	        var buttonB = radio.button("2")
+	        try {
+	            buttonB.val = "1"
+	        } catch(e) {
+	            this.eq(e.message, "Can't give a RadioButton the same value as another in the group (value: '"+1+"')")
+	        }
+	
+	        try {
+	            radio.val = "nonexistent"
+	        } catch(e) {
+	            this.eq(e.message, "There is no RadioButton in the group with the value: 'nonexistent'")
+	        }
+	
+	        try {
+	            radio.val = undefined
+	        } catch(e) {
+	            this.eq(e.message, "Can't unset this Radio set, a value is required.")
+	        }
+	
+	        var radio2 = Radio()
+	        try {
+	            radio2.remove(buttonB)
+	        } catch(e) {
+	            this.eq(e.message, "The button passed at index 0 is not part of the group.")
+	        }
+	    })
+	};
+	
+
+
+/***/ },
+/* 13 */
+/*!***************************************!*\
+  !*** ./ComponentTests/Select.test.js ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	var Text = __webpack_require__(/*! Components/Text */ 36)
+	
+	var Select = __webpack_require__(/*! Components/Select */ 32)
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("Select", container)
+	
+	    this.test("basic usage", function(t) {
+	        this.count(34)
+	
+	        var s1 = Select({4: 'Option 4', 5: "Option 5"})
+	        container.add(Text("Select 1: "), s1)
+	
+	        this.eq(Object.keys(s1.options).length, 2)
+	        this.eq(s1.options[4].val, "4")
+	        this.eq(s1.options[5].val, "5")
+	        this.eq(s1.val, "4") // selects first created option on creation
+	
+	        var option6 = s1.option(6, "Option 6")
+	
+	        this.eq(Object.keys(s1.options).length, 3)
+	        this.eq(s1.options[6], option6)
+	
+	
+	        this.test("events", function(t) {
+	            this.count(27)
+	
+	            s1.on('change', function() {
+	                event('change','s1')
+	            })
+	
+	            s1.options[4].on('click', function() {
+	                event('click', 'option4')
+	            })
+	            s1.options[4].on('change', function() {
+	                event('change', 'option4')
+	            })
+	            s1.options[5].on('click', function() {
+	                event('click', 'option57')
+	            })
+	            s1.options[5].on('change', function() {
+	                event('change', 'option57')
+	            })
+	            option6.on('click', function() {
+	                event('click', 'option6')
+	            })
+	            option6.on('change', function() {
+	                event('change', 'option6')
+	            })
+	
+	            var event = testUtils.seq(
+	            // change 2
+	              function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val, '5')
+	
+	            // change 3
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	                t.eq(s1.options[7].selected, false)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option6')
+	                t.eq(s1.options[6].selected, true)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val, '6')
+	
+	            // change 4
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'option6')
+	
+	            // change 5
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option6')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val, '7')
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'option57')
+	            })
+	
+	        })
+	
+	
+	
+	        // change 1 - really no change because option4 is already selected
+	        s1.options[4].selected = true
+	        this.eq(s1.val, "4")
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[5].selected, false)
+	        this.eq(s1.options[6].selected, false)
+	
+	        // change 2
+	        s1.options[5].selected = true
+	        this.eq(s1.val, "5")
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[5].selected, true)
+	        this.eq(s1.options[6].selected, false)
+	
+	        // change option value
+	        s1.options[5].val = 7
+	        this.eq(s1.options[7].val, '7')
+	        this.eq(s1.val, '7')
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[5], undefined)     // moved to value 7
+	        this.eq(s1.options[6].selected, false)
+	        this.eq(s1.options[7].selected, true)
+	
+	        // change option text
+	        s1.options[7].text = 'Option 7'
+	        this.eq(s1.options[7].domNode.innerText, 'Option 7')
+	
+	        // change 3
+	        // change the value of the select object directly
+	        s1.val = "6"
+	        this.eq(s1.val, "6")
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[6].selected, true)
+	        this.eq(s1.options[7].selected, false)
+	
+	
+	        // select just one of the already selected options with a click
+	        // change 4
+	        syn.click(option6.domNode).then(function() {
+	            t.eq(s1.val, "6")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, true)
+	            t.eq(s1.options[7].selected, false)
+	
+	            // change 5
+	            // click one that wasn't already selected
+	            return syn.click(s1.options[7].domNode)
+	        }).then(function(){
+	            t.eq(s1.val, "7")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, false)
+	            t.eq(s1.options[7].selected, true)
+	        }).done()
+	    })
+	
+	
+	    // todo:
+	    /*
+	    this.test("test keyboard events", function() {
+	
+	        this.test("basic changing selected options with the keyboard", function(t) {
+	            var select1 = Select({1: 'one', 2: 'two', 3: 'three'})
+	
+	            container.add(Text("Another Group: "), select1)
+	
+	            select1.focus()
+	            syn.key(option1A.domNode, "[down]").then(function() {
+	                t.eq(document.activeElement, option1B)
+	                t.eq(select1.val, "2")
+	
+	                return syn.key(option1A.domNode, "[down]")
+	            })/*.then(function() {
+	                t.eq(document.activeElement, option1C)
+	                t.eq(select1.val, "3")
+	
+	                return key(option1A.domNode, "[left]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1B)
+	                t.eq(select1.val, "2")
+	
+	                return key(option1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1A)
+	                t.eq(select1.val, "1")
+	
+	                // test looping
+	                return key(option1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1C)
+	                t.eq(select1.val, "3")
+	
+	                // test looping
+	                return key(option1A.domNode, "[down]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1A)
+	                t.eq(select1.val, "1")
+	            }).done()
+	        })
+	
+	    })
+	    */
+	
+	
+	    this.test("labels", function(t) {
+	        var s1 = Select("myLabel")
+	        this.eq(s1.label, "myLabel")
+	        this.eq(Object.keys(s1.options).length, 0)
+	
+	        var s2 = Select("myLabel2", {1: "one"})
+	        this.eq(s2.label, "myLabel2")
+	        this.eq(Object.keys(s2.options).length, 1)
+	
+	        var option = s1.option("myLabel3", "value", "text")
+	        this.eq(option.label, "myLabel3")
+	        this.eq(option.val, "value")
+	        this.eq(option.text, "text")
+	    })
+	
+	
+	    this.test("remove", function(t) {
+	        this.count(14)
+	
+	        var select = Select()
+	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
+	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
+	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
+	
+	        option0.selected = true
+	
+	        select.on('change', function() {
+	            event(select.val)
+	        })
+	
+	        var event = testUtils.seq(function(value) {
+	            t.eq(value, 'option2')
+	        },function(value) {
+	            t.eq(value, 'option3')
+	        })
+	
+	
+	        this.eq(option1.parent, select)
+	
+	        select.remove(1)
+	        this.eq(select.val, 'option0')
+	        this.eq(option1.parent, undefined)
+	        this.eq(Object.keys(select.options).length, 5)
+	
+	        try {
+	            select.val = "option1"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'option1'")
+	        }
+	
+	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
+	        this.eq(select.val, 'option2')
+	        this.eq(option0.group, undefined)
+	        this.eq(Object.keys(select.options).length, 4)
+	
+	        try {
+	            select.val = "option0"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'option0'")
+	        }
+	
+	        select.remove([2, 3]) // these are option4 and option5
+	
+	
+	        try {
+	            select.val = "option4"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'option4'")
+	        }
+	
+	        this.eq(Object.keys(select.options).length, 2)
+	
+	        select.remove([option2]) // should generate another change event
+	
+	        this.eq(Object.keys(select.options).length, 1)
+	    })
+	
+	    // todo:
+	    /*
+	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
+	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
+	    })
+	     */
+	
+	    this.test("errors", function() {
+	        this.count(5)
+	
+	        var select = Select({1: "text"})
+	
+	        try {
+	            select.option("1", 'text')
+	        } catch(e) {
+	            this.eq(e.message, "Can't give an Option the same value as another in the Select (value: '1')")
+	        }
+	
+	        var optionB = select.option("2", 'text')
+	        try {
+	            optionB.val = "1"
+	        } catch(e) {
+	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
+	        }
+	
+	        try {
+	            select.val = "nonexistent"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'nonexistent'")
+	        }
+	
+	        try {
+	            select.remove(300)
+	        } catch(e) {
+	            this.eq(e.message, "There is no child at index 300")
+	        }
+	
+	        var select2 = Select()
+	        try {
+	            select2.remove(optionB)
+	        } catch(e) {
+	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
+	        }
+	    })
+	};
+
+
+/***/ },
+/* 14 */
+/*!**************************************!*\
+  !*** ./ComponentTests/Table.test.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	
+	var Text = __webpack_require__(/*! Components/Text */ 36)
+	var Table = __webpack_require__(/*! Components/Table */ 33)
+	
+	module.exports = function(t) {
+	
+	
+	    var container = Container()
+	    testUtils.demo("Table", container)
+	
+	    this.test("simple creation", function() {
+	        var table = Table([
+	            [Text('a'), Text('b'), Text('c'), Text('d')],
+	            [Text('A'), Text('B'), Text('C'), Text('D'), Text("E")],
+	            [Text('AY'), Text('BEE'), Text('CEE'), Text('DEE'), Text("EEeeeeee")]
+	        ])
+	
+	        container.add(Text("table1"), table)
+	
+	        this.eq(table.children.length, 3)
+	        this.ok(table.children[0] instanceof Table.Row)
+	        this.ok(table.children[1] instanceof Table.Row)
+	        this.ok(table.children[2] instanceof Table.Row)
+	
+	        this.eq(table.children[0].children.length, 4)
+	        this.eq(table.children[1].children.length, 5)
+	        this.eq(table.children[2].children.length, 5)
+	
+	        this.ok(table.children[0].children[0] instanceof Table.Cell)
+	        this.eq(table.children[0].children[0].children[0].text, 'a')
+	        var firstRow = $($(table.domNode).find("tr")[0])
+	        this.eq(firstRow.find('td')[0].innerText, 'a')
+	
+	        this.ok(table.children[2].children[3] instanceof Table.Cell)
+	        this.ok(table.children[2].children[3].children[0] instanceof Text)
+	        this.eq(table.children[2].children[3].children[0].text, 'DEE')
+	        this.eq(table.domNode.children[2].children[3].children[0].innerText, 'DEE')
+	        var lastRow = $($(table.domNode).find("tr")[2])
+	        this.eq(lastRow.find('td')[3].innerText, 'DEE')
+	
+	        this.test("tables constructed with raw strings instead of elements", function() {
+	            var table = Table([
+	                ['a', 'b', 'c'],
+	                ['d', 'e', 'f']
+	            ])
+	
+	            container.add(Text("table2"), table)
+	
+	            this.eq(table.children.length, 2)
+	
+	            this.eq(table.children[0].children.length, 3)
+	            this.eq(table.children[0].children[0].domNode.innerText, 'a')
+	
+	            this.eq(table.children[1].children.length, 3)
+	            this.eq(table.children[1].children[2].domNode.innerText, 'f')
+	        })
+	    })
+	
+	    this.test("individual row creation", function() {
+	        var table = Table()
+	
+	        var row1 = table.row([Text('a'), Text('b'), Text('c'), Text('d')])
+	        this.eq(table.children.length, 1)
+	
+	        var row2 = table.row([Text('A'), Text('B'), Text('C'), Text('D'), Text("E")])
+	
+	        this.eq(table.children.length, 2)
+	        this.ok(table.children[0] instanceof Table.Row)
+	        this.ok(table.children[1] instanceof Table.Row)
+	        this.eq(table.children[0], row1)
+	        this.eq(table.children[1], row2)
+	
+	        this.eq(table.children[0].children.length, 4)
+	        this.eq(table.children[1].children.length, 5)
+	
+	        this.ok(table.children[0].children[0] instanceof Table.Cell)
+	        this.eq(table.children[0].children[0].children[0].text, 'a')
+	        var firstRow = $($(table.domNode).find("tr")[0])
+	        this.eq(firstRow.find('td')[0].innerText, 'a')
+	
+	        this.ok(table.children[1].children[3] instanceof Table.Cell)
+	        this.eq(table.children[1].children[3].children[0].text, 'D')
+	        this.eq(table.domNode.children[1].children[3].innerText, 'D')
+	        var lastRow = $($(table.domNode).find("tr")[1])
+	        this.eq(lastRow.find('td')[3].innerText, 'D')
+	
+	        this.test("rows constructed with raw strings instead of elements", function() {
+	            var table = Table()
+	
+	            table.row(['a', 'b', 'c'])
+	            table.row(['d', 'e', 'f'])
+	
+	            this.eq(table.children.length, 2)
+	
+	            this.eq(table.children[0].children.length, 3)
+	            this.eq(table.children[0].children[0].domNode.innerText, 'a')
+	
+	            this.eq(table.children[1].children.length, 3)
+	            this.eq(table.children[1].children[2].domNode.innerText, 'f')
+	        })
+	    })
+	
+	    // table headers are exactly the same as table rows, except...  apply directly to the forehead
+	    this.test("individual header creation", function() {
+	        var table = Table()
+	
+	        var row1 = table.header([Text('a'), Text('b'), Text('c'), Text('d')])
+	        this.eq(table.children.length, 1)
+	
+	        var row2 = table.header([Text('A'), Text('B'), Text('C'), Text('D'), Text("E")])
+	
+	        this.eq(table.children.length, 2)
+	        this.ok(table.children[0] instanceof Table.Header)
+	        this.ok(table.children[1] instanceof Table.Header)
+	        this.eq(table.children[0], row1)
+	        this.eq(table.children[1], row2)
+	
+	        this.eq(table.children[0].children.length, 4)
+	        this.eq(table.children[1].children.length, 5)
+	
+	        this.ok(table.children[0].children[0] instanceof Table.Cell)
+	        this.eq(table.children[0].children[0].children[0].text, 'a')
+	        var firstRow = $($(table.domNode).find("th")[0])
+	        this.eq(firstRow.find('td')[0].innerText, 'a')
+	
+	        this.ok(table.children[1].children[3] instanceof Table.Cell)
+	        this.eq(table.children[1].children[3].children[0].text, 'D')
+	        this.eq(table.domNode.children[1].children[3].innerText, 'D')
+	        var lastRow = $($(table.domNode).find("th")[1])
+	        this.eq(lastRow.find('td')[3].innerText, 'D')
+	
+	        this.test("rows constructed with raw strings instead of elements", function() {
+	            var table = Table()
+	
+	            table.header(['a', 'b', 'c'])
+	            table.header(['d', 'e', 'f'])
+	
+	            this.eq(table.children.length, 2)
+	
+	            this.eq(table.children[0].children.length, 3)
+	            this.eq(table.children[0].children[0].domNode.innerText, 'a')
+	
+	            this.eq(table.children[1].children.length, 3)
+	            this.eq(table.children[1].children[2].domNode.innerText, 'f')
+	        })
+	    })
+	
+	    this.test('individual cell creation', function() {
+	        var table = Table()
+	        container.add(Text("table3"), table)
+	
+	        var row1 = table.row()
+	        var row2 = table.row()
+	
+	        var cell1 = row1.cell(Text('a'))
+	
+	        var cell2 = row2.cell(Text('A'))
+	        var cell3 = row2.cell(Text('B'))
+	
+	        this.eq(table.children.length, 2)
+	        this.eq(table.children[0], row1)
+	        this.eq(table.children[1], row2)
+	
+	        this.eq(table.children[0].children.length, 1)
+	        this.eq(table.children[1].children.length, 2)
+	
+	        this.ok(table.children[0].children[0] instanceof Table.Cell)
+	        this.eq(table.children[0].children[0], cell1)
+	        this.eq(table.children[0].children[0].children[0].text, 'a')
+	        var firstRow = $($(table.domNode).find("tr")[0])
+	        this.eq(firstRow.find('td')[0].innerText, 'a')
+	
+	        this.ok(table.children[1].children[1] instanceof Table.Cell)
+	        this.eq(table.children[1].children[0], cell2)
+	        this.eq(table.children[1].children[1], cell3)
+	        this.eq(table.children[1].children[1].children[0].text, 'B')
+	        this.eq(table.domNode.children[1].children[1].innerText, 'B')
+	        var lastRow = $($(table.domNode).find("tr")[1])
+	        this.eq(lastRow.find('td')[1].innerText, 'B')
+	
+	        this.test("colspan", function() {
+	            cell1.colspan(2)
+	            this.eq(cell1.attr('colspan'), '2')
+	        })
+	
+	        this.test("cells constructed with raw strings instead of elements", function() {
+	            var table = Table()
+	
+	            var row1 = table.row()
+	            var row2 = table.row()
+	
+	            row1.cell('a')
+	            row1.cell('b')
+	            row1.cell('c')
+	
+	            row2.cell('d')
+	            row2.cell('e')
+	            row2.cell('f')
+	
+	            this.eq(table.children.length, 2)
+	
+	            this.eq(table.children[0].children.length, 3)
+	            this.eq(table.children[0].children[0].domNode.innerText, 'a')
+	
+	            this.eq(table.children[1].children.length, 3)
+	            this.eq(table.children[1].children[2].domNode.innerText, 'f')
+	        })
+	    })
+	
+	    this.test("label arguments", function() {
+	        var table1 = Table('aLabel')
+	        var table2 = Table('aLabel2', [['a', 'b'],['c', 'd'],['e']])
+	        this.eq(table1.label, 'aLabel')
+	        this.eq(table2.label, 'aLabel2')
+	        this.eq(table2.children.length, 3)
+	
+	        var row1 = table1.row('aLabel3')
+	        var row2 = table1.row('aLabel4', ['f','g'])
+	        this.eq(row1.label, 'aLabel3')
+	        this.eq(row2.label, 'aLabel4')
+	        this.eq(table1.children.length, 2)
+	
+	        var cell1 = row1.cell('label5', 'value')
+	        var cell2 = row1.cell('label6', undefined)
+	        this.eq(cell1.label, 'label5')
+	        this.eq(cell1.domNode.innerText, 'value')
+	        this.eq(cell2.label, 'label6')
+	    })
+	};
+
+
+/***/ },
+/* 15 */
+/*!*************************************!*\
+  !*** ./ComponentTests/Text.test.js ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	
+	var Text = __webpack_require__(/*! Components/Text */ 36);
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("Text", container)
+	
+		this.test('basic usage',function(t) {
+			var obj = new Text();
+	        container.add(obj)
+	        t.eq(obj.text,"");
+	
+	        obj.text = "   "
+			t.ok(obj.domNode.offsetWidth > 0); // make sure the spaces aren't collapsed (by default)
+	
+	        var obj2 = Text("<div>whatever</div>")
+	        container.add(obj2)
+	        t.eq(obj2.text,"<div>whatever</div>");
+	        t.eq(obj2.domNode.innerText, "<div>whatever</div>")
+	
+		});
+	
+	    this.test("label argument", function() {
+	        var t = Text("label", "text")
+	
+	        this.eq(t.label, "label")
+	        this.eq(t.domNode.innerText, "text")
+	    })
+	};
+
+
+/***/ },
+/* 16 */
+/*!*****************************************!*\
+  !*** ./ComponentTests/TextArea.test.js ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	
+	var TextArea = __webpack_require__(/*! Components/TextArea */ 34)
+	
+	module.exports = function(t) {
+	
+	    var container = Container()
+	    testUtils.demo("TextArea", container)
+	
+		this.test('basic usage',function(t) {
+	        this.count(3)
+	
+			var obj = TextArea()
+	        container.add(obj)
+	
+	        this.test("events", function(t) {
+	            this.count(5)
+	
+	            obj.on("click",function() {
+	                event('click')
+	            })
+	            obj.on("change",function() {
+	                event('change')
+	            })
+	
+	            var event = testUtils.seq(function(name) {
+	                t.eq(name, 'change')
+	                t.eq(obj.val, "first!")
+	            },function(name) {
+	                t.eq(name, 'click')
+	            },function(name) {
+	                t.eq(name, 'change')
+	                t.eq(obj.val, "first!second")
+	            })
+	        })
+	
+	        obj.val = "first!"
+	        this.eq(obj.val, "first!")
+	
+	        syn.click(obj.domNode).then(function() {
+	            return syn.type(obj.domNode, "second")
+	        }).then(function() {
+	            t.eq(obj.val, "first!second")
+	            obj.domNode.blur()
+	        }).done()
+		});
+	
+	    this.test("label argument", function() {
+	        var t = TextArea("label")
+	        this.eq(t.label, "label")
+	    })
+	};
+
+
+/***/ },
+/* 17 */
+/*!******************************************!*\
+  !*** ./ComponentTests/TextField.test.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	
+	var TextField = __webpack_require__(/*! Components/TextField */ 35)
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("TextArea", container)
+	
+		this.test('basic usage',function(t) {
+	        this.count(3)
+	
+			var obj = TextField()
+	        container.add(obj)
+	
+	        this.test("events", function(t) {
+	            this.count(5)
+	
+	            obj.on("click",function() {
+	                event('click')
+	            })
+	            obj.on("change",function() {
+	                event('change')
+	            })
+	
+	            var event = testUtils.seq(function(name) {
+	                t.eq(name, 'change')
+	                t.eq(obj.val, "first!")
+	            },function(name) {
+	                t.eq(name, 'click')
+	            },function(name) {
+	                t.eq(name, 'change')
+	                t.eq(obj.val, "first!second")
+	            })
+	        })
+	
+	        obj.val = "first!"
+	        this.eq(obj.val, "first!")
+	
+	        syn.click(obj.domNode).then(function() {
+	            return syn.type(obj.domNode, "second")
+	        }).then(function() {
+	            t.eq(obj.val, "first!second")
+	            obj.domNode.blur()
+	        }).done()
+		});
+	
+	    this.test("password (manually verify)", function() {
+	        var field = TextField(true)
+	        container.add(field)
+	        field.val = "something, but it should be like, astrisks"
+	    })
+	
+	    this.test("label argument", function() {
+	        var t = TextField("label", false)
+	        this.eq(t.label, "label")
+	    })
+	};
+
+
+/***/ },
+/* 18 */
+/*!*********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/deadunit.browser.js ***!
+  \*********************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var deadunitInternal = __webpack_require__(19)
-	var Future = __webpack_require__(34)
+	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 39)
+	var Future = __webpack_require__(/*! async-future */ 52)
 	
 	module.exports = deadunitInternal({
-	    deadunitCore: __webpack_require__(29),
+	    deadunitCore: __webpack_require__(/*! deadunit-core/deadunitCore.browser */ 49),
 	
 	    environmentSpecificMethods: function() {
 	        var red = 'rgb(200,30,30)'
@@ -327,28 +4486,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 4 */
+/* 19 */
+/*!*********************!*\
+  !*** ../~/Block.js ***!
+  \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(20)
-	var proto = __webpack_require__(35);
-	var trimArguments = __webpack_require__(36)
-	var utils = __webpack_require__(21)
-	var domUtils = __webpack_require__(22)
-	var observe = __webpack_require__(37)
-	var HashMap = __webpack_require__(38)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 22)
+	var proto = __webpack_require__(/*! proto */ 40);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 53)
+	var utils = __webpack_require__(/*! ./utils */ 42)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 24)
+	var observe = __webpack_require__(/*! observe */ 54)
+	var HashMap = __webpack_require__(/*! hashmap */ 55)
 	
-	var Style = __webpack_require__(5)
+	var Style = __webpack_require__(/*! ./Style */ 20)
 	Style.isDev = function() {return module.exports.dev}
 	
 	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
 	var components = {};
 	
 	var setOfBrowserEvents = utils.arrayToMap([
-	    'abort','afterprint','ainmationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
+	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
 	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
-	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu','copy',
-	    'cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
+	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
+	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
 	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
 	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
 	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
@@ -356,8 +4518,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
 	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
 	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
-	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload','updateready',
-	    'upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
+	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
+	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
 	])
 	
 	// events:
@@ -396,9 +4558,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.build.apply(this, arguments)
 	
-	        if(module.exports.dev) {
+	        //if(module.exports.dev) {
 	            this.attr('blkName', this.name)
-	        }
+	        //}
 	
 	        var classList = [this.domNode.className]
 	        if(defaultBlockStyle !== false) classList.push(defaultBlockStyle.className)
@@ -406,17 +4568,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.domNode.className = classList.join(' ') // note that the order of classes doesn't matter
 	
 	        // set up dom event handlers
-	        var ifonHandler;
+	        var ifonHandlers={}
 	        that.ifon(function(event) {
 	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.addEventListener(event, ifonHandler=function() {
+	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
 	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
 	                })
 	            }
 	        })
 	        that.ifoff(function(event) {
 	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.removeEventListener(event,ifonHandler)
+	                that.domNode.removeEventListener(event,ifonHandlers[event])
 	            }
 	        })
 		}
@@ -443,6 +4605,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		this.domNode;
 	    this.label;
 	    this.excludeDomEvents;
+	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
 	
 	
 	    Object.defineProperty(this, 'label', {
@@ -549,31 +4712,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }
 	
-	    Object.defineProperty(this, 'visible', {
-	        // returns true if the element is in focus
-	        get: function() {
-	            return this.domNode.style.display !== 'none';
-	
-	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
-	        }, set: function(setToVisible) {
-	            if(setToVisible) {
-	                if (this._displayStyle !== undefined) {
-	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
-	                    this._displayStyle = undefined
-	                } else {
-	                    this.domNode.style.display = ''
-	                }
-	            } else {
-	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
-	                    this._displayStyle = this.domNode.style.display
-	                }
-	
-	                this.domNode.style.display = 'none'
-	            }
-	        }
-	    })
-	
-	
 	    // sets or gets an attribute on the components domNode
 	    // parameter sets:
 	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
@@ -604,6 +4742,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	    }
+	
+	    Object.defineProperty(this, 'visible', {
+	        // returns true if the element is visible
+	        get: function() {
+	            return this.domNode.style.display !== 'none';
+	
+	        // sets whether or not the element is visible
+	        }, set: function(setToVisible) {
+	            if(setToVisible) {
+	                if (this._displayStyle !== undefined) {
+	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
+	                    this._displayStyle = undefined
+	                } else {
+	                    this.domNode.style.display = ''
+	                }
+	            } else {
+	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
+	                    this._displayStyle = this.domNode.style.display
+	                }
+	
+	                this.domNode.style.display = 'none'
+	            }
+	        }
+	    })
+	
 	
 	    Object.defineProperty(this, 'focus', {
 	        // returns true if the element is in focus
@@ -663,23 +4826,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    })
 	
+	    this.attach = function() {
+	        attach(this)
+	    }
+	    this.detach = function() {
+	        detach(this)
+	    }
+	
 	
 		// private instance variables/functions
 	
 	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
-	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
 	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
 	
-		this.style;              // the object's explicit Style object (undefined if it inherits a style)
+		this._style;              // the object's explicit Style object (undefined if it inherits a style)
 	    this.currentStyle;       // the object's current Style (inherited or explicit)
 	    this._displayStyle;      // temporariliy stores an inline display style while the element is hidden (for use when 'show' is called)
 	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
 	});
 	
+	
 	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
 	
+	
+	// appends components to the body
+	var attach = module.exports.attach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
+	    }
+	
+	    if(document.body === null) throw new Error("Your document does not have a body.")
+	
+	    for(var n=0; n<components.length; n++) {
+	        document.body.appendChild(components[n].domNode)
+	    }
+	}
+	// removes components from the body
+	var detach = module.exports.detach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        document.body.removeChild(components[n].domNode)
+	    }
+	}
+	
+	// creates a body tag (only call this if document.body is null)
+	
+	module.exports.createBody = function(callback) {
+	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+	    var body = dom.createElement("body")
+	    dom.documentElement.appendChild(body)
+	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
+	        callback()
+	    },0)
+	}
+	
+	
+	
+	
 	// returns a list of indexes to remove from Block.remove's arguments
-	var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
+	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
 	    var that = this
 	
 	    if(arguments[0] instanceof Array) {
@@ -703,7 +4915,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	// returns a list of nodes to add
-	var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
+	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
 	    if(arguments.length === 2) {
 	        if(arguments[1] instanceof Array) {
 	            return arguments[1]
@@ -723,7 +4935,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var c = components[n]
 	        //if(isBlock(c)) {   //
 	            // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
-	            if(c.style === undefined) {
+	            if(c._style === undefined) {
 	                if(styleMap === undefined) {
 	                    setCurrentStyle(c, undefined)
 	                } else {
@@ -736,8 +4948,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            // set the computed style set
 	            var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
-	            if(c.style !== undefined) {
-	                mainStyle = c.style.get(c)
+	            if(c._style !== undefined) {
+	                mainStyle = c._style.get(c)
 	            } else if(styleMap !== undefined) {
 	                mainStyle = getStyleForComponent(styleMap, c)
 	                if(mainStyle !== undefined) {
@@ -835,7 +5047,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
 	    }
 	    if(style !== undefined) {
-	        component.domNode.className = style.className+' '+component.domNode.className // note that the order of classes doesn't matter
+	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
 	    }
 	}
 	
@@ -893,14 +5105,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 5 */
+/* 20 */
+/*!*********************!*\
+  !*** ../~/Style.js ***!
+  \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(23)
-	var proto = __webpack_require__(35)
-	var HashMap = __webpack_require__(38) // .HashMap // weirdly, it looks like this is being treated like an AMD module
+	var jssModule = __webpack_require__(/*! ../external/jss */ 43)
+	var proto = __webpack_require__(/*! proto */ 40)
+	var HashMap = __webpack_require__(/*! hashmap */ 55) // .HashMap // weirdly, it looks like this is being treated like an AMD module
 	
-	var utils = __webpack_require__(21)
+	var utils = __webpack_require__(/*! ./utils */ 42)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -916,12 +5131,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
 	
 	    // styleDefinition is an object where key-value pairs can be any of the following:
+	    // <cssPropertyName>: the value should be a valid css value for that style attribute
 	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
 	    // $setup: the value is a function to be run on a component when the style is applied to it
 	    // $kill: the value is a function to be run on a component when a style is removed from it
-	    // '$': the value describes css styles inside the component - it should be an object with the following form:
-	        // cssStyle: the value should be a valid css value for that style attribute
-	        // classname: the value should be an object containing an object of the same form as the '$' value
+	    // $state: the value should be a state handler function
+	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
 	    this.init = function(styleDefinition, privateOptions) {
 	        if(privateOptions === undefined) privateOptions = {}
 	        if(privateOptions.inLabel===undefined) inLabel = false
@@ -1012,71 +5227,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // create pseudoclass styles
 	        if(Object.keys(pseudoClassStyles).length > 0) {
 	
-	            // create a two-level map where the top-level keys are emulatable psuedo classes, and non-emulatable pseudo classes are at the second level
-	            // the classes will also be sorted and deduped
-	            var tieredPseudoClasses = {} // the two-level map
-	            for(var key in pseudoClassStyles) {
-	                var value = pseudoClassStyles[key]
-	
-	                // split key into pseudoclass list
-	                var pseudoClassList = key.split(":")
-	                var emulatablePseudoClasses = []
-	                var nonEmulatablePseudoClasses = []
-	                for(var n in pseudoClassList) {
-	                    var pseudoClass = pseudoClassList[n]
-	                    var pseudoClassParts = getPseudoClassParts(pseudoClass)
-	                    if(pseudoClassParts.class in emulatedPseudoClasses) {
-	                        emulatablePseudoClasses.push(pseudoClass)
-	                    } else {
-	                        nonEmulatablePseudoClasses.push(pseudoClass)
-	                    }
-	                }
-	
-	                if(emulatablePseudoClasses.length === 0) { // if none of the pseudoclasses can be emulated using javascript
-	                    validatePurePseudoClassStyles(key, value)                        // then validate the value and
-	                    createPseudoClassRules(this, key, '.'+this.className+":"+key, value)   // create pseudoClassRules
-	
-	                } else { // if some of the pseudoclasses can be emulated using javascript
-	
-	                    emulatablePseudoClasses.sort()
-	                    var emulatablePseudoClassKey = emulatablePseudoClasses.join(':')
-	                    if(tieredPseudoClasses[emulatablePseudoClassKey] === undefined)
-	                        tieredPseudoClasses[emulatablePseudoClassKey] = {}
-	
-	                    if(nonEmulatablePseudoClasses.length === 0) {
-	                        utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], value)
-	                    } else {
-	                        nonEmulatablePseudoClasses.sort()
-	                        var nonEmulatablePsuedoClassKey = nonEmulatablePseudoClasses.join(':')
-	
-	                        var secondTier = {}
-	                        secondTier['$$'+nonEmulatablePsuedoClassKey] = value
-	
-	                        utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], secondTier)
-	                    }
-	                }
-	            }
-	
-	            // make combinations of the emulatable pseudoclasses, so that they combine like the non-emulated ones do
-	            // info about mathematical combination: https://en.wikipedia.org/wiki/Combination
-	
-	            var tieredPseudoClassesKeys = Object.keys(tieredPseudoClasses).reverse().map(function(v) {    // reverse first so that more specific pseudoclasses go first
-	                return {key: v, parts: v.split(':')} // so it doesn't have to split every time
-	            })
-	
-	            for(var n=0; n<tieredPseudoClassesKeys.length; n++) {
-	                var keyA = tieredPseudoClassesKeys[n]
-	                for(var k=2; k <= tieredPseudoClassesKeys.length; k++) { // k is the number of psuedoclasses to combine
-	                    for(var j=n+1; j<tieredPseudoClassesKeys.length-(k-2); j++) {
-	                        var result = combinePseudoclasses(tieredPseudoClasses, [keyA].concat(tieredPseudoClassesKeys.slice(j, k)))
-	                        if(result.key in tieredPseudoClasses) {
-	                            utils.merge(tieredPseudoClasses[result.key], result.value)
-	                        } else { // new key
-	                            tieredPseudoClasses[result.key] = result.value
-	                        }
-	                    }
-	                }
-	            }
+	            var tieredPseudoClasses = createTieredPseudoClasses(this, pseudoClassStyles)
+	            pseudoclassCombinations(tieredPseudoClasses) // mutates tieredPseudoClasses
 	
 	            // turn the emulatable pseudo classes into Style objects
 	            // also build up the set of psuedoclasses that will be emulated
@@ -1236,6 +5388,86 @@ return /******/ (function(modules) { // webpackBootstrap
 	// private
 	
 	
+	// returns a two-level map where the top-level keys are emulatable psuedo classes, and non-emulatable pseudo classes are at the second level
+	// the classes will also be sorted and deduped
+	// Example return value: {"hover:lastChild": {color:'red', "$$visited:disabled": {fontWeight: 'bold'}}, }
+	// parameters:
+	    // style - the style object being created
+	    // pseudoClassStyles - a flat object where each key is a list of pseudoclasses separated by colons (e.g. "hover" or "hover:focus") and the value is an object of styles that don't contain pseudoclasses
+	function createTieredPseudoClasses(style, pseudoClassStyles) {
+	    var tieredPseudoClasses = {} // the two-level map
+	    for(var key in pseudoClassStyles) {
+	        var value = pseudoClassStyles[key]
+	
+	        // split key into pseudoclass list
+	        var pseudoClassList = key.split(":")
+	        var emulatablePseudoClasses = []
+	        var nonEmulatablePseudoClasses = []
+	        for(var n in pseudoClassList) {
+	            var pseudoClass = pseudoClassList[n]
+	            var pseudoClassParts = getPseudoClassParts(pseudoClass)
+	            if(pseudoClassParts.class in emulatedPseudoClasses) {
+	                emulatablePseudoClasses.push(pseudoClass)
+	            } else {
+	                nonEmulatablePseudoClasses.push(pseudoClass)
+	            }
+	        }
+	
+	        if(emulatablePseudoClasses.length === 0) { // if none of the pseudoclasses can be emulated using javascript
+	            validatePurePseudoClassStyles(key, value)                        // then validate the value and
+	            createPseudoClassRules(style, key, '.'+style.className+":"+key, value)   // create pseudoClassRules
+	
+	        } else { // if some of the pseudoclasses can be emulated using javascript
+	
+	            emulatablePseudoClasses.sort()
+	            var emulatablePseudoClassKey = emulatablePseudoClasses.join(':')
+	            if(tieredPseudoClasses[emulatablePseudoClassKey] === undefined)
+	                tieredPseudoClasses[emulatablePseudoClassKey] = {}
+	
+	            if(nonEmulatablePseudoClasses.length === 0) {
+	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], value)
+	            } else {
+	                nonEmulatablePseudoClasses.sort()
+	                var nonEmulatablePsuedoClassKey = nonEmulatablePseudoClasses.join(':')
+	
+	                var secondTier = {}
+	                secondTier['$$'+nonEmulatablePsuedoClassKey] = value
+	
+	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], secondTier)
+	            }
+	        }
+	    }
+	
+	    return tieredPseudoClasses
+	}
+	
+	
+	
+	// make combinations of the emulatable pseudoclasses, so that they combine like the non-emulated ones do
+	// info about mathematical combination: https://en.wikipedia.org/wiki/Combination
+	// mutates tieredPseudoClasses
+	function pseudoclassCombinations(tieredPseudoClasses) {
+	    var tieredPseudoClassesKeys = Object.keys(tieredPseudoClasses).reverse().map(function(v) {    // reverse first so that more specific pseudoclasses go first
+	        return {key: v, parts: v.split(':')} // so it doesn't have to split every time
+	    })
+	
+	    for(var n=0; n<tieredPseudoClassesKeys.length; n++) {
+	        var keyA = tieredPseudoClassesKeys[n]
+	        for(var k=2; k <= tieredPseudoClassesKeys.length; k++) { // k is the number of psuedoclasses to combine
+	            for(var j=n+1; j<tieredPseudoClassesKeys.length-(k-2); j++) {
+	                var result = combinePseudoclasses(tieredPseudoClasses, [keyA].concat(tieredPseudoClassesKeys.slice(j, k)))
+	                if(result.key in tieredPseudoClasses) {
+	                    utils.merge(tieredPseudoClasses[result.key], result.value)
+	                } else { // new key
+	                    tieredPseudoClasses[result.key] = result.value
+	                }
+	            }
+	        }
+	    }
+	}
+	
+	
+	
 	// keys is a list of objects where each object has the members:
 	    // key - the original string key
 	    // parts - the key split by ":"
@@ -1281,7 +5513,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return false
 	        },
 	        setup: function(component, startCallback, endCallback) {
-	            component.on("mouseover", startCallback)
+	            component.on("mouseover", function() {
+	                startCallback()
+	            })
 	            component.on("mouseout", endCallback)
 	
 	            return {start: startCallback, end: endCallback}
@@ -1334,9 +5568,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    'last-child': {
 	        check: function(component) {
+	            console.log("Checking: "+component.domNode.textContent+" and its "+nthLastChildCheck(component, '1'))
 	            return nthLastChildCheck(component, '1')
 	        },
 	        setup: function(component, startCallback, endCallback) {
+	            console.log("Setup: "+component.domNode.textContent)
+	
 	            var observer = new MutationObserver(function() {
 	                if(nthLastChildCheck(component, '1')) {
 	                    startCallback()
@@ -1364,6 +5601,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return {observer: observer}
 	        },
 	        kill: function(component, state) {
+	            console.log("Kill: "+component.domNode.textContent)
 	            state.observer.disconnect()
 	        }
 	    },
@@ -1533,7 +5771,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if(key === '$kill') {
 	            throw new Error("$kill can't be used within the pseudoclasses '"+pseudoClass+"'")
 	        } else if(key.indexOf('$') === 0) {   // label style
-	            throw new Error("Component labels can't be used within the pseudoclasses '"+pseudoClass+"'")
+	            throw new Error("Block labels can't be used within the pseudoclasses '"+pseudoClass+"'")
 	        }
 	    }
 	}
@@ -1672,15 +5910,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    cursor: 'inherit'
 	})
 	
-	/*private*/ module.exports.isDev; // should be set by Component
+	/*private*/ module.exports.isDev; // should be set by Block
 	
 	var computedStyles = module.exports.computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
 
 /***/ },
-/* 6 */
+/* 21 */
+/*!************************!*\
+  !*** ./~/testUtils.js ***!
+  \************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(30)
+	var Future = __webpack_require__(/*! async-future */ 41)
 	
 	// compares arrays and objects for value equality (all elements and members must match)
 	exports.equal = function(a,b) {
@@ -1787,11 +6028,528 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 7 */
+/* 22 */
+/*!*****************************!*\
+  !*** ../~/EventEmitterB.js ***!
+  \*****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
+	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 40)
+	var utils = __webpack_require__(/*! utils */ 42)
+	
+	module.exports = proto(EventEmitter, function(superclass) {
+	
+	    this.init = function() {
+	        superclass.apply(this, arguments)
+	
+	        this.ifonHandlers = {}
+	        this.ifoffHandlers = {}
+	        this.ifonAllHandlers = []
+	        this.ifoffAllHandlers = []
+	    }
+	
+	    // callback will be triggered immediately if there is already a listener attached, or
+	    // callback will be triggered when the first listener for the event is added
+	    // (regardless of whether its done through on or once)
+	    // parameters can be:
+	        // event, callback - attach an ifon handler for the passed event
+	        // callback - attach an ifon handler for all events
+	    this.ifon = function(event, callback) {
+	        if(event instanceof Function) {     // event not passed, only a callback
+	            callback = event // fix the argument
+	            for(var eventName in this._events) {
+	                if(this.listeners(eventName).length > 0) {
+	                    callback(eventName)
+	                }
+	            }
+	        } else if(this.listeners(event).length > 0) {
+	            callback(event)
+	        }
+	
+	        addHandlerToList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfon() - all ifon handlers (if no arguments are passed), or
+	        // removeIfon(event) - all ifon handlers for the passed event, or
+	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
+	        // removeIfon(event, callback) - the specific passed callback for the passed event
+	    this.removeIfon = function(event, callback) {
+	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
+	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
+	    // parameters can be:
+	        // event, callback - attach an ifoff handler for the passed event
+	        // callback - attach an ifoff handler for all events
+	    this.ifoff = function(event, callback) {
+	        addHandlerToList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfoff() - all ifoff handlers (if no arguments are passed), or
+	        // removeIfoff(event) - all ifoff handlers for the passed event, or
+	        // removeIfoff(callback) - the passed ifoff-all handler (if the first parameter is the callback)
+	        // removeIfoff(event, callback) - the specific passed callback for the passed event
+	    this.removeIfoff = function(event, callback) {
+	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // emitter is the emitter to proxy handler binding to
+	    // options can have one of the following properties:
+	        // only - an array of events to proxy
+	        // except - an array of events to *not* proxy
+	    this.proxy = function(emitter, options) {
+	        if(options === undefined) options = {}
+	        if(options.except !== undefined) {
+	            var except = utils.arrayToMap(options.except)
+	            var handleIt = function(event){return !(event in except)}
+	        } else if(options.only !== undefined) {
+	            var only = utils.arrayToMap(options.only)
+	            var handleIt = function(event){return event in only}
+	        } else {
+	            var handleIt = function(){return true}
+	        }
+	
+	        var that = this, handler;
+	        this.ifon(function(event) {
+	            if(handleIt(event)) {
+	                emitter.on(event, handler = function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        this.ifoff(function(event) {
+	            if(handleIt(event))
+	                emitter.off(event, handler)
+	        })
+	    }
+	
+	    /*override*/ this.on = this.addListener = function(event, callback) {
+	        var triggerIfOn = this.listeners(event).length === 0
+	        superclass.prototype.on.apply(this,arguments)
+	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
+	    }
+	
+	    /*override*/ this.off = this.removeListener = function(event, callback) {
+	        var triggerIfOff = this.listeners(event).length === 1
+	        superclass.prototype.removeListener.apply(this,arguments)
+	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
+	    }
+	    /*override*/ this.removeAllListeners = function(event) {
+	        var triggerIfOffForEvents = []
+	        if(event !== undefined) {
+	            if(this.listeners(event).length > 0) {
+	                triggerIfOffForEvents.push(event)
+	            }
+	        } else {
+	            for(var event in this._events) {
+	                if(this.listeners(event).length > 0) {
+	                    triggerIfOffForEvents.push(event)
+	                }
+	            }
+	        }
+	
+	        superclass.prototype.removeAllListeners.apply(this,arguments)
+	
+	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
+	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
+	        }
+	    }
+	
+	})
+	
+	
+	// triggers the if handlers from the normal list and the "all" list
+	function triggerIfHandlers(that, handlerListName, event) {
+	    triggerIfHandlerList(that[handlerListName][event], event)
+	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
+	}
+	
+	
+	// triggers the if handlers from a specific list
+	// ya these names are confusing, sorry : (
+	function triggerIfHandlerList(handlerList, event) {
+	    if(handlerList !== undefined) {
+	        for(var n=0; n<handlerList.length; n++) {
+	            handlerList[n](event)
+	        }
+	    }
+	}
+	
+	function addHandlerToList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        var handlerList = that[handlerListName][event]
+	        if(handlerList === undefined) {
+	            handlerList = that[handlerListName][event] = []
+	        }
+	
+	        handlerList.push(callback)
+	    } else {
+	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
+	    }
+	}
+	
+	function removeFromHandlerList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        removeCallbackFromList(that[handlerListName][event], callback)
+	    } else if(event !== undefined) {
+	        delete that[handlerListName][event]
+	    } else if(callback !== undefined) {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        removeCallbackFromList(that[allHandlerListName], callback)
+	    } else {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        that[handlerListName] = {}
+	        that[allHandlerListName] = []
+	    }
+	}
+	
+	function normalHandlerToAllHandlerProperty(handlerListName) {
+	    if(handlerListName === 'ifonHandlers')
+	        return 'ifonAllHandlers'
+	    if(handlerListName === 'ifoffHandlers')
+	        return 'ifoffAllHandlers'
+	}
+	
+	function removeCallbackFromList(list, callback) {
+	    var index = list.indexOf(callback)
+	    list.splice(index,1)
+	}
+
+/***/ },
+/* 23 */
+/*!*******************!*\
+  !*** ./~/fsyn.js ***!
+  \*******************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// requires: syn (loaded as a global variable from an html script tag)
+	
+	var Future = __webpack_require__(/*! async-future */ 41)
+	
+	exports.click = wrap(syn.click)
+	exports.rightClick = wrap(syn.rightClick)
+	exports.dblClick = wrap(syn.dblClick)
+	exports.move = wrap(syn.move)
+	exports.type = wrap(syn.type)
+	exports.key = wrap(syn.key)
+	
+	
+	
+	function wrap(fn) {
+	    return function() {
+	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
+	
+	        // for chaining
+	        var target = arguments[0]
+	        resultFuture.click = function() {
+	            exports.click.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.rightClick = function() {
+	            exports.rightClick.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.dblClick = function() {
+	            exports.dblClick.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.move = function() {
+	            exports.move.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.type = function() {
+	            exports.type.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.key = function() {
+	            exports.key.apply(this, [target].concat(arguments))
+	        }
+	
+	        return resultFuture
+	    }
+	}
+	
+
+
+/***/ },
+/* 24 */
+/*!************************!*\
+  !*** ../~/domUtils.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	// creates a dom element optionally with a class and attributes
+	 var node = module.exports.node = function(type, className, options) {
+	    var elem = document.createElement(type)
+	
+	    if(options !== undefined) {
+	        if(options.attr !== undefined) {
+	            for(var attribute in options.attr) {
+	                createAttribute(elem, attribute, options.attr[attribute])
+	            }
+	        }
+	        if(options.textContent !== undefined) {
+	            elem.textContent = options.textContent
+	        }
+	    }
+	
+	    if(className !== undefined)
+	        elem.className = className
+	
+	    return elem
+	}
+	
+	// convenience function for creating a div
+	module.exports.div = function(className, options) {
+	    return node('div', className, options)
+	}
+	
+	// adds an attribute to a domNode
+	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
+	    if (arguments.length === 2) {
+	        var domNode = this.domNode;
+	        var type = arguments[0];
+	        var value = arguments[1];
+	    } else if (arguments.length === 3) {
+	        var domNode = arguments[0];
+	        var type = arguments[1];
+	        var value = arguments[2];
+	    } else {
+	        throw new Error("This function expects arguments to be: [domNode,] type, value");
+	    }
+	    var attr = document.createAttribute(type)
+	    attr.value = value
+	    domNode.setAttributeNode(attr)
+	}
+	
+	
+	// sets the selection
+	//
+	// works for contenteditable elements
+	exports.setSelectionRange = function(containerEl, start, end) {
+	
+	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
+	        containerEl.setSelectionRange(start, end)
+	    } else {
+	        var charIndex = 0, range = document.createRange();
+	        range.setStart(containerEl, 0);
+	        range.collapse(true);
+	        var foundStart = false;
+	
+	        iterateThroughLeafNodes(containerEl, function(node) {
+	            var hiddenCharacters = findHiddenCharacters(node, node.length)
+	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
+	
+	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+	                var nodeIndex = start-charIndex
+	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
+	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
+	                foundStart = true;
+	            }
+	
+	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
+	                var nodeIndex = end-charIndex
+	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
+	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
+	                return true; // stop the iteration - we're done here
+	            }
+	
+	            charIndex = nextCharIndex
+	        })
+	
+	        var sel = window.getSelection();
+	        sel.removeAllRanges();
+	        sel.addRange(range);
+	    }
+	}
+	
+	// gets the character offsets of a selection within a particular dom node
+	// returns undefined if there is no selection in the element
+	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
+	exports.getSelectionRange = function (element) {
+	
+	    var selection = window.getSelection()
+	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
+	
+	    for(var n=0; n<selection.rangeCount; n++) {
+	        var range = selection.getRangeAt(0)
+	        if(isInputOrArea) {
+	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
+	                return [element.selectionStart, element.selectionEnd]
+	            }
+	        } else {
+	            var startsInElement = element.contains(range.startContainer)
+	            if(startsInElement) {
+	                var elementToIterateThrough = element
+	                var startFound = true
+	            } else {
+	                var elementToIterateThrough = range.commonAncestorContainer
+	                var startFound = false
+	                var startContainerFound = false
+	            }
+	
+	            var visibleCharacterOffset = 0, start, end;
+	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
+	                if(!startFound) {
+	                    if(leaf === range.startContainer) {
+	                        startContainerFound = true
+	                    }
+	
+	                    if(!element.contains(leaf) || !startContainerFound)
+	                        return; // continue
+	                    else if(startContainerFound)
+	                       startFound = true
+	                } else if(!startsInElement && !element.contains(leaf)) {
+	                    return true // done!
+	                }
+	
+	                if(leaf === range.startContainer) {
+	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
+	                }
+	                if(leaf === range.endContainer) {
+	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
+	                    return true // done!
+	                }
+	
+	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
+	            })
+	
+	            if(start === undefined && !startFound) {
+	                return undefined
+	            } else {
+	                if(start === undefined) {
+	                    start = 0 // start is at the beginning
+	                }
+	                if(end === undefined) {
+	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
+	                }
+	
+	                return [start, end]
+	            }
+	        }
+	    }
+	}
+	
+	
+	// iterate through the leaf nodes inside element
+	// callback(node) - a function called for each leaf node
+	    // returning true from this ends the iteration
+	function iterateThroughLeafNodes(element, callback) {
+	    var nodeStack = [element], node;
+	
+	    while (node = nodeStack.pop()) {
+	        if (node.nodeType == 3) {
+	            if(callback(node) === true)
+	                break;
+	        } else {
+	            var i = node.childNodes.length;
+	            while (i--) {
+	                nodeStack.push(node.childNodes[i]);
+	            }
+	        }
+	    }
+	}
+	
+	function findHiddenCharacters(node, beforeCaretIndex) {
+	    var hiddenCharacters = 0
+	    var lastCharWasWhiteSpace=true
+	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
+	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
+	            if(lastCharWasWhiteSpace)
+	                hiddenCharacters++
+	            else
+	                lastCharWasWhiteSpace = true
+	        } else {
+	            lastCharWasWhiteSpace = false
+	        }
+	    }
+	
+	    return hiddenCharacters
+	}
+
+/***/ },
+/* 25 */
+/*!*********************************!*\
+  !*** ../~/Components/Canvas.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
+	var Style = __webpack_require__(/*! Style */ 20)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Canvas'
+	
+	    this.init = function(/*[label,] height, width*/) {
+	        if(arguments.length === 2) {
+	            var height = arguments[0]
+	            var width = arguments[1]
+	        } else {
+	            var label = arguments[0]
+	            var height = arguments[1]
+	            var width = arguments[2]
+	        }
+	
+	        this.domNode = document.createElement('canvas') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	        this.height = height
+	        this.width = width
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'width', {
+	        get: function() {
+	            return this.domNode.width
+	        }, set: function(v) {
+	            this.domNode.width = v
+	        }
+	    })
+	    Object.defineProperty(this, 'height', {
+	        get: function() {
+	            return this.domNode.height
+	        }, set: function(v) {
+	            this.domNode.height = v
+	        }
+	    })
+	
+	    this.context = function() {
+	        return this.domNode.getContext.apply(this.domNode, arguments)
+	    }
+	
+	    this.toImg = this.toDataURL = function() {
+	        return this.domNode.toDataURL()
+	    }
+	});
+
+
+/***/ },
+/* 26 */
+/*!************************************!*\
+  !*** ../~/Components/Container.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -1826,18 +6584,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 27 */
+/*!*********************************!*\
+  !*** ../~/Components/Button.js ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
+	var Block = __webpack_require__(/*! Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
 	
 	    // static variables
 	
 	    this.name = 'Button'
-		this.emits = ["click"]
 	
 	
 	    // instance properties
@@ -1871,11 +6631,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 28 */
+/*!***********************************!*\
+  !*** ../~/Components/CheckBox.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
+	var Block = __webpack_require__(/*! Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
 		// static variables
@@ -1890,12 +6653,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.label = label
 			this.attr('type','checkbox')
-	
-			/*this.domNode.addEventListener("click",function(e) {
-	            //this.val = !this.val // toggle dat shit
-				that.emit("click",e)
-	            that.emit('change')
-			})*/
 		}
 	
 	    Object.defineProperty(this, 'selected', {
@@ -1917,12 +6674,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 29 */
+/*!********************************!*\
+  !*** ../~/Components/Image.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
-	var Style = __webpack_require__(5)
+	var Block = __webpack_require__(/*! Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -1960,29 +6719,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 30 */
+/*!*******************************!*\
+  !*** ../~/Components/List.js ***!
+  \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(35)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var Block = __webpack_require__(4)
-	var Style = __webpack_require__(5)
+	var Block = __webpack_require__(/*! Block */ 19)
+	var Style = __webpack_require__(/*! Style */ 20)
 	
-	var Item = __webpack_require__(25);
+	var Item = __webpack_require__(/*! ./Item */ 44);
 	
 	module.exports = proto(Block, function(superclass) {
 	
 		// static properties
 	
-	    this.name = 'List'
-	
-	    /*this.defaultStyle = Style({
-	        borderSpacing: 0,
-	        borderCollapse: 'separate'
-	    })*/
-	
 		this.Item = Item
 	
+	    this.name = 'List'
 	
 		// instance properties
 	
@@ -2011,10 +6767,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	
-	        if(ordered)
+	        if(ordered) {
 	            var type = 'ol'
-	        else
+	        } else {
 	            var type = 'ul'
+	            this.defaultStyle = Style({
+	                listStyleType: 'decimal'
+	            })
+	        }
+	
 	
 	        this.domNode = document.createElement(type) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        superclass.init.call(this) // superclass constructor
@@ -2035,13 +6796,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 12 */
+/* 31 */
+/*!********************************!*\
+  !*** ../~/Components/Radio.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(35)
-	var EventEmitter = __webpack_require__(31).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 40)
+	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
 	
-	var Block = __webpack_require__(4)
+	var Block = __webpack_require__(/*! ../Block */ 19)
 	
 	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
 	
@@ -2301,13 +7065,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 13 */
+/* 32 */
+/*!*********************************!*\
+  !*** ../~/Components/Select.js ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
+	var Block = __webpack_require__(/*! ../Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var Option = __webpack_require__(24)
+	var Option = __webpack_require__(/*! Components/Option */ 45)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Block, function(superclass) {
@@ -2454,17 +7221,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 33 */
+/*!********************************!*\
+  !*** ../~/Components/Table.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(35)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var Block = __webpack_require__(4)
-	var Style = __webpack_require__(5)
+	var Block = __webpack_require__(/*! ../Block */ 19)
+	var Style = __webpack_require__(/*! Style */ 20)
 	
-	var Header = __webpack_require__(26);
-	var Row = __webpack_require__(27);
-	var Cell = __webpack_require__(28);
+	var Header = __webpack_require__(/*! ./Header */ 46);
+	var Row = __webpack_require__(/*! ./Row */ 47);
+	var Cell = __webpack_require__(/*! ./Cell */ 48);
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -2518,11 +7288,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 15 */
+/* 34 */
+/*!***********************************!*\
+  !*** ../~/Components/TextArea.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
+	var Block = __webpack_require__(/*! ../Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -2558,13 +7331,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 35 */
+/*!************************************!*\
+  !*** ../~/Components/TextField.js ***!
+  \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
+	var Block = __webpack_require__(/*! ../Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var domUtils = __webpack_require__(22)
+	var domUtils = __webpack_require__(/*! ../domUtils */ 24)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -2612,12 +7388,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 36 */
+/*!*******************************!*\
+  !*** ../~/Components/Text.js ***!
+  \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
-	var Style = __webpack_require__(5)
+	var Block = __webpack_require__(/*! ../Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
+	var Style = __webpack_require__(/*! Style */ 20)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -2672,66 +7451,555 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 37 */
+/*!**************************************!*\
+  !*** ../~/Components/MultiSelect.js ***!
+  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
-	var Style = __webpack_require__(5)
+	var Block = __webpack_require__(/*! ../Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
+	var Option = __webpack_require__(/*! Components/Option */ 45)
+	
+	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Block, function(superclass) {
 	
-	    //static properties
+		// static variables
 	
-	    this.name = 'Canvas'
+	    this.name = 'MultiSelect'
 	
-	    this.init = function(/*[label,] height, width*/) {
-	        if(arguments.length === 2) {
-	            var height = arguments[0]
-	            var width = arguments[1]
+	    this.Option = Option
+	
+		this.init = function(/*[label,] options*/) {
+	        if(arguments[0] instanceof Object) {
+	            var options = arguments[0]
 	        } else {
 	            var label = arguments[0]
-	            var height = arguments[1]
-	            var width = arguments[2]
+	            var options = arguments[1]
 	        }
 	
-	        this.domNode = document.createElement('canvas') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        superclass.init.call(this) // superclass constructor
-	
+			this.attr('multiple','multiple')
 	        this.label = label
-	        this.height = height
-	        this.width = width
-	    }
 	
-	    // instance properties
+	        this.options = {}
 	
-	    Object.defineProperty(this, 'width', {
+			for(var value in options) {
+				this.option(value, options[value])
+			}
+	
+	        /*
+			var that = this
+	        that.domNode.addEventListener('mousedown', function() {
+	            console.log("parent mousedown")
+	            var enterHandler, upHandler;
+	            that.children.forEach(function(child) {
+	                child.domNode.addEventListener('mouseover', enterHandler = function() {
+	                    console.log("child mouseover")
+	                    child.selected = true
+	                })
+	            })
+	
+	            that.domNode.addEventListener('mouseup', upHandler = function() {
+	                console.log("parent mouseup")
+	                that.children.forEach(function(child) {
+	                    child.domNode.removeEventListener('mouseover', enterHandler)
+	                })
+	
+	                that.domNode.removeEventListener('mouseup', upHandler)
+	            })
+	        })*/
+		}
+	
+	
+		// instance methods
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns a list of the values that are selected
 	        get: function() {
-	            return this.domNode.width
-	        }, set: function(v) {
-	            this.domNode.width = v
+	            var result = []
+	            for(var value in this.options) {
+	                if(this.options[value].selected) {
+	                    result.push(value)
+	                }
+	            }
+	
+	            return result
+	        },
+	
+	        // values can either be an array, or a single value to select
+	        set: function(values) {
+	            if(!(values instanceof Array))
+	                values = [values]
+	
+	            var that = this
+	            values.forEach(function(value) {
+	                if(that.options[value] === undefined) {
+	                    throw new Error("There is no Option in the MultiSelect with the value: '"+value+"'")
+	                }
+	            })
+	
+	            var stringifiedValues = values.map(function(v){return v.toString()})
+	
+	            var somethingChanged = false
+	            for(var value in this.options) {
+	                var selected = stringifiedValues.indexOf(value) !== -1
+	                var option = this.options[value]
+	
+	                if(option.selected !== selected) {  // selected state change
+	                    somethingChanged = true
+	                    option.setSelectedQuiet(selected)
+	                }
+	            }
+	
+	            if(somethingChanged) {
+	                this.emit('change')
+	            }
 	        }
 	    })
-	    Object.defineProperty(this, 'height', {
-	        get: function() {
-	            return this.domNode.height
-	        }, set: function(v) {
-	            this.domNode.height = v
+		
+		this.option = function(/*[label,] value,text*/) {
+	        if(arguments.length === 2) {
+	            var value = arguments[0]
+	            var text = arguments[1]
+	        } else if(arguments.length === 3) {
+	            var label = arguments[0]
+	            var value = arguments[1]
+	            var text = arguments[2]
+	        } else {
+	            throw new Error("Invalid number of arguments")
 	        }
-	    })
 	
-	    this.context = function() {
-	        return this.domNode.getContext.apply(this.domNode, arguments)
+	        var newOption = Option(label, value,text)
+	        this.add(newOption)
+	
+	        return newOption
+	
+		}
+	
+	    // same interface as Block.addAt
+	    /*override*/ this.addAt = function(index/*, nodes...*/) {
+	        var that = this
+	
+	        var nodesToAdd = Block.normalizeAddAtArguments.apply(this, arguments)
+	
+	        // validation first
+	        nodesToAdd.forEach(function(option) {
+	            if(that.options[option.val] !== undefined) {
+	                throw new Error("Can't give an Option the same value as another in the MultiSelect (value: '"+option.val+"')")
+	            }
+	        })
+	
+	        superclass.addAt.call(this, index, nodesToAdd)
+	
+	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var anyWereSelected = false
+	        nodesToAdd.forEach(function(option) {
+	            if(option.selected) anyWereSelected = true
+	            that.options[option.val] = option
+	
+	
+	            // set up multi-select events
+	            // todo: remove events when the Option is removed
+	
+	            option.on("mousedown",function(event) {
+	                event.preventDefault()           // this needs to be here otherwise the options can't be deselected
+	
+	                option.parent.focus = true // without this, the parent doesn't gain focus
+	                option.focus = true
+	                if(event.shiftKey || event.ctrlKey) {
+	                    option.selected = !option.selected // toggle
+	                } else {
+	                    var parentVal = option.parent.val
+	                    var onlyThisIsSelected = parentVal.length === 1 && parentVal[0] === option.val
+	                    if(onlyThisIsSelected) {
+	                        option.selected = false
+	                    } else {
+	                        option.parent.val = [option.val] // select only this one
+	                    }
+	                }
+	            })
+	            /*option.domNode.addEventListener("click",function(event) {
+	                //event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
+	                option.emit('click', event)
+	            })*/
+	            option.on("mousemove",function(event) {
+	                event.preventDefault()         // this needs to be here otherwise the radio button is unset as soon as you move the mouse (when the mouse is down)
+	            })
+	            /*this.domNode.addEventListener("keydown",function(event) {
+	                if(event.keyCode === 40 || event.keyCode === 39) { // down or right
+	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                    option.selectNext()
+	                } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
+	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                    option.selectPrevious()
+	                }
+	            })*/
+	
+	            /*;['click', 'drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop', 'cancel',
+	                'mousedown', 'mouseenter', 'mousemove', 'mouseleave', 'mouseout', 'mouseover', 'mouseup'
+	            ].forEach(function(eventType) {
+	                option.domNode.addEventListener(eventType, function( event ) {
+	                    //event.preventDefault()
+	                    console.log(eventType)
+	                });
+	            })*/
+	
+	        })
+	
+	        if(anyWereSelected) {
+	            this.emit('change')
+	        }
 	    }
 	
-	    this.toImg = this.toDataURL = function() {
-	        return this.domNode.toDataURL()
+	    // same interface as Block.remove
+	    /*override*/ this.remove = function() {
+	        var that = this
+	
+	        var removalIndexes = Block.normalizeRemoveArguments.apply(this, arguments)
+	        var removals = removalIndexes.map(function(index) {
+	            return that.children[index]
+	        })
+	
+	        superclass.remove.call(this, removalIndexes)
+	
+	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var anyWereSelected = false
+	        removals.forEach(function(option) {
+	            if(option.selected) anyWereSelected = true
+	            delete that.options[option.val]
+	        })
+	
+	        if(anyWereSelected) {
+	            this.emit('change')
+	        }
 	    }
-	});
+	
+	
+	    // private
+	
+	    this.prepareForValueChange = function() {} // no-op
+	})
+	
 
 
 /***/ },
-/* 19 */
+/* 38 */
+/*!********************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/events/events.js ***!
+  \********************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+	
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+	
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+	
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+	
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function(n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n))
+	    throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+	
+	EventEmitter.prototype.emit = function(type) {
+	  var er, handler, len, args, i, listeners;
+	
+	  if (!this._events)
+	    this._events = {};
+	
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error ||
+	        (isObject(this._events.error) && !this._events.error.length)) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      }
+	      throw TypeError('Uncaught, unspecified "error" event.');
+	    }
+	  }
+	
+	  handler = this._events[type];
+	
+	  if (isUndefined(handler))
+	    return false;
+	
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        len = arguments.length;
+	        args = new Array(len - 1);
+	        for (i = 1; i < len; i++)
+	          args[i - 1] = arguments[i];
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    len = arguments.length;
+	    args = new Array(len - 1);
+	    for (i = 1; i < len; i++)
+	      args[i - 1] = arguments[i];
+	
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++)
+	      listeners[i].apply(this, args);
+	  }
+	
+	  return true;
+	};
+	
+	EventEmitter.prototype.addListener = function(type, listener) {
+	  var m;
+	
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  if (!this._events)
+	    this._events = {};
+	
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener)
+	    this.emit('newListener', type,
+	              isFunction(listener.listener) ?
+	              listener.listener : listener);
+	
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;
+	  else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);
+	  else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+	
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    var m;
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+	
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' +
+	                    'leak detected. %d listeners added. ' +
+	                    'Use emitter.setMaxListeners() to increase limit.',
+	                    this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+	
+	EventEmitter.prototype.once = function(type, listener) {
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  var fired = false;
+	
+	  function g() {
+	    this.removeListener(type, g);
+	
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+	
+	  g.listener = listener;
+	  this.on(type, g);
+	
+	  return this;
+	};
+	
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function(type, listener) {
+	  var list, position, length, i;
+	
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  if (!this._events || !this._events[type])
+	    return this;
+	
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+	
+	  if (list === listener ||
+	      (isFunction(list.listener) && list.listener === listener)) {
+	    delete this._events[type];
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener ||
+	          (list[i].listener && list[i].listener === listener)) {
+	        position = i;
+	        break;
+	      }
+	    }
+	
+	    if (position < 0)
+	      return this;
+	
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+	
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.removeAllListeners = function(type) {
+	  var key, listeners;
+	
+	  if (!this._events)
+	    return this;
+	
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0)
+	      this._events = {};
+	    else if (this._events[type])
+	      delete this._events[type];
+	    return this;
+	  }
+	
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+	
+	  listeners = this._events[type];
+	
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else {
+	    // LIFO order
+	    while (listeners.length)
+	      this.removeListener(type, listeners[listeners.length - 1]);
+	  }
+	  delete this._events[type];
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.listeners = function(type) {
+	  var ret;
+	  if (!this._events || !this._events[type])
+	    ret = [];
+	  else if (isFunction(this._events[type]))
+	    ret = [this._events[type]];
+	  else
+	    ret = this._events[type].slice();
+	  return ret;
+	};
+	
+	EventEmitter.listenerCount = function(emitter, type) {
+	  var ret;
+	  if (!emitter._events || !emitter._events[type])
+	    ret = 0;
+	  else if (isFunction(emitter._events[type]))
+	    ret = 1;
+	  else
+	    ret = emitter._events[type].length;
+	  return ret;
+	};
+	
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+	
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+	
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+	
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
+
+/***/ },
+/* 39 */
+/*!**********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/deadunit.internal.js ***!
+  \**********************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2741,10 +8009,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var exports = {}
 	
 	    var deadunitCore = options.deadunitCore
-	    var proto = __webpack_require__(41)
+	    var proto = __webpack_require__(/*! proto */ 58)
 	
-	    var defaultFormats = __webpack_require__(32)
-	    exports.format = __webpack_require__(33)
+	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 50)
+	    exports.format = __webpack_require__(/*! ./basicFormatter */ 51)
 	
 	    exports.error = deadunitCore.error
 	
@@ -2771,984 +8039,161 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var EventEmitter = __webpack_require__(31).EventEmitter
-	var proto = __webpack_require__(35)
-	var utils = __webpack_require__(21)
-	
-	module.exports = proto(EventEmitter, function(superclass) {
-	
-	    this.init = function() {
-	        superclass.apply(this, arguments)
-	
-	        this.ifonHandlers = {}
-	        this.ifoffHandlers = {}
-	        this.ifonAllHandlers = []
-	        this.ifoffAllHandlers = []
-	    }
-	
-	    // callback will be triggered immediately if there is already a listener attached, or
-	    // callback will be triggered when the first listener for the event is added
-	    // (regardless of whether its done through on or once)
-	    // parameters can be:
-	        // event, callback - attach an ifon handler for the passed event
-	        // callback - attach an ifon handler for all events
-	    this.ifon = function(event, callback) {
-	        if(event instanceof Function) {     // event not passed, only a callback
-	            callback = event // fix the argument
-	            for(var eventName in this._events) {
-	                if(this.listeners(eventName).length > 0) {
-	                    callback(eventName)
-	                }
-	            }
-	        } else if(this.listeners(event).length > 0) {
-	            callback(event)
-	        }
-	
-	        addHandlerToList(this, 'ifonHandlers', event, callback)
-	    }
-	
-	    // removes either:
-	        // removeIfon() - all ifon handlers (if no arguments are passed), or
-	        // removeIfon(event) - all ifon handlers for the passed event, or
-	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
-	        // removeIfon(event, callback) - the specific passed callback for the passed event
-	    this.removeIfon = function(event, callback) {
-	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
-	    }
-	
-	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
-	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
-	    // parameters can be:
-	        // event, callback - attach an ifoff handler for the passed event
-	        // callback - attach an ifoff handler for all events
-	    this.ifoff = function(event, callback) {
-	        addHandlerToList(this, 'ifoffHandlers', event, callback)
-	    }
-	
-	    // removes either:
-	        // removeIfon() - all ifon handlers (if no arguments are passed), or
-	        // removeIfon(event) - all ifon handlers for the passed event, or
-	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
-	        // removeIfon(event, callback) - the specific passed callback for the passed event
-	    this.removeIfoff = function(event, callback) {
-	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
-	    }
-	
-	    // emitter is the emitter to proxy handler binding to
-	    // options can have one of the following properties:
-	        // only - an array of events to proxy
-	        // except - an array of events to *not* proxy
-	    this.proxy = function(emitter, options) {
-	        if(options === undefined) options = {}
-	        if(options.except !== undefined) {
-	            var except = utils.arrayToMap(options.except)
-	            var handleIt = function(event){return !(event in except)}
-	        } else if(options.only !== undefined) {
-	            var only = utils.arrayToMap(options.only)
-	            var handleIt = function(event){return event in only}
-	        } else {
-	            var handleIt = function(){return true}
-	        }
-	
-	        var that = this, handler;
-	        this.ifon(function(event) {
-	            if(handleIt(event)) {
-	                emitter.on(event, handler = function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        this.ifoff(function(event) {
-	            if(handleIt(event))
-	                emitter.off(event, handler)
-	        })
-	    }
-	
-	    /*override*/ this.on = this.addListener = function(event, callback) {
-	        var triggerIfOn = this.listeners(event).length === 0
-	        superclass.prototype.on.apply(this,arguments)
-	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
-	    }
-	
-	    /*override*/ this.off = this.removeListener = function(event, callback) {
-	        var triggerIfOff = this.listeners(event).length === 1
-	        superclass.prototype.removeListener.apply(this,arguments)
-	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
-	    }
-	    /*override*/ this.removeAllListeners = function(event) {
-	        var triggerIfOffForEvents = []
-	        if(event !== undefined) {
-	            if(this.listeners(event).length > 0) {
-	                triggerIfOffForEvents.push(event)
-	            }
-	        } else {
-	            for(var event in this._events) {
-	                if(this.listeners(event).length > 0) {
-	                    triggerIfOffForEvents.push(event)
-	                }
-	            }
-	        }
-	
-	        superclass.prototype.removeAllListeners.apply(this,arguments)
-	
-	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
-	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
-	        }
-	    }
-	
-	})
-	
-	
-	// triggers the if handlers from the normal list and the "all" list
-	function triggerIfHandlers(that, handlerListName, event) {
-	    triggerIfHandlerList(that[handlerListName][event], event)
-	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
-	}
-	
-	
-	// triggers the if handlers from a specific list
-	// ya these names are confusing, sorry : (
-	function triggerIfHandlerList(handlerList, event) {
-	    if(handlerList !== undefined) {
-	        for(var n=0; n<handlerList.length; n++) {
-	            handlerList[n](event)
-	        }
-	    }
-	}
-	
-	function addHandlerToList(that, handlerListName, event, callback) {
-	    if(event instanceof Function) {
-	        // correct arguments
-	        callback = event
-	        event = undefined
-	    }
-	
-	    if(event !== undefined && callback !== undefined) {
-	        var handlerList = that[handlerListName][event]
-	        if(handlerList === undefined) {
-	            handlerList = that[handlerListName][event] = []
-	        }
-	
-	        handlerList.push(callback)
-	    } else {
-	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
-	    }
-	}
-	
-	function removeFromHandlerList(that, handlerListName, event, callback) {
-	    if(event instanceof Function) {
-	        // correct arguments
-	        callback = event
-	        event = undefined
-	    }
-	
-	    if(event !== undefined && callback !== undefined) {
-	        removeCallbackFromList(that[handlerListName][event], callback)
-	    } else if(event !== undefined) {
-	        delete that[handlerListName][event]
-	    } else if(callback !== undefined) {
-	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
-	        removeCallbackFromList(that[allHandlerListName], callback)
-	    } else {
-	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
-	        that[handlerListName] = {}
-	        that[allHandlerListName] = []
-	    }
-	}
-	
-	function normalHandlerToAllHandlerProperty(handlerListName) {
-	    if(handlerListName === 'ifonHandlers')
-	        return 'ifonAllHandlers'
-	    if(handlerListName === 'ifoffHandlers')
-	        return 'ifoffAllHandlers'
-	}
-	
-	function removeCallbackFromList(list, callback) {
-	    var index = list.indexOf(callback)
-	    list.splice(index,1)
-	}
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	var path = __webpack_require__(40)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
-	exports.objectConjunction = function(a, b) {
-	    var objectCopy = {}
-	    merge(objectCopy, a)
-	    merge(objectCopy, b)
-	    return objectCopy
-	}
-	
-	// turns an array of values into a an object where those values are all keys that point to 'true'
-	exports.arrayToMap = function(array) {
-	    var result = {}
-	    array.forEach(function(v) {
-	        result[v] = true
-	    })
-	    return result
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       }
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	// creates a dom element optionally with a class and attributes
-	 var node = module.exports.node = function(type, className, options) {
-	    var elem = document.createElement(type)
-	
-	    if(options !== undefined) {
-	        if(options.attr !== undefined) {
-	            for(var attribute in options.attr) {
-	                createAttribute(elem, attribute, options.attr[attribute])
-	            }
-	        }
-	        if(options.textContent !== undefined) {
-	            elem.textContent = options.textContent
-	        }
-	    }
-	
-	    if(className !== undefined)
-	        elem.className = className
-	
-	    return elem
-	}
-	
-	// convenience function for creating a div
-	module.exports.div = function(className, options) {
-	    return node('div', className, options)
-	}
-	
-	// adds an attribute to a domNode
-	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
-	    if (arguments.length === 2) {
-	        var domNode = this.domNode;
-	        var type = arguments[0];
-	        var value = arguments[1];
-	    } else if (arguments.length === 3) {
-	        var domNode = arguments[0];
-	        var type = arguments[1];
-	        var value = arguments[2];
-	    } else {
-	        throw new Error("This function expects arguments to be: [domNode,] type, value");
-	    }
-	    var attr = document.createAttribute(type)
-	    attr.value = value
-	    domNode.setAttributeNode(attr)
-	}
-	
-	
-	// sets the selection
-	//
-	// works for contenteditable elements
-	exports.setSelectionRange = function(containerEl, start, end) {
-	
-	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
-	        containerEl.setSelectionRange(start, end)
-	    } else {
-	        var charIndex = 0, range = document.createRange();
-	        range.setStart(containerEl, 0);
-	        range.collapse(true);
-	        var foundStart = false;
-	
-	        iterateThroughLeafNodes(containerEl, function(node) {
-	            var hiddenCharacters = findHiddenCharacters(node, node.length)
-	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
-	
-	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-	                var nodeIndex = start-charIndex
-	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
-	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
-	                foundStart = true;
-	            }
-	
-	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
-	                var nodeIndex = end-charIndex
-	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
-	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
-	                return true; // stop the iteration - we're done here
-	            }
-	
-	            charIndex = nextCharIndex
-	        })
-	
-	        var sel = window.getSelection();
-	        sel.removeAllRanges();
-	        sel.addRange(range);
-	    }
-	}
-	
-	// gets the character offsets of a selection within a particular dom node
-	// returns undefined if there is no selection in the element
-	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
-	exports.getSelectionRange = function (element) {
-	
-	    var selection = window.getSelection()
-	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
-	
-	    for(var n=0; n<selection.rangeCount; n++) {
-	        var range = selection.getRangeAt(0)
-	        if(isInputOrArea) {
-	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
-	                return [element.selectionStart, element.selectionEnd]
-	            }
-	        } else {
-	            var startsInElement = element.contains(range.startContainer)
-	            if(startsInElement) {
-	                var elementToIterateThrough = element
-	                var startFound = true
-	            } else {
-	                var elementToIterateThrough = range.commonAncestorContainer
-	                var startFound = false
-	                var startContainerFound = false
-	            }
-	
-	            var visibleCharacterOffset = 0, start, end;
-	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
-	                if(!startFound) {
-	                    if(leaf === range.startContainer) {
-	                        startContainerFound = true
-	                    }
-	
-	                    if(!element.contains(leaf) || !startContainerFound)
-	                        return; // continue
-	                    else if(startContainerFound)
-	                       startFound = true
-	                } else if(!startsInElement && !element.contains(leaf)) {
-	                    return true // done!
-	                }
-	
-	                if(leaf === range.startContainer) {
-	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
-	                }
-	                if(leaf === range.endContainer) {
-	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
-	                    return true // done!
-	                }
-	
-	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
-	            })
-	
-	            if(start === undefined && !startFound) {
-	                return undefined
-	            } else {
-	                if(start === undefined) {
-	                    start = 0 // start is at the beginning
-	                }
-	                if(end === undefined) {
-	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
-	                }
-	
-	                return [start, end]
-	            }
-	        }
-	    }
-	}
-	
-	
-	// iterate through the leaf nodes inside element
-	// callback(node) - a function called for each leaf node
-	    // returning true from this ends the iteration
-	function iterateThroughLeafNodes(element, callback) {
-	    var nodeStack = [element], node;
-	
-	    while (node = nodeStack.pop()) {
-	        if (node.nodeType == 3) {
-	            if(callback(node) === true)
-	                break;
-	        } else {
-	            var i = node.childNodes.length;
-	            while (i--) {
-	                nodeStack.push(node.childNodes[i]);
-	            }
-	        }
-	    }
-	}
-	
-	function findHiddenCharacters(node, beforeCaretIndex) {
-	    var hiddenCharacters = 0
-	    var lastCharWasWhiteSpace=true
-	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
-	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
-	            if(lastCharWasWhiteSpace)
-	                hiddenCharacters++
-	            else
-	                lastCharWasWhiteSpace = true
-	        } else {
-	            lastCharWasWhiteSpace = false
-	        }
-	    }
-	
-	    return hiddenCharacters
-	}
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * JSS v0.6 - JavaScript Stylesheets
-	 * https://github.com/Box9/jss
-	 *
-	 * Copyright (c) 2011, David Tang
-	 * MIT Licensed (http://www.opensource.org/licenses/mit-license.php)
-	 */
-	var jss = (function() {
-	    var adjSelAttrRegex = /((?:\.|#)[^\.\s#]+)((?:\.|#)[^\.\s#]+)/g;
-	    var doubleColonPseudoElRegex = /(::)(before|after|first-line|first-letter|selection)/;
-	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
-	    var singleColonForPseudoElements; // flag for older browsers
-	
-	    function getSelectorsAndRules(sheet) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var results = {};
-	        for (var i = 0; i < rules.length; i++) {
-	            // Older browsers and FF report pseudo element selectors in an outdated format
-	            var selectorText = toDoubleColonPseudoElements(rules[i].selectorText);
-	            if (!results[selectorText]) {
-	                results[selectorText] = [];
-	            }
-	            results[selectorText].push({
-	                sheet: sheet,
-	                index: i,
-	                style: rules[i].style
-	            });
-	        }
-	        return results;
-	    }
-	
-	    function getRules(sheet, selector) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var results = [];
-	        // Browsers report selectors in lowercase
-	        selector = selector.toLowerCase();
-	        for (var i = 0; i < rules.length; i++) {
-	            var selectorText = rules[i].selectorText;
-	            // Note - certain rules (e.g. @rules) don't have selectorText
-	            if (selectorText && (selectorText == selector || selectorText == swapAdjSelAttr(selector) || selectorText == swapPseudoElSyntax(selector))) {
-	                results.push({
-	                    sheet: sheet,
-	                    index: i,
-	                    style: rules[i].style
-	                });
-	            }
-	        }
-	        return results;
-	    }
-	
-	    function addRule(sheet, selector) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var index = rules.length;
-	        var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
-	
-	        if (!pseudoElementRule) {
-	            addRuleToSheet(sheet, selector, index);
-	        }
-	
-	        return {
-	            sheet: sheet,
-	            index: index,
-	            style: rules[index].style
-	        };
-	    };
-	
-	    function addRuleToSheet(sheet, selector, index) {
-	        if (sheet.insertRule) {
-	            sheet.insertRule(selector + ' { }', index);
-	        } else {
-	            sheet.addRule(selector, null, index);
-	        }
-	    }
-	
-	    // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
-	    function addPseudoElementRule(sheet, selector, rules, index) {
-	        var doubleColonSelector;
-	        var singleColonSelector;
-	
-	        if (doubleColonPseudoElRegex.exec(selector)) {
-	            doubleColonSelector = selector;
-	            singleColonSelector = toSingleColonPseudoElements(selector);
-	        } else if (singleColonPseudoElRegex.exec(selector)) {
-	            doubleColonSelector = toDoubleColonPseudoElements(selector);
-	            singleColonSelector = selector;
-	        } else {
-	            return false; // Not dealing with a pseudo element
-	        }
-	
-	        if (!singleColonForPseudoElements) {
-	            // Assume modern browser and then check if successful
-	            addRuleToSheet(sheet, doubleColonSelector, index);
-	            if (rules.length <= index) {
-	                singleColonForPseudoElements = true;
-	            }
-	        }
-	        if (singleColonForPseudoElements) {
-	            addRuleToSheet(sheet, singleColonSelector, index);
-	        }
-	
-	        return true;
-	    }
-	
-	    function toDoubleColonPseudoElements(selector) {
-	        return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
-	            return submatch1 + '::' + submatch3;
-	        });
-	    }
-	
-	    function toSingleColonPseudoElements(selector) {
-	        return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
-	            return ':' + submatch2;
-	        })
-	    }
-	
-	    function removeRule(rule) {
-	        var sheet = rule.sheet;
-	        if (sheet.deleteRule) {
-	            sheet.deleteRule(rule.index);
-	        } else if (sheet.removeRule) {
-	            sheet.removeRule(rule.index);
-	        }
-	    }
-	
-	    function extend(dest, src) {
-	        for (var key in src) {
-	            if (!src.hasOwnProperty(key))
-	                continue;
-	            dest[key] = src[key];
-	        }
-	        return dest;
-	    }
-	
-	    function aggregateStyles(rules) {
-	        var aggregate = {};
-	        for (var i = 0; i < rules.length; i++) {
-	            extend(aggregate, declaredProperties(rules[i].style));
-	        }
-	        return aggregate;
-	    }
-	
-	    function declaredProperties(style) {
-	        var declared = {};
-	        for (var i = 0; i < style.length; i++) {
-	            declared[style[i]] = style[toCamelCase(style[i])];
-	        }
-	        return declared;
-	    }
-	
-	    // IE9 stores rules with attributes (classes or ID's) adjacent in the opposite order as defined
-	    // causing them to not be found, so this method swaps [#|.]sel1[#|.]sel2 to become [#|.]sel2[#|.]sel1
-	    function swapAdjSelAttr(selector) {
-	        var swap = '';
-	        var lastIndex = 0;
-	
-	        while ((match = adjSelAttrRegex.exec(selector)) != null) {
-	            if (match[0] === '')
-	                break;
-	            swap += selector.substring(lastIndex, match.index);
-	            swap += selector.substr(match.index + match[1].length, match[2].length);
-	            swap += selector.substr(match.index, match[1].length);
-	            lastIndex = match.index + match[0].length;
-	        }
-	        swap += selector.substr(lastIndex);
-	
-	        return swap;
-	    };
-	
-	    // FF and older browsers store rules with pseudo elements using single-colon syntax
-	    function swapPseudoElSyntax(selector) {
-	        if (doubleColonPseudoElRegex.exec(selector)) {
-	            return toSingleColonPseudoElements(selector);
-	        }
-	        return selector;
-	    }
-	
-	    function setStyleProperties(rule, properties) {
-	        for (var key in properties) {
-	            var value = properties[key];
-	            var importantIndex = value.indexOf(' !important');
-	
-	            // Modern browsers seem to handle overrides fine, but IE9 doesn't
-	            rule.style.removeProperty(key);
-	            if (importantIndex > 0) {
-	                rule.style.setProperty(key, value.substr(0, importantIndex), 'important');
-	            } else {
-	                rule.style.setProperty(key, value);
-	            }
-	        }
-	    }
-	
-	    function toCamelCase(str) {
-	        return str.replace(/-([a-z])/g, function (match, submatch) {
-	            return submatch.toUpperCase();
-	        });
-	    }
-	
-	    function transformCamelCasedPropertyNames(oldProps) {
-	        var newProps = {};
-	        for (var key in oldProps) {
-	            newProps[unCamelCase(key)] = oldProps[key];
-	        }
-	        return newProps;
-	    }
-	
-	    function unCamelCase(str) {
-	        return str.replace(/([A-Z])/g, function(match, submatch) {
-	            return '-' + submatch.toLowerCase();
-	        });
-	    }
-	
-	    var Jss = function(doc) {
-	        this.doc = doc;
-	        this.head = this.doc.head || this.doc.getElementsByTagName('head')[0];
-	        this.sheets = this.doc.styleSheets || [];
-	    };
-	
-	    Jss.prototype = {
-	        // Returns JSS rules (selector is optional)
-	        get: function(selector) {
-	            if (!this.defaultSheet) {
-	                return {};
-	            }
-	            if (selector) {
-	                return aggregateStyles(getRules(this.defaultSheet, selector));
-	            }
-	            var rules = getSelectorsAndRules(this.defaultSheet);
-	            for (selector in rules) {
-	                rules[selector] = aggregateStyles(rules[selector]);
-	            }
-	            return rules;
-	        },
-	        // Returns all rules (selector is required)
-	        getAll: function(selector) {
-	            var properties = {};
-	            for (var i = 0; i < this.sheets.length; i++) {
-	                extend(properties, aggregateStyles(getRules(this.sheets[i], selector)));
-	            }
-	            return properties;
-	        },
-	        // Adds JSS rules for the selector based on the given properties
-	        set: function(selector, properties) {
-	            if (!this.defaultSheet) {
-	                this.defaultSheet = this._createSheet();
-	            }
-	            properties = transformCamelCasedPropertyNames(properties);
-	            var rules = getRules(this.defaultSheet, selector);
-	            if (!rules.length) {
-	                rules = [addRule(this.defaultSheet, selector)];
-	            }
-	            for (var i = 0; i < rules.length; i++) {
-	                setStyleProperties(rules[i], properties);
-	            }
-	        },
-	        // Removes JSS rules (selector is optional)
-	        remove: function(selector) {
-	            if (!this.defaultSheet)
-	                return;
-	            if (!selector) {
-	                this._removeSheet(this.defaultSheet);
-	                delete this.defaultSheet;
-	                return;
-	            }
-	            var rules = getRules(this.defaultSheet, selector);
-	            for (var i = 0; i < rules.length; i++) {
-	                removeRule(rules[i]);
-	            }
-	            return rules.length;
-	        },
-	        _createSheet: function() {
-	            var styleNode = this.doc.createElement('style');
-	            styleNode.type = 'text/css';
-	            styleNode.rel = 'stylesheet';
-	            this.head.appendChild(styleNode);
-	            return styleNode.sheet;
-	        },
-	        _removeSheet: function(sheet) {
-	            var node = sheet.ownerNode;
-	            node.parentNode.removeChild(node);
-	        }
-	    };
-	
-	    var exports = new Jss(document);
-	    exports.forDocument = function(doc) {
-	        return new Jss(doc);
-	    };
-	    return exports;
-	})();
-	
-	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// note: this is  not intended to be used directly - only through Select and MultiSelect
-	
-	var Block = __webpack_require__(4)
-	var Style = __webpack_require__(5)
-	var proto = __webpack_require__(35)
-	//var htmlEntities = require('he')
-	
-	// emits a 'change' event when its 'selected' value changes
-	module.exports = proto(Block, function(superclass) {
-	
-	    // staic members
-	
-	    this.name = 'Option'
-	
-	    this.defaultStyle = Style({
-	        display: 'block'
-	    })
-	
-	
-	    // instance members
-	
-	    this.init = function(label, value, text) {
-	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	
-	        this.text = text
-	        this.val = value
-	    }
-	
-	    this.select = function(selected) {
-	        this.domNode.selected = selected
-	    }
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.attr('value')
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.parent !== undefined) {
-	                if(this.parent.options[value] !== undefined) {
-	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: '"+value+"')")
-	                }
-	
-	                if(this.val !== null) {
-	                    delete this.parent.options[this.val]
-	                }
-	
-	                this.parent.options[value] = this
-	            }
-	
-	            this.attr('value', value)
-	
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the option is selected
-	        get: function() {
-	            return this.domNode.selected
-	        },
-	
-	        // sets the selected state of the checkbox to the passed value (true for checked)
-	        set: function(value) {
-	            var booleanValue = value === true
-	            if(this.selected === booleanValue) return false; // ignore if there's no change
-	
-	            if(this.parent !== undefined)
-	                this.parent.prepareForValueChange([this.val])
-	
-	            this.setSelectedQuiet(booleanValue)
-	
-	            if(this.parent !== undefined)
-	                this.parent.emit('change')
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode.textContent
-	        },
-	
-	        set: function(text) {
-	            this.domNode.innerText = text // apparently textContent can't be set or something? unclear
-	        }
-	    })
-	
-	
-	    // private
-	
-	    // does everything for setting the selected state except emit the parent's change event
-	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
-	        if(this.selected === booleanValue) return; // ignore if there's no change
-	
-	        this.domNode.selected = booleanValue
-	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	    }
-	})
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-		this.name = 'ListItem'
-		
-	
-		// instance properties
-	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
-	
-	        if(contents instanceof Block) {
-				this.add(contents)
-			} else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
-		}
-	});
-
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	var RowlikeGenerator = __webpack_require__(39);
-	
-	module.exports = RowlikeGenerator('th', "Header")
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var RowlikeGenerator = __webpack_require__(39);
-	
-	module.exports = RowlikeGenerator('tr', "Row")
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-		this.name = 'TableCell'
-		
-	
-		// instance properties
-	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
-	
-	        if(contents instanceof Block) {
-				this.add(contents)
-			} else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
-		}
-	
-		this.colspan = function(cols) {
-			this.attr('colspan',cols);
-		}
-	});
-
-
-/***/ },
-/* 29 */
+/* 40 */
+/*!*******************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/proto/proto.js ***!
+  \*******************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var deadunitCore = __webpack_require__(42)
-	var browserConfig = __webpack_require__(43)
+	var noop = function() {}
 	
-	module.exports = deadunitCore(browserConfig())
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}   // set noop init so that every parent has an init
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    var ProtoObjectFactory = namedFunction(prototype.name, function() {     // result object factory
+	        var x = new F()          // empty object
+	
+	        if(prototype[init]) {
+	            var result = prototype[init].apply(x, arguments)    // populate object via the constructor
+	            if(result === proto[protoUndefined])
+	                return undefined
+	            else if(result !== undefined)
+	                return result
+	            else
+	                return x
+	        } else {
+	            return x
+	        }
+	    })
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(Object.hasOwnProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                }
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+	
+	// returns the function named with the passed name
+	function namedFunction(name, fn) {
+	    if(name !== undefined) {
+	        return new Function('fn',
+	            "return function " + name + "(){ return fn.apply(this,arguments)}"
+	        )(fn)
+	    } else {
+	        return fn
+	    }
+	
+	}
 
 /***/ },
-/* 30 */
+/* 41 */
+/*!********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/async-future/asyncFuture.js ***!
+  \********************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var trimArgs = __webpack_require__(50)
+	var trimArgs = __webpack_require__(/*! trimArguments */ 63)
 	
 	
 	module.exports = Future
@@ -4113,322 +8558,620 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 31 */
+/* 42 */
+/*!*********************!*\
+  !*** ../~/utils.js ***!
+  \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	function EventEmitter() {
-	  this._events = this._events || {};
-	  this._maxListeners = this._maxListeners || undefined;
+	var path = __webpack_require__(/*! path */ 57)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
 	}
-	module.exports = EventEmitter;
 	
-	// Backwards-compat with node 0.10.x
-	EventEmitter.EventEmitter = EventEmitter;
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
 	
-	EventEmitter.prototype._events = undefined;
-	EventEmitter.prototype._maxListeners = undefined;
+	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
+	exports.objectConjunction = function(a, b) {
+	    var objectCopy = {}
+	    merge(objectCopy, a)
+	    merge(objectCopy, b)
+	    return objectCopy
+	}
 	
-	// By default EventEmitters will print a warning if more than 10 listeners are
-	// added to it. This is a useful default which helps finding memory leaks.
-	EventEmitter.defaultMaxListeners = 10;
+	// turns an array of values into a an object where those values are all keys that point to 'true'
+	exports.arrayToMap = function(array) {
+	    var result = {}
+	    array.forEach(function(v) {
+	        result[v] = true
+	    })
+	    return result
+	}
 	
-	// Obviously not all Emitters should be limited to 10. This function allows
-	// that to be increased. Set to zero for unlimited.
-	EventEmitter.prototype.setMaxListeners = function(n) {
-	  if (!isNumber(n) || n < 0 || isNaN(n))
-	    throw TypeError('n must be a positive number');
-	  this._maxListeners = n;
-	  return this;
-	};
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
 	
-	EventEmitter.prototype.emit = function(type) {
-	  var er, handler, len, args, i, listeners;
-	
-	  if (!this._events)
-	    this._events = {};
-	
-	  // If there is no 'error' event listener then throw.
-	  if (type === 'error') {
-	    if (!this._events.error ||
-	        (isObject(this._events.error) && !this._events.error.length)) {
-	      er = arguments[1];
-	      if (er instanceof Error) {
-	        throw er; // Unhandled 'error' event
-	      }
-	      throw TypeError('Uncaught, unspecified "error" event.');
+	    for(var key in obj2){
+	       if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       }
 	    }
-	  }
 	
-	  handler = this._events[type];
-	
-	  if (isUndefined(handler))
-	    return false;
-	
-	  if (isFunction(handler)) {
-	    switch (arguments.length) {
-	      // fast cases
-	      case 1:
-	        handler.call(this);
-	        break;
-	      case 2:
-	        handler.call(this, arguments[1]);
-	        break;
-	      case 3:
-	        handler.call(this, arguments[1], arguments[2]);
-	        break;
-	      // slower
-	      default:
-	        len = arguments.length;
-	        args = new Array(len - 1);
-	        for (i = 1; i < len; i++)
-	          args[i - 1] = arguments[i];
-	        handler.apply(this, args);
-	    }
-	  } else if (isObject(handler)) {
-	    len = arguments.length;
-	    args = new Array(len - 1);
-	    for (i = 1; i < len; i++)
-	      args[i - 1] = arguments[i];
-	
-	    listeners = handler.slice();
-	    len = listeners.length;
-	    for (i = 0; i < len; i++)
-	      listeners[i].apply(this, args);
-	  }
-	
-	  return true;
-	};
-	
-	EventEmitter.prototype.addListener = function(type, listener) {
-	  var m;
-	
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  if (!this._events)
-	    this._events = {};
-	
-	  // To avoid recursion in the case that type === "newListener"! Before
-	  // adding it to the listeners, first emit "newListener".
-	  if (this._events.newListener)
-	    this.emit('newListener', type,
-	              isFunction(listener.listener) ?
-	              listener.listener : listener);
-	
-	  if (!this._events[type])
-	    // Optimize the case of one listener. Don't need the extra array object.
-	    this._events[type] = listener;
-	  else if (isObject(this._events[type]))
-	    // If we've already got an array, just append.
-	    this._events[type].push(listener);
-	  else
-	    // Adding the second element, need to change to array.
-	    this._events[type] = [this._events[type], listener];
-	
-	  // Check for listener leak
-	  if (isObject(this._events[type]) && !this._events[type].warned) {
-	    var m;
-	    if (!isUndefined(this._maxListeners)) {
-	      m = this._maxListeners;
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
 	    } else {
-	      m = EventEmitter.defaultMaxListeners;
+	        return obj1
 	    }
-	
-	    if (m && m > 0 && this._events[type].length > m) {
-	      this._events[type].warned = true;
-	      console.error('(node) warning: possible EventEmitter memory ' +
-	                    'leak detected. %d listeners added. ' +
-	                    'Use emitter.setMaxListeners() to increase limit.',
-	                    this._events[type].length);
-	      if (typeof console.trace === 'function') {
-	        // not supported in IE 10
-	        console.trace();
-	      }
-	    }
-	  }
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-	
-	EventEmitter.prototype.once = function(type, listener) {
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  var fired = false;
-	
-	  function g() {
-	    this.removeListener(type, g);
-	
-	    if (!fired) {
-	      fired = true;
-	      listener.apply(this, arguments);
-	    }
-	  }
-	
-	  g.listener = listener;
-	  this.on(type, g);
-	
-	  return this;
-	};
-	
-	// emits a 'removeListener' event iff the listener was removed
-	EventEmitter.prototype.removeListener = function(type, listener) {
-	  var list, position, length, i;
-	
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  if (!this._events || !this._events[type])
-	    return this;
-	
-	  list = this._events[type];
-	  length = list.length;
-	  position = -1;
-	
-	  if (list === listener ||
-	      (isFunction(list.listener) && list.listener === listener)) {
-	    delete this._events[type];
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	
-	  } else if (isObject(list)) {
-	    for (i = length; i-- > 0;) {
-	      if (list[i] === listener ||
-	          (list[i].listener && list[i].listener === listener)) {
-	        position = i;
-	        break;
-	      }
-	    }
-	
-	    if (position < 0)
-	      return this;
-	
-	    if (list.length === 1) {
-	      list.length = 0;
-	      delete this._events[type];
-	    } else {
-	      list.splice(position, 1);
-	    }
-	
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	  }
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.removeAllListeners = function(type) {
-	  var key, listeners;
-	
-	  if (!this._events)
-	    return this;
-	
-	  // not listening for removeListener, no need to emit
-	  if (!this._events.removeListener) {
-	    if (arguments.length === 0)
-	      this._events = {};
-	    else if (this._events[type])
-	      delete this._events[type];
-	    return this;
-	  }
-	
-	  // emit removeListener for all listeners on all events
-	  if (arguments.length === 0) {
-	    for (key in this._events) {
-	      if (key === 'removeListener') continue;
-	      this.removeAllListeners(key);
-	    }
-	    this.removeAllListeners('removeListener');
-	    this._events = {};
-	    return this;
-	  }
-	
-	  listeners = this._events[type];
-	
-	  if (isFunction(listeners)) {
-	    this.removeListener(type, listeners);
-	  } else {
-	    // LIFO order
-	    while (listeners.length)
-	      this.removeListener(type, listeners[listeners.length - 1]);
-	  }
-	  delete this._events[type];
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.listeners = function(type) {
-	  var ret;
-	  if (!this._events || !this._events[type])
-	    ret = [];
-	  else if (isFunction(this._events[type]))
-	    ret = [this._events[type]];
-	  else
-	    ret = this._events[type].slice();
-	  return ret;
-	};
-	
-	EventEmitter.listenerCount = function(emitter, type) {
-	  var ret;
-	  if (!emitter._events || !emitter._events[type])
-	    ret = 0;
-	  else if (isFunction(emitter._events[type]))
-	    ret = 1;
-	  else
-	    ret = emitter._events[type].length;
-	  return ret;
-	};
-	
-	function isFunction(arg) {
-	  return typeof arg === 'function';
 	}
 	
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-	
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-	
-	function isUndefined(arg) {
-	  return arg === void 0;
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
 	}
 
 
 /***/ },
-/* 32 */
+/* 43 */
+/*!**************************!*\
+  !*** ../external/jss.js ***!
+  \**************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var util = __webpack_require__(46)
+	/*
+	 * JSS v0.6 - JavaScript Stylesheets
+	 * https://github.com/Box9/jss
+	 *
+	 * Copyright (c) 2011, David Tang
+	 * MIT Licensed (http://www.opensource.org/licenses/mit-license.php)
+	 */
+	var jss = (function() {
+	    var adjSelAttrRegex = /((?:\.|#)[^\.\s#]+)((?:\.|#)[^\.\s#]+)/g;
+	    var doubleColonPseudoElRegex = /(::)(before|after|first-line|first-letter|selection)/;
+	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
+	    var singleColonForPseudoElements; // flag for older browsers
 	
-	var Future = __webpack_require__(34)
+	    function getSelectorsAndRules(sheet) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var results = {};
+	        for (var i = 0; i < rules.length; i++) {
+	            // Older browsers and FF report pseudo element selectors in an outdated format
+	            var selectorText = toDoubleColonPseudoElements(rules[i].selectorText);
+	            if (!results[selectorText]) {
+	                results[selectorText] = [];
+	            }
+	            results[selectorText].push({
+	                sheet: sheet,
+	                index: i,
+	                style: rules[i].style
+	            });
+	        }
+	        return results;
+	    }
 	
-	var formatBasic = __webpack_require__(33)
-	var indent = __webpack_require__(44)
+	    function getRules(sheet, selector) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var results = [];
+	        // Browsers report selectors in lowercase
+	        selector = selector.toLowerCase();
+	        for (var i = 0; i < rules.length; i++) {
+	            var selectorText = rules[i].selectorText;
+	            // Note - certain rules (e.g. @rules) don't have selectorText
+	            if (selectorText && (selectorText == selector || selectorText == swapAdjSelAttr(selector) || selectorText == swapPseudoElSyntax(selector))) {
+	                results.push({
+	                    sheet: sheet,
+	                    index: i,
+	                    style: rules[i].style
+	                });
+	            }
+	        }
+	        return results;
+	    }
+	
+	    function addRule(sheet, selector) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var index = rules.length;
+	        var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
+	
+	        if (!pseudoElementRule) {
+	            addRuleToSheet(sheet, selector, index);
+	        }
+	
+	        return {
+	            sheet: sheet,
+	            index: index,
+	            style: rules[index].style
+	        };
+	    };
+	
+	    function addRuleToSheet(sheet, selector, index) {
+	        if (sheet.insertRule) {
+	            sheet.insertRule(selector + ' { }', index);
+	        } else {
+	            sheet.addRule(selector, null, index);
+	        }
+	    }
+	
+	    // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
+	    function addPseudoElementRule(sheet, selector, rules, index) {
+	        var doubleColonSelector;
+	        var singleColonSelector;
+	
+	        if (doubleColonPseudoElRegex.exec(selector)) {
+	            doubleColonSelector = selector;
+	            singleColonSelector = toSingleColonPseudoElements(selector);
+	        } else if (singleColonPseudoElRegex.exec(selector)) {
+	            doubleColonSelector = toDoubleColonPseudoElements(selector);
+	            singleColonSelector = selector;
+	        } else {
+	            return false; // Not dealing with a pseudo element
+	        }
+	
+	        if (!singleColonForPseudoElements) {
+	            // Assume modern browser and then check if successful
+	            addRuleToSheet(sheet, doubleColonSelector, index);
+	            if (rules.length <= index) {
+	                singleColonForPseudoElements = true;
+	            }
+	        }
+	        if (singleColonForPseudoElements) {
+	            addRuleToSheet(sheet, singleColonSelector, index);
+	        }
+	
+	        return true;
+	    }
+	
+	    function toDoubleColonPseudoElements(selector) {
+	        return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
+	            return submatch1 + '::' + submatch3;
+	        });
+	    }
+	
+	    function toSingleColonPseudoElements(selector) {
+	        return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
+	            return ':' + submatch2;
+	        })
+	    }
+	
+	    function removeRule(rule) {
+	        var sheet = rule.sheet;
+	        if (sheet.deleteRule) {
+	            sheet.deleteRule(rule.index);
+	        } else if (sheet.removeRule) {
+	            sheet.removeRule(rule.index);
+	        }
+	    }
+	
+	    function extend(dest, src) {
+	        for (var key in src) {
+	            if (!src.hasOwnProperty(key))
+	                continue;
+	            dest[key] = src[key];
+	        }
+	        return dest;
+	    }
+	
+	    function aggregateStyles(rules) {
+	        var aggregate = {};
+	        for (var i = 0; i < rules.length; i++) {
+	            extend(aggregate, declaredProperties(rules[i].style));
+	        }
+	        return aggregate;
+	    }
+	
+	    function declaredProperties(style) {
+	        var declared = {};
+	        for (var i = 0; i < style.length; i++) {
+	            declared[style[i]] = style[toCamelCase(style[i])];
+	        }
+	        return declared;
+	    }
+	
+	    // IE9 stores rules with attributes (classes or ID's) adjacent in the opposite order as defined
+	    // causing them to not be found, so this method swaps [#|.]sel1[#|.]sel2 to become [#|.]sel2[#|.]sel1
+	    function swapAdjSelAttr(selector) {
+	        var swap = '';
+	        var lastIndex = 0;
+	
+	        while ((match = adjSelAttrRegex.exec(selector)) != null) {
+	            if (match[0] === '')
+	                break;
+	            swap += selector.substring(lastIndex, match.index);
+	            swap += selector.substr(match.index + match[1].length, match[2].length);
+	            swap += selector.substr(match.index, match[1].length);
+	            lastIndex = match.index + match[0].length;
+	        }
+	        swap += selector.substr(lastIndex);
+	
+	        return swap;
+	    };
+	
+	    // FF and older browsers store rules with pseudo elements using single-colon syntax
+	    function swapPseudoElSyntax(selector) {
+	        if (doubleColonPseudoElRegex.exec(selector)) {
+	            return toSingleColonPseudoElements(selector);
+	        }
+	        return selector;
+	    }
+	
+	    function setStyleProperties(rule, properties) {
+	        for (var key in properties) {
+	            var value = properties[key];
+	            var importantIndex = value.indexOf(' !important');
+	
+	            // Modern browsers seem to handle overrides fine, but IE9 doesn't
+	            rule.style.removeProperty(key);
+	            if (importantIndex > 0) {
+	                rule.style.setProperty(key, value.substr(0, importantIndex), 'important');
+	            } else {
+	                rule.style.setProperty(key, value);
+	            }
+	        }
+	    }
+	
+	    function toCamelCase(str) {
+	        return str.replace(/-([a-z])/g, function (match, submatch) {
+	            return submatch.toUpperCase();
+	        });
+	    }
+	
+	    function transformCamelCasedPropertyNames(oldProps) {
+	        var newProps = {};
+	        for (var key in oldProps) {
+	            newProps[unCamelCase(key)] = oldProps[key];
+	        }
+	        return newProps;
+	    }
+	
+	    function unCamelCase(str) {
+	        return str.replace(/([A-Z])/g, function(match, submatch) {
+	            return '-' + submatch.toLowerCase();
+	        });
+	    }
+	
+	    var Jss = function(doc) {
+	        this.doc = doc;
+	        this.head = this.doc.head || this.doc.getElementsByTagName('head')[0];
+	        this.sheets = this.doc.styleSheets || [];
+	    };
+	
+	    Jss.prototype = {
+	        // Returns JSS rules (selector is optional)
+	        get: function(selector) {
+	            if (!this.defaultSheet) {
+	                return {};
+	            }
+	            if (selector) {
+	                return aggregateStyles(getRules(this.defaultSheet, selector));
+	            }
+	            var rules = getSelectorsAndRules(this.defaultSheet);
+	            for (selector in rules) {
+	                rules[selector] = aggregateStyles(rules[selector]);
+	            }
+	            return rules;
+	        },
+	        // Returns all rules (selector is required)
+	        getAll: function(selector) {
+	            var properties = {};
+	            for (var i = 0; i < this.sheets.length; i++) {
+	                extend(properties, aggregateStyles(getRules(this.sheets[i], selector)));
+	            }
+	            return properties;
+	        },
+	        // Adds JSS rules for the selector based on the given properties
+	        set: function(selector, properties) {
+	            if (!this.defaultSheet) {
+	                this.defaultSheet = this._createSheet();
+	            }
+	            properties = transformCamelCasedPropertyNames(properties);
+	            var rules = getRules(this.defaultSheet, selector);
+	            if (!rules.length) {
+	                rules = [addRule(this.defaultSheet, selector)];
+	            }
+	            for (var i = 0; i < rules.length; i++) {
+	                setStyleProperties(rules[i], properties);
+	            }
+	        },
+	        // Removes JSS rules (selector is optional)
+	        remove: function(selector) {
+	            if (!this.defaultSheet)
+	                return;
+	            if (!selector) {
+	                this._removeSheet(this.defaultSheet);
+	                delete this.defaultSheet;
+	                return;
+	            }
+	            var rules = getRules(this.defaultSheet, selector);
+	            for (var i = 0; i < rules.length; i++) {
+	                removeRule(rules[i]);
+	            }
+	            return rules.length;
+	        },
+	        _createSheet: function() {
+	            var styleNode = this.doc.createElement('style');
+	            styleNode.type = 'text/css';
+	            styleNode.rel = 'stylesheet';
+	            this.head.appendChild(styleNode);
+	            return styleNode.sheet;
+	        },
+	        _removeSheet: function(sheet) {
+	            var node = sheet.ownerNode;
+	            node.parentNode.removeChild(node);
+	        }
+	    };
+	
+	    var exports = new Jss(document);
+	    exports.forDocument = function(doc) {
+	        return new Jss(doc);
+	    };
+	    return exports;
+	})();
+	
+	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
+
+/***/ },
+/* 44 */
+/*!*******************************!*\
+  !*** ../~/Components/Item.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
+	var Style = __webpack_require__(/*! Style */ 20)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'ListItem'
+	
+	    this.defaultStyle = Style({
+	        display: 'list-item'
+	    })
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Block) {
+				this.add(contents)
+			} else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	});
+
+
+/***/ },
+/* 45 */
+/*!*********************************!*\
+  !*** ../~/Components/Option.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// note: this is  not intended to be used directly - only through Select and MultiSelect
+	
+	var Block = __webpack_require__(/*! Block */ 19)
+	var Style = __webpack_require__(/*! Style */ 20)
+	var proto = __webpack_require__(/*! proto */ 40)
+	//var htmlEntities = require('he')
+	
+	// emits a 'change' event when its 'selected' value changes
+	module.exports = proto(Block, function(superclass) {
+	
+	    // staic members
+	
+	    this.name = 'Option'
+	
+	    this.defaultStyle = Style({
+	        display: 'block'
+	    })
+	
+	
+	    // instance members
+	
+	    this.init = function(label, value, text) {
+	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	
+	        this.text = text
+	        this.val = value
+	    }
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.attr('value')
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.parent !== undefined) {
+	                if(this.parent.options[value] !== undefined) {
+	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: '"+value+"')")
+	                }
+	
+	                if(this.val !== null) {
+	                    delete this.parent.options[this.val]
+	                }
+	
+	                this.parent.options[value] = this
+	            }
+	
+	            this.attr('value', value)
+	
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the option is selected
+	        get: function() {
+	            return this.domNode.selected
+	        },
+	
+	        // sets the selected state of the option to the passed value (true for selected)
+	        set: function(value) {
+	            var booleanValue = value === true
+	            if(this.selected === booleanValue) return false; // ignore if there's no change
+	
+	            if(this.parent !== undefined)
+	                this.parent.prepareForValueChange([this.val])
+	
+	            this.setSelectedQuiet(booleanValue)
+	
+	            if(this.parent !== undefined)
+	                this.parent.emit('change')
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode.textContent
+	        },
+	
+	        set: function(text) {
+	            this.domNode.innerText = text // apparently textContent can't be set or something? unclear
+	        }
+	    })
+	
+	
+	    // private
+	
+	    // does everything for setting the selected state except emit the parent's change event
+	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
+	        if(this.selected === booleanValue) return; // ignore if there's no change
+	
+	        this.domNode.selected = booleanValue
+	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	    }
+	})
+
+/***/ },
+/* 46 */
+/*!*********************************!*\
+  !*** ../~/Components/Header.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 56);
+	
+	module.exports = RowlikeGenerator('th', "TableHeader")
+
+/***/ },
+/* 47 */
+/*!******************************!*\
+  !*** ../~/Components/Row.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 56);
+	
+	module.exports = RowlikeGenerator('tr', "TableRow")
+
+
+/***/ },
+/* 48 */
+/*!*******************************!*\
+  !*** ../~/Components/Cell.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 19)
+	var proto = __webpack_require__(/*! proto */ 40)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'TableCell'
+		
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Block) {
+				this.add(contents)
+			} else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	
+		this.colspan = function(cols) {
+			this.attr('colspan',cols);
+		}
+	});
+
+
+/***/ },
+/* 49 */
+/*!*****************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/deadunitCore.browser.js ***!
+  \*****************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 59)
+	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 60)
+	
+	module.exports = deadunitCore(browserConfig())
+
+/***/ },
+/* 50 */
+/*!*******************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/defaultFormats.js ***!
+  \*******************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var util = __webpack_require__(/*! util */ 64)
+	
+	var Future = __webpack_require__(/*! async-future */ 52)
+	
+	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 51)
+	var indent = __webpack_require__(/*! ./indent */ 61)
 	
 	// unitTest is a deadunit-core UnitTest object
 	// if consoleColoring is true, the string will contain console color annotations
@@ -4927,10 +9670,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 33 */
+/* 51 */
+/*!*******************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/basicFormatter.js ***!
+  \*******************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(34)
+	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 52)
 	
 	// built in test formatting helper
 	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
@@ -5084,155 +9830,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 65)))
 
 /***/ },
-/* 34 */
-[83, 51],
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}   // set noop init so that every parent has an init
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    var ProtoObjectFactory = namedFunction(prototype.name, function() {     // result object factory
-	        var x = new F()          // empty object
-	
-	        if(prototype[init]) {
-	            var result = prototype[init].apply(x, arguments)    // populate object via the constructor
-	            if(result === proto[protoUndefined])
-	                return undefined
-	            else if(result !== undefined)
-	                return result
-	            else
-	                return x
-	        } else {
-	            return x
-	        }
-	    })
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(Object.hasOwnProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                }
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-	
-	// returns the function named with the passed name
-	function namedFunction(name, fn) {
-	    if(name !== undefined) {
-	        return new Function('fn',
-	            "return function " + name + "(){ return fn.apply(this,arguments)}"
-	        )(fn)
-	    } else {
-	        return fn
-	    }
-	
-	}
-
-/***/ },
-/* 36 */
+/* 52 */
+/*!*******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/async-future/asyncFuture.js ***!
+  \*******************************************************************************************************/
+[100, 68],
+/* 53 */
+/*!***********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/trimArguments/trimArguments.js ***!
+  \***********************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// resolves varargs variable into more usable form
@@ -5253,12 +9862,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 37 */
+/* 54 */
+/*!***********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/observe/observe.js ***!
+  \***********************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(35)
-	var EventEmitter = __webpack_require__(31).EventEmitter
-	var utils = __webpack_require__(45)
+	var proto = __webpack_require__(/*! proto */ 40)
+	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
+	var utils = __webpack_require__(/*! ./utils */ 62)
 	
 	
 	// emits the event:
@@ -5674,7 +10286,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 38 */
+/* 55 */
+/*!***********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/hashmap/hashmap.js ***!
+  \***********************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -5866,14 +10481,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 39 */
+/* 56 */
+/*!*******************************************!*\
+  !*** ../~/Components/RowlikeGenerator.js ***!
+  \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(35)
+	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var Block = __webpack_require__(4)
-	var Style = __webpack_require__(5)
-	var Cell = __webpack_require__(28);
+	var Block = __webpack_require__(/*! Block */ 19)
+	var Style = __webpack_require__(/*! Style */ 20)
+	var Cell = __webpack_require__(/*! ./Cell */ 48);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -5920,7 +10538,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 40 */
+/* 57 */
+/*!****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/path-browserify/index.js ***!
+  \****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -6148,10 +10769,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 65)))
 
 /***/ },
-/* 41 */
+/* 58 */
+/*!******************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/proto/proto.js ***!
+  \******************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6251,21 +10875,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 42 */
+/* 59 */
+/*!*********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/deadunitCore.js ***!
+  \*********************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(40)
-	var Url = __webpack_require__(52)
+	var path = __webpack_require__(/*! path */ 57)
+	var Url = __webpack_require__(/*! url */ 69)
 	
-	var proto = __webpack_require__(41)
-	var Future = __webpack_require__(54)
-	var SourceMapConsumer = __webpack_require__(55).SourceMapConsumer
+	var proto = __webpack_require__(/*! proto */ 58)
+	var Future = __webpack_require__(/*! async-future */ 71)
+	var SourceMapConsumer = __webpack_require__(/*! source-map */ 72).SourceMapConsumer
 	
-	var processResults = __webpack_require__(48)
-	var isRelative = __webpack_require__(49)
+	var processResults = __webpack_require__(/*! ./processResults */ 66)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 67)
 	
 	// returns a module intended for a specific environment (that environment being described by the options)
 	// options can contain:
@@ -7147,22 +11774,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 43 */
+/* 60 */
+/*!***********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/deadunitCore.browserConfig.js ***!
+  \***********************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(40);
+	var path = __webpack_require__(/*! path */ 57);
 	
-	var Future = __webpack_require__(54)
-	var proto = __webpack_require__(41)
-	var stackinfo = __webpack_require__(57)
-	var ajax = __webpack_require__(56)
-	var resolveSourceMap = Future.wrap(__webpack_require__(58).resolveSourceMap)
+	var Future = __webpack_require__(/*! async-future */ 71)
+	var proto = __webpack_require__(/*! proto */ 58)
+	var stackinfo = __webpack_require__(/*! stackinfo */ 73)
+	var ajax = __webpack_require__(/*! ajax */ 74)
+	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 75).resolveSourceMap)
 	
-	var deadunitCore = __webpack_require__(42)
-	var isRelative = __webpack_require__(49)
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 59)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 67)
 	
 	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
 	
@@ -7312,7 +11942,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	})
 
 /***/ },
-/* 44 */
+/* 61 */
+/*!***********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/indent.js ***!
+  \***********************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -7322,12 +11955,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 45 */
+/* 62 */
+/*!*********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/observe/utils.js ***!
+  \*********************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var path = __webpack_require__(40)
+	var path = __webpack_require__(/*! path */ 57)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -7371,7 +12007,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 46 */
+/* 63 */
+/*!**************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/async-future/~/trimArguments/trimArguments.js ***!
+  \**************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
+	
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	    }
+	    args.splice(-0, count)
+	    return args
+	}
+
+/***/ },
+/* 64 */
+/*!****************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/util.js ***!
+  \****************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -7899,7 +12560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(53);
+	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 70);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -7943,7 +12604,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(59);
+	exports.inherits = __webpack_require__(/*! inherits */ 76);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -7961,10 +12622,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(47)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 65)))
 
 /***/ },
-/* 47 */
+/* 65 */
+/*!**********************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/process/browser.js ***!
+  \**********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// shim for using process in browser
@@ -8056,7 +12720,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 48 */
+/* 66 */
+/*!***********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/processResults.js ***!
+  \***********************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function returnResults(unitTestObject) {
@@ -8190,10 +12857,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 49 */
+/* 67 */
+/*!*******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/isRelative.js ***!
+  \*******************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var path = __webpack_require__(40)
+	var path = __webpack_require__(/*! path */ 57)
 	
 	module.exports = function isRelative(p) {
 	    var normal = path.normalize(p)
@@ -8202,28 +12872,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 50 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	    }
-	    args.splice(-0, count)
-	    return args
-	}
-
-/***/ },
-/* 51 */
-50,
-/* 52 */
+/* 68 */
+/*!*************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
+  \*************************************************************************************************************************/
+63,
+/* 69 */
+/*!**************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -8247,7 +12904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var punycode = __webpack_require__(65);
+	var punycode = __webpack_require__(/*! punycode */ 82);
 	
 	exports.parse = urlParse;
 	exports.resolve = urlResolve;
@@ -8319,7 +12976,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'gopher:': true,
 	      'file:': true
 	    },
-	    querystring = __webpack_require__(66);
+	    querystring = __webpack_require__(/*! querystring */ 83);
 	
 	function urlParse(url, parseQueryString, slashesDenoteHost) {
 	  if (url && isObject(url) && url instanceof Url) return url;
@@ -8936,7 +13593,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 53 */
+/* 70 */
+/*!***********************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
+  \***********************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function isBuffer(arg) {
@@ -8947,12 +13607,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 54 */
+/* 71 */
+/*!***********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
+  \***********************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var trimArgs = __webpack_require__(68)
+	var trimArgs = __webpack_require__(/*! trimArguments */ 85)
 	
 	
 	module.exports = Future
@@ -9266,7 +13929,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 55 */
+/* 72 */
+/*!************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
+  \************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -9274,16 +13940,98 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Licensed under the New BSD license. See LICENSE.txt or:
 	 * http://opensource.org/licenses/BSD-3-Clause
 	 */
-	exports.SourceMapGenerator = __webpack_require__(60).SourceMapGenerator;
-	exports.SourceMapConsumer = __webpack_require__(61).SourceMapConsumer;
-	exports.SourceNode = __webpack_require__(62).SourceNode;
+	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 77).SourceMapGenerator;
+	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 78).SourceMapConsumer;
+	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 79).SourceNode;
 
 
 /***/ },
-/* 56 */
+/* 73 */
+/*!******************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
+  \******************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(73)
+	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 90)
+	var parsers = __webpack_require__(/*! ./tracelineParser */ 80)
+	var mode = __webpack_require__(/*! ./exceptionMode */ 81)
+	
+	module.exports = function(ex) {
+	    if(parsers[mode] === undefined)
+	        throw new Error("browser "+mode+" not supported")
+	
+	    var options = undefined
+	    if(ex !== undefined) {
+	        if(mode === 'ie' && ex.number === undefined)
+	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
+	        options = {e:ex, guess: true}
+	    }
+	    var trace = printStackTrace(options)
+	
+	    if(ex === undefined) {
+	        trace.splice(0,4) // strip stacktrace-js internals
+	    }
+	
+	    return parseStacktrace(trace)
+	}
+	
+	function TraceInfo(traceline) {
+	    this.traceline = traceline
+	}
+	TraceInfo.prototype = {
+	    get file() {
+	        return getInfo(this).file
+	    },
+	    get function() {
+	        return getInfo(this).function
+	    },
+	    get line() {
+	        return getInfo(this).line
+	    },
+	    get column() {
+	        return getInfo(this).column
+	    },
+	    get info() {
+	        return getInfo(this)
+	    }
+	}
+	
+	function getInfo(traceInfo) {
+	    if(traceInfo.cache === undefined) {
+	        var info = parsers[mode](traceInfo.traceline)
+	        if(info.line !== undefined)
+	            info.line = parseInt(info.line)
+	        if(info.column !== undefined)
+	            info.column = parseInt(info.column)
+	
+	        traceInfo.cache = info
+	    }
+	
+	    return traceInfo.cache
+	}
+	
+	function parseStacktrace(trace) {
+	    var results = []
+	    for(var n = 0; n<trace.length; n++) {
+	        results.push(new TraceInfo(trace[n]))
+	    }
+	    return results
+	}
+	
+	// here because i'm lazy, they're here for testing only
+	module.exports.parsers = parsers
+	module.exports.mode = mode
+	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
+
+
+/***/ },
+/* 74 */
+/*!********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
+  \********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(/*! async-future */ 91)
 	
 	// returns the XHR function or equivalent for use with ajax
 	// memoizes the function for faster repeated use
@@ -9394,83 +14142,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 57 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var printStackTrace = __webpack_require__(74)
-	var parsers = __webpack_require__(63)
-	var mode = __webpack_require__(64)
-	
-	module.exports = function(ex) {
-	    if(parsers[mode] === undefined)
-	        throw new Error("browser "+mode+" not supported")
-	
-	    var options = undefined
-	    if(ex !== undefined) {
-	        if(mode === 'ie' && ex.number === undefined)
-	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
-	        options = {e:ex, guess: true}
-	    }
-	    var trace = printStackTrace(options)
-	
-	    if(ex === undefined) {
-	        trace.splice(0,4) // strip stacktrace-js internals
-	    }
-	
-	    return parseStacktrace(trace)
-	}
-	
-	function TraceInfo(traceline) {
-	    this.traceline = traceline
-	}
-	TraceInfo.prototype = {
-	    get file() {
-	        return getInfo(this).file
-	    },
-	    get function() {
-	        return getInfo(this).function
-	    },
-	    get line() {
-	        return getInfo(this).line
-	    },
-	    get column() {
-	        return getInfo(this).column
-	    },
-	    get info() {
-	        return getInfo(this)
-	    }
-	}
-	
-	function getInfo(traceInfo) {
-	    if(traceInfo.cache === undefined) {
-	        var info = parsers[mode](traceInfo.traceline)
-	        if(info.line !== undefined)
-	            info.line = parseInt(info.line)
-	        if(info.column !== undefined)
-	            info.column = parseInt(info.column)
-	
-	        traceInfo.cache = info
-	    }
-	
-	    return traceInfo.cache
-	}
-	
-	function parseStacktrace(trace) {
-	    var results = []
-	    for(var n = 0; n<trace.length; n++) {
-	        results.push(new TraceInfo(trace[n]))
-	    }
-	    return results
-	}
-	
-	// here because i'm lazy, they're here for testing only
-	module.exports.parsers = parsers
-	module.exports.mode = mode
-	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
-
-
-/***/ },
-/* 58 */
+/* 75 */
+/*!************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/source-map-resolve.js ***!
+  \************************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(setImmediate) {// Copyright 2014 Simon Lydell
@@ -9482,7 +14157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	void (function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(77), __webpack_require__(78)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 94), __webpack_require__(/*! resolve-url */ 95)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
 	  } else if (typeof exports === "object") {
 	    var sourceMappingURL = require("source-map-url")
 	    var resolveUrl = require("resolve-url")
@@ -9710,10 +14385,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(67).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 84).setImmediate))
 
 /***/ },
-/* 59 */
+/* 76 */
+/*!***************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/~/inherits/inherits_browser.js ***!
+  \***************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	if (typeof Object.create === 'function') {
@@ -9742,7 +14420,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 60 */
+/* 77 */
+/*!*********************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-generator.js ***!
+  \*********************************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -9756,9 +14437,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var base64VLQ = __webpack_require__(69);
-	  var util = __webpack_require__(70);
-	  var ArraySet = __webpack_require__(71).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 89);
+	  var util = __webpack_require__(/*! ./util */ 86);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 88).ArraySet;
 	
 	  /**
 	   * An instance of the SourceMapGenerator represents a source map which is
@@ -10145,7 +14826,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 61 */
+/* 78 */
+/*!********************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-consumer.js ***!
+  \********************************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -10159,10 +14843,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var util = __webpack_require__(70);
-	  var binarySearch = __webpack_require__(72);
-	  var ArraySet = __webpack_require__(71).ArraySet;
-	  var base64VLQ = __webpack_require__(69);
+	  var util = __webpack_require__(/*! ./util */ 86);
+	  var binarySearch = __webpack_require__(/*! ./binary-search */ 87);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 88).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 89);
 	
 	  /**
 	   * A SourceMapConsumer instance represents a parsed source map which we can
@@ -10629,7 +15313,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 62 */
+/* 79 */
+/*!************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
+  \************************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -10643,8 +15330,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var SourceMapGenerator = __webpack_require__(60).SourceMapGenerator;
-	  var util = __webpack_require__(70);
+	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 77).SourceMapGenerator;
+	  var util = __webpack_require__(/*! ./util */ 86);
 	
 	  /**
 	   * SourceNodes provide a way to abstract over interpolating/concatenating
@@ -11022,7 +15709,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 63 */
+/* 80 */
+/*!************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
+  \************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -11124,7 +15814,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
 
 /***/ },
-/* 64 */
+/* 81 */
+/*!**********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
+  \**********************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -11179,7 +15872,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 65 */
+/* 82 */
+/*!************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
+  \************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -11711,23 +16407,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(79)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/buildin/module.js */ 96)(module), (function() { return this; }())))
 
 /***/ },
-/* 66 */
+/* 83 */
+/*!****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/index.js ***!
+  \****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	exports.decode = exports.parse = __webpack_require__(75);
-	exports.encode = exports.stringify = __webpack_require__(76);
+	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 92);
+	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 93);
 
 
 /***/ },
-/* 67 */
+/* 84 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/timers-browserify/main.js ***!
+  \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(81).nextTick;
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 98).nextTick;
 	var slice = Array.prototype.slice;
 	var immediateIds = {};
 	var nextImmediateId = 0;
@@ -11781,162 +16483,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(67).setImmediate, __webpack_require__(67).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 84).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 84).clearImmediate))
 
 /***/ },
-/* 68 */
-50,
-/* 69 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 *
-	 * Based on the Base 64 VLQ implementation in Closure Compiler:
-	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
-	 *
-	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
-	 * Redistribution and use in source and binary forms, with or without
-	 * modification, are permitted provided that the following conditions are
-	 * met:
-	 *
-	 *  * Redistributions of source code must retain the above copyright
-	 *    notice, this list of conditions and the following disclaimer.
-	 *  * Redistributions in binary form must reproduce the above
-	 *    copyright notice, this list of conditions and the following
-	 *    disclaimer in the documentation and/or other materials provided
-	 *    with the distribution.
-	 *  * Neither the name of Google Inc. nor the names of its
-	 *    contributors may be used to endorse or promote products derived
-	 *    from this software without specific prior written permission.
-	 *
-	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var base64 = __webpack_require__(80);
-	
-	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
-	  // length quantities we use in the source map spec, the first bit is the sign,
-	  // the next four bits are the actual value, and the 6th bit is the
-	  // continuation bit. The continuation bit tells us whether there are more
-	  // digits in this value following this digit.
-	  //
-	  //   Continuation
-	  //   |    Sign
-	  //   |    |
-	  //   V    V
-	  //   101011
-	
-	  var VLQ_BASE_SHIFT = 5;
-	
-	  // binary: 100000
-	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
-	
-	  // binary: 011111
-	  var VLQ_BASE_MASK = VLQ_BASE - 1;
-	
-	  // binary: 100000
-	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
-	
-	  /**
-	   * Converts from a two-complement value to a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
-	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
-	   */
-	  function toVLQSigned(aValue) {
-	    return aValue < 0
-	      ? ((-aValue) << 1) + 1
-	      : (aValue << 1) + 0;
-	  }
-	
-	  /**
-	   * Converts to a two-complement value from a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
-	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
-	   */
-	  function fromVLQSigned(aValue) {
-	    var isNegative = (aValue & 1) === 1;
-	    var shifted = aValue >> 1;
-	    return isNegative
-	      ? -shifted
-	      : shifted;
-	  }
-	
-	  /**
-	   * Returns the base 64 VLQ encoded value.
-	   */
-	  exports.encode = function base64VLQ_encode(aValue) {
-	    var encoded = "";
-	    var digit;
-	
-	    var vlq = toVLQSigned(aValue);
-	
-	    do {
-	      digit = vlq & VLQ_BASE_MASK;
-	      vlq >>>= VLQ_BASE_SHIFT;
-	      if (vlq > 0) {
-	        // There are still more digits in this value, so we must make sure the
-	        // continuation bit is marked.
-	        digit |= VLQ_CONTINUATION_BIT;
-	      }
-	      encoded += base64.encode(digit);
-	    } while (vlq > 0);
-	
-	    return encoded;
-	  };
-	
-	  /**
-	   * Decodes the next base 64 VLQ value from the given string and returns the
-	   * value and the rest of the string.
-	   */
-	  exports.decode = function base64VLQ_decode(aStr) {
-	    var i = 0;
-	    var strLen = aStr.length;
-	    var result = 0;
-	    var shift = 0;
-	    var continuation, digit;
-	
-	    do {
-	      if (i >= strLen) {
-	        throw new Error("Expected more digits in base 64 VLQ value.");
-	      }
-	      digit = base64.decode(aStr.charAt(i++));
-	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
-	      digit &= VLQ_BASE_MASK;
-	      result = result + (digit << shift);
-	      shift += VLQ_BASE_SHIFT;
-	    } while (continuation);
-	
-	    return {
-	      value: fromVLQSigned(result),
-	      rest: aStr.slice(i)
-	    };
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 70 */
+/* 85 */
+/*!*****************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
+  \*****************************************************************************************************************************************/
+63,
+/* 86 */
+/*!*****************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
+  \*****************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -12244,7 +16802,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 71 */
+/* 87 */
+/*!**************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
+  \**************************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -12258,7 +16819,97 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var util = __webpack_require__(70);
+	  /**
+	   * Recursive implementation of binary search.
+	   *
+	   * @param aLow Indices here and lower do not contain the needle.
+	   * @param aHigh Indices here and higher do not contain the needle.
+	   * @param aNeedle The element being searched for.
+	   * @param aHaystack The non-empty array being searched.
+	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
+	   */
+	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
+	    // This function terminates when one of the following is true:
+	    //
+	    //   1. We find the exact element we are looking for.
+	    //
+	    //   2. We did not find the exact element, but we can return the next
+	    //      closest element that is less than that element.
+	    //
+	    //   3. We did not find the exact element, and there is no next-closest
+	    //      element which is less than the one we are searching for, so we
+	    //      return null.
+	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
+	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
+	    if (cmp === 0) {
+	      // Found the element we are looking for.
+	      return aHaystack[mid];
+	    }
+	    else if (cmp > 0) {
+	      // aHaystack[mid] is greater than our needle.
+	      if (aHigh - mid > 1) {
+	        // The element is in the upper half.
+	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
+	      }
+	      // We did not find an exact match, return the next closest one
+	      // (termination case 2).
+	      return aHaystack[mid];
+	    }
+	    else {
+	      // aHaystack[mid] is less than our needle.
+	      if (mid - aLow > 1) {
+	        // The element is in the lower half.
+	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
+	      }
+	      // The exact needle element was not found in this haystack. Determine if
+	      // we are in termination case (2) or (3) and return the appropriate thing.
+	      return aLow < 0
+	        ? null
+	        : aHaystack[aLow];
+	    }
+	  }
+	
+	  /**
+	   * This is an implementation of binary search which will always try and return
+	   * the next lowest value checked if there is no exact hit. This is because
+	   * mappings between original and generated line/col pairs are single points,
+	   * and there is an implicit region between each of them, so a miss just means
+	   * that you aren't on the very start of a region.
+	   *
+	   * @param aNeedle The element you are looking for.
+	   * @param aHaystack The array that is being searched.
+	   * @param aCompare A function which takes the needle and an element in the
+	   *     array and returns -1, 0, or 1 depending on whether the needle is less
+	   *     than, equal to, or greater than the element, respectively.
+	   */
+	  exports.search = function search(aNeedle, aHaystack, aCompare) {
+	    return aHaystack.length > 0
+	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
+	      : null;
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 88 */
+/*!**********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
+  \**********************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var util = __webpack_require__(/*! ./util */ 86);
 	
 	  /**
 	   * A data structure which is a combination of an array and a set. Adding a new
@@ -12347,7 +16998,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 72 */
+/* 89 */
+/*!***********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
+  \***********************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -12355,88 +17009,152 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Copyright 2011 Mozilla Foundation and contributors
 	 * Licensed under the New BSD license. See LICENSE or:
 	 * http://opensource.org/licenses/BSD-3-Clause
+	 *
+	 * Based on the Base 64 VLQ implementation in Closure Compiler:
+	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
+	 *
+	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
+	 * Redistribution and use in source and binary forms, with or without
+	 * modification, are permitted provided that the following conditions are
+	 * met:
+	 *
+	 *  * Redistributions of source code must retain the above copyright
+	 *    notice, this list of conditions and the following disclaimer.
+	 *  * Redistributions in binary form must reproduce the above
+	 *    copyright notice, this list of conditions and the following
+	 *    disclaimer in the documentation and/or other materials provided
+	 *    with the distribution.
+	 *  * Neither the name of Google Inc. nor the names of its
+	 *    contributors may be used to endorse or promote products derived
+	 *    from this software without specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	 */
 	if (false) {
 	    var define = require('amdefine')(module, require);
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
+	  var base64 = __webpack_require__(/*! ./base64 */ 97);
+	
+	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
+	  // length quantities we use in the source map spec, the first bit is the sign,
+	  // the next four bits are the actual value, and the 6th bit is the
+	  // continuation bit. The continuation bit tells us whether there are more
+	  // digits in this value following this digit.
+	  //
+	  //   Continuation
+	  //   |    Sign
+	  //   |    |
+	  //   V    V
+	  //   101011
+	
+	  var VLQ_BASE_SHIFT = 5;
+	
+	  // binary: 100000
+	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
+	
+	  // binary: 011111
+	  var VLQ_BASE_MASK = VLQ_BASE - 1;
+	
+	  // binary: 100000
+	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
+	
 	  /**
-	   * Recursive implementation of binary search.
-	   *
-	   * @param aLow Indices here and lower do not contain the needle.
-	   * @param aHigh Indices here and higher do not contain the needle.
-	   * @param aNeedle The element being searched for.
-	   * @param aHaystack The non-empty array being searched.
-	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
+	   * Converts from a two-complement value to a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
+	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
 	   */
-	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
-	    // This function terminates when one of the following is true:
-	    //
-	    //   1. We find the exact element we are looking for.
-	    //
-	    //   2. We did not find the exact element, but we can return the next
-	    //      closest element that is less than that element.
-	    //
-	    //   3. We did not find the exact element, and there is no next-closest
-	    //      element which is less than the one we are searching for, so we
-	    //      return null.
-	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
-	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
-	    if (cmp === 0) {
-	      // Found the element we are looking for.
-	      return aHaystack[mid];
-	    }
-	    else if (cmp > 0) {
-	      // aHaystack[mid] is greater than our needle.
-	      if (aHigh - mid > 1) {
-	        // The element is in the upper half.
-	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
-	      }
-	      // We did not find an exact match, return the next closest one
-	      // (termination case 2).
-	      return aHaystack[mid];
-	    }
-	    else {
-	      // aHaystack[mid] is less than our needle.
-	      if (mid - aLow > 1) {
-	        // The element is in the lower half.
-	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
-	      }
-	      // The exact needle element was not found in this haystack. Determine if
-	      // we are in termination case (2) or (3) and return the appropriate thing.
-	      return aLow < 0
-	        ? null
-	        : aHaystack[aLow];
-	    }
+	  function toVLQSigned(aValue) {
+	    return aValue < 0
+	      ? ((-aValue) << 1) + 1
+	      : (aValue << 1) + 0;
 	  }
 	
 	  /**
-	   * This is an implementation of binary search which will always try and return
-	   * the next lowest value checked if there is no exact hit. This is because
-	   * mappings between original and generated line/col pairs are single points,
-	   * and there is an implicit region between each of them, so a miss just means
-	   * that you aren't on the very start of a region.
-	   *
-	   * @param aNeedle The element you are looking for.
-	   * @param aHaystack The array that is being searched.
-	   * @param aCompare A function which takes the needle and an element in the
-	   *     array and returns -1, 0, or 1 depending on whether the needle is less
-	   *     than, equal to, or greater than the element, respectively.
+	   * Converts to a two-complement value from a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
+	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
 	   */
-	  exports.search = function search(aNeedle, aHaystack, aCompare) {
-	    return aHaystack.length > 0
-	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
-	      : null;
+	  function fromVLQSigned(aValue) {
+	    var isNegative = (aValue & 1) === 1;
+	    var shifted = aValue >> 1;
+	    return isNegative
+	      ? -shifted
+	      : shifted;
+	  }
+	
+	  /**
+	   * Returns the base 64 VLQ encoded value.
+	   */
+	  exports.encode = function base64VLQ_encode(aValue) {
+	    var encoded = "";
+	    var digit;
+	
+	    var vlq = toVLQSigned(aValue);
+	
+	    do {
+	      digit = vlq & VLQ_BASE_MASK;
+	      vlq >>>= VLQ_BASE_SHIFT;
+	      if (vlq > 0) {
+	        // There are still more digits in this value, so we must make sure the
+	        // continuation bit is marked.
+	        digit |= VLQ_CONTINUATION_BIT;
+	      }
+	      encoded += base64.encode(digit);
+	    } while (vlq > 0);
+	
+	    return encoded;
+	  };
+	
+	  /**
+	   * Decodes the next base 64 VLQ value from the given string and returns the
+	   * value and the rest of the string.
+	   */
+	  exports.decode = function base64VLQ_decode(aStr) {
+	    var i = 0;
+	    var strLen = aStr.length;
+	    var result = 0;
+	    var shift = 0;
+	    var continuation, digit;
+	
+	    do {
+	      if (i >= strLen) {
+	        throw new Error("Expected more digits in base 64 VLQ value.");
+	      }
+	      digit = base64.decode(aStr.charAt(i++));
+	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
+	      digit &= VLQ_BASE_MASK;
+	      result = result + (digit << shift);
+	      shift += VLQ_BASE_SHIFT;
+	    } while (continuation);
+	
+	    return {
+	      value: fromVLQSigned(result),
+	      rest: aStr.slice(i)
+	    };
 	  };
 	
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
 /***/ },
-/* 73 */
-[83, 82],
-/* 74 */
+/* 90 */
+/*!***********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/~/stacktrace-js/stacktrace.js ***!
+  \***********************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Domain Public by Eric Wendelin http://eriwen.com/ (2008)
@@ -12903,7 +17621,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}));
 
 /***/ },
-/* 75 */
+/* 91 */
+/*!******************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
+  \******************************************************************************************************************************/
+[100, 99],
+/* 92 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
+  \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -12993,7 +17719,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 76 */
+/* 93 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
+  \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -13084,7 +17813,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 77 */
+/* 94 */
+/*!*************************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
+  \*************************************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
@@ -13168,7 +17900,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 78 */
+/* 95 */
+/*!*******************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
+  \*******************************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
@@ -13221,7 +17956,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 79 */
+/* 96 */
+/*!***********************************!*\
+  !*** (webpack)/buildin/module.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(module) {
@@ -13237,7 +17975,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 80 */
+/* 97 */
+/*!*******************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64.js ***!
+  \*******************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -13285,7 +18026,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 81 */
+/* 98 */
+/*!******************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/timers-browserify/~/process/browser.js ***!
+  \******************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// shim for using process in browser
@@ -13348,9 +18092,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 82 */
-50,
-/* 83 */
+/* 99 */
+/*!************************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/~/trimArguments/trimArguments.js ***!
+  \************************************************************************************************************************************************/
+63,
+/* 100 */
+/*!***********************************!*\
+  !*** template of 52 referencing  ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
@@ -13651,4371 +18401,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },0)
 	    }
 	}
-
-
-/***/ },
-/* 84 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(35);
-	var testUtils = __webpack_require__(6)
-	var EventEmitterB = __webpack_require__(20);
-	
-	module.exports = function(t) {
-	
-	
-	
-	    //*
-	    this.test("ifon, ifoff", function() {
-	
-	        this.test("normal usage", function(t) {
-	            this.count(56)
-	
-	            var e = EventEmitterB()
-	
-	            var event = testUtils.seq(
-	            // e.on('a', cb1)
-	              function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.on('b', cb2)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.removeListener('b', cb2)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.removeListener('a', cb2)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.once('a', cb3)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.emit('a')
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.on('a', cb1)
-	            // e.on('b', cb1)
-	            // e.on('a', cb2)
-	            // e.on('b', cb2)
-	            // e.on('c', cb1)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'c')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.removeAllListeners('a')
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.removeAllListeners()
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'c')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	            })
-	
-	            e.ifon('a', function() {
-	                event('a', 'on')
-	            })
-	            e.ifoff('a', function() {
-	                event('a', 'off')
-	            })
-	            e.ifon('b', function() {
-	                event('b', 'on')
-	            })
-	            e.ifoff('b', function() {
-	                event('b', 'off')
-	            })
-	
-	            e.ifon(function(eventName) {
-	                event(eventName, 'on', true)
-	            })
-	            e.ifoff(function(eventName) {
-	                event(eventName, 'off', true)
-	            })
-	
-	            var cb1 = function(){}
-	            var cb2 = function(){}
-	            var cb3 = function(){}
-	
-	            e.on('a', cb1)
-	            e.on('b', cb2)
-	            e.on('a', cb2)
-	            e.removeListener('a', cb1)
-	            e.removeListener('b', cb2)
-	            e.removeListener('a', cb2)
-	
-	            e.once('a', cb3)
-	            e.emit('a')
-	
-	            e.on('a', cb1)
-	            e.on('b', cb1)
-	            e.on('a', cb2)
-	            e.on('b', cb2)
-	            e.on('c', cb1)
-	            e.removeAllListeners('a')
-	            e.removeAllListeners()
-	        })
-	
-	        this.test("ifon after events have been attachd", function(t) {
-	            this.count(4)
-	
-	            var e = EventEmitterB()
-	
-	            var sequenceEvent = testUtils.seq(
-	            // e.on('a', cb1)
-	              function(eventName) {
-	                t.eq(eventName, 'shmaotown')
-	            },function(eventName) {
-	                t.eq(eventName, 'you lazy plughole')
-	            },function(eventName) {
-	                t.eq(eventName, 'all shmaotown')
-	            },function(eventName) {
-	                t.eq(eventName, 'all you lazy plughole')
-	            })
-	
-	            e.on('shmaotown', function() {})
-	            e.on('you lazy plughole', function() {})
-	
-	
-	            e.ifon('shmaotown', function() {
-	                sequenceEvent('shmaotown')
-	            })
-	            e.ifon('you lazy plughole', function() {
-	                sequenceEvent('you lazy plughole')
-	            })
-	            e.ifon(function(eventName) {
-	                sequenceEvent('all '+eventName)
-	            })
-	        })
-	
-	        this.test("remove ifon", function(t) {
-	            this.count(26)
-	
-	            var e = EventEmitterB()
-	
-	            var event = testUtils.seq(
-	            // remove a
-	              function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'b')
-	            },function(eventName) {
-	                t.eq(eventName, 'b2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove bs
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove ifon-all callback
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            })
-	
-	            var a,a2, b,b2, c,c2, all1,all2
-	            e.ifon('a', a = function() {
-	                event('a')
-	            })
-	            e.ifon('a', a2=function() {
-	                event('a2')
-	            })
-	            e.ifon('b', b=function() {
-	                event('b')
-	            })
-	            e.ifon('b', b2=function() {
-	                event('b2')
-	            })
-	            e.ifon('c', c=function() {
-	                event('c')
-	            })
-	            e.ifon('c', c2=function() {
-	                event('c2')
-	            })
-	
-	            e.ifon(all1=function() {
-	                event('all1')
-	            })
-	            e.ifon(all2=function() {
-	                event('all2')
-	            })
-	
-	            t.log('remove a')
-	            e.removeIfon('a', a)
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	
-	            e.removeAllListeners()
-	
-	            t.log('remove bs')
-	            e.removeIfon('b')
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	
-	            e.removeAllListeners()
-	
-	            t.log('remove ifon-all callback')
-	            e.removeIfon(all1)
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	
-	            e.removeAllListeners()
-	
-	            t.log('remove all')
-	            e.removeIfon()
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	        })
-	
-	        this.test("remove ifoff", function(t) {
-	            this.count(26)
-	
-	            var e = EventEmitterB()
-	
-	            var event = testUtils.seq(
-	            // remove a
-	              function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'b')
-	            },function(eventName) {
-	                t.eq(eventName, 'b2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove bs
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove ifoff-all callback
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            })
-	
-	            var a,a2, b,b2, c,c2, all1, all2
-	            e.ifoff('a', a = function() {
-	                event('a')
-	            })
-	            e.ifoff('a', a2=function() {
-	                event('a2')
-	            })
-	            e.ifoff('b', b=function() {
-	                event('b')
-	            })
-	            e.ifoff('b', b2=function() {
-	                event('b2')
-	            })
-	            e.ifoff('c', c=function() {
-	                event('c')
-	            })
-	            e.ifoff('c', c2=function() {
-	                event('c2')
-	            })
-	
-	            e.ifoff(all1=function() {
-	                event('all1')
-	            })
-	            e.ifoff(all2=function() {
-	                event('all2')
-	            })
-	
-	            var a,b,c
-	
-	            t.log('remove a')
-	            e.removeIfoff('a', a)
-	            e.on('a',a=function(){})
-	            e.on('b',b=function(){})
-	            e.on('c',c=function(){})
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	
-	            e.on('a',a)
-	            e.on('b',b)
-	            e.on('c',c)
-	
-	            t.log('remove bs')
-	            e.removeIfoff('b')
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	
-	            e.on('a',a)
-	            e.on('b',b)
-	            e.on('c',c)
-	
-	            t.log('remove ifoff-all callback')
-	            e.removeIfoff(all1)
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	
-	            e.on('a',a)
-	            e.on('b',b)
-	            e.on('c',c)
-	
-	            t.log('remove all')
-	            e.removeIfoff()
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	        })
-	    })
-	
-	    this.test("proxy events", function() {
-	        this.test("proxy all", function(t){
-	            this.count(2)
-	
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            var testEvent = testUtils.seq(
-	              function(eventName) {
-	                t.eq(eventName, 'moose')
-	            },function(eventName) {
-	                t.eq(eventName, 'bark')
-	            })
-	
-	
-	            A.proxy(B)   // proxy all events
-	
-	            A.on('moose', function() {
-	                testEvent('moose')
-	            })
-	            A.on('bark', function() {
-	                testEvent('bark')
-	            })
-	
-	            B.emit('moose')
-	            B.emit('bark')
-	        })
-	
-	        this.test("proxy only", function(t){
-	            this.count(1)
-	
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            var testEvent = testUtils.seq(
-	              function(eventName) {
-	                t.eq(eventName, 'moose')
-	            })
-	
-	
-	            A.proxy(B, {only: ['moose']})   // proxy only the 'moose' event
-	
-	            A.on('moose', function() {
-	                testEvent('moose')
-	            })
-	            A.on('bark', function() {
-	                testEvent('bark')
-	            })
-	
-	            B.emit('moose')
-	            B.emit('bark')
-	        })
-	
-	        this.test("proxy except", function(t){
-	            this.count(1)
-	
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            var testEvent = testUtils.seq(
-	              function(eventName) {
-	                t.eq(eventName, 'bark')
-	            })
-	
-	
-	            A.proxy(B, {except: ['moose']})   // proxy only the 'moose' event
-	
-	            A.on('moose', function() {
-	                testEvent('moose')
-	            })
-	            A.on('bark', function() {
-	                testEvent('bark')
-	            })
-	
-	            B.emit('moose')
-	            B.emit('bark')
-	        })
-	
-	        this.test("proxy removeListener and removeAllListeners", function() {
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            this.eq(B.listeners('moose').length, 0)
-	
-	            A.proxy(B)
-	
-	            var handler;
-	            A.on('moose', handler=function() {
-	                testEvent('moose')
-	            })
-	
-	            this.eq(B.listeners('moose').length, 1)
-	
-	            A.removeListener('moose',handler)
-	            this.eq(B.listeners('moose').length, 0)
-	
-	            A.on('moose', handler)
-	            A.removeAllListeners('moose')
-	            this.eq(B.listeners('moose').length, 0)
-	
-	            A.on('moose', handler)
-	            A.removeAllListeners()
-	            this.eq(B.listeners('moose').length, 0)
-	        })
-	    })
-	    //*/
-	};
-
-/***/ },
-/* 85 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(35)
-	var Future = __webpack_require__(30)
-	
-	var syn = __webpack_require__(99)
-	var testUtils = __webpack_require__(6)
-	var blocks = __webpack_require__(1)
-	var Block = blocks.Block
-	
-	var Text = blocks.Text
-	var Button = blocks.Button
-	
-	
-	
-	module.exports = function(t) {
-	
-	    // basic test block
-	    var TestThinger = proto(Block,function(superclass) {
-	        this.name = 'TestThinger'
-	    })
-	
-	
-	
-	
-	
-	
-	    //*
-	
-		this.test('testEvent',function(t) {
-	        this.count(2);
-	
-			var obj = new Button("some text");
-			obj.on("flick",function(data) {
-				t.ok(true);
-				t.ok(data.obj === "blah");
-			});
-	
-			obj.emit("flick",{obj:"blah"});
-		});
-	
-	    this.test('add, addAt, addBefore', function() {
-			this.count(5);
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'addTest'
-	            this.init = function() {
-	                superclass.init.call(this) // set style with constructor
-	            }
-	        })
-	
-	        this.test('add', function() {
-	            var x = C()
-	
-	            x.add(Text('a'))
-	            this.eq(x.domNode.children.length, 1)
-	            this.eq(x.children.length, 1)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode.textContent , 'a')
-	
-	            x.add(Text('x', 'b'))
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'b')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            x.add([Text('c'), Text('x', 'd')])
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'b')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            this.eq(x.domNode.children[2].textContent , 'c')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'd')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	        })
-	
-	        this.test('addAt', function() {
-	            var x = C()
-	
-	            x.addAt(0, Text('a'))
-	            this.eq(x.domNode.children.length, 1)
-	            this.eq(x.children.length, 1)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode.textContent , 'a')
-	
-	            x.addAt(0, Text('x', 'b'))
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'a')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            x.addAt(1, [Text('c'), Text('x', 'd')])
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'c')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'd')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'a')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	        })
-	
-	        this.test('addBefore', function() {
-	            var x = C()
-	
-	            var one = Text('a')
-	            x.addBefore(undefined, one)
-	            this.eq(x.domNode.children.length, 1)
-	            this.eq(x.children.length, 1)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode.textContent , 'a')
-	
-	            var two = Text('x', 'b')
-	            x.addBefore(one, two)
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'a')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            x.addBefore(one, [Text('c'), Text('x', 'd')])
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'c')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'd')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'a')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	            x.addBefore(undefined, Text('e'))
-	            this.eq(x.domNode.children.length, 5)
-	            this.eq(x.children.length, 5)
-	            this.eq(x.domNode.children[4].textContent , 'e')
-	            this.eq(x.children[4].domNode , x.domNode.children[4])
-	        })
-	
-	        this.test('remove', function() {
-	            var C = proto(Block, function(superclass) {
-	                this.name = 'removeTest'
-	
-	                this.init = function() {
-	                    superclass.init.call(this) // set style with constructor
-	                }
-	            })
-	
-	            var x = C()
-	
-	            var zero = Text('a')
-	            var one = Text('b')
-	            var two = Text('c')
-	            var three = Text('d')
-	            var four = Text('e')
-	            x.add(zero,one,two,three,four)
-	
-	            this.eq(zero.parent, x)
-	            this.eq(one.parent, x)
-	            this.eq(two.parent, x)
-	            this.eq(three.parent, x)
-	            this.eq(four.parent, x)
-	
-	            x.remove(2)
-	            this.eq(two.parent, undefined)
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'b')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'd')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'e')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	            x.remove(one)
-	            this.eq(one.parent, undefined)
-	            this.eq(x.domNode.children.length, 3)
-	            this.eq(x.children.length, 3)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'd')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'e')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	
-	            x.remove(zero)
-	            this.eq(zero.parent, undefined)
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'd')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'e')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            // what's left is three and four
-	            x.remove([0, four])
-	            this.eq(three.parent, undefined)
-	            this.eq(four.parent, undefined)
-	            this.eq(x.domNode.children.length, 0)
-	            this.eq(x.children.length, 0)
-	        })
-	
-			this.test('setting parent',function() {
-				this.count(2);
-				var C = proto(Block, function(superclass) {
-	                this.name = 'parent'
-	
-	                this.init = function() {
-	                    superclass.init.call(this)
-	                }
-	            })
-	
-				var C2 = proto(Block, function(superclass) {
-	                this.name = 'child'
-	
-	                this.init = function() {
-	                    superclass.init.call(this)
-	                }
-	            })
-	
-				var parent = C();
-				var child = C2();
-				this.eq(child.parent,undefined);
-				parent.add(child);
-				this.eq(child.parent,parent);
-				
-			})
-	    })
-	
-	    this.test('attr', function() {
-	        var thinger = TestThinger()
-	        thinger.attr("moose", '5')
-	        this.eq(thinger.domNode.getAttribute("moose"), '5')
-	        this.eq(thinger.attr('moose'), '5')
-	
-	        thinger.attr("moose", 'ha ha ha \'\"haaaaaaa <moose></moose>')
-	        this.eq(thinger.domNode.getAttribute("moose"), 'ha ha ha \'\"haaaaaaa <moose></moose>')
-	        this.eq(thinger.attr('moose'), 'ha ha ha \'\"haaaaaaa <moose></moose>')
-	
-	        thinger.attr('moose', undefined)
-	        this.eq(thinger.domNode.getAttribute("moose"), null)
-	        this.eq(thinger.attr('moose'), undefined)
-	    })
-	
-	    this.test('label property', function() {
-	        blocks.dev = false // turn off dev for a second
-	
-	        var thinger = TestThinger()
-	        this.eq(thinger.label, undefined)
-	        this.eq(thinger.attr('label'), undefined)
-	
-	        thinger.label = "moose"
-	        this.eq(thinger.label, 'moose')
-	        this.eq(thinger.attr('label'), undefined) // only set in dev mode
-	
-	        var thinger2 = TestThinger()
-	        blocks.dev = true // turn back on
-	        thinger2.label = "moose2"
-	        this.eq(thinger2.label, "moose2")
-	        this.eq(thinger2.attr('label'), "moose2")
-	
-	        try {
-	            thinger.label = 'setagainfails'
-	        } catch(e) {
-	            this.eq(e.message, "A Block's label can only be set once (was already set to: moose)")
-	        }
-	    })
-	
-	    this.test('visible', function() {
-	        var container = blocks.Container()
-	        testUtils.demo("visible test", container)
-	
-	        var thinger = TestThinger()
-	        container.add(thinger)
-	        this.eq(thinger.visible, true)
-	        this.eq($(thinger.domNode).css('display'), "inline-block")
-	
-	        thinger.visible = true                       // does nothing if its already showing
-	        this.eq(thinger.visible, true)
-	        this.eq($(thinger.domNode).css('display'), "inline-block")
-	
-	        thinger.visible = false
-	        this.eq(thinger.visible, false)
-	//        this.eq(thinger.domNode.style.display, "none")
-	        this.eq($(thinger.domNode).css('display'), "none")
-	
-	        thinger.visible = false                      // does nothing if its already hiding
-	        this.eq(thinger.visible, false)
-	        this.eq($(thinger.domNode).css('display'), "none")
-	
-	        thinger.visible = true
-	        this.eq(thinger.visible, true)
-	        this.eq($(thinger.domNode).css('display'), "inline-block")
-	
-	        this.test("with styled css display", function() {
-	            var thinger = TestThinger()
-	            container.add(thinger)
-	            thinger.style = blocks.Style({display: 'inline'})
-	
-	            this.eq($(thinger.domNode).css('display'), "inline")
-	
-	            thinger.visible = false
-	            this.eq($(thinger.domNode).css('display'), "none")
-	            this.eq(thinger.visible, false)
-	
-	            thinger.visible = true
-	            this.eq(thinger.visible, true)
-	            this.eq($(thinger.domNode).css('display'), "inline")
-	        })
-	
-	        this.test("with inline css", function() {
-	            var thinger = TestThinger()
-	            container.add(thinger)
-	            thinger.domNode.style.display = 'block'
-	
-	            this.eq($(thinger.domNode).css('display'), "block")
-	
-	            thinger.visible = false
-	            this.eq($(thinger.domNode).css('display'), "none")
-	            this.eq(thinger.visible, false)
-	
-	            thinger.visible = true
-	            this.eq(thinger.visible, true)
-	            this.eq($(thinger.domNode).css('display'), "block")
-	        })
-	    })
-	
-	    this.test("focus", function() {
-	        var input = blocks.TextField()
-	        testUtils.demo("focus test", input)
-	
-	        this.ok(input.domNode !== document.activeElement)
-	
-	        input.focus = true
-	        this.ok(input.domNode === document.activeElement)
-	
-	        input.focus = false
-	        this.ok(input.domNode !== document.activeElement)
-	    })
-	
-	    this.test("setSelection and getCaratOffset", function() {
-	        var container = blocks.Container()
-	        testUtils.demo("setSelection and getCaratOffset", container)
-	
-	        this.test('input textfield', function() {
-	            var input = blocks.TextField()
-	            container.add(input)
-	            input.val = "whatever yo"
-	
-	            this.eq(input.selectionRange, undefined)
-	
-	            input.selectionRange = [1,1]
-	            this.eq(input.selectionRange[0], 1)
-	            this.eq(input.selectionRange[1], 1)
-	
-	            input.selectionRange = [2,5]
-	            this.eq(input.selectionRange[0], 2)
-	            this.eq(input.selectionRange[1], 5)
-	
-	            this.test("input textfields that are next to eachother", function() {
-	                var c = blocks.Container()
-	                container.add(c)
-	                var input = blocks.TextField(), input2 = blocks.TextField()
-	                c.add(input, input2)
-	                input.val = "whatever yo"
-	                input2.val = 'more whatever'
-	
-	                this.eq(input.selectionRange, undefined)
-	                this.eq(input2.selectionRange, undefined)
-	
-	                input.focus = true
-	
-	                // when its focused on after being set programatically, it should have the active caret (note that this is different from gaining focus by being tabbed to)
-	                // seems to start its caret at the end of the input
-	                this.eq(input.selectionRange[0], input.val.length)
-	                this.eq(input.selectionRange[1], input.val.length)
-	                this.eq(input2.selectionRange, undefined)
-	
-	                input.selectionRange = [2,4]
-	                this.eq(input.selectionRange[0], 2)
-	                this.eq(input.selectionRange[1], 4)
-	                this.eq(input2.selectionRange, undefined)
-	
-	                input2.selectionRange = [3,5]
-	                this.eq(input.selectionRange, undefined)
-	                this.eq(input2.selectionRange[0], 3)
-	                this.eq(input2.selectionRange[1], 5)
-	
-	            })
-	        })
-	
-	        this.test('textarea', function() {
-	            var input = blocks.TextArea()
-	            container.add(input)
-	            input.val = "whatever yo"
-	
-	            this.eq(input.selectionRange, undefined)
-	
-	            input.selectionRange = [1,1]
-	            this.eq(input.selectionRange[0], 1)
-	            this.eq(input.selectionRange[1], 1)
-	
-	            input.selectionRange = [2,5]
-	            this.eq(input.selectionRange[0], 2)
-	            this.eq(input.selectionRange[1], 5)
-	        })
-	
-	        this.test("regular div", function() {
-	            var div = blocks.Text("Whatever")
-	            div.attr("contenteditable", true)
-	            container.add(div)
-	
-	            this.eq(div.selectionRange, undefined)
-	
-	            div.selectionRange = [1,1]
-	            this.eq(div.selectionRange[0], 1)
-	            this.eq(div.selectionRange[1], 1)
-	
-	            div.selectionRange = [2,5]
-	            this.eq(div.selectionRange[0], 2)
-	            this.eq(div.selectionRange[1], 5)
-	        })
-	
-	        this.test("contenteditable div", function() {
-	            var input = blocks.Text("Whatever")
-	            input.attr("contenteditable", true)
-	            container.add(input)
-	
-	            this.eq(input.selectionRange, undefined)
-	
-	            input.selectionRange = [1,1]
-	            this.eq(input.selectionRange[0], 1)
-	            this.eq(input.selectionRange[1], 1)
-	
-	            input.selectionRange = [2,5]
-	            this.eq(input.selectionRange[0], 2)
-	            this.eq(input.selectionRange[1], 5)
-	
-	            input.domNode.innerHTML = "<span>hi</span><span>lo</span><span>mo<br>scrow</span>"
-	            this.eq(input.selectionRange[0], 0)
-	            this.eq(input.selectionRange[1], 11)           // is this right?
-	
-	            input.selectionRange = [4,11]
-	            this.eq(input.selectionRange[0], 4)
-	            this.eq(input.selectionRange[1], 11)
-	
-	        })
-	
-	        this.test("selectionRange across nodes", function() {
-	            var one = Text('one'), two = Text("two"), three = Text("three")
-	            var c = blocks.Container(one, two, three)
-	            container.add(c)
-	
-	            c.selectionRange = [2,8]
-	            this.eq(c.selectionRange[0], 2)
-	            this.eq(c.selectionRange[1], 8)
-	            this.eq(one.selectionRange[0], 2)
-	            this.eq(one.selectionRange[1], 3)
-	            this.eq(two.selectionRange[0], 0)
-	            this.eq(two.selectionRange[1], 3)
-	            this.eq(three.selectionRange[0], 0)
-	            this.eq(three.selectionRange[1], 2)
-	        })
-	    })
-	
-	    this.test("on, addListener, once, removeListener, removeAllListeners", function(t) {
-	        this.count(10)
-	
-	        var EventWhore = proto(Block,function(superclass) {
-	            this.name = 'EventWhore'
-	        })
-	
-	        var e = EventWhore()
-	
-	        var event = testUtils.seq(
-	          function(eventName, data) {
-	            t.eq(eventName, 'a')
-	            t.eq(data, 1)
-	        },function(eventName, data) {
-	            t.eq(eventName, 'a')
-	            t.eq(data, 2)
-	
-	        },function(eventName, data) {
-	            t.eq(eventName, 'b')
-	            t.eq(data, 3)
-	        },function(eventName, data) {
-	            t.eq(eventName, 'b')
-	            t.eq(data, 4)
-	
-	        },function(eventName, data) {
-	            t.eq(eventName, 'c')
-	            t.eq(data, 5)
-	        })
-	
-	        var acb, bcb, ccb;
-	        e.on('a', acb = function(data) {
-	            event('a', data)
-	        })
-	        e.addListener('b', bcb = function bcb(data) {
-	            event('b', data)
-	        })
-	        e.once('c', cbc = function(data) {
-	            event('c', data)
-	        })
-	
-	        e.emit('a', 1)
-	        e.emit('a', 2)
-	
-	        e.emit('b', 3)
-	        e.emit('b', 4)
-	
-	        e.emit('c', 5)
-	        e.emit('c', 6)
-	
-	        e.removeListener('a', acb)
-	        e.emit('a', 7)
-	
-	        e.removeAllListeners('b')
-	        e.emit('b', 8)
-	
-	        e.on('d', acb = function(data) {
-	            event('a', data)
-	        })
-	        e.removeAllListeners()
-	        e.emit('d', 9)
-	    })
-	
-	
-	    this.test('listening on standard browser events', function(t) {
-	        var container = blocks.Container()
-	        testUtils.demo('listening on standard browser events', container)
-	        this.test("basic browser events", function (t) {
-	            this.count(1)
-	
-	            var EventEmitter = __webpack_require__(31).EventEmitter
-	
-	            var EventWhore = proto(Block,function(superclass) {
-	                this.name = 'EventWhore'
-	            })
-	
-	            var e = EventWhore()
-	            container.add(e)
-	
-	            var testEvent = testUtils.seq(function(eventName) {
-	                t.eq(eventName, 'click')
-	            })
-	
-	            // events shouldn't be emitted unless bound with the EventEmitterB/Block `on` method (the EventEmitter `on` method bypasses the critical dom event handling setup)
-	            var eventEmitterPrototypeHandler;
-	            EventEmitter.prototype.on.call(e, "click", eventEmitterPrototypeHandler=function() {
-	                testEvent('EventEmitter click')
-	            })
-	
-	            var handler;
-	            syn.click(e.domNode).then(function() {
-	                EventEmitter.prototype.removeListener.call(e, "click", eventEmitterPrototypeHandler) // get rid of the EventEmitter listener, cause otherwise it'll mess out stuff up
-	
-	                e.on('click', handler = function() {
-	                    testEvent('click')
-	                })
-	
-	                return syn.click(e.domNode)
-	            }).then(function() {
-	                e.removeListener('click', handler)
-	
-	                return syn.click(e.domNode)
-	            }).then(function() {
-	                e.on('click', handler = function() {
-	                    event('click')
-	                })
-	
-	                e.removeAllListeners('click')
-	
-	                return syn.click(e.domNode)
-	            }).then(function() {
-	                e.on('click', handler = function() {
-	                    event('click')
-	                })
-	
-	                e.removeAllListeners()
-	
-	                return syn.click(e.domNode)
-	            }).done()
-	        })
-	
-	        this.test("browser events with exclusion", function(t) {
-	            this.count(1)
-	
-	            var EventWhore = proto(Block,function(superclass) {
-	                this.name = 'EventWhore'
-	
-	                this.excludeDomEvents = {click: 1}
-	            })
-	
-	            var e = EventWhore()
-	            container.add(e)
-	
-	            var testEvent = testUtils.seq(function(eventName) {
-	                t.eq(eventName, 'mousedown')
-	            })
-	
-	            e.on('click', function() {
-	                testEvent('click')
-	            })
-	            e.on('mousedown', function() {
-	                testEvent('mousedown')
-	            })
-	
-	            syn.click(e.domNode).done()
-	        })
-	    })
-	
-	    //*/
-	}
-	
-
-
-/***/ },
-/* 86 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(35)
-	
-	var testUtils = __webpack_require__(6)
-	var blocks = __webpack_require__(1)
-	var Block = blocks.Block
-	var domUtils = __webpack_require__(22)
-	
-	var Style = blocks.Style
-	var Text = blocks.Text
-	var Button = blocks.Button
-	var CheckBox = blocks.CheckBox
-	var Container = blocks.Container
-	
-	
-	module.exports = function(t) {
-	
-	
-	     this.test('visited', function() {
-	            var C = proto(Block, function(superclass) {
-	                this.name = 'C'
-	
-	                this.build = function(text, link) {
-	                    this.domNode = domUtils.node('a')
-	
-	                    this.attr('href', link)
-	                    this.attr('style', "display:block;")
-	                    this.domNode.textContent = text
-	                    this.on('click', function(e) {
-	                        e.preventDefault() // prevents you from going to the link location on-click
-	                        console.log("fucks")
-	                    })
-	
-	                    this.style = style
-	                }
-	            })
-	
-	            var style = Style({
-	                color: 'rgb(150, 0, 0)',
-	                $$visited: {
-	                    color: 'rgb(0, 128, 0)',
-	
-	                    $$focus: {
-	                        color: 'rgb(0, 70, 200)'
-	                    }
-	                }
-	            })
-	
-	            var component1 = C("This should be green", "http://www.google.com/")
-	            var component2 = C("This should be blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
-	                component2.attr('tabindex', 1) // to make it focusable
-	            var component3 = C("This should be red (even when clicked on)", "http://www.thisdoesntexistatall.com/notatall")
-	                component3.attr('tabindex', 1) // to make it focusable
-	
-	            // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
-	            testUtils.demo('Manually verify these: component :visited pseudo-class styling', Container([component1, component2, component3]))
-	
-	            component2.focus = true
-	
-	            this.test('errors', function() {
-	                this.count(1)
-	
-	                try {
-	                    Style({
-	                        Anything: {
-	                            $$visited: {
-	                                CheckBox: {
-	                                    $setup: function() {
-	                                    }
-	                                }
-	                            }
-	                        }
-	                    })
-	                } catch(e) {
-	                    this.eq(e.message, "All properties within the pseudoclasses 'visited' must be css styles")
-	                }
-	            })
-	        })
-	
-	
-	    /*
-	    this.test('simple styling',function(t) {
-	        this.count(2)
-	
-	        var S = Style({
-	            color: 'rgb(0, 128, 0)'
-	        })
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = S
-	
-	                this.domNode.textContent = "hi"
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo("simple styling", node) // node has to be apart of the page before css class styles are applied to it
-	
-	        var div = $(node.domNode)
-	        this.eq(div.css('color'), 'rgb(0, 128, 0)')
-	
-	        node.style = undefined // unset a style (should return to default)
-	        setTimeout(function() { // looks like when a css classname is changed, it doesn't take effect immediately (is this really true????)
-	            t.eq(div.css('color'), 'rgb(0, 0, 0)')
-	        },0)
-	
-	    })
-	
-	    this.test('styling a more complex component with inner components', function() {
-	        var S = Style({
-	            backgroundColor: 'rgb(0, 128, 0)',
-	            Text: {backgroundColor: 'rgb(128, 0, 0)'},
-	            CheckBox: {backgroundColor: 'rgb(0, 0, 128)'}
-	        })
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = S
-	
-	                this.add(Text('one'), CheckBox())
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo('styling a more complex component with inner components', node)
-	
-	        var color = $(node.domNode).css('backgroundColor')
-	        this.ok(color === 'rgb(0, 128, 0)', color)
-	
-	        var children = node.domNode.children
-	
-	        color = $(children[0]).css('backgroundColor')
-	        this.ok(color === 'rgb(128, 0, 0)', color)
-	
-	        color = $(children[1]).css('backgroundColor')
-	        this.ok(color === 'rgb(0, 0, 128)', color)
-	    })
-	
-	    this.test('styling a component via its class-parent', function() {
-	        var S = Style({
-	            Text: {backgroundColor: 'rgb(128, 0, 0)'}
-	        })
-	
-	        var NextText = proto(Text, function(superclass) {
-	            this.name = 'NextText'
-	        })
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = S
-	
-	                this.add(NextText('one'))
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo('styling a component via its class-parent', node)
-	
-	        var children = node.domNode.children
-	        var color = $(children[0]).css('backgroundColor')
-	        this.ok(color === 'rgb(128, 0, 0)', color)
-	    })
-	
-	    this.test("styling inner components with the 'components' initialization", function() {
-	
-	        var textStyle1 = Style({
-	            color: 'rgb(0, 128, 0)'
-	        })
-	        var S = Style({
-	            textAlign: 'center',
-	            Text: textStyle1
-	        })
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.add(Text('test'))
-	                this.style = S
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo("styling inner components with the 'components' initialization", node)
-	
-	        var textNode = $(node.domNode.children[0])
-	
-	        this.eq(textNode.css('color'), 'rgb(0, 128, 0)')
-	        this.eq($(node.domNode).css('textAlign'), 'center')
-	        this.eq(textNode.css('textAlign'), 'left') // certain inheritable properties shouldn't be inherited by inner components
-	
-	        node.style = undefined // unset style
-	        this.eq(textNode.css('color'), 'rgb(0, 0, 0)')
-	        this.eq(textNode.css('textAlign'), 'left')
-	        this.eq($(node.domNode).css('textAlign'), 'left')
-	
-	    })
-	
-	    this.test('default Block styles',function(t) {
-	        this.count(13)
-	
-	        var S = Style({
-	            color: 'rgb(0, 0, 128)'
-	        })
-	
-	        var C = proto(Text, function(superclass) {
-	            this.defaultStyle = Style({
-	                color: 'rgb(0, 128, 0)',
-	                backgroundColor: 'rgb(0, 100, 100)',
-	                borderColor: 'rgb(120, 130, 140)'
-	            })
-	        })
-	        var D = proto(C, function(superclass) {
-	            this.defaultStyle = Style({
-	                backgroundColor: 'rgb(1, 2, 3)'
-	            })
-	        })
-	
-	        var node = C("yeahhh")
-	        var node2 = D("NOOOOO")
-	        var container = Container(node, node2)
-	        testUtils.demo('default Block styles', container) // node has to be apart of the page before css class styles are applied to it
-	
-	        var div = $(node.domNode)
-	        this.eq(div.css('color'), 'rgb(0, 128, 0)')
-	        this.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')
-	
-	        var div2 = $(node2.domNode)
-	        this.eq(div2.css('color'), 'rgb(0, 128, 0)')
-	        this.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
-	        this.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
-	
-	        node.style = S
-	        node2.style = S
-	
-	        setTimeout(function() { // looks like when a css classname is changed, it doesn't take effect immediately (is this really true????)
-	            t.eq(div.css('color'), 'rgb(0, 0, 128)')
-	            t.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')   // the default backgroundColor bleeds through for default stylings (unlike normal stylings)
-	
-	            t.eq(div2.css('color'), 'rgb(0, 0, 128)')
-	            t.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
-	            t.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
-	        },0)
-	
-	        try {
-	            proto(Text, function() {
-	                this.defaultStyle = Style({
-	                    Text: {}
-	                })
-	            })()
-	        } catch(e) {
-	            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-	        }
-	        try {
-	            proto(Text, function() {
-	                this.defaultStyle = Style({
-	                    $label: {}
-	                })
-	            })()
-	        } catch(e) {
-	            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-	        }
-	        try {
-	            proto(Text, function() {
-	                this.defaultStyle = Style({
-	                    $$hover: {}
-	                })
-	            })()
-	        } catch(e) {
-	            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-	        }
-	
-	    })
-	
-	    this.test("inheritance of component styles", function() {
-	        //  (e.g. gramparent sets Label style, parent doesn't but has a Label component in it)
-	
-	
-	        var textStyle1 = Style({
-	            color: 'rgb(0, 128, 0)'
-	        })
-	        var S = Style({
-	            Text: textStyle1
-	        })
-	
-	        var Parent = proto(Block, function(superclass) {
-	            this.name = 'Parent'
-	
-	            this.build = function() {
-	                this.add(Text('inParent'))
-	            }
-	        })
-	
-	        var Grandparent = proto(Block, function(superclass) {
-	            this.name = 'Grandparent'
-	
-	            this.build = function() {
-	                this.style = S    // setting the style before adding components should also work
-	                this.add(Parent())
-	                this.add(Text('inGrandparent'))
-	            }
-	        })
-	
-	        var node = Grandparent()
-	        testUtils.demo("inheritance of component styles", node)
-	
-	        var grandparentLabel = $($(node.domNode).children('div')[1])
-	        var parentLabel = $(node.domNode).find('div > div')
-	
-	        this.eq(grandparentLabel.css('color'), 'rgb(0, 128, 0)')
-	        this.eq(parentLabel.css('color'), 'rgb(0, 128, 0)')
-	
-	        node.style = undefined // unset style
-	        this.eq(grandparentLabel.css('color'), 'rgb(0, 0, 0)')
-	        this.eq(parentLabel.css('color'), 'rgb(0, 0, 0)')
-	    })
-	
-	    this.test("the 'setup' javascript initialization", function() {
-	        var S = Style({
-	            $setup: function(component) {
-	                component.mahdiv = domUtils.div()
-	                    component.mahdiv.textContent = "It is set up"
-	
-	                component.domNode.appendChild(component.mahdiv)
-	            },
-	            $kill: function(component) {
-	                component.mahdiv.textContent = 'It has been killed'
-	            }
-	        })
-	        var S2 = Style({}) // empty style
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = S
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo("the 'setup' javascript initialization", node)
-	
-	        var innerDiv = $($(node.domNode).children('div')[0])
-	        this.eq(innerDiv.html(), "It is set up")
-	
-	        node.style = S2
-	        this.eq(innerDiv.html(), 'It has been killed')
-	    })
-	
-	    this.test("changing styles on the fly", function() {
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function(style) {
-	                this.style = style
-	
-	                this.add(Text('testLabel'))
-	            }
-	        })
-	
-	        var TextStyle1 = Style({
-	                color:'rgb(0,128,0)'
-	            })
-	        var TextStyle2 = Style({
-	                color:'rgb(128,0,0)'
-	            })
-	
-	        var S1 = Style({
-	                color: 'rgb(0,0,128)',
-	
-	                Text: TextStyle1,
-	                $setup: function(component) {
-	                    component.mahdiv = domUtils.div()
-	                    component.mahdiv.textContent = "It is set up"
-	
-	                    component.domNode.appendChild(component.mahdiv)
-	                },
-	                $kill: function(component) {
-	                    component.domNode.removeChild(component.mahdiv)
-	                }
-	            })
-	
-	        var S2 = Style({
-	                color: 'rgb(0,128,128)',
-	                Text: TextStyle2,
-	                $setup: function(component) {
-	                    component.mahdiv = domUtils.div()
-	                    component.mahdiv.textContent = "Me is set up dood"
-	
-	                    component.domNode.appendChild(component.mahdiv)
-	                }
-	            })
-	
-	        var node = C(S1)
-	        testUtils.demo("changing styles on the fly", node)
-	        node.style = S2 // reset style
-	
-	        var mainComponent = $(node.domNode)
-	        var labelDiv = $(mainComponent.children('div')[0])
-	        var textDiv = $(mainComponent.children('div')[1])
-	
-	        this.eq(mainComponent.css('color'), 'rgb(0, 128, 128)')
-	        this.eq(labelDiv.css('color'), 'rgb(128, 0, 0)')
-	        this.eq(textDiv.html(), "Me is set up dood")
-	
-	
-	        this.test('errors', function() {
-	            this.count(1)
-	
-	            try {
-	                node.style = S1 // if a style that has a 'setup' but no 'kill' is changed, an exception should be thrown
-	            } catch(e) {
-	                this.eq(e.message, 'style has been unset but does not have a "kill" function to undo its "setup" function')
-	            }
-	        })
-	    })
-	
-	    this.test("reinheritance of parent styles", function() {
-	        //  (e.g. gramparent sets Text style, parent doesn't but has a Text component in it)
-	
-	
-	        var textStyle1 = Style({
-	                color: 'rgb(128, 0, 128)'
-	            })
-	        var textStyle2 = Style({
-	                color: 'rgb(128, 128, 0)'
-	            })
-	        var textStyle3 = Style({
-	                color: 'rgb(0, 128, 0)'
-	            })
-	        var S = Style({
-	                Text: textStyle1
-	            })
-	        var S2 = Style({
-	                Text: textStyle2
-	            })
-	
-	        var Parent = proto(Block, function(superclass) {
-	            this.name = 'Parent'
-	
-	            this.build = function() {
-	                this.style = S2
-	
-	                this.text = Text('inParent')
-	                this.text.style = textStyle3
-	                this.add(this.text)
-	            }
-	        })
-	
-	        var Grandparent = proto(Block, function(superclass) {
-	            this.name = 'Grandparent'
-	
-	            this.build = function() {
-	                this.style = S
-	
-	                this.parentComponent = Parent()
-	                this.add(this.parentComponent)
-	            }
-	        })
-	
-	        var node = Grandparent()
-	        testUtils.demo("reinheritance of parent styles", node)
-	
-	        var parentText = $(node.parentComponent.text.domNode)
-	
-	        this.eq(parentText.css('color'), 'rgb(0, 128, 0)')
-	
-	        node.parentComponent.text.style = undefined // reinherit from parent
-	        this.eq(parentText.css('color'), 'rgb(128, 128, 0)')
-	
-	        node.parentComponent.style = undefined // reinherit from grandparent
-	        this.eq(parentText.css('color'), 'rgb(128, 0, 128)')
-	    })
-	
-	    this.test('component label styling', function() {
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = style
-	                this.add(
-	                    Text('one'),
-	                    Text('inner', 'two'),
-	                    Container([Text('three')]),
-	                    Container('inner', [Text('inner', 'four')]),
-	                    Container('inner2', [Text('inner2', 'five')])
-	                )
-	            }
-	        })
-	
-	        var styleObject = Style({
-	            Text: {color: 'rgb(45, 50, 60)'},
-	            $inner2: {
-	                Text: {color: 'rgb(4, 3, 2)'} // shouldn't be used
-	            }
-	        })
-	
-	        var style = Style({
-	                color: 'rgb(128, 0, 0)',
-	
-	                Text: {
-	                    color: 'rgb(0, 128, 0)',
-	                    backgroundColor: 'rgb(1, 2, 3)',
-	                    $inner: {
-	                        color: 'rgb(128, 128, 128)'
-	                    }
-	                },
-	
-	                Container: {
-	                    backgroundColor: 'rgb(0, 120, 130)',
-	
-	                    Text: {
-	                        color: 'rgb(0, 0, 128)'
-	                    },
-	                    $inner: {
-	                        Text: {
-	                            color: 'rgb(0, 128, 128)'
-	                        }
-	                    },
-	                    $inner2: styleObject
-	                }
-	            })
-	
-	        var component = C()
-	        testUtils.demo('component label styling', component)
-	
-	        var children = $(component.domNode).children()
-	        this.eq($(children[0]).css('color'), 'rgb(0, 128, 0)')
-	        this.eq($(children[0]).css('backgroundColor'), 'rgb(1, 2, 3)')
-	
-	        this.eq($(children[1]).css('color'), 'rgb(128, 128, 128)')
-	        this.eq($(children[1]).css('backgroundColor'), 'rgb(1, 2, 3)')
-	
-	        this.eq($(children[2].children[0]).css('color'), 'rgb(0, 0, 128)')
-	
-	        this.eq($(children[3].children[0]).css('color'), 'rgb(0, 128, 128)')
-	
-	        this.eq($(children[4].children[0]).css('color'), 'rgb(45, 50, 60)')
-	        this.eq($(children[4].children[0]).css('backgroundColor'), 'rgba(0, 0, 0, 0)') // nothing should be inherited from the non-label style
-	
-	        this.test('errors', function() {
-	            this.count(1)
-	
-	            try {
-	                Style({
-	                    Anything: {
-	                        $someLabel: {
-	                            $someInnerLabel: {} // not legal - only one label is allowed on a component, so nested label styles wouldn't make sense
-	                        }
-	                    }
-	                })
-	            } catch(e) {
-	                this.eq(e.message, "Can't create nested label style $someInnerLabel because components can only have one label")
-	            }
-	        })
-	    })
-	
-	    this.test('component pseudo-class styling', function() {
-	
-	
-	        this.test("basic psuedo-class styling", function() {
-	            this.count(40)
-	
-	            var C = proto(Block, function(superclass) {
-	                this.name = 'C'
-	
-	                this.build = function() {
-	                    this.style = style
-	
-	                    var container = Container([CheckBox()])
-	
-	                    this.add(
-	                        CheckBox(),
-	                        container
-	                    )
-	                }
-	            })
-	
-	            var style = Style({
-	                color: 'rgb(128, 0, 0)',
-	
-	                CheckBox: {
-	                    color: 'rgb(0, 128, 0)',
-	
-	                    $$disabled: {
-	                        color: 'rgb(123, 130, 130)',
-	                        outline: '1px solid rgb(60, 60, 200)'
-	                    },
-	
-	                    $$checked: {
-	                        color: 'rgb(128, 128, 128)',
-	                        outline: '4px solid rgb(80, 90, 100)',
-	                        $$required: {
-	                            color: 'rgb(130, 0, 130)',
-	                            backgroundColor: 'rgb(1, 2, 3)',
-	
-	                            $setup: function(c) {
-	                                c.someProperty = 'required'
-	                            },
-	                            $kill: function(c) {
-	                                c.someProperty = 'optional'
-	                            }
-	                        }
-	                    }
-	                },
-	
-	                Container: {
-	                    CheckBox: {color: 'rgb(0, 128, 0)'},
-	                    $$required: {
-	                        CheckBox: {
-	                            color: 'rgb(128, 128, 128)',
-	
-	                            $$checked: {
-	                                $setup: function(c) {
-	                                    c.someProperty = 'required'
-	                                },
-	                                $kill: function(c) {
-	                                    c.someProperty = 'optional'
-	                                }
-	                            }
-	                        }
-	                    }
-	                }
-	            })
-	
-	            var component = C()
-	            testUtils.demo("basic psuedo-class styling", component)
-	
-	            var children = component.children
-	
-	            var defaultBackgroundColor = 'rgba(0, 0, 0, 0)'
-	
-	            var firstCheckBoxComponent = children[0]
-	            var firstCheckBox = $(firstCheckBoxComponent.domNode)
-	            this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)')
-	
-	            this.log('just disabled')
-	            firstCheckBoxComponent.attr('disabled', true)
-	            setTimeout(function() {    // need to use a timeout every time an attribute changes because the MutationObserver that listens for attribute changes is asynchornous and won't fire until the scheduler is reached
-	            this.eq(firstCheckBox.css('color'), 'rgb(123, 130, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(60, 60, 200)')
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBoxComponent.someProperty, undefined)
-	            firstCheckBoxComponent.attr('disabled', undefined)
-	            setTimeout(function() {
-	
-	            this.log("just checked")
-	            firstCheckBoxComponent.selected = true
-	            this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.ok(firstCheckBox.css('outlineColor') !== 'rgb(0, 0, 0)', firstCheckBox.css('outlineColor'))
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBox.css('outlineWidth'), '4px')
-	            this.eq(firstCheckBoxComponent.someProperty, undefined)
-	            firstCheckBoxComponent.selected = false
-	
-	            this.log("just required")
-	            firstCheckBoxComponent.attr('required', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)') // the required pseudoclass doesn't apply because its within the checked psudeoclass (and the box isn't checked)
-	            this.ok(firstCheckBox.css('outlineColor') !== 'rgb(60, 60, 200)', firstCheckBox.css('outlineColor'))
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBoxComponent.someProperty, undefined)
-	
-	            this.log("required and disabled")
-	            firstCheckBoxComponent.attr('disabled', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(123, 130, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(60, 60, 200)')
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBoxComponent.someProperty, undefined)
-	            firstCheckBoxComponent.attr('required', undefined)
-	            setTimeout(function() {
-	
-	            this.log("disabled and checked")
-	            firstCheckBoxComponent.selected = true
-	            this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBoxComponent.someProperty, undefined)
-	            firstCheckBoxComponent.attr('disabled', undefined)
-	
-	            this.log("checked and required")
-	            firstCheckBoxComponent.attr('required', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(130, 0, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
-	            this.eq(firstCheckBox.css('backgroundColor'), 'rgb(1, 2, 3)')
-	            this.eq(firstCheckBox.css('outlineWidth'), '4px')
-	            this.eq(firstCheckBoxComponent.someProperty, 'required')
-	
-	            this.log("all 3: checked, required, and disabled")
-	            firstCheckBoxComponent.attr('disabled', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(130, 0, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
-	            this.eq(firstCheckBox.css('backgroundColor'), 'rgb(1, 2, 3)')
-	            this.eq(firstCheckBoxComponent.someProperty, 'required')
-	
-	            this.log("just required (again)")
-	            firstCheckBoxComponent.attr('disabled', false)
-	            firstCheckBoxComponent.selected = false
-	            setTimeout(function() {
-	            this.eq(firstCheckBoxComponent.someProperty, 'optional')
-	
-	            var secondCheckBoxComponent = children[1].children[0]
-	            var secondCheckBox = $(secondCheckBoxComponent.domNode)
-	            this.eq(secondCheckBox.css('color'), 'rgb(0, 128, 0)')
-	            this.eq(secondCheckBoxComponent.someProperty, undefined)
-	
-	            this.log("just required")
-	            children[1].attr('required', true)
-	            setTimeout(function() {
-	            this.eq(secondCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.eq(secondCheckBoxComponent.someProperty, undefined)
-	            children[1].attr('required', undefined)
-	            setTimeout(function() {
-	
-	            this.log("just checked")
-	            secondCheckBoxComponent.selected = true
-	            this.eq(secondCheckBox.css('color'), 'rgb(0, 128, 0)')
-	            this.eq(secondCheckBoxComponent.someProperty, undefined)
-	
-	            this.log("checked and required")
-	            children[1].attr('required', true)
-	            setTimeout(function() {
-	            this.eq(secondCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.eq(secondCheckBoxComponent.someProperty, 'required')
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	        })
-	
-	        this.test('combination of side-by-side emulated psuedoclasses', function(t) {
-	            var red = 'rgb(128, 0, 0)'
-	            var style = Style({
-	                '$$nthChild(1)': {
-	                    textDecoration: 'underline'
-	                },
-	
-	                '$$nthChild(1+2n)': {
-	                    color: red
-	                }
-	            })
-	
-	            var x,y;
-	            var c = Container([
-	                x = Text('a'),
-	                y = Text('b')
-	            ])
-	            testUtils.demo('combination of side-by-side emulated psuedoclasses', c)
-	            x.style = style
-	            y.style = style
-	
-	            t.eq($(x.domNode).css('color'), red)
-	            t.ok($(x.domNode).css('textDecoration').indexOf('underline') !== -1)
-	            t.ok($(y.domNode).css('color') !== red)
-	            t.eq($(y.domNode).css('textDecoration').indexOf('underline'), -1)
-	        })
-	
-	        this.test('visited', function() {
-	            var C = proto(Block, function(superclass) {
-	                this.name = 'C'
-	
-	                this.build = function(text, link) {
-	                    this.domNode = domUtils.node('a')
-	
-	                    this.attr('href', link)
-	                    this.attr('style', "display:block;")
-	                    this.domNode.textContent = text
-	                    this.on('click', function(e) {
-	                        e.preventDefault() // prevents you from going to the link location on-click
-	                        console.log("fucks")
-	                    })
-	
-	                    this.style = style
-	                }
-	            })
-	
-	            var style = Style({
-	                color: 'rgb(150, 0, 0)',
-	                $$visited: {
-	                    color: 'rgb(0, 128, 0)',
-	
-	                    $$focus: {
-	                        color: 'rgb(0, 70, 200)'
-	                    }
-	                }
-	            })
-	
-	            var component1 = C("This should be green", "http://www.google.com/")
-	            var component2 = C("This should be blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
-	                component2.attr('tabindex', 1) // to make it focusable
-	            var component3 = C("This should be red (even when clicked on)", "http://www.thisdoesntexistatall.com/notatall")
-	                component3.attr('tabindex', 1) // to make it focusable
-	
-	            // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
-	            testUtils.demo('Manually verify these: component :visited pseudo-class styling', Container([component1, component2, component3]))
-	
-	            component2.focus = true
-	
-	            this.test('errors', function() {
-	                this.count(1)
-	
-	                try {
-	                    Style({
-	                        Anything: {
-	                            $$visited: {
-	                                CheckBox: {
-	                                    $setup: function() {
-	                                    }
-	                                }
-	                            }
-	                        }
-	                    })
-	                } catch(e) {
-	                    this.eq(e.message, "All properties within the pseudoclasses 'visited' must be css styles")
-	                }
-	            })
-	        })
-	
-	        this.test('last-child', function(t) {
-	            this.count(7)
-	
-	            var C = proto(Block, function(superclass) {
-	                this.name = 'C'
-	
-	                this.build = function() {
-	                    this.add(Text("a"))
-	                    this.add(Text("b"))
-	                    this.add(Text("c"))
-	                    this.add(Text("d"))
-	
-	                    this.style = style
-	                }
-	            })
-	
-	            var style = Style({
-	                Text:{
-	                    $$lastChild: {
-	                        color: 'rgb(128, 0, 0)'
-	                    }
-	                }
-	            })
-	
-	            var component1 = C()
-	            testUtils.demo('last-child', component1)
-	
-	            var children = component1.domNode.children
-	            this.eq($(children[0]).css('color'), 'rgb(0, 0, 0)')
-	            this.eq($(children[1]).css('color'), 'rgb(0, 0, 0)')
-	            this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
-	            this.eq($(children[3]).css('color'), 'rgb(128, 0, 0)')
-	            var classes = children[3].classList
-	            this.eq(classes.length, 3)  // one is the main default, one is the Text default, and the 3rd is the set styling
-	
-	            // dynamically adding elements
-	
-	            component1.add(Text('e'))
-	
-	            setTimeout(function() {  // the styles won't actually be applied until the thread runs back to the scheduler
-	                t.eq($(children[3]).css('color'), 'rgb(0, 0, 0)')
-	                t.eq($(children[4]).css('color'), 'rgb(128, 0, 0)')
-	            },0)
-	        })
-	
-	        this.test('nth-child', function() {
-	            var C = proto(Block, function(superclass) {
-	                this.name = 'C'
-	
-	                this.build = function() {
-	                    this.add(Text("a"))
-	                    this.add(Text("b"))
-	                    this.add(Text("c"))
-	                    this.add(Text("d"))
-	
-	                    this.style = style
-	                }
-	            })
-	
-	            var style = Style({
-	                Text:{
-	                    '$$nthChild(1)': {
-	                        color: 'rgb(128, 0, 0)'
-	                    },
-	                    '$$nthChild(2n)': {
-	                        color: 'rgb(0, 128, 128)'
-	                    }
-	                }
-	            })
-	
-	            var component1 = C()
-	            testUtils.demo('nth-child', component1)
-	
-	            var children = component1.domNode.children
-	            this.eq($(children[0]).css('color'), 'rgb(128, 0, 0)')
-	            this.eq($(children[1]).css('color'), 'rgb(0, 128, 128)')
-	            this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
-	            this.eq($(children[3]).css('color'), 'rgb(0, 128, 128)')
-	
-	            this.test('nth-child emulation', function(t) {
-	                this.count(5)
-	
-	                var red = 'rgb(128, 0, 0)'
-	                var teal = 'rgb(0, 128, 128)'
-	
-	                var style = Style({
-	                    Container:{
-	                        '$$nthChild(2)': {
-	                            Text: {
-	                                color: red
-	                            }
-	                        },
-	                        '$$nthChild(1+2n)': {
-	                            Text: {
-	                                color: teal
-	                            }
-	                        }
-	                    }
-	                })
-	
-	                var c = Container([])
-	                testUtils.demo('nth-child emulation', c)
-	                c.style = style
-	
-	                c.add(Container([Text('a')]))
-	                c.add(Container([Text('b')]))
-	                c.add(Container([Text('c')]))
-	                c.add(Container([Text('d')]))
-	                c.add(Container([Text('e')]))
-	
-	                setTimeout(function() {
-	                    t.eq($(c.children[0].children[0].domNode).css('color'), teal)
-	                    t.eq($(c.children[1].children[0].domNode).css('color'), red)
-	                    t.eq($(c.children[2].children[0].domNode).css('color'), teal)
-	                    t.eq($(c.children[3].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-	                    t.eq($(c.children[4].children[0].domNode).css('color'), teal)
-	                },0)
-	            })
-	
-	            this.test("nth-child without parent", function(t) {
-	                this.count(3)
-	
-	
-	                var black = 'rgb(0, 0, 0)'
-	                var red = 'rgb(128, 0, 0)'
-	                var style = Style({
-	                    '$$nthChild(1+1n)': {
-	                        color: red
-	                    }
-	                })
-	
-	                var box = Container([])
-	                var c = Container([])
-	                c.style = style
-	
-	                c.add(Text("moo"))
-	                c.add(Text("moo2"))
-	
-	                box.add(c)
-	                testUtils.demo("nth-child without parent", box)
-	
-	                setTimeout(function() {                              // allow the changes to propagate
-	                    t.eq($(c.children[0].domNode).css('color'), red)
-	                    t.eq($(c.children[1].domNode).css('color'), red)
-	
-	                    var one = c.children[1]
-	                    c.remove(one)
-	                    setTimeout(function() {                          // allow the changes to propagate
-	                        box.add(one)
-	                        t.eq($(one.domNode).css('color'), black)
-	                    },0)
-	                },0)
-	            })
-	        })
-	
-	//            this.test('not', function(t) {
-	//                var red = 'rgb(128, 0, 0)'
-	//                var teal = 'rgb(0, 128, 128)'
-	//                var style = Style({
-	//                    Text: {
-	//                        '$$not(:nthChild(1))': {
-	//                            color: red
-	//                        }
-	//                    },
-	//                    Container:{
-	//                        '$$not(:nthChild(3))': {
-	//                            Text: {
-	//                                color: teal
-	//                            }
-	//                        }
-	//                    }
-	//                })
-	//
-	//                var c = Container([
-	//                    Text('a'),
-	//                    Text('b'),
-	//                    Container([Text('c')]),
-	//                    Container([Text('d')])
-	//                ])
-	//                testUtils.demo('not', c)
-	//                c.style = style
-	//
-	//                t.eq($(c.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-	//                t.eq($(c.children[1].domNode).css('color'), red)
-	//                t.eq($(c.children[2].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-	//                t.eq($(c.children[3].children[0].domNode).css('color'), teal)
-	//
-	//            })
-	
-	    })
-	
-	    this.test("test styling objects that inherit from a component", function() {
-	
-	        var S = Style({
-	            Text: Style({
-	                color: 'rgb(128, 0, 0)'
-	            })
-	        })
-	
-	        var inheritsFromText = proto(Text, function() {})
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = S
-	                this.add(inheritsFromText('inParent'))
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo("test styling objects that inherit from a component", node)
-	
-	        var text = $($(node.domNode).children('div')[0])
-	
-	        this.eq(text.css('color'), 'rgb(128, 0, 0)')
-	    })
-	
-	    this.test("component state", function(t) {
-	        var S = Style({
-	            color: 'rgb(0, 100, 0)',
-	            $state: function(state, style) {
-	                if(state.boggled) {
-	                    style.color = 'rgb(100, 0, 0)'
-	                } else {
-	                    style.color = 'rgb(0, 0, 100)'
-	                }
-	            }
-	        })
-	
-	        var c = Text("hi")
-	        c.style = S
-	
-	        testUtils.demo("component state", c)
-	
-	        var text = $(c.domNode)
-	        this.eq(text.css('color'), 'rgb(0, 0, 100)')
-	
-	        c.state.set('boggled', true)
-	        this.eq(text.css('color'), 'rgb(100, 0, 0)')
-	    })
-	
-	    this.test('former bugs', function() {
-	        this.test('propogating inner style wasnt working', function() {
-	            var S = Style({
-	                    Container: {
-	                        Button: {
-	                            color: 'rgb(1,2,3)'
-	                        }
-	                    }
-	                })
-	
-	            var C = Text('X')
-	                C.style = S
-	                var A = Container()
-	                    var B = Button('b')
-	                A.add(B)
-	            C.add(A)
-	
-	            testUtils.demo('propogating inner style wasnt working', C)
-	
-	            this.eq($(B.domNode).css('color'), 'rgb(1, 2, 3)')
-	        })
-	
-	        this.test('inner styles inside labels werent working right', function() {
-	            var S = Style({
-	                $label: {
-	                    Text: {
-	                        color: 'rgb(1,2,3)'
-	                    }
-	                }
-	            })
-	
-	            var c = Container('label', [Text('hi')])
-	                c.style = S
-	
-	            testUtils.demo('inner styles inside labels werent working right', c)
-	
-	            this.eq($(c.children[0].domNode).css('color'), 'rgb(1, 2, 3)')
-	        })
-	
-	        this.test('inner styles inside labels werent working right when there was a style outside the label', function() {
-	            var S = Style({
-	                $label: {
-	                    Text: {
-	                        color: 'rgb(1,2,3)'
-	                    }
-	                },
-	                Text: {
-	                    color: 'rgb(20,50,90)'
-	                }
-	            })
-	
-	            var c = Container('label', [Text('hi')])
-	                c.style = S
-	
-	            var superContainer = Container([c]) // the component has to be added to a parent for the bug to manifest
-	
-	            testUtils.demo('inner styles inside labels werent working right when there was a style outside the label', superContainer)
-	
-	            this.eq($(c.children[0].domNode).css('color'), 'rgb(1, 2, 3)')
-	        })
-	
-	        this.test('removing the last child component failed', function() {
-	            var c = Container([Text('a')])
-	            c.remove(0)
-	        })
-	    })
-	    //*/
-	}
-
-/***/ },
-/* 87 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var syn = __webpack_require__(99)
-	var testUtils = __webpack_require__(6)
-	
-	var Button = __webpack_require__(8)
-	
-	module.exports = function(t) {
-	    t.count(5)
-	
-	    var obj = new Button("Text");
-	    obj.on("click",function() {
-	        t.ok(true);
-	    })
-	
-	    testUtils.demo("Button", obj)
-	
-	    this.eq(obj.text, "Text")
-	    this.eq(obj.domNode.value, "Text")
-	    obj.text = "MOOOO"
-	    this.eq(obj.text, "MOOOO")
-	    this.eq(obj.domNode.value, "MOOOO")
-	
-	    syn.click(obj.domNode)
-	};
-
-
-/***/ },
-/* 88 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var syn = __webpack_require__(99)
-	var testUtils = __webpack_require__(6)
-	
-	var CheckBox = __webpack_require__(9)
-	
-	module.exports = function(t) {
-	    t.count(14)
-	
-	    var obj = new CheckBox()
-	    this.test("clicks", function(t) {
-	        this.count(2)
-	        obj.on("click",function() {
-	            t.ok(true)
-	        })
-	    })
-	    this.test("clicks", function(t) {
-	        this.count(4)
-	        obj.on("change",function() {
-	            t.ok(true)
-	        })
-	    })
-	
-	    testUtils.demo("Checkbox", obj)
-	
-	    this.eq(obj.selected, false)
-	    this.eq(obj.domNode.checked, false)
-	
-	    obj.selected = true          // causes a change event (but no click)
-	    this.eq(obj.selected, true)
-	    this.eq(obj.domNode.checked, true)
-	
-	    obj.selected = true          // nothing should happen since its already selected
-	    this.eq(obj.selected, true)
-	    this.eq(obj.domNode.checked, true)
-	
-	    obj.selected = false         // causes a change event (but no click)
-	    this.eq(obj.selected, false)
-	    this.eq(obj.domNode.checked, false)
-	
-	    syn.click(obj.domNode).then(function() {     // causes a change event and a click event
-	        t.eq(obj.selected, true)
-	        t.eq(obj.domNode.checked, true)
-	
-	        return syn.click(obj.domNode)            // causes a change event and a click event
-	    }).then(function(){
-	        t.eq(obj.selected, false)
-	        t.eq(obj.domNode.checked, false)
-	    }).done()
-	};
-
-
-/***/ },
-/* 89 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var syn = __webpack_require__(99)
-	var testUtils = __webpack_require__(6)
-	
-	var Container = __webpack_require__(7)
-	var Text = __webpack_require__(17)
-	
-	module.exports = function(t) {
-	    t.count(18)
-	
-	    var demoContainer = Container()
-	    testUtils.demo("Container", demoContainer)
-	
-	
-	    var text1 = Text('a')
-	    var c1 = Container(text1)
-	    demoContainer.add(c1)
-	
-	    this.eq(c1.children.length, 1)
-	    this.eq(c1.domNode.childNodes.length, 1)
-	    this.eq(c1.children[0], text1)
-	    this.eq(c1.domNode.childNodes[0], text1.domNode)
-	
-	    c1.on("click",function(e) {
-	        t.ok(e !== undefined)
-	    })
-	
-	    syn.click(text1.domNode)  // produces a click event
-	    syn.click(c1.domNode)     // produces another click event
-	
-	
-	    var text2 = Text('b'), text3 = Text('c')
-	    var c2 = Container(text2, text3)
-	    demoContainer.add(c2)
-	
-	    this.eq(c2.children.length, 2)
-	    this.eq(c2.children[0], text2)
-	    this.eq(c2.children[1], text3)
-	
-	
-	    var text4 = Text('d'), text5 = Text('e')
-	    var c3 = Container([text4, text5])
-	    demoContainer.add(c3)
-	
-	    this.eq(c3.children.length, 2)
-	    this.eq(c3.children[0], text4)
-	    this.eq(c3.children[1], text5)
-	
-	
-	    // test to make sure label arguments work
-	
-	    var c4 = Container('aLabel1', Text('e'))
-	    this.eq(c4.children.length, 1)
-	    this.eq(c4.attr('label', 'aLabel1'))
-	
-	    var c5 = Container('aLabel2', Text('f'), Text('g'))
-	    this.eq(c5.children.length, 2)
-	    this.eq(c5.attr('label', 'aLabel2'))
-	
-	    var c6 = Container('aLabel3', [Text('h')])
-	    this.eq(c6.children.length, 1)
-	    this.eq(c6.attr('label', 'aLabel3'))
-	};
-
-
-/***/ },
-/* 90 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(6)
-	var Container = __webpack_require__(7)
-	
-	var Image = __webpack_require__(10);
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Image", container)
-	
-		this.test('basic usage',function(t) {
-			var obj = new Image("https://avatars1.githubusercontent.com/u/149531")
-	        container.add(obj)
-	
-	        t.eq(obj.domNode.nodeName, "IMG")
-	
-	        t.eq(obj.src, "https://avatars1.githubusercontent.com/u/149531")
-	        t.eq(obj.domNode.src, "https://avatars1.githubusercontent.com/u/149531")
-	
-	        obj.src = "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg"
-	        t.eq(obj.src, "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg")
-	        t.eq(obj.domNode.src, "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg")
-		});
-	
-	    this.test("label argument", function() {
-	        var img = Image("label", "https://avatars1.githubusercontent.com/u/149531")
-	
-	        this.eq(img.label, "label")
-	        this.eq(img.src, "https://avatars1.githubusercontent.com/u/149531")
-	        this.eq(img.domNode.src, "https://avatars1.githubusercontent.com/u/149531")
-	    })
-	};
-
-
-/***/ },
-/* 91 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(6)
-	var Container = __webpack_require__(7)
-	
-	var Text = __webpack_require__(17)
-	var List = __webpack_require__(11)
-	
-	module.exports = function(t) {
-	
-	
-	    var container = Container()
-	    testUtils.demo("List", container)
-	
-	    this.test("simple creation - unordered", function() {
-	        var list = List([Text('a'), Text('b'), Text('c')])
-	
-	        container.add(Text("list1"), list)
-	
-	        this.eq(list.children.length, 3)
-	        this.ok(list.children[0] instanceof List.Item)
-	        this.ok(list.children[1] instanceof List.Item)
-	        this.ok(list.children[2] instanceof List.Item)
-	        this.eq(list.domNode.nodeName, 'UL') // default is unordered list
-	
-	        var firstItem = $($(list.domNode).find("li")[0])[0]
-	        this.eq(firstItem.innerText, 'a')
-	
-	        this.test("list constructed with raw strings instead of elements", function() {
-	            var list = List(['a', 'b'])
-	
-	            container.add(Text("list2"), list)
-	
-	            this.eq(list.children.length, 2)
-	            this.eq(list.children[0].domNode.innerText, 'a')
-	        })
-	    })
-	
-	    this.test("simple creation - ordered", function() {
-	        var list = List(true, [Text('a'), Text('b'), Text('c')])
-	        this.eq(list.domNode.nodeName, 'OL')    // the true argument means ordered list
-	
-	        var list = List(false, [Text('a'), Text('b'), Text('c')])
-	        this.eq(list.domNode.nodeName, 'UL')    // false means unordered
-	    })
-	
-	    this.test("individual item creation", function() {
-	        var list = List()
-	
-	        this.eq(list.domNode.nodeName, 'UL') // default is unordered list
-	
-	        var item1 = list.item(Text('a'))
-	        this.eq(list.children.length, 1)
-	
-	        var item2 = list.item(Text('B'))
-	
-	        this.eq(list.children.length, 2)
-	        this.ok(list.children[0] instanceof List.Item)
-	        this.ok(list.children[1] instanceof List.Item)
-	        this.ok(list.children[0] === item1)
-	        this.ok(list.children[1] === item2)
-	
-	        this.eq(list.children[0].children[0].text, 'a')
-	        var firstItem = $($(list.domNode).find("li")[0])[0]
-	        this.eq(firstItem.innerText, 'a')
-	
-	        this.test("items constructed with raw strings instead of elements", function() {
-	            var list = List()
-	
-	            var item1 = list.item('a')
-	
-	            this.eq(list.children.length, 1)
-	            this.eq(list.children[0].domNode.innerText, 'a')
-	        })
-	
-	        this.test("ordering argument alone", function() {
-	            var list = List(true)
-	            this.eq(list.domNode.nodeName, 'OL')
-	
-	            var list2 = List(false)
-	            this.eq(list2.domNode.nodeName, 'UL')
-	        })
-	    })
-	
-	    this.test("label arguments", function() {
-	        var list1 = List('aLabel')
-	        var list2 = List('aLabel2', ['a', 'b', 'c'])
-	        this.eq(list1.label, 'aLabel')
-	        this.eq(list2.label, 'aLabel2')
-	        this.eq(list1.domNode.nodeName, 'UL')
-	        this.eq(list2.domNode.nodeName, 'UL')
-	        this.eq(list1.children.length, 0)
-	        this.eq(list2.children.length, 3)
-	
-	        var item1 = list1.item('aLabel4', 'e')
-	        this.eq(list1.children.length, 1)
-	        this.eq(item1.label, 'aLabel4')
-	        this.eq(item1.domNode.innerText, 'e')
-	
-	        var list3 = List('aLabel5', true)
-	        this.eq(list3.label, 'aLabel5')
-	        this.eq(list3.domNode.nodeName, 'OL')
-	        this.eq(list3.children.length, 0)
-	
-	        var list4 = List('aLabel6', false)
-	        this.eq(list4.label, 'aLabel6')
-	        this.eq(list4.domNode.nodeName, 'UL')
-	        this.eq(list4.children.length, 0)
-	
-	        var list5 = List('aLabel7', true, ['x'])
-	        this.eq(list5.label, 'aLabel7')
-	        this.eq(list5.domNode.nodeName, 'OL')
-	        this.eq(list5.children.length, 1)
-	
-	        var list6 = List('aLabel8', false, ['y'])
-	        this.eq(list6.label, 'aLabel8')
-	        this.eq(list6.domNode.nodeName, 'UL')
-	        this.eq(list6.children.length, 1)
-	
-	    })
-	};
-
-
-/***/ },
-/* 92 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(6)
-	var syn = __webpack_require__(99)
-	
-	var Container = __webpack_require__(7)
-	var Text = __webpack_require__(17)
-	
-	var MultiSelect = __webpack_require__(100)
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("MultiSelect", container)
-	
-	    this.test("basic usage", function(t) {
-	        this.count(49)
-	
-	        var s1 = MultiSelect({4: 'Option 4', 5: "Option 5"})
-	        container.add(Text("Group 1: "), s1)
-	
-	        this.eq(Object.keys(s1.options).length, 2)
-	        this.eq(s1.options[4].val, "4")
-	        this.eq(s1.options[5].val, "5")
-	        this.eq(s1.val.length, 0)
-	
-	        var option6 = s1.option(6, "Option 6")
-	
-	        this.eq(Object.keys(s1.options).length, 3)
-	        this.eq(s1.options[6], option6)
-	
-	
-	        this.test("events", function(t) {
-	            this.count(43)
-	
-	            s1.on('change', function() {
-	                event('change','s1')
-	            })
-	
-	            s1.options[4].on('click', function() {
-	                event('click', 'option4')
-	            })
-	            s1.options[4].on('change', function() {
-	                event('change', 'option4')
-	            })
-	            s1.options[5].on('click', function() {
-	                event('click', 'option57')
-	            })
-	            s1.options[5].on('change', function() {
-	                event('change', 'option57')
-	            })
-	            option6.on('click', function() {
-	                event('click', 'option6')
-	            })
-	            option6.on('change', function() {
-	                event('change', 'option6')
-	            })
-	
-	            var event = testUtils.seq(
-	
-	            // change 1
-	              function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	
-	            // change 2
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 2)
-	
-	            // change 3
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	
-	            // change 4
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	                t.eq(s1.options[4].selected, true)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	                t.eq(s1.options[6].selected, true)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	                t.eq(s1.options[7].selected, false)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 2)
-	
-	            // change 5
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option6')
-	
-	            // change 6
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option57')
-	            })
-	
-	        })
-	
-	
-	
-	        this.ok(s1.val instanceof Array, s1.val)
-	        this.eq(s1.val.length, 0)
-	
-	        // change 1
-	        s1.options[4].selected = true
-	        this.eq(s1.val.length, 1)
-	        this.eq(s1.val[0], "4")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5].selected, false)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change 2
-	        s1.options[5].selected = true
-	        this.eq(s1.val.length, 2)
-	        this.eq(s1.val[0], "4")
-	        this.eq(s1.val[1], "5")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5].selected, true)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change option value
-	
-	        s1.options[5].val = 7
-	        this.eq(s1.options[7].val, '7')
-	        this.eq(s1.val[1], '7')
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5], undefined)     // moved to value 7
-	        this.eq(s1.options[6].selected, false)
-	        this.eq(s1.options[7].selected, true)
-	
-	        // change option text
-	        s1.options[7].text = 'Option 7<select></select>'
-	        this.eq(s1.options[7].domNode.textContent, 'Option 7<select></select>')
-	        this.eq(s1.options[7].text, 'Option 7<select></select>')
-	
-	        // change 3
-	        s1.options[4].selected = false
-	        this.eq(s1.val.length, 1)
-	        this.eq(s1.val[0], "7")
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[6].selected, false)
-	        this.eq(s1.options[7].selected, true)
-	
-	        // change 4
-	        // change the value of the select object directly
-	        s1.val = [4,6]
-	        this.eq(s1.val.length, 2)
-	        this.eq(s1.val[0], "4")
-	        this.eq(s1.val[1], "6")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[6].selected, true)
-	        this.eq(s1.options[7].selected, false)
-	
-	
-	        // select just one of the already selected options with a click
-	        // change 5
-	        syn.click(option6.domNode).then(function() {
-	            t.eq(s1.val.length, 1)
-	            t.eq(s1.val[0], "6")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, false)
-	
-	            // change 6
-	            // click one that wasn't already selected
-	            return syn.click(s1.options[7].domNode)
-	        }).then(function(){
-	            t.eq(s1.val.length, 1)
-	            t.eq(s1.val[0], "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, false)
-	            t.eq(s1.options[7].selected, true)
-	        }).done()
-	
-	        /* todo: test selecting multiple items with shift-clicking once syn supports that
-	        syn.type(option6.domNode, "[shift]").click(option6.domNode).type(option6.domNode, "[shift-up]").then(function() {
-	            t.eq(s1.val.length, 2)
-	            t.eq(s1.val[0], "6")
-	            t.eq(s1.val[1], "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, true)
-	
-	            return syn.click(s1.options[7].domNode)
-	        }).then(function(){
-	            t.eq(s1.val.length, 2)
-	            t.eq(s1.val[0], "6")
-	            t.eq(s1.val[1], "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, false)
-	        }).done()
-	        */
-	    })
-	
-	
-	    // todo:
-	    /*
-	    this.test("test keyboard events", function() {
-	
-	        this.test("basic changing selected options with the keyboard", function(t) {
-	            var select1 = MultiSelect({1: 'one', 2: 'two', 3: 'three'})
-	
-	            container.add(Text("Another Group: "), select1)
-	
-	            select1.focus()
-	            syn.key(option1A.domNode, "[down]").then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return syn.key(option1A.domNode, "[down]")
-	            })/*.then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                return key(option1A.domNode, "[left]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	
-	                // test looping
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                // test looping
-	                return key(option1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	            }).done()
-	        })
-	
-	    })
-	    */
-	
-	
-	    this.test("labels", function(t) {
-	        var s1 = MultiSelect("myLabel")
-	        this.eq(s1.label, "myLabel")
-	        this.eq(Object.keys(s1.options).length, 0)
-	
-	        var s2 = MultiSelect("myLabel2", {1: "one"})
-	        this.eq(s2.label, "myLabel2")
-	        this.eq(Object.keys(s2.options).length, 1)
-	
-	        var option = s1.option("myLabel3", "value", "text")
-	        this.eq(option.label, "myLabel3")
-	        this.eq(option.val, "value")
-	        this.eq(option.text, "text")
-	    })
-	
-	
-	    this.test("remove", function(t) {
-	        this.count(13)
-	
-	        var select = MultiSelect()
-	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
-	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
-	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
-	
-	        option0.selected = true
-	
-	        select.on('change', function() {
-	            event(select.val)
-	        })
-	
-	        var event = testUtils.seq(function(values) {
-	            t.eq(values.length, 0)
-	        })
-	
-	
-	        this.eq(option1.parent, select)
-	
-	        select.remove(1)
-	        this.eq(select.val.length, 1)
-	        this.eq(option1.parent, undefined)
-	        this.eq(Object.keys(select.options).length, 5)
-	
-	        try {
-	            select.val = ["option1"]
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option1'")
-	        }
-	
-	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
-	        this.eq(select.val.length, 0)
-	        this.eq(option0.parent, undefined)
-	        this.eq(Object.keys(select.options).length, 4)
-	
-	        try {
-	            select.val = "option0"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option0'")
-	        }
-	
-	        select.remove([2, 3]) // these are option4 and option5
-	
-	
-	        try {
-	            select.val = "option4"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option4'")
-	        }
-	
-	        this.eq(Object.keys(select.options).length, 2)
-	
-	        select.remove([option2])
-	
-	        this.eq(Object.keys(select.options).length, 1)
-	    })
-	
-	    // todo:
-	    /*
-	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
-	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
-	    })
-	     */
-	
-	    this.test("errors", function() {
-	        this.count(9)
-	
-	        var select = MultiSelect({1: "text", 3: 'moretext', 4: "seriously"})
-	
-	        try {
-	            select.option("1", 'text')
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the MultiSelect (value: '1')")
-	        }
-	
-	        var optionB = select.option("2", 'text')
-	        try {
-	            optionB.val = "1"
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
-	        }
-	
-	        select.options[1].selected = true
-	
-	        // verify the values beforehand (these values should remain the same after the error below)
-	        this.eq(select.val.length, 1)
-	        this.eq(select.val[0], '1')
-	
-	        try {
-	            select.val = "nonexistent"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'nonexistent'")
-	        }
-	
-	        // make sure this didn't change any values (since an exception was thrown, nothing should have been changed)
-	        this.eq(select.val.length, 1)
-	        this.eq(select.val[0], '1')
-	
-	        try {
-	            select.remove(300)
-	        } catch(e) {
-	            this.eq(e.message, "There is no child at index 300")
-	        }
-	
-	        var select2 = MultiSelect({x: 'x', 'y':'y', z:'z'})
-	        try {
-	            select2.remove(optionB)
-	        } catch(e) {
-	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
-	        }
-	    })
-	};
-
-
-/***/ },
-/* 93 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(6)
-	var syn = __webpack_require__(99)
-	
-	var Container = __webpack_require__(7)
-	var Text = __webpack_require__(17)
-	
-	var Radio = __webpack_require__(12)
-	
-	
-	module.exports = function(t) {
-	
-	    var container = Container()
-	    testUtils.demo("Radio", container)
-	
-	    this.test('required',function(t) {
-	        this.test("basic usage", function(t) {
-	            this.count(23)
-	
-	            var radio = Radio() // default is required
-	            var button1 = radio.button("1"), button2 = radio.button("2")
-	            container.add(Text("Required: "),button1, button2)
-	
-	            radio.on('change', function() {
-	                event('change','radio')
-	            })
-	
-	            button1.on('click', function() {
-	                event('click', 'button1')
-	            })
-	            button1.on('change', function() {
-	                event('change', 'button1')
-	            })
-	            button2.on('click', function() {
-	                event('click', 'button2')
-	            })
-	            button2.on('change', function() {
-	                event('change', 'button2')
-	            })
-	
-	            var event = testUtils.seq(function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'button1')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'button1')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'button2')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'radio')
-	
-	                t.eq(radio.val, '2')
-	                t.eq(radio.selected, button2)
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'button2')
-	            })
-	
-	            // for a required one, the first button created will be selected by default
-	            t.eq(button1.domNode.checked, true)
-	            t.eq(button2.domNode.checked, false)
-	            t.eq(radio.selected, button1)
-	            t.eq(radio.val, "1")
-	
-	            // nothing should happen if you click the selected one (for required)
-	            syn.click(button1.domNode).then(function() {
-	                t.eq(button1.domNode.checked, true)
-	                t.eq(button2.domNode.checked, false)
-	                t.eq(radio.selected, button1)
-	                t.eq(radio.val, "1")
-	
-	                // select the other one
-	                return syn.click(button2.domNode)
-	            }).then(function() {
-	                t.eq(button1.domNode.checked, false)
-	                t.eq(button2.domNode.checked, true)
-	                t.eq(radio.val, "2")
-	            }).done()
-	        })
-	
-	        this.test("remove", function(t) {
-	            this.count(14)
-	
-	            var radio = Radio()
-	            var button0 = radio.button("0"), button1 = radio.button("1"), button2 = radio.button("2"), button3 = radio.button("3")
-	            var button4 = radio.button("4"), button5 = radio.button("5")
-	
-	            radio.on('change', function() {
-	                event(radio.val)
-	            })
-	
-	            var event = testUtils.seq(function(value) {
-	                t.eq(value, '2')
-	            },function(value) {
-	                t.eq(value, '4')
-	            },function(value) {
-	                t.eq(value, '5')
-	            })
-	
-	
-	            this.eq(button1.group, radio)
-	
-	            radio.remove(button1)
-	            this.eq(radio.val, "0")
-	            this.eq(button1.group, undefined)
-	            this.eq(Object.keys(radio.buttons).length, 5)
-	
-	            try {
-	                radio.val = "1"
-	            } catch(e) {
-	                this.eq(e.message, "There is no RadioButton in the group with the value: '1'")
-	            }
-	
-	            radio.remove(button0)
-	            this.eq(radio.val, "2")  // for required, another RadioButton is selected
-	            this.eq(button0.group, undefined)
-	            this.eq(Object.keys(radio.buttons).length, 4)
-	
-	            try {
-	                radio.val = "0"
-	            } catch(e) {
-	                this.eq(e.message, "There is no RadioButton in the group with the value: '0'")
-	            }
-	
-	            radio.remove([button2, button3])
-	
-	            this.eq(Object.keys(radio.buttons).length, 2)
-	
-	            radio.remove([button4])
-	
-	            this.eq(Object.keys(radio.buttons).length, 1)
-	        })
-	
-	        // todo: when syn support keyboard events on radio buttons
-	        /*
-	        this.test("changing selected radio buttons with the keyboard", function(t) {
-	            var radio1 = Radio(true)
-	            var button1A = radio1.button("1"), button1B = radio1.button("2"), button1C = radio1.button("3")
-	
-	            container.add(button1A, button1B, button1C)
-	
-	            // todo: add events testing to this too
-	
-	            button1A.focus()
-	            key(button1A.domNode, "[right]").then(function() {
-	                t.eq(document.activeElement, button1B)
-	                t.eq(radio1.val, "2")
-	
-	                return key(button1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1C)
-	                t.eq(radio1.val, "3")
-	
-	                return key(button1A.domNode, "[left]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1B)
-	                t.eq(radio1.val, "2")
-	
-	                return key(button1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1A)
-	                t.eq(radio1.val, "1")
-	
-	                // test looping
-	                return key(button1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1C)
-	                t.eq(radio1.val, "3")
-	
-	                // test looping
-	                return key(button1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1A)
-	                t.eq(radio1.val, "1")
-	            }).done()
-	        })
-	
-	        this.test("tabbing", function() {
-	            var radio1 = Radio(true)
-	            var button1A = radio1.button("1"), button1B = radio1.button("2")
-	            var radio2 = Radio(true)
-	            var button2A = radio2.button("1"), button2B = radio2.button("2")
-	
-	            container.add(button1A, button1B, button2A, button2B)
-	        })*/
-	
-		})
-	
-	    this.test("notRequired", function(t) {
-	        var radio = Radio(false)
-	        var button1 = radio.button("1"), button2 = radio.button("2")
-	        container.add(Text("Not required: "), button1, button2)
-	
-	        // for a non-required Radio group, the group starts out without
-	        t.eq(button1.domNode.checked, false)
-	        t.eq(button2.domNode.checked, false)
-	        t.eq(radio.selected, undefined)
-	        t.eq(radio.val, undefined)
-	
-	        radio.val = "1"
-	        t.eq(radio.val, "1")
-	
-	        syn.click(button1.domNode).then(function() {
-	            t.eq(radio.val, undefined)
-	        }).done()
-	    })
-	
-	    this.test("labels", function(t) {
-	        var radio = Radio()
-	        var button1 = radio.button("myLabel", "1")
-	
-	        t.eq(button1.val, "1")
-	        t.eq(button1.label, "myLabel")
-	    })
-	
-	    this.test("edge cases", function() {
-	        this.test("changing a button's value", function() {
-	            var radio = Radio()
-	            var button1 = radio.button("1")
-	            var button2 = radio.button("2")
-	
-	            button2.val = "3"
-	            this.eq(button2.val, "3")
-	
-	            radio.val = "3"
-	            this.eq(radio.selected, button2)
-	            this.eq(radio.val, "3")
-	
-	            var button3 = radio.button("2")
-	            radio.val = "2"
-	            this.eq(radio.selected, button3)
-	            this.eq(radio.val, "2")
-	
-	        })
-	    })
-	
-	    this.test("errors", function() {
-	        this.count(5)
-	
-	        var radio = Radio()
-	        radio.button("1")
-	
-	        try {
-	            radio.button("1")
-	        } catch(e) {
-	            this.eq(e.message, "Can't give a RadioButton the same value as another in the group (value: '"+1+"')")
-	        }
-	
-	        var buttonB = radio.button("2")
-	        try {
-	            buttonB.val = "1"
-	        } catch(e) {
-	            this.eq(e.message, "Can't give a RadioButton the same value as another in the group (value: '"+1+"')")
-	        }
-	
-	        try {
-	            radio.val = "nonexistent"
-	        } catch(e) {
-	            this.eq(e.message, "There is no RadioButton in the group with the value: 'nonexistent'")
-	        }
-	
-	        try {
-	            radio.val = undefined
-	        } catch(e) {
-	            this.eq(e.message, "Can't unset this Radio set, a value is required.")
-	        }
-	
-	        var radio2 = Radio()
-	        try {
-	            radio2.remove(buttonB)
-	        } catch(e) {
-	            this.eq(e.message, "The button passed at index 0 is not part of the group.")
-	        }
-	    })
-	};
-	
-
-
-/***/ },
-/* 94 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(6)
-	var syn = __webpack_require__(99)
-	
-	var Container = __webpack_require__(7)
-	var Text = __webpack_require__(17)
-	
-	var Select = __webpack_require__(13)
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Select", container)
-	
-	    this.test("basic usage", function(t) {
-	        this.count(34)
-	
-	        var s1 = Select({4: 'Option 4', 5: "Option 5"})
-	        container.add(Text("Select 1: "), s1)
-	
-	        this.eq(Object.keys(s1.options).length, 2)
-	        this.eq(s1.options[4].val, "4")
-	        this.eq(s1.options[5].val, "5")
-	        this.eq(s1.val, "4") // selects first created option on creation
-	
-	        var option6 = s1.option(6, "Option 6")
-	
-	        this.eq(Object.keys(s1.options).length, 3)
-	        this.eq(s1.options[6], option6)
-	
-	
-	        this.test("events", function(t) {
-	            this.count(27)
-	
-	            s1.on('change', function() {
-	                event('change','s1')
-	            })
-	
-	            s1.options[4].on('click', function() {
-	                event('click', 'option4')
-	            })
-	            s1.options[4].on('change', function() {
-	                event('change', 'option4')
-	            })
-	            s1.options[5].on('click', function() {
-	                event('click', 'option57')
-	            })
-	            s1.options[5].on('change', function() {
-	                event('change', 'option57')
-	            })
-	            option6.on('click', function() {
-	                event('click', 'option6')
-	            })
-	            option6.on('change', function() {
-	                event('change', 'option6')
-	            })
-	
-	            var event = testUtils.seq(
-	            // change 2
-	              function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val, '5')
-	
-	            // change 3
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	                t.eq(s1.options[7].selected, false)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	                t.eq(s1.options[6].selected, true)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val, '6')
-	
-	            // change 4
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option6')
-	
-	            // change 5
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val, '7')
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option57')
-	            })
-	
-	        })
-	
-	
-	
-	        // change 1 - really no change because option4 is already selected
-	        s1.options[4].selected = true
-	        this.eq(s1.val, "4")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5].selected, false)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change 2
-	        s1.options[5].selected = true
-	        this.eq(s1.val, "5")
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[5].selected, true)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change option value
-	        s1.options[5].val = 7
-	        this.eq(s1.options[7].val, '7')
-	        this.eq(s1.val, '7')
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[5], undefined)     // moved to value 7
-	        this.eq(s1.options[6].selected, false)
-	        this.eq(s1.options[7].selected, true)
-	
-	        // change option text
-	        s1.options[7].text = 'Option 7'
-	        this.eq(s1.options[7].domNode.innerText, 'Option 7')
-	
-	        // change 3
-	        // change the value of the select object directly
-	        s1.val = "6"
-	        this.eq(s1.val, "6")
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[6].selected, true)
-	        this.eq(s1.options[7].selected, false)
-	
-	
-	        // select just one of the already selected options with a click
-	        // change 4
-	        syn.click(option6.domNode).then(function() {
-	            t.eq(s1.val, "6")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, false)
-	
-	            // change 5
-	            // click one that wasn't already selected
-	            return syn.click(s1.options[7].domNode)
-	        }).then(function(){
-	            t.eq(s1.val, "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, false)
-	            t.eq(s1.options[7].selected, true)
-	        }).done()
-	    })
-	
-	
-	    // todo:
-	    /*
-	    this.test("test keyboard events", function() {
-	
-	        this.test("basic changing selected options with the keyboard", function(t) {
-	            var select1 = Select({1: 'one', 2: 'two', 3: 'three'})
-	
-	            container.add(Text("Another Group: "), select1)
-	
-	            select1.focus()
-	            syn.key(option1A.domNode, "[down]").then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return syn.key(option1A.domNode, "[down]")
-	            })/*.then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                return key(option1A.domNode, "[left]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	
-	                // test looping
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                // test looping
-	                return key(option1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	            }).done()
-	        })
-	
-	    })
-	    */
-	
-	
-	    this.test("labels", function(t) {
-	        var s1 = Select("myLabel")
-	        this.eq(s1.label, "myLabel")
-	        this.eq(Object.keys(s1.options).length, 0)
-	
-	        var s2 = Select("myLabel2", {1: "one"})
-	        this.eq(s2.label, "myLabel2")
-	        this.eq(Object.keys(s2.options).length, 1)
-	
-	        var option = s1.option("myLabel3", "value", "text")
-	        this.eq(option.label, "myLabel3")
-	        this.eq(option.val, "value")
-	        this.eq(option.text, "text")
-	    })
-	
-	
-	    this.test("remove", function(t) {
-	        this.count(14)
-	
-	        var select = Select()
-	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
-	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
-	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
-	
-	        option0.selected = true
-	
-	        select.on('change', function() {
-	            event(select.val)
-	        })
-	
-	        var event = testUtils.seq(function(value) {
-	            t.eq(value, 'option2')
-	        },function(value) {
-	            t.eq(value, 'option3')
-	        })
-	
-	
-	        this.eq(option1.parent, select)
-	
-	        select.remove(1)
-	        this.eq(select.val, 'option0')
-	        this.eq(option1.parent, undefined)
-	        this.eq(Object.keys(select.options).length, 5)
-	
-	        try {
-	            select.val = "option1"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'option1'")
-	        }
-	
-	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
-	        this.eq(select.val, 'option2')
-	        this.eq(option0.group, undefined)
-	        this.eq(Object.keys(select.options).length, 4)
-	
-	        try {
-	            select.val = "option0"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'option0'")
-	        }
-	
-	        select.remove([2, 3]) // these are option4 and option5
-	
-	
-	        try {
-	            select.val = "option4"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'option4'")
-	        }
-	
-	        this.eq(Object.keys(select.options).length, 2)
-	
-	        select.remove([option2]) // should generate another change event
-	
-	        this.eq(Object.keys(select.options).length, 1)
-	    })
-	
-	    // todo:
-	    /*
-	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
-	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
-	    })
-	     */
-	
-	    this.test("errors", function() {
-	        this.count(5)
-	
-	        var select = Select({1: "text"})
-	
-	        try {
-	            select.option("1", 'text')
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the Select (value: '1')")
-	        }
-	
-	        var optionB = select.option("2", 'text')
-	        try {
-	            optionB.val = "1"
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
-	        }
-	
-	        try {
-	            select.val = "nonexistent"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'nonexistent'")
-	        }
-	
-	        try {
-	            select.remove(300)
-	        } catch(e) {
-	            this.eq(e.message, "There is no child at index 300")
-	        }
-	
-	        var select2 = Select()
-	        try {
-	            select2.remove(optionB)
-	        } catch(e) {
-	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
-	        }
-	    })
-	};
-
-
-/***/ },
-/* 95 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(6)
-	var Container = __webpack_require__(7)
-	
-	var Text = __webpack_require__(17)
-	var Table = __webpack_require__(14)
-	
-	module.exports = function(t) {
-	
-	
-	    var container = Container()
-	    testUtils.demo("Table", container)
-	
-	    this.test("simple creation", function() {
-	        var table = Table([
-	            [Text('a'), Text('b'), Text('c'), Text('d')],
-	            [Text('A'), Text('B'), Text('C'), Text('D'), Text("E")],
-	            [Text('AY'), Text('BEE'), Text('CEE'), Text('DEE'), Text("EEeeeeee")]
-	        ])
-	
-	        container.add(Text("table1"), table)
-	
-	        this.eq(table.children.length, 3)
-	        this.ok(table.children[0] instanceof Table.Row)
-	        this.ok(table.children[1] instanceof Table.Row)
-	        this.ok(table.children[2] instanceof Table.Row)
-	
-	        this.eq(table.children[0].children.length, 4)
-	        this.eq(table.children[1].children.length, 5)
-	        this.eq(table.children[2].children.length, 5)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("tr")[0])
-	        this.eq(firstRow.find('td')[0].innerText, 'a')
-	
-	        this.ok(table.children[2].children[3] instanceof Table.Cell)
-	        this.ok(table.children[2].children[3].children[0] instanceof Text)
-	        this.eq(table.children[2].children[3].children[0].text, 'DEE')
-	        this.eq(table.domNode.children[2].children[3].children[0].innerText, 'DEE')
-	        var lastRow = $($(table.domNode).find("tr")[2])
-	        this.eq(lastRow.find('td')[3].innerText, 'DEE')
-	
-	        this.test("tables constructed with raw strings instead of elements", function() {
-	            var table = Table([
-	                ['a', 'b', 'c'],
-	                ['d', 'e', 'f']
-	            ])
-	
-	            container.add(Text("table2"), table)
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode.innerText, 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode.innerText, 'f')
-	        })
-	    })
-	
-	    this.test("individual row creation", function() {
-	        var table = Table()
-	
-	        var row1 = table.row([Text('a'), Text('b'), Text('c'), Text('d')])
-	        this.eq(table.children.length, 1)
-	
-	        var row2 = table.row([Text('A'), Text('B'), Text('C'), Text('D'), Text("E")])
-	
-	        this.eq(table.children.length, 2)
-	        this.ok(table.children[0] instanceof Table.Row)
-	        this.ok(table.children[1] instanceof Table.Row)
-	        this.eq(table.children[0], row1)
-	        this.eq(table.children[1], row2)
-	
-	        this.eq(table.children[0].children.length, 4)
-	        this.eq(table.children[1].children.length, 5)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("tr")[0])
-	        this.eq(firstRow.find('td')[0].innerText, 'a')
-	
-	        this.ok(table.children[1].children[3] instanceof Table.Cell)
-	        this.eq(table.children[1].children[3].children[0].text, 'D')
-	        this.eq(table.domNode.children[1].children[3].innerText, 'D')
-	        var lastRow = $($(table.domNode).find("tr")[1])
-	        this.eq(lastRow.find('td')[3].innerText, 'D')
-	
-	        this.test("rows constructed with raw strings instead of elements", function() {
-	            var table = Table()
-	
-	            table.row(['a', 'b', 'c'])
-	            table.row(['d', 'e', 'f'])
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode.innerText, 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode.innerText, 'f')
-	        })
-	    })
-	
-	    // table headers are exactly the same as table rows, except...  apply directly to the forehead
-	    this.test("individual header creation", function() {
-	        var table = Table()
-	
-	        var row1 = table.header([Text('a'), Text('b'), Text('c'), Text('d')])
-	        this.eq(table.children.length, 1)
-	
-	        var row2 = table.header([Text('A'), Text('B'), Text('C'), Text('D'), Text("E")])
-	
-	        this.eq(table.children.length, 2)
-	        this.ok(table.children[0] instanceof Table.Header)
-	        this.ok(table.children[1] instanceof Table.Header)
-	        this.eq(table.children[0], row1)
-	        this.eq(table.children[1], row2)
-	
-	        this.eq(table.children[0].children.length, 4)
-	        this.eq(table.children[1].children.length, 5)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("th")[0])
-	        this.eq(firstRow.find('td')[0].innerText, 'a')
-	
-	        this.ok(table.children[1].children[3] instanceof Table.Cell)
-	        this.eq(table.children[1].children[3].children[0].text, 'D')
-	        this.eq(table.domNode.children[1].children[3].innerText, 'D')
-	        var lastRow = $($(table.domNode).find("th")[1])
-	        this.eq(lastRow.find('td')[3].innerText, 'D')
-	
-	        this.test("rows constructed with raw strings instead of elements", function() {
-	            var table = Table()
-	
-	            table.header(['a', 'b', 'c'])
-	            table.header(['d', 'e', 'f'])
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode.innerText, 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode.innerText, 'f')
-	        })
-	    })
-	
-	    this.test('individual cell creation', function() {
-	        var table = Table()
-	        container.add(Text("table3"), table)
-	
-	        var row1 = table.row()
-	        var row2 = table.row()
-	
-	        var cell1 = row1.cell(Text('a'))
-	
-	        var cell2 = row2.cell(Text('A'))
-	        var cell3 = row2.cell(Text('B'))
-	
-	        this.eq(table.children.length, 2)
-	        this.eq(table.children[0], row1)
-	        this.eq(table.children[1], row2)
-	
-	        this.eq(table.children[0].children.length, 1)
-	        this.eq(table.children[1].children.length, 2)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0], cell1)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("tr")[0])
-	        this.eq(firstRow.find('td')[0].innerText, 'a')
-	
-	        this.ok(table.children[1].children[1] instanceof Table.Cell)
-	        this.eq(table.children[1].children[0], cell2)
-	        this.eq(table.children[1].children[1], cell3)
-	        this.eq(table.children[1].children[1].children[0].text, 'B')
-	        this.eq(table.domNode.children[1].children[1].innerText, 'B')
-	        var lastRow = $($(table.domNode).find("tr")[1])
-	        this.eq(lastRow.find('td')[1].innerText, 'B')
-	
-	        this.test("colspan", function() {
-	            cell1.colspan(2)
-	            this.eq(cell1.attr('colspan'), '2')
-	        })
-	
-	        this.test("cells constructed with raw strings instead of elements", function() {
-	            var table = Table()
-	
-	            var row1 = table.row()
-	            var row2 = table.row()
-	
-	            row1.cell('a')
-	            row1.cell('b')
-	            row1.cell('c')
-	
-	            row2.cell('d')
-	            row2.cell('e')
-	            row2.cell('f')
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode.innerText, 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode.innerText, 'f')
-	        })
-	    })
-	
-	    this.test("label arguments", function() {
-	        var table1 = Table('aLabel')
-	        var table2 = Table('aLabel2', [['a', 'b'],['c', 'd'],['e']])
-	        this.eq(table1.label, 'aLabel')
-	        this.eq(table2.label, 'aLabel2')
-	        this.eq(table2.children.length, 3)
-	
-	        var row1 = table1.row('aLabel3')
-	        var row2 = table1.row('aLabel4', ['f','g'])
-	        this.eq(row1.label, 'aLabel3')
-	        this.eq(row2.label, 'aLabel4')
-	        this.eq(table1.children.length, 2)
-	
-	        var cell1 = row1.cell('label5', 'value')
-	        var cell2 = row1.cell('label6', undefined)
-	        this.eq(cell1.label, 'label5')
-	        this.eq(cell1.domNode.innerText, 'value')
-	        this.eq(cell2.label, 'label6')
-	    })
-	};
-
-
-/***/ },
-/* 96 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(6)
-	var Container = __webpack_require__(7)
-	
-	var Text = __webpack_require__(17);
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Text", container)
-	
-		this.test('basic usage',function(t) {
-			var obj = new Text();
-	        container.add(obj)
-	        t.eq(obj.text,"");
-	
-	        obj.text = "   "
-			t.ok(obj.domNode.offsetWidth > 0); // make sure the spaces aren't collapsed (by default)
-	
-	        var obj2 = Text("<div>whatever</div>")
-	        container.add(obj2)
-	        t.eq(obj2.text,"<div>whatever</div>");
-	        t.eq(obj2.domNode.innerText, "<div>whatever</div>")
-	
-		});
-	
-	    this.test("label argument", function() {
-	        var t = Text("label", "text")
-	
-	        this.eq(t.label, "label")
-	        this.eq(t.domNode.innerText, "text")
-	    })
-	};
-
-
-/***/ },
-/* 97 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(6)
-	var Container = __webpack_require__(7)
-	var syn = __webpack_require__(99)
-	
-	var TextArea = __webpack_require__(15)
-	
-	module.exports = function(t) {
-	
-	    var container = Container()
-	    testUtils.demo("TextArea", container)
-	
-		this.test('basic usage',function(t) {
-	        this.count(3)
-	
-			var obj = TextArea()
-	        container.add(obj)
-	
-	        this.test("events", function(t) {
-	            this.count(5)
-	
-	            obj.on("click",function() {
-	                event('click')
-	            })
-	            obj.on("change",function() {
-	                event('change')
-	            })
-	
-	            var event = testUtils.seq(function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!")
-	            },function(name) {
-	                t.eq(name, 'click')
-	            },function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!second")
-	            })
-	        })
-	
-	        obj.val = "first!"
-	        this.eq(obj.val, "first!")
-	
-	        syn.click(obj.domNode).then(function() {
-	            return syn.type(obj.domNode, "second")
-	        }).then(function() {
-	            t.eq(obj.val, "first!second")
-	            obj.domNode.blur()
-	        }).done()
-		});
-	
-	    this.test("label argument", function() {
-	        var t = TextArea("label")
-	        this.eq(t.label, "label")
-	    })
-	};
-
-
-/***/ },
-/* 98 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(6)
-	var Container = __webpack_require__(7)
-	var syn = __webpack_require__(99)
-	
-	var TextField = __webpack_require__(16)
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("TextArea", container)
-	
-		this.test('basic usage',function(t) {
-	        this.count(3)
-	
-			var obj = TextField()
-	        container.add(obj)
-	
-	        this.test("events", function(t) {
-	            this.count(5)
-	
-	            obj.on("click",function() {
-	                event('click')
-	            })
-	            obj.on("change",function() {
-	                event('change')
-	            })
-	
-	            var event = testUtils.seq(function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!")
-	            },function(name) {
-	                t.eq(name, 'click')
-	            },function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!second")
-	            })
-	        })
-	
-	        obj.val = "first!"
-	        this.eq(obj.val, "first!")
-	
-	        syn.click(obj.domNode).then(function() {
-	            return syn.type(obj.domNode, "second")
-	        }).then(function() {
-	            t.eq(obj.val, "first!second")
-	            obj.domNode.blur()
-	        }).done()
-		});
-	
-	    this.test("password (manually verify)", function() {
-	        var field = TextField(true)
-	        container.add(field)
-	        field.val = "something, but it should be like, astrisks"
-	    })
-	
-	    this.test("label argument", function() {
-	        var t = TextField("label", false)
-	        this.eq(t.label, "label")
-	    })
-	};
-
-
-/***/ },
-/* 99 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// requires: syn (loaded as a global variable from an html script tag)
-	
-	var Future = __webpack_require__(30)
-	
-	exports.click = wrap(syn.click)
-	exports.type = wrap(syn.type)
-	exports.key = wrap(syn.key)
-	
-	
-	function wrap(fn) {
-	    return function() {
-	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
-	
-	        // for chaining
-	        var target = arguments[0]
-	        resultFuture.click = function() {
-	            exports.click.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.type = function() {
-	            exports.type.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.key = function() {
-	            exports.key.apply(this, [target].concat(arguments))
-	        }
-	
-	        return resultFuture
-	    }
-	}
-	
-
-
-/***/ },
-/* 100 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(4)
-	var proto = __webpack_require__(35)
-	
-	var Option = __webpack_require__(24)
-	
-	// emits a 'change' event when its 'val' changes
-	module.exports = proto(Block, function(superclass) {
-	
-		// static variables
-	
-	    this.name = 'MultiSelect'
-	
-	    this.Option = Option
-	
-		this.init = function(/*[label,] options*/) {
-	        if(arguments[0] instanceof Object) {
-	            var options = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var options = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-			this.attr('multiple','multiple')
-	        this.label = label
-	
-	        this.options = {}
-	
-			for(var value in options) {
-				this.option(value, options[value])
-			}
-	
-	        /*
-			var that = this
-	        that.domNode.addEventListener('mousedown', function() {
-	            console.log("parent mousedown")
-	            var enterHandler, upHandler;
-	            that.children.forEach(function(child) {
-	                child.domNode.addEventListener('mouseover', enterHandler = function() {
-	                    console.log("child mouseover")
-	                    child.selected = true
-	                })
-	            })
-	
-	            that.domNode.addEventListener('mouseup', upHandler = function() {
-	                console.log("parent mouseup")
-	                that.children.forEach(function(child) {
-	                    child.domNode.removeEventListener('mouseover', enterHandler)
-	                })
-	
-	                that.domNode.removeEventListener('mouseup', upHandler)
-	            })
-	        })*/
-		}
-	
-	
-		// instance methods
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns a list of the values that are selected
-	        get: function() {
-	            var result = []
-	            for(var value in this.options) {
-	                if(this.options[value].selected) {
-	                    result.push(value)
-	                }
-	            }
-	
-	            return result
-	        },
-	
-	        // values can either be an array, or a single value to select
-	        set: function(values) {
-	            if(!(values instanceof Array))
-	                values = [values]
-	
-	            var that = this
-	            values.forEach(function(value) {
-	                if(that.options[value] === undefined) {
-	                    throw new Error("There is no Option in the MultiSelect with the value: '"+value+"'")
-	                }
-	            })
-	
-	            var stringifiedValues = values.map(function(v){return v.toString()})
-	
-	            var somethingChanged = false
-	            for(var value in this.options) {
-	                var selected = stringifiedValues.indexOf(value) !== -1
-	                var option = this.options[value]
-	
-	                if(option.selected !== selected) {  // selected state change
-	                    somethingChanged = true
-	                    option.setSelectedQuiet(selected)
-	                }
-	            }
-	
-	            if(somethingChanged) {
-	                this.emit('change')
-	            }
-	        }
-	    })
-		
-		this.option = function(/*[label,] value,text*/) {
-	        if(arguments.length === 2) {
-	            var value = arguments[0]
-	            var text = arguments[1]
-	        } else if(arguments.length === 3) {
-	            var label = arguments[0]
-	            var value = arguments[1]
-	            var text = arguments[2]
-	        } else {
-	            throw new Error("Invalid number of arguments")
-	        }
-	
-	        var newOption = Option(label, value,text)
-	        this.add(newOption)
-	
-	        return newOption
-	
-		}
-	
-	    // same interface as Block.addAt
-	    /*override*/ this.addAt = function(index/*, nodes...*/) {
-	        var that = this
-	
-	        var nodesToAdd = Block.normalizeAddAtArguments.apply(this, arguments)
-	
-	        // validation first
-	        nodesToAdd.forEach(function(option) {
-	            if(that.options[option.val] !== undefined) {
-	                throw new Error("Can't give an Option the same value as another in the MultiSelect (value: '"+option.val+"')")
-	            }
-	        })
-	
-	        superclass.addAt.call(this, index, nodesToAdd)
-	
-	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var anyWereSelected = false
-	        nodesToAdd.forEach(function(option) {
-	            if(option.selected) anyWereSelected = true
-	            that.options[option.val] = option
-	
-	
-	            // set up multi-select events
-	            // todo: remove events when the Option is removed
-	
-	            option.on("mousedown",function(event) {
-	                event.preventDefault()           // this needs to be here otherwise the options can't be deselected
-	
-	                option.parent.focus = true // without this, the parent doesn't gain focus
-	                option.focus = true
-	                if(event.shiftKey || event.ctrlKey) {
-	                    option.selected = !option.selected // toggle
-	                } else {
-	                    var parentVal = option.parent.val
-	                    var onlyThisIsSelected = parentVal.length === 1 && parentVal[0] === option.val
-	                    if(onlyThisIsSelected) {
-	                        option.selected = false
-	                    } else {
-	                        option.parent.val = [option.val] // select only this one
-	                    }
-	                }
-	            })
-	            /*option.domNode.addEventListener("click",function(event) {
-	                //event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
-	                option.emit('click', event)
-	            })*/
-	            option.on("mousemove",function(event) {
-	                event.preventDefault()         // this needs to be here otherwise the radio button is unset as soon as you move the mouse (when the mouse is down)
-	            })
-	            /*this.domNode.addEventListener("keydown",function(event) {
-	                if(event.keyCode === 40 || event.keyCode === 39) { // down or right
-	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                    option.selectNext()
-	                } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
-	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                    option.selectPrevious()
-	                }
-	            })*/
-	
-	            /*;['click', 'drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop', 'cancel',
-	                'mousedown', 'mouseenter', 'mousemove', 'mouseleave', 'mouseout', 'mouseover', 'mouseup'
-	            ].forEach(function(eventType) {
-	                option.domNode.addEventListener(eventType, function( event ) {
-	                    //event.preventDefault()
-	                    console.log(eventType)
-	                });
-	            })*/
-	
-	        })
-	
-	        if(anyWereSelected) {
-	            this.emit('change')
-	        }
-	    }
-	
-	    // same interface as Block.remove
-	    /*override*/ this.remove = function() {
-	        var that = this
-	
-	        var removalIndexes = Block.normalizeRemoveArguments.apply(this, arguments)
-	        var removals = removalIndexes.map(function(index) {
-	            return that.children[index]
-	        })
-	
-	        superclass.remove.call(this, removalIndexes)
-	
-	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var anyWereSelected = false
-	        removals.forEach(function(option) {
-	            if(option.selected) anyWereSelected = true
-	            delete that.options[option.val]
-	        })
-	
-	        if(anyWereSelected) {
-	            this.emit('change')
-	        }
-	    }
-	
-	
-	    // private
-	
-	    this.prepareForValueChange = function() {} // no-op
-	})
-	
 
 
 /***/ }

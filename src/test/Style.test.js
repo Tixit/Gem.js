@@ -1,9 +1,10 @@
 var proto = require('proto')
 
 var testUtils = require('testUtils')
-var blocks = require("../blocks")
+var blocks = require("../blocks.browser")
 var Block = blocks.Block
 var domUtils = require('domUtils')
+var syn = require("fsyn")
 
 var Style = blocks.Style
 var Text = blocks.Text
@@ -15,69 +16,52 @@ var Container = blocks.Container
 module.exports = function(t) {
 
 
-     this.test('visited', function() {
+          /*
+        this.test('last-child', function(t) {
+
             var C = proto(Block, function(superclass) {
                 this.name = 'C'
 
-                this.build = function(text, link) {
-                    this.domNode = domUtils.node('a')
-
-                    this.attr('href', link)
-                    this.attr('style', "display:block;")
-                    this.domNode.textContent = text
-                    this.on('click', function(e) {
-                        e.preventDefault() // prevents you from going to the link location on-click
-                        console.log("fucks")
-                    })
+                this.build = function() {
+                    this.add(Text("a"))
 
                     this.style = style
                 }
             })
 
             var style = Style({
-                color: 'rgb(150, 0, 0)',
-                $$visited: {
-                    color: 'rgb(0, 128, 0)',
-
-                    $$focus: {
-                        color: 'rgb(0, 70, 200)'
+                Text:{
+                    $$lastChild: {
+                        color: 'rgb(128, 0, 0)'
                     }
                 }
             })
 
-            var component1 = C("This should be green", "http://www.google.com/")
-            var component2 = C("This should be blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
-                component2.attr('tabindex', 1) // to make it focusable
-            var component3 = C("This should be red (even when clicked on)", "http://www.thisdoesntexistatall.com/notatall")
-                component3.attr('tabindex', 1) // to make it focusable
-
-            // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
-            testUtils.demo('Manually verify these: component :visited pseudo-class styling', Container([component1, component2, component3]))
-
-            component2.focus = true
-
-            this.test('errors', function() {
-                this.count(1)
-
-                try {
-                    Style({
-                        Anything: {
-                            $$visited: {
-                                CheckBox: {
-                                    $setup: function() {
-                                    }
-                                }
-                            }
-                        }
-                    })
-                } catch(e) {
-                    this.eq(e.message, "All properties within the pseudoclasses 'visited' must be css styles")
-                }
+            var component1 = C()
+            testUtils.demo('last-child', component1)
+            component1.on('click', function() {
+                component1.add(Text('e'))
             })
         })
 
+        this.test("hover", function(t) {
+            this.count(3)
 
-    /*
+            var style = Style({
+                Text: {
+                    $$hover: {
+                        color: 'rgb(200, 0, 0)'
+                    }
+                }
+            })
+
+            var c = Container([Text("a")])
+            c.style = style
+
+            testUtils.demo('hover', c)
+        })      */
+
+    //*
     this.test('simple styling',function(t) {
         this.count(2)
 
@@ -563,10 +547,10 @@ module.exports = function(t) {
         })
     })
 
-    this.test('component pseudo-class styling', function() {
+    this.test('component pseudoclass styling', function() {
 
 
-        this.test("basic psuedo-class styling", function() {
+        this.test("basic psuedoclass styling", function() {
             this.count(40)
 
             var C = proto(Block, function(superclass) {
@@ -988,6 +972,32 @@ module.exports = function(t) {
                 },0)
             })
         })
+
+//        todo: do this when you can figure out how syn.move works
+//        this.test("hover", function(t) {
+//            this.count(3)
+//
+//            var style = Style({
+//                $$hover: {
+//                    color: 'rgb(200, 0, 0)'
+//                }
+//            })
+//
+//            var text = Text("a")
+//            text.style = style
+//
+//            testUtils.demo('hover', text)
+//
+//            this.eq($(text.domNode).css('color'), 'rgb(0, 0, 0)')
+//
+//            syn.move({pageX: 100, pageY:100}, text.domNode).then(function() {
+//                t.eq($(text.domNode).css('color'), 'rgb(200, 0, 0)')
+//
+//                return syn.move(text.domNode, {pageX: 100, pageY:100})
+//            }).then(function() {
+//                t.eq($(text.domNode).css('color'), 'rgb(0, 0, 0)')
+//            }).done()
+//        })
 
 //            this.test('not', function(t) {
 //                var red = 'rgb(128, 0, 0)'

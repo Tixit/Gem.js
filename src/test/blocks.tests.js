@@ -2,7 +2,7 @@
 
 var Unit = require('deadunit/deadunit.browser')
 
-var blocks = require("../blocks")
+var blocks = require("../blocks.browser")
 blocks.dev = true
 
 module.exports = function() {

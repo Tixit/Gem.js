@@ -1,6 +1,6 @@
 {
   "name": "blocks-js",
-  "version": "0.9.3",
+  "version": "0.9.7",
   "dependencies": {
     "colors": {
       "version": "1.0.3",

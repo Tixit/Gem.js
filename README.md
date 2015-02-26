@@ -170,6 +170,7 @@ All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.ht
 
 **`block.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Block.  
 **`block.addListener(event,callback)`** - *Same as `on`.*  
+* `event` - The string event name to listen for.
 * `callback(data, data2, ...)` - the callback gets any arguments passed to `emit` after the event name.
 
 **`block.once(event, callback)`** - Like `on` but the `callback` will only be called the first time the event happens.
@@ -842,8 +843,7 @@ Todo
 Changelog
 ========
 
-* 1.0.0
-    * adding better require paths for commonjs
+* 0.9.9 - adding better require paths for commonjs
 * 0.9.8 - writing all this documentation
 * 0.9.7 - Added List, Image, and Canvas
 * 0.9.6 - Fixed but in EventEmitterB that was causing catch-all ifon handlers to not fire on-call if events were already attached beforehand

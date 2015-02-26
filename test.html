@@ -7,8 +7,17 @@
     <div id="a">A div</div>
     <div id="b">B div</div>
     <textarea id='t'>muhfucker</textarea>
+
+    <ul><li>a</li>
+        <li>b</li>
+        <li>c</li>
+    </ul>
+    <ol><li>a</li>
+        <li>b</li>
+        <li>c</li>
+    </ol>
 </body>
-<script src="blocks.umd.js"></script>
+<script src="dist/blocks.umd.js"></script>
 <script src="src/external/syn.js"></script>
 <script src="src/external/jss.js"></script>
 
@@ -61,24 +70,24 @@
     blocks.attach(group2.button('a'), group2.button('b'))
 
 
-    var select1 = blocks.MultiSelect({"moo":"MOOOOO", "ya":"Whategver i dont care", "FUCK": "GO FUCK YOURSLF CHROME"})
-    blocks.attach(select1)
+    //var select1 = blocks.MultiSelect({"moo":"MOOOOO", "ya":"Whategver i dont care", "FUCK": "GO FUCK YOURSLF CHROME"})
+    //blocks.attach(select1)
 
     /*
-    syn.click(select1.children[0].domNode, function() {
-        console.log("donezo")
-    })
-    //*/
-
-    //*
-
-    syn.click(select1.children[1].domNode)
-
-    syn.type(select1.children[0].domNode, "[shift]")
-    //syn.click(select1.children[0].domNode)
-    syn.type(select1.children[0].domNode, "[shift-up]", function() {
-        console.log("donezo")
-    })
+//    syn.click(select1.children[0].domNode, function() {
+//        console.log("donezo")
+//    })
+//    //*/
+//
+//    //*
+//
+//    syn.click(select1.children[1].domNode)
+//
+//    syn.type(select1.children[0].domNode, "[shift]")
+//    //syn.click(select1.children[0].domNode)
+//    syn.type(select1.children[0].domNode, "[shift-up]", function() {
+//        console.log("donezo")
+//    })
 
 
 
@@ -119,7 +128,16 @@
     jss1.set('#A', {
         color: 'red'
     })
-    //*/
+
+
+    var x = blocks.Text("hi")
+    x.style = blocks.Style({
+        color: 'blue',
+        $$hover: {color: 'red'},
+        //$$lastChild: {color: 'green'}
+    })
+
+    x.attach()
 
 
     //*/

@@ -3,7 +3,7 @@ var Future = require("async-future")
 
 var syn = require("fsyn")
 var testUtils = require('testUtils')
-var blocks = require("../blocks")
+var blocks = require("../blocks.browser")
 var Block = blocks.Block
 
 var Text = blocks.Text
@@ -17,8 +17,6 @@ module.exports = function(t) {
     var TestThinger = proto(Block,function(superclass) {
         this.name = 'TestThinger'
     })
-
-
 
 
 
@@ -251,6 +249,10 @@ module.exports = function(t) {
         thinger.attr('moose', undefined)
         this.eq(thinger.domNode.getAttribute("moose"), null)
         this.eq(thinger.attr('moose'), undefined)
+
+        thinger.attr({arg:1, blah:2})
+        this.eq(thinger.attr('arg'), '1')
+        this.eq(thinger.attr('blah'), '2')
     })
 
     this.test('label property', function() {
@@ -618,6 +620,31 @@ module.exports = function(t) {
             })
 
             syn.click(e.domNode).done()
+        })
+    })
+
+    this.test("former bugs", function() {
+        // note, i thought this would have been a bug.. but apparently not? I'm unclear how to manifest the incorrect code i see.. but what the hell, i'll just fix the code without a test
+        this.test("dom events handlers not being unbound correctly when more than one type of event is bound", function(t) {
+            this.count(1)
+
+            var EventWhore = proto(Block,function(superclass) {
+                this.name = 'EventWhore'
+            })
+
+            var e = EventWhore()
+
+            var clickHandler
+            e.on('click', clickHandler=function() {
+                t.ok(false)
+            })
+            e.on('mousedown', function() {
+                t.ok(true)
+            })
+
+            e.off('click', clickHandler)
+
+            syn.click(e.domNode)
         })
     })
 

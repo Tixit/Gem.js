@@ -37,6 +37,7 @@ module.exports = function(t) {
     this.test("simple creation - ordered", function() {
         var list = List(true, [Text('a'), Text('b'), Text('c')])
         this.eq(list.domNode.nodeName, 'OL')    // the true argument means ordered list
+        container.add(Text("olist"), list)
 
         var list = List(false, [Text('a'), Text('b'), Text('c')])
         this.eq(list.domNode.nodeName, 'UL')    // false means unordered
