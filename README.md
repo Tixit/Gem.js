@@ -51,6 +51,7 @@ Blocks.js is here to change that. Finally, modern application development for th
       - [`$<label>`](#$label)
       - [`$$<pseudoclass>`](#$$pseudoclass)
       - [`$setup` and `$kill`](#$setup-and-$kill)
+      - [Combining them together](#combining-them-together)
     - [`Style.addPseudoClass`](#styleaddpseudoclass)
     - [Built-in Pseudoclasses](#built-in-pseudoclasses)
     - [Standard Pseudoclasses](#standard-pseudoclasses)
@@ -1050,6 +1051,7 @@ Todo
 Changelog
 ========
 
+* 0.9.11 - updating hashmap version, since it was giving me trouble in another project
 * 0.9.10
     * remove the $state style thing - $setup and $kill cover it
     * allow $setup to return a value that's then passed to $kill (so they aren't forced to set properties on the block)
