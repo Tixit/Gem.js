@@ -54,6 +54,7 @@ Blocks.js is here to change that. Finally, modern application development for th
     - [`Style.addPseudoClass`](#styleaddpseudoclass)
     - [Built-in Pseudoclasses](#built-in-pseudoclasses)
     - [Standard Pseudoclasses](#standard-pseudoclasses)
+    - [Default style](#default-style)
 - [Decisions](#decisions)
 - [Todo](#todo)
 - [Changelog](#changelog)
