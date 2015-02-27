@@ -66,9 +66,9 @@ Example
 
 ```javascript
 
-var Block = require("blocks-js")
-var Button = require("blocks-js/Button")
-var Style = require("blocks-js/Style")
+var Block = require("blocks.js")
+var Button = require("blocks.js/Button")
+var Style = require("blocks.js/Style")
 
 var toggleButton = Button("Hi") // create a button
 
@@ -92,8 +92,8 @@ toggleButton.style = Style({
 
 // custom blocks (use your favorite javascript class library - here proto is being used)
 var proto = require('proto')
-var TextField = require("blocks-js/TextField")
-var Text = require("blocks-js/Text")
+var TextField = require("blocks.js/TextField")
+var Text = require("blocks.js/Text")
 var NameInput = proto(Block, function() { // inherit from Block
     this.build = function(LabelText) {              // the `build` method initializes the custom Block
         var nameField = TextField()
@@ -140,7 +140,7 @@ Install
 =======
 
 ```
-npm install blocks-js
+npm install blocks.js
 ```
 
 or download the built package `blocks.umd.js` from the 'dist' folder in the repository
@@ -149,7 +149,7 @@ Usage
 =====
 
 ```javascript
-var blocks = require('blocks-js')  // node.js and webpack
+var blocks = require('blocks.js')  // node.js and webpack
 
 define(['blocks.umd.js'], function(blocks) { ... } // amd
 
@@ -170,8 +170,8 @@ All blocks inherit from `Block` - the basic building-block of the system. Blocks
 ### Loading
 
 ```javascript
-var Block = require("blocks-js") // or
-var Block = require("blocks-js/Block") // or
+var Block = require("blocks.js") // or
+var Block = require("blocks.js/Block") // or
 blocks.Block // if you're using the umd package
 ```
 
@@ -345,7 +345,7 @@ var block = CustomBlock(5) // block.x is 5
 ### Releasing custom blocks as separate modules
 
 If you'd like to release a custom `Block` or set of `Block` objects, there are a couple of important things to remember to do:
-* If you're releasing on npm, do *not* add `blocks-js` as a normal "dependency". Instead, it should be added as a ["peerDependency"](http://blog.nodejs.org/2013/02/07/peer-dependencies/) or perhaps a "devDependency". It should't be a normal "dependency" though, because otherwise bundlers may bundle multiple copies of blocks.js when using your custom block module (even though bundlers like webpack dedupe files, if the versions of webpack being used are slightly different, they would still package together both versions of blocks.js)
+* If you're releasing on npm, do *not* add `blocks.js` as a normal "dependency". Instead, it should be added as a ["peerDependency"](http://blog.nodejs.org/2013/02/07/peer-dependencies/) or perhaps a "devDependency". It should't be a normal "dependency" though, because otherwise bundlers may bundle multiple copies of blocks.js when using your custom block module (even though bundlers like webpack dedupe files, if the versions of webpack being used are slightly different, they would still package together both versions of blocks.js)
 * If you're releasing a module distribution intended to be loaded in a `<script>` tag, do *not* bundle blocks.js in your distribution bundle. It should assume the `blocks` global variable (e.g. `blocks.Block`) is available.
 
 ### Inheriting from Blocks with a class library other than `proto`
@@ -381,10 +381,10 @@ Standard Blocks
 
 The built-in standard blocks all inherit from `Block` and so have all the methods and properties in the above documentation. For each build-in block, its `name` property will be the same as the name the documentation uses for it. For example `Button` will have the name `"Button"`.
 
-To use these built in blocks, access them via either `require("blocks-js/<BlockName>")` or ` blocks.<BlockName>`. For example:
+To use these built in blocks, access them via either `require("blocks.js/<BlockName>")` or ` blocks.<BlockName>`. For example:
 
 ```javascript
-var Table = require("blocks-js/Table") // webpack or browserify
+var Table = require("blocks.js/Table") // webpack or browserify
 // or
 var Table = blocks.Table // if loading the umd bundle in a <script> tag
 ```
