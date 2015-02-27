@@ -883,8 +883,8 @@ Style({
 	Button: {
 		$closeButton: {
 			position: 'absolute',
-			right: 3,
-			top: 3
+			right: 3, top: 3,
+			width: 'calc(50% - 2px)'
 		},
 		$setup: function(block) {
 		    var handler;
