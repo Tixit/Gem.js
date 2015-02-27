@@ -762,11 +762,40 @@ Like labels, pseudoclasses filter out which `Block` styles are given to. And als
 ```javascript
 var x = Text("hi")
 x.style = Style({
-    $hover: {color: 'red'},
+    fontWeight: 'bold',
+    $hover: {color: 'red'}
 })
 ```
 
-The above code changes the text from black to red when you hover over it, and back to black again when you move your mouse off the text.
+The above code changes the text from bold-black to bold-red when you hover over it, and back to black again when you move your mouse off the text.
+
+Pseudoclasses also mix with each other when applicable. For example:
+
+```javascript
+var container = Container([Text("a"), Text("b")])
+container.style = Style({
+    Text: {
+        $lastChild: 'bold',
+        $hover: {color: 'red'}
+    }
+})
+```
+
+In the above code, "a" will start black and change to red when you hover over it. "b" will start black and bold, but will change to red and bold when you hover over it.
+
+To set a style only when multiple pseudoclasses apply, simply nest them. Alternatively as shorthand, pseudoclasses can be combined with a colon to join them ':', in which case, both pseudoclasses must be satisfied by a `Block` to apply their styles. For example:
+
+```javascript
+var text = Text("a")
+text.style = Style({
+    $lastChild: {
+        $hover: {color: 'red'}
+    },
+    '$lastChild:hover': {color: 'red'} // means the same thing as the above
+})
+```
+
+In the above code, "a" will turn red if it is both the last child of its parent, and if it is hovered over.
 
 Also, pseudoclasses may take parameters, which are passed in with parens like a javascript function. For example:
 
@@ -780,17 +809,6 @@ c.style = Style({
 ```
 
 In the above code, "a", "c", and "e" are red, while "b" and "d" are black (the default).
-
-As shorthand, pseudoclasses can be combined with a colon to join them ':', in which case, both pseudoclasses must be satisfied by a `Block` to apply their styles. For example:
-
-```javascript
-var text = Text("a")
-text.style = Style({
-    '$lastChild:hover': {color: 'red'}
-})
-```
-
-In the above code, "a" will turn red if it is both the last child of its parent, and if it is hovered over.
 
 #### `$setup` and `$kill`
 
@@ -873,7 +891,7 @@ Any pseudoclass that exists in standard css can be used by blocks.js, even if it
 * Using block labels within the pseudoclass style definition
 * Using non-standard pseudoclasses within the pseudoclass style definition
 
-Note that, while the list of built-in pseudoclasses is short now, all standard pseudoclasses can be defined *except* the ":visited" pseudoclass, because the necessary information is not available via javascript (a browser "security" policy).
+Note that, while the list of built-in pseudoclasses is currently short, all standard pseudoclasses can be defined *except* the ":visited" pseudoclass, because the necessary information is not available via javascript (a browser "security" policy).
 
 Decisions
 =========
@@ -884,14 +902,13 @@ Decisions
 Todo
 ======
 
-* allow $setup to return a value that's then passed to $kill (so they aren't forced to set properties on the block)
+
 * Figure out which style wins when multiple psuedoclasses apply and they're side by side (instead of nested)
     * Do they combine? They shouldn't..
     * But wasn't there a nice magical way we could indicate that they combine?
 * Test hover with and without a parent (see nth-child without a parent for what that means)
 * Fix a bug in last-child where dynamically adding more children leads to 50% of the children being treated as last-child
 * Fix the bug in hover where it fails to style properly after the first hover
-* remove the $state style thing - $setup and $kill cover it
 
 * Make it so that psuedoclasses can be styled with `Style` objects as long as their checked to only contain simple styles.
 * Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
@@ -910,7 +927,10 @@ Todo
 Changelog
 ========
 
-* 0.9.9 - adding better require paths for commonjs
+* 0.9.10
+    * remove the $state style thing - $setup and $kill cover it
+    * allow $setup to return a value that's then passed to $kill (so they aren't forced to set properties on the block)
+* 0.9.9 adding better require paths for commonjs
 * 0.9.8 - writing all this documentation
 * 0.9.7 - Added List, Image, and Canvas
 * 0.9.6 - Fixed but in EventEmitterB that was causing catch-all ifon handlers to not fire on-call if events were already attached beforehand

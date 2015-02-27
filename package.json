@@ -16,7 +16,7 @@
    "url": "git://github.com/Tixit/blocks.js"
  },
  "dependencies":{
-    "proto": "1.0.14",
+    "proto": "1.0.17",
     "observe": "",
     "trimArguments":"https://github.com/fresheneesz/trimArguments/archive/c9c023c9ff1e0aec4b67370a80a92dacadcf8b11.tar.gz",
     "colors":"",

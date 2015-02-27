@@ -1,6 +1,6 @@
 {
   "name": "blocks-js",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "dependencies": {
     "colors": {
       "version": "1.0.3",
@@ -22,9 +22,9 @@
       "from": "observe@"
     },
     "proto": {
-      "version": "1.0.14",
-      "from": "proto@1.0.14",
-      "resolved": "https://registry.npmjs.org/proto/-/proto-1.0.14.tgz"
+      "version": "1.0.17",
+      "from": "proto@1.0.17",
+      "resolved": "https://registry.npmjs.org/proto/-/proto-1.0.17.tgz"
     },
     "trimArguments": {
       "version": "1.0.1",

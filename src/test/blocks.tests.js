@@ -12,7 +12,6 @@ module.exports = function() {
         this.count(4)
 
 
-
         //*
         t.test('EventEmitterB',require('./EventEmitterB.test')).complete.then(function(){
             return t.test('Block',require('./Block.test')).complete
@@ -46,3 +45,4 @@ module.exports = function() {
 
     return tests
 }
+

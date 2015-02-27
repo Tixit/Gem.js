@@ -16,50 +16,7 @@ var Container = blocks.Container
 module.exports = function(t) {
 
 
-          /*
-        this.test('last-child', function(t) {
 
-            var C = proto(Block, function(superclass) {
-                this.name = 'C'
-
-                this.build = function() {
-                    this.add(Text("a"))
-
-                    this.style = style
-                }
-            })
-
-            var style = Style({
-                Text:{
-                    $$lastChild: {
-                        color: 'rgb(128, 0, 0)'
-                    }
-                }
-            })
-
-            var component1 = C()
-            testUtils.demo('last-child', component1)
-            component1.on('click', function() {
-                component1.add(Text('e'))
-            })
-        })
-
-        this.test("hover", function(t) {
-            this.count(3)
-
-            var style = Style({
-                Text: {
-                    $$hover: {
-                        color: 'rgb(200, 0, 0)'
-                    }
-                }
-            })
-
-            var c = Container([Text("a")])
-            c.style = style
-
-            testUtils.demo('hover', c)
-        })      */
 
     //*
     this.test('simple styling',function(t) {
@@ -305,16 +262,21 @@ module.exports = function(t) {
         this.eq(parentLabel.css('color'), 'rgb(0, 0, 0)')
     })
 
-    this.test("the 'setup' javascript initialization", function() {
+    this.test("the 'setup' javascript initialization", function(t) {
+        this.count(3)
+
         var S = Style({
             $setup: function(component) {
                 component.mahdiv = domUtils.div()
                     component.mahdiv.textContent = "It is set up"
 
                 component.domNode.appendChild(component.mahdiv)
+
+                return "some value to pass to kill"
             },
-            $kill: function(component) {
+            $kill: function(component, state) {
                 component.mahdiv.textContent = 'It has been killed'
+                t.eq(state, "some value to pass to kill")
             }
         })
         var S2 = Style({}) // empty style
@@ -547,7 +509,139 @@ module.exports = function(t) {
         })
     })
 
-    this.test('component pseudoclass styling', function() {
+    this.test('pseudoclass styling', function() {
+
+//        this.test("Style.addPseudoClass", function(t) {
+//
+//            var applies = false, changeState;
+//
+//            this.test("events", function(t) {
+//                this.count(40)
+//
+//                var event = testUtils.seq(function(type, element, applies) {
+//                    t.eq(type, 'check')
+//                    t.eq(element, 'x')
+//                    t.eq(applies, false)
+//                },function(type, element) {
+//                    t.eq(type, 'setup')
+//                    t.eq(element, 'x')
+//                },function(type, element, startArg) {
+//                    t.eq(type, 'changeState')
+//                    t.eq(element, 'x')
+//                    t.eq(startArg, false)
+//                },function(type, element, startArg) {
+//                    t.eq(type, 'changeState')
+//                    t.eq(element, 'x')
+//                    t.eq(startArg, true)
+//                },function(type, element, startArg) {
+//                    t.eq(type, 'changeState')
+//                    t.eq(element, 'x')
+//                    t.eq(startArg, true)
+//                },function(type, element, startArg) {
+//                    t.eq(type, 'changeState')
+//                    t.eq(element, 'x')
+//                    t.eq(startArg, false)
+//                },function(type, element, state) {
+//                    t.eq(type, 'kill')
+//                    t.eq(element, 'x')
+//                    t.eq(state, 'whoHA')
+//
+//                },function(type, element, applies) {
+//                    t.eq(type, 'check')
+//                    t.eq(element, 'y')
+//                    t.eq(applies, true)
+//                },function(type, element) {
+//                    t.eq(type, 'setup')
+//                    t.eq(element, 'y')
+//                },function(type, element, startArg) {
+//                    t.eq(type, 'changeState')
+//                    t.eq(element, 'y')
+//                    t.eq(startArg, true)
+//                },function(type, element, startArg) {
+//                    t.eq(type, 'changeState')
+//                    t.eq(element, 'y')
+//                    t.eq(startArg, false)
+//                },function(type, element, startArg) {
+//                    t.eq(type, 'changeState')
+//                    t.eq(element, 'y')
+//                    t.eq(startArg, false)
+//                },function(type, element, startArg) {
+//                    t.eq(type, 'changeState')
+//                    t.eq(element, 'y')
+//                    t.eq(startArg, true)
+//                },function(type, element, state) {
+//                    t.eq(type, 'kill')
+//                    t.eq(element, 'y')
+//                    t.eq(state, 'whoHA')
+//                })
+//
+//                Style.addPseudoClass("test-pseudoclass", {
+//                    check: function(block) {
+//                        event('check', block.domNode.textContent, applies)
+//                        return applies
+//                    },
+//                    setup: function(block, start, end) {
+//                        event('setup', block.domNode.textContent)
+//                        changeState = function(startArg) {
+//                            event('changeState', block.domNode.textContent, startArg)
+//                            if(startArg === true) {
+//                                start()
+//                            } else {
+//                                end()
+//                            }
+//                        }
+//
+//                        return "whoHA"
+//                    },
+//                    kill: function(block, state) {
+//                        event('kill', block.domNode.textContent, state)
+//                        changeState = undefined
+//                    }
+//                })
+//            })
+//
+//            var style = Style({
+//                $$testPseudoclass: {
+//                    color: 'rgb(10, 30, 50)'
+//                }
+//            })
+//
+//            var x = Text('x')
+//            x.style = style
+//
+//            t.eq($(x.domNode).css('rgb(0, 0, 0)')) // starts out not applying
+//            changeState(false) // no change
+//            t.eq($(x.domNode).css('rgb(0, 0, 0)'))
+//            changeState(true)
+//            t.eq($(x.domNode).css('rgb(10, 30, 50)'))
+//            changeState(true)  // no change
+//            t.eq($(x.domNode).css('rgb(10, 30, 50)'))
+//            changeState(false)
+//            t.eq($(x.domNode).css('rgb(0, 0, 0)'))
+//
+//            x.style = undefined
+//
+//            applies = true
+//            var y = Text('y')
+//            y.style = style // note that changeState should now be a different function that won't affect x
+//
+//            t.eq($(x.domNode).css('rgb(10, 30, 50)')) // starts out applying thing time
+//            changeState(true) // no change
+//            t.eq($(y.domNode).css('rgb(10, 30, 50)'))
+//            changeState(false)
+//            t.eq($(y.domNode).css('rgb(0, 0, 0)'))
+//            changeState(false) // no change
+//            t.eq($(y.domNode).css('rgb(0, 0, 0)'))
+//            changeState(true)
+//            t.eq($(y.domNode).css('rgb(10, 30, 50)'))
+//
+//            y.style = Style({
+//                color: 'blue'
+//            })
+//
+//            // todo: test a pseudoclass defined in camel case
+//
+//        })
 
 
         this.test("basic psuedoclass styling", function() {
@@ -769,7 +863,6 @@ module.exports = function(t) {
                     this.domNode.textContent = text
                     this.on('click', function(e) {
                         e.preventDefault() // prevents you from going to the link location on-click
-                        console.log("fucks")
                     })
 
                     this.style = style
@@ -1062,30 +1155,6 @@ module.exports = function(t) {
         this.eq(text.css('color'), 'rgb(128, 0, 0)')
     })
 
-    this.test("component state", function(t) {
-        var S = Style({
-            color: 'rgb(0, 100, 0)',
-            $state: function(state, style) {
-                if(state.boggled) {
-                    style.color = 'rgb(100, 0, 0)'
-                } else {
-                    style.color = 'rgb(0, 0, 100)'
-                }
-            }
-        })
-
-        var c = Text("hi")
-        c.style = S
-
-        testUtils.demo("component state", c)
-
-        var text = $(c.domNode)
-        this.eq(text.css('color'), 'rgb(0, 0, 100)')
-
-        c.state.set('boggled', true)
-        this.eq(text.css('color'), 'rgb(100, 0, 0)')
-    })
-
     this.test('former bugs', function() {
         this.test('propogating inner style wasnt working', function() {
             var S = Style({
@@ -1151,6 +1220,53 @@ module.exports = function(t) {
             var c = Container([Text('a')])
             c.remove(0)
         })
+
+//        this.test('last-child not working when more children are added asynchronously', function(t) {
+//            this.count(10)
+//
+//            var C = proto(Block, function(superclass) {
+//                this.name = 'C'
+//
+//                this.build = function() {
+//                    this.add(Text("a"))
+//                    this.style = style
+//                }
+//            })
+//
+//            var style = Style({
+//                Text:{
+//                    $$lastChild: {
+//                        color: 'rgb(128, 0, 0)'
+//                    }
+//                }
+//            })
+//
+//            var component1 = C()
+//            testUtils.demo('last-child', component1)
+//
+//            t.eq($(component1.children[0].domNode).css('color'), 'rgb(128, 0, 0)')
+//
+//            setTimeout(function() {
+//                component1.add(Text('b'))
+//                t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+//                t.eq($(component1.children[1].domNode).css('color'), 'rgb(128, 0, 0)')
+//
+//                setTimeout(function() {
+//                    component1.add(Text('c'))
+//                    t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+//                    t.eq($(component1.children[1].domNode).css('color'), 'rgb(0, 0, 0)')
+//                    t.eq($(component1.children[2].domNode).css('color'), 'rgb(128, 0, 0)')
+//
+//                    setTimeout(function() {
+//                        component1.add(Text('d'))
+//                        t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+//                        t.eq($(component1.children[1].domNode).css('color'), 'rgb(0, 0, 0)')
+//                        t.eq($(component1.children[2].domNode).css('color'), 'rgb(0, 0, 0)')
+//                        t.eq($(component1.children[3].domNode).css('color'), 'rgb(128, 0, 0)')
+//                    },0)
+//                },0)
+//            },0)
+//        })
     })
     //*/
 }
