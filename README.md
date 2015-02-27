@@ -885,6 +885,16 @@ Style({
 			position: 'absolute',
 			right: 3,
 			top: 3
+		},
+		$setup: function(block) {
+		    var handler;
+            block.on('moo', handler=function() {
+                console.log("He won't stop mooing!")
+            })
+            return {handler:handler}
+		},
+		$kill: function(block, setupState) {
+            block.off('moo',setupState.handler)
 		}
 	},
 
