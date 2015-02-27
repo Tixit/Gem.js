@@ -237,12 +237,14 @@ All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.ht
 
 **`block.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Block.  
 **`block.addListener(event,callback)`** - *Same as `on`.*  
-* `event` - The string event name to listen for.
+* `event` - The string event name to listen for. If the passed event is one of the many standard dom events (e.g. 'click', 'mouseover', 'touchstart', etc), the passed handler will be registered as a dom event handler in one of three cases:
+    * the block's `excludeDomEvents` object is undefined
+    * the event is `in` the block's `excludeDomEvents` property
 * `callback(data, data2, ...)` - the callback gets any arguments passed to `emit` after the event name.
 
 **`block.once(event, callback)`** - Like `on` but the `callback` will only be called the first time the event happens.
 
-**`block.off(event, callback)`** - Removes a callback as an event handler (the `callback` won't be called for that event again).
+**`block.off(event, callback)`** - Removes a callback as an event handler (the `callback` won't be called for that event again).  
 **`block.removeListener(event,callback)`** - *Same as `off`.*
 
 **`this.removeAllListeners(event)`** - Removes all the callbacks for the passed `event`.  
@@ -281,9 +283,9 @@ parent.ifoff('someoneClickedTheThing', function() {
 **`block.removeIfon(callback)`** - Removes `callback` as an "all" `ifon` handler (a callback passed to `ifon` without an event).  
 **`block.removeIfon(event, callback)`** - Removes `callback` as an `ifon` handler for the passed `event`.
 
-**`block.removeIfoff()`** - Removes all `ifoff` handlers.
-**`block.removeIfoff(event)`** - Removes all `ifoff` handlers for the passed `event`.
-**`block.removeIfoff(callback)`** - Removes `callback` as an "all" `ifoff` handler (a callback passed to `ifoff` without an event).
+**`block.removeIfoff()`** - Removes all `ifoff` handlers.  
+**`block.removeIfoff(event)`** - Removes all `ifoff` handlers for the passed `event`.  
+**`block.removeIfoff(callback)`** - Removes `callback` as an "all" `ifoff` handler (a callback passed to `ifoff` without an event).  
 **`block.removeIfoff(event, callback)`** - Removes `callback` as an `ifoff` handler for the passed `event`.
 
 ##### `proxy`
@@ -317,23 +319,28 @@ B.emit("click", "Ughh..") // console prints "hey hey heyyy! Ughh.."
 
 #### Dom Events
 
-`Block` object will emit any standard dom event (`"click"`, `"mousedown"`, `"keypress"`, etc) when listened on. Note that a `Block` doesn't add an event listener to the dom node until someone listens `on` that event on the block. This minimizes the number of event listeners that are registered on the page.
+`Block` object will emit any standard dom event (`"click"`, `"mousedown"`, `"keypress"`, etc) when listened on. Note that a `Block` doesn't add an event listener to the dom node until someone listens `on` that event on the block. This minimizes the number of event listeners that are registered on the page. To see the list of dom events this applies to (supposed to be all of them), see the top of [src/node_modules/Block.js](https://github.com/Tixit/blocks.js/blob/master/src/node_modules/Block.js)
 
 Custom Blocks
 -------------
 
 Blocks.js is all about custom blocks. That's the point: your application should be built as a composition of custom blocks on top of custom blocks so that, instead of a million divs, you have semantically appropriate javascript web components.
 
-In this documentation, we're going to be using the class library [proto](https://github.com/fresheneesz/proto). The descriptions here apply to both inheriting from `Block` and inheriting from any of the standard blocks. There are two major special properties to create when making a custom `Block`:
+In this documentation, we're going to be using the class library [proto](https://github.com/fresheneesz/proto). The descriptions here apply to both inheriting from `Block` and inheriting from any of the standard blocks. There are a couple special properties to create when making a custom `Block`:
 
 * `name` - The name is a required property, should be named whatever your class is named, and should be a somewhat unique name in your system (tho it isn't required to be unique).
 * `build()` - The "sub-constructor". The constructor calls this method, passing all arguments, to the `build` method. The return value of `build` is ignored.
+* `defaultStyle` - If set to a `Style` object, the style object will be the block's default style. Unlike explicitly set Styles and inherited Styles, css properties in `defaultStyle`  *do* cascade line-by-line. Also, if a block inherits from another `Block` class that also has a `defaultStyle`, the default styles mix together with the child `Block` class style properties overriding the parent `Block` class's default properties. Currently, `defaultStyle` can only be set to `Style` objects that contain basic css properties (labels, sub-block styles, and $setup/$kill can't be used). So in the below example, if `block` is given a style that defines `color: green`, it's fontWeight will still be 'bold'.
 
 For example:
 
 ```javascript
 var CustomBlock = proto(Block, function() {
 	this.name = "CustomBlock"
+    this.defaultStyle = Style({
+       color: 'red',
+       fontWeight: 'bold'
+    })
 
     this.build = function(x) {
     	this.x = x
@@ -346,7 +353,7 @@ var block = CustomBlock(5) // block.x is 5
 ### Releasing custom blocks as separate modules
 
 If you'd like to release a custom `Block` or set of `Block` objects, there are a couple of important things to remember to do:
-* If you're releasing on npm, do *not* add `blocks.js` as a normal "dependency". Instead, it should be added as a ["peerDependency"](http://blog.nodejs.org/2013/02/07/peer-dependencies/) or perhaps a "devDependency". It should't be a normal "dependency" though, because otherwise bundlers may bundle multiple copies of blocks.js when using your custom block module (even though bundlers like webpack dedupe files, if the versions of webpack being used are slightly different, they would still package together both versions of blocks.js)
+* If you're releasing on npm, do *not* add `blocks.js` as a normal "dependency". Instead, it should be added as a ["peerDependency"](http://blog.nodejs.org/2013/02/07/peer-dependencies/) or perhaps a "devDependency". It shouldn't be a normal "dependency" because otherwise bundlers may bundle multiple copies of blocks.js when using your custom block module (even though bundlers like webpack dedupe files, if the versions of webpack being used are slightly different, they would still package together both versions of blocks.js)
 * If you're releasing a module distribution intended to be loaded in a `<script>` tag, do *not* bundle blocks.js in your distribution bundle. It should assume the `blocks` global variable (e.g. `blocks.Block`) is available.
 
 ### Inheriting from Blocks with a class library other than `proto`
@@ -354,7 +361,7 @@ If you'd like to release a custom `Block` or set of `Block` objects, there are a
 If you're building Blocks with something other than `proto`, note that blocks.js relies on the following properties:
 * **block.constructor** - must point to the Block prototype class (in the proto example, the object returned by the call to proto). This is a standard property that all good class libraries should set.
 * **block.constructor.parent** - must point either to the parent of the block's constructor, or undefined if there is no parent. Note that while `proto` sets this automatically, it is not a standard property and if you're using a different library from proto, you must set this manually.
-* **block.constructor.name** - the constructors must have the same name property that instances can access. Note that while `proto` sets this appropriately, most class libraries probably don't and it isn't simple to manually set. See here for details: http://stackoverflow.com/a/28665860/122422
+* **block.constructor.name** - the constructors must have the same name property that instances can access. Note that while `proto` sets this appropriately, most class libraries probably don't and it isn't simple to manually set. [See here for details](http://stackoverflow.com/a/28665860/122422).
 
 Also, make sure that `Block`'s constructor is called on new instances that inherit from `Block`.
 
@@ -374,6 +381,9 @@ CustomBlock.prototype.name = 'CustomBlock'       // the name is a required prope
 CustomBlock.prototype.constructor = CustomBlock  // required for correct Style rendering, and is a standard javascript convention
 CustomBlock.prototype.build = function(constructorArgument1, constructorArgument2, ...) {
     // .. custom constructor code
+}
+CustomBlock.prototype.customMethod = function() {
+	// ...
 }
 ```
 
@@ -398,22 +408,17 @@ These conventional properties, constructor parameters, and behavior are encourag
 Every standard Block has an optional first parameter `label`.
 This makes it easy and non-intrusive to label parts of your custom Blocks for easy styling.
 
-In as many cases as possible, Blocks will use properties defined with getters and setters rather than using methods. Some examples:
-* **`focus`** - gets whether the element has focus, or sets it to in-focus or out-of-focus
-* **`visible`** - gets whether the element is visible (display !== 'none'), and can set its visibility status.
-* **`selection`** - gets the selection on the element, and can set the selection
-
-There are a few standard properties that some blocks have:
+In as many cases as possible, Blocks will use properties defined with getters and setters rather than using methods. There are a few standard properties that some blocks have:
 * **`text`** - Gets and sets some visual text that a Block has. `Button`, `Text`, and `Select.Option` have this property.
 * **`selected`** - Gets and sets the selected-state of the Block. `CheckBox`, `Select.Option`, and `Radio.Button` have this property.
 * **`val`** - Gets and sets some value that a block has. This will never be the same as either `text` or `selected`. `CheckBox`, `Radio`, `Radio.Button`, `Select`, `TextArea`, and `TextField` all have this property.
 
-There are also a couple standard events that blocks can emit:
-* **`change`** - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but never both). Change events won't have any information passed with them, you can access the object itself if you need data from it.
+This is a standard event that many blocks can emit:
+* **`change`** - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but never both). Change events won't have any information passed with them - you can access the object itself if you need data from it.
 
 Some blocks have sub-blocks specifically related to them. For example, `Select` has `Option` blocks, and `Table` has `Row` blocks, and `Row` has `Cell` Blocks respectively.
 * There will also be a property with the name of the sub-block, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has a `options` map.
-* For these types of blocks, there will be a method on the main Block (examples of main Blocks: Select or Table) to create a new sub-block (e.g. Option or Row) and will return that sub-block. The method will be named the same as the sub-block but in lower-case (e.g. selectBlock.option(...) will return an Option block).
+* For these types of blocks, there will be a method on the main Block (examples of main Blocks: Select or Table) to create a new sub-block (e.g. Option or Row), append it to the calling block, and returns that sub-block. The method will be named the same as the sub-block but in lower-case (e.g. selectBlock.option(...) will return an Option block).
 
 ### Button
 
@@ -422,7 +427,7 @@ Your standard html `<button>`.
 **`Button(text)`** - Returns a new button that has the passed text.  
 **`Button(label, text)`**
 
-**`button.text`** - Sets or gets the button's text dynamically.
+**`button.text`** - Sets or gets the button's text.
 
 ### Canvas
 
@@ -446,7 +451,7 @@ Your standard html `<input type="checkbox">`.
 **`CheckBox()`** - Returns a new unchecked CheckBox.  
 **`CheckBox(label)`**
 
-**`button.text`** - Sets and gets the button's text dynamically.
+**`button.text`** - Sets and gets the button's text.
 
 ### Container
 
@@ -465,7 +470,7 @@ Your standard html `<img>`.
 **`Image(imageSource)`** - Returns a new image with the passed `imageSource`.  
 **`Image(label, imageSource)`**
 
-**`image.src`** - Changes the image's source.
+**`image.src`** - Gets or changes the image's source.
 
 ### List
 
@@ -865,6 +870,246 @@ text.state.set('boggled', true) // now doesn't affect the style
 // here text is still black
 ```
 
+#### Combining them together
+`Style` objects can be as simple as a few standard css properties, or can take the place of a whole css stylesheet and more. Here's an example of a more complex style:
+
+```javascript
+Style({
+    display: 'block',
+    marginTop: topBarHeight,
+
+	TicketSettings: {
+		display: 'block'
+	},
+
+	SchemaEditor: {
+		display: 'block'
+	},
+
+    // user settings
+    Settings: {
+        LabeledField: {display:'block'}
+    },
+
+    /* since this is at top-level, it affects all Text components that aren't overridden - these styles need to be more specific
+       - doesn't seem to do anything obviously beneficial to the schema editor.. so not sure where to apply these changes
+	Text: {
+		border: "1px solid #000",
+		'min-width':'50px'
+	},
+	*/
+	
+	Button: {
+		$closeButton: {
+			position:'absolute',
+			right:'3px',
+			'top':'3px'
+		}
+	},
+	
+	Messages: {
+		bottom: 0,
+		left: 0,
+		width: '100%',
+		border: '1px solid #000',
+		position: 'fixed',
+		'background-color':'#fff',
+		'z-index':10,
+        $state: function(state, style) {
+            if(state.expanded) {
+                style.height = '75%'
+            } else {
+                style.height = '94px'
+            }
+        }
+	},
+
+    Table: {
+        display: 'block',
+		TableHeader: {
+            display: 'table-row',
+			TableCell: {
+                display: 'table-cell',
+				'border-bottom':'1px solid #000'
+			}
+		},
+        TableRow: {
+            display: 'table-row',
+			'$$nth-child(1)':{
+				TableCell: {
+					'border-top':'1px solid #000'
+				}
+			},
+			TableCell: {
+                display: 'table-cell',
+				'$$nth-child(1)':{
+	                'border-left': "1px solid #000"
+				},
+				'$$last-child':{
+	                'border-right': "1px solid #000"
+				}
+			},
+			'$$last-child':{
+				TableCell: {
+					'display':'table-cell',
+					'border-bottom':"1px solid #000",
+					'$$nth-child(1)':{
+		                'border-left': "1px solid #000",
+					},
+					'$$last-child':{
+		                'border-right': "1px solid #000",
+					}
+				}
+			}
+        }
+    },
+
+    TopBar: {
+        marginTop: -topBarHeight+2,
+        position: 'absolute',
+        right: 0,
+        zIndex: 1, // otherwise other things obscure it
+
+        Search: {
+            position: 'relative',
+            top: -3,
+
+            TextField: {
+                $field:{
+                     height: 23
+                }
+            },
+            Text: {
+                $title: {
+                    display: 'block'
+                }
+            }
+        },
+        DropTab: {
+            position: 'static',
+            marginLeft: 6,
+            marginRight: 6,
+
+            $userDropTab: {
+                cursor: 'pointer'
+            },
+
+            Container: {
+                display: 'block',
+
+                $wrapper: {
+                    position: 'static'
+                },
+
+                $menu: {
+                    position: 'absolute',
+                    border: border,
+                    marginTop: 1,
+                    backgroundColor: 'white',
+                    cursor: 'pointer',
+
+                    Text: {
+                        display: 'block'
+                    }
+                },
+                $button: {
+                    border: border,
+                    fontSize: 24,
+                    fontWeight: 'bold'
+                }
+            },
+
+            ProjectList: {
+                display: 'block',
+
+                Text: {
+                    display: 'block'
+                }
+            }
+        }
+    },
+
+    Container: {$tickets: {
+        whiteSpace: "nowrap",
+        overflowX: "scroll",
+        overflowY: "hidden",          // for some reason, without this, overflowX: scroll also adds a vertical scroll bar - go figure
+        transform: "rotateX(180deg)", // to put the scroll bar on teh top
+
+        TicketContainer: {
+            width: 'calc(50% - 2px)',   // 2px from the border below
+            border: '1px solid gray',
+            verticalAlign: 'bottom',      // err that is to say.. top? Since its rotated?
+            transform: "rotateX(180deg)", // to unrotate the tickets Container's rotation
+
+            Container: {
+                $settings: {
+                    width: 26, height: 26,
+                    backgroundImage: 'url('+require("url!./settings.png")+")",
+
+                    cursor: 'pointer',
+                    position: "absolute",
+                    right: 0,
+                    zIndex: 99999
+                }
+            },
+
+            TicketView: {
+                width: '100%'
+            }
+        },
+    }},
+
+    UserSelection: UserSelectionStyle = {
+        position: 'absolute',
+        display: 'block',
+        position: 'fixed',
+        zIndex: 1,
+        width: 500, // arbitrary amount - just needs to be larger than its contents can be
+        pointerEvents: 'none', // makes this 'invisible' to mouse events
+
+        Container: merge(dropMenuStyle(), {
+            pointerEvents: 'all', // makes it 'visible' to mouse events (needed cause its parent has pointerEvents: none
+            Text: {
+                $label: {
+                    display:'block'
+                },
+                $settings: {
+                    cursor: 'pointer'
+                },
+                $username: {
+                    cursor: 'pointer'
+                },
+                $remove: {
+                    cursor: 'pointer',
+                    top: -8
+                }
+            }
+        }),
+        ObserverList: merge(dropMenuStyle(), {
+            pointerEvents: 'all', // makes it 'visible' to mouse events (needed cause its parent has pointerEvents: none
+
+            Container: { $item:{
+                cursor: 'pointer',
+                display: 'block',
+
+                icon: userIconStyle(),
+                Text: { $name: {
+                    marginLeft: 5
+                }}
+            }}
+        })
+    },
+
+    AdminPage: {
+        Container:{$createUser: {
+            display: 'block'
+        }}
+    }
+
+
+})
+```
+
 ### `Style.addPseudoClass`
 
 `Style.addPseudoClass(name, fns)` - Creates a new pseudoclass that can be used in `Style` objects. This can be used to create all-new psuedoclasses no one's ever thought of before!
@@ -893,6 +1138,10 @@ Any pseudoclass that exists in standard css can be used by blocks.js, even if it
 * Using non-standard pseudoclasses within the pseudoclass style definition
 
 Note that, while the list of built-in pseudoclasses is currently short, all standard pseudoclasses can be defined *except* the ":visited" pseudoclass, because the necessary information is not available via javascript (a browser "security" policy).
+
+### Default style
+
+Blocks.js unifies the default styles of dom nodes. One of the major differences for `Block` objects is that the default `display` value is `inline-block`. So if you want a block to have "display: block" behavior, that must either be set in a style given to the block, or in a block's `defaultStyle`
 
 Decisions
 =========
