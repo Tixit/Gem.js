@@ -12,6 +12,7 @@ Blocks.js is here to change that. Finally, modern application development for th
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Example](#example)
+- [Why use `blocks.js`?](#why-use-blocksjs)
 - [What `blocks.js` is ***not***](#what-blocksjs-is-not)
 - [Install](#install)
 - [Usage](#usage)
