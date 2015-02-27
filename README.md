@@ -118,7 +118,7 @@ Why use `blocks.js`?
 * **No HTML**. With `blocks.js`, you write in 100% javascript. The only html requirement is a `document` `body`.
 * **No CSS**. While blocks.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
 * **Works with your HTML and CSS**. `Blocks` can be added as a child to any standard dom object and they can be styled with standard css stylesheets if you so choose.
-* **Fully separate style from structure** by using `$setup` javascript in your `Style` objects
+* **Fully separate style from structure**. By using `$setup` javascript in your `Style` objects, you can encode any javascript that is stylistic rather than structural.
 * Import `Block` modules with real APIs that anyone can release online. HTML snippets are so 1995.
 * Unlike [HTML web components](http://robdodson.me/why-web-components/), `blocks.js` **works in modern browsers without polyfills**.
 * Also unlike HTML web components, [element name collision](https://groups.google.com/forum/#!topic/polymer-dev/90Dq_2bk8CU) isn't a problem.
