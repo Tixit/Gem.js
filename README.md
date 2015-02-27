@@ -874,90 +874,48 @@ text.state.set('boggled', true) // now doesn't affect the style
 `Style` objects can be as simple as a few standard css properties, or can take the place of a whole css stylesheet and more. Here's an example of a more complex style:
 
 ```javascript
+
+var topBarHeight = 100
+
 Style({
-    display: 'block',
     marginTop: topBarHeight,
-
-	TicketSettings: {
-		display: 'block'
-	},
-
-	SchemaEditor: {
-		display: 'block'
-	},
-
-    // user settings
-    Settings: {
-        LabeledField: {display:'block'}
-    },
-
-    /* since this is at top-level, it affects all Text components that aren't overridden - these styles need to be more specific
-       - doesn't seem to do anything obviously beneficial to the schema editor.. so not sure where to apply these changes
-	Text: {
-		border: "1px solid #000",
-		'min-width':'50px'
-	},
-	*/
 	
 	Button: {
 		$closeButton: {
-			position:'absolute',
-			right:'3px',
-			'top':'3px'
+			position: 'absolute',
+			right: 3,
+			top: 3
 		}
-	},
-	
-	Messages: {
-		bottom: 0,
-		left: 0,
-		width: '100%',
-		border: '1px solid #000',
-		position: 'fixed',
-		'background-color':'#fff',
-		'z-index':10,
-        $state: function(state, style) {
-            if(state.expanded) {
-                style.height = '75%'
-            } else {
-                style.height = '94px'
-            }
-        }
 	},
 
     Table: {
-        display: 'block',
 		TableHeader: {
-            display: 'table-row',
 			TableCell: {
-                display: 'table-cell',
-				'border-bottom':'1px solid #000'
+				borderBottom:'1px solid #000'
 			}
 		},
         TableRow: {
-            display: 'table-row',
-			'$$nth-child(1)':{
+			'$$nthChild(1)':{
 				TableCell: {
-					'border-top':'1px solid #000'
+					borderTop: '1px solid #000'
 				}
 			},
 			TableCell: {
-                display: 'table-cell',
-				'$$nth-child(1)':{
-	                'border-left': "1px solid #000"
+				'$$nthChild(1)': {
+	                borderLeft: "1px solid #000"
 				},
-				'$$last-child':{
-	                'border-right': "1px solid #000"
+				$$lastChild: {
+	                borderRight: "1px solid #000"
 				}
 			},
-			'$$last-child':{
+			$$lastChild: {
 				TableCell: {
-					'display':'table-cell',
-					'border-bottom':"1px solid #000",
-					'$$nth-child(1)':{
-		                'border-left': "1px solid #000",
+					borderBottom: "1px solid #000",
+					'$$nthChild(1)': {
+		                borderLeft: "1px solid #000",
 					},
-					'$$last-child':{
-		                'border-right': "1px solid #000",
+					$$lastChild:{
+		                borderRight: "1px solid #000",
 					}
 				}
 			}
@@ -968,35 +926,26 @@ Style({
         marginTop: -topBarHeight+2,
         position: 'absolute',
         right: 0,
-        zIndex: 1, // otherwise other things obscure it
 
         Search: {
             position: 'relative',
             top: -3,
 
-            TextField: {
+            Text: {
                 $field:{
                      height: 23
                 }
-            },
-            Text: {
-                $title: {
-                    display: 'block'
-                }
             }
         },
+
         DropTab: {
             position: 'static',
-            marginLeft: 6,
-            marginRight: 6,
 
             $userDropTab: {
                 cursor: 'pointer'
             },
 
             Container: {
-                display: 'block',
-
                 $wrapper: {
                     position: 'static'
                 },
@@ -1009,21 +958,13 @@ Style({
                     cursor: 'pointer',
 
                     Text: {
-                        display: 'block'
+                        color: 'bonkers'
                     }
                 },
                 $button: {
                     border: border,
                     fontSize: 24,
                     fontWeight: 'bold'
-                }
-            },
-
-            ProjectList: {
-                display: 'block',
-
-                Text: {
-                    display: 'block'
                 }
             }
         }
@@ -1054,59 +995,10 @@ Style({
             },
 
             TicketView: {
-                width: '100%'
+                color: '100%'
             }
-        },
-    }},
-
-    UserSelection: UserSelectionStyle = {
-        position: 'absolute',
-        display: 'block',
-        position: 'fixed',
-        zIndex: 1,
-        width: 500, // arbitrary amount - just needs to be larger than its contents can be
-        pointerEvents: 'none', // makes this 'invisible' to mouse events
-
-        Container: merge(dropMenuStyle(), {
-            pointerEvents: 'all', // makes it 'visible' to mouse events (needed cause its parent has pointerEvents: none
-            Text: {
-                $label: {
-                    display:'block'
-                },
-                $settings: {
-                    cursor: 'pointer'
-                },
-                $username: {
-                    cursor: 'pointer'
-                },
-                $remove: {
-                    cursor: 'pointer',
-                    top: -8
-                }
-            }
-        }),
-        ObserverList: merge(dropMenuStyle(), {
-            pointerEvents: 'all', // makes it 'visible' to mouse events (needed cause its parent has pointerEvents: none
-
-            Container: { $item:{
-                cursor: 'pointer',
-                display: 'block',
-
-                icon: userIconStyle(),
-                Text: { $name: {
-                    marginLeft: 5
-                }}
-            }}
-        })
-    },
-
-    AdminPage: {
-        Container:{$createUser: {
-            display: 'block'
-        }}
-    }
-
-
+        }
+    }}
 })
 ```
 
