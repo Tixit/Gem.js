@@ -978,37 +978,7 @@ Style({
                 }
             }
         }
-    },
-
-    Container: {$tickets: {
-        whiteSpace: "nowrap",
-        overflowX: "scroll",
-        overflowY: "hidden",          // for some reason, without this, overflowX: scroll also adds a vertical scroll bar - go figure
-        transform: "rotateX(180deg)", // to put the scroll bar on teh top
-
-        TicketContainer: {
-            width: 'calc(50% - 2px)',   // 2px from the border below
-            border: '1px solid gray',
-            verticalAlign: 'bottom',      // err that is to say.. top? Since its rotated?
-            transform: "rotateX(180deg)", // to unrotate the tickets Container's rotation
-
-            Container: {
-                $settings: {
-                    width: 26, height: 26,
-                    backgroundImage: 'url('+require("url!./settings.png")+")",
-
-                    cursor: 'pointer',
-                    position: "absolute",
-                    right: 0,
-                    zIndex: 99999
-                }
-            },
-
-            TicketView: {
-                color: '100%'
-            }
-        }
-    }}
+    }
 })
 ```
 
