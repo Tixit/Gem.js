@@ -1155,6 +1155,39 @@ module.exports = function(t) {
         this.eq(text.css('color'), 'rgb(128, 0, 0)')
     })
 
+    this.test("component state", function(t) {
+        var S = Style({
+            color: 'rgb(0, 100, 0)',
+            $state: function(state) {
+                if(state.boggled) {
+                    var color = 'rgb(100, 0, 0)'
+                } else {
+                    var color = 'rgb(0, 0, 100)'
+                }
+
+                // note: do not create styles like this within the $state function if at all possible
+                // a new Style object is created every run, and probably won't get garbage collected, also obviously creating a new style is much slower than just referencing an already-created one
+                return Style({
+                    color: color
+                })
+            }
+        })
+
+        var c = Text("hi")
+        c.style = S
+
+        testUtils.demo("component state", c)
+
+        var text = $(c.domNode)
+        this.eq(text.css('color'), 'rgb(0, 0, 100)')
+
+        c.state.set('boggled', true)
+        this.eq(text.css('color'), 'rgb(100, 0, 0)')
+
+        c.style = undefined
+        this.eq(text.css('color'), 'rgb(0, 0, 0)')
+    })
+
     this.test('former bugs', function() {
         this.test('propogating inner style wasnt working', function() {
             var S = Style({

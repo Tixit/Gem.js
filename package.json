@@ -1,7 +1,7 @@
 {"name":"blocks.js",
  "description": "A library for building and styling web components in pure-javascript.",
  "keywords": ["web", "components", "html", "css", "style"],
- "version":"0.9.11",
+ "version":"0.9.12",
  "main": "src/Block.js",
  "contributors": [
     "Billy Tetrud <bitetrudpublic@gmail.com> (https://github.com/fresheneesz/)",
@@ -16,16 +16,18 @@
    "url": "git://github.com/Tixit/blocks.js"
  },
  "dependencies":{
-    "proto": "1.0.17",
-    "observe": "",
+    "proto": ">=1.0.17",
+    "observe": "1",
     "trimArguments":"https://github.com/fresheneesz/trimArguments/archive/c9c023c9ff1e0aec4b67370a80a92dacadcf8b11.tar.gz",
-    "colors":"",
-    "hashmap": "2.0.1",
-    "eventemitter2": ""
+    "hashmap": "2"
+ },
+ "peerDependencies": {
+     "proto": ">=1.0.17"
  },
  "devDependencies": {
     "deadunit":"5.1.8",
     "build-modules":"2.0.5",
-    "async-future":""
+    "async-future":"",
+    "colors":""
  }
 }

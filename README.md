@@ -360,7 +360,7 @@ If you'd like to release a custom `Block` or set of `Block` objects, there are a
 
 ### Inheriting from Blocks with a class library other than `proto`
 
-If you're building Blocks with something other than `proto`, note that blocks.js relies on the following properties:
+If you're building Blocks with something other than `proto` (*or are using a version of proto older than 1.0.17*), note that blocks.js relies on the following properties:
 * **block.constructor** - must point to the Block prototype class (in the proto example, the object returned by the call to proto). This is a standard property that all good class libraries should set.
 * **block.constructor.parent** - must point either to the parent of the block's constructor, or undefined if there is no parent. Note that while `proto` sets this automatically, it is not a standard property and if you're using a different library from proto, you must set this manually.
 * **block.constructor.name** - the constructors must have the same name property that instances can access. Note that while `proto` sets this appropriately, most class libraries probably don't and it isn't simple to manually set. [See here for details](http://stackoverflow.com/a/28665860/122422).
@@ -655,8 +655,9 @@ The combination of the fact that blocks.js `Style`s only cascade as a whole obje
     * `<BlockName>`: the value can either be a `Style` object or a nested `styleDefinition` object
     * `$<label>`: the value should be a a nested styleDefinition object that does not contain any label styles
     * `$$<pseudoclass>`: the value should be a a nested styleDefinition object
-    * `$setup`: the value is a function to be run on a component when the style is applied to it
-    * `$kill`: the value is a function to be run on a component when a style is removed from it
+    * `$setup`: the value is a function to be run on a block when the style is applied to it
+    * `$kill`: the value is a function to be run on a block when a style is removed from it
+    * `$state`: the value is a function to be run when `block.state` changes (ie when its `change` event fires).
 
 #### `<cssPropertyName>`
 
@@ -691,7 +692,7 @@ text.style = stylish
 
 In the above example, only "a" is styled red. The `Text` "b" remains the default, black.
 
-You can also give components a `Style` object, which is the same as the above form, except that the object-immediate is passed into the `Style` constructor:
+You can also give Blocks a `Style` object, which is the same as the above form, except that the object-immediate is passed into the `Style` constructor:
 
 ```javascript
 var textStyle = Style({
@@ -827,7 +828,7 @@ var S = Style({
     $setup: function(block) {
         block.text = "I got zee style"
     },
-    $kill: function(component) {
+    $kill: function(block) {
         block.text = "I'm 20% less cool"
     }
 })
@@ -871,6 +872,14 @@ text.style = undefined
 text.state.set('boggled', true) // now doesn't affect the style
 // here text is still black
 ```
+
+#### `$state`
+
+`$state(state)` is a function that is run when the block's `state` observer property emits a `change` event (which happens when its changed with its methods `set`, `push`, `splice`, or `append`
+
+* Idea: bring back teh $state style, but have its interface to be to return a `Style` object that will be then used to style the element
+    * Make sure to note that its recommended that you don't *create* styles in $state functions unless you absolutely have to, because you will create a new style every time, taking up space and slowing down your application
+
 
 #### Combining them together
 `Style` objects can be as simple as a few standard css properties, or can take the place of a whole css stylesheet and more. Here's an example of a more complex style:
@@ -1015,13 +1024,36 @@ Note that, while the list of built-in pseudoclasses is currently short, all stan
 
 ### Default style
 
-Blocks.js unifies the default styles of dom nodes. One of the major differences for `Block` objects is that the default `display` value is `inline-block`. So if you want a block to have "display: block" behavior, that must either be set in a style given to the block, or in a block's `defaultStyle`
+Blocks.js unifies the default styles of dom nodes - all objects that inherit directly from `Block` have the same default styling unless they define their `defaultStyle` property.
+
+The base default is mostly the same as css's base default. The two defaults that are different for `Block` objects:
+* `display` - `"inline-block"`
+* `position` - `"relative"`
+
+Also, while most css styles are not inherited from a `Block`'s parent, the following are inherited:
+* `color`
+* `cursor`
+* `fontFamily`
+* `fontSize`
+* `fontStyle`
+* `fontVariant`
+* `fontWeight`
+* `visibility`
+
+And while blocks.js generally rejects css's use of cascading, there is some similar cascading going on, but much more simplified and localized. Defining this behavior in terms of "cascading order", the order is:
+# The base default style (described above in this section).
+# The `defaultStyle` property of the block instance's furthest ancestor class
+# ...
+# The  `defaultStyle` property of the Block's parent class
+# The `defaultStyle` property of the Block itself
+# The Block instance's active style (either an inherited style or its `style` property)
 
 Decisions
 =========
 
 * `Block.label` is not dynamic (can't be changed) because it is intended to be used to identify a particular Block when multiple Blocks of the same type are used alongside eachother. If you're looking for a way to change styles dynamically, use `Block.state`.
 * Blocks are styled based on their name rather than their object identity (which would be possible with an array style definition like [Text,{backgroundColor:'...'}]) because otherwise all Blocks would have to be exposed at the top level. Not only does this go against modularity, but creators of 3rd party modules would inevitably fail to expose all their Blocks, which would make styling impossible. With names, you don't have to be able to reach the object, you just have to know its name.
+* don't use npm shrinkwrap for browser modules like this, because otherwise multiple minor versions of the same package might get into a browser bundle and make page loading slower
 
 Todo
 ======
@@ -1051,6 +1083,10 @@ Todo
 Changelog
 ========
 
+* 0.9.12
+    * bringing back the $state style in a slightly different form
+    * fixing a bug in label argument interpretation
+    * getting rid of npm-shrinkwrap and fixing up dependency versioning to be generally lenient but strict on major version
 * 0.9.11 - updating hashmap version, since it was giving me trouble in another project
 * 0.9.10
     * remove the $state style thing - $setup and $kill cover it
