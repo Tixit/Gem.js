@@ -875,10 +875,9 @@ text.state.set('boggled', true) // now doesn't affect the style
 
 #### `$state`
 
-`$state(state)` is a function that is run when the block's `state` observer property emits a `change` event (which happens when its changed with its methods `set`, `push`, `splice`, or `append`
-
-* Idea: bring back teh $state style, but have its interface to be to return a `Style` object that will be then used to style the element
-    * Make sure to note that its recommended that you don't *create* styles in $state functions unless you absolutely have to, because you will create a new style every time, taking up space and slowing down your application
+`$state(state)` is a function that is run when the block's `state` observer property emits a `change` event (which happens when its changed with its methods `set`, `push`, `splice`, or `append`.
+The `state` parameter is `block.state.subject`. The return value of the function should be a `Style` object to set the object's active style to.
+*Note that its recommended that you don't *create* styles in $state functions unless you absolutely have to, because you will create a new style every time, taking up space and slowing down your application.*
 
 
 #### Combining them together
