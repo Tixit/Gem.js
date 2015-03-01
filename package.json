@@ -28,6 +28,7 @@
     "deadunit":"5.1.8",
     "build-modules":"2.0.5",
     "async-future":"",
-    "colors":""
+    "colors":"",
+    "requirejs": ""
  }
 }

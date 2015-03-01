@@ -877,8 +877,45 @@ text.state.set('boggled', true) // now doesn't affect the style
 
 `$state(state)` is a function that is run when the block's `state` observer property emits a `change` event (which happens when its changed with its methods `set`, `push`, `splice`, or `append`.
 The `state` parameter is `block.state.subject`. The return value of the function should be a `Style` object to set the object's active style to.
-*Note that its recommended that you don't *create* styles in $state functions unless you absolutely have to, because you will create a new style every time, taking up space and slowing down your application.*
+*Note that if you *create* styles in $state functions, remember that you will create a new style every time the state changes. This may be a problem with some applications that have a lot of state changes, or particularly rapid state changes (its unclear at what point this could cause problems).*
 
+Currently, $state can only be used to set basic css properties from the returned `Style` object. The consequence of this is that styles are only applied to the block that has that state, and styles for sub-blocks are unaffected. Example:
+```javascript
+
+
+var c = Container(Text("hi"))
+
+var colorStyles = {
+    yellow: Style({backgroundColor: 'yellow'}),
+    red: Style({backgroundColor: 'red'}),
+    green: Style({backgroundColor: 'green'})
+}
+c.style = Style({
+    $state: function(state) {
+        if(state.success) {
+            if(state.late) {
+                return colorStyles.yellow
+            } else {
+                return colorStyles.green
+            }
+        } else {
+            return colorStyles.red
+        }
+    },
+
+    Text: {
+        color: 'white',
+        $title: {
+            color: 'blue'
+        }
+    }
+})
+
+c.state.set("success", true) // container's background turns green
+c.state.set("late", true)    // container's background turns yellow
+```
+
+In the above example, the container goes through all 3 backgroundColor colors as its state changes.
 
 #### Combining them together
 `Style` objects can be as simple as a few standard css properties, or can take the place of a whole css stylesheet and more. Here's an example of a more complex style:
@@ -1082,6 +1119,9 @@ Todo
 Changelog
 ========
 
+* 0.9.13
+    * Fixing issue where styles break if block.js is loaded twice (also adding a warning when it detects two instances of blocks.js)
+    * Adding a little more documentation around $state
 * 0.9.12
     * bringing back the $state style in a slightly different form
     * fixing a bug in label argument interpretation

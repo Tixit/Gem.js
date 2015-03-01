@@ -6,9 +6,15 @@
 <div id='results'></div>
 </body>
 
+<script src='/node_modules/requirejs/require.js'></script>
+<script>
+    var requirejs = require // so it doesn't get shaddowed by webpack's require
+</script>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <!--<script src="/blocks.umd.js"></script> Currently, these are being bundled into blocksTests.umd.js-->
 <script src="/src/external/syn.js"></script>
+
 <script src="/src/test/blocksTests.umd.js"></script>
 
 <script>

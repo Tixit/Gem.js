@@ -1254,6 +1254,22 @@ module.exports = function(t) {
             c.remove(0)
         })
 
+        this.test("loading blocks.js twice caused weird behavior - defaulting overriding main styling", function(t) {
+
+            var c = Text('a')
+            c.style = Style({
+                position: 'absolute'
+            })
+
+            testUtils.demo("loading blocks.js twice caused weird behavior - defaulting overriding main styling", c)
+
+            t.eq($(c.domNode).css('position'), 'absolute')
+
+            requirejs(["/dist/blocks.umd.js"], function(blocks) {
+                t.eq($(c.domNode).css('position'), 'absolute')
+            })
+        })
+
 //        this.test('last-child not working when more children are added asynchronously', function(t) {
 //            this.count(10)
 //
