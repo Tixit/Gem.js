@@ -1255,18 +1255,40 @@ module.exports = function(t) {
         })
 
         this.test("loading blocks.js twice caused weird behavior - defaulting overriding main styling", function(t) {
+            this.count(6)
+
+            var container = Container()
+            testUtils.demo("loading blocks.js twice caused weird behavior - defaulting overriding main styling", container)
 
             var c = Text('a')
+            c.defaultStyle =  Style({
+                display: 'block'
+            })
             c.style = Style({
                 position: 'absolute'
             })
 
-            testUtils.demo("loading blocks.js twice caused weird behavior - defaulting overriding main styling", c)
+            container.add(c)
 
             t.eq($(c.domNode).css('position'), 'absolute')
+            t.eq($(c.domNode).css('display'), 'block')
 
-            requirejs(["/dist/blocks.umd.js"], function(blocks) {
+            // because of webpack's shaddowing (i'm guessing) this will cause window.blocks to get populated instead of being passed back to require.js (thus the "undefinedResult")
+            requirejs(["/dist/blocks.umd.js"], function(undefinedResult) {
                 t.eq($(c.domNode).css('position'), 'absolute')
+                t.eq($(c.domNode).css('display'), 'block')
+
+                var d = window.blocks.Text("d")
+                d.defaultStyle =  Style({
+                    display: 'block'
+                })
+                d.style = Style({
+                    position: 'absolute'
+                })
+
+                container.add(d)
+                t.eq($(d.domNode).css('position'), 'absolute')
+                t.eq($(d.domNode).css('display'), 'block')
             })
         })
 

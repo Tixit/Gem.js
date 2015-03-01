@@ -1119,6 +1119,7 @@ Todo
 Changelog
 ========
 
+* 0.9.14 - Improving fix for when blocks.js is loaded twice (seemed to fix an additional problem i saw where defaults were sometimes overriding styles from other instances of blocks.js, possibly related to load order of scripts? Unfortunately I couldn't create a test to repro)
 * 0.9.13
     * Fixing issue where styles break if block.js is loaded twice (also adding a warning when it detects two instances of blocks.js)
     * Adding a little more documentation around $state
