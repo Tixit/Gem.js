@@ -148,9 +148,10 @@ Why use `blocks.js`?
 ====================
 
 * Makes your web application **easier to develop** with modular reusable structure objects (`Block` objects) *and* `Style` objects
-* **No HTML**. With `blocks.js`, you write in 100% javascript. The only html requirement is a `document` `body`.
+* **No HTML**. With `blocks.js`, you write in 100% javascript. The only html requirement is a `document` `body`. You can still add plain old HTML into your blocks using `domNode.innerHTML` tho if you so choose.
 * **No CSS**. While blocks.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
 * **Works with your HTML and CSS**. `Blocks` can be added as a child to any standard dom object and they can be styled with standard css stylesheets if you so choose.
+* **Works with your current javascript**. `Blocks` give you direct access to their `domNode` so you can use the dom manipulation libraries you're used to.
 * **Fully separate style from structure**. By using [`$state`](#state), [`$setup`, and `$kill`](#setup-and-kill) javascript in your `Style` objects, you can encode any javascript that is stylistic rather than structural.
 * Import `Block` modules with real APIs that anyone can release online. HTML snippets are so 1995.
 * Unlike [HTML web components](http://robdodson.me/why-web-components/), `blocks.js` **works in modern browsers without polyfills**.
