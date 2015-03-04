@@ -48,9 +48,10 @@ Blocks.js is here to change that. Finally, modern application development for th
     - [`Style` constructor](#style-constructor)
       - [`<cssPropertyName>`](#csspropertyname)
       - [`<BlockName>`](#blockname)
-      - [`$<label>`](#$label)
-      - [`$$<pseudoclass>`](#$$pseudoclass)
-      - [`$setup` and `$kill`](#$setup-and-$kill)
+      - [`$<label>`](#label)
+      - [`$$<pseudoclass>`](#pseudoclass)
+      - [`$setup` and `$kill`](#setup-and-kill)
+      - [`$state`](#state)
       - [Combining them together](#combining-them-together)
     - [`Style.addPseudoClass`](#styleaddpseudoclass)
     - [Built-in Pseudoclasses](#built-in-pseudoclasses)
@@ -68,41 +69,69 @@ Example
 =======
 
 ```javascript
-
-var Block = require("blocks.js")
 var Button = require("blocks.js/Button")
 var Style = require("blocks.js/Style")
+var Container = require("blocks.js/Container")
 
-var toggleButton = Button("Hi") // create a button
+var list = Container()
+;[1,2,3].forEach(function(n) {
+    var text = "Hi "+n
+    var toggleButton = Button(text) // create a button
 
-// make it do stuff when you click on it
-toggleButton.on('click', function() {
-    if(toggleButton.text === 'Hi') {
-        toggleButton.text = "RAWRR!!!"
-    } else {
-        toggleButton.text = 'Hi'
+    // make it do stuff when you click on it
+    toggleButton.on('click', function() {
+        if(toggleButton.text !== "RAWRR!!!") {
+            toggleButton.text = "RAWRR!!!"
+            toggleButton.state.set('color', 'rgb(128, 0, 0)')
+        } else {
+            toggleButton.text = text
+            toggleButton.state.set('color', 'black')
+        }
+    })
+
+    // add the button to the list
+    list.add(toggleButton)
+})
+
+list.add(Button("send", "Send your Greetings")) // "labels" that can differentiate otherwise identical types of blocks
+
+// create styles with style objects ..
+list.style = Style({
+    border: '1px solid blue', // .. that use familiar css values,
+    marginRight: 34,          // .. camelCase css properties and integers interpreted as "px" values when appropriate,
+
+    Button: {                 // .. sub-block styles,
+        $$firstChild: {       // .. pseudo-class styles,
+            color: 'rgb(0,100,100)',
+        },
+        $send: {              // .. style based on an object's label, and ..
+            color: 'green'
+        },
+        $state: function(state) { // .. more sophisticated styling techniques
+            return Style({
+                color: state.color
+            })
+        }
     }
 })
 
-// append it to the document body (so it shows up)
-toggleButton.attach()
+// append the list of buttons to the document body (so it shows up)
+list.attach()
 
-// create styles with style objects ..
-toggleButton.style = Style({
-    color: 'rgb(128, 0, 0)', // .. that use familiar css values,
-    marginRight: 34          // .. camelCase css properties, and integers interpreted as "px" values when appropriate
-})
 
-// custom blocks (use your favorite javascript class library - here proto is being used)
 var proto = require('proto')
+var Block = require("blocks.js")
 var TextField = require("blocks.js/TextField")
 var Text = require("blocks.js/Text")
+
+// custom blocks (use your favorite javascript class library - here proto is being used)
 var NameInput = proto(Block, function() { // inherit from Block
+    this.name = 'NameInput'
     this.build = function(LabelText) {              // the `build` method initializes the custom Block
         var nameField = TextField()
         this.add(Text(LabelText), nameField)
         nameField.on('change', function() {
-            toggleButton.text = hiWords = "Hi "+nameField.val
+            list.children[0].text = "Hi "+nameField.val
         })
     }
 })
@@ -110,6 +139,8 @@ var NameInput = proto(Block, function() { // inherit from Block
 NameInput("Your Name: ").attach()
 
 ```
+
+[![example](blocksExample/exampleShot.png)](http://www.btetrud.com/blocksExample/example.html)
 
 If anything in the documentation is unclear, or you want to see more examples, [the unit tests](https://github.com/Tixit/blocks.js/tree/master/src/test) give a comprehensive and exhaustive set of examples to look at.
 
@@ -120,7 +151,7 @@ Why use `blocks.js`?
 * **No HTML**. With `blocks.js`, you write in 100% javascript. The only html requirement is a `document` `body`.
 * **No CSS**. While blocks.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
 * **Works with your HTML and CSS**. `Blocks` can be added as a child to any standard dom object and they can be styled with standard css stylesheets if you so choose.
-* **Fully separate style from structure**. By using `$setup` javascript in your `Style` objects, you can encode any javascript that is stylistic rather than structural.
+* **Fully separate style from structure**. By using [`$state`](#state), [`$setup`, and `$kill`](#setup-and-kill) javascript in your `Style` objects, you can encode any javascript that is stylistic rather than structural.
 * Import `Block` modules with real APIs that anyone can release online. HTML snippets are so 1995.
 * Unlike [HTML web components](http://robdodson.me/why-web-components/), `blocks.js` **works in modern browsers without polyfills**.
 * Also unlike HTML web components, [element name collision](https://groups.google.com/forum/#!topic/polymer-dev/90Dq_2bk8CU) isn't a problem.
@@ -235,10 +266,9 @@ x.selectionRange = [0,6] // selects "You're"
 
 All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.html) are inherited by `Block`. The important ones:
 
-**`block.emit(event, data, data2, ...)`** - Emits an event that triggers handlers setup via the Block's `on` or `addListener` methods.
+**`block.emit(event, data, data2, ...)`** - Emits an event that triggers handlers setup via the Block's `on` methods.
 
-**`block.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Block.  
-**`block.addListener(event,callback)`** - *Same as `on`.*  
+**`block.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Block.
 * `event` - The string event name to listen for. If the passed event is one of the many standard dom events (e.g. 'click', 'mouseover', 'touchstart', etc), the passed handler will be registered as a dom event handler in one of three cases:
     * the block's `excludeDomEvents` object is undefined
     * the event is `in` the block's `excludeDomEvents` property
@@ -614,7 +644,7 @@ A one-line text input field. Your standard `<input type='text'>` element.
 
 If you're going to build a web application, why not do it with `Style`?
 
-While a `Block` is pretty analogous to its HTML node, `Style`s in blocks.js are quite different from normal CSS.
+While a `Block` is pretty analogous to its HTML node, `Style` objects in blocks.js are quite different from normal CSS.
 
 In blocks.js, individual css style properties do *not* cascade. Instead, whole `Style` objects cascade. This may not seem like much of a difference, but it makes all the difference. For example:
 
@@ -645,7 +675,7 @@ In the above example, "a" will be bold and blue, and "b" and "c" will be red. Bu
 
 Another difference is that blocks.js doesn't have "selectors" that can style any element on the page. Traditional CSS stylesheets are developed by selecting a group of elements from the entire page (via ids, classes, attributes, pseudoclasses representing element state, etc) and appending styles to them. These styles may overwrite styles written earlier, and they themselves may be overwritten. In blocks.js, `Style` objects can only be attached in a strict hierarchical setting, where only a specific section of the dom can be affected. In the above example, the `Text` style marked 2 doesn't affect anything outside that inner Container. For example, even though the text "d" is a `Text` object inside a `Container` object, it is *not* colored red. That's because styles in blocks.js are not selectors as you're used to from css. They are strictly hierarchical - they only affect descendant `Block` objects' (children, grandchildren, etc) from the point in the dom they match.
 
-The combination of the fact that blocks.js `Style`s only cascade as a whole object and that styles are defined hierarchically makes style modular and provide isolation from other styles on the page, so that it becomes much easier to understand and manage styling for a page.
+The combination of the fact that blocks.js `Style` objects only cascade as a whole object and that styles are defined hierarchically makes style modular and provide isolation from other styles on the page, so that it becomes much easier to understand and manage styling for a page.
 
 ### `Style` constructor
 
@@ -772,7 +802,7 @@ Like labels, pseudoclasses filter out which `Block` styles are given to. And als
 var x = Text("hi")
 x.style = Style({
     fontWeight: 'bold',
-    $hover: {color: 'red'}
+    $$hover: {color: 'red'}
 })
 ```
 
@@ -784,8 +814,8 @@ Pseudoclasses also mix with each other when applicable. For example:
 var container = Container([Text("a"), Text("b")])
 container.style = Style({
     Text: {
-        $lastChild: 'bold',
-        $hover: {color: 'red'}
+        $$lastChild: 'bold',
+        $$hover: {color: 'red'}
     }
 })
 ```
@@ -797,10 +827,10 @@ To set a style only when multiple pseudoclasses apply, simply nest them. Alterna
 ```javascript
 var text = Text("a")
 text.style = Style({
-    $lastChild: {
-        $hover: {color: 'red'}
+    $$lastChild: {
+        $$hover: {color: 'red'}
     },
-    '$lastChild:hover': {color: 'red'} // means the same thing as the above
+    '$$lastChild:hover': {color: 'red'} // means the same thing as the above
 })
 ```
 
@@ -812,7 +842,7 @@ Also, pseudoclasses may take parameters, which are passed in with parens like a 
 var c = Container([Text("a"),Text("b"),Text("c"),Text("d"),Text("e")])
 c.style = Style({
     Text: {
-        '$nthChild(1+2n)': {color: 'red'},
+        '$$nthChild(1+2n)': {color: 'red'},
     }
 })
 ```
@@ -1108,6 +1138,7 @@ Todo
   * eg. checkboxes should be toggled if you press enter while they're focused on
 * Figure out how to make defaultStyle objects able to take into account Block styles etc
     * Make sure everything in styles is overridable (including run/kill javascript), because its important that any default can be changed overridden
+* Figure out how to support @keyframes and that kind of thing
 
 * Consider making Style objects dynamically changable, and also inheritable/extendable so that you can extend the style object of a Block instead of having to extend the object passed to a Style prototype
 
@@ -1119,6 +1150,8 @@ Todo
 Changelog
 ========
 
+* 0.9.15
+    * if `undefined` is passed as a style, it is now ignored
 * 0.9.14 - Improving fix for when blocks.js is loaded twice (seemed to fix an additional problem i saw where defaults were sometimes overriding styles from other instances of blocks.js, possibly related to load order of scripts? Unfortunately I couldn't create a test to repro)
 * 0.9.13
     * Fixing issue where styles break if block.js is loaded twice (also adding a warning when it detects two instances of blocks.js)

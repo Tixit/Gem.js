@@ -16,8 +16,6 @@ var Container = blocks.Container
 module.exports = function(t) {
 
 
-
-
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -1289,6 +1287,12 @@ module.exports = function(t) {
                 container.add(d)
                 t.eq($(d.domNode).css('position'), 'absolute')
                 t.eq($(d.domNode).css('display'), 'block')
+            })
+        })
+
+        this.test("exception for Style with undefined value", function() {
+            return Style({
+                backgroundColor: undefined
             })
         })
 

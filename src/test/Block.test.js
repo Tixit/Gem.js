@@ -264,7 +264,7 @@ module.exports = function(t) {
 
         thinger.label = "moose"
         this.eq(thinger.label, 'moose')
-        this.eq(thinger.attr('label'), undefined) // only set in dev mode
+        //this.eq(thinger.attr('label'), undefined) why not just do it for everything // only set in dev mode
 
         var thinger2 = TestThinger()
         blocks.dev = true // turn back on

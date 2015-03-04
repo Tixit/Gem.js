@@ -1,0 +1,67 @@
+<body></body>
+<script src="blocks.umd.js"></script>
+<script src="proto.umd.js"></script>
+
+<script>
+
+var list = blocks.Container()
+;[1,2,3].forEach(function(n) {
+    var text = "Hi "+n
+    var toggleButton = blocks.Button(text) // create a button
+
+    // make it do stuff when you click on it
+    toggleButton.on('click', function() {
+        if(toggleButton.text !== "RAWRR!!!") {
+            toggleButton.text = "RAWRR!!!"
+            toggleButton.state.set('color', 'rgb(128, 0, 0)')
+        } else {
+            toggleButton.text = text
+            toggleButton.state.set('color', 'black')
+        }
+    })
+
+    // add the button to the list
+    list.add(toggleButton)
+})
+
+list.add(blocks.Button("send", "Send your Greetings")) // "labels" that can differentiate otherwise identical types of blocks
+
+// create styles with style objects ..
+list.style = blocks.Style({
+    border: '1px solid blue', // .. that use familiar css values,
+    marginRight: 34,          // .. camelCase css properties and integers interpreted as "px" values when appropriate,
+
+    Button: {                 // .. sub-block styles,
+        $$firstChild: {       // .. pseudo-class styles,
+            color: 'rgb(0,100,100)',
+        },
+        $send: {              // .. style based on an object's label, and ..
+            color: 'green'
+        },
+        $state: function(state) { // .. more sophisticated styling techniques
+            return blocks.Style({
+                color: state.color
+            })
+        }
+    }
+})
+
+// append the list of buttons to the document body (so it shows up)
+list.attach()
+
+
+// custom blocks (use your favorite javascript class library - here proto is being used)
+var NameInput = proto(blocks.Block, function() { // inherit from Block
+    this.name = 'NameInput'
+    this.build = function(LabelText) {              // the `build` method initializes the custom Block
+        var nameField = blocks.TextField()
+        this.add(blocks.Text(LabelText), nameField)
+        nameField.on('change', function() {
+            list.children[0].text = "Hi "+nameField.val
+        })
+    }
+})
+
+NameInput("Your Name: ").attach()
+
+</script>
