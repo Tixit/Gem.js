@@ -571,7 +571,7 @@ Your standard `<select>` element.
 
 **`Select.Option`** - The `Option` class.
 
-**`Select.Option(contents)`** - same as `select.option` above, except doesn't append the `Option` to any list.  
+**`Select.Option(value, text)`** - same as `select.option` above, except doesn't append the `Option` to any list.
 **`Select.Option(label, contents)`**
 
 **`option.selected`** - Gets or sets the selected state of the `Option`.  
