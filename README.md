@@ -214,9 +214,13 @@ blocks.Block // if you're using the umd package
 
 **`Block.name`** - The name of the Block. Used both for naming dom elements for view in browser dev tools and for styling.
 
-**`Block.attach(block, block, ...)`** - Appends the passed blocks to `document.body`.  
-**`Block.detach(block, block, ...)`** - Removes the passed blocks to `document.body`.  
-**`Block.createBody(callback)`** - Dynamically creates the body tag. Calls `callback` when done.  
+**`Block.attach(block, block, ...)`** - Appends the passed blocks to `document.body`.
+**`Block.attach(listOfBlocks)`** - Same as above, but `listOfBlocks` is an array of `Block` objects.
+
+**`Block.detach(block, block, ...)`** - Removes the passed blocks to `document.body`.
+**`Block.detach(listOfBlocks)`** - Same as above, but `listOfBlocks` is an array of `Block` objects.
+
+**`Block.createBody(callback)`** - Dynamically creates the body tag. Calls `callback` when done.
 
 ### Instance properties and methods
 
