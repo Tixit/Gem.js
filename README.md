@@ -606,8 +606,9 @@ Your standard `<table>` element.
 **`row.cell(label, contents)`**  
 **`header.cell(contents)`** - Creates a new table `TableCell` (`<td>`) and appends it to the `TableHeader`.  
 **`header.cell(label, contents)`**
+* `contents` - Either a string (text content) or any value you could pass into `block.add` (a Block, a list of Blocks, etc).
 
-**`Table.Cell(contents)`** - Same as `Table.Row`, but doesn't append the cell to any row.  
+**`Table.Cell(contents)`** - Same as `row.cell`, but doesn't append the cell to any row.
 **`Table.Cell(label, contents)`**
 
 **`cell.colspan(columns)`** - Sets the column-span (`colspan` attribute) of the cell.
