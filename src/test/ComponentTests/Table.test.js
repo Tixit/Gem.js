@@ -157,7 +157,7 @@ module.exports = function(t) {
         var cell1 = row1.cell(Text('a'))
 
         var cell2 = row2.cell(Text('A'))
-        var cell3 = row2.cell(Text('B'))
+        var cell3 = row2.cell([Text('B')])
 
         this.eq(table.children.length, 2)
         this.eq(table.children[0], row1)

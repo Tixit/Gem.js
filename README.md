@@ -82,10 +82,10 @@ var list = Container()
     toggleButton.on('click', function() {
         if(toggleButton.text !== "RAWRR!!!") {
             toggleButton.text = "RAWRR!!!"
-            toggleButton.state.set('color', 'rgb(128, 0, 0)')
+            toggleButton.state.set('angered', true)
         } else {
             toggleButton.text = text
-            toggleButton.state.set('color', 'black')
+            toggleButton.state.set('angered', false)
         }
     })
 
@@ -108,6 +108,12 @@ list.style = Style({
             color: 'green'
         },
         $state: function(state) { // .. more sophisticated styling techniques
+            if(state.angered) {
+                var color = 'rgb(128, 0, 0)'
+            } else {
+                var color = 'black'
+            }
+
             return Style({
                 color: state.color
             })
@@ -1120,6 +1126,12 @@ And while blocks.js generally rejects css's use of cascading, there is some simi
 # The `defaultStyle` property of the Block itself
 # The Block instance's active style (either an inherited style or its `style` property)
 
+## Tips and Recommendations
+
+### Don't Create a node until you need it
+
+Often in traditional web development, all the HTML will be rendered and any javascript for them initialized on page load, and the elements that shouldn't be shown to the user are simply hidden, and then shown when needed. Using blocks.js, its recommended that you create and remove nodes as needed, rather than showing and hiding (using `visible`). The only reason to use the show/hide technique is if the element in question is particuarly expensive to generate.
+
 Decisions
 =========
 
@@ -1158,6 +1170,7 @@ Changelog
 
 * 0.9.15
     * if `undefined` is passed as a style, it is now ignored
+    * fixing bug: an array of blocks couldn't be passed to `table.cell`
 * 0.9.14 - Improving fix for when blocks.js is loaded twice (seemed to fix an additional problem i saw where defaults were sometimes overriding styles from other instances of blocks.js, possibly related to load order of scripts? Unfortunately I couldn't create a test to repro)
 * 0.9.13
     * Fixing issue where styles break if block.js is loaded twice (also adding a warning when it detects two instances of blocks.js)
