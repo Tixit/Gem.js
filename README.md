@@ -644,7 +644,7 @@ A one-line text input field. Your standard `<input type='text'>` element.
 
 **`TextField()`** - Returns an empty TextField.  
 **`TextField(password)`** - Returns an empty TextField with the `password` attribute, meaning any text inside the box will be displayed so that only the number of characters can be seen, and not the characters themselves.  
-**`TextField(label, password)`
+**`TextField(label, password)`**
 
 **`textField.val`** - Gets or sets the textField's value (the text inside the text box).
 
@@ -1150,13 +1150,36 @@ Todo
 * Fix a bug in last-child where dynamically adding more children leads to 50% of the children being treated as last-child
 * Fix the bug in hover where it fails to style properly after the first hover
 
-* Make it so that psuedoclasses can be styled with `Style` objects as long as their checked to only contain simple styles.
+* Make it so that pseudoclasses can be styled with `Style` objects as long as their checked to only contain simple styles.
 * Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
 * Make all controls usable via the keybaord
   * eg. checkboxes should be toggled if you press enter while they're focused on
 * Figure out how to make defaultStyle objects able to take into account Block styles etc
     * Make sure everything in styles is overridable (including run/kill javascript), because its important that any default can be changed overridden
 * Figure out how to support @keyframes and that kind of thing
+
+* support css animations
+    * Maybe syntax like this:
+        var animation = Style.Animation({
+            name: 'slidein' // produces a css style like __defaultName__2_slidein to prevent name collisions
+
+            from: {
+                margin-left: 100%,
+                width: 300%
+            },
+
+            '75%': {
+                width: '200%'
+            },
+
+            to: someStyleObject
+        })
+        Style({
+            anim: animation,       // anim cause its short and animation is already taken by plain css
+            animationDuration: 300 // milliseconds
+        })
+
+* Emulate the :not psuedoclass
 
 * Consider making Style objects dynamically changable, and also inheritable/extendable so that you can extend the style object of a Block instead of having to extend the object passed to a Style prototype
 
