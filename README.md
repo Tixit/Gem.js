@@ -454,7 +454,7 @@ This makes it easy and non-intrusive to label parts of your custom Blocks for ea
 In as many cases as possible, Blocks will use properties defined with getters and setters rather than using methods. There are a few standard properties that some blocks have:
 * **`text`** - Gets and sets some visual text that a Block has. `Button`, `Text`, and `Select.Option` have this property.
 * **`selected`** - Gets and sets the selected-state of the Block. `CheckBox`, `Select.Option`, and `Radio.Button` have this property.
-* **`val`** - Gets and sets some value that a block has. This will never be the same as either `text` or `selected`. `CheckBox`, `Radio`, `Radio.Button`, `Select`, `TextArea`, and `TextField` all have this property.
+* **`val`** - Gets and sets some value that a block has. This will never be the same as either `text` or `selected`. `Radio`, `Select`, `TextArea`, and `TextField` all have this property.
 
 This is a standard event that many blocks can emit:
 * **`change`** - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but never both). Change events won't have any information passed with them - you can access the object itself if you need data from it.
