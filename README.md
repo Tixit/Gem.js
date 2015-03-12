@@ -633,7 +633,7 @@ A `<div>` with text in it.
 
 A  multi-line text input field. Your standard `<textarea>` element.
 
-**`TextArea()`** - Returns an empty TextArea.
+**`TextArea()`** - Returns an empty TextArea.  
 **`TextArea(label)`**
 
 **`textArea.val`** - Gets or sets the testArea's value (the text inside the text box).
