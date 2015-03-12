@@ -457,7 +457,7 @@ In as many cases as possible, Blocks will use properties defined with getters an
 * **`val`** - Gets and sets some value that a block has. This will never be the same as either `text` or `selected`. `Radio`, `Select`, `TextArea`, and `TextField` all have this property.
 
 This is a standard event that many blocks can emit:
-* **`change`** - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but since no blocks have both, never both). Change events won't have any information passed with them - you can access the object itself if you need data from it.
+* **`change`** - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but never both). Change events won't have any information passed with them - you can access the object itself if you need data from it.
 
 Some blocks have sub-blocks specifically related to them. For example, `Select` has `Option` blocks, and `Table` has `Row` and `Header` blocks, and `Row` and `Header` have `Cell` blocks respectively.
 * There will also be a property with the name of the sub-block, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has an `options` map.
@@ -538,7 +538,7 @@ An `<ol>` or `<ul>` element.
 
 ### Radio - Not a `Block`
 
-A set of radio buttons. `Radio` itself is not a `Block`, but rather contains a set of related `RadioButton`s.
+A set of radio buttons. `Radio` itself is not a `Block`, but rather contains a set of related `RadioButton`s (which are `Block` objects).
 
 **`Radio()`** - Returns a new `Radio` object where a button is not required to be set (same as `Radio(false)`).  
 **`Radio(required)`** - Returns a new `Radio` object. If `required` is true, a radio button will always be selected (and buttons cannot be deselected), otherwise radio-buttons can be deselected, and no radio button is selected by default.
