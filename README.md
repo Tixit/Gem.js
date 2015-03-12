@@ -633,7 +633,7 @@ A `<div>` with text in it.
 
 A  multi-line text input field. Your standard `<textarea>` element.
 
-**`TextArea()`** - Returns an empty TextArea.  
+**`TextArea()`** - Returns an empty TextArea.
 **`TextArea(label)`**
 
 **`textArea.val`** - Gets or sets the testArea's value (the text inside the text box).
@@ -687,7 +687,7 @@ In the above example, "a" will be bold and blue, and "b" and "c" will be red. Bu
 
 Another difference is that blocks.js doesn't have "selectors" that can style any element on the page. Traditional CSS stylesheets are developed by selecting a group of elements from the entire page (via ids, classes, attributes, pseudoclasses representing element state, etc) and appending styles to them. These styles may overwrite styles written earlier, and they themselves may be overwritten. In blocks.js, `Style` objects can only be attached in a strict hierarchical setting, where only a specific section of the dom can be affected. In the above example, the `Text` style marked 2 doesn't affect anything outside that inner Container. For example, even though the text "d" is a `Text` object inside a `Container` object, it is *not* colored red. That's because styles in blocks.js are not selectors as you're used to from css. They are strictly hierarchical - they only affect descendant `Block` objects' (children, grandchildren, etc) from the point in the dom they match.
 
-The combination of the fact that blocks.js `Style` objects only cascade as a whole object and that styles are defined hierarchically makes style modular and provide isolation from other styles on the page, so that it becomes much easier to understand and manage styling for a page.
+The combination of the fact that blocks.js `Style` objects only cascade as a whole object and that styles are defined hierarchically makes styles modular and provides isolation from other styles on the page, so that it becomes much easier to understand and manage styling for a page or entire application.
 
 ### `Style` constructor
 
@@ -863,15 +863,16 @@ In the above code, "a", "c", and "e" are red, while "b" and "d" are black (the d
 
 #### `$setup` and `$kill`
 
-`$setup(block)` is a function that is run when the style is applied to a block, and `$kill(block)` is run when the style is removed from a block. Both functions get the block being given the style as their only argument. For example:
+`$setup(block)` is a function that is run when the style is applied to a block, and `$kill(block, setupObject)` is run when the style is removed from a block. Both functions get the block being given the style as their first argument, the `$kill` also gets the return value of the `$setup` function as its second argument. For example:
 
 ```javascript
 var S = Style({
     $setup: function(block) {
         block.text = "I got zee style"
+        return 20
     },
-    $kill: function(block) {
-        block.text = "I'm 20% less cool"
+    $kill: function(block,setupValue) {
+        block.text = "I'm "+setupValue+"% less cool"
     }
 })
 var t = Text("x")
@@ -881,45 +882,11 @@ t.style = undefined
 t.text === "I'm 20% less cool"
 ```
 
-These functions could be used to set up event handlers, or anything really, that could change the block in any way you want.
-One way you could use `$setup` is to define a block.state handler:
-
-```javascript
-var S = Style({
-    $setup: function(block) {
-        block.state.on('change', block.setupHandler=function(change) {
-            if(state.boggled) {
-                block.domNode.style.color = 'rgb(100, 0, 0)'
-            } else {
-                block.domNode.style.color = 'rgb(0, 0, 100)'
-            }
-        })
-    },
-    $kill: function(block) {
-        block.domNode.style.color = '' // remove the inline style
-        block.state.removeListener('change', block.setupHandler) // remove the listner on the block's state
-        block.setupHandler = undefined
-    }
-})
-
-var text = Text("hi")
-text.style = S
-// here text is black
-text.state.set('boggled', true)
-// here text is red
-text.state.set('boggled', false)
-// here text is blue
-text.style = undefined
-// here text is black again
-text.state.set('boggled', true) // now doesn't affect the style
-// here text is still black
-```
-
 #### `$state`
 
 `$state(state)` is a function that is run when the block's `state` observer property emits a `change` event (which happens when its changed with its methods `set`, `push`, `splice`, or `append`.
 The `state` parameter is `block.state.subject`. The return value of the function should be a `Style` object to set the object's active style to.
-*Note that if you *create* styles in $state functions, remember that you will create a new style every time the state changes. This may be a problem with some applications that have a lot of state changes, or particularly rapid state changes (its unclear at what point this could cause problems).*
+*Note that if you create styles in $state functions, remember that you will create a new style every time the state changes. This may be a problem with some applications that have a lot of state changes, or particularly rapid state changes (its unclear at what point this could cause problems).*
 
 Currently, $state can only be used to set basic css properties from the returned `Style` object. The consequence of this is that styles are only applied to the block that has that state, and styles for sub-blocks are unaffected. Example:
 ```javascript
