@@ -457,11 +457,11 @@ In as many cases as possible, Blocks will use properties defined with getters an
 * **`val`** - Gets and sets some value that a block has. This will never be the same as either `text` or `selected`. `Radio`, `Select`, `TextArea`, and `TextField` all have this property.
 
 This is a standard event that many blocks can emit:
-* **`change`** - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but never both). Change events won't have any information passed with them - you can access the object itself if you need data from it.
+* **`change`** - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but since no blocks have both, never both). Change events won't have any information passed with them - you can access the object itself if you need data from it.
 
-Some blocks have sub-blocks specifically related to them. For example, `Select` has `Option` blocks, and `Table` has `Row` blocks, and `Row` has `Cell` Blocks respectively.
-* There will also be a property with the name of the sub-block, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has a `options` map.
-* For these types of blocks, there will be a method on the main Block (examples of main Blocks: Select or Table) to create a new sub-block (e.g. Option or Row), append it to the calling block, and returns that sub-block. The method will be named the same as the sub-block but in lower-case (e.g. selectBlock.option(...) will return an Option block).
+Some blocks have sub-blocks specifically related to them. For example, `Select` has `Option` blocks, and `Table` has `Row` and `Header` blocks, and `Row` and `Header` have `Cell` blocks respectively.
+* There will also be a property with the name of the sub-block, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has an `options` map.
+* For these types of blocks, there will be a method on the main block (examples of main blocks: `Select` or `Table`) to create a new sub-block (e.g. Option or Row), append it to the calling block, and returns that sub-block. The method will be named the same as the sub-block but in lower-case (e.g. selectBlock.option(...) will return an Option block).
 
 ### Button
 
@@ -494,7 +494,7 @@ Your standard html `<input type="checkbox">`.
 **`CheckBox()`** - Returns a new unchecked CheckBox.  
 **`CheckBox(label)`**
 
-**`button.text`** - Sets and gets the button's text.
+**`checkbox.selected`** - Sets and gets the checkbox's selected state (true for selected, false for unselected).
 
 ### Container
 
