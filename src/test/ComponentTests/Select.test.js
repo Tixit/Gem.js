@@ -1,5 +1,6 @@
 var testUtils = require('testUtils')
 var syn = require("fsyn")
+var domUtils = require('domUtils')
 
 var Container = require("Components/Container")
 var Text = require("Components/Text")
@@ -131,7 +132,7 @@ module.exports = function() {
 
         // change option text
         s1.options[7].text = 'Option 7'
-        this.eq(s1.options[7].domNode.innerText, 'Option 7')
+        this.eq(s1.options[7].domNode[domUtils.textProperty], 'Option 7')
 
         // change 3
         // change the value of the select object directly

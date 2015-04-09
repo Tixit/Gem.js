@@ -1,5 +1,6 @@
 var testUtils = require('testUtils')
 var Container = require("Components/Container")
+var domUtils = require("domUtils")
 
 var Text = require("Components/Text")
 var List = require('Components/List')
@@ -22,7 +23,7 @@ module.exports = function(t) {
         this.eq(list.domNode.nodeName, 'UL') // default is unordered list
 
         var firstItem = $($(list.domNode).find("li")[0])[0]
-        this.eq(firstItem.innerText, 'a')
+        this.eq(firstItem[domUtils.textProperty], 'a')
 
         this.test("list constructed with raw strings instead of elements", function() {
             var list = List(['a', 'b'])
@@ -30,7 +31,7 @@ module.exports = function(t) {
             container.add(Text("list2"), list)
 
             this.eq(list.children.length, 2)
-            this.eq(list.children[0].domNode.innerText, 'a')
+            this.eq(list.children[0].domNode[domUtils.textProperty], 'a')
         })
     })
 
@@ -61,7 +62,7 @@ module.exports = function(t) {
 
         this.eq(list.children[0].children[0].text, 'a')
         var firstItem = $($(list.domNode).find("li")[0])[0]
-        this.eq(firstItem.innerText, 'a')
+        this.eq(firstItem[domUtils.textProperty], 'a')
 
         this.test("items constructed with raw strings instead of elements", function() {
             var list = List()
@@ -69,7 +70,7 @@ module.exports = function(t) {
             var item1 = list.item('a')
 
             this.eq(list.children.length, 1)
-            this.eq(list.children[0].domNode.innerText, 'a')
+            this.eq(list.children[0].domNode[domUtils.textProperty], 'a')
         })
 
         this.test("ordering argument alone", function() {
@@ -94,7 +95,7 @@ module.exports = function(t) {
         var item1 = list1.item('aLabel4', 'e')
         this.eq(list1.children.length, 1)
         this.eq(item1.label, 'aLabel4')
-        this.eq(item1.domNode.innerText, 'e')
+        this.eq(item1.domNode[domUtils.textProperty], 'e')
 
         var list3 = List('aLabel5', true)
         this.eq(list3.label, 'aLabel5')

@@ -10,7 +10,7 @@ module.exports = function() {
 
     var tests = Unit.test("Testing Blocks.js", function(t) {
         this.count(4)
-        this.timeout(4000)
+        this.timeout(8000) // IE takes more time
 
 
         //*

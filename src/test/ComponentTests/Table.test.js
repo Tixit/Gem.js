@@ -1,5 +1,6 @@
 var testUtils = require('testUtils')
 var Container = require("Components/Container")
+var domUtils = require('domUtils')
 
 var Text = require("Components/Text")
 var Table = require('Components/Table')
@@ -31,14 +32,14 @@ module.exports = function(t) {
         this.ok(table.children[0].children[0] instanceof Table.Cell)
         this.eq(table.children[0].children[0].children[0].text, 'a')
         var firstRow = $($(table.domNode).find("tr")[0])
-        this.eq(firstRow.find('td')[0].innerText, 'a')
+        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
 
         this.ok(table.children[2].children[3] instanceof Table.Cell)
         this.ok(table.children[2].children[3].children[0] instanceof Text)
         this.eq(table.children[2].children[3].children[0].text, 'DEE')
-        this.eq(table.domNode.children[2].children[3].children[0].innerText, 'DEE')
+        this.eq(table.domNode.children[2].children[3].children[0][domUtils.textProperty], 'DEE')
         var lastRow = $($(table.domNode).find("tr")[2])
-        this.eq(lastRow.find('td')[3].innerText, 'DEE')
+        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'DEE')
 
         this.test("tables constructed with raw strings instead of elements", function() {
             var table = Table([
@@ -51,10 +52,10 @@ module.exports = function(t) {
             this.eq(table.children.length, 2)
 
             this.eq(table.children[0].children.length, 3)
-            this.eq(table.children[0].children[0].domNode.innerText, 'a')
+            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
 
             this.eq(table.children[1].children.length, 3)
-            this.eq(table.children[1].children[2].domNode.innerText, 'f')
+            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
         })
     })
 
@@ -78,13 +79,13 @@ module.exports = function(t) {
         this.ok(table.children[0].children[0] instanceof Table.Cell)
         this.eq(table.children[0].children[0].children[0].text, 'a')
         var firstRow = $($(table.domNode).find("tr")[0])
-        this.eq(firstRow.find('td')[0].innerText, 'a')
+        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
 
         this.ok(table.children[1].children[3] instanceof Table.Cell)
         this.eq(table.children[1].children[3].children[0].text, 'D')
-        this.eq(table.domNode.children[1].children[3].innerText, 'D')
+        this.eq(table.domNode.children[1].children[3][domUtils.textProperty], 'D')
         var lastRow = $($(table.domNode).find("tr")[1])
-        this.eq(lastRow.find('td')[3].innerText, 'D')
+        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'D')
 
         this.test("rows constructed with raw strings instead of elements", function() {
             var table = Table()
@@ -95,10 +96,10 @@ module.exports = function(t) {
             this.eq(table.children.length, 2)
 
             this.eq(table.children[0].children.length, 3)
-            this.eq(table.children[0].children[0].domNode.innerText, 'a')
+            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
 
             this.eq(table.children[1].children.length, 3)
-            this.eq(table.children[1].children[2].domNode.innerText, 'f')
+            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
         })
     })
 
@@ -123,13 +124,13 @@ module.exports = function(t) {
         this.ok(table.children[0].children[0] instanceof Table.Cell)
         this.eq(table.children[0].children[0].children[0].text, 'a')
         var firstRow = $($(table.domNode).find("th")[0])
-        this.eq(firstRow.find('td')[0].innerText, 'a')
+        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
 
         this.ok(table.children[1].children[3] instanceof Table.Cell)
         this.eq(table.children[1].children[3].children[0].text, 'D')
-        this.eq(table.domNode.children[1].children[3].innerText, 'D')
+        this.eq(table.domNode.children[1].children[3][domUtils.textProperty], 'D')
         var lastRow = $($(table.domNode).find("th")[1])
-        this.eq(lastRow.find('td')[3].innerText, 'D')
+        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'D')
 
         this.test("rows constructed with raw strings instead of elements", function() {
             var table = Table()
@@ -140,10 +141,10 @@ module.exports = function(t) {
             this.eq(table.children.length, 2)
 
             this.eq(table.children[0].children.length, 3)
-            this.eq(table.children[0].children[0].domNode.innerText, 'a')
+            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
 
             this.eq(table.children[1].children.length, 3)
-            this.eq(table.children[1].children[2].domNode.innerText, 'f')
+            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
         })
     })
 
@@ -170,15 +171,15 @@ module.exports = function(t) {
         this.eq(table.children[0].children[0], cell1)
         this.eq(table.children[0].children[0].children[0].text, 'a')
         var firstRow = $($(table.domNode).find("tr")[0])
-        this.eq(firstRow.find('td')[0].innerText, 'a')
+        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
 
         this.ok(table.children[1].children[1] instanceof Table.Cell)
         this.eq(table.children[1].children[0], cell2)
         this.eq(table.children[1].children[1], cell3)
         this.eq(table.children[1].children[1].children[0].text, 'B')
-        this.eq(table.domNode.children[1].children[1].innerText, 'B')
+        this.eq(table.domNode.children[1].children[1][domUtils.textProperty], 'B')
         var lastRow = $($(table.domNode).find("tr")[1])
-        this.eq(lastRow.find('td')[1].innerText, 'B')
+        this.eq(lastRow.find('td')[1][domUtils.textProperty], 'B')
 
         this.test("colspan", function() {
             cell1.colspan(2)
@@ -202,10 +203,10 @@ module.exports = function(t) {
             this.eq(table.children.length, 2)
 
             this.eq(table.children[0].children.length, 3)
-            this.eq(table.children[0].children[0].domNode.innerText, 'a')
+            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
 
             this.eq(table.children[1].children.length, 3)
-            this.eq(table.children[1].children[2].domNode.innerText, 'f')
+            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
         })
     })
 
@@ -225,7 +226,7 @@ module.exports = function(t) {
         var cell1 = row1.cell('label5', 'value')
         var cell2 = row1.cell('label6', undefined)
         this.eq(cell1.label, 'label5')
-        this.eq(cell1.domNode.innerText, 'value')
+        this.eq(cell1.domNode[domUtils.textProperty], 'value')
         this.eq(cell2.label, 'label6')
     })
 };

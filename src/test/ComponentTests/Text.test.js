@@ -1,5 +1,6 @@
 var testUtils = require('testUtils')
 var Container = require("Components/Container")
+var domUtils = require('domUtils')
 
 var Text = require('Components/Text');
 
@@ -19,7 +20,7 @@ module.exports = function() {
         var obj2 = Text("<div>whatever</div>")
         container.add(obj2)
         t.eq(obj2.text,"<div>whatever</div>");
-        t.eq(obj2.domNode.innerText, "<div>whatever</div>")
+        t.eq(obj2.domNode[domUtils.textProperty], "<div>whatever</div>")
 
 	});
 
@@ -27,6 +28,6 @@ module.exports = function() {
         var t = Text("label", "text")
 
         this.eq(t.label, "label")
-        this.eq(t.domNode.innerText, "text")
+        this.eq(t.domNode[domUtils.textProperty], "text")
     })
 };

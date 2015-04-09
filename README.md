@@ -1158,6 +1158,7 @@ Todo
 Changelog
 ========
 
+* 0.9.16 - fixing text for
 * 0.9.15
     * if `undefined` is passed as a style, it is now ignored
     * fixing bug: an array of blocks couldn't be passed to `table.cell`
