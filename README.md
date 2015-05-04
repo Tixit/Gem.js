@@ -1,7 +1,7 @@
 `blocks.js`
 ============
 
-A library of extensible web components for building and styling web applications in pure-javascript. Modular, composable web components. Modular, composable styles.
+Blocks.js is a view library - a set of extensible web components for building visual user interfaces and styling web applications in pure-javascript. Modular, composable web components. Modular, composable styles.
 
 The power of functions and variables is unparalleled, and yet languages like HTML and CSS, which don't have any ability to compose structures together, are still the primary ways people build web applications. Framework after framework has come along to try and solve the problem of making web pages dynamic. Angular, Backbone, Ember, jQuery, mooTools, Dojo, YUI, etc have all tried to be everything to everyone. But what they fail at providing is simplicity and modularity. They end up with bloated libraries filled with features you're not using.
 
@@ -1158,6 +1158,7 @@ Todo
 Changelog
 ========
 
+* 0.9.17 - requiring a node to be removed from its parent before its added to a different parent
 * 0.9.16 - fixing text for
 * 0.9.15
     * if `undefined` is passed as a style, it is now ignored

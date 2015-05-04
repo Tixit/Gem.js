@@ -104,6 +104,19 @@ module.exports = function(t) {
             this.eq(x.children[2].domNode , x.domNode.children[2])
             this.eq(x.domNode.children[3].textContent , 'a')
             this.eq(x.children[3].domNode , x.domNode.children[3])
+
+            this.test('errors', function() {
+                this.count(1)
+
+                var x = C()
+                x.addAt(0, Text("moose"))
+
+                try {
+                    x.addAt(0, x.children[0])
+                } catch(e) {
+                    this.eq(e.message, 'Node at index 0 already has a parent. Remove the node from its parent before adding it somewhere else.')
+                }
+            })
         })
 
         this.test('addBefore', function() {

@@ -88,7 +88,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var tests = Unit.test("Testing Blocks.js", function(t) {
 	        this.count(4)
-	        this.timeout(4000)
+	        this.timeout(8000) // IE takes more time
 	
 	
 	        //*
@@ -134,8 +134,8 @@ return /******/ (function(modules) { // webpackBootstrap
   \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.Block = __webpack_require__(/*! Block */ 19)
-	exports.Style = __webpack_require__(/*! Style */ 20)
+	exports.Block = __webpack_require__(/*! Block */ 21)
+	exports.Style = __webpack_require__(/*! Style */ 22)
 	
 	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 25)
 	exports.Container = __webpack_require__(/*! Components/Container */ 26)
@@ -180,8 +180,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var proto = __webpack_require__(/*! proto */ 40);
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 22);
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 20);
 	
 	module.exports = function(t) {
 	
@@ -748,8 +748,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var proto = __webpack_require__(/*! proto */ 40)
 	var Future = __webpack_require__(/*! async-future */ 41)
 	
-	var syn = __webpack_require__(/*! fsyn */ 23)
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var syn = __webpack_require__(/*! fsyn */ 24)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
 	var Block = blocks.Block
 	
@@ -851,6 +851,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.eq(x.children[2].domNode , x.domNode.children[2])
 	            this.eq(x.domNode.children[3].textContent , 'a')
 	            this.eq(x.children[3].domNode , x.domNode.children[3])
+	
+	            this.test('errors', function() {
+	                this.count(1)
+	
+	                var x = C()
+	                x.addAt(0, Text("moose"))
+	
+	                try {
+	                    x.addAt(0, x.children[0])
+	                } catch(e) {
+	                    this.eq(e.message, 'Node at index 0 already has a parent. Remove the node from its parent before adding it somewhere else.')
+	                }
+	            })
 	        })
 	
 	        this.test('addBefore', function() {
@@ -1409,11 +1422,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
 	var Block = blocks.Block
-	var domUtils = __webpack_require__(/*! domUtils */ 24)
-	var syn = __webpack_require__(/*! fsyn */ 23)
+	var domUtils = __webpack_require__(/*! domUtils */ 23)
+	var syn = __webpack_require__(/*! fsyn */ 24)
 	
 	var Style = blocks.Style
 	var Text = blocks.Text
@@ -2762,8 +2775,8 @@ return /******/ (function(modules) { // webpackBootstrap
   \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var syn = __webpack_require__(/*! fsyn */ 23)
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var syn = __webpack_require__(/*! fsyn */ 24)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	
 	var Button = __webpack_require__(/*! Components/Button */ 27)
 	
@@ -2794,7 +2807,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	var Container = __webpack_require__(/*! Components/Container */ 26)
 	
 	var Canvas = __webpack_require__(/*! Components/Canvas */ 25);
@@ -2840,8 +2853,8 @@ return /******/ (function(modules) { // webpackBootstrap
   \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var syn = __webpack_require__(/*! fsyn */ 23)
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var syn = __webpack_require__(/*! fsyn */ 24)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	
 	var CheckBox = __webpack_require__(/*! Components/CheckBox */ 28)
 	
@@ -2898,8 +2911,8 @@ return /******/ (function(modules) { // webpackBootstrap
   \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var syn = __webpack_require__(/*! fsyn */ 23)
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var syn = __webpack_require__(/*! fsyn */ 24)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	
 	var Container = __webpack_require__(/*! Components/Container */ 26)
 	var Text = __webpack_require__(/*! Components/Text */ 36)
@@ -2987,7 +3000,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	var Container = __webpack_require__(/*! Components/Container */ 26)
 	
 	var Image = __webpack_require__(/*! Components/Image */ 29);
@@ -3028,9 +3041,9 @@ return /******/ (function(modules) { // webpackBootstrap
   \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	var Container = __webpack_require__(/*! Components/Container */ 26)
-	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	var domUtils = __webpack_require__(/*! domUtils */ 23)
 	
 	var Text = __webpack_require__(/*! Components/Text */ 36)
 	var List = __webpack_require__(/*! Components/List */ 30)
@@ -3158,8 +3171,8 @@ return /******/ (function(modules) { // webpackBootstrap
   \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
-	var syn = __webpack_require__(/*! fsyn */ 23)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
+	var syn = __webpack_require__(/*! fsyn */ 24)
 	
 	var Container = __webpack_require__(/*! Components/Container */ 26)
 	var Text = __webpack_require__(/*! Components/Text */ 36)
@@ -3575,8 +3588,8 @@ return /******/ (function(modules) { // webpackBootstrap
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
-	var syn = __webpack_require__(/*! fsyn */ 23)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
+	var syn = __webpack_require__(/*! fsyn */ 24)
 	
 	var Container = __webpack_require__(/*! Components/Container */ 26)
 	var Text = __webpack_require__(/*! Components/Text */ 36)
@@ -3861,9 +3874,9 @@ return /******/ (function(modules) { // webpackBootstrap
   \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
-	var syn = __webpack_require__(/*! fsyn */ 23)
-	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
+	var syn = __webpack_require__(/*! fsyn */ 24)
+	var domUtils = __webpack_require__(/*! domUtils */ 23)
 	
 	var Container = __webpack_require__(/*! Components/Container */ 26)
 	var Text = __webpack_require__(/*! Components/Text */ 36)
@@ -4204,9 +4217,9 @@ return /******/ (function(modules) { // webpackBootstrap
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	var Container = __webpack_require__(/*! Components/Container */ 26)
-	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	var domUtils = __webpack_require__(/*! domUtils */ 23)
 	
 	var Text = __webpack_require__(/*! Components/Text */ 36)
 	var Table = __webpack_require__(/*! Components/Table */ 33)
@@ -4445,9 +4458,9 @@ return /******/ (function(modules) { // webpackBootstrap
   \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	var Container = __webpack_require__(/*! Components/Container */ 26)
-	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	var domUtils = __webpack_require__(/*! domUtils */ 23)
 	
 	var Text = __webpack_require__(/*! Components/Text */ 36);
 	
@@ -4487,9 +4500,9 @@ return /******/ (function(modules) { // webpackBootstrap
   \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	var Container = __webpack_require__(/*! Components/Container */ 26)
-	var syn = __webpack_require__(/*! fsyn */ 23)
+	var syn = __webpack_require__(/*! fsyn */ 24)
 	
 	var TextArea = __webpack_require__(/*! Components/TextArea */ 34)
 	
@@ -4550,9 +4563,9 @@ return /******/ (function(modules) { // webpackBootstrap
   \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 21)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
 	var Container = __webpack_require__(/*! Components/Container */ 26)
-	var syn = __webpack_require__(/*! fsyn */ 23)
+	var syn = __webpack_require__(/*! fsyn */ 24)
 	
 	var TextField = __webpack_require__(/*! Components/TextField */ 35)
 	
@@ -4623,7 +4636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
 	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 39)
-	var Future = __webpack_require__(/*! async-future */ 53)
+	var Future = __webpack_require__(/*! async-future */ 51)
 	
 	module.exports = deadunitInternal({
 	    deadunitCore: __webpack_require__(/*! deadunit-core/deadunitCore.browser */ 50),
@@ -4702,21 +4715,338 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 19 */
+/*!************************!*\
+  !*** ./~/testUtils.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(/*! async-future */ 41)
+	
+	// compares arrays and objects for value equality (all elements and members must match)
+	exports.equal = function(a,b) {
+	    if(a instanceof Array) {
+	        if(!(b instanceof Array))
+	            return false
+	        if(a.length !== b.length) {
+	            return false
+	        } else {
+	            return a.reduce(function(previousValue, currentValue, index) {
+	                return previousValue && exports.equal(currentValue,b[index])
+	            }, true)
+	        }
+	    } else if(a instanceof Object) {
+	        if(!(b instanceof Object))
+	            return false
+	
+	        var aKeys = Object.keys(a)
+	        var bKeys = Object.keys(b)
+	
+	        if(aKeys.length !== bKeys.length) {
+	            return false
+	        } else {
+	            for(var n=0; n<aKeys.length; n++) {
+	                var key = aKeys[n]
+	                var aVal = a[key]
+	                var bVal = b[key]
+	
+	                if(!exports.equal(aVal,bVal)) {
+	                    return false
+	                }
+	            }
+	            // else
+	            return true
+	        }
+	    } else {
+	        return a===b
+	    }
+	}
+	
+	
+	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
+	// returns a function that, each time its called, calls the next function in the list with the passed argument
+	// example:
+	/*
+	var sequenceX = testUtils.seq(
+	 function(x) {
+	     t.ok(x === 'a')
+	 },
+	 function(x) {
+	     t.ok(x === 'b')
+	 },
+	 function(x) {
+	     t.ok(x === 'c')
+	})
+	
+	 var obj = {a:1,b:2,c:3}
+	 for(var x in obj) {
+	     sequenceX(x)
+	 }
+	 */
+	exports.seq = function (/*functions*/) {
+	    var n=-1
+	    var fns = arguments
+	    return function() {
+	        n++
+	        if(n>=fns.length)
+	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
+	        // else
+	        fns[n].apply(this,arguments)
+	    }
+	}
+	
+	
+	exports.demo = function(name, component) {
+	    var header = document.createElement("h1")
+	        header.textContent = name
+	
+	    $("#demos").append([header, component.domNode]);
+	}
+	
+	
+	// future wraps a function like: function(result) {}
+	exports.wrapSingleParameter = function() {
+	    if(arguments.length === 1) {
+	        var fn = arguments[0]
+	    } else {
+	        var object = arguments[0]
+	        var method = arguments[1]
+	        var fn = object[method]
+	    }
+	
+	    return function() {
+	        var args = Array.prototype.slice.call(arguments)
+			var future = new Future
+			args.push(function(result) {
+			    future.return(result)
+			})
+			var me = this
+	        if(object) me = object
+	        fn.apply(me, args)
+			return future
+	    }
+	}
+
+/***/ },
+/* 20 */
+/*!*****************************!*\
+  !*** ../~/EventEmitterB.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 40)
+	var utils = __webpack_require__(/*! utils */ 42)
+	
+	module.exports = proto(EventEmitter, function(superclass) {
+	
+	    this.init = function() {
+	        superclass.apply(this, arguments)
+	
+	        this.ifonHandlers = {}
+	        this.ifoffHandlers = {}
+	        this.ifonAllHandlers = []
+	        this.ifoffAllHandlers = []
+	    }
+	
+	    // callback will be triggered immediately if there is already a listener attached, or
+	    // callback will be triggered when the first listener for the event is added
+	    // (regardless of whether its done through on or once)
+	    // parameters can be:
+	        // event, callback - attach an ifon handler for the passed event
+	        // callback - attach an ifon handler for all events
+	    this.ifon = function(event, callback) {
+	        if(event instanceof Function) {     // event not passed, only a callback
+	            callback = event // fix the argument
+	            for(var eventName in this._events) {
+	                if(this.listeners(eventName).length > 0) {
+	                    callback(eventName)
+	                }
+	            }
+	        } else if(this.listeners(event).length > 0) {
+	            callback(event)
+	        }
+	
+	        addHandlerToList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfon() - all ifon handlers (if no arguments are passed), or
+	        // removeIfon(event) - all ifon handlers for the passed event, or
+	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
+	        // removeIfon(event, callback) - the specific passed callback for the passed event
+	    this.removeIfon = function(event, callback) {
+	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
+	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
+	    // parameters can be:
+	        // event, callback - attach an ifoff handler for the passed event
+	        // callback - attach an ifoff handler for all events
+	    this.ifoff = function(event, callback) {
+	        addHandlerToList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfoff() - all ifoff handlers (if no arguments are passed), or
+	        // removeIfoff(event) - all ifoff handlers for the passed event, or
+	        // removeIfoff(callback) - the passed ifoff-all handler (if the first parameter is the callback)
+	        // removeIfoff(event, callback) - the specific passed callback for the passed event
+	    this.removeIfoff = function(event, callback) {
+	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // emitter is the emitter to proxy handler binding to
+	    // options can have one of the following properties:
+	        // only - an array of events to proxy
+	        // except - an array of events to *not* proxy
+	    this.proxy = function(emitter, options) {
+	        if(options === undefined) options = {}
+	        if(options.except !== undefined) {
+	            var except = utils.arrayToMap(options.except)
+	            var handleIt = function(event){return !(event in except)}
+	        } else if(options.only !== undefined) {
+	            var only = utils.arrayToMap(options.only)
+	            var handleIt = function(event){return event in only}
+	        } else {
+	            var handleIt = function(){return true}
+	        }
+	
+	        var that = this, handler;
+	        this.ifon(function(event) {
+	            if(handleIt(event)) {
+	                emitter.on(event, handler = function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        this.ifoff(function(event) {
+	            if(handleIt(event))
+	                emitter.off(event, handler)
+	        })
+	    }
+	
+	    /*override*/ this.on = this.addListener = function(event, callback) {
+	        var triggerIfOn = this.listeners(event).length === 0
+	        superclass.prototype.on.apply(this,arguments)
+	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
+	    }
+	
+	    /*override*/ this.off = this.removeListener = function(event, callback) {
+	        var triggerIfOff = this.listeners(event).length === 1
+	        superclass.prototype.removeListener.apply(this,arguments)
+	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
+	    }
+	    /*override*/ this.removeAllListeners = function(event) {
+	        var triggerIfOffForEvents = []
+	        if(event !== undefined) {
+	            if(this.listeners(event).length > 0) {
+	                triggerIfOffForEvents.push(event)
+	            }
+	        } else {
+	            for(var event in this._events) {
+	                if(this.listeners(event).length > 0) {
+	                    triggerIfOffForEvents.push(event)
+	                }
+	            }
+	        }
+	
+	        superclass.prototype.removeAllListeners.apply(this,arguments)
+	
+	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
+	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
+	        }
+	    }
+	
+	})
+	
+	
+	// triggers the if handlers from the normal list and the "all" list
+	function triggerIfHandlers(that, handlerListName, event) {
+	    triggerIfHandlerList(that[handlerListName][event], event)
+	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
+	}
+	
+	
+	// triggers the if handlers from a specific list
+	// ya these names are confusing, sorry : (
+	function triggerIfHandlerList(handlerList, event) {
+	    if(handlerList !== undefined) {
+	        for(var n=0; n<handlerList.length; n++) {
+	            handlerList[n](event)
+	        }
+	    }
+	}
+	
+	function addHandlerToList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        var handlerList = that[handlerListName][event]
+	        if(handlerList === undefined) {
+	            handlerList = that[handlerListName][event] = []
+	        }
+	
+	        handlerList.push(callback)
+	    } else {
+	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
+	    }
+	}
+	
+	function removeFromHandlerList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        removeCallbackFromList(that[handlerListName][event], callback)
+	    } else if(event !== undefined) {
+	        delete that[handlerListName][event]
+	    } else if(callback !== undefined) {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        removeCallbackFromList(that[allHandlerListName], callback)
+	    } else {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        that[handlerListName] = {}
+	        that[allHandlerListName] = []
+	    }
+	}
+	
+	function normalHandlerToAllHandlerProperty(handlerListName) {
+	    if(handlerListName === 'ifonHandlers')
+	        return 'ifonAllHandlers'
+	    if(handlerListName === 'ifoffHandlers')
+	        return 'ifoffAllHandlers'
+	}
+	
+	function removeCallbackFromList(list, callback) {
+	    var index = list.indexOf(callback)
+	    list.splice(index,1)
+	}
+
+/***/ },
+/* 21 */
 /*!*********************!*\
   !*** ../~/Block.js ***!
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 22)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 20)
 	var proto = __webpack_require__(/*! proto */ 40);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 55)
-	var observe = __webpack_require__(/*! observe */ 54)
+	var trimArguments = __webpack_require__(/*! trimArguments */ 54)
+	var observe = __webpack_require__(/*! observe */ 55)
 	
 	var utils = __webpack_require__(/*! ./utils */ 42)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 24)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 23)
 	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 43)
 	
-	var Style = __webpack_require__(/*! ./Style */ 20)
+	var Style = __webpack_require__(/*! ./Style */ 22)
 	Style.isDev = function() {return module.exports.dev}
 	
 	var components = {};
@@ -4851,19 +5181,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // nodes can be one of the following:
 	        // component, component, component, ...
 	        // listOfBlocks
+	    // todo: look into using document fragments to speed this up when multiple nodes are being added
 	    this.addAt = function(index/*, nodes...*/) {
 	        var nodes = normalizeAddAtArguments.apply(this, arguments)
 	
 	        for (var i=0;i<nodes.length;i++) {
 				var node = nodes[i];
+	
+	            // remove the node from its current parent if necessary
+	            if(node.parent !== undefined) {
+	                throw new Error('Node at index '+i+' already has a parent. Remove the node from its parent before adding it somewhere else.')
+	            }
+	
 	            this.children.splice(index+i, 0, node)
 	
 	            if(!isBlock(node)) {
 	                throw new Error("node is not a Block")
 	            }
-	
-	            node.parent = undefined
-	            node.emit('parentRemoved')
 	
 	            var beforeChild = this.children[1+i+index]
 	            if(beforeChild === undefined) {
@@ -5150,7 +5484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 20 */
+/* 22 */
 /*!*********************!*\
   !*** ../~/Style.js ***!
   \*********************/
@@ -6014,375 +6348,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
-/*!************************!*\
-  !*** ./~/testUtils.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Future = __webpack_require__(/*! async-future */ 41)
-	
-	// compares arrays and objects for value equality (all elements and members must match)
-	exports.equal = function(a,b) {
-	    if(a instanceof Array) {
-	        if(!(b instanceof Array))
-	            return false
-	        if(a.length !== b.length) {
-	            return false
-	        } else {
-	            return a.reduce(function(previousValue, currentValue, index) {
-	                return previousValue && exports.equal(currentValue,b[index])
-	            }, true)
-	        }
-	    } else if(a instanceof Object) {
-	        if(!(b instanceof Object))
-	            return false
-	
-	        var aKeys = Object.keys(a)
-	        var bKeys = Object.keys(b)
-	
-	        if(aKeys.length !== bKeys.length) {
-	            return false
-	        } else {
-	            for(var n=0; n<aKeys.length; n++) {
-	                var key = aKeys[n]
-	                var aVal = a[key]
-	                var bVal = b[key]
-	
-	                if(!exports.equal(aVal,bVal)) {
-	                    return false
-	                }
-	            }
-	            // else
-	            return true
-	        }
-	    } else {
-	        return a===b
-	    }
-	}
-	
-	
-	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
-	// returns a function that, each time its called, calls the next function in the list with the passed argument
-	// example:
-	/*
-	var sequenceX = testUtils.seq(
-	 function(x) {
-	     t.ok(x === 'a')
-	 },
-	 function(x) {
-	     t.ok(x === 'b')
-	 },
-	 function(x) {
-	     t.ok(x === 'c')
-	})
-	
-	 var obj = {a:1,b:2,c:3}
-	 for(var x in obj) {
-	     sequenceX(x)
-	 }
-	 */
-	exports.seq = function (/*functions*/) {
-	    var n=-1
-	    var fns = arguments
-	    return function() {
-	        n++
-	        if(n>=fns.length)
-	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
-	        // else
-	        fns[n].apply(this,arguments)
-	    }
-	}
-	
-	
-	exports.demo = function(name, component) {
-	    var header = document.createElement("h1")
-	        header.textContent = name
-	
-	    $("#demos").append([header, component.domNode]);
-	}
-	
-	
-	// future wraps a function like: function(result) {}
-	exports.wrapSingleParameter = function() {
-	    if(arguments.length === 1) {
-	        var fn = arguments[0]
-	    } else {
-	        var object = arguments[0]
-	        var method = arguments[1]
-	        var fn = object[method]
-	    }
-	
-	    return function() {
-	        var args = Array.prototype.slice.call(arguments)
-			var future = new Future
-			args.push(function(result) {
-			    future.return(result)
-			})
-			var me = this
-	        if(object) me = object
-	        fn.apply(me, args)
-			return future
-	    }
-	}
-
-/***/ },
-/* 22 */
-/*!*****************************!*\
-  !*** ../~/EventEmitterB.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
-	var proto = __webpack_require__(/*! proto */ 40)
-	var utils = __webpack_require__(/*! utils */ 42)
-	
-	module.exports = proto(EventEmitter, function(superclass) {
-	
-	    this.init = function() {
-	        superclass.apply(this, arguments)
-	
-	        this.ifonHandlers = {}
-	        this.ifoffHandlers = {}
-	        this.ifonAllHandlers = []
-	        this.ifoffAllHandlers = []
-	    }
-	
-	    // callback will be triggered immediately if there is already a listener attached, or
-	    // callback will be triggered when the first listener for the event is added
-	    // (regardless of whether its done through on or once)
-	    // parameters can be:
-	        // event, callback - attach an ifon handler for the passed event
-	        // callback - attach an ifon handler for all events
-	    this.ifon = function(event, callback) {
-	        if(event instanceof Function) {     // event not passed, only a callback
-	            callback = event // fix the argument
-	            for(var eventName in this._events) {
-	                if(this.listeners(eventName).length > 0) {
-	                    callback(eventName)
-	                }
-	            }
-	        } else if(this.listeners(event).length > 0) {
-	            callback(event)
-	        }
-	
-	        addHandlerToList(this, 'ifonHandlers', event, callback)
-	    }
-	
-	    // removes either:
-	        // removeIfon() - all ifon handlers (if no arguments are passed), or
-	        // removeIfon(event) - all ifon handlers for the passed event, or
-	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
-	        // removeIfon(event, callback) - the specific passed callback for the passed event
-	    this.removeIfon = function(event, callback) {
-	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
-	    }
-	
-	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
-	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
-	    // parameters can be:
-	        // event, callback - attach an ifoff handler for the passed event
-	        // callback - attach an ifoff handler for all events
-	    this.ifoff = function(event, callback) {
-	        addHandlerToList(this, 'ifoffHandlers', event, callback)
-	    }
-	
-	    // removes either:
-	        // removeIfoff() - all ifoff handlers (if no arguments are passed), or
-	        // removeIfoff(event) - all ifoff handlers for the passed event, or
-	        // removeIfoff(callback) - the passed ifoff-all handler (if the first parameter is the callback)
-	        // removeIfoff(event, callback) - the specific passed callback for the passed event
-	    this.removeIfoff = function(event, callback) {
-	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
-	    }
-	
-	    // emitter is the emitter to proxy handler binding to
-	    // options can have one of the following properties:
-	        // only - an array of events to proxy
-	        // except - an array of events to *not* proxy
-	    this.proxy = function(emitter, options) {
-	        if(options === undefined) options = {}
-	        if(options.except !== undefined) {
-	            var except = utils.arrayToMap(options.except)
-	            var handleIt = function(event){return !(event in except)}
-	        } else if(options.only !== undefined) {
-	            var only = utils.arrayToMap(options.only)
-	            var handleIt = function(event){return event in only}
-	        } else {
-	            var handleIt = function(){return true}
-	        }
-	
-	        var that = this, handler;
-	        this.ifon(function(event) {
-	            if(handleIt(event)) {
-	                emitter.on(event, handler = function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        this.ifoff(function(event) {
-	            if(handleIt(event))
-	                emitter.off(event, handler)
-	        })
-	    }
-	
-	    /*override*/ this.on = this.addListener = function(event, callback) {
-	        var triggerIfOn = this.listeners(event).length === 0
-	        superclass.prototype.on.apply(this,arguments)
-	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
-	    }
-	
-	    /*override*/ this.off = this.removeListener = function(event, callback) {
-	        var triggerIfOff = this.listeners(event).length === 1
-	        superclass.prototype.removeListener.apply(this,arguments)
-	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
-	    }
-	    /*override*/ this.removeAllListeners = function(event) {
-	        var triggerIfOffForEvents = []
-	        if(event !== undefined) {
-	            if(this.listeners(event).length > 0) {
-	                triggerIfOffForEvents.push(event)
-	            }
-	        } else {
-	            for(var event in this._events) {
-	                if(this.listeners(event).length > 0) {
-	                    triggerIfOffForEvents.push(event)
-	                }
-	            }
-	        }
-	
-	        superclass.prototype.removeAllListeners.apply(this,arguments)
-	
-	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
-	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
-	        }
-	    }
-	
-	})
-	
-	
-	// triggers the if handlers from the normal list and the "all" list
-	function triggerIfHandlers(that, handlerListName, event) {
-	    triggerIfHandlerList(that[handlerListName][event], event)
-	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
-	}
-	
-	
-	// triggers the if handlers from a specific list
-	// ya these names are confusing, sorry : (
-	function triggerIfHandlerList(handlerList, event) {
-	    if(handlerList !== undefined) {
-	        for(var n=0; n<handlerList.length; n++) {
-	            handlerList[n](event)
-	        }
-	    }
-	}
-	
-	function addHandlerToList(that, handlerListName, event, callback) {
-	    if(event instanceof Function) {
-	        // correct arguments
-	        callback = event
-	        event = undefined
-	    }
-	
-	    if(event !== undefined && callback !== undefined) {
-	        var handlerList = that[handlerListName][event]
-	        if(handlerList === undefined) {
-	            handlerList = that[handlerListName][event] = []
-	        }
-	
-	        handlerList.push(callback)
-	    } else {
-	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
-	    }
-	}
-	
-	function removeFromHandlerList(that, handlerListName, event, callback) {
-	    if(event instanceof Function) {
-	        // correct arguments
-	        callback = event
-	        event = undefined
-	    }
-	
-	    if(event !== undefined && callback !== undefined) {
-	        removeCallbackFromList(that[handlerListName][event], callback)
-	    } else if(event !== undefined) {
-	        delete that[handlerListName][event]
-	    } else if(callback !== undefined) {
-	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
-	        removeCallbackFromList(that[allHandlerListName], callback)
-	    } else {
-	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
-	        that[handlerListName] = {}
-	        that[allHandlerListName] = []
-	    }
-	}
-	
-	function normalHandlerToAllHandlerProperty(handlerListName) {
-	    if(handlerListName === 'ifonHandlers')
-	        return 'ifonAllHandlers'
-	    if(handlerListName === 'ifoffHandlers')
-	        return 'ifoffAllHandlers'
-	}
-	
-	function removeCallbackFromList(list, callback) {
-	    var index = list.indexOf(callback)
-	    list.splice(index,1)
-	}
-
-/***/ },
 /* 23 */
-/*!*******************!*\
-  !*** ./~/fsyn.js ***!
-  \*******************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// requires: syn (loaded as a global variable from an html script tag)
-	
-	var Future = __webpack_require__(/*! async-future */ 41)
-	
-	exports.click = wrap(syn.click)
-	exports.rightClick = wrap(syn.rightClick)
-	exports.dblClick = wrap(syn.dblClick)
-	exports.move = wrap(syn.move)
-	exports.type = wrap(syn.type)
-	exports.key = wrap(syn.key)
-	
-	
-	
-	function wrap(fn) {
-	    return function() {
-	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
-	
-	        // for chaining
-	        var target = arguments[0]
-	        resultFuture.click = function() {
-	            exports.click.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.rightClick = function() {
-	            exports.rightClick.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.dblClick = function() {
-	            exports.dblClick.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.move = function() {
-	            exports.move.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.type = function() {
-	            exports.type.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.key = function() {
-	            exports.key.apply(this, [target].concat(arguments))
-	        }
-	
-	        return resultFuture
-	    }
-	}
-	
-
-
-/***/ },
-/* 24 */
 /*!************************!*\
   !*** ../~/domUtils.js ***!
   \************************/
@@ -6582,15 +6548,66 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
+/* 24 */
+/*!*******************!*\
+  !*** ./~/fsyn.js ***!
+  \*******************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// requires: syn (loaded as a global variable from an html script tag)
+	
+	var Future = __webpack_require__(/*! async-future */ 41)
+	
+	exports.click = wrap(syn.click)
+	exports.rightClick = wrap(syn.rightClick)
+	exports.dblClick = wrap(syn.dblClick)
+	exports.move = wrap(syn.move)
+	exports.type = wrap(syn.type)
+	exports.key = wrap(syn.key)
+	
+	
+	
+	function wrap(fn) {
+	    return function() {
+	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
+	
+	        // for chaining
+	        var target = arguments[0]
+	        resultFuture.click = function() {
+	            exports.click.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.rightClick = function() {
+	            exports.rightClick.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.dblClick = function() {
+	            exports.dblClick.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.move = function() {
+	            exports.move.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.type = function() {
+	            exports.type.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.key = function() {
+	            exports.key.apply(this, [target].concat(arguments))
+	        }
+	
+	        return resultFuture
+	    }
+	}
+	
+
+
+/***/ },
 /* 25 */
 /*!*********************************!*\
   !*** ../~/Components/Canvas.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 19)
+	var Block = __webpack_require__(/*! Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
-	var Style = __webpack_require__(/*! Style */ 20)
+	var Style = __webpack_require__(/*! Style */ 22)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -6650,7 +6667,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 19)
+	var Block = __webpack_require__(/*! ../Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
@@ -6687,7 +6704,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 19)
+	var Block = __webpack_require__(/*! Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
@@ -6734,7 +6751,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 19)
+	var Block = __webpack_require__(/*! Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
@@ -6777,7 +6794,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 19)
+	var Block = __webpack_require__(/*! Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
@@ -6824,8 +6841,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var Block = __webpack_require__(/*! Block */ 19)
-	var Style = __webpack_require__(/*! Style */ 20)
+	var Block = __webpack_require__(/*! Block */ 21)
+	var Style = __webpack_require__(/*! Style */ 22)
 	
 	var Item = __webpack_require__(/*! ./Item */ 45);
 	
@@ -6902,7 +6919,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var proto = __webpack_require__(/*! proto */ 40)
 	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
 	
-	var Block = __webpack_require__(/*! ../Block */ 19)
+	var Block = __webpack_require__(/*! ../Block */ 21)
 	
 	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
 	
@@ -7168,7 +7185,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 19)
+	var Block = __webpack_require__(/*! ../Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
 	
 	var Option = __webpack_require__(/*! Components/Option */ 46)
@@ -7326,8 +7343,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var Block = __webpack_require__(/*! ../Block */ 19)
-	var Style = __webpack_require__(/*! Style */ 20)
+	var Block = __webpack_require__(/*! ../Block */ 21)
+	var Style = __webpack_require__(/*! Style */ 22)
 	
 	var Header = __webpack_require__(/*! ./Header */ 47);
 	var Row = __webpack_require__(/*! ./Row */ 48);
@@ -7391,7 +7408,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 19)
+	var Block = __webpack_require__(/*! ../Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
@@ -7434,10 +7451,10 @@ return /******/ (function(modules) { // webpackBootstrap
   \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 19)
+	var Block = __webpack_require__(/*! ../Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var domUtils = __webpack_require__(/*! ../domUtils */ 24)
+	var domUtils = __webpack_require__(/*! ../domUtils */ 23)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -7493,10 +7510,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var Block = __webpack_require__(/*! Block */ 19)
-	var Style = __webpack_require__(/*! Style */ 20)
+	var Block = __webpack_require__(/*! Block */ 21)
+	var Style = __webpack_require__(/*! Style */ 22)
 	
-	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	var domUtils = __webpack_require__(/*! domUtils */ 23)
 	
 	
 	
@@ -7547,7 +7564,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 19)
+	var Block = __webpack_require__(/*! ../Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
 	
 	var Option = __webpack_require__(/*! Components/Option */ 46)
@@ -8101,8 +8118,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var deadunitCore = options.deadunitCore
 	    var proto = __webpack_require__(/*! proto */ 59)
 	
-	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 51)
-	    exports.format = __webpack_require__(/*! ./basicFormatter */ 52)
+	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 52)
+	    exports.format = __webpack_require__(/*! ./basicFormatter */ 53)
 	
 	    exports.error = deadunitCore.error
 	
@@ -8720,7 +8737,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var HashMap = __webpack_require__(/*! hashmap */ 56)
 	
-	var Style = __webpack_require__(/*! ./Style */ 20)
+	var Style = __webpack_require__(/*! ./Style */ 22)
 	var utils = __webpack_require__(/*! ./utils */ 42)
 	
 	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
@@ -9204,9 +9221,9 @@ return /******/ (function(modules) { // webpackBootstrap
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 19)
+	var Block = __webpack_require__(/*! Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
-	var Style = __webpack_require__(/*! Style */ 20)
+	var Style = __webpack_require__(/*! Style */ 22)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -9252,9 +9269,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var Block = __webpack_require__(/*! Block */ 19)
-	var Style = __webpack_require__(/*! Style */ 20)
-	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	var Block = __webpack_require__(/*! Block */ 21)
+	var Style = __webpack_require__(/*! Style */ 22)
+	var domUtils = __webpack_require__(/*! domUtils */ 23)
 	
 	// emits a 'change' event when its 'selected' value changes
 	module.exports = proto(Block, function(superclass) {
@@ -9381,7 +9398,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 19)
+	var Block = __webpack_require__(/*! ../Block */ 21)
 	var proto = __webpack_require__(/*! proto */ 40)
 	
 	module.exports = proto(Block, function(superclass) {
@@ -9435,6 +9452,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 51 */
+/*!*******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/async-future/asyncFuture.js ***!
+  \*******************************************************************************************************/
+[101, 69],
+/* 52 */
 /*!*******************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/defaultFormats.js ***!
   \*******************************************************************************************/
@@ -9442,9 +9464,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var util = __webpack_require__(/*! util */ 65)
 	
-	var Future = __webpack_require__(/*! async-future */ 53)
+	var Future = __webpack_require__(/*! async-future */ 51)
 	
-	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 52)
+	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 53)
 	var indent = __webpack_require__(/*! ./indent */ 62)
 	
 	// unitTest is a deadunit-core UnitTest object
@@ -9944,13 +9966,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 52 */
+/* 53 */
 /*!*******************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/basicFormatter.js ***!
   \*******************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 53)
+	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 51)
 	
 	// built in test formatting helper
 	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
@@ -10107,12 +10129,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 66)))
 
 /***/ },
-/* 53 */
-/*!*******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/async-future/asyncFuture.js ***!
-  \*******************************************************************************************************/
-[101, 69],
 /* 54 */
+/*!***********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/trimArguments/trimArguments.js ***!
+  \***********************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
+	
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	        else
+	            break
+	    }
+	    args.splice(args.length-count, count)
+	    return args
+	}
+
+/***/ },
+/* 55 */
 /*!***********************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/observe/observe.js ***!
   \***********************************************************************************/
@@ -10536,30 +10577,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 55 */
-/*!***********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/trimArguments/trimArguments.js ***!
-  \***********************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	        else
-	            break
-	    }
-	    args.splice(args.length-count, count)
-	    return args
-	}
-
-/***/ },
 /* 56 */
 /*!***********************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/hashmap/hashmap.js ***!
@@ -10764,8 +10781,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var proto = __webpack_require__(/*! proto */ 40)
 	
-	var Block = __webpack_require__(/*! Block */ 19)
-	var Style = __webpack_require__(/*! Style */ 20)
+	var Block = __webpack_require__(/*! Block */ 21)
+	var Style = __webpack_require__(/*! Style */ 22)
 	var Cell = __webpack_require__(/*! ./Cell */ 49);
 	
 	// generates either a Header or a Row, depending on what you pass in
@@ -11164,10 +11181,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var proto = __webpack_require__(/*! proto */ 59)
 	var Future = __webpack_require__(/*! async-future */ 72)
-	var SourceMapConsumer = __webpack_require__(/*! source-map */ 73).SourceMapConsumer
+	var SourceMapConsumer = __webpack_require__(/*! source-map */ 76).SourceMapConsumer
 	
-	var processResults = __webpack_require__(/*! ./processResults */ 67)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 68)
+	var processResults = __webpack_require__(/*! ./processResults */ 68)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 67)
 	
 	// returns a module intended for a specific environment (that environment being described by the options)
 	// options can contain:
@@ -12062,12 +12079,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Future = __webpack_require__(/*! async-future */ 72)
 	var proto = __webpack_require__(/*! proto */ 59)
-	var stackinfo = __webpack_require__(/*! stackinfo */ 74)
-	var ajax = __webpack_require__(/*! ajax */ 75)
-	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 76).resolveSourceMap)
+	var stackinfo = __webpack_require__(/*! stackinfo */ 73)
+	var ajax = __webpack_require__(/*! ajax */ 74)
+	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 75).resolveSourceMap)
 	
 	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 60)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 68)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 67)
 	
 	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
 	
@@ -12996,6 +13013,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 67 */
+/*!*******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/isRelative.js ***!
+  \*******************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var path = __webpack_require__(/*! path */ 58)
+	
+	module.exports = function isRelative(p) {
+	    var normal = path.normalize(p)
+	    var absolute = path.resolve(p)
+	    return normal != absolute && p.indexOf('://') === -1// second part for urls
+	}
+
+/***/ },
+/* 68 */
 /*!***********************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/processResults.js ***!
   \***********************************************************************************************************/
@@ -13129,21 +13161,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    })
 	
 	    callback(test, parent)
-	}
-
-/***/ },
-/* 68 */
-/*!*******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/isRelative.js ***!
-  \*******************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var path = __webpack_require__(/*! path */ 58)
-	
-	module.exports = function isRelative(p) {
-	    var normal = path.normalize(p)
-	    var absolute = path.resolve(p)
-	    return normal != absolute && p.indexOf('://') === -1// second part for urls
 	}
 
 /***/ },
@@ -14205,31 +14222,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 73 */
-/*!************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
-  \************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * Copyright 2009-2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE.txt or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 78).SourceMapGenerator;
-	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 79).SourceMapConsumer;
-	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 80).SourceNode;
-
-
-/***/ },
-/* 74 */
 /*!******************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
   \******************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 91)
-	var parsers = __webpack_require__(/*! ./tracelineParser */ 81)
-	var mode = __webpack_require__(/*! ./exceptionMode */ 82)
+	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 87)
+	var parsers = __webpack_require__(/*! ./tracelineParser */ 78)
+	var mode = __webpack_require__(/*! ./exceptionMode */ 79)
 	
 	module.exports = function(ex) {
 	    if(parsers[mode] === undefined)
@@ -14300,13 +14300,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 75 */
+/* 74 */
 /*!********************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
   \********************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 92)
+	var Future = __webpack_require__(/*! async-future */ 90)
 	
 	// returns the XHR function or equivalent for use with ajax
 	// memoizes the function for faster repeated use
@@ -14417,7 +14417,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 76 */
+/* 75 */
 /*!************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/source-map-resolve.js ***!
   \************************************************************************************************************************************/
@@ -14432,7 +14432,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	void (function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 93), __webpack_require__(/*! resolve-url */ 94)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 88), __webpack_require__(/*! resolve-url */ 89)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
 	  } else if (typeof exports === "object") {
 	    var sourceMappingURL = require("source-map-url")
 	    var resolveUrl = require("resolve-url")
@@ -14663,6 +14663,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 85).setImmediate))
 
 /***/ },
+/* 76 */
+/*!************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
+  \************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	 * Copyright 2009-2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE.txt or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 80).SourceMapGenerator;
+	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 81).SourceMapConsumer;
+	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 82).SourceNode;
+
+
+/***/ },
 /* 77 */
 /*!***************************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/util/~/inherits/inherits_browser.js ***!
@@ -14696,6 +14713,169 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 78 */
+/*!************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
+  \************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = {
+	    chrome: function(line) {
+	        var m = line.match(CHROME_STACK_LINE);
+	        if (m) {
+	            var file = m[9] || m[18] || m[26]
+	            var fn = m[4] || m[7] || m[14] || m[23]
+	            var lineNumber = m[11] || m[20]
+	            var column = m[13] || m[22]
+	        } else {
+	            //throw new Error("Couldn't parse exception line: "+line)
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    firefox: function(line) {
+	        var m = line.match(FIREFOX_STACK_LINE);
+	        if (m) {
+	            var file = m[8]
+	            var fn = m[1]
+	            var lineNumber = m[10]
+	            var column = m[12]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    ie: function(line) {
+	        var m = line.match(IE_STACK_LINE);
+	        if (m) {
+	            var file = m[3] || m[10]
+	            var fn = m[2] || m[9]
+	            var lineNumber = m[5] || m[12]
+	            var column = m[7] || m[14]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    }
+	}
+	
+	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
+	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
+	var IDENTIFIER_PATTERN_ = '[a-zA-Z_$][\\w$]*';
+	// RegExp pattern for an URL + position inside the file.
+	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
+	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
+	
+	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
+	
+	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
+	
+	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
+	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
+	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
+	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
+	
+	// output from stacktrace.js is: "name()@..." instead of "name (...)"
+	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
+	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
+	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
+	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
+	
+	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
+	
+	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
+	
+	
+	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
+	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
+	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
+	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
+	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
+	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
+	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
+	
+	var IE_WHITESPACE = '[\\w \\t]'
+	var IE_FILE_AND_LINE = FILE_AND_LINE
+	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
+	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
+	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
+	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
+
+/***/ },
+/* 79 */
+/*!**********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
+  \**********************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	module.exports = exceptionMode(createException()) // basically what browser this is
+	
+	// verbatim from `mode` in stacktrace.js as of 2014-01-23
+	function exceptionMode(e) {
+	    if (e['arguments'] && e.stack) {
+	        return 'chrome';
+	    } else if (e.stack && e.sourceURL) {
+	        return 'safari';
+	    } else if (e.stack && e.number) {
+	        return 'ie';
+	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
+	        // e.message.indexOf("Backtrace:") > -1 -> opera
+	        // !e.stacktrace -> opera
+	        if (!e.stacktrace) {
+	            return 'opera9'; // use e.message
+	        }
+	        // 'opera#sourceloc' in e -> opera9, opera10a
+	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
+	            return 'opera9'; // use e.message
+	        }
+	        // e.stacktrace && !e.stack -> opera10a
+	        if (!e.stack) {
+	            return 'opera10a'; // use e.stacktrace
+	        }
+	        // e.stacktrace && e.stack -> opera10b
+	        if (e.stacktrace.indexOf("called from line") < 0) {
+	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
+	        }
+	        // e.stacktrace && e.stack -> opera11
+	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
+	    } else if (e.stack && !e.fileName) {
+	        // Chrome 27 does not have e.arguments as earlier versions,
+	        // but still does not have e.fileName as Firefox
+	        return 'chrome';
+	    } else if (e.stack) {
+	        return 'firefox';
+	    }
+	    return 'other';
+	}
+	
+	function createException() {
+	    try {
+	        this.undef();
+	    } catch (e) {
+	        return e;
+	    }
+	}
+
+
+/***/ },
+/* 80 */
 /*!*********************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-generator.js ***!
   \*********************************************************************************************************************************************/
@@ -14712,9 +14892,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 87);
-	  var util = __webpack_require__(/*! ./util */ 88);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 89).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 91);
+	  var util = __webpack_require__(/*! ./util */ 92);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 93).ArraySet;
 	
 	  /**
 	   * An instance of the SourceMapGenerator represents a source map which is
@@ -15101,7 +15281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 79 */
+/* 81 */
 /*!********************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-consumer.js ***!
   \********************************************************************************************************************************************/
@@ -15118,10 +15298,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var util = __webpack_require__(/*! ./util */ 88);
-	  var binarySearch = __webpack_require__(/*! ./binary-search */ 90);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 89).ArraySet;
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 87);
+	  var util = __webpack_require__(/*! ./util */ 92);
+	  var binarySearch = __webpack_require__(/*! ./binary-search */ 94);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 93).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 91);
 	
 	  /**
 	   * A SourceMapConsumer instance represents a parsed source map which we can
@@ -15588,7 +15768,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 80 */
+/* 82 */
 /*!************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
   \************************************************************************************************************************************/
@@ -15605,8 +15785,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 78).SourceMapGenerator;
-	  var util = __webpack_require__(/*! ./util */ 88);
+	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 80).SourceMapGenerator;
+	  var util = __webpack_require__(/*! ./util */ 92);
 	
 	  /**
 	   * SourceNodes provide a way to abstract over interpolating/concatenating
@@ -15981,169 +16161,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  exports.SourceNode = SourceNode;
 	
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 81 */
-/*!************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
-  \************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = {
-	    chrome: function(line) {
-	        var m = line.match(CHROME_STACK_LINE);
-	        if (m) {
-	            var file = m[9] || m[18] || m[26]
-	            var fn = m[4] || m[7] || m[14] || m[23]
-	            var lineNumber = m[11] || m[20]
-	            var column = m[13] || m[22]
-	        } else {
-	            //throw new Error("Couldn't parse exception line: "+line)
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    firefox: function(line) {
-	        var m = line.match(FIREFOX_STACK_LINE);
-	        if (m) {
-	            var file = m[8]
-	            var fn = m[1]
-	            var lineNumber = m[10]
-	            var column = m[12]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    ie: function(line) {
-	        var m = line.match(IE_STACK_LINE);
-	        if (m) {
-	            var file = m[3] || m[10]
-	            var fn = m[2] || m[9]
-	            var lineNumber = m[5] || m[12]
-	            var column = m[7] || m[14]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    }
-	}
-	
-	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
-	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
-	var IDENTIFIER_PATTERN_ = '[a-zA-Z_$][\\w$]*';
-	// RegExp pattern for an URL + position inside the file.
-	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
-	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
-	
-	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
-	
-	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
-	
-	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
-	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
-	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
-	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
-	
-	// output from stacktrace.js is: "name()@..." instead of "name (...)"
-	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
-	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
-	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
-	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
-	
-	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
-	
-	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
-	
-	
-	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
-	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
-	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
-	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
-	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
-	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
-	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
-	
-	var IE_WHITESPACE = '[\\w \\t]'
-	var IE_FILE_AND_LINE = FILE_AND_LINE
-	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
-	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
-	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
-	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
-
-/***/ },
-/* 82 */
-/*!**********************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
-  \**********************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	module.exports = exceptionMode(createException()) // basically what browser this is
-	
-	// verbatim from `mode` in stacktrace.js as of 2014-01-23
-	function exceptionMode(e) {
-	    if (e['arguments'] && e.stack) {
-	        return 'chrome';
-	    } else if (e.stack && e.sourceURL) {
-	        return 'safari';
-	    } else if (e.stack && e.number) {
-	        return 'ie';
-	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
-	        // e.message.indexOf("Backtrace:") > -1 -> opera
-	        // !e.stacktrace -> opera
-	        if (!e.stacktrace) {
-	            return 'opera9'; // use e.message
-	        }
-	        // 'opera#sourceloc' in e -> opera9, opera10a
-	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
-	            return 'opera9'; // use e.message
-	        }
-	        // e.stacktrace && !e.stack -> opera10a
-	        if (!e.stack) {
-	            return 'opera10a'; // use e.stacktrace
-	        }
-	        // e.stacktrace && e.stack -> opera10b
-	        if (e.stacktrace.indexOf("called from line") < 0) {
-	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
-	        }
-	        // e.stacktrace && e.stack -> opera11
-	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
-	    } else if (e.stack && !e.fileName) {
-	        // Chrome 27 does not have e.arguments as earlier versions,
-	        // but still does not have e.fileName as Firefox
-	        return 'chrome';
-	    } else if (e.stack) {
-	        return 'firefox';
-	    }
-	    return 'other';
-	}
-	
-	function createException() {
-	    try {
-	        this.undef();
-	    } catch (e) {
-	        return e;
-	    }
-	}
 
 
 /***/ },
@@ -16768,666 +16785,6 @@ return /******/ (function(modules) { // webpackBootstrap
 64,
 /* 87 */
 /*!***********************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
-  \***********************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 *
-	 * Based on the Base 64 VLQ implementation in Closure Compiler:
-	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
-	 *
-	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
-	 * Redistribution and use in source and binary forms, with or without
-	 * modification, are permitted provided that the following conditions are
-	 * met:
-	 *
-	 *  * Redistributions of source code must retain the above copyright
-	 *    notice, this list of conditions and the following disclaimer.
-	 *  * Redistributions in binary form must reproduce the above
-	 *    copyright notice, this list of conditions and the following
-	 *    disclaimer in the documentation and/or other materials provided
-	 *    with the distribution.
-	 *  * Neither the name of Google Inc. nor the names of its
-	 *    contributors may be used to endorse or promote products derived
-	 *    from this software without specific prior written permission.
-	 *
-	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var base64 = __webpack_require__(/*! ./base64 */ 98);
-	
-	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
-	  // length quantities we use in the source map spec, the first bit is the sign,
-	  // the next four bits are the actual value, and the 6th bit is the
-	  // continuation bit. The continuation bit tells us whether there are more
-	  // digits in this value following this digit.
-	  //
-	  //   Continuation
-	  //   |    Sign
-	  //   |    |
-	  //   V    V
-	  //   101011
-	
-	  var VLQ_BASE_SHIFT = 5;
-	
-	  // binary: 100000
-	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
-	
-	  // binary: 011111
-	  var VLQ_BASE_MASK = VLQ_BASE - 1;
-	
-	  // binary: 100000
-	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
-	
-	  /**
-	   * Converts from a two-complement value to a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
-	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
-	   */
-	  function toVLQSigned(aValue) {
-	    return aValue < 0
-	      ? ((-aValue) << 1) + 1
-	      : (aValue << 1) + 0;
-	  }
-	
-	  /**
-	   * Converts to a two-complement value from a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
-	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
-	   */
-	  function fromVLQSigned(aValue) {
-	    var isNegative = (aValue & 1) === 1;
-	    var shifted = aValue >> 1;
-	    return isNegative
-	      ? -shifted
-	      : shifted;
-	  }
-	
-	  /**
-	   * Returns the base 64 VLQ encoded value.
-	   */
-	  exports.encode = function base64VLQ_encode(aValue) {
-	    var encoded = "";
-	    var digit;
-	
-	    var vlq = toVLQSigned(aValue);
-	
-	    do {
-	      digit = vlq & VLQ_BASE_MASK;
-	      vlq >>>= VLQ_BASE_SHIFT;
-	      if (vlq > 0) {
-	        // There are still more digits in this value, so we must make sure the
-	        // continuation bit is marked.
-	        digit |= VLQ_CONTINUATION_BIT;
-	      }
-	      encoded += base64.encode(digit);
-	    } while (vlq > 0);
-	
-	    return encoded;
-	  };
-	
-	  /**
-	   * Decodes the next base 64 VLQ value from the given string and returns the
-	   * value and the rest of the string.
-	   */
-	  exports.decode = function base64VLQ_decode(aStr) {
-	    var i = 0;
-	    var strLen = aStr.length;
-	    var result = 0;
-	    var shift = 0;
-	    var continuation, digit;
-	
-	    do {
-	      if (i >= strLen) {
-	        throw new Error("Expected more digits in base 64 VLQ value.");
-	      }
-	      digit = base64.decode(aStr.charAt(i++));
-	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
-	      digit &= VLQ_BASE_MASK;
-	      result = result + (digit << shift);
-	      shift += VLQ_BASE_SHIFT;
-	    } while (continuation);
-	
-	    return {
-	      value: fromVLQSigned(result),
-	      rest: aStr.slice(i)
-	    };
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 88 */
-/*!*****************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
-  \*****************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  /**
-	   * This is a helper function for getting values from parameter/options
-	   * objects.
-	   *
-	   * @param args The object we are extracting values from
-	   * @param name The name of the property we are getting.
-	   * @param defaultValue An optional value to return if the property is missing
-	   * from the object. If this is not specified and the property is missing, an
-	   * error will be thrown.
-	   */
-	  function getArg(aArgs, aName, aDefaultValue) {
-	    if (aName in aArgs) {
-	      return aArgs[aName];
-	    } else if (arguments.length === 3) {
-	      return aDefaultValue;
-	    } else {
-	      throw new Error('"' + aName + '" is a required argument.');
-	    }
-	  }
-	  exports.getArg = getArg;
-	
-	  var urlRegexp = /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.]*)(?::(\d+))?(\S*)$/;
-	  var dataUrlRegexp = /^data:.+\,.+$/;
-	
-	  function urlParse(aUrl) {
-	    var match = aUrl.match(urlRegexp);
-	    if (!match) {
-	      return null;
-	    }
-	    return {
-	      scheme: match[1],
-	      auth: match[2],
-	      host: match[3],
-	      port: match[4],
-	      path: match[5]
-	    };
-	  }
-	  exports.urlParse = urlParse;
-	
-	  function urlGenerate(aParsedUrl) {
-	    var url = '';
-	    if (aParsedUrl.scheme) {
-	      url += aParsedUrl.scheme + ':';
-	    }
-	    url += '//';
-	    if (aParsedUrl.auth) {
-	      url += aParsedUrl.auth + '@';
-	    }
-	    if (aParsedUrl.host) {
-	      url += aParsedUrl.host;
-	    }
-	    if (aParsedUrl.port) {
-	      url += ":" + aParsedUrl.port
-	    }
-	    if (aParsedUrl.path) {
-	      url += aParsedUrl.path;
-	    }
-	    return url;
-	  }
-	  exports.urlGenerate = urlGenerate;
-	
-	  /**
-	   * Normalizes a path, or the path portion of a URL:
-	   *
-	   * - Replaces consequtive slashes with one slash.
-	   * - Removes unnecessary '.' parts.
-	   * - Removes unnecessary '<dir>/..' parts.
-	   *
-	   * Based on code in the Node.js 'path' core module.
-	   *
-	   * @param aPath The path or url to normalize.
-	   */
-	  function normalize(aPath) {
-	    var path = aPath;
-	    var url = urlParse(aPath);
-	    if (url) {
-	      if (!url.path) {
-	        return aPath;
-	      }
-	      path = url.path;
-	    }
-	    var isAbsolute = (path.charAt(0) === '/');
-	
-	    var parts = path.split(/\/+/);
-	    for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
-	      part = parts[i];
-	      if (part === '.') {
-	        parts.splice(i, 1);
-	      } else if (part === '..') {
-	        up++;
-	      } else if (up > 0) {
-	        if (part === '') {
-	          // The first part is blank if the path is absolute. Trying to go
-	          // above the root is a no-op. Therefore we can remove all '..' parts
-	          // directly after the root.
-	          parts.splice(i + 1, up);
-	          up = 0;
-	        } else {
-	          parts.splice(i, 2);
-	          up--;
-	        }
-	      }
-	    }
-	    path = parts.join('/');
-	
-	    if (path === '') {
-	      path = isAbsolute ? '/' : '.';
-	    }
-	
-	    if (url) {
-	      url.path = path;
-	      return urlGenerate(url);
-	    }
-	    return path;
-	  }
-	  exports.normalize = normalize;
-	
-	  /**
-	   * Joins two paths/URLs.
-	   *
-	   * @param aRoot The root path or URL.
-	   * @param aPath The path or URL to be joined with the root.
-	   *
-	   * - If aPath is a URL or a data URI, aPath is returned, unless aPath is a
-	   *   scheme-relative URL: Then the scheme of aRoot, if any, is prepended
-	   *   first.
-	   * - Otherwise aPath is a path. If aRoot is a URL, then its path portion
-	   *   is updated with the result and aRoot is returned. Otherwise the result
-	   *   is returned.
-	   *   - If aPath is absolute, the result is aPath.
-	   *   - Otherwise the two paths are joined with a slash.
-	   * - Joining for example 'http://' and 'www.example.com' is also supported.
-	   */
-	  function join(aRoot, aPath) {
-	    var aPathUrl = urlParse(aPath);
-	    var aRootUrl = urlParse(aRoot);
-	    if (aRootUrl) {
-	      aRoot = aRootUrl.path || '/';
-	    }
-	
-	    // `join(foo, '//www.example.org')`
-	    if (aPathUrl && !aPathUrl.scheme) {
-	      if (aRootUrl) {
-	        aPathUrl.scheme = aRootUrl.scheme;
-	      }
-	      return urlGenerate(aPathUrl);
-	    }
-	
-	    if (aPathUrl || aPath.match(dataUrlRegexp)) {
-	      return aPath;
-	    }
-	
-	    // `join('http://', 'www.example.com')`
-	    if (aRootUrl && !aRootUrl.host && !aRootUrl.path) {
-	      aRootUrl.host = aPath;
-	      return urlGenerate(aRootUrl);
-	    }
-	
-	    var joined = aPath.charAt(0) === '/'
-	      ? aPath
-	      : normalize(aRoot.replace(/\/+$/, '') + '/' + aPath);
-	
-	    if (aRootUrl) {
-	      aRootUrl.path = joined;
-	      return urlGenerate(aRootUrl);
-	    }
-	    return joined;
-	  }
-	  exports.join = join;
-	
-	  /**
-	   * Because behavior goes wacky when you set `__proto__` on objects, we
-	   * have to prefix all the strings in our set with an arbitrary character.
-	   *
-	   * See https://github.com/mozilla/source-map/pull/31 and
-	   * https://github.com/mozilla/source-map/issues/30
-	   *
-	   * @param String aStr
-	   */
-	  function toSetString(aStr) {
-	    return '$' + aStr;
-	  }
-	  exports.toSetString = toSetString;
-	
-	  function fromSetString(aStr) {
-	    return aStr.substr(1);
-	  }
-	  exports.fromSetString = fromSetString;
-	
-	  function relative(aRoot, aPath) {
-	    aRoot = aRoot.replace(/\/$/, '');
-	
-	    var url = urlParse(aRoot);
-	    if (aPath.charAt(0) == "/" && url && url.path == "/") {
-	      return aPath.slice(1);
-	    }
-	
-	    return aPath.indexOf(aRoot + '/') === 0
-	      ? aPath.substr(aRoot.length + 1)
-	      : aPath;
-	  }
-	  exports.relative = relative;
-	
-	  function strcmp(aStr1, aStr2) {
-	    var s1 = aStr1 || "";
-	    var s2 = aStr2 || "";
-	    return (s1 > s2) - (s1 < s2);
-	  }
-	
-	  /**
-	   * Comparator between two mappings where the original positions are compared.
-	   *
-	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
-	   * mappings with the same original source/line/column, but different generated
-	   * line and column the same. Useful when searching for a mapping with a
-	   * stubbed out mapping.
-	   */
-	  function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
-	    var cmp;
-	
-	    cmp = strcmp(mappingA.source, mappingB.source);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalLine - mappingB.originalLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalColumn - mappingB.originalColumn;
-	    if (cmp || onlyCompareOriginal) {
-	      return cmp;
-	    }
-	
-	    cmp = strcmp(mappingA.name, mappingB.name);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.generatedLine - mappingB.generatedLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    return mappingA.generatedColumn - mappingB.generatedColumn;
-	  };
-	  exports.compareByOriginalPositions = compareByOriginalPositions;
-	
-	  /**
-	   * Comparator between two mappings where the generated positions are
-	   * compared.
-	   *
-	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
-	   * mappings with the same generated line and column, but different
-	   * source/name/original line and column the same. Useful when searching for a
-	   * mapping with a stubbed out mapping.
-	   */
-	  function compareByGeneratedPositions(mappingA, mappingB, onlyCompareGenerated) {
-	    var cmp;
-	
-	    cmp = mappingA.generatedLine - mappingB.generatedLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.generatedColumn - mappingB.generatedColumn;
-	    if (cmp || onlyCompareGenerated) {
-	      return cmp;
-	    }
-	
-	    cmp = strcmp(mappingA.source, mappingB.source);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalLine - mappingB.originalLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalColumn - mappingB.originalColumn;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    return strcmp(mappingA.name, mappingB.name);
-	  };
-	  exports.compareByGeneratedPositions = compareByGeneratedPositions;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 89 */
-/*!**********************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
-  \**********************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var util = __webpack_require__(/*! ./util */ 88);
-	
-	  /**
-	   * A data structure which is a combination of an array and a set. Adding a new
-	   * member is O(1), testing for membership is O(1), and finding the index of an
-	   * element is O(1). Removing elements from the set is not supported. Only
-	   * strings are supported for membership.
-	   */
-	  function ArraySet() {
-	    this._array = [];
-	    this._set = {};
-	  }
-	
-	  /**
-	   * Static method for creating ArraySet instances from an existing array.
-	   */
-	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
-	    var set = new ArraySet();
-	    for (var i = 0, len = aArray.length; i < len; i++) {
-	      set.add(aArray[i], aAllowDuplicates);
-	    }
-	    return set;
-	  };
-	
-	  /**
-	   * Add the given string to this set.
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
-	    var isDuplicate = this.has(aStr);
-	    var idx = this._array.length;
-	    if (!isDuplicate || aAllowDuplicates) {
-	      this._array.push(aStr);
-	    }
-	    if (!isDuplicate) {
-	      this._set[util.toSetString(aStr)] = idx;
-	    }
-	  };
-	
-	  /**
-	   * Is the given string a member of this set?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.has = function ArraySet_has(aStr) {
-	    return Object.prototype.hasOwnProperty.call(this._set,
-	                                                util.toSetString(aStr));
-	  };
-	
-	  /**
-	   * What is the index of the given string in the array?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
-	    if (this.has(aStr)) {
-	      return this._set[util.toSetString(aStr)];
-	    }
-	    throw new Error('"' + aStr + '" is not in the set.');
-	  };
-	
-	  /**
-	   * What is the element at the given index?
-	   *
-	   * @param Number aIdx
-	   */
-	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
-	    if (aIdx >= 0 && aIdx < this._array.length) {
-	      return this._array[aIdx];
-	    }
-	    throw new Error('No element indexed by ' + aIdx);
-	  };
-	
-	  /**
-	   * Returns the array representation of this set (which has the proper indices
-	   * indicated by indexOf). Note that this is a copy of the internal array used
-	   * for storing the members so that no one can mess with internal state.
-	   */
-	  ArraySet.prototype.toArray = function ArraySet_toArray() {
-	    return this._array.slice();
-	  };
-	
-	  exports.ArraySet = ArraySet;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 90 */
-/*!**************************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
-  \**************************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  /**
-	   * Recursive implementation of binary search.
-	   *
-	   * @param aLow Indices here and lower do not contain the needle.
-	   * @param aHigh Indices here and higher do not contain the needle.
-	   * @param aNeedle The element being searched for.
-	   * @param aHaystack The non-empty array being searched.
-	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
-	   */
-	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
-	    // This function terminates when one of the following is true:
-	    //
-	    //   1. We find the exact element we are looking for.
-	    //
-	    //   2. We did not find the exact element, but we can return the next
-	    //      closest element that is less than that element.
-	    //
-	    //   3. We did not find the exact element, and there is no next-closest
-	    //      element which is less than the one we are searching for, so we
-	    //      return null.
-	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
-	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
-	    if (cmp === 0) {
-	      // Found the element we are looking for.
-	      return aHaystack[mid];
-	    }
-	    else if (cmp > 0) {
-	      // aHaystack[mid] is greater than our needle.
-	      if (aHigh - mid > 1) {
-	        // The element is in the upper half.
-	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
-	      }
-	      // We did not find an exact match, return the next closest one
-	      // (termination case 2).
-	      return aHaystack[mid];
-	    }
-	    else {
-	      // aHaystack[mid] is less than our needle.
-	      if (mid - aLow > 1) {
-	        // The element is in the lower half.
-	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
-	      }
-	      // The exact needle element was not found in this haystack. Determine if
-	      // we are in termination case (2) or (3) and return the appropriate thing.
-	      return aLow < 0
-	        ? null
-	        : aHaystack[aLow];
-	    }
-	  }
-	
-	  /**
-	   * This is an implementation of binary search which will always try and return
-	   * the next lowest value checked if there is no exact hit. This is because
-	   * mappings between original and generated line/col pairs are single points,
-	   * and there is an implicit region between each of them, so a miss just means
-	   * that you aren't on the very start of a region.
-	   *
-	   * @param aNeedle The element you are looking for.
-	   * @param aHaystack The array that is being searched.
-	   * @param aCompare A function which takes the needle and an element in the
-	   *     array and returns -1, 0, or 1 depending on whether the needle is less
-	   *     than, equal to, or greater than the element, respectively.
-	   */
-	  exports.search = function search(aNeedle, aHaystack, aCompare) {
-	    return aHaystack.length > 0
-	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
-	      : null;
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 91 */
-/*!***********************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/~/stacktrace-js/stacktrace.js ***!
   \***********************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
@@ -17896,12 +17253,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}));
 
 /***/ },
-/* 92 */
-/*!******************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
-  \******************************************************************************************************************************/
-[101, 100],
-/* 93 */
+/* 88 */
 /*!*************************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
   \*************************************************************************************************************************************************/
@@ -17988,7 +17340,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 94 */
+/* 89 */
 /*!*******************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
   \*******************************************************************************************************************************************/
@@ -18041,6 +17393,671 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return resolveUrl
 	
 	}));
+
+
+/***/ },
+/* 90 */
+/*!******************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
+  \******************************************************************************************************************************/
+[101, 100],
+/* 91 */
+/*!***********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
+  \***********************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 *
+	 * Based on the Base 64 VLQ implementation in Closure Compiler:
+	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
+	 *
+	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
+	 * Redistribution and use in source and binary forms, with or without
+	 * modification, are permitted provided that the following conditions are
+	 * met:
+	 *
+	 *  * Redistributions of source code must retain the above copyright
+	 *    notice, this list of conditions and the following disclaimer.
+	 *  * Redistributions in binary form must reproduce the above
+	 *    copyright notice, this list of conditions and the following
+	 *    disclaimer in the documentation and/or other materials provided
+	 *    with the distribution.
+	 *  * Neither the name of Google Inc. nor the names of its
+	 *    contributors may be used to endorse or promote products derived
+	 *    from this software without specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var base64 = __webpack_require__(/*! ./base64 */ 98);
+	
+	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
+	  // length quantities we use in the source map spec, the first bit is the sign,
+	  // the next four bits are the actual value, and the 6th bit is the
+	  // continuation bit. The continuation bit tells us whether there are more
+	  // digits in this value following this digit.
+	  //
+	  //   Continuation
+	  //   |    Sign
+	  //   |    |
+	  //   V    V
+	  //   101011
+	
+	  var VLQ_BASE_SHIFT = 5;
+	
+	  // binary: 100000
+	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
+	
+	  // binary: 011111
+	  var VLQ_BASE_MASK = VLQ_BASE - 1;
+	
+	  // binary: 100000
+	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
+	
+	  /**
+	   * Converts from a two-complement value to a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
+	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
+	   */
+	  function toVLQSigned(aValue) {
+	    return aValue < 0
+	      ? ((-aValue) << 1) + 1
+	      : (aValue << 1) + 0;
+	  }
+	
+	  /**
+	   * Converts to a two-complement value from a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
+	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
+	   */
+	  function fromVLQSigned(aValue) {
+	    var isNegative = (aValue & 1) === 1;
+	    var shifted = aValue >> 1;
+	    return isNegative
+	      ? -shifted
+	      : shifted;
+	  }
+	
+	  /**
+	   * Returns the base 64 VLQ encoded value.
+	   */
+	  exports.encode = function base64VLQ_encode(aValue) {
+	    var encoded = "";
+	    var digit;
+	
+	    var vlq = toVLQSigned(aValue);
+	
+	    do {
+	      digit = vlq & VLQ_BASE_MASK;
+	      vlq >>>= VLQ_BASE_SHIFT;
+	      if (vlq > 0) {
+	        // There are still more digits in this value, so we must make sure the
+	        // continuation bit is marked.
+	        digit |= VLQ_CONTINUATION_BIT;
+	      }
+	      encoded += base64.encode(digit);
+	    } while (vlq > 0);
+	
+	    return encoded;
+	  };
+	
+	  /**
+	   * Decodes the next base 64 VLQ value from the given string and returns the
+	   * value and the rest of the string.
+	   */
+	  exports.decode = function base64VLQ_decode(aStr) {
+	    var i = 0;
+	    var strLen = aStr.length;
+	    var result = 0;
+	    var shift = 0;
+	    var continuation, digit;
+	
+	    do {
+	      if (i >= strLen) {
+	        throw new Error("Expected more digits in base 64 VLQ value.");
+	      }
+	      digit = base64.decode(aStr.charAt(i++));
+	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
+	      digit &= VLQ_BASE_MASK;
+	      result = result + (digit << shift);
+	      shift += VLQ_BASE_SHIFT;
+	    } while (continuation);
+	
+	    return {
+	      value: fromVLQSigned(result),
+	      rest: aStr.slice(i)
+	    };
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 92 */
+/*!*****************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
+  \*****************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  /**
+	   * This is a helper function for getting values from parameter/options
+	   * objects.
+	   *
+	   * @param args The object we are extracting values from
+	   * @param name The name of the property we are getting.
+	   * @param defaultValue An optional value to return if the property is missing
+	   * from the object. If this is not specified and the property is missing, an
+	   * error will be thrown.
+	   */
+	  function getArg(aArgs, aName, aDefaultValue) {
+	    if (aName in aArgs) {
+	      return aArgs[aName];
+	    } else if (arguments.length === 3) {
+	      return aDefaultValue;
+	    } else {
+	      throw new Error('"' + aName + '" is a required argument.');
+	    }
+	  }
+	  exports.getArg = getArg;
+	
+	  var urlRegexp = /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.]*)(?::(\d+))?(\S*)$/;
+	  var dataUrlRegexp = /^data:.+\,.+$/;
+	
+	  function urlParse(aUrl) {
+	    var match = aUrl.match(urlRegexp);
+	    if (!match) {
+	      return null;
+	    }
+	    return {
+	      scheme: match[1],
+	      auth: match[2],
+	      host: match[3],
+	      port: match[4],
+	      path: match[5]
+	    };
+	  }
+	  exports.urlParse = urlParse;
+	
+	  function urlGenerate(aParsedUrl) {
+	    var url = '';
+	    if (aParsedUrl.scheme) {
+	      url += aParsedUrl.scheme + ':';
+	    }
+	    url += '//';
+	    if (aParsedUrl.auth) {
+	      url += aParsedUrl.auth + '@';
+	    }
+	    if (aParsedUrl.host) {
+	      url += aParsedUrl.host;
+	    }
+	    if (aParsedUrl.port) {
+	      url += ":" + aParsedUrl.port
+	    }
+	    if (aParsedUrl.path) {
+	      url += aParsedUrl.path;
+	    }
+	    return url;
+	  }
+	  exports.urlGenerate = urlGenerate;
+	
+	  /**
+	   * Normalizes a path, or the path portion of a URL:
+	   *
+	   * - Replaces consequtive slashes with one slash.
+	   * - Removes unnecessary '.' parts.
+	   * - Removes unnecessary '<dir>/..' parts.
+	   *
+	   * Based on code in the Node.js 'path' core module.
+	   *
+	   * @param aPath The path or url to normalize.
+	   */
+	  function normalize(aPath) {
+	    var path = aPath;
+	    var url = urlParse(aPath);
+	    if (url) {
+	      if (!url.path) {
+	        return aPath;
+	      }
+	      path = url.path;
+	    }
+	    var isAbsolute = (path.charAt(0) === '/');
+	
+	    var parts = path.split(/\/+/);
+	    for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
+	      part = parts[i];
+	      if (part === '.') {
+	        parts.splice(i, 1);
+	      } else if (part === '..') {
+	        up++;
+	      } else if (up > 0) {
+	        if (part === '') {
+	          // The first part is blank if the path is absolute. Trying to go
+	          // above the root is a no-op. Therefore we can remove all '..' parts
+	          // directly after the root.
+	          parts.splice(i + 1, up);
+	          up = 0;
+	        } else {
+	          parts.splice(i, 2);
+	          up--;
+	        }
+	      }
+	    }
+	    path = parts.join('/');
+	
+	    if (path === '') {
+	      path = isAbsolute ? '/' : '.';
+	    }
+	
+	    if (url) {
+	      url.path = path;
+	      return urlGenerate(url);
+	    }
+	    return path;
+	  }
+	  exports.normalize = normalize;
+	
+	  /**
+	   * Joins two paths/URLs.
+	   *
+	   * @param aRoot The root path or URL.
+	   * @param aPath The path or URL to be joined with the root.
+	   *
+	   * - If aPath is a URL or a data URI, aPath is returned, unless aPath is a
+	   *   scheme-relative URL: Then the scheme of aRoot, if any, is prepended
+	   *   first.
+	   * - Otherwise aPath is a path. If aRoot is a URL, then its path portion
+	   *   is updated with the result and aRoot is returned. Otherwise the result
+	   *   is returned.
+	   *   - If aPath is absolute, the result is aPath.
+	   *   - Otherwise the two paths are joined with a slash.
+	   * - Joining for example 'http://' and 'www.example.com' is also supported.
+	   */
+	  function join(aRoot, aPath) {
+	    var aPathUrl = urlParse(aPath);
+	    var aRootUrl = urlParse(aRoot);
+	    if (aRootUrl) {
+	      aRoot = aRootUrl.path || '/';
+	    }
+	
+	    // `join(foo, '//www.example.org')`
+	    if (aPathUrl && !aPathUrl.scheme) {
+	      if (aRootUrl) {
+	        aPathUrl.scheme = aRootUrl.scheme;
+	      }
+	      return urlGenerate(aPathUrl);
+	    }
+	
+	    if (aPathUrl || aPath.match(dataUrlRegexp)) {
+	      return aPath;
+	    }
+	
+	    // `join('http://', 'www.example.com')`
+	    if (aRootUrl && !aRootUrl.host && !aRootUrl.path) {
+	      aRootUrl.host = aPath;
+	      return urlGenerate(aRootUrl);
+	    }
+	
+	    var joined = aPath.charAt(0) === '/'
+	      ? aPath
+	      : normalize(aRoot.replace(/\/+$/, '') + '/' + aPath);
+	
+	    if (aRootUrl) {
+	      aRootUrl.path = joined;
+	      return urlGenerate(aRootUrl);
+	    }
+	    return joined;
+	  }
+	  exports.join = join;
+	
+	  /**
+	   * Because behavior goes wacky when you set `__proto__` on objects, we
+	   * have to prefix all the strings in our set with an arbitrary character.
+	   *
+	   * See https://github.com/mozilla/source-map/pull/31 and
+	   * https://github.com/mozilla/source-map/issues/30
+	   *
+	   * @param String aStr
+	   */
+	  function toSetString(aStr) {
+	    return '$' + aStr;
+	  }
+	  exports.toSetString = toSetString;
+	
+	  function fromSetString(aStr) {
+	    return aStr.substr(1);
+	  }
+	  exports.fromSetString = fromSetString;
+	
+	  function relative(aRoot, aPath) {
+	    aRoot = aRoot.replace(/\/$/, '');
+	
+	    var url = urlParse(aRoot);
+	    if (aPath.charAt(0) == "/" && url && url.path == "/") {
+	      return aPath.slice(1);
+	    }
+	
+	    return aPath.indexOf(aRoot + '/') === 0
+	      ? aPath.substr(aRoot.length + 1)
+	      : aPath;
+	  }
+	  exports.relative = relative;
+	
+	  function strcmp(aStr1, aStr2) {
+	    var s1 = aStr1 || "";
+	    var s2 = aStr2 || "";
+	    return (s1 > s2) - (s1 < s2);
+	  }
+	
+	  /**
+	   * Comparator between two mappings where the original positions are compared.
+	   *
+	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
+	   * mappings with the same original source/line/column, but different generated
+	   * line and column the same. Useful when searching for a mapping with a
+	   * stubbed out mapping.
+	   */
+	  function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
+	    var cmp;
+	
+	    cmp = strcmp(mappingA.source, mappingB.source);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalLine - mappingB.originalLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalColumn - mappingB.originalColumn;
+	    if (cmp || onlyCompareOriginal) {
+	      return cmp;
+	    }
+	
+	    cmp = strcmp(mappingA.name, mappingB.name);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.generatedLine - mappingB.generatedLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    return mappingA.generatedColumn - mappingB.generatedColumn;
+	  };
+	  exports.compareByOriginalPositions = compareByOriginalPositions;
+	
+	  /**
+	   * Comparator between two mappings where the generated positions are
+	   * compared.
+	   *
+	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
+	   * mappings with the same generated line and column, but different
+	   * source/name/original line and column the same. Useful when searching for a
+	   * mapping with a stubbed out mapping.
+	   */
+	  function compareByGeneratedPositions(mappingA, mappingB, onlyCompareGenerated) {
+	    var cmp;
+	
+	    cmp = mappingA.generatedLine - mappingB.generatedLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.generatedColumn - mappingB.generatedColumn;
+	    if (cmp || onlyCompareGenerated) {
+	      return cmp;
+	    }
+	
+	    cmp = strcmp(mappingA.source, mappingB.source);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalLine - mappingB.originalLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalColumn - mappingB.originalColumn;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    return strcmp(mappingA.name, mappingB.name);
+	  };
+	  exports.compareByGeneratedPositions = compareByGeneratedPositions;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 93 */
+/*!**********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
+  \**********************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var util = __webpack_require__(/*! ./util */ 92);
+	
+	  /**
+	   * A data structure which is a combination of an array and a set. Adding a new
+	   * member is O(1), testing for membership is O(1), and finding the index of an
+	   * element is O(1). Removing elements from the set is not supported. Only
+	   * strings are supported for membership.
+	   */
+	  function ArraySet() {
+	    this._array = [];
+	    this._set = {};
+	  }
+	
+	  /**
+	   * Static method for creating ArraySet instances from an existing array.
+	   */
+	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
+	    var set = new ArraySet();
+	    for (var i = 0, len = aArray.length; i < len; i++) {
+	      set.add(aArray[i], aAllowDuplicates);
+	    }
+	    return set;
+	  };
+	
+	  /**
+	   * Add the given string to this set.
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
+	    var isDuplicate = this.has(aStr);
+	    var idx = this._array.length;
+	    if (!isDuplicate || aAllowDuplicates) {
+	      this._array.push(aStr);
+	    }
+	    if (!isDuplicate) {
+	      this._set[util.toSetString(aStr)] = idx;
+	    }
+	  };
+	
+	  /**
+	   * Is the given string a member of this set?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.has = function ArraySet_has(aStr) {
+	    return Object.prototype.hasOwnProperty.call(this._set,
+	                                                util.toSetString(aStr));
+	  };
+	
+	  /**
+	   * What is the index of the given string in the array?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
+	    if (this.has(aStr)) {
+	      return this._set[util.toSetString(aStr)];
+	    }
+	    throw new Error('"' + aStr + '" is not in the set.');
+	  };
+	
+	  /**
+	   * What is the element at the given index?
+	   *
+	   * @param Number aIdx
+	   */
+	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
+	    if (aIdx >= 0 && aIdx < this._array.length) {
+	      return this._array[aIdx];
+	    }
+	    throw new Error('No element indexed by ' + aIdx);
+	  };
+	
+	  /**
+	   * Returns the array representation of this set (which has the proper indices
+	   * indicated by indexOf). Note that this is a copy of the internal array used
+	   * for storing the members so that no one can mess with internal state.
+	   */
+	  ArraySet.prototype.toArray = function ArraySet_toArray() {
+	    return this._array.slice();
+	  };
+	
+	  exports.ArraySet = ArraySet;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 94 */
+/*!**************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/nodejs/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
+  \**************************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  /**
+	   * Recursive implementation of binary search.
+	   *
+	   * @param aLow Indices here and lower do not contain the needle.
+	   * @param aHigh Indices here and higher do not contain the needle.
+	   * @param aNeedle The element being searched for.
+	   * @param aHaystack The non-empty array being searched.
+	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
+	   */
+	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
+	    // This function terminates when one of the following is true:
+	    //
+	    //   1. We find the exact element we are looking for.
+	    //
+	    //   2. We did not find the exact element, but we can return the next
+	    //      closest element that is less than that element.
+	    //
+	    //   3. We did not find the exact element, and there is no next-closest
+	    //      element which is less than the one we are searching for, so we
+	    //      return null.
+	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
+	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
+	    if (cmp === 0) {
+	      // Found the element we are looking for.
+	      return aHaystack[mid];
+	    }
+	    else if (cmp > 0) {
+	      // aHaystack[mid] is greater than our needle.
+	      if (aHigh - mid > 1) {
+	        // The element is in the upper half.
+	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
+	      }
+	      // We did not find an exact match, return the next closest one
+	      // (termination case 2).
+	      return aHaystack[mid];
+	    }
+	    else {
+	      // aHaystack[mid] is less than our needle.
+	      if (mid - aLow > 1) {
+	        // The element is in the lower half.
+	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
+	      }
+	      // The exact needle element was not found in this haystack. Determine if
+	      // we are in termination case (2) or (3) and return the appropriate thing.
+	      return aLow < 0
+	        ? null
+	        : aHaystack[aLow];
+	    }
+	  }
+	
+	  /**
+	   * This is an implementation of binary search which will always try and return
+	   * the next lowest value checked if there is no exact hit. This is because
+	   * mappings between original and generated line/col pairs are single points,
+	   * and there is an implicit region between each of them, so a miss just means
+	   * that you aren't on the very start of a region.
+	   *
+	   * @param aNeedle The element you are looking for.
+	   * @param aHaystack The array that is being searched.
+	   * @param aCompare A function which takes the needle and an element in the
+	   *     array and returns -1, 0, or 1 depending on whether the needle is less
+	   *     than, equal to, or greater than the element, respectively.
+	   */
+	  exports.search = function search(aNeedle, aHaystack, aCompare) {
+	    return aHaystack.length > 0
+	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
+	      : null;
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
 /***/ },
@@ -18374,7 +18391,7 @@ return /******/ (function(modules) { // webpackBootstrap
 64,
 /* 101 */
 /*!***********************************!*\
-  !*** template of 53 referencing  ***!
+  !*** template of 51 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
