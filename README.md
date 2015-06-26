@@ -1158,15 +1158,15 @@ Changelog
 ========
 
 * 1.0.0
-    * Major Style object refactor
-    * Fixing various pseudoclass bugs where pseudoclasses weren't working in dynamic situations, emulated pseudoclass setup function being called twice, and metapseudoclasses like :not weren't working
-    * Pseudoclasses can now be styled with full `Style` objects (that use any Style feature)
-    * Optimizing pseudoclass styles when their style branch can be rendered in pure-css
-    * Default styles can be arbitrary Style objects now
-    * $state styles can be arbitrary Style objects now
-    * $label changed from being a modifier on a Block style to indicating a whole new labeled block style (see section on $label for details)
-    * augmenting nth-child to be able to be more sane in how it processes its input (you can reverse the order of the terms and whitespace is tolerated)
-    * changing the default of box-sizing to 'border-box' except for images, which retain the 'content-box' default
+  * Major Style object refactor
+  * Fixing various pseudoclass bugs where pseudoclasses weren't working in dynamic situations, emulated pseudoclass setup function being called twice, and metapseudoclasses like :not weren't working
+  * Pseudoclasses can now be styled with full `Style` objects (that use any Style feature)
+  * Optimizing pseudoclass styles when their style branch can be rendered in pure-css
+  * Default styles can be arbitrary Style objects now
+  * $state styles can be arbitrary Style objects now
+  * $label changed from being a modifier on a Block style to indicating a whole new labeled block style (see section on $label for details)
+  * augmenting nth-child to be able to be more sane in how it processes its input (you can reverse the order of the terms and whitespace is tolerated)
+  * changing the default of box-sizing to 'border-box' except for images, which retain the 'content-box' default
 * 0.9.17 - requiring a node to be removed from its parent before its added to a different parent
 * 0.9.16 - fixing text for
 * 0.9.15
