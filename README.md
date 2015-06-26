@@ -1158,51 +1158,51 @@ Changelog
 ========
 
 * 1.0.0
-  * Major Style object refactor
-  * Fixing various pseudoclass bugs where pseudoclasses weren't working in dynamic situations, emulated pseudoclass setup function being called twice, and metapseudoclasses like :not weren't working
-  * Pseudoclasses can now be styled with full `Style` objects (that use any Style feature)
-  * Optimizing pseudoclass styles when their style branch can be rendered in pure-css
-  * Default styles can be arbitrary Style objects now
-  * $state styles can be arbitrary Style objects now
-  * $label changed from being a modifier on a Block style to indicating a whole new labeled block style (see section on $label for details)
-  * augmenting nth-child to be able to be more sane in how it processes its input (you can reverse the order of the terms and whitespace is tolerated)
-  * changing the default of box-sizing to 'border-box' except for images, which retain the 'content-box' default
+        * Major Style object refactor
+        * Fixing various pseudoclass bugs where pseudoclasses weren't working in dynamic situations, emulated pseudoclass setup function being called twice, and metapseudoclasses like :not weren't working
+        * Pseudoclasses can now be styled with full `Style` objects (that use any Style feature)
+        * Optimizing pseudoclass styles when their style branch can be rendered in pure-css
+        * Default styles can be arbitrary Style objects now
+        * $state styles can be arbitrary Style objects now
+        * $label changed from being a modifier on a Block style to indicating a whole new labeled block style (see section on $label for details)
+        * augmenting nth-child to be able to be more sane in how it processes its input (you can reverse the order of the terms and whitespace is tolerated)
+        * changing the default of box-sizing to 'border-box' except for images, which retain the 'content-box' default
 * 0.9.17 - requiring a node to be removed from its parent before its added to a different parent
 * 0.9.16 - fixing text for
 * 0.9.15
-    * if `undefined` is passed as a style, it is now ignored
-    * fixing bug: an array of blocks couldn't be passed to `table.cell`
+        * if `undefined` is passed as a style, it is now ignored
+        * fixing bug: an array of blocks couldn't be passed to `table.cell`
 * 0.9.14 - Improving fix for when blocks.js is loaded twice (seemed to fix an additional problem i saw where defaults were sometimes overriding styles from other instances of blocks.js, possibly related to load order of scripts? Unfortunately I couldn't create a test to repro)
 * 0.9.13
-    * Fixing issue where styles break if block.js is loaded twice (also adding a warning when it detects two instances of blocks.js)
-    * Adding a little more documentation around $state
+        * Fixing issue where styles break if block.js is loaded twice (also adding a warning when it detects two instances of blocks.js)
+        * Adding a little more documentation around $state
 * 0.9.12
-    * bringing back the $state style in a slightly different form
-    * fixing a bug in label argument interpretation
-    * getting rid of npm-shrinkwrap and fixing up dependency versioning to be generally lenient but strict on major version
+        * bringing back the $state style in a slightly different form
+        * fixing a bug in label argument interpretation
+        * getting rid of npm-shrinkwrap and fixing up dependency versioning to be generally lenient but strict on major version
 * 0.9.11 - updating hashmap version, since it was giving me trouble in another project
 * 0.9.10
-    * remove the $state style thing - $setup and $kill cover it
-    * allow $setup to return a value that's then passed to $kill (so they aren't forced to set properties on the block)
+        * remove the $state style thing - $setup and $kill cover it
+        * allow $setup to return a value that's then passed to $kill (so they aren't forced to set properties on the block)
 * 0.9.9 adding better require paths for commonjs
 * 0.9.8 - writing all this documentation
 * 0.9.7 - Added List, Image, and Canvas
 * 0.9.6 - Fixed but in EventEmitterB that was causing catch-all ifon handlers to not fire on-call if events were already attached beforehand
 * 0.9.5
-    * Used default stying to set defaults on some of the built in Blocks
-    * Fixed a bug in ifon when its called without an event and there are already events set up
+        * Used default stying to set defaults on some of the built in Blocks
+        * Fixed a bug in ifon when its called without an event and there are already events set up
 * 0.9.4 - Create a way to set unobtrusive default styles for custom Blocks (so you can, for example, make Option blocks display: block)
 * 0.9.3 - Support styling blocks via their inheritance tree (ie if A inherits from B, styling A should style A and B, but a B style should override an A style)
 * 0.9.2
-    * Using `ifon` and `ifoff` for proxying browser events through Blocks
-    * Override the `on` method so that standard browser events are automatically attached to domNodes
-        * provide a way to exclude certain events, so they can be set up in an alternate way
+        * Using `ifon` and `ifoff` for proxying browser events through Blocks
+        * Override the `on` method so that standard browser events are automatically attached to domNodes
+                * provide a way to exclude certain events, so they can be set up in an alternate way
 * 0.9.1
-    * Adding tests for all the public Block properties that didn't already have tests
-    * Changing API of focus/blur, show/hide, and selection methods to getter/setter style properties
-    * Replacing getCaretPosition to selectionRange that returns the full selection range
-    * Made the selection stuff work for inputs and text areas
-    * Adding `ifon` and `ifoff` methods
+        * Adding tests for all the public Block properties that didn't already have tests
+        * Changing API of focus/blur, show/hide, and selection methods to getter/setter style properties
+        * Replacing getCaretPosition to selectionRange that returns the full selection range
+        * Made the selection stuff work for inputs and text areas
+        * Adding `ifon` and `ifoff` methods
 * 0.1.1 - Creating a bunch of conventions that all the standard blocks conform to
 * 0.1.0 - Initial commit - code transferred from private project.
 
