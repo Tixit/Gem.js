@@ -1196,7 +1196,7 @@ Changelog
 * 0.9.2
         * Using `ifon` and `ifoff` for proxying browser events through Blocks
         * Override the `on` method so that standard browser events are automatically attached to domNodes
-                * provide a way to exclude certain events, so they can be set up in an alternate way
+            * provide a way to exclude certain events, so they can be set up in an alternate way
 * 0.9.1
         * Adding tests for all the public Block properties that didn't already have tests
         * Changing API of focus/blur, show/hide, and selection methods to getter/setter style properties
