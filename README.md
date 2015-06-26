@@ -13,7 +13,6 @@ Blocks.js is here to change that. Finally, modern application development for th
 
 - [Example](#example)
 - [Why use `blocks.js`?](#why-use-blocksjs)
-- [What `blocks.js` is ***not***](#what-blocksjs-is-not)
 - [Install](#install)
 - [Usage](#usage)
   - [`Block`](#block)
@@ -53,11 +52,14 @@ Blocks.js is here to change that. Finally, modern application development for th
       - [`$setup` and `$kill`](#setup-and-kill)
       - [`$state`](#state)
       - [Combining them together](#combining-them-together)
+    - [`styleObject.mix(styleObject2)`](#styleObjectmixstyleObject2)
+    - [`styleObject.copy()`](#styleObjectcopy)
     - [`Style.addPseudoClass`](#styleaddpseudoclass)
-    - [Built-in Pseudoclasses](#built-in-pseudoclasses)
     - [Standard Pseudoclasses](#standard-pseudoclasses)
+    - [Built-in Pseudoclasses](#built-in-pseudoclasses)
     - [Default style](#default-style)
 - [Decisions](#decisions)
+- [What `blocks.js` is ***not***](#what-blocksjs-is-not)
 - [Todo](#todo)
 - [Changelog](#changelog)
 - [How to Contribute!](#how-to-contribute)
@@ -82,10 +84,10 @@ var list = Container()
     toggleButton.on('click', function() {
         if(toggleButton.text !== "RAWRR!!!") {
             toggleButton.text = "RAWRR!!!"
-            toggleButton.state.set('angered', true)
+            toggleButton.state.set('color', 'rgb(128, 0, 0)')
         } else {
             toggleButton.text = text
-            toggleButton.state.set('angered', false)
+            toggleButton.state.set('color', 'black')
         }
     })
 
@@ -93,7 +95,8 @@ var list = Container()
     list.add(toggleButton)
 })
 
-list.add(Button("send", "Send your Greetings")) // "labels" that can differentiate otherwise identical types of blocks
+var greet = Button("send", "Send your Greetings") // labels like 'send' can differentiate otherwise identical types of blocks
+list.add(greet)
 
 // create styles with style objects ..
 list.style = Style({
@@ -102,22 +105,16 @@ list.style = Style({
 
     Button: {                 // .. sub-block styles,
         $$firstChild: {       // .. pseudo-class styles,
-            color: 'rgb(0,100,100)',
-        },
-        $send: {              // .. style based on an object's label, and ..
-            color: 'green'
+            color: 'rgb(0,100,240)',
         },
         $state: function(state) { // .. more sophisticated styling techniques
-            if(state.angered) {
-                var color = 'rgb(128, 0, 0)'
-            } else {
-                var color = 'black'
-            }
-
             return Style({
                 color: state.color
             })
         }
+    },
+    $send: {              // .. style based on an object's label, and ..
+        color: 'green'
     }
 })
 
@@ -125,25 +122,25 @@ list.style = Style({
 list.attach()
 
 
-var proto = require('proto')
-var Block = require("blocks.js")
-var TextField = require("blocks.js/TextField")
-var Text = require("blocks.js/Text")
-
 // custom blocks (use your favorite javascript class library - here proto is being used)
 var NameInput = proto(Block, function() { // inherit from Block
     this.name = 'NameInput'
     this.build = function(LabelText) {              // the `build` method initializes the custom Block
-        var nameField = TextField()
-        this.add(Text(LabelText), nameField)
-        nameField.on('change', function() {
-            list.children[0].text = "Hi "+nameField.val
+        this.nameField = TextField()
+        this.add(Text(LabelText), this.nameField)
+        this.nameField.on('change', function() {
+            list.children[0].text = "Hi "+this.val
         })
     }
 })
 
-NameInput("Your Name: ").attach()
-
+var nameInput = NameInput("Your Name: ")
+greet.on('click', function() {
+    var text = Text("Whats up, "+nameInput.nameField.val+'?')
+    text.style = Style({display:'block'})
+    text.attach()
+})
+nameInput.attach()
 ```
 
 [![example](blocksExample/exampleShot.png)](http://www.btetrud.com/blocksExample/example.html)
@@ -154,28 +151,15 @@ Why use `blocks.js`?
 ====================
 
 * Makes your web application **easier to develop** with modular reusable structure objects (`Block` objects) *and* `Style` objects
-* **No HTML**. With `blocks.js`, you write in 100% javascript. The only html requirement is a `document` `body`. You can still add plain old HTML into your blocks using `domNode.innerHTML` tho if you so choose.
-* **No CSS**. While blocks.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
+* **No HTML Needed**. With `blocks.js`, you write in 100% javascript. The only html requirement is a `document` `body`. You can still add plain old HTML into your blocks using `block.domNode.innerHTML` tho if you so choose.
+* **No CSS Needed**. While blocks.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
 * **Works with your HTML and CSS**. `Blocks` can be added as a child to any standard dom object and they can be styled with standard css stylesheets if you so choose.
 * **Works with your current javascript**. `Blocks` give you direct access to their `domNode` so you can use the dom manipulation libraries you're used to.
 * **Fully separate style from structure**. By using [`$state`](#state), [`$setup`, and `$kill`](#setup-and-kill) javascript in your `Style` objects, you can include any javascript that is stylistic rather than structural.
 * Import `Block` modules with real APIs that anyone can release online. HTML snippets are so 1995.
 * Unlike [HTML web components](http://robdodson.me/why-web-components/), `blocks.js` **works in modern browsers without polyfills**.
 * Also unlike HTML web components, [element name collision](https://groups.google.com/forum/#!topic/polymer-dev/90Dq_2bk8CU) isn't a problem.
-* Has a small footprint: **15.18KB minified and gzipped in umd format**
-
-What `blocks.js` is ***not***
-=======================
-
-Blocks.js is not:
-* **a compatibility layer**. Blocks.js uses modern browser features and is built to rely on polyfills to add older browser support. If you're looking for a compatibility system, try [modernizr](http://modernizr.com/).
-* **a path router**. If you're looking for a path routing module, try [grapetree](https://github.com/fresheneesz/grapetree).
-* **a class system**. If you're looking for a system for creating classes and prototypes, try [proto](https://github.com/fresheneesz/proto).
-* **a module system, script bundler, or loader**. If you're looking for an excellent module system and bundler, look no further than [webpack](http://webpack.github.io/).
-* **a templating system**. In blocks.js, you use functions and objects to compose together a page, rather than templates.
-* **an animation library**. If you're looking for animations, try [Émile](https://github.com/madrobby/emile).
-* **a framework**. A framework is a system that calls *your* code. A module is a set of functions and classes that your code can call. Blocks.js is the latter.  Blocks.js can work well right alongside traditionally written html and css, and you can choose to wrap dom constructs in a Block only if you want to.
-* **super heroic**. It does one thing well: web components. It embraces the [single-responsibility principle ](http://en.wikipedia.org/wiki/Single_responsibility_principle) and is entirely stand-alone.
+* Has a small footprint: **16.5KB minified and gzipped in umd format**
 
 Install
 =======
@@ -223,7 +207,7 @@ blocks.Block // if you're using the umd package
 **`Block.attach(block, block, ...)`** - Appends the passed blocks to `document.body`.
 **`Block.attach(listOfBlocks)`** - Same as above, but `listOfBlocks` is an array of `Block` objects.
 
-**`Block.detach(block, block, ...)`** - Removes the passed blocks to `document.body`.
+**`Block.detach(block, block, ...)`** - Removes the passed blocks from `document.body`.
 **`Block.detach(listOfBlocks)`** - Same as above, but `listOfBlocks` is an array of `Block` objects.
 
 **`Block.createBody(callback)`** - Dynamically creates the body tag. Calls `callback` when done.
@@ -232,7 +216,7 @@ blocks.Block // if you're using the umd package
 
 **`block.parent`** - The Block's parent (which will also be a Block)  
 **`block.children`** - An array of the Block's children (which will all be Blocks themselves).  
-**`block.domNode`** - The Block's dom node.  
+**`block.domNode`** - The Block's standard dom node object.
 **`block.label`** - A string used for styling. Should be set once when the object is instantiated, and cannot change. *See the section on `Style` objects for details about how this is used*.  
 **`block.excludeDomEvents`** - A set of dom events to exclude from automatic registration. Will have the structure `{eventName1:1, eventName2:1, ...}`. See the documentation for `on` for more details.  
 **`block.state`** - An [observer](https://github.com/Tixit/observe) object that can be listened on for changes. Can be used for any purpose, but is intended for being used to create dynamically changing styles. *See the section on `Style` objects for an example*.
@@ -373,7 +357,7 @@ In this documentation, we're going to be using the class library [proto](https:/
 
 * `name` - The name is a required property, should be named whatever your class is named, and should be a somewhat unique name in your system (tho it isn't required to be unique).
 * `build()` - The "sub-constructor". The constructor calls this method, passing all arguments, to the `build` method. The return value of `build` is ignored.
-* `defaultStyle` - If set to a `Style` object, the style object will be the block's default style. Unlike explicitly set Styles and inherited Styles, css properties in `defaultStyle`  *do* cascade line-by-line. Also, if a block inherits from another `Block` class that also has a `defaultStyle`, the default styles mix together with the child `Block` class style properties overriding the parent `Block` class's default properties. Currently, `defaultStyle` can only be set to `Style` objects that contain basic css properties (labels, sub-block styles, and $setup/$kill can't be used). So in the below example, if `block` is given a style that defines `color: green`, it's fontWeight will still be 'bold'.
+* `defaultStyle` - If set to a `Style` object, the style object will be the block's default style. Unlike explicitly set Styles and inherited Styles, css properties in `defaultStyle`  *do* cascade line-by-line. Also, if a block inherits from another `Block` class that also has a `defaultStyle`, the default styles mix together with the child `Block` class style properties overriding the parent `Block` class's default properties. So in the below example, if `block` is given a style that defines `color: green`, it's fontWeight will still be 'bold'.
 
 For example:
 
@@ -797,18 +781,18 @@ var container = Container([
 container.style = Style({
     Text: {
         fontWeight: 'bold',
-        color: 'blue',
-        $header: {color: 'gray'},
-        $receipt: {color: 'green'}
-    }
+        color: 'blue'
+    },
+    $header: {color: 'gray'},
+    $receipt: {color: 'green'}
 })
 ```
 
-In the above example, the text `"Your Receipt, Sir: "` will be gray, the receipt text will be green, and the thank-you text will be blue. However, all 3 sets of text will be bold, because the label styles mix with the style of the style-definition containing it.
+In the above example, the text `"Your Receipt, Sir: "` will be gray, the receipt text will be green, and the thank-you text will be blue. Only the thank-you text will be bold.
 
 #### `$$<pseudoclass>`
 
-Like labels, pseudoclasses filter out which `Block` styles are given to. And also like labels, the styles mix with the styles defined in the style-definition containing it. For example:
+Pseudoclasses filter out which `Block` styles are given to. Also, the styles mix with the styles defined in the style-definition containing it. For example:
 
 ```javascript
 var x = Text("hi")
@@ -834,19 +818,18 @@ container.style = Style({
 
 In the above code, "a" will start black and change to red when you hover over it. "b" will start black and bold, but will change to red and bold when you hover over it.
 
-To set a style only when multiple pseudoclasses apply, simply nest them. Alternatively as shorthand, pseudoclasses can be combined with a colon to join them ':', in which case, both pseudoclasses must be satisfied by a `Block` to apply their styles. For example:
+To set a style only when multiple pseudoclasses apply, simply nest them. For example:
 
 ```javascript
 var text = Text("a")
 text.style = Style({
     $$lastChild: {
         $$hover: {color: 'red'}
-    },
-    '$$lastChild:hover': {color: 'red'} // means the same thing as the above
+    }
 })
 ```
 
-In the above code, "a" will turn red if it is both the last child of its parent, and if it is hovered over.
+In the above code, "a" will turn red if it is both the last child of its parent and is hovered over.
 
 Also, pseudoclasses may take parameters, which are passed in with parens like a javascript function. For example:
 
@@ -888,11 +871,11 @@ t.text === "I'm 20% less cool"
 The `state` parameter is `block.state.subject`. The return value of the function should be a `Style` object to set the object's active style to.
 *Note that if you create styles in $state functions, remember that you will create a new style every time the state changes. This may be a problem with some applications that have a lot of state changes, or particularly rapid state changes (its unclear at what point this could cause problems).*
 
-Currently, $state can only be used to set basic css properties from the returned `Style` object. The consequence of this is that styles are only applied to the block that has that state, and styles for sub-blocks are unaffected. Example:
+Example:
 ```javascript
 
 
-var c = Container(Text("hi"))
+var c = Text("hi")
 
 var colorStyles = {
     yellow: Style({backgroundColor: 'yellow'}),
@@ -909,13 +892,6 @@ c.style = Style({
             }
         } else {
             return colorStyles.red
-        }
-    },
-
-    Text: {
-        color: 'white',
-        $title: {
-            color: 'blue'
         }
     }
 })
@@ -937,11 +913,6 @@ Style({
     marginTop: topBarHeight,
 	
 	Button: {
-		$closeButton: {
-			position: 'absolute',
-			right: 3, top: 3,
-			width: 'calc(50% - 2px)'
-		},
 		$setup: function(block) {
 		    var handler;
             block.on('moo', handler=function() {
@@ -953,6 +924,13 @@ Style({
             block.off('moo',setupState.handler)
 		}
 	},
+
+	$closeButton: {
+	    //future: $inherit: true, // inherits the Button style (if the block is a Button)
+        position: 'absolute',
+        right: 3, top: 3,
+        width: 'calc(50% - 2px)'
+    },
 
     Table: {
 		TableHeader: {
@@ -997,73 +975,78 @@ Style({
             position: 'relative',
             top: -3,
 
-            Text: {
-                $field:{
-                     height: 23
-                }
+            $field:{
+                 height: 23
             }
         },
 
         DropTab: {
             position: 'static',
 
-            $userDropTab: {
-                cursor: 'pointer'
+            $wrapper: {
+                position: 'static'
             },
 
-            Container: {
-                $wrapper: {
-                    position: 'static'
-                },
+            $menu: {
+                position: 'absolute',
+                border: border,
+                marginTop: 1,
+                backgroundColor: 'white',
+                cursor: 'pointer',
 
-                $menu: {
-                    position: 'absolute',
-                    border: border,
-                    marginTop: 1,
-                    backgroundColor: 'white',
-                    cursor: 'pointer',
-
-                    Text: {
-                        color: 'bonkers'
-                    }
-                },
-                $button: {
-                    border: border,
-                    fontSize: 24,
-                    fontWeight: 'bold'
+                Text: {
+                    color: 'bonkers'
                 }
+            },
+            $button: {
+                border: border,
+                fontSize: 24,
+                fontWeight: 'bold'
             }
-        }
+        },
+
+        $userDropTab: {
+            //future: $inherit: true, inherits from DropTab above
+            cursor: 'pointer'
+        },
     }
 })
 ```
+
+### `styleObject.mix(styleObject2)`
+
+Returns a new style that combines together calling style object and the passed style object. The properties from the passed style object override the ones from the calling object.
+
+### `styleObject.copy()`
+
+Returns a new style that is a copy of the calling style object but has a new `className`. **Written for internal use.**
 
 ### `Style.addPseudoClass`
 
 `Style.addPseudoClass(name, fns)` - Creates a new pseudoclass that can be used in `Style` objects. This can be used to create all-new psuedoclasses no one's ever thought of before!
 * `name` - The name of the new pseudoclass
 * `fns` - An object with the members:
-    * `processParameter(parameter)` - (Optional) Takes the pseudoclass parameter and returns some object representing it that will be used by the `setup` and `check` functions.
     * `check(block)` - A function that returns true if the pseudoclass applies to passed `block`
     * `setup(block, startCallback, endCallback, parameter)` - A function that should call `startCallback()` when the pseudoclass starts applying, and `endCallback()` when it stops applying. Can return a `state` object that will be passed to the `kill` function.
         * `parameter` - The parameter passed to the pseudoclass (e.g. in `":not(:first-child)"`, ":first-child" is the parameter). If a `processParameter` function is given, this will be the return value of that function.
     * `kill(block, state)` - A function that cleans up any event listeners or anything else set up in the `setup` function.
+    * `emulated` - (Optional - default false) Set to true if this implements a native pseudoclass. If `true`, Blocks will attempt optimize the pseudoclass using native css if possible.
+    * `processParameter(parameter)` - (Optional) Takes the pseudoclass parameter and returns some object representing it that will be used by the `setup` and `check` functions.
+    * `parameterTransform(parameter)` - (Optional) Returns a modified version of the passed parameter. This is useful in cases where native pseudoclass parameter parsing is unnecessarily strict (eg. nth-child parameters)
 
-### Built-in Pseudoclasses
+### Standard Pseudoclasses
+
+Any pseudoclass that exists in standard css can be used by blocks.js, even if it isn't build-in with a js-rendered emulation. The catch is that their use is limited. The following things aren't supported for these:
+* Using a `$setup`, `$kill`, or `$state` functions within the pseudoclass style definition
+* Using non-standard pseudoclasses within the pseudoclass style definition
+
+### Built-in JS Rendered Pseudoclasses
 
 * `hover` - The usual [:hover](https://developer.mozilla.org/en-US/docs/Web/CSS/:hover) pseudoclass
 * `checked` - The usual [:checked](https://developer.mozilla.org/en-US/docs/Web/CSS/:checked) pseudoclass
 * `required` - The usual [:required](https://developer.mozilla.org/en-US/docs/Web/CSS/:required) pseudoclass
 * `lastChild` - The usual [:last-child](https://developer.mozilla.org/en-US/docs/Web/CSS/:last-child) pseudoclass
-* `nthChild(a+bn)` - The usual [:nth-child](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child) pseudoclass
-
-### Standard Pseudoclasses
-
-Any pseudoclass that exists in standard css can be used by blocks.js, even if it isn't "build-in". The catch is that their use is limited. Only basic css styles can be defined within a non-build-in pseudoclass. The following things aren't supported for these:
-* Styling a pseudoclass with a `Style` object
-* Using a `$setup`, `$kill`, or `$state` functions within the pseudoclass style definition
-* Using block labels within the pseudoclass style definition
-* Using non-standard pseudoclasses within the pseudoclass style definition
+* `nthChild(a+bn)` - The usual [:nth-child](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child) pseudoclass (with more tolerant parameter parsing)
 
 Note that, while the list of built-in pseudoclasses is currently short, all standard pseudoclasses can be defined *except* the ":visited" pseudoclass, because the necessary information is not available via javascript (a browser "security" policy).
 
@@ -1074,6 +1057,7 @@ Blocks.js unifies the default styles of dom nodes - all objects that inherit dir
 The base default is mostly the same as css's base default. The two defaults that are different for `Block` objects:
 * `display` - `"inline-block"`
 * `position` - `"relative"`
+* `box-sizing` - `"border-box"` (excepting `<img>` nodes, which are still defaulted to `content-box` because pixel perfect image sizing is often important)
 
 Also, while most css styles are not inherited from a `Block`'s parent, the following are inherited:
 * `color`
@@ -1085,19 +1069,21 @@ Also, while most css styles are not inherited from a `Block`'s parent, the follo
 * `fontWeight`
 * `visibility`
 
-And while blocks.js generally rejects css's use of cascading, there is some similar cascading going on, but much more simplified and localized. Defining this behavior in terms of "cascading order", the order is:
-# The base default style (described above in this section).
-# The `defaultStyle` property of the block instance's furthest ancestor class
-# ...
-# The  `defaultStyle` property of the Block's parent class
-# The `defaultStyle` property of the Block itself
-# The Block instance's active style (either an inherited style or its `style` property)
+And while blocks.js generally rejects css's use of cascading, there is some similar cascading going on, but much more simplified and localized. Defining this behavior in terms of "cascading order" (where later additions override earlier), the order is:
+1. The base default style (described above in this section).
+2. The `defaultStyle` property of the block instance's furthest ancestor class
+3. ... (more `defaultStyle`s in the Block's ancestry)
+4. The  `defaultStyle` property of the Block's parent class
+5. The `defaultStyle` property of the Block itself
+6. The Block instance's current style (either an inherited style or its `style` property)
+7. The state style returned for that block by its current style
+8. Any pseudoclass styles that apply on the block
 
 ## Tips and Recommendations
 
 ### Don't Create a node until you need it
 
-Often in traditional web development, all the HTML will be rendered and any javascript for them initialized on page load, and the elements that shouldn't be shown to the user are simply hidden, and then shown when needed. Using blocks.js, its recommended that you create and remove nodes as needed, rather than showing and hiding (using `visible`). The only reason to use the show/hide technique is if the element in question is particuarly expensive to generate.
+Often in traditional web development, all the HTML will be rendered and any javascript for them initialized on page load, and the elements that shouldn't be shown to the user are simply hidden, and then shown when needed. Using blocks.js, its recommended that you create and remove nodes as needed, rather than showing and hiding (using `visible`). The only reason to use the show/hide technique is if the element in question is particularly expensive to generate.
 
 Decisions
 =========
@@ -1106,27 +1092,30 @@ Decisions
 * Blocks are styled based on their name rather than their object identity (which would be possible with an array style definition like [Text,{backgroundColor:'...'}]) because otherwise all Blocks would have to be exposed at the top level. Not only does this go against modularity, but creators of 3rd party modules would inevitably fail to expose all their Blocks, which would make styling impossible. With names, you don't have to be able to reach the object, you just have to know its name.
 * don't use npm shrinkwrap for browser modules like this, because otherwise multiple minor versions of the same package might get into a browser bundle and make page loading slower
 
+What `blocks.js` is ***not***
+=======================
+
+Blocks.js is not:
+* **a compatibility layer**. Blocks.js uses modern browser features and is built to rely on polyfills to add older browser support. If you're looking for a compatibility system, try [modernizr](http://modernizr.com/).
+* **a path router**. If you're looking for a path routing module, try [grapetree](https://github.com/fresheneesz/grapetree).
+* **a class system**. If you're looking for a system for creating classes and prototypes, try [proto](https://github.com/fresheneesz/proto).
+* **a module system, script bundler, or loader**. If you're looking for an excellent module system and bundler, look no further than [webpack](http://webpack.github.io/).
+* **a templating system**. In blocks.js, you use functions and objects to compose together a page, rather than templates.
+* **an animation library**. If you're looking for animations, try [Émile](https://github.com/madrobby/emile).
+* **a framework**. A framework is a system that calls *your* code. A module is a set of functions and classes that your code can call. Blocks.js is the latter.  Blocks.js can work well right alongside traditionally written html and css, and you can choose to wrap dom constructs in a Block only if you want to.
+* **super heroic**. It does one thing well: web components. It embraces the [single-responsibility principle ](http://en.wikipedia.org/wiki/Single_responsibility_principle) and is entirely stand-alone.
+
 Todo
 ======
 
+* Implement an $inherit option on Styles, so that they can implicitly inherit from styles above them without specifying which style to combine into it
+* Emulate the :not psuedoclass
 
-* Figure out which style wins when multiple psuedoclasses apply and they're side by side (instead of nested)
-    * Do they combine? They shouldn't..
-    * But wasn't there a nice magical way we could indicate that they combine?
-* Test hover with and without a parent (see nth-child without a parent for what that means)
-* Fix a bug in last-child where dynamically adding more children leads to 50% of the children being treated as last-child
-* Fix the bug in hover where it fails to style properly after the first hover
-
-* Make it so that pseudoclasses can be styled with `Style` objects as long as their checked to only contain simple styles.
-* Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
-* Make all controls usable via the keybaord
-  * eg. checkboxes should be toggled if you press enter while they're focused on
-* Figure out how to make defaultStyle objects able to take into account Block styles etc
-    * Make sure everything in styles is overridable (including run/kill javascript), because its important that any default can be changed overridden
-* Figure out how to support @keyframes and that kind of thing
-
+* When possible, use a WeakMap to cache Style mixes, componentStyleMap conjunctions, etc so that extraneous style don't cause memory leaks
+* Figure out how to support animations, @keyframes and that kind of thing
 * support css animations
     * Maybe syntax like this:
+        ```
         var animation = Style.Animation({
             name: 'slidein' // produces a css style like __defaultName__2_slidein to prevent name collisions
 
@@ -1145,8 +1134,17 @@ Todo
             anim: animation,       // anim cause its short and animation is already taken by plain css
             animationDuration: 300 // milliseconds
         })
+    ```
+    * Make sure its easy to dynamically create many-stepped animations, eg: http://www.joelambert.co.uk/morf/
+    * http://stackoverflow.com/questions/18481550/how-to-dynamically-create-keyframe-css-animations
 
-* Emulate the :not psuedoclass
+* Maybe if a component has an explicit style set, it ignore's any styling from its parent (ie the componentStyleMap)
+* consider replacing $setup and $kill with user-defined style properties
+    * user-defined style properties would have all the power of $setup and $kill but would have the benefit of being parameterized and combinable/overridabe (ie you can override a property, but you can combine multiple different properties)
+    * this would mean you couldn't do inline javascript (other than for $state changes) in styles tho - it would require you to define the javascript somewhere else
+* Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
+* Make all controls usable via the keybaord
+  * eg. checkboxes should be toggled if you press enter while they're focused on
 
 * Consider making Style objects dynamically changable, and also inheritable/extendable so that you can extend the style object of a Block instead of having to extend the object passed to a Style prototype
 
@@ -1155,9 +1153,20 @@ Todo
   * TextEditor
 
 
+
 Changelog
 ========
 
+* 1.0.0
+    * Major Style object refactor
+    * Fixing various pseudoclass bugs where pseudoclasses weren't working in dynamic situations, emulated pseudoclass setup function being called twice, and metapseudoclasses like :not weren't working
+    * Pseudoclasses can now be styled with full `Style` objects (that use any Style feature)
+    * Optimizing pseudoclass styles when their style branch can be rendered in pure-css
+    * Default styles can be arbitrary Style objects now
+    * $state styles can be arbitrary Style objects now
+    * $label changed from being a modifier on a Block style to indicating a whole new labeled block style (see section on $label for details)
+    * augmenting nth-child to be able to be more sane in how it processes its input (you can reverse the order of the terms and whitespace is tolerated)
+    * changing the default of box-sizing to 'border-box' except for images, which retain the 'content-box' default
 * 0.9.17 - requiring a node to be removed from its parent before its added to a different parent
 * 0.9.16 - fixing text for
 * 0.9.15

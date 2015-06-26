@@ -10,10 +10,11 @@ module.exports = function() {
 
     var tests = Unit.test("Testing Blocks.js", function(t) {
         this.count(4)
-        this.timeout(8000) // IE takes more time
+        this.timeout(60000) // IE takes more time
 
+        t.test('Style',require('./Style.test'))
 
-        //*
+        /*
         t.test('EventEmitterB',require('./EventEmitterB.test')).complete.then(function(){
             return t.test('Block',require('./Block.test')).complete
         }).then(function(){

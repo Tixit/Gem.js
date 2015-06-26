@@ -12,8 +12,13 @@ var Button = blocks.Button
 var CheckBox = blocks.CheckBox
 var Container = blocks.Container
 
+var defaultBackgroundColor = 'rgba(0, 0, 0, 0)'; var defaultBgColor = defaultBackgroundColor
 
 module.exports = function(t) {
+
+
+     // todo:
+        // test mix and copy
 
 
     //*
@@ -142,90 +147,88 @@ module.exports = function(t) {
     })
 
     this.test('default Block styles',function(t) {
-        this.count(13)
+        this.test('simple default styles', function(t) {
+            this.count(10)
 
-        var S = Style({
-            color: 'rgb(0, 0, 128)'
-        })
-
-        var C = proto(Text, function(superclass) {
-            this.defaultStyle = Style({
-                color: 'rgb(0, 128, 0)',
-                backgroundColor: 'rgb(0, 100, 100)',
-                borderColor: 'rgb(120, 130, 140)'
+            var S = Style({
+                color: 'rgb(0, 0, 128)'
             })
-        })
-        var D = proto(C, function(superclass) {
-            this.defaultStyle = Style({
-                backgroundColor: 'rgb(1, 2, 3)'
+
+            var C = proto(Text, function(superclass) {
+                this.defaultStyle = Style({
+                    color: 'rgb(0, 128, 0)',
+                    backgroundColor: 'rgb(0, 100, 100)',
+                    borderColor: 'rgb(120, 130, 140)'
+                })
             })
+            var D = proto(C, function(superclass) {
+                this.defaultStyle = Style({
+                    backgroundColor: 'rgb(1, 2, 3)'
+                })
+            })
+
+            var node = C("yeahhh")
+            var node2 = D("NOOOOO")
+            var container = Container(node, node2)
+            testUtils.demo('default Block styles', container) // node has to be apart of the page before css class styles are applied to it
+
+            var div = $(node.domNode)
+            this.eq(div.css('color'), 'rgb(0, 128, 0)')
+            this.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')
+
+            var div2 = $(node2.domNode)
+            this.eq(div2.css('color'), 'rgb(0, 128, 0)')
+            this.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
+            this.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
+
+            node.style = S
+            node2.style = S
+
+            setTimeout(function() { // looks like when a css classname is changed, it doesn't take effect immediately (is this really true????)
+                t.eq(div.css('color'), 'rgb(0, 0, 128)')
+                t.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')   // the default backgroundColor bleeds through for default stylings (unlike normal stylings)
+
+                t.eq(div2.css('color'), 'rgb(0, 0, 128)')
+                t.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
+                t.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
+            },0)
         })
 
-        var node = C("yeahhh")
-        var node2 = D("NOOOOO")
-        var container = Container(node, node2)
-        testUtils.demo('default Block styles', container) // node has to be apart of the page before css class styles are applied to it
-
-        var div = $(node.domNode)
-        this.eq(div.css('color'), 'rgb(0, 128, 0)')
-        this.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')
-
-        var div2 = $(node2.domNode)
-        this.eq(div2.css('color'), 'rgb(0, 128, 0)')
-        this.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
-        this.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
-
-        node.style = S
-        node2.style = S
-
-        setTimeout(function() { // looks like when a css classname is changed, it doesn't take effect immediately (is this really true????)
-            t.eq(div.css('color'), 'rgb(0, 0, 128)')
-            t.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')   // the default backgroundColor bleeds through for default stylings (unlike normal stylings)
-
-            t.eq(div2.css('color'), 'rgb(0, 0, 128)')
-            t.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
-            t.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
-        },0)
-
-        try {
-            proto(Text, function() {
+        this.test("complex default Block styles", function(t) {
+            var C = proto(Text, function(superclass) {
                 this.defaultStyle = Style({
-                    Text: {}
+                    color: 'rgb(0, 128, 0)',
+                    Text: {
+                        color: 'rgb(2, 20, 200)',
+                        $setup: function(block) {
+                            block.yes = true
+                        }
+                    }
                 })
-            })()
-        } catch(e) {
-            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-        }
-        try {
-            proto(Text, function() {
-                this.defaultStyle = Style({
-                    $label: {}
-                })
-            })()
-        } catch(e) {
-            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-        }
-        try {
-            proto(Text, function() {
-                this.defaultStyle = Style({
-                    $$hover: {}
-                })
-            })()
-        } catch(e) {
-            this.eq(e.message, "A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-        }
+            })
 
+            var c = C()
+            c.add(Text("moooose"))
+            testUtils.demo("complex default Block styles", c)
+
+            var node = $(c.domNode)
+            var child = c.children[0]
+            var childNode = $(child.domNode)
+
+            t.eq(node.css('color'), 'rgb(0, 128, 0)')
+            t.eq(childNode.css('color'), 'rgb(2, 20, 200)')
+            t.eq(child.yes, true)
+        })
     })
 
     this.test("inheritance of component styles", function() {
         //  (e.g. gramparent sets Label style, parent doesn't but has a Label component in it)
 
 
-        var textStyle1 = Style({
-            color: 'rgb(0, 128, 0)'
-        })
         var S = Style({
-            Text: textStyle1
+            Text: Style({
+                color: 'rgb(0, 128, 0)'
+            })
         })
 
         var Parent = proto(Block, function(superclass) {
@@ -249,15 +252,15 @@ module.exports = function(t) {
         var node = Grandparent()
         testUtils.demo("inheritance of component styles", node)
 
-        var grandparentLabel = $($(node.domNode).children('div')[1])
-        var parentLabel = $(node.domNode).find('div > div')
+        var grandparentText = $(node.children[1].domNode)
+        var parentText = $(node.children[0].children[0].domNode)
 
-        this.eq(grandparentLabel.css('color'), 'rgb(0, 128, 0)')
-        this.eq(parentLabel.css('color'), 'rgb(0, 128, 0)')
+        this.eq(grandparentText.css('color'), 'rgb(0, 128, 0)')
+        this.eq(parentText.css('color'), 'rgb(0, 128, 0)')
 
         node.style = undefined // unset style
-        this.eq(grandparentLabel.css('color'), 'rgb(0, 0, 0)')
-        this.eq(parentLabel.css('color'), 'rgb(0, 0, 0)')
+        this.eq(grandparentText.css('color'), 'rgb(0, 0, 0)')
+        this.eq(parentText.css('color'), 'rgb(0, 0, 0)')
     })
 
     this.test("the 'setup' javascript initialization", function(t) {
@@ -434,44 +437,36 @@ module.exports = function(t) {
                     Text('one'),
                     Text('inner', 'two'),
                     Container([Text('three')]),
-                    Container('inner', [Text('inner', 'four')]),
-                    Container('inner2', [Text('inner2', 'five')])
+                    Container('inner2', [Text('four')]),
+                    Container('inner2', [Text('inner', 'five')])
                 )
             }
         })
 
-        var styleObject = Style({
-            Text: {color: 'rgb(45, 50, 60)'},
-            $inner2: {
-                Text: {color: 'rgb(4, 3, 2)'} // shouldn't be used
-            }
-        })
-
         var style = Style({
-                color: 'rgb(128, 0, 0)',
+            color: 'rgb(128, 0, 0)',
+
+            Text: {
+                color: 'rgb(0, 128, 0)',
+                backgroundColor: 'rgb(1, 2, 3)'
+            },
+            $inner: {
+                color: 'rgb(128, 128, 128)'
+            },
+            $inner2: {
+                Text: {
+                    color: 'rgb(0, 128, 128)'
+                }
+            },
+
+            Container: {
+                backgroundColor: 'rgb(0, 120, 130)',
 
                 Text: {
-                    color: 'rgb(0, 128, 0)',
-                    backgroundColor: 'rgb(1, 2, 3)',
-                    $inner: {
-                        color: 'rgb(128, 128, 128)'
-                    }
-                },
-
-                Container: {
-                    backgroundColor: 'rgb(0, 120, 130)',
-
-                    Text: {
-                        color: 'rgb(0, 0, 128)'
-                    },
-                    $inner: {
-                        Text: {
-                            color: 'rgb(0, 128, 128)'
-                        }
-                    },
-                    $inner2: styleObject
+                    color: 'rgb(0, 0, 128)'
                 }
-            })
+            }
+        })
 
         var component = C()
         testUtils.demo('component label styling', component)
@@ -481,168 +476,502 @@ module.exports = function(t) {
         this.eq($(children[0]).css('backgroundColor'), 'rgb(1, 2, 3)')
 
         this.eq($(children[1]).css('color'), 'rgb(128, 128, 128)')
-        this.eq($(children[1]).css('backgroundColor'), 'rgb(1, 2, 3)')
+        this.eq($(children[1]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')   // the $inner style doesn't have a backgroundColor set and doesn't inherit from the Block style
 
+        this.eq($(children[2]).css('backgroundColor'), 'rgb(0, 120, 130)')
         this.eq($(children[2].children[0]).css('color'), 'rgb(0, 0, 128)')
 
+        this.eq($(children[3]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')  // uses the label style, not the Block style
         this.eq($(children[3].children[0]).css('color'), 'rgb(0, 128, 128)')
 
-        this.eq($(children[4].children[0]).css('color'), 'rgb(45, 50, 60)')
+        this.eq($(children[4]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')  // uses the label style, not the Block style
+        this.eq($(children[4].children[0]).css('color'), 'rgb(128, 128, 128)')         // comes from the $inner style rather than the component style (this behavior is a little weird, but is how it works for now)
         this.eq($(children[4].children[0]).css('backgroundColor'), 'rgba(0, 0, 0, 0)') // nothing should be inherited from the non-label style
 
-        this.test('errors', function() {
-            this.count(1)
-
-            try {
-                Style({
-                    Anything: {
-                        $someLabel: {
-                            $someInnerLabel: {} // not legal - only one label is allowed on a component, so nested label styles wouldn't make sense
-                        }
-                    }
-                })
-            } catch(e) {
-                this.eq(e.message, "Can't create nested label style $someInnerLabel because components can only have one label")
+        // just here to make sure there's no error:
+        Style({
+            Anything: {
+                $someLabel: {
+                    $someInnerLabel: {} // nested labels used to not be legal - now they mean something different and so are valid
+                }
             }
         })
     })
 
     this.test('pseudoclass styling', function() {
 
-//        this.test("Style.addPseudoClass", function(t) {
-//
-//            var applies = false, changeState;
-//
-//            this.test("events", function(t) {
-//                this.count(40)
-//
-//                var event = testUtils.seq(function(type, element, applies) {
-//                    t.eq(type, 'check')
-//                    t.eq(element, 'x')
-//                    t.eq(applies, false)
-//                },function(type, element) {
-//                    t.eq(type, 'setup')
-//                    t.eq(element, 'x')
-//                },function(type, element, startArg) {
-//                    t.eq(type, 'changeState')
-//                    t.eq(element, 'x')
-//                    t.eq(startArg, false)
-//                },function(type, element, startArg) {
-//                    t.eq(type, 'changeState')
-//                    t.eq(element, 'x')
-//                    t.eq(startArg, true)
-//                },function(type, element, startArg) {
-//                    t.eq(type, 'changeState')
-//                    t.eq(element, 'x')
-//                    t.eq(startArg, true)
-//                },function(type, element, startArg) {
-//                    t.eq(type, 'changeState')
-//                    t.eq(element, 'x')
-//                    t.eq(startArg, false)
-//                },function(type, element, state) {
-//                    t.eq(type, 'kill')
-//                    t.eq(element, 'x')
-//                    t.eq(state, 'whoHA')
-//
-//                },function(type, element, applies) {
-//                    t.eq(type, 'check')
-//                    t.eq(element, 'y')
-//                    t.eq(applies, true)
-//                },function(type, element) {
-//                    t.eq(type, 'setup')
-//                    t.eq(element, 'y')
-//                },function(type, element, startArg) {
-//                    t.eq(type, 'changeState')
-//                    t.eq(element, 'y')
-//                    t.eq(startArg, true)
-//                },function(type, element, startArg) {
-//                    t.eq(type, 'changeState')
-//                    t.eq(element, 'y')
-//                    t.eq(startArg, false)
-//                },function(type, element, startArg) {
-//                    t.eq(type, 'changeState')
-//                    t.eq(element, 'y')
-//                    t.eq(startArg, false)
-//                },function(type, element, startArg) {
-//                    t.eq(type, 'changeState')
-//                    t.eq(element, 'y')
-//                    t.eq(startArg, true)
-//                },function(type, element, state) {
-//                    t.eq(type, 'kill')
-//                    t.eq(element, 'y')
-//                    t.eq(state, 'whoHA')
-//                })
-//
-//                Style.addPseudoClass("test-pseudoclass", {
-//                    check: function(block) {
-//                        event('check', block.domNode.textContent, applies)
-//                        return applies
-//                    },
-//                    setup: function(block, start, end) {
-//                        event('setup', block.domNode.textContent)
-//                        changeState = function(startArg) {
-//                            event('changeState', block.domNode.textContent, startArg)
-//                            if(startArg === true) {
-//                                start()
-//                            } else {
-//                                end()
-//                            }
-//                        }
-//
-//                        return "whoHA"
-//                    },
-//                    kill: function(block, state) {
-//                        event('kill', block.domNode.textContent, state)
-//                        changeState = undefined
-//                    }
-//                })
-//            })
-//
-//            var style = Style({
-//                $$testPseudoclass: {
-//                    color: 'rgb(10, 30, 50)'
-//                }
-//            })
-//
-//            var x = Text('x')
-//            x.style = style
-//
-//            t.eq($(x.domNode).css('rgb(0, 0, 0)')) // starts out not applying
-//            changeState(false) // no change
-//            t.eq($(x.domNode).css('rgb(0, 0, 0)'))
-//            changeState(true)
-//            t.eq($(x.domNode).css('rgb(10, 30, 50)'))
-//            changeState(true)  // no change
-//            t.eq($(x.domNode).css('rgb(10, 30, 50)'))
-//            changeState(false)
-//            t.eq($(x.domNode).css('rgb(0, 0, 0)'))
-//
-//            x.style = undefined
-//
-//            applies = true
-//            var y = Text('y')
-//            y.style = style // note that changeState should now be a different function that won't affect x
-//
-//            t.eq($(x.domNode).css('rgb(10, 30, 50)')) // starts out applying thing time
-//            changeState(true) // no change
-//            t.eq($(y.domNode).css('rgb(10, 30, 50)'))
-//            changeState(false)
-//            t.eq($(y.domNode).css('rgb(0, 0, 0)'))
-//            changeState(false) // no change
-//            t.eq($(y.domNode).css('rgb(0, 0, 0)'))
-//            changeState(true)
-//            t.eq($(y.domNode).css('rgb(10, 30, 50)'))
-//
-//            y.style = Style({
-//                color: 'blue'
-//            })
-//
-//            // todo: test a pseudoclass defined in camel case
-//
-//        })
+        this.test("Style.addPseudoClass", function(t) {
+            var applies = false, changeState;
+
+            this.test("events", function(t) {
+                this.count(40)
+
+                var event = testUtils.seq(function(type, element) {
+                    t.eq(type, 'setup')
+                    t.eq(element, 'x')
+                },function(type, element, applies) {
+                    t.eq(type, 'check')
+                    t.eq(element, 'x')
+                    t.eq(applies, false)
+                },function(type, element, startArg) {
+                    t.eq(type, 'changeState')
+                    t.eq(element, 'x')
+                    t.eq(startArg, false)
+                },function(type, element, startArg) {
+                    t.eq(type, 'changeState')
+                    t.eq(element, 'x')
+                    t.eq(startArg, true)
+                },function(type, element, startArg) {
+                    t.eq(type, 'changeState')
+                    t.eq(element, 'x')
+                    t.eq(startArg, true)
+                },function(type, element, startArg) {
+                    t.eq(type, 'changeState')
+                    t.eq(element, 'x')
+                    t.eq(startArg, false)
+                },function(type, element, state) {
+                    t.eq(type, 'kill')
+                    t.eq(element, 'x')
+                    t.eq(state, 'whoHA')
+
+                },function(type, element) {
+                    t.eq(type, 'setup')
+                    t.eq(element, 'y')
+                },function(type, element, applies) {
+                    t.eq(type, 'check')
+                    t.eq(element, 'y')
+                    t.eq(applies, true)
+                },function(type, element, startArg) {
+                    t.eq(type, 'changeState')
+                    t.eq(element, 'y')
+                    t.eq(startArg, true)
+                },function(type, element, startArg) {
+                    t.eq(type, 'changeState')
+                    t.eq(element, 'y')
+                    t.eq(startArg, false)
+                },function(type, element, startArg) {
+                    t.eq(type, 'changeState')
+                    t.eq(element, 'y')
+                    t.eq(startArg, false)
+                },function(type, element, startArg) {
+                    t.eq(type, 'changeState')
+                    t.eq(element, 'y')
+                    t.eq(startArg, true)
+                },function(type, element, state) {
+                    t.eq(type, 'kill')
+                    t.eq(element, 'y')
+                    t.eq(state, 'whoHA')
+                })
+
+                Style.addPseudoClass("test-pseudoclass", {
+                    check: function(block) {
+                        event('check', block.domNode.textContent, applies)
+                        return applies
+                    },
+                    setup: function(block, start, end) {
+                        event('setup', block.domNode.textContent)
+                        changeState = function(startArg) {
+                            event('changeState', block.domNode.textContent, startArg)
+                            if(startArg === true) {
+                                start()
+                            } else {
+                                end()
+                            }
+                        }
+
+                        return "whoHA"
+                    },
+                    kill: function(block, state) {
+                        event('kill', block.domNode.textContent, state)
+                        changeState = undefined
+                    }
+                })
+            })
+
+            var style = Style({
+                $$testPseudoclass: {
+                    color: 'rgb(10, 30, 50)'
+                }
+            })
+
+            var x = Text('x')
+            x.style = style
+
+            t.eq($(x.domNode).css('rgb(0, 0, 0)')) // starts out not applying
+            changeState(false) // no change
+            t.eq($(x.domNode).css('rgb(0, 0, 0)'))
+            changeState(true)
+            t.eq($(x.domNode).css('rgb(10, 30, 50)'))
+            changeState(true)  // no change
+            t.eq($(x.domNode).css('rgb(10, 30, 50)'))
+            changeState(false)
+            t.eq($(x.domNode).css('rgb(0, 0, 0)'))
+
+            x.style = undefined
+
+            applies = true
+            var y = Text('y')
+            y.style = style // note that changeState should now be a different function that won't affect x
+
+            t.eq($(x.domNode).css('rgb(10, 30, 50)')) // starts out applying thing time
+            changeState(true) // no change
+            t.eq($(y.domNode).css('rgb(10, 30, 50)'))
+            changeState(false)
+            t.eq($(y.domNode).css('rgb(0, 0, 0)'))
+            changeState(false) // no change
+            t.eq($(y.domNode).css('rgb(0, 0, 0)'))
+            changeState(true)
+            t.eq($(y.domNode).css('rgb(10, 30, 50)'))
+
+            y.style = Style({
+                color: 'blue'
+            })
+
+        })
 
 
-        this.test("basic psuedoclass styling", function() {
+        //*
+        this.test("native-only psuedoclass styling", function() {
+            this.count(30)
+
+            var style = Style({
+                color: 'rgb(128, 0, 0)',
+
+                CheckBox: {
+                    color: 'rgb(0, 128, 0)',
+
+                    $$disabled: {
+                        color: 'rgb(123, 130, 130)',
+                        outline: '1px solid rgb(60, 60, 200)'
+                    },
+
+                    $$checked: {
+                        color: 'rgb(128, 128, 128)',
+                        outline: '4px solid rgb(80, 90, 100)',
+                        $$required: {
+                            color: 'rgb(130, 0, 130)',
+                            backgroundColor: 'rgb(1, 2, 3)'
+                        }
+                    }
+                },
+
+                Container: {
+                    CheckBox: {
+                        color: 'rgb(0, 128, 0)',
+                        width: 100 // make sure this doesn't bleed through to the readWrite CheckBox style
+                    },
+                    $$readWrite: {
+                        CheckBox: {
+                            color: 'rgb(128, 128, 128)',
+
+                            $$checked: {
+                                color: 'rgb(12, 19, 50)'
+                            }
+                        }
+                    }
+                }
+            })
+
+            var block = Container([
+                CheckBox(),
+                Container([CheckBox()])
+            ])
+            block.style = style
+
+            testUtils.demo("native-only psuedoclass styling", block)
+
+            var children = block.children
+
+            var firstCheckBoxComponent = children[0]
+            var firstCheckBox = $(firstCheckBoxComponent.domNode)
+            this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)')
+
+            this.log('just disabled')
+            firstCheckBoxComponent.attr('disabled', true)
+            setTimeout(function() {    // need to use a timeout every time an attribute changes because the MutationObserver that listens for attribute changes is asynchornous and won't fire until the scheduler is reached
+            this.eq(firstCheckBox.css('color'), 'rgb(123, 130, 130)')
+            this.eq(firstCheckBox.css('outlineColor'), 'rgb(60, 60, 200)')
+            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
+            firstCheckBoxComponent.attr('disabled', undefined)
+            setTimeout(function() {
+
+            this.log("just checked")
+            firstCheckBoxComponent.selected = true
+            this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
+            this.ok(firstCheckBox.css('outlineColor') !== 'rgb(0, 0, 0)', firstCheckBox.css('outlineColor'))
+            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
+            this.eq(firstCheckBox.css('outlineWidth'), '4px')
+            firstCheckBoxComponent.selected = false
+
+            this.log("just required")
+            firstCheckBoxComponent.attr('required', true)
+            setTimeout(function() {
+            this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)') // the required pseudoclass doesn't apply because its within the checked psudeoclass (and the box isn't checked)
+            this.ok(firstCheckBox.css('outlineColor') !== 'rgb(60, 60, 200)', firstCheckBox.css('outlineColor'))
+            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
+
+            this.log("required and disabled")
+            firstCheckBoxComponent.attr('disabled', true)
+            setTimeout(function() {
+            this.eq(firstCheckBox.css('color'), 'rgb(123, 130, 130)')
+            this.eq(firstCheckBox.css('outlineColor'), 'rgb(60, 60, 200)')
+            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
+            firstCheckBoxComponent.attr('required', undefined)
+            setTimeout(function() {
+
+            this.log("disabled and checked")
+            firstCheckBoxComponent.selected = true
+            this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
+            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
+            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
+            firstCheckBoxComponent.attr('disabled', undefined)
+
+            this.log("checked and required")
+            firstCheckBoxComponent.attr('required', true)
+            setTimeout(function() {
+            this.eq(firstCheckBox.css('color'), 'rgb(130, 0, 130)')
+            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
+            this.eq(firstCheckBox.css('backgroundColor'), 'rgb(1, 2, 3)')
+            this.eq(firstCheckBox.css('outlineWidth'), '4px')
+
+            this.log("all 3: checked, required, and disabled")
+            firstCheckBoxComponent.attr('disabled', true)
+            setTimeout(function() {
+            this.eq(firstCheckBox.css('color'), 'rgb(130, 0, 130)')
+            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
+            this.eq(firstCheckBox.css('backgroundColor'), 'rgb(1, 2, 3)')
+
+            this.log("just required (again)")
+            firstCheckBoxComponent.attr('disabled', false)
+            firstCheckBoxComponent.selected = false
+            setTimeout(function() {
+
+            var secondCheckBoxComponent = children[1].children[0]
+            var secondCheckBox = $(secondCheckBoxComponent.domNode)
+            this.eq(secondCheckBox.css('color'), 'rgb(0, 128, 0)')
+
+            this.log("just readWrite (2nd)")
+            children[1].attr('contenteditable', true)
+            setTimeout(function() {
+            this.eq(secondCheckBox.css('color'), 'rgb(128, 128, 128)')
+            this.eq(secondCheckBox.css('width'), '13px')   // completely separate styles from outside the pseudoclass style shouldn't bleed through (unless the style explicitly inherits)
+            children[1].attr('contenteditable', undefined)
+            setTimeout(function() {
+
+            this.log("just checked (2nd)")
+            secondCheckBoxComponent.selected = true
+            this.eq(secondCheckBox.css('color'), 'rgb(0, 128, 0)')
+
+            this.log("checked and readWrite (2nd)")
+            children[1].attr('contenteditable', true)
+            setTimeout(function() {
+            this.eq(secondCheckBox.css('color'), 'rgb(12, 19, 50)')
+            this.eq(secondCheckBox.css('width'), '13px') // i guess 13px is the default for checkboxes? whatever..
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+        })
+
+
+        this.test("native pseudoclass styling broken by a sibling pseudoclass", function() {
+            this.count(12)
+
+            var setupCalled= 0, killCalled=0
+            var style = Style({
+                CheckBox: {
+                    $setup: function() { // this makes CheckBox unable to be rendered with pure css
+                       setupCalled++
+                    },
+                    $kill: function() {
+                       killCalled++
+                    }
+                },
+                '$$nthChild(2)': {
+                    backgroundColor: 'rgb(1, 9, 56)',
+                    CheckBox: {
+                        color: 'rgb(128, 129, 230)'
+                    }
+                }
+            })
+
+            var checkbox = CheckBox()
+            var inner = Container([checkbox])
+            var block = Container([inner])
+            inner.style = style
+
+            testUtils.demo("native psuedoclass styling broken by a block's computedStyleMap", block)
+
+            this.log("not second child")
+            setTimeout(function() {
+
+            var checkboxNode = $(checkbox.domNode)
+            var innerNode = $(inner.domNode)
+            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
+            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
+            this.eq(setupCalled, 1)
+            this.eq(killCalled, 0)
+
+            this.log("second child")
+            block.addAt(0, Text("nope"))
+            setTimeout(function() {
+            this.eq(checkboxNode.css('color'), 'rgb(128, 129, 230)')
+            this.eq(innerNode.css('backgroundColor'), 'rgb(1, 9, 56)')
+            this.eq(setupCalled, 1)
+            this.eq(killCalled, 1)
+
+            this.log("not second child (again)")
+            block.remove(0)
+            setTimeout(function() {
+
+            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
+            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
+            this.eq(setupCalled, 2)
+            this.eq(killCalled, 1)
+
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+        })
+
+
+        this.test("native pseudoclass styling broken by a block's computedStyleMap", function() {
+            this.count(12)
+
+            var setupCalled= 0, killCalled=0
+            var style = Style({
+                CheckBox: {
+                    $setup: function() { // this makes CheckBox unable to be rendered with pure css
+                       setupCalled++
+                    },
+                    $kill: function() {
+                       killCalled++
+                    }
+                },
+                '$$nthChild(2)': {
+                    Container:{
+                        backgroundColor: 'rgb(1, 10, 57)',
+                        CheckBox: {
+                            color: 'rgb(128, 129, 230)'
+                        }
+                    },
+                }
+            })
+
+            var checkbox, inner, evenInner
+            var block = Container([
+                inner = Container([
+                     evenInner = Container([
+                         checkbox = CheckBox()
+                     ])
+                ])
+            ])
+            inner.style = style
+
+            testUtils.demo("native psuedoclass styling broken by a block's computedStyleMap", block)
+
+            this.log("not second child")
+            setTimeout(function() {
+
+            var checkboxNode = $(checkbox.domNode)
+            var innerNode = $(evenInner.domNode)
+            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
+            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
+            this.eq(setupCalled, 1)
+            this.eq(killCalled, 0)
+
+            this.log("second child")
+            block.addAt(0, Text("nope"))
+            setTimeout(function() {
+            this.eq(checkboxNode.css('color'), 'rgb(128, 129, 230)')
+            this.eq(innerNode.css('backgroundColor'), 'rgb(1, 10, 57)')
+            this.eq(setupCalled, 1)
+            this.eq(killCalled, 1)
+
+            this.log("not second child (again)")
+            block.remove(0)
+            setTimeout(function() {
+
+            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
+            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
+            this.eq(setupCalled, 2)
+            this.eq(killCalled, 1)
+
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+        })
+
+        this.test("native pseudoclass styling broken by a block's computedStyleMap (2)", function() {
+            this.count(12)
+
+            var setupCalled= 0, killCalled=0
+            var style = Style({
+                CheckBox: {
+                    $setup: function() { // this makes CheckBox unable to be rendered with pure css
+                       setupCalled++
+                    },
+                    $kill: function() {
+                       killCalled++
+                    }
+                }
+            })
+
+            var checkbox = CheckBox()
+            var inner = Container([checkbox])
+            var block = Container([inner])
+            block.style = style
+            inner.style = Style({
+                '$$nthChild(2)': {
+                    backgroundColor: 'rgb(1, 11, 57)',
+                    CheckBox: {
+                        color: 'rgb(128, 129, 230)'
+                    }
+                }
+            })
+
+            testUtils.demo("native psuedoclass styling broken by a block's computedStyleMap", block)
+
+            this.log("not second child")
+            setTimeout(function() {
+
+            var checkboxNode = $(checkbox.domNode)
+            var innerNode = $(inner.domNode)
+            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
+            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
+            this.eq(setupCalled, 1)
+            this.eq(killCalled, 0)
+
+            this.log("second child")
+            block.addAt(0, Text("nope"))
+            setTimeout(function() {
+            this.eq(checkboxNode.css('color'), 'rgb(128, 129, 230)')
+            this.eq(innerNode.css('backgroundColor'), 'rgb(1, 11, 57)')
+            this.eq(setupCalled, 1)
+            this.eq(killCalled, 1)
+
+            this.log("not second child (again)")
+            block.remove(0)
+            setTimeout(function() {
+
+            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
+            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
+            this.eq(setupCalled, 2)
+            this.eq(killCalled, 1)
+
+            }.bind(this),0)
+            }.bind(this),0)
+            }.bind(this),0)
+        })
+
+        this.test("basic psuedoclass styling (some emulated some not)", function() {
             this.count(40)
 
             var C = proto(Block, function(superclass) {
@@ -712,8 +1041,6 @@ module.exports = function(t) {
 
             var children = component.children
 
-            var defaultBackgroundColor = 'rgba(0, 0, 0, 0)'
-
             var firstCheckBoxComponent = children[0]
             var firstCheckBox = $(firstCheckBoxComponent.domNode)
             this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)')
@@ -731,7 +1058,7 @@ module.exports = function(t) {
             this.log("just checked")
             firstCheckBoxComponent.selected = true
             this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
-            this.ok(firstCheckBox.css('outlineColor') !== 'rgb(0, 0, 0)', firstCheckBox.css('outlineColor'))
+            this.eq(firstCheckBox.css('outlineColor') , 'rgb(80, 90, 100)')
             this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
             this.eq(firstCheckBox.css('outlineWidth'), '4px')
             this.eq(firstCheckBoxComponent.someProperty, undefined)
@@ -741,7 +1068,7 @@ module.exports = function(t) {
             firstCheckBoxComponent.attr('required', true)
             setTimeout(function() {
             this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)') // the required pseudoclass doesn't apply because its within the checked psudeoclass (and the box isn't checked)
-            this.ok(firstCheckBox.css('outlineColor') !== 'rgb(60, 60, 200)', firstCheckBox.css('outlineColor'))
+            this.eq(firstCheckBox.css('outlineColor'), 'rgb(0, 128, 0)') // default outline color is whatever the 'color' property is
             this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
             this.eq(firstCheckBoxComponent.someProperty, undefined)
 
@@ -829,7 +1156,7 @@ module.exports = function(t) {
                     textDecoration: 'underline'
                 },
 
-                '$$nthChild(1+2n)': {
+                '$$nthChild(2n+1)': {
                     color: red
                 }
             })
@@ -878,16 +1205,15 @@ module.exports = function(t) {
                 }
             })
 
-            var component1 = C("This should be green", "http://www.google.com/")
-            var component2 = C("This should be blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
-                component2.attr('tabindex', 1) // to make it focusable
+            var component1 = C("This should be green when not in focus, and blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
+                component1.attr('tabindex', 1) // to make it focusable
             var component3 = C("This should be red (even when clicked on)", "http://www.thisdoesntexistatall.com/notatall")
                 component3.attr('tabindex', 1) // to make it focusable
 
             // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
-            testUtils.demo('Manually verify these: component :visited pseudo-class styling', Container([component1, component2, component3]))
+            testUtils.demo('Manually verify these: component :visited pseudo-class styling', Container([component1, component3]))
 
-            component2.focus = true
+            component1.focus = true
 
             this.test('errors', function() {
                 this.count(1)
@@ -904,7 +1230,7 @@ module.exports = function(t) {
                         }
                     })
                 } catch(e) {
-                    this.eq(e.message, "All properties within the pseudoclasses 'visited' must be css styles")
+                    this.eq(e.message, "Pseudoclass visited isn\'t emulated, but has a style that can\'t be rendered in pure css")
                 }
             })
         })
@@ -942,7 +1268,7 @@ module.exports = function(t) {
             this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
             this.eq($(children[3]).css('color'), 'rgb(128, 0, 0)')
             var classes = children[3].classList
-            this.eq(classes.length, 3)  // one is the main default, one is the Text default, and the 3rd is the set styling
+            this.eq(classes.length, 2)  // one is the main default, and the other is the set active styling
 
             // dynamically adding elements
 
@@ -1001,7 +1327,7 @@ module.exports = function(t) {
                                 color: red
                             }
                         },
-                        '$$nthChild(1+2n)': {
+                        '$$nthChild(2n+1)': {
                             Text: {
                                 color: teal
                             }
@@ -1035,7 +1361,7 @@ module.exports = function(t) {
                 var black = 'rgb(0, 0, 0)'
                 var red = 'rgb(128, 0, 0)'
                 var style = Style({
-                    '$$nthChild(1+1n)': {
+                    '$$nthChild( 1 + 1 n )': {
                         color: red
                     }
                 })
@@ -1090,39 +1416,39 @@ module.exports = function(t) {
 //            }).done()
 //        })
 
-//            this.test('not', function(t) {
-//                var red = 'rgb(128, 0, 0)'
-//                var teal = 'rgb(0, 128, 128)'
-//                var style = Style({
-//                    Text: {
-//                        '$$not(:nthChild(1))': {
-//                            color: red
-//                        }
-//                    },
-//                    Container:{
-//                        '$$not(:nthChild(3))': {
-//                            Text: {
-//                                color: teal
-//                            }
-//                        }
-//                    }
-//                })
-//
-//                var c = Container([
-//                    Text('a'),
-//                    Text('b'),
-//                    Container([Text('c')]),
-//                    Container([Text('d')])
-//                ])
-//                testUtils.demo('not', c)
-//                c.style = style
-//
-//                t.eq($(c.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-//                t.eq($(c.children[1].domNode).css('color'), red)
-//                t.eq($(c.children[2].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-//                t.eq($(c.children[3].children[0].domNode).css('color'), teal)
-//
-//            })
+        this.test('not', function(t) {
+            var red = 'rgb(128, 0, 0)'
+            var teal = 'rgb(0, 128, 128)'
+            var style = Style({
+                Text: {
+                    '$$not(:nthChild(1))': {
+                        color: red
+                    }
+                },
+                Container:{
+                    '$$not(:nthChild(3))': {
+                        Text: {
+                            color: teal
+                        }
+                    }
+                }
+            })
+
+            var c = Container([
+                Text('a'),
+                Text('b'),
+                Container([Text('c')]),
+                Container([Text('d')])
+            ])
+            testUtils.demo('not', c)
+            c.style = style
+
+            t.eq($(c.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+            t.eq($(c.children[1].domNode).css('color'), red)
+            t.eq($(c.children[2].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+            t.eq($(c.children[3].children[0].domNode).css('color'), teal)
+
+        })
 
     })
 
@@ -1217,12 +1543,14 @@ module.exports = function(t) {
                 }
             })
 
-            var c = Container('label', [Text('hi')])
-                c.style = S
+            var c = Container([
+                Container('label', [Text('hi')])
+            ])
+            c.style = S
 
             testUtils.demo('inner styles inside labels werent working right', c)
 
-            this.eq($(c.children[0].domNode).css('color'), 'rgb(1, 2, 3)')
+            this.eq($(c.children[0].children[0].domNode).css('color'), 'rgb(1, 2, 3)')
         })
 
         this.test('inner styles inside labels werent working right when there was a style outside the label', function() {
@@ -1237,14 +1565,16 @@ module.exports = function(t) {
                 }
             })
 
-            var c = Container('label', [Text('hi')])
-                c.style = S
+            var c = Container([
+                Container('label', [Text('hi')])
+            ])
+            c.style = S
 
             var superContainer = Container([c]) // the component has to be added to a parent for the bug to manifest
 
             testUtils.demo('inner styles inside labels werent working right when there was a style outside the label', superContainer)
 
-            this.eq($(c.children[0].domNode).css('color'), 'rgb(1, 2, 3)')
+            this.eq($(c.children[0].children[0].domNode).css('color'), 'rgb(1, 2, 3)')
         })
 
         this.test('removing the last child component failed', function() {
@@ -1296,52 +1626,52 @@ module.exports = function(t) {
             })
         })
 
-//        this.test('last-child not working when more children are added asynchronously', function(t) {
-//            this.count(10)
-//
-//            var C = proto(Block, function(superclass) {
-//                this.name = 'C'
-//
-//                this.build = function() {
-//                    this.add(Text("a"))
-//                    this.style = style
-//                }
-//            })
-//
-//            var style = Style({
-//                Text:{
-//                    $$lastChild: {
-//                        color: 'rgb(128, 0, 0)'
-//                    }
-//                }
-//            })
-//
-//            var component1 = C()
-//            testUtils.demo('last-child', component1)
-//
-//            t.eq($(component1.children[0].domNode).css('color'), 'rgb(128, 0, 0)')
-//
-//            setTimeout(function() {
-//                component1.add(Text('b'))
-//                t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-//                t.eq($(component1.children[1].domNode).css('color'), 'rgb(128, 0, 0)')
-//
-//                setTimeout(function() {
-//                    component1.add(Text('c'))
-//                    t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-//                    t.eq($(component1.children[1].domNode).css('color'), 'rgb(0, 0, 0)')
-//                    t.eq($(component1.children[2].domNode).css('color'), 'rgb(128, 0, 0)')
-//
-//                    setTimeout(function() {
-//                        component1.add(Text('d'))
-//                        t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-//                        t.eq($(component1.children[1].domNode).css('color'), 'rgb(0, 0, 0)')
-//                        t.eq($(component1.children[2].domNode).css('color'), 'rgb(0, 0, 0)')
-//                        t.eq($(component1.children[3].domNode).css('color'), 'rgb(128, 0, 0)')
-//                    },0)
-//                },0)
-//            },0)
-//        })
+        this.test('last-child not working when more children are added asynchronously', function(t) {
+            this.count(10)
+
+            var C = proto(Block, function(superclass) {
+                this.name = 'C'
+
+                this.build = function() {
+                    this.add(Text("a"))
+                    this.style = style
+                }
+            })
+
+            var style = Style({
+                Text:{
+                    $$lastChild: {
+                        color: 'rgb(128, 0, 0)'
+                    }
+                }
+            })
+
+            var component1 = C()
+            testUtils.demo('last-child', component1)
+
+            t.eq($(component1.children[0].domNode).css('color'), 'rgb(128, 0, 0)')
+
+            setTimeout(function() {
+                component1.add(Text('b'))
+                t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+                t.eq($(component1.children[1].domNode).css('color'), 'rgb(128, 0, 0)')
+
+                setTimeout(function() {
+                    component1.add(Text('c'))
+                    t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+                    t.eq($(component1.children[1].domNode).css('color'), 'rgb(0, 0, 0)')
+                    t.eq($(component1.children[2].domNode).css('color'), 'rgb(128, 0, 0)')
+
+                    setTimeout(function() {
+                        component1.add(Text('d'))
+                        t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+                        t.eq($(component1.children[1].domNode).css('color'), 'rgb(0, 0, 0)')
+                        t.eq($(component1.children[2].domNode).css('color'), 'rgb(0, 0, 0)')
+                        t.eq($(component1.children[3].domNode).css('color'), 'rgb(128, 0, 0)')
+                    },0)
+                },0)
+            },0)
+        })
     })
     //*/
 }

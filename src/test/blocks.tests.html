@@ -11,7 +11,7 @@
     var requirejs = require // so it doesn't get shaddowed by webpack's require
 </script>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/src/test/external/jquery2.0.4.min.js"></script>
 <!--<script src="/blocks.umd.js"></script> Currently, these are being bundled into blocksTests.umd.js-->
 <script src="/src/external/syn.js"></script>
 
@@ -36,7 +36,7 @@
 
     // wait for it to start being dumb and scrolling weird to scroll back
     // doing it multiple times cause its being extra stupid
-    ;[100,1000,2000].forEach(function(timeout) {
+    ;[100,1000,2000, 5000].forEach(function(timeout) {
         setTimeout(function() {window.scrollTo(0,0);},timeout) // wait for it to start being dumb and scrolling weird to scroll back
     })
 

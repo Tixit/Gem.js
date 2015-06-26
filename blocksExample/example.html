@@ -24,7 +24,8 @@ var list = blocks.Container()
     list.add(toggleButton)
 })
 
-list.add(blocks.Button("send", "Send your Greetings")) // "labels" that can differentiate otherwise identical types of blocks
+var greet = blocks.Button("send", "Send your Greetings") // labels like 'send' can differentiate otherwise identical types of blocks
+list.add(greet)
 
 // create styles with style objects ..
 list.style = blocks.Style({
@@ -33,16 +34,16 @@ list.style = blocks.Style({
 
     Button: {                 // .. sub-block styles,
         $$firstChild: {       // .. pseudo-class styles,
-            color: 'rgb(0,100,100)',
-        },
-        $send: {              // .. style based on an object's label, and ..
-            color: 'green'
+            color: 'rgb(0,100,240)',
         },
         $state: function(state) { // .. more sophisticated styling techniques
             return blocks.Style({
                 color: state.color
             })
         }
+    },
+    $send: {              // .. style based on an object's label, and ..
+        color: 'green'
     }
 })
 
@@ -54,14 +55,20 @@ list.attach()
 var NameInput = proto(blocks.Block, function() { // inherit from Block
     this.name = 'NameInput'
     this.build = function(LabelText) {              // the `build` method initializes the custom Block
-        var nameField = blocks.TextField()
-        this.add(blocks.Text(LabelText), nameField)
-        nameField.on('change', function() {
-            list.children[0].text = "Hi "+nameField.val
+        this.nameField = blocks.TextField()
+        this.add(blocks.Text(LabelText), this.nameField)
+        this.nameField.on('change', function() {
+            list.children[0].text = "Hi "+this.val
         })
     }
 })
 
-NameInput("Your Name: ").attach()
+var nameInput = NameInput("Your Name: ")
+greet.on('click', function() {
+    var text = blocks.Text("Whats up, "+nameInput.nameField.val+'?')
+    text.style = blocks.Style({display:'block'})
+    text.attach()
+})
+nameInput.attach()
 
 </script>
