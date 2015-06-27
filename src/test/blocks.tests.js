@@ -10,11 +10,13 @@ module.exports = function() {
 
     var tests = Unit.test("Testing Blocks.js", function(t) {
         this.count(4)
-        this.timeout(60000) // IE takes more time
+        this.timeout(700*1000) // chrissake its taking a long time now
 
-        t.test('Style',require('./Style.test'))
 
-        /*
+
+
+
+        //*
         t.test('EventEmitterB',require('./EventEmitterB.test')).complete.then(function(){
             return t.test('Block',require('./Block.test')).complete
         }).then(function(){
@@ -28,13 +30,16 @@ module.exports = function() {
                 t.test('CheckBox',require('./ComponentTests/CheckBox.test'));
                 t.test('Container',require('./ComponentTests/Container.test'));
                 t.test('Image',require('./ComponentTests/Image.test'));
-                t.test('List',require('./ComponentTests/List.test'));
-                t.test('MultiSelect',require('./ComponentTests/MultiSelect.test'));
-                t.test('Radio',require('./ComponentTests/Radio.test'));
-                t.test('Select',require('./ComponentTests/Select.test'));
-                t.test('table',require('./ComponentTests/Table.test'));
-                t.test('text',require('./ComponentTests/Text.test'));
-                return t.test('textarea',require('./ComponentTests/TextArea.test')).complete.then(function() {
+
+                t.test('List',require('./ComponentTests/List.test')).complete.then(function() {
+                    return t.test('MultiSelect',require('./ComponentTests/MultiSelect.test')).complete
+                }).then(function() {
+                    t.test('Radio',require('./ComponentTests/Radio.test'))
+                    t.test('Select',require('./ComponentTests/Select.test'));
+                    t.test('table',require('./ComponentTests/Table.test'));
+                    t.test('text',require('./ComponentTests/Text.test'));
+                    return t.test('textarea',require('./ComponentTests/TextArea.test')).complete
+                }).then(function() {
                     return t.test('textfield',require('./ComponentTests/TextField.test')).complete
                 })
             }).complete

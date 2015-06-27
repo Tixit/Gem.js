@@ -21,6 +21,11 @@ module.exports = function(t) {
         // test mix and copy
 
 
+
+
+
+
+
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -1480,8 +1485,10 @@ module.exports = function(t) {
     })
 
     this.test("component state", function(t) {
+        var setupCalled = 0
         var S = Style({
             color: 'rgb(0, 100, 0)',
+            backgroundColor: 'rgb(23, 45, 99)',
             $state: function(state) {
                 if(state.boggled) {
                     var color = 'rgb(100, 0, 0)'
@@ -1492,7 +1499,13 @@ module.exports = function(t) {
                 // note: do not create styles like this within the $state function if at all possible
                 // a new Style object is created every run, and probably won't get garbage collected, also obviously creating a new style is much slower than just referencing an already-created one
                 return Style({
-                    color: color
+                    color: color,
+                    $setup: function() {
+                        setupCalled++
+                    },
+                    $kill: function() {
+                        // requisite
+                    }
                 })
             }
         })
@@ -1504,12 +1517,182 @@ module.exports = function(t) {
 
         var text = $(c.domNode)
         this.eq(text.css('color'), 'rgb(0, 0, 100)')
+        this.eq(text.css('backgroundColor'), 'rgb(23, 45, 99)')
+        this.eq(setupCalled, 1)
 
         c.state.set('boggled', true)
         this.eq(text.css('color'), 'rgb(100, 0, 0)')
+        this.eq(text.css('backgroundColor'), 'rgb(23, 45, 99)')
+        this.eq(setupCalled, 2)
 
         c.style = undefined
         this.eq(text.css('color'), 'rgb(0, 0, 0)')
+        this.eq(text.css('backgroundColor'), defaultBackgroundColor)
+        this.eq(setupCalled, 2)
+    })
+
+    this.test("$inherit", function() {
+        this.test("$inherit from component style map", function() {
+            var style = Style({
+                Container: {
+                    backgroundColor: 'rgb(12, 14, 19)',
+                    Container: {
+                        $inherit: true,
+                        color: 'rgb(15, 25, 35)'
+                    }
+                }
+            })
+
+            var inner;
+            var thing = Container([Container([inner = Container([Text("hi")])])])
+            thing.style = style
+            testUtils.demo("$inherit from component style map", thing)
+
+            var innerNode = $(inner.domNode)
+            this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
+            this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
+        })
+
+        this.test("label style inheriting from from sibling", function() {
+            var style = Style({
+                Text: {
+                    backgroundColor: 'rgb(12, 14, 19)'
+                },
+                $textLabel: {
+                    $inherit: true,
+                    color: 'rgb(15, 25, 35)'
+                }
+            })
+
+            var text;
+            var thing = Container([text=Text('textLabel', "hi")])
+            thing.style = style
+            testUtils.demo("label style inheriting from from sibling", thing)
+
+            var textNode = $(text.domNode)
+            this.eq(textNode.css('color'), 'rgb(15, 25, 35)')
+            this.eq(textNode.css('backgroundColor'), 'rgb(12, 14, 19)')
+        })
+        this.test("explicit styling inheriting from component style map", function() {
+            var style = Style({
+                Text: {
+                    backgroundColor: 'rgb(12, 14, 19)'
+                }
+            })
+
+            var text;
+            var thing = Container([text=Text('textLabel', "hi")])
+            thing.style = style
+            text.style = Style({
+                $inherit: true,
+                color: 'rgb(15, 25, 35)'
+            })
+            testUtils.demo("label style inheriting from from sibling", thing)
+
+            var textNode = $(text.domNode)
+            this.eq(textNode.css('color'), 'rgb(15, 25, 35)')
+            this.eq(textNode.css('backgroundColor'), 'rgb(12, 14, 19)')
+        })
+
+        this.test("inheriting from multiple levels of componentStyleMap", function() {
+            var style = Style({
+                Text: {
+                    backgroundColor: 'rgb(12, 14, 19)'
+                },
+                Container: {
+                    Text: {
+                        $inherit: true,
+                        color: 'rgb(15, 25, 35)'
+                    },
+                    Container: {
+                        Text: {
+                            $inherit: true,
+                            width: 30
+                        }
+                    }
+                }
+            })
+
+            var inner;
+            var thing = Container([Container([Container([inner = Text("hi")])])])
+            thing.style = style
+            testUtils.demo("$inherit from component style map", thing)
+
+            var innerNode = $(inner.domNode)
+            this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
+            this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
+            this.eq(innerNode.css('width'), '30px')
+        })
+
+        this.test("inheriting from multiple names of the same component", function() {
+            var Text2 = proto(Text, function(superclass) {
+                this.name = 'Text2'
+            })
+            var Text3 = proto(Text2, function(superclass) {
+                this.name = 'Text3'
+            })
+
+            var style = Style({
+                Text: {
+                    backgroundColor: 'rgb(12, 14, 19)'
+                },
+                Text2: {
+                    $inherit: true,
+                    color: 'rgb(15, 25, 35)'
+                },
+                Text3: {
+                    $inherit: true,
+                    width: 30
+                },
+                $label: {
+                    $inherit: true,
+                    height: 30
+                }
+            })
+
+            var inner;
+            var thing = Container([
+                inner=Text3('label', "hi")
+            ])
+            thing.style = style
+            testUtils.demo("$inherit from component style map", thing)
+
+            var innerNode = $(inner.domNode)
+            this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
+            this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
+            this.eq(innerNode.css('width'), '30px')
+            this.eq(innerNode.css('height'), '30px')
+        })
+
+//        this one is very confusing unless order is preserved between labels and block styles
+//        this.test("inheriting from multiple levels of componentStyleMap", function() {
+//            var style = Style({
+//                Text: {
+//                    backgroundColor: 'rgb(12, 14, 19)'
+//                },
+//                Container: {
+//                    $textLabel: {
+//                        $inherit: true,
+//                        color: 'rgb(15, 25, 35)'
+//                    },
+//                    Container: {
+//                        Text: {
+//                            $inherit: true,
+//                            width: 30
+//                        }
+//                    }
+//                }
+//            })
+//
+//            var inner;
+//            var thing = Container([Container([inner = Container([Text("hi")])])])
+//            thing.style = style
+//            testUtils.demo("$inherit from component style map", thing)
+//
+//            var innerNode = $(inner.domNode)
+//            this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
+//            this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
+//        })
     })
 
     this.test('former bugs', function() {

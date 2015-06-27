@@ -1,9 +1,14 @@
 `blocks.js`
 ============
 
-Blocks.js is a view library - a set of extensible web components for building visual user interfaces and styling web applications in pure-javascript. Modular, composable web components. Modular, composable styles.
+Blocks.js is a view library - a set of extensible web components for building visual user interfaces and styling web applications
+in pure-javascript. Modular, composable web components. Modular, composable styles.
 
-The power of functions and variables is unparalleled, and yet languages like HTML and CSS, which don't have any ability to compose structures together, are still the primary ways people build web applications. Framework after framework has come along to try and solve the problem of making web pages dynamic. Angular, Backbone, Ember, jQuery, mooTools, Dojo, YUI, etc have all tried to be everything to everyone. But what they fail at providing is simplicity and modularity. They end up with bloated libraries filled with features you're not using.
+The power of functions and variables is unparalleled, and yet languages like HTML and CSS, which don't have any ability to compose
+structures together, are still the primary ways people build web applications. Framework after framework has come along to try and
+solve the problem of making web pages dynamic. Angular, Backbone, Ember, jQuery, mooTools, Dojo, YUI, etc have all tried to be
+everything to everyone. But what they fail at providing is simplicity and modularity. They end up with bloated libraries filled with
+features you're not using.
 
 Blocks.js is here to change that. Finally, modern application development for the browser!
 
@@ -46,11 +51,12 @@ Blocks.js is here to change that. Finally, modern application development for th
   - [`Style` objects](#style-objects)
     - [`Style` constructor](#style-constructor)
       - [`<cssPropertyName>`](#csspropertyname)
+      - [`$setup` and `$kill`](#setup-and-kill)
+      - [`$state`](#state)
       - [`<BlockName>`](#blockname)
       - [`$<label>`](#label)
       - [`$$<pseudoclass>`](#pseudoclass)
-      - [`$setup` and `$kill`](#setup-and-kill)
-      - [`$state`](#state)
+      - [`$inherit`](#inherit)
       - [Combining them together](#combining-them-together)
     - [`styleObject.mix(styleObject2)`](#styleobjectmixstyleobject2)
     - [`styleObject.copy()`](#styleobjectcopy)
@@ -669,21 +675,34 @@ c.style = Style({
 
 In the above example, "a" will be bold and blue, and "b" and "c" will be red. But "b" and "c" won't be bold - that property does not cascade. The `Text` styling inside `Container` is isolated from all previous stylings of `Text`, which means you don't have to worry about the styles someone used for elements further up the dom tree. I mentioned, tho, that whole `Style` objects *do* cascade, and that is why "d" will also be blue and bold even though it isn't a direct child of `parentContainer`.
 
-Another difference is that blocks.js doesn't have "selectors" that can style any element on the page. Traditional CSS stylesheets are developed by selecting a group of elements from the entire page (via ids, classes, attributes, pseudoclasses representing element state, etc) and appending styles to them. These styles may overwrite styles written earlier, and they themselves may be overwritten. In blocks.js, `Style` objects can only be attached in a strict hierarchical setting, where only a specific section of the dom can be affected. In the above example, the `Text` style marked 2 doesn't affect anything outside that inner Container. For example, even though the text "d" is a `Text` object inside a `Container` object, it is *not* colored red. That's because styles in blocks.js are not selectors as you're used to from css. They are strictly hierarchical - they only affect descendant `Block` objects' (children, grandchildren, etc) from the point in the dom they match.
+Another difference is that blocks.js doesn't have selectors that can style any element on the page.
+Traditional CSS stylesheets are developed by selecting a group of elements from the entire page
+(via ids, classes, attributes, pseudoclasses representing element state, etc) and appending styles to them.
+These styles may overwrite styles written earlier, and they themselves may be overwritten.
+In blocks.js, `Style` objects can only be attached in a strict hierarchical setting, where only a specific section
+of the dom can be affected. In the above example, the `Text` style marked 2 doesn't affect anything outside that inner Container.
+For example, even though the text "d" is a `Text` object inside a `Container` object, it is *not* colored red.
+That's because styles in blocks.js are not like the selectors you're used to from css.
+They are strictly hierarchical - they only affect descendant `Block` objects' (children, grandchildren, etc) from the point in
+the dom they match.
 
 The combination of the fact that blocks.js `Style` objects only cascade as a whole object and that styles are defined hierarchically makes styles modular and provides isolation from other styles on the page, so that it becomes much easier to understand and manage styling for a page or entire application.
 
 ### `Style` constructor
 
 **`Style(styleDefinition)`** - Creates a `Style` object.
-* `styleDefinition` is an object where key-value pairs can be any of the following:
-    * `<cssPropertyName>`: the value is a valid css value for that style property.
-    * `<BlockName>`: the value can either be a `Style` object or a nested `styleDefinition` object
-    * `$<label>`: the value should be a a nested styleDefinition object that does not contain any label styles
-    * `$$<pseudoclass>`: the value should be a a nested styleDefinition object
-    * `$setup`: the value is a function to be run on a block when the style is applied to it
-    * `$kill`: the value is a function to be run on a block when a style is removed from it
-    * `$state`: the value is a function to be run when `block.state` changes (ie when its `change` event fires).
+* `styleDefinition` is an object where key-value pairs can be either style properties or selectors:
+    * style properties:
+        * `<cssPropertyName>`: the value is a valid css value for that style property.
+        * `$setup`: the value is a function to be run on a block when the style is applied to it
+        * `$kill`: the value is a function to be run on a block when a style is removed from it
+        * `$state`: the value is a function to be run when `block.state` changes (ie when its `change` event fires).
+    * selectors - the value for each of these should be a `Style` object or a nested `styleDefinition` object
+        * `<BlockName>`
+        * `$<label>`
+        * `$$<pseudoclass>`
+    * `$inherit`
+
 
 #### `<cssPropertyName>`
 
@@ -697,6 +716,69 @@ Style({
 ```
 
 The above style would give a color and margin-right to whatever `Block` is set with that style (`block.style = styleObject`). Note that camelCase names can be used, and numbers are automatically appended with "px" if appropriate for the property (just like with jquery's `css` method).
+
+#### `$setup` and `$kill`
+
+`$setup(block)` is a function that is run when the style is applied to a block, and `$kill(block, setupObject)` is run when the style is removed from a block. Both functions get the block being given the style as their first argument, the `$kill` also gets the return value of the `$setup` function as its second argument. For example:
+
+```javascript
+var S = Style({
+    $setup: function(block) {
+        block.text = "I got zee style"
+        return 20
+    },
+    $kill: function(block,setupValue) {
+        block.text = "I'm "+setupValue+"% less cool"
+    }
+})
+var t = Text("x")
+t.style = S
+t.text === "I got zee style"
+t.style = undefined
+t.text === "I'm 20% less cool"
+```
+
+#### `$state`
+
+`$state(state)` is a function that is run when the block's `state` observer property emits a `change` event (which happens when
+its changed with its methods `set`, `push`, `splice`, or `append`). The `state` function is passed the value of `block.state.subject`
+as its parameter. The return value of the function should be a `Style` object to mix with the object's current style.
+
+*Note that if you create styles in $state functions, remember that you will create a new style every time the state changes.
+This may be a problem with some applications that have a lot of state changes, or particularly rapid state changes
+(its unclear at what point this could cause problems).*
+
+Example:
+```javascript
+
+
+var c = Text("hi")
+
+var colorStyles = {
+    yellow: Style({backgroundColor: 'yellow'}),
+    red: Style({backgroundColor: 'red'}),
+    green: Style({backgroundColor: 'green'})
+}
+c.style = Style({
+    color: 'blue',
+    $state: function(state) {
+        if(state.success) {
+            if(state.late) {
+                return colorStyles.yellow
+            } else {
+                return colorStyles.green
+            }
+        } else {
+            return colorStyles.red
+        }
+    }
+})
+
+c.state.set("success", true) // container's background turns green
+c.state.set("late", true)    // container's background turns yellow
+```
+
+In the above example, the container goes through all 3 backgroundColor colors as its state changes. In all states, the text color will be blue tho, since the $state style mixes with the primary style properties.
 
 #### `<BlockName>`
 
@@ -788,7 +870,26 @@ container.style = Style({
 })
 ```
 
-In the above example, the text `"Your Receipt, Sir: "` will be gray, the receipt text will be green, and the thank-you text will be blue. Only the thank-you text will be bold.
+In the above example, the text `"Your Receipt, Sir: "` will be gray, the receipt text will be green, and the thank-you text
+will be blue. Only the thank-you text will be bold.
+
+Note that `$label` styles override block styles, even if the block style is "closer" to the block. For example, in the following
+example, the text "hi" will be gray, not blue.
+
+```javascript
+var container = Container([
+    Container([
+        Text("hi")
+    ])
+])
+
+container.style = Style({
+    $someLabel: {color: 'gray'},
+    Container: {
+        Text: {color: 'blue'}
+    }
+})
+```
 
 #### `$$<pseudoclass>`
 
@@ -844,63 +945,38 @@ c.style = Style({
 
 In the above code, "a", "c", and "e" are red, while "b" and "d" are black (the default).
 
-#### `$setup` and `$kill`
+#### `$inherit`
 
-`$setup(block)` is a function that is run when the style is applied to a block, and `$kill(block, setupObject)` is run when the style is removed from a block. Both functions get the block being given the style as their first argument, the `$kill` also gets the return value of the `$setup` function as its second argument. For example:
+The `$inherit` property, if set to `true`, indicates that the style inherits properties from the style "above" it - the
+style that would be used if the current style wasn't there. For example in the following, the text inside the container gets a green background,
+but also a red text color:
 
 ```javascript
-var S = Style({
-    $setup: function(block) {
-        block.text = "I got zee style"
-        return 20
-    },
-    $kill: function(block,setupValue) {
-        block.text = "I'm "+setupValue+"% less cool"
-    }
-})
-var t = Text("x")
-t.style = S
-t.text === "I got zee style"
-t.style = undefined
-t.text === "I'm 20% less cool"
-```
-
-#### `$state`
-
-`$state(state)` is a function that is run when the block's `state` observer property emits a `change` event (which happens when its changed with its methods `set`, `push`, `splice`, or `append`.
-The `state` parameter is `block.state.subject`. The return value of the function should be a `Style` object to set the object's active style to.
-*Note that if you create styles in $state functions, remember that you will create a new style every time the state changes. This may be a problem with some applications that have a lot of state changes, or particularly rapid state changes (its unclear at what point this could cause problems).*
-
-Example:
-```javascript
-
-
-var c = Text("hi")
-
-var colorStyles = {
-    yellow: Style({backgroundColor: 'yellow'}),
-    red: Style({backgroundColor: 'red'}),
-    green: Style({backgroundColor: 'green'})
-}
-c.style = Style({
-    $state: function(state) {
-        if(state.success) {
-            if(state.late) {
-                return colorStyles.yellow
-            } else {
-                return colorStyles.green
-            }
-        } else {
-            return colorStyles.red
+Style({
+    Text: {color: 'red'},
+    Container: {
+        Text: {
+            $inherit: true,
+            backgroundColor: 'green'
         }
     }
 })
-
-c.state.set("success", true) // container's background turns green
-c.state.set("late", true)    // container's background turns yellow
 ```
 
-In the above example, the container goes through all 3 backgroundColor colors as its state changes.
+In the following, a Text block with the label 'boom' would have both a green background and red text, whereas a Text block without that label,
+would not have the background color:
+
+```javascript
+Style({
+    Text: {color: 'red'},
+    $boom: {
+        $inherit: true,
+        backgroundColor: 'green'
+    }
+})
+```
+
+Note that `$inherit` is ignored the top-level of psuedoclass styles, `$state` styles, and `defaultStyle`s since they always inherit.
 
 #### Combining them together
 `Style` objects can be as simple as a few standard css properties, or can take the place of a whole css stylesheet and more. Here's an example of a more complex style:
@@ -1111,7 +1187,6 @@ Todo
 * Implement an $inherit option on Styles, so that they can implicitly inherit from styles above them without specifying which style to combine into it
 * Emulate the :not psuedoclass
 
-* When possible, use a WeakMap to cache Style mixes, componentStyleMap conjunctions, etc so that extraneous style don't cause memory leaks
 * Figure out how to support animations, @keyframes and that kind of thing
 * support css animations
     * Maybe syntax like this:
@@ -1138,10 +1213,11 @@ Todo
     * Make sure its easy to dynamically create many-stepped animations, eg: http://www.joelambert.co.uk/morf/
     * http://stackoverflow.com/questions/18481550/how-to-dynamically-create-keyframe-css-animations
 
-* Maybe if a component has an explicit style set, it ignore's any styling from its parent (ie the componentStyleMap)
-* consider replacing $setup and $kill with user-defined style properties
-    * user-defined style properties would have all the power of $setup and $kill but would have the benefit of being parameterized and combinable/overridabe (ie you can override a property, but you can combine multiple different properties)
-    * this would mean you couldn't do inline javascript (other than for $state changes) in styles tho - it would require you to define the javascript somewhere else
+* When possible, use a WeakMap to cache Style mixes, componentStyleMap conjunctions, etc so that extraneous style don't cause memory leaks
+* Maybe if a block has an explicit style set, it ignore's any styling from its parent (ie the componentStyleMap)
+    * Similarly, maybe if a block has an explicit style set, it shouldn't be able to inherit from anything
+* user-defined style properties
+    * parameterized and combinable/overridable
 * Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
 * Make all controls usable via the keybaord
   * eg. checkboxes should be toggled if you press enter while they're focused on
@@ -1157,12 +1233,15 @@ Todo
 Changelog
 ========
 
+* 1.0.1
+        * Adding the $inherit style property
+        * Optimizing the style adding code a little
 * 1.0.0
         * Major Style object refactor
         * Fixing various pseudoclass bugs where pseudoclasses weren't working in dynamic situations, emulated pseudoclass setup function being called twice, and metapseudoclasses like :not weren't working
         * Pseudoclasses can now be styled with full `Style` objects (that use any Style feature)
         * Optimizing pseudoclass styles when their style branch can be rendered in pure-css
-        * Default styles can be arbitrary Style objects now
+        * `defaultStyle` styles can be arbitrary Style objects now
         * $state styles can be arbitrary Style objects now
         * $label changed from being a modifier on a Block style to indicating a whole new labeled block style (see section on $label for details)
         * augmenting nth-child to be able to be more sane in how it processes its input (you can reverse the order of the terms and whitespace is tolerated)
