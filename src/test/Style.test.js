@@ -1181,245 +1181,78 @@ module.exports = function(t) {
             t.eq($(y.domNode).css('textDecoration').indexOf('underline'), -1)
         })
 
-        this.test('visited', function() {
-            var C = proto(Block, function(superclass) {
-                this.name = 'C'
-
-                this.build = function(text, link) {
-                    this.domNode = domUtils.node('a')
-
-                    this.attr('href', link)
-                    this.attr('style', "display:block;")
-                    this.domNode.textContent = text
-                    this.on('click', function(e) {
-                        e.preventDefault() // prevents you from going to the link location on-click
-                    })
-
-                    this.style = style
-                }
-            })
-
-            var style = Style({
-                color: 'rgb(150, 0, 0)',
-                $$visited: {
-                    color: 'rgb(0, 128, 0)',
-
-                    $$focus: {
-                        color: 'rgb(0, 70, 200)'
-                    }
-                }
-            })
-
-            var component1 = C("This should be green when not in focus, and blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
-                component1.attr('tabindex', 1) // to make it focusable
-            var component3 = C("This should be red (even when clicked on)", "http://www.thisdoesntexistatall.com/notatall")
-                component3.attr('tabindex', 1) // to make it focusable
-
-            // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
-            testUtils.demo('Manually verify these: component :visited pseudo-class styling', Container([component1, component3]))
-
-            component1.focus = true
-
-            this.test('errors', function() {
-                this.count(1)
-
-                try {
-                    Style({
-                        Anything: {
-                            $$visited: {
-                                CheckBox: {
-                                    $setup: function() {
-                                    }
-                                }
-                            }
-                        }
-                    })
-                } catch(e) {
-                    this.eq(e.message, "Pseudoclass visited isn\'t emulated, but has a style that can\'t be rendered in pure css")
-                }
-            })
-        })
-
-        this.test('last-child', function(t) {
-            this.count(7)
-
-            var C = proto(Block, function(superclass) {
-                this.name = 'C'
-
-                this.build = function() {
-                    this.add(Text("a"))
-                    this.add(Text("b"))
-                    this.add(Text("c"))
-                    this.add(Text("d"))
-
-                    this.style = style
-                }
-            })
-
-            var style = Style({
-                Text:{
-                    $$lastChild: {
-                        color: 'rgb(128, 0, 0)'
-                    }
-                }
-            })
-
-            var component1 = C()
-            testUtils.demo('last-child', component1)
-
-            var children = component1.domNode.children
-            this.eq($(children[0]).css('color'), 'rgb(0, 0, 0)')
-            this.eq($(children[1]).css('color'), 'rgb(0, 0, 0)')
-            this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
-            this.eq($(children[3]).css('color'), 'rgb(128, 0, 0)')
-            var classes = children[3].classList
-            this.eq(classes.length, 2)  // one is the main default, and the other is the set active styling
-
-            // dynamically adding elements
-
-            component1.add(Text('e'))
-
-            setTimeout(function() {  // the styles won't actually be applied until the thread runs back to the scheduler
-                t.eq($(children[3]).css('color'), 'rgb(0, 0, 0)')
-                t.eq($(children[4]).css('color'), 'rgb(128, 0, 0)')
-            },0)
-        })
-
-        this.test('nth-child', function() {
-            var C = proto(Block, function(superclass) {
-                this.name = 'C'
-
-                this.build = function() {
-                    this.add(Text("a"))
-                    this.add(Text("b"))
-                    this.add(Text("c"))
-                    this.add(Text("d"))
-
-                    this.style = style
-                }
-            })
-
-            var style = Style({
-                Text:{
-                    '$$nthChild(1)': {
-                        color: 'rgb(128, 0, 0)'
-                    },
-                    '$$nthChild(2n)': {
-                        color: 'rgb(0, 128, 128)'
-                    }
-                }
-            })
-
-            var component1 = C()
-            testUtils.demo('nth-child', component1)
-
-            var children = component1.domNode.children
-            this.eq($(children[0]).css('color'), 'rgb(128, 0, 0)')
-            this.eq($(children[1]).css('color'), 'rgb(0, 128, 128)')
-            this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
-            this.eq($(children[3]).css('color'), 'rgb(0, 128, 128)')
-
-            this.test('nth-child emulation', function(t) {
-                this.count(5)
-
-                var red = 'rgb(128, 0, 0)'
-                var teal = 'rgb(0, 128, 128)'
-
-                var style = Style({
-                    Container:{
-                        '$$nthChild(2)': {
-                            Text: {
-                                color: red
-                            }
-                        },
-                        '$$nthChild(2n+1)': {
-                            Text: {
-                                color: teal
-                            }
-                        }
-                    }
-                })
-
-                var c = Container([])
-                testUtils.demo('nth-child emulation', c)
-                c.style = style
-
-                c.add(Container([Text('a')]))
-                c.add(Container([Text('b')]))
-                c.add(Container([Text('c')]))
-                c.add(Container([Text('d')]))
-                c.add(Container([Text('e')]))
-
-                setTimeout(function() {
-                    t.eq($(c.children[0].children[0].domNode).css('color'), teal)
-                    t.eq($(c.children[1].children[0].domNode).css('color'), red)
-                    t.eq($(c.children[2].children[0].domNode).css('color'), teal)
-                    t.eq($(c.children[3].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-                    t.eq($(c.children[4].children[0].domNode).css('color'), teal)
-                },0)
-            })
-
-            this.test("nth-child without parent", function(t) {
-                this.count(3)
-
-
-                var black = 'rgb(0, 0, 0)'
+        this.test('validate manually', function() {
+            this.test("pseudo elements (native)", function() {
                 var red = 'rgb(128, 0, 0)'
                 var style = Style({
-                    '$$nthChild( 1 + 1 n )': {
+                    $$selection: {
                         color: red
                     }
                 })
 
-                var box = Container([])
-                var c = Container([])
+                var c = Text('a')
+                testUtils.manualDemo("pseudo elements (native)", c)
                 c.style = style
+            })
+            this.test('visited', function() {
+                var C = proto(Block, function(superclass) {
+                    this.name = 'C'
 
-                c.add(Text("moo"))
-                c.add(Text("moo2"))
+                    this.build = function(text, link) {
+                        this.domNode = domUtils.node('a')
 
-                box.add(c)
-                testUtils.demo("nth-child without parent", box)
+                        this.attr('href', link)
+                        this.attr('style', "display:block;")
+                        this.domNode.textContent = text
+                        this.on('click', function(e) {
+                            e.preventDefault() // prevents you from going to the link location on-click
+                        })
 
-                setTimeout(function() {                              // allow the changes to propagate
-                    t.eq($(c.children[0].domNode).css('color'), red)
-                    t.eq($(c.children[1].domNode).css('color'), red)
+                        this.style = style
+                    }
+                })
 
-                    var one = c.children[1]
-                    c.remove(one)
-                    setTimeout(function() {                          // allow the changes to propagate
-                        box.add(one)
-                        t.eq($(one.domNode).css('color'), black)
-                    },0)
-                },0)
+                var style = Style({
+                    color: 'rgb(150, 0, 0)',
+                    $$visited: {
+                        color: 'rgb(0, 128, 0)',
+
+                        $$focus: {
+                            color: 'rgb(0, 70, 200)'
+                        }
+                    }
+                })
+
+                var component1 = C("This should be green when not in focus, and blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
+                    component1.attr('tabindex', 1) // to make it focusable
+                var component3 = C("This should be red (even when clicked on)", "http://www.thisdoesntexistatall.com/notatall")
+                    component3.attr('tabindex', 1) // to make it focusable
+
+                // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
+                testUtils.manualDemo('Manually verify these: component :visited pseudo-class styling', Container([component1, component3]))
+
+                component1.focus = true
+
+                this.test('errors', function() {
+                    this.count(1)
+
+                    try {
+                        Style({
+                            Anything: {
+                                $$visited: {
+                                    CheckBox: {
+                                        $setup: function() {
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                    } catch(e) {
+                        this.eq(e.message, "Pseudoclass visited isn\'t emulated, but has a style that can\'t be rendered in pure css")
+                    }
+                })
             })
         })
-
-//        todo: do this when you can figure out how syn.move works
-//        this.test("hover", function(t) {
-//            this.count(3)
-//
-//            var style = Style({
-//                $$hover: {
-//                    color: 'rgb(200, 0, 0)'
-//                }
-//            })
-//
-//            var text = Text("a")
-//            text.style = style
-//
-//            testUtils.demo('hover', text)
-//
-//            this.eq($(text.domNode).css('color'), 'rgb(0, 0, 0)')
-//
-//            syn.move({pageX: 100, pageY:100}, text.domNode).then(function() {
-//                t.eq($(text.domNode).css('color'), 'rgb(200, 0, 0)')
-//
-//                return syn.move(text.domNode, {pageX: 100, pageY:100})
-//            }).then(function() {
-//                t.eq($(text.domNode).css('color'), 'rgb(0, 0, 0)')
-//            }).done()
-//        })
 
         this.test('not', function(t) {
             var red = 'rgb(128, 0, 0)'
@@ -1453,6 +1286,202 @@ module.exports = function(t) {
             t.eq($(c.children[2].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
             t.eq($(c.children[3].children[0].domNode).css('color'), teal)
 
+        })
+
+        this.test('js-rendered pseudoclasses', function() {
+
+            this.test('last-child', function(t) {
+                this.count(7)
+
+                var C = proto(Block, function(superclass) {
+                    this.name = 'C'
+
+                    this.build = function() {
+                        this.add(Text("a"))
+                        this.add(Text("b"))
+                        this.add(Text("c"))
+                        this.add(Text("d"))
+
+                        this.style = style
+                    }
+                })
+
+                var style = Style({
+                    Text:{
+                        $$lastChild: {
+                            color: 'rgb(128, 0, 0)',
+                            $setup: function() {}, // forces it to render in javascript
+                            $kill: function() {}
+                        }
+                    }
+                })
+
+                var component1 = C()
+                testUtils.demo('last-child', component1)
+
+                var children = component1.domNode.children
+                this.eq($(children[0]).css('color'), 'rgb(0, 0, 0)')
+                this.eq($(children[1]).css('color'), 'rgb(0, 0, 0)')
+                this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
+                this.eq($(children[3]).css('color'), 'rgb(128, 0, 0)')
+                var classes = children[3].classList
+                this.eq(classes.length, 2)  // one is the main default, and the other is the set active styling
+
+                // dynamically adding elements
+
+                component1.add(Text('e'))
+
+                setTimeout(function() {  // the styles won't actually be applied until the thread runs back to the scheduler
+                    t.eq($(children[3]).css('color'), 'rgb(0, 0, 0)')
+                    t.eq($(children[4]).css('color'), 'rgb(128, 0, 0)')
+                },0)
+            })
+
+            this.test('nth-child', function() {
+                var C = proto(Block, function(superclass) {
+                    this.name = 'C'
+
+                    this.build = function() {
+                        this.add(Text("a"))
+                        this.add(Text("b"))
+                        this.add(Text("c"))
+                        this.add(Text("d"))
+
+                        this.style = style
+                    }
+                })
+
+                var style = Style({
+                    Text:{
+                        '$$nthChild(1)': {
+                            color: 'rgb(128, 0, 0)',
+                            $setup: function() {}, // forces it to render in javascript
+                            $kill: function() {}
+                        },
+                        '$$nthChild(2n)': {
+                            color: 'rgb(0, 128, 128)',
+                            $setup: function() {}, // forces it to render in javascript
+                            $kill: function() {}
+                        }
+                    }
+                })
+
+                var component1 = C()
+                testUtils.demo('nth-child', component1)
+
+                var children = component1.domNode.children
+                this.eq($(children[0]).css('color'), 'rgb(128, 0, 0)')
+                this.eq($(children[1]).css('color'), 'rgb(0, 128, 128)')
+                this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
+                this.eq($(children[3]).css('color'), 'rgb(0, 128, 128)')
+
+                this.test('more nth-child?', function(t) {
+                    this.count(5)
+
+                    var red = 'rgb(128, 0, 0)'
+                    var teal = 'rgb(0, 128, 128)'
+
+                    var style = Style({
+                        Container:{
+                            '$$nthChild(2)': {
+                                Text: {
+                                    color: red,
+                                    $setup: function() {}, // forces it to render in javascript
+                                    $kill: function() {}
+                                }
+                            },
+                            '$$nthChild(2n+1)': {
+                                Text: {
+                                    color: teal,
+                                    $setup: function() {}, // forces it to render in javascript
+                                    $kill: function() {}
+                                }
+                            }
+                        }
+                    })
+
+                    var c = Container([])
+                    testUtils.demo('nth-child emulation', c)
+                    c.style = style
+
+                    c.add(Container([Text('a')]))
+                    c.add(Container([Text('b')]))
+                    c.add(Container([Text('c')]))
+                    c.add(Container([Text('d')]))
+                    c.add(Container([Text('e')]))
+
+                    setTimeout(function() {
+                        t.eq($(c.children[0].children[0].domNode).css('color'), teal)
+                        t.eq($(c.children[1].children[0].domNode).css('color'), red)
+                        t.eq($(c.children[2].children[0].domNode).css('color'), teal)
+                        t.eq($(c.children[3].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
+                        t.eq($(c.children[4].children[0].domNode).css('color'), teal)
+                    },0)
+                })
+
+                this.test("nth-child without parent", function(t) {
+                    this.count(3)
+
+
+                    var black = 'rgb(0, 0, 0)'
+                    var red = 'rgb(128, 0, 0)'
+                    var style = Style({
+                        '$$nthChild( 1 + 1 n )': {
+                            color: red,
+                            $setup: function() {}, // forces it to render in javascript
+                            $kill: function() {}
+                        }
+                    })
+
+                    var box = Container([])
+                    var c = Container([])
+                    c.style = style
+
+                    c.add(Text("moo"))
+                    c.add(Text("moo2"))
+
+                    box.add(c)
+                    testUtils.demo("nth-child without parent", box)
+
+                    setTimeout(function() {                              // allow the changes to propagate
+                        t.eq($(c.children[0].domNode).css('color'), red)
+                        t.eq($(c.children[1].domNode).css('color'), red)
+
+                        var one = c.children[1]
+                        c.remove(one)
+                        setTimeout(function() {                          // allow the changes to propagate
+                            box.add(one)
+                            t.eq($(one.domNode).css('color'), black)
+                        },0)
+                    },0)
+                })
+            })
+
+//            todo: do this when you can figure out how syn.move works
+//            this.test("hover", function(t) {
+//                this.count(3)
+//
+//                var style = Style({
+//                    $$hover: {
+//                        color: 'rgb(200, 0, 0)'
+//                    }
+//                })
+//
+//                var text = Text("a")
+//                text.style = style
+//
+//                testUtils.demo('hover', text)
+//
+//                this.eq($(text.domNode).css('color'), 'rgb(0, 0, 0)')
+//
+//                syn.move({pageX: 100, pageY:100}, text.domNode).then(function() {
+//                    t.eq($(text.domNode).css('color'), 'rgb(200, 0, 0)')
+//
+//                    return syn.move(text.domNode, {pageX: 100, pageY:100})
+//                }).then(function() {
+//                    t.eq($(text.domNode).css('color'), 'rgb(0, 0, 0)')
+//                }).done()
+//            })
         })
 
     })

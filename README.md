@@ -1233,6 +1233,7 @@ Todo
 Changelog
 ========
 
+* 1.0.3 - fixing native pseudo element rendering
 * 1.0.2 - making `processParameter` in `addPseudoClass` optional like the docs say
 * 1.0.1
         * Adding the $inherit style property
