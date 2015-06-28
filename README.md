@@ -1102,9 +1102,9 @@ Returns a new style that is a copy of the calling style object but has a new `cl
 `Style.addPseudoClass(name, fns)` - Creates a new pseudoclass that can be used in `Style` objects. This can be used to create all-new psuedoclasses no one's ever thought of before!
 * `name` - The name of the new pseudoclass
 * `fns` - An object with the members:
-    * `check(block)` - A function that returns true if the pseudoclass applies to passed `block`
-    * `setup(block, startCallback, endCallback, parameter)` - A function that should call `startCallback()` when the pseudoclass starts applying, and `endCallback()` when it stops applying. Can return a `state` object that will be passed to the `kill` function.
-        * `parameter` - The parameter passed to the pseudoclass (e.g. in `":not(:first-child)"`, ":first-child" is the parameter). If a `processParameter` function is given, this will be the return value of that function.
+    * `check(block, processedParameter)` - A function that returns true if the pseudoclass applies to passed `block`
+    * `setup(block, startCallback, endCallback, processedParameter)` - A function that should call `startCallback()` when the pseudoclass starts applying, and `endCallback()` when it stops applying. Can return a `state` object that will be passed to the `kill` function.
+        * `processedParameter` - The parameter passed to the pseudoclass (e.g. in `":not(:first-child)"`, ":first-child" is the parameter). If a `processParameter` function is given, this will be the return value of that function.
     * `kill(block, state)` - A function that cleans up any event listeners or anything else set up in the `setup` function.
     * `emulated` - (Optional - default false) Set to true if this implements a native pseudoclass. If `true`, Blocks will attempt optimize the pseudoclass using native css if possible.
     * `processParameter(parameter)` - (Optional) Takes the pseudoclass parameter and returns some object representing it that will be used by the `setup` and `check` functions.
