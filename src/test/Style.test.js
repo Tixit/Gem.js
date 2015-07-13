@@ -25,7 +25,6 @@ module.exports = function(t) {
 
 
 
-
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -600,6 +599,7 @@ module.exports = function(t) {
             })
 
             var x = Text('x')
+            x.attached = true // pretend its attached so it'll render the style
             x.style = style
 
             t.eq($(x.domNode).css('rgb(0, 0, 0)')) // starts out not applying
@@ -616,6 +616,7 @@ module.exports = function(t) {
 
             applies = true
             var y = Text('y')
+            y.attached = true // pretend its attached so it'll render the style
             y.style = style // note that changeState should now be a different function that won't affect x
 
             t.eq($(x.domNode).css('rgb(10, 30, 50)')) // starts out applying thing time
@@ -1190,7 +1191,7 @@ module.exports = function(t) {
                     }
                 })
 
-                var c = Text('a')
+                var c = Text('When you select this, it should turn red')
                 testUtils.manualDemo("pseudo elements (native)", c)
                 c.style = style
             })
@@ -1883,6 +1884,38 @@ module.exports = function(t) {
                     },0)
                 },0)
             },0)
+        })
+
+        this.test('native pseudoclass style overriding block default styles when they must override a StyleMap style with "initial"', function(t) {
+
+            var C = proto(Text, function(superclass) {
+                this.name = 'blah'
+
+                this.defaultStyle = Style({
+                    color: 'rgb(100, 200, 250)'
+                })
+            })
+
+            var text = C("a'llo")
+            var c = Container([
+                Container('a', [text])
+            ])
+            c.style = Style({
+                Text: {
+                    color: 'rgb(12, 25, 36)'
+                },
+                $a: {
+                    '$$nthChild(1)': {
+                        Text: {
+                            // color left as default (which should override the 'red' above)
+                        }
+                    }
+                }
+            })
+
+            testUtils.demo('native pseudoclass style overriding block default styles when they must override a StyleMap style with "initial"', c)
+
+            t.eq($(text.domNode).css('color'), 'rgb(100, 200, 250)')
         })
     })
     //*/

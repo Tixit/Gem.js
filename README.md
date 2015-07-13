@@ -210,11 +210,12 @@ blocks.Block // if you're using the umd package
 
 **`Block.name`** - The name of the Block. Used both for naming dom elements for view in browser dev tools and for styling.
 
-**`Block.attach(block, block, ...)`** - Appends the passed blocks to `document.body`.
-**`Block.attach(listOfBlocks)`** - Same as above, but `listOfBlocks` is an array of `Block` objects.
+**`Block.attach(listOfBlocks)`** - Appends the passed blocks to `document.body`. IMPORTANT: only attach a block to the dom via
+this `attach` function or a block's `attach` method. Without this, styles won't be rendered.
+**`Block.attach(domNode, listOfBlocks)`** - Appends the passed blocks to the passed `domNode`.
 
-**`Block.detach(block, block, ...)`** - Removes the passed blocks from `document.body`.
-**`Block.detach(listOfBlocks)`** - Same as above, but `listOfBlocks` is an array of `Block` objects.
+**`Block.detach(listOfBlocks)`** - Removes the passed blocks from `document.body`.
+**`Block.detach(domNode, listOfBlocks)`** - Removes the passed blocks from the passed `domNode`
 
 **`Block.createBody(callback)`** - Dynamically creates the body tag. Calls `callback` when done.
 
@@ -241,8 +242,9 @@ blocks.Block // if you're using the umd package
 **`block.remove(index, index, ...)`** - Removes, as children, the blocks at the given `index`es in the `children` list.  
 **`block.remove(listOfIndexes)`** - *Same as above, but `listOfIndexes` is an array of indexes to remove.*
 
-**`block.attach()`** - Appends this `Block`'s domNode to `document.body`.  
-**`block.detach()`** - Removes this `Block`'s domNode from `document.body`.
+**`block.attach(domNode=document.body)`** - Appends this `Block`'s domNode to the passed domNode (default `document.body`).
+IMPORTANT: only attach a block to the dom via this `attach` function or a block's `attach` method. Without this, styles won't be rendered.
+**`block.detach(domNode=document.body)`** - Removes this `Block`'s domNode from the passed domNode (default `document.body`).
 
 **`block.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Block's domNode.  
 **`block.attr(attributeName, value)`** - Sets the attribute to the passed `value`.  
@@ -1213,7 +1215,6 @@ Todo
     * Make sure its easy to dynamically create many-stepped animations, eg: http://www.joelambert.co.uk/morf/
     * http://stackoverflow.com/questions/18481550/how-to-dynamically-create-keyframe-css-animations
 
-* When possible, use a WeakMap to cache Style mixes, componentStyleMap conjunctions, etc so that extraneous style don't cause memory leaks
 * Maybe if a block has an explicit style set, it ignore's any styling from its parent (ie the componentStyleMap)
     * Similarly, maybe if a block has an explicit style set, it shouldn't be able to inherit from anything
 * user-defined style properties
@@ -1229,10 +1230,25 @@ Todo
   * TextEditor
 
 
+Optimization ideas:
+* When possible, use a WeakMap to cache Style mixes, componentStyleMap conjunctions, etc so that extraneous style don't cause memory leaks
+* When dom nodes are added, either add them inside a setTimeout, or render their styles in a setTimeout (first way's probably best so you have less change of seeing unstyled blocks)
+    * This should improve UI responsiveness, but not execution time
+* Purge style cache entries after a certain age (for non-weak maps)
+* Use document fragments when adding multiple dom nodes
+* Mix together defaultStyles statically (once per block type) since they're not dynamic
 
 Changelog
 ========
 
+* 1.1.0 - MINOR BREAKING CHANGES
+    * Speeding up the `addAt` method and `.style` setter by between 10 and 30 times by
+        * only rendering styles once the blocks are attached to the document and
+        * fixing a couple bugs that were causing cached style not to be used
+    * Changing the `block.attach` method and `Blocks.attach` function to take an optional first parameter - a domNode to append to in place of `document.body`
+        * MINOR BREAKING CHANGE 1: the `Blocks.attach` function can no longer take varargs of blocks (eg `Blocks.attach(block1, block2, block2)` - instead do `Blocks.attach([block1, block2, block2])`)
+    * Fixing bug: native pseudoclass style overriding block default styles when they must override a StyleMap style with "initial"
+    * MINOR BREAKING CHANGE 2: It is now required that a block be attached to the document with the `attach` function or method. Without this, styles won't be rendered.
 * 1.0.3 - fixing native pseudo element rendering
 * 1.0.2 - making `processParameter` in `addPseudoClass` optional like the docs say
 * 1.0.1

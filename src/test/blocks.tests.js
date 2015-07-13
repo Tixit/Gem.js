@@ -15,7 +15,6 @@ module.exports = function() {
 
 
 
-
         //*
         t.test('EventEmitterB',require('./EventEmitterB.test')).complete.then(function(){
             return t.test('Block',require('./Block.test')).complete
@@ -25,19 +24,28 @@ module.exports = function() {
             return t.test("standard components", function(t) {
                 t.count(13)
 
-                t.test('Button',require('./ComponentTests/Button.test'));
-                t.test('Canvas',require('./ComponentTests/Canvas.test'));
-                t.test('CheckBox',require('./ComponentTests/CheckBox.test'));
-                t.test('Container',require('./ComponentTests/Container.test'));
-                t.test('Image',require('./ComponentTests/Image.test'));
-
-                t.test('List',require('./ComponentTests/List.test')).complete.then(function() {
+                // it seems a bit faster when the tests are run sequentially
+                t.test('Button',require('./ComponentTests/Button.test')).complete.then(function() {
+                    return t.test('Canvas',require('./ComponentTests/Canvas.test')).complete
+                }).then(function() {
+                    return t.test('CheckBox',require('./ComponentTests/CheckBox.test')).complete
+                }).then(function() {
+                    return t.test('Container',require('./ComponentTests/Container.test')).complete
+                }).then(function() {
+                    return t.test('Image',require('./ComponentTests/Image.test')).complete
+                }).then(function() {
+                    return t.test('List',require('./ComponentTests/List.test')).complete
+                }).then(function() {
                     return t.test('MultiSelect',require('./ComponentTests/MultiSelect.test')).complete
                 }).then(function() {
-                    t.test('Radio',require('./ComponentTests/Radio.test'))
-                    t.test('Select',require('./ComponentTests/Select.test'));
-                    t.test('table',require('./ComponentTests/Table.test'));
-                    t.test('text',require('./ComponentTests/Text.test'));
+                    return t.test('Radio',require('./ComponentTests/Radio.test')).complete
+                }).then(function() {
+                    return t.test('Select',require('./ComponentTests/Select.test')).complete
+                }).then(function() {
+                    return t.test('table',require('./ComponentTests/Table.test')).complete
+                }).then(function() {
+                    return t.test('text',require('./ComponentTests/Text.test')).complete
+                }).then(function() {
                     return t.test('textarea',require('./ComponentTests/TextArea.test')).complete
                 }).then(function() {
                     return t.test('textfield',require('./ComponentTests/TextField.test')).complete

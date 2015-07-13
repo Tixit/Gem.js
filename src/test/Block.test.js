@@ -321,6 +321,7 @@ module.exports = function(t) {
         this.test("with styled css display", function() {
             var thinger = TestThinger()
             container.add(thinger)
+            thinger.attached = true // pretend its attached so it'll render the style
             thinger.style = blocks.Style({display: 'inline'})
 
             this.eq($(thinger.domNode).css('display'), "inline")

@@ -1,0 +1,28 @@
+Note: the change here was to not render styles until the block is attached to the dom and in some code paths the cached styles weren't being used
+Note 2: every one of these tests had its iterations increased by 10 fold (from 100 to 1000), so they indicate an improvement of between 10 and 30 times
+
+
+simple repetitive add performance
+
+1ms (averaged over 2255 iterations) - variance: 7
+performance of repetitive add on already-attached block
+
+14ms (averaged over 144 iterations) - variance: 50
+performance of add on end of nested structure - 5 nestings
+
+15ms (averaged over 138 iterations) - variance: 49
+performance of add on end of nested structure - 100 nestings
+
+19ms (averaged over 107 iterations) - variance: 129
+performance of add on end of nested structure - 1000 nestings
+
+47ms (averaged over 43 iterations) - variance: 7
+performance of add on end of nested structure - 5 nestings, 5 style nestings
+
+16ms (averaged over 129 iterations) - variance: 330
+performance of add on end of nested structure - 100 nestings, 100 style nestings
+
+18ms (averaged over 109 iterations) - variance: 67
+performance of add on end of nested structure with native pseudoclass style
+
+16ms (averaged over 127 iterations) - variance: 62

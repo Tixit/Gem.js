@@ -1,0 +1,24 @@
+simple repetitive add performance
+
+1ms (averaged over 1860 iterations) - standard deviation: 1.92%
+performance of repetitive add on already-attached block
+
+16ms (averaged over 125 iterations) - standard deviation: 0.39%
+performance of add on end of nested structure - 5 nestings
+
+17ms (averaged over 121 iterations) - standard deviation: 0.4%
+performance of add on end of nested structure - 100 nestings
+
+22ms (averaged over 92 iterations) - standard deviation: 0.6%
+performance of add on end of nested structure - 1000 nestings
+
+50ms (averaged over 41 iterations) - standard deviation: 0.09%
+performance of add on end of nested structure - 5 nestings, 5 style nestings
+
+17ms (averaged over 119 iterations) - standard deviation: 0.65%
+performance of add on end of nested structure - 100 nestings, 100 style nestings
+
+21ms (averaged over 98 iterations) - standard deviation: 0.47%
+performance of add on end of nested structure with native pseudoclass style
+
+16ms (averaged over 124 iterations) - standard deviation: 0.46%

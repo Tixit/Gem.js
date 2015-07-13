@@ -3,10 +3,10 @@ var fs = require('fs')
 var url = require('url')
 var path = require("path")
 
-var buildUtils = require('./src/node_modules/buildUtil')
+var buildUtils = require('buildUtil')
 buildUtils.buildAndWatch() // build the bundles
 
-var root = __dirname//path.resolve(__dirname, '..')
+var root = path.resolve(__dirname, '..', '..')
 
 var server = http.createServer(function (request, res) {
     try {
@@ -18,6 +18,8 @@ var server = http.createServer(function (request, res) {
 
             if(requestPath === '/') {
                 requestPath = '/src/test/blocks.tests.html'
+            } else if(requestPath === '/performance' || requestPath === '/p') {
+                requestPath = '/src/test/performance.tests.html'
             }
 
             res.writeHead(200)
