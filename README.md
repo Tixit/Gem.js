@@ -214,8 +214,7 @@ blocks.Block // if you're using the umd package
 this `attach` function or a block's `attach` method. Without this, styles won't be rendered.
 **`Block.attach(domNode, listOfBlocks)`** - Appends the passed blocks to the passed `domNode`.
 
-**`Block.detach(listOfBlocks)`** - Removes the passed blocks from `document.body`.
-**`Block.detach(domNode, listOfBlocks)`** - Removes the passed blocks from the passed `domNode`
+**`Block.detach(listOfBlocks)`** - Removes the passed blocks from their respective dom parents.
 
 **`Block.createBody(callback)`** - Dynamically creates the body tag. Calls `callback` when done.
 
@@ -244,7 +243,7 @@ this `attach` function or a block's `attach` method. Without this, styles won't 
 
 **`block.attach(domNode=document.body)`** - Appends this `Block`'s domNode to the passed domNode (default `document.body`).
 IMPORTANT: only attach a block to the dom via this `attach` function or a block's `attach` method. Without this, styles won't be rendered.
-**`block.detach(domNode=document.body)`** - Removes this `Block`'s domNode from the passed domNode (default `document.body`).
+**`block.detach()`** - Removes this `Block`'s domNode from its dom parent.
 
 **`block.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Block's domNode.  
 **`block.attr(attributeName, value)`** - Sets the attribute to the passed `value`.  
@@ -1241,6 +1240,9 @@ Optimization ideas:
 Changelog
 ========
 
+* 1.1.1 - MINOR BREAKING CHANGE
+    * MINOR BREAKING CHANGE: detach can no longer take an optional first parameter, but always detaches blocks from whatever dom parent they have
+    * Fixing bugs in attach and detach
 * 1.1.0 - MINOR BREAKING CHANGES
     * Speeding up the `addAt` method and `.style` setter by between 10 and 30 times by
         * only rendering styles once the blocks are attached to the document and

@@ -637,6 +637,45 @@ module.exports = function(t) {
         })
     })
 
+    this.test("attach and detach", function() {
+        var a = blocks.Text("tach")
+        a.attach()
+        this.eq(a.domNode.parentNode, document.body)
+
+        var b = blocks.Text("tach2")
+        b.attach(a.domNode)
+        this.eq(b.domNode.parentNode, a.domNode)
+
+
+        var c = blocks.Text("tach3")
+        blocks.attach(c)
+        this.eq(c.domNode.parentNode, document.body)
+
+        var d = blocks.Text("tach4")
+        blocks.attach(c.domNode, d)
+        this.eq(d.domNode.parentNode, c.domNode)
+
+
+        var e = blocks.Text("tach5")
+        blocks.attach([e])
+        this.eq(e.domNode.parentNode, document.body)
+
+        var f = blocks.Text("tach6")
+        blocks.attach(e.domNode, [f])
+        this.eq(f.domNode.parentNode, e.domNode)
+
+
+        blocks.detach(f)
+        this.eq(f.domNode.parentNode, null)
+        blocks.detach([e,d])
+        this.eq(e.domNode.parentNode, null)
+        this.eq(d.domNode.parentNode, null)
+        c.detach()
+        b.detach()
+        this.eq(c.domNode.parentNode, null)
+        this.eq(b.domNode.parentNode, null)
+    })
+
     this.test("former bugs", function() {
         // note, i thought this would have been a bug.. but apparently not? I'm unclear how to manifest the incorrect code i see.. but what the hell, i'll just fix the code without a test
         this.test("dom events handlers not being unbound correctly when more than one type of event is bound", function(t) {
