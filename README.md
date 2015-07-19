@@ -1182,6 +1182,12 @@ Blocks.js is not:
 * **a framework**. A framework is a system that calls *your* code. A module is a set of functions and classes that your code can call. Blocks.js is the latter.  Blocks.js can work well right alongside traditionally written html and css, and you can choose to wrap dom constructs in a Block only if you want to.
 * **super heroic**. It does one thing well: web components. It embraces the [single-responsibility principle ](http://en.wikipedia.org/wiki/Single_responsibility_principle) and is entirely stand-alone.
 
+Contributors
+============
+
+* Billy Tetrud
+* Robbert Wijtman - designed and helped implement the prototype version of blocks.js
+
 Todo
 ======
 
