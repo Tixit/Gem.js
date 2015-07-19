@@ -78,12 +78,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 3)
+	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 4)
 	
 	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
 	blocks.dev = true
 	
 	__webpack_require__(/*! ./performanceTests/add.performance */ 2)
+	__webpack_require__(/*! ./performanceTests/style.performance */ 3)
 
 /***/ },
 /* 1 */
@@ -92,22 +93,22 @@ return /******/ (function(modules) { // webpackBootstrap
   \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.Block = __webpack_require__(/*! Block */ 4)
-	exports.Style = __webpack_require__(/*! Style */ 5)
+	exports.Block = __webpack_require__(/*! Block */ 5)
+	exports.Style = __webpack_require__(/*! Style */ 6)
 	
-	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 7)
-	exports.Container = __webpack_require__(/*! Components/Container */ 8)
-	exports.Button = __webpack_require__(/*! Components/Button */ 9)
-	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 10)
-	exports.Image = __webpack_require__(/*! Components/Image */ 11)
-	exports.List = __webpack_require__(/*! Components/List */ 12)
+	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 8)
+	exports.Container = __webpack_require__(/*! Components/Container */ 9)
+	exports.Button = __webpack_require__(/*! Components/Button */ 10)
+	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 11)
+	exports.Image = __webpack_require__(/*! Components/Image */ 12)
+	exports.List = __webpack_require__(/*! Components/List */ 13)
 	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
-	exports.Radio = __webpack_require__(/*! Components/Radio */ 13)
-	exports.Select = __webpack_require__(/*! Components/Select */ 14)
-	exports.Table = __webpack_require__(/*! Components/Table */ 15)
-	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 16)
-	exports.TextField = __webpack_require__(/*! Components/TextField */ 17)
-	exports.Text = __webpack_require__(/*! Components/Text */ 18)
+	exports.Radio = __webpack_require__(/*! Components/Radio */ 14)
+	exports.Select = __webpack_require__(/*! Components/Select */ 15)
+	exports.Table = __webpack_require__(/*! Components/Table */ 16)
+	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 17)
+	exports.TextField = __webpack_require__(/*! Components/TextField */ 18)
+	exports.Text = __webpack_require__(/*! Components/Text */ 19)
 	
 	
 	
@@ -138,18 +139,24 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 6)
-	var Container = __webpack_require__(/*! Components/Container */ 8)
-	var Text = __webpack_require__(/*! Components/Text */ 18)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var testUtils = __webpack_require__(/*! testUtils */ 7)
+	var Container = __webpack_require__(/*! Components/Container */ 9)
+	var Text = __webpack_require__(/*! Components/Text */ 19)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
 	var test = testUtils.performanceTest
+	var buildNestedStructure = testUtils.buildNestedStructure
+	var buildNestedStyle = testUtils.buildNestedStyle
 	
-	// warm up
+	
+	// warm up (not sure if this is really a good warm up)
 	for(var n=0; n<100; n++) {
 	    Container().add(Text("x"))
 	}
 	
+	
+	
+	//*
 	
 	test("simple repetitive add performance", function() {
 	    var c = Container()
@@ -268,26 +275,165 @@ return /******/ (function(modules) { // webpackBootstrap
 	    testUtils.cleanupDemo(nodes)
 	})
 	
-	function buildNestedStructure(nestings) {
-	    var innerMost = Container()
-	    var cur = innerMost
-	    for(var n=0; n<nestings; n++) {
-	        cur = Container([cur])
-	    }
-	    return {innerMost:innerMost, top: cur}
-	}
-	
-	function buildNestedStyle(nestings) {
-	    var styleObject = {};
-	    for(var n=0; n<nestings; n++) {
-	        styleObject = {color: 'red', Container: styleObject}
-	    }
-	
-	    return Style(styleObject)
-	}
+	//*/
 
 /***/ },
 /* 3 */
+/*!***********************************************!*\
+  !*** ./performanceTests/style.performance.js ***!
+  \***********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	var testUtils = __webpack_require__(/*! testUtils */ 7)
+	var Container = __webpack_require__(/*! Components/Container */ 9)
+	var Text = __webpack_require__(/*! Components/Text */ 19)
+	var Style = __webpack_require__(/*! Style */ 6)
+	
+	var test = testUtils.performanceTest
+	var buildNestedStructure = testUtils.buildNestedStructure
+	var buildNestedStyle = testUtils.buildNestedStyle
+	
+	
+	// warm up (not sure if this is really a good warm up)
+	for(var n=0; n<100; n++) {
+	    Container().add(Text("x"))
+	}
+	
+	
+	// todo: test performance of changing the style of the parent without changing its stylemap
+	
+	
+	
+	//*
+	
+	test("simple pure css style creation", function() {
+	
+	    var style;
+	    this.time(function() {
+	        for(var n=0; n<100; n++) {
+	            style = Style({
+	                color: 'red'
+	            })
+	        }
+	    })
+	})
+	
+	test("simple pure css style", function() {
+	    var c = Container()
+	    var nodes = testUtils.demo(1, c)
+	
+	    var style = Style({
+	        color: 'red'
+	    })
+	
+	    this.time(function() {
+	        for(var n=0; n<100; n++) {
+	            c.style = style
+	        }
+	    })
+	
+	    testUtils.cleanupDemo(nodes)
+	})
+	test("simple pure css style 2", function() {
+	    var c = Container()
+	    var nodes = testUtils.demo(1, c)
+	
+	    this.time(function() {
+	        for(var n=0; n<100; n++) {
+	            c.style = Style({
+	                color: 'red'
+	            })
+	        }
+	    })
+	
+	    testUtils.cleanupDemo(nodes)
+	})
+	
+	test("simple pure css style on a list of nodes", function() {
+	    var c = Container()
+	    var nodes = testUtils.demo(1, c)
+	
+	    for(var n=0; n<100; n++) {
+	        c.add(Text("hi"))
+	    }
+	
+	    var style = Style({
+	        color: 'red'
+	    })
+	
+	    this.time(function() {
+	        for(var n=0; n<100; n++) {
+	            c.style = style
+	        }
+	    })
+	
+	    testUtils.cleanupDemo(nodes)
+	})
+	
+	
+	test("pure css style with a substyle on a list of nodes", function() {
+	    var c = Container()
+	    var nodes = testUtils.demo(1, c)
+	
+	    for(var n=0; n<100; n++) {
+	        c.add(Container("hi",[]))
+	    }
+	
+	    var style = Style({
+	        color: 'red',
+	        Container: {
+	            color: 'green'
+	        }
+	    })
+	
+	    this.time(function() {
+	        for(var n=0; n<100; n++) {
+	            c.style = style
+	        }
+	    })
+	
+	    testUtils.cleanupDemo(nodes)
+	})
+	
+	
+	test("state style with a substyle on a list of nodes", function() {
+	    var c = Container()
+	    var nodes = testUtils.demo(1, c)
+	
+	    for(var n=0; n<100; n++) {
+	        var structure = buildNestedStructure(5)
+	        c.add(structure.top)
+	    }
+	
+	    var stateStyle = Style({
+	        color: 'blue'
+	    })
+	
+	    var style = Style({
+	        color: 'red',
+	        $state: function() {
+	            return stateStyle
+	        },
+	
+	        Container: {
+	            color: 'green'
+	        }
+	    })
+	
+	    this.time(function() {
+	        for(var n=0; n<100; n++) {
+	            c.style = style
+	        }
+	    })
+	
+	    testUtils.cleanupDemo(nodes)
+	})
+	
+	//*/
+
+/***/ },
+/* 4 */
 /*!**************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/deadunit.browser.js ***!
   \**************************************************************************************/
@@ -296,22 +442,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var Future = __webpack_require__(/*! async-future */ 39)
-	var proto = __webpack_require__(/*! proto */ 40)
-	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 19)
+	var Future = __webpack_require__(/*! async-future */ 43)
+	var proto = __webpack_require__(/*! proto */ 44)
+	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 20)
 	
-	var Container = __webpack_require__(/*! blocks.js/Container */ 32)
-	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 33)
-	var Block = __webpack_require__(/*! blocks.js/Block */ 34)
+	var Container = __webpack_require__(/*! blocks.js/Container */ 33)
+	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 34)
+	var Block = __webpack_require__(/*! blocks.js/Block */ 35)
 	Block.dev = true
-	var Style = __webpack_require__(/*! blocks.js/Style */ 35)
+	var Style = __webpack_require__(/*! blocks.js/Style */ 36)
 	
-	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 20)
-	var utils = __webpack_require__(/*! ./utils */ 21)
+	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 21)
+	var utils = __webpack_require__(/*! ./utils */ 22)
 	
 	
 	module.exports = deadunitInternal({
-	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 41),
+	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 45),
 	
 	    environmentSpecificMethods: function() {
 	        var red = 'rgb(200,30,30)'
@@ -972,22 +1118,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /*!*********************!*\
   !*** ../~/Block.js ***!
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 22)
-	var proto = __webpack_require__(/*! proto */ 36);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 44)
-	var observe = __webpack_require__(/*! observe */ 45)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 23)
+	var proto = __webpack_require__(/*! proto */ 38);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 40)
+	var observe = __webpack_require__(/*! observe */ 41)
 	
-	var utils = __webpack_require__(/*! ./utils */ 23)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 24)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 25)
+	var utils = __webpack_require__(/*! ./utils */ 24)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 25)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 26)
 	
-	var Style = __webpack_require__(/*! ./Style */ 5)
+	var Style = __webpack_require__(/*! ./Style */ 6)
 	Style.isDev = function() {return module.exports.dev}
 	
 	var components = {};
@@ -1366,8 +1512,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
 	
 	
-	// appends components to the body
-	var attach = module.exports.attach = function(domNode/*, component or components*/) {
+	// appends components to the passed domNode (default: body)
+	var attach = module.exports.attach = function(/*[domNode,] component or components*/) {
 	    if(arguments.length > 1) {
 	        var domNode = arguments[0]
 	        var components = arguments[1]
@@ -1391,28 +1537,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	}
-	// removes components from the body
-	var detach = module.exports.detach = function(domNode/*, component or components*/) {
-	    if(arguments.length > 1) {
-	        var domNode = arguments[0]
-	        var components = arguments[1]
-	    } else {
-	        var domNode = document.body
-	        var components = arguments[0]
-	    }
-	
+	// removes components from their parents
+	var detach = module.exports.detach = function(components) {
 	    if(!(components instanceof Array)) {
-	        var components = [components]
+	        components = [components]
 	    }
 	
 	    for(var n=0; n<components.length; n++) {
 	        var block = components[n]
-	        domNode.removeChild(block.domNode)
+	        block.domNode.parentNode.removeChild(block.domNode)
 	
-	        block.attached = false
-	        for(var n=0; n<block.children.length; n++) {
-	            markAttached(block.children[n], false)
-	        }
+	        markDetached(block)
 	    }
 	}
 	
@@ -1473,20 +1608,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	function isDomNode(node) {
 	    return node.nodeName !== undefined
 	}
-
+	
+	function markDetached(node) {
+	    node.attached = false
+	    for(var n=0; n<node.children.length; n++) {
+	        markDetached(node.children[n])
+	    }
+	}
 
 /***/ },
-/* 5 */
+/* 6 */
 /*!*********************!*\
   !*** ../~/Style.js ***!
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 26)
-	var proto = __webpack_require__(/*! proto */ 36)
-	var HashMap = __webpack_require__(/*! hashmap */ 46)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 27)
+	var proto = __webpack_require__(/*! proto */ 38)
+	var HashMap = __webpack_require__(/*! hashmap */ 42)
 	
-	var utils = __webpack_require__(/*! ./utils */ 23)
+	var utils = __webpack_require__(/*! ./utils */ 24)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -1521,6 +1662,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.componentStyleMap = {}
 	        //this.labelStyleMap = {}
 	        this.nativeCssInfoCache = new HashMap
+	        this.pureStyleInteractionCache = new HashMap
 	        this.basicProperties = {}
 	        if(Style.isDev()) this.nativePseudoclassStyles = {}
 	
@@ -1835,18 +1977,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var info = stylesInfo(styleSelectors, styleMap)
 	            var interacts = info.impure.length > 0
 	            if(!interacts) {
-	                var evenNewerComputedStyleMap = utils.merge({},styleMap) // copy
-	                for(var key in evenNewerComputedStyleMap) {
-	                    if(key in styleSelectors) {
-	                        evenNewerComputedStyleMap[key] = evenNewerComputedStyleMap[key].copy() // copy to ensure that a unique className is created (so that native pseudoclasses don't have the possibility of merging weirdly)
+	                var pureStyleInteractionCacheItem = this.pureStyleInteractionCache.get(info.undef)
+	                if(pureStyleInteractionCacheItem === undefined) {
+	                    var evenNewerComputedStyleMap = utils.merge({},styleMap) // copy
+	                    for(var key in evenNewerComputedStyleMap) {
+	                        if(key in styleSelectors) {
+	                            evenNewerComputedStyleMap[key] = evenNewerComputedStyleMap[key].copy() // copy to ensure that a unique className is created (so that native pseudoclasses don't have the possibility of merging weirdly)
+	                        }
 	                    }
-	                }
-	                for(var n=0; n<info.undef.length; n++) {
-	                    evenNewerComputedStyleMap[info.undef[n]] = Style()  // empty style who's className will be used to create native pseudoclass styles
-	                }
+	                    for(var n=0; n<info.undef.length; n++) {
+	                        evenNewerComputedStyleMap[info.undef[n]] = Style()  // empty style who's className will be used to create native pseudoclass styles
+	                    }
 	
-	                styleToReturn = this.copy()    // a new style className is needed to avoid potential incorrect css overlap
-	                styleMap = evenNewerComputedStyleMap
+	                    styleToReturn = this.copy()    // a new style className is needed to avoid potential incorrect css overlap
+	                    styleMap = evenNewerComputedStyleMap
+	                    this.pureStyleInteractionCache.set(info.undef, {style:styleToReturn, map: styleMap})
+	                } else {
+	                    styleToReturn = pureStyleInteractionCacheItem.style
+	                    styleMap = pureStyleInteractionCacheItem.map
+	                }
 	            } else {
 	                var retryStyle = this.copy()
 	                changeStyleToNonNative(retryStyle)
@@ -2716,13 +2865,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /*!************************!*\
   !*** ./~/testUtils.js ***!
   \************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var Future = __webpack_require__(/*! async-future */ 37)
+	var Style = __webpack_require__(/*! Style */ 6)
+	var Container = __webpack_require__(/*! Components/Container */ 9)
 	
 	// compares arrays and objects for value equality (all elements and members must match)
 	exports.equal = function(a,b) {
@@ -2808,7 +2959,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.cleanupDemo = function(nodes) {
 	    $(nodes[0]).remove()
-	    nodes[1].detach($("#demos")[0])
+	    nodes[1].detach()
 	}
 	exports.manualDemo = function(name, component) {
 	    var header = document.createElement("h1")
@@ -2903,17 +3054,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    return sum/numberSet.length
 	}
+	
+	
+	exports.buildNestedStructure = function (nestings) {
+	    var innerMost = Container()
+	    var cur = innerMost
+	    for(var n=0; n<nestings; n++) {
+	        cur = Container('moose', [cur])
+	    }
+	    return {innerMost:innerMost, top: cur}
+	}
+	
+	exports.buildNestedStyle = function(nestings) {
+	    var styleObject = {};
+	    for(var n=0; n<nestings; n++) {
+	        styleObject = {color: 'red', Container: styleObject}
+	    }
+	
+	    return Style(styleObject)
+	}
 
 /***/ },
-/* 7 */
+/* 8 */
 /*!*********************************!*\
   !*** ../~/Components/Canvas.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 4)
-	var proto = __webpack_require__(/*! proto */ 36)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var Block = __webpack_require__(/*! Block */ 5)
+	var proto = __webpack_require__(/*! proto */ 38)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -2967,19 +3137,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /*!************************************!*\
   !*** ../~/Components/Container.js ***!
   \************************************/
-[100, 4, 36],
-/* 9 */
+[107, 5, 38],
+/* 10 */
 /*!*********************************!*\
   !*** ../~/Components/Button.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 4)
-	var proto = __webpack_require__(/*! proto */ 36)
+	var Block = __webpack_require__(/*! Block */ 5)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3019,14 +3189,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /*!***********************************!*\
   !*** ../~/Components/CheckBox.js ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 4)
-	var proto = __webpack_require__(/*! proto */ 36)
+	var Block = __webpack_require__(/*! Block */ 5)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
 	module.exports = proto(Block, function(superclass) {
 		// static variables
@@ -3062,14 +3232,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /*!********************************!*\
   !*** ../~/Components/Image.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 4)
-	var proto = __webpack_require__(/*! proto */ 36)
+	var Block = __webpack_require__(/*! Block */ 5)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3107,18 +3277,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /*!*******************************!*\
   !*** ../~/Components/List.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 36)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
-	var Block = __webpack_require__(/*! Block */ 4)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var Block = __webpack_require__(/*! Block */ 5)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
-	var Item = __webpack_require__(/*! ./Item */ 27);
+	var Item = __webpack_require__(/*! ./Item */ 28);
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3184,16 +3354,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 13 */
+/* 14 */
 /*!********************************!*\
   !*** ../~/Components/Radio.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 36)
-	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 38)
+	var EventEmitter = __webpack_require__(/*! events */ 39).EventEmitter
 	
-	var Block = __webpack_require__(/*! ../Block */ 4)
+	var Block = __webpack_require__(/*! ../Block */ 5)
 	
 	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
 	
@@ -3453,16 +3623,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 14 */
+/* 15 */
 /*!*********************************!*\
   !*** ../~/Components/Select.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 4)
-	var proto = __webpack_require__(/*! proto */ 36)
+	var Block = __webpack_require__(/*! ../Block */ 5)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
-	var Option = __webpack_require__(/*! Components/Option */ 28)
+	var Option = __webpack_require__(/*! Components/Option */ 29)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Block, function(superclass) {
@@ -3609,20 +3779,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /*!********************************!*\
   !*** ../~/Components/Table.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 36)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
-	var Block = __webpack_require__(/*! ../Block */ 4)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var Block = __webpack_require__(/*! ../Block */ 5)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
-	var Header = __webpack_require__(/*! ./Header */ 29);
-	var Row = __webpack_require__(/*! ./Row */ 30);
-	var Cell = __webpack_require__(/*! ./Cell */ 31);
+	var Header = __webpack_require__(/*! ./Header */ 30);
+	var Row = __webpack_require__(/*! ./Row */ 31);
+	var Cell = __webpack_require__(/*! ./Cell */ 32);
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3676,14 +3846,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 16 */
+/* 17 */
 /*!***********************************!*\
   !*** ../~/Components/TextArea.js ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 4)
-	var proto = __webpack_require__(/*! proto */ 36)
+	var Block = __webpack_require__(/*! ../Block */ 5)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3719,16 +3889,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /*!************************************!*\
   !*** ../~/Components/TextField.js ***!
   \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 4)
-	var proto = __webpack_require__(/*! proto */ 36)
+	var Block = __webpack_require__(/*! ../Block */ 5)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
-	var domUtils = __webpack_require__(/*! ../domUtils */ 24)
+	var domUtils = __webpack_require__(/*! ../domUtils */ 25)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3776,18 +3946,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /*!*******************************!*\
   !*** ../~/Components/Text.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 36)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
-	var Block = __webpack_require__(/*! Block */ 4)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var Block = __webpack_require__(/*! Block */ 5)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
-	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	var domUtils = __webpack_require__(/*! domUtils */ 25)
 	
 	
 	
@@ -3832,17 +4002,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /*!************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/defaultFormats.js ***!
   \************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 39)
+	var Future = __webpack_require__(/*! async-future */ 43)
 	
-	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 42)
-	var indent = __webpack_require__(/*! ./indent */ 43)
-	var utils = __webpack_require__(/*! ./utils */ 21)
+	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 46)
+	var indent = __webpack_require__(/*! ./indent */ 47)
+	var utils = __webpack_require__(/*! ./utils */ 22)
 	
 	// unitTest is a deadunit-core UnitTest object
 	// if consoleColoring is true, the string will contain console color annotations
@@ -4276,7 +4446,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 21 */
 /*!***************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/deadunit.internal.js ***!
   \***************************************************************************************/
@@ -4289,10 +4459,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var exports = {}
 	
 	    var deadunitCore = options.deadunitCore
-	    var proto = __webpack_require__(/*! proto */ 40)
+	    var proto = __webpack_require__(/*! proto */ 44)
 	
-	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 19)
-	    exports.format = __webpack_require__(/*! ./basicFormatter */ 42)
+	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 20)
+	    exports.format = __webpack_require__(/*! ./basicFormatter */ 46)
 	
 	    exports.error = deadunitCore.error
 	
@@ -4319,14 +4489,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /*!***************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/utils.js ***!
   \***************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var util = __webpack_require__(/*! util */ 48)
+	var util = __webpack_require__(/*! util */ 49)
 	
 	exports.plural = function (num, plural, singular) {
 		var plur = num!==1;
@@ -4423,12 +4593,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 22 */
+/* 23 */
 /*!*****************************!*\
   !*** ../~/EventEmitterB.js ***!
   \*****************************/
-[101, 36, 23],
-/* 23 */
+[108, 38, 24],
+/* 24 */
 /*!*********************!*\
   !*** ../~/utils.js ***!
   \*********************/
@@ -4437,7 +4607,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
 	//require('hashmap') // here to mark hashmapMerge's dependency on this module
-	var path = __webpack_require__(/*! path */ 49)
+	var path = __webpack_require__(/*! path */ 50)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -4490,13 +4660,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var obj2 = objects[1]
 	
 	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
+	       //if(Object.hasOwnProperty.call(obj2, key)) {
 	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
 	                mergeInternal([obj1[key], obj2[key]], true)
 	            } else {
 	                obj1[key] = obj2[key]
 	            }
-	       }
+	       //}
 	    }
 	
 	    if(objects.length > 2) {
@@ -4514,7 +4684,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /*!************************!*\
   !*** ../~/domUtils.js ***!
   \************************/
@@ -4714,7 +4884,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 25 */
+/* 26 */
 /*!*******************************!*\
   !*** ../~/blockStyleUtils.js ***!
   \*******************************/
@@ -4722,10 +4892,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
 	
-	var HashMap = __webpack_require__(/*! hashmap */ 46)
+	var HashMap = __webpack_require__(/*! hashmap */ 42)
 	
-	var Style = __webpack_require__(/*! ./Style */ 5)
-	var utils = __webpack_require__(/*! ./utils */ 23)
+	var Style = __webpack_require__(/*! ./Style */ 6)
+	var utils = __webpack_require__(/*! ./utils */ 24)
 	
 	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
 	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
@@ -4826,7 +4996,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
 	    var cachedStyleMap = computedStyles.get([secondaryStyleMap, primaryStyleMap])
 	    if(cachedStyleMap === undefined) {
-	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
+	        if(secondaryStyleMap  === undefined) {
+	            cachedStyleMap = primaryStyleMap
+	        } else if(primaryStyleMap === undefined) {
+	            cachedStyleMap = secondaryStyleMap
+	        } else {
+	            var overridingProperties = {}, atLeastOne = false
+	            for(var key in primaryStyleMap) {
+	                if(secondaryStyleMap[key] !== primaryStyleMap[key]) {
+	                    overridingProperties[key] = primaryStyleMap[key]
+	                    atLeastOne = true
+	                }
+	            }
+	
+	            if(atLeastOne) {
+	                cachedStyleMap = utils.objectConjunction(secondaryStyleMap, overridingProperties)
+	            } else { // the styleMaps are different objects, but contain the same thing
+	                cachedStyleMap = secondaryStyleMap
+	            }
+	        }
+	
 	        if(cachedStyleMap === undefined) cachedStyleMap = false // switch it out with false so it can be recognized
 	        computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
 	    }
@@ -5140,7 +5329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 26 */
+/* 27 */
 /*!**************************!*\
   !*** ../external/jss.js ***!
   \**************************/
@@ -5438,15 +5627,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
 
 /***/ },
-/* 27 */
+/* 28 */
 /*!*******************************!*\
   !*** ../~/Components/Item.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 4)
-	var proto = __webpack_require__(/*! proto */ 36)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var Block = __webpack_require__(/*! Block */ 5)
+	var proto = __webpack_require__(/*! proto */ 38)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -5482,7 +5671,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 28 */
+/* 29 */
 /*!*********************************!*\
   !*** ../~/Components/Option.js ***!
   \*********************************/
@@ -5490,11 +5679,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// note: this is  not intended to be used directly - only through Select and MultiSelect
 	
-	var proto = __webpack_require__(/*! proto */ 36)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
-	var Block = __webpack_require__(/*! Block */ 4)
-	var Style = __webpack_require__(/*! Style */ 5)
-	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	var Block = __webpack_require__(/*! Block */ 5)
+	var Style = __webpack_require__(/*! Style */ 6)
+	var domUtils = __webpack_require__(/*! domUtils */ 25)
 	
 	// emits a 'change' event when its 'selected' value changes
 	module.exports = proto(Block, function(superclass) {
@@ -5590,7 +5779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})
 
 /***/ },
-/* 29 */
+/* 30 */
 /*!*********************************!*\
   !*** ../~/Components/Header.js ***!
   \*********************************/
@@ -5598,32 +5787,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	
 	
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 47);
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 48);
 	
 	module.exports = RowlikeGenerator('th', "TableHeader")
 
 /***/ },
-/* 30 */
+/* 31 */
 /*!******************************!*\
   !*** ../~/Components/Row.js ***!
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 47);
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 48);
 	
 	module.exports = RowlikeGenerator('tr', "TableRow")
 
 
 /***/ },
-/* 31 */
+/* 32 */
 /*!*******************************!*\
   !*** ../~/Components/Cell.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 4)
-	var proto = __webpack_require__(/*! proto */ 36)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var Block = __webpack_require__(/*! ../Block */ 5)
+	var proto = __webpack_require__(/*! proto */ 38)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -5664,183 +5853,44 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 32 */
+/* 33 */
 /*!*******************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Container.js ***!
   \*******************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Container')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 52)
+	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 54)
 
 /***/ },
-/* 33 */
+/* 34 */
 /*!**************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Text.js ***!
   \**************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Text')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 53)
+	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 55)
 
 /***/ },
-/* 34 */
+/* 35 */
 /*!***************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Block.js ***!
   \***************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Block */ 50)
+	module.exports = __webpack_require__(/*! ./src/~/Block */ 52)
 
 /***/ },
-/* 35 */
+/* 36 */
 /*!***************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Style.js ***!
   \***************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Style */ 51)
-
-/***/ },
-/* 36 */
-/*!************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/proto/proto.js ***!
-  \************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                }
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
+	module.exports = __webpack_require__(/*! ./src/~/Style */ 53)
 
 /***/ },
 /* 37 */
@@ -5851,7 +5901,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var trimArgs = __webpack_require__(/*! trimArguments */ 58)
+	var trimArgs = __webpack_require__(/*! trimArguments */ 59)
 	
 	
 	module.exports = Future
@@ -6217,6 +6267,145 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 38 */
+/*!************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/proto/proto.js ***!
+  \************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                }
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 39 */
 /*!********************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/events/events.js ***!
   \********************************************************/
@@ -6526,343 +6715,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 39 */
-/*!************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/asyncFuture.js ***!
-  \************************************************************************************************/
-[99, 60],
 /* 40 */
-/*!***********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/proto/proto.js ***!
-  \***********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                },
-	                configurable: true // so you can change it if you want
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
-/* 41 */
-/*!**************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
-  \**************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 54)
-	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 55)
-	
-	module.exports = deadunitCore(browserConfig())
-
-/***/ },
-/* 42 */
-/*!************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/basicFormatter.js ***!
-  \************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 39)
-	
-	// built in test formatting helper
-	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
-	    if(arguments.length === 3) {
-	        var format = arguments[2]
-	    } else /* if(arguments.length > 3) */{
-	        var color = arguments[2]
-	        var format = arguments[3]
-	    }
-	
-	    var dotText = '.'
-	    if(color !== undefined) {
-	        dotText = color.green('.')
-	    }
-	
-	    var result = new Future
-	
-	    var lastPrintWasDot = false
-	    var printDot = function(dot) {
-	        if(dot) {
-	            process.stdout.write(dotText)
-	        } else if(lastPrintWasDot) {
-	            process.stdout.write('\n')
-	        }
-	
-	        lastPrintWasDot = dot
-	    }
-	
-	    var ended = false
-	    var events = {
-	        end: function(e) {
-	            ended = true
-	            if(printOnTheFly) printDot(false)
-	
-	            var results = unitTest.results()
-	            result.return(formatGroup(results, format, 0).result)
-	
-	            if(format.end !== undefined)
-	                format.end()
-	        }
-	    }
-	
-	    if(printOnTheFly) {
-	        var groups = {}
-	        events.assert = function(e) {
-	            printDot(e.success && !ended)
-	            if(e.success) {
-	                groups[e.parent].testSuccesses++
-	                groups[e.parent].assertSuccesses++
-	            } else {
-	                groups[e.parent].testFailures++
-	                groups[e.parent].assertFailures++
-	            }
-	
-	            if(!e.success || ended) {
-	                console.log(format.assert(e, undefined, true))
-	            }
-	        }
-	        events.exception = function(e) {
-	            printDot(false)
-	            groups[e.parent].exceptions++
-	
-	            console.log(format.exception(e.error, true))
-	        }
-	        events.log = function(e) {
-	            printDot(false)
-	            console.log(format.log(e.values, true))
-	        }
-	        events.group = function(g) {
-	            groups[g.id] = {parent: g.parent, name: g.name, testSuccesses: 0, testFailures: 0, assertSuccesses: 0, assertFailures: 0, exceptions: 0}
-	        }
-	        events.groupEnd = function(g) {
-	            var parent = groups[g.id].parent
-	            if(parent !== undefined) {
-	                printDot(false)
-	                if(groups[g.id].testFailures === 0 && groups[g.id].assertFailures === 0 && groups[g.id].exceptions === 0) {
-	                    groups[parent].testSuccesses++
-	                } else {
-	                    groups[parent].testFailures++
-	                }
-	
-	                console.log(format.group(groups[g.id].name, undefined, groups[g.id].testSuccesses,groups[g.id].testFailures,groups[g.id].assertSuccesses,groups[g.id].assertFailures,
-	                                        groups[g.id].exceptions, [], [], 1, false, true))
-	            }
-	        }
-	    }
-	
-	    unitTest.events(events)
-	
-	    return result
-	}
-	
-	function formatGroup(testResults, format, nestingLevel) {
-	    var assertSuccesses = 0
-	    var assertFailures = 0
-	    var exceptions = 0
-	
-	    var testCaseSuccesses= 0, testCaseFailures=0;
-	
-	    var results = []
-	    testResults.results.forEach(function(result) {
-	        if(result.type === 'assert') {
-	            if(result.success) {
-	                testCaseSuccesses++
-	                assertSuccesses ++
-	            } else {
-	                testCaseFailures++
-	                assertFailures++
-	            }
-	
-	            results.push(format.assert(result, testResults.name, false))
-	
-	        } else if(result.type === 'group') {
-	            var group = formatGroup(result, format, nestingLevel+1)
-	            exceptions+= group.exceptions
-	
-	            if(group.failures === 0 && group.exceptions === 0)
-	                testCaseSuccesses++
-	            else
-	                testCaseFailures++
-	
-	            results.push(group.result)
-	            assertSuccesses+= group.assertSuccesses
-	            assertFailures+= group.assertFailures
-	
-	        } else if(result.type === 'log') {
-	            results.push(format.log(result.values, false))
-	        } else {
-	            throw new Error("Unknown result type: "+result.type)
-	        }
-	    })
-	
-	    var exceptionResults = []
-	    testResults.exceptions.forEach(function(e) {
-	        exceptionResults.push(format.exception(e, false))
-	    })
-	
-	    exceptions+= testResults.exceptions.length
-	
-	    var formattedGroup = format.group(testResults.name, testResults.duration,
-	                                      testCaseSuccesses, testCaseFailures,
-	                                      assertSuccesses, assertFailures, exceptions,
-	                                      results, exceptionResults, nestingLevel, testResults.timeout, false)
-	    return {result: formattedGroup,
-	            successes: testCaseSuccesses,
-	            failures: testCaseFailures,
-	            assertSuccesses: assertSuccesses,
-	            assertFailures: assertFailures,
-	            exceptions: exceptions
-	    }
-	}
-	
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 57)))
-
-/***/ },
-/* 43 */
-/*!****************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/indent.js ***!
-  \****************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = function(i, str) {
-	    return i+str.split("\n")       // get all lines
-	              .join("\n"+i)      // join all lines with an indent
-	}
-
-/***/ },
-/* 44 */
 /*!****************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/trimArguments/trimArguments.js ***!
   \****************************************************************************************/
@@ -6886,15 +6739,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 45 */
+/* 41 */
 /*!****************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/observe.js ***!
   \****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 36)
-	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
-	var utils = __webpack_require__(/*! ./utils */ 56)
+	var proto = __webpack_require__(/*! proto */ 38)
+	var EventEmitter = __webpack_require__(/*! events */ 39).EventEmitter
+	var utils = __webpack_require__(/*! ./utils */ 51)
 	
 	
 	// emits the event:
@@ -7310,7 +7163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 46 */
+/* 42 */
 /*!****************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/hashmap/hashmap.js ***!
   \****************************************************************************/
@@ -7506,17 +7359,353 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 43 */
+/*!************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/asyncFuture.js ***!
+  \************************************************************************************************/
+[106, 61],
+/* 44 */
+/*!***********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/proto/proto.js ***!
+  \***********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                },
+	                configurable: true // so you can change it if you want
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 45 */
+/*!**************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
+  \**************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 56)
+	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 57)
+	
+	module.exports = deadunitCore(browserConfig())
+
+/***/ },
+/* 46 */
+/*!************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/basicFormatter.js ***!
+  \************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 43)
+	
+	// built in test formatting helper
+	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
+	    if(arguments.length === 3) {
+	        var format = arguments[2]
+	    } else /* if(arguments.length > 3) */{
+	        var color = arguments[2]
+	        var format = arguments[3]
+	    }
+	
+	    var dotText = '.'
+	    if(color !== undefined) {
+	        dotText = color.green('.')
+	    }
+	
+	    var result = new Future
+	
+	    var lastPrintWasDot = false
+	    var printDot = function(dot) {
+	        if(dot) {
+	            process.stdout.write(dotText)
+	        } else if(lastPrintWasDot) {
+	            process.stdout.write('\n')
+	        }
+	
+	        lastPrintWasDot = dot
+	    }
+	
+	    var ended = false
+	    var events = {
+	        end: function(e) {
+	            ended = true
+	            if(printOnTheFly) printDot(false)
+	
+	            var results = unitTest.results()
+	            result.return(formatGroup(results, format, 0).result)
+	
+	            if(format.end !== undefined)
+	                format.end()
+	        }
+	    }
+	
+	    if(printOnTheFly) {
+	        var groups = {}
+	        events.assert = function(e) {
+	            printDot(e.success && !ended)
+	            if(e.success) {
+	                groups[e.parent].testSuccesses++
+	                groups[e.parent].assertSuccesses++
+	            } else {
+	                groups[e.parent].testFailures++
+	                groups[e.parent].assertFailures++
+	            }
+	
+	            if(!e.success || ended) {
+	                console.log(format.assert(e, undefined, true))
+	            }
+	        }
+	        events.exception = function(e) {
+	            printDot(false)
+	            groups[e.parent].exceptions++
+	
+	            console.log(format.exception(e.error, true))
+	        }
+	        events.log = function(e) {
+	            printDot(false)
+	            console.log(format.log(e.values, true))
+	        }
+	        events.group = function(g) {
+	            groups[g.id] = {parent: g.parent, name: g.name, testSuccesses: 0, testFailures: 0, assertSuccesses: 0, assertFailures: 0, exceptions: 0}
+	        }
+	        events.groupEnd = function(g) {
+	            var parent = groups[g.id].parent
+	            if(parent !== undefined) {
+	                printDot(false)
+	                if(groups[g.id].testFailures === 0 && groups[g.id].assertFailures === 0 && groups[g.id].exceptions === 0) {
+	                    groups[parent].testSuccesses++
+	                } else {
+	                    groups[parent].testFailures++
+	                }
+	
+	                console.log(format.group(groups[g.id].name, undefined, groups[g.id].testSuccesses,groups[g.id].testFailures,groups[g.id].assertSuccesses,groups[g.id].assertFailures,
+	                                        groups[g.id].exceptions, [], [], 1, false, true))
+	            }
+	        }
+	    }
+	
+	    unitTest.events(events)
+	
+	    return result
+	}
+	
+	function formatGroup(testResults, format, nestingLevel) {
+	    var assertSuccesses = 0
+	    var assertFailures = 0
+	    var exceptions = 0
+	
+	    var testCaseSuccesses= 0, testCaseFailures=0;
+	
+	    var results = []
+	    testResults.results.forEach(function(result) {
+	        if(result.type === 'assert') {
+	            if(result.success) {
+	                testCaseSuccesses++
+	                assertSuccesses ++
+	            } else {
+	                testCaseFailures++
+	                assertFailures++
+	            }
+	
+	            results.push(format.assert(result, testResults.name, false))
+	
+	        } else if(result.type === 'group') {
+	            var group = formatGroup(result, format, nestingLevel+1)
+	            exceptions+= group.exceptions
+	
+	            if(group.failures === 0 && group.exceptions === 0)
+	                testCaseSuccesses++
+	            else
+	                testCaseFailures++
+	
+	            results.push(group.result)
+	            assertSuccesses+= group.assertSuccesses
+	            assertFailures+= group.assertFailures
+	
+	        } else if(result.type === 'log') {
+	            results.push(format.log(result.values, false))
+	        } else {
+	            throw new Error("Unknown result type: "+result.type)
+	        }
+	    })
+	
+	    var exceptionResults = []
+	    testResults.exceptions.forEach(function(e) {
+	        exceptionResults.push(format.exception(e, false))
+	    })
+	
+	    exceptions+= testResults.exceptions.length
+	
+	    var formattedGroup = format.group(testResults.name, testResults.duration,
+	                                      testCaseSuccesses, testCaseFailures,
+	                                      assertSuccesses, assertFailures, exceptions,
+	                                      results, exceptionResults, nestingLevel, testResults.timeout, false)
+	    return {result: formattedGroup,
+	            successes: testCaseSuccesses,
+	            failures: testCaseFailures,
+	            assertSuccesses: assertSuccesses,
+	            assertFailures: assertFailures,
+	            exceptions: exceptions
+	    }
+	}
+	
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 58)))
+
+/***/ },
 /* 47 */
+/*!****************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/indent.js ***!
+  \****************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = function(i, str) {
+	    return i+str.split("\n")       // get all lines
+	              .join("\n"+i)      // join all lines with an indent
+	}
+
+/***/ },
+/* 48 */
 /*!*******************************************!*\
   !*** ../~/Components/RowlikeGenerator.js ***!
   \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 36)
+	var proto = __webpack_require__(/*! proto */ 38)
 	
-	var Block = __webpack_require__(/*! Block */ 4)
-	var Style = __webpack_require__(/*! Style */ 5)
-	var Cell = __webpack_require__(/*! ./Cell */ 31);
+	var Block = __webpack_require__(/*! Block */ 5)
+	var Style = __webpack_require__(/*! Style */ 6)
+	var Cell = __webpack_require__(/*! ./Cell */ 32);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -7563,7 +7752,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 48 */
+/* 49 */
 /*!****************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/util/util.js ***!
   \****************************************************/
@@ -8094,7 +8283,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 59);
+	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 60);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -8138,7 +8327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(/*! inherits */ 69);
+	exports.inherits = __webpack_require__(/*! inherits */ 70);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -8156,10 +8345,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 57)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 58)))
 
 /***/ },
-/* 49 */
+/* 50 */
 /*!****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/path-browserify/index.js ***!
   \****************************************************************/
@@ -8390,25 +8579,77 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 57)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 58)))
 
 /***/ },
-/* 50 */
+/* 51 */
+/*!**************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/utils.js ***!
+  \**************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	var path = __webpack_require__(/*! path */ 50)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       }
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 52 */
 /*!*********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
   \*********************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 67)
-	var proto = __webpack_require__(/*! proto */ 40);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 44)
-	var observe = __webpack_require__(/*! observe */ 45)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 68)
+	var proto = __webpack_require__(/*! proto */ 44);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 40)
+	var observe = __webpack_require__(/*! observe */ 41)
 	
-	var utils = __webpack_require__(/*! ./utils */ 61)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 62)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 63)
+	var utils = __webpack_require__(/*! ./utils */ 63)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 65)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 64)
 	
-	var Style = __webpack_require__(/*! ./Style */ 51)
+	var Style = __webpack_require__(/*! ./Style */ 53)
 	Style.isDev = function() {return module.exports.dev}
 	
 	var components = {};
@@ -8842,18 +9083,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 51 */
+/* 53 */
 /*!*********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Style.js ***!
   \*********************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 64)
-	var proto = __webpack_require__(/*! proto */ 40)
-	var HashMap = __webpack_require__(/*! hashmap */ 46)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 62)
+	var proto = __webpack_require__(/*! proto */ 44)
+	var HashMap = __webpack_require__(/*! hashmap */ 42)
 	
-	var utils = __webpack_require__(/*! ./utils */ 61)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 63)
+	var utils = __webpack_require__(/*! ./utils */ 63)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 64)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -9704,20 +9945,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 52 */
+/* 54 */
 /*!************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Container.js ***!
   \************************************************************************************************************/
-[100, 50, 40],
-/* 53 */
+[107, 52, 44],
+/* 55 */
 /*!*******************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Text.js ***!
   \*******************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 50)
-	var proto = __webpack_require__(/*! proto */ 40)
-	var Style = __webpack_require__(/*! Style */ 51)
+	var Block = __webpack_require__(/*! ../Block */ 52)
+	var proto = __webpack_require__(/*! proto */ 44)
+	var Style = __webpack_require__(/*! Style */ 53)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -9772,7 +10013,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 54 */
+/* 56 */
 /*!******************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.js ***!
   \******************************************************************************************************/
@@ -9781,15 +10022,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(/*! path */ 49)
-	var Url = __webpack_require__(/*! url */ 68)
+	var path = __webpack_require__(/*! path */ 50)
+	var Url = __webpack_require__(/*! url */ 69)
 	
 	var proto = __webpack_require__(/*! proto */ 71)
-	var Future = __webpack_require__(/*! async-future */ 70)
+	var Future = __webpack_require__(/*! async-future */ 73)
 	var SourceMapConsumer = __webpack_require__(/*! source-map */ 72).SourceMapConsumer
 	
-	var processResults = __webpack_require__(/*! ./processResults */ 65)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 66)
+	var processResults = __webpack_require__(/*! ./processResults */ 66)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 67)
 	
 	// returns a module intended for a specific environment (that environment being described by the options)
 	// options can contain:
@@ -10690,7 +10931,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 55 */
+/* 57 */
 /*!********************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browserConfig.js ***!
   \********************************************************************************************************************/
@@ -10699,16 +10940,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(/*! path */ 49);
+	var path = __webpack_require__(/*! path */ 50);
 	
-	var Future = __webpack_require__(/*! async-future */ 70)
+	var Future = __webpack_require__(/*! async-future */ 73)
 	var proto = __webpack_require__(/*! proto */ 71)
-	var stackinfo = __webpack_require__(/*! stackinfo */ 73)
+	var stackinfo = __webpack_require__(/*! stackinfo */ 75)
 	var ajax = __webpack_require__(/*! ajax */ 74)
-	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 75).resolveSourceMap)
+	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 76).resolveSourceMap)
 	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 54)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 66)
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 56)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 67)
 	
 	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
 	
@@ -10867,59 +11108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 56 */
-/*!**************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/utils.js ***!
-  \**************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	var path = __webpack_require__(/*! path */ 49)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       }
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 57 */
+/* 58 */
 /*!**********************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/process/browser.js ***!
   \**********************************************************/
@@ -11014,7 +11203,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 58 */
+/* 59 */
 /*!*******************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/async-future/~/trimArguments/trimArguments.js ***!
   \*******************************************************************************************************/
@@ -11036,7 +11225,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 59 */
+/* 60 */
 /*!***********************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
   \***********************************************************************/
@@ -11050,12 +11239,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 60 */
+/* 61 */
 /*!******************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
   \******************************************************************************************************************/
-58,
-/* 61 */
+59,
+/* 62 */
+/*!**************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
+  \**************************************************************************************************/
+27,
+/* 63 */
 /*!*********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/utils.js ***!
   \*********************************************************************************************/
@@ -11063,7 +11257,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var path = __webpack_require__(/*! path */ 49)
+	var path = __webpack_require__(/*! path */ 50)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -11124,7 +11318,197 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 62 */
+/* 64 */
+/*!*******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
+  \*******************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
+	
+	var HashMap = __webpack_require__(/*! hashmap */ 42)
+	
+	var Style = __webpack_require__(/*! ./Style */ 53)
+	var utils = __webpack_require__(/*! ./utils */ 63)
+	
+	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
+	
+	// propogates a style-set change to a set of components
+	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
+	var propogateStyleSet = exports.propogateStyleSet = function (components, styleMap) {
+	    for(var n=0; n<components.length; n++) {
+	        var c = components[n]
+	
+	        // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
+	        if(c._style === undefined) {
+	            if(styleMap === undefined) {
+	                setCurrentStyle(c, undefined)
+	            } else {
+	                var styleFromMap = getStyleForComponent(styleMap, c)
+	                if(styleFromMap !== undefined) {
+	                    setCurrentStyle(c, styleFromMap)
+	                }
+	            }
+	        }
+	
+	        // set the computed style set
+	        var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
+	        if(c._style !== undefined) {
+	            mainStyle = c._style.get(c)
+	        } else if(styleMap !== undefined) {
+	            mainStyle = getStyleForComponent(styleMap, c)
+	            if(mainStyle !== undefined) {
+	                mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
+	            }
+	        }
+	
+	        if(mainStyle !== undefined) {
+	            if(styleMap !== undefined) {
+	                c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
+	            } else {
+	                c.computedStyleMap = mainStyle.componentStyleMap
+	            }
+	        } else {
+	            c.computedStyleMap = styleMap
+	        }
+	
+	        propogateStyleSet(c.children, c.computedStyleMap)
+	    }
+	}
+	
+	// gets the right style from the styleMap
+	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
+	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
+	    var constructor = block.constructor
+	    while(constructor !== undefined) {
+	        var style = styleMap[constructor.name]
+	        if(style !== undefined) {
+	            return style
+	        } else {
+	            constructor = constructor.parent
+	        }
+	    }
+	}
+	
+	// returns the conjunction of two style maps
+	// gets it from the computedStyles cache if its already in there
+	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
+	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
+	    if(cachedStyleMap === undefined) {
+	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
+	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
+	    }
+	
+	    return cachedStyleMap
+	}
+	
+	// takes labels into account
+	var setCurrentStyle = exports.setCurrentStyle = function (component, style) {
+	    if(style === component.currentStyle) return; // do nothing
+	
+	    if(style !== undefined)
+	        var specificStyle = style.get(component)
+	    else
+	        var specificStyle = style
+	
+	    setStyleClass(component, specificStyle)
+	    applyStyleKillFunction(component)
+	    component.currentStyle = specificStyle
+	    applyStyleSetupFunction(component, specificStyle)
+	    applyStateHandler(component, specificStyle)
+	}
+	
+	
+	exports.createDefaultBlockStyle = function (that) {
+	    if(that.defaultStyle !== undefined) {
+	        validateDefaultStyle(that.defaultStyle)
+	    }
+	
+	    // get list of default styles
+	    var defaultStyles = []
+	    var nextConstructor = that.constructor
+	    while(nextConstructor !== undefined) {
+	        if(nextConstructor.defaultStyle !== undefined) {
+	            defaultStyles.push(nextConstructor.defaultStyle)
+	        }
+	        nextConstructor = nextConstructor.parent
+	    }
+	
+	    // generate merged default style
+	    var defaultStyleSet = {}
+	    defaultStyles.reverse().forEach(function(style) {
+	        for(var k in style.styleDefinitions) {
+	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
+	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
+	        }
+	
+	    })
+	
+	    if(Object.keys(defaultStyleSet).length > 0)
+	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
+	    else
+	        var defaultBlockStyle = false // no special default
+	
+	    exports.defaultStyleMap.set(that.constructor, defaultBlockStyle)
+	    return defaultBlockStyle
+	}
+	
+	
+	// applies setup appropriately
+	function applyStyleSetupFunction(component, style) {
+	    if(style !== undefined && style.setup !== undefined) {
+	        component._styleSetupObject = style.setup(component) // call setup on the component
+	    } else {
+	        component._styleSetupObject = undefined
+	    }
+	}
+	// applies kill appropriately
+	function applyStyleKillFunction(component) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
+	        if(currentStyle.kill === undefined)
+	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
+	
+	        currentStyle.kill(component, component._styleSetupObject)
+	    }
+	}
+	
+	// initializes and sets up state-change handler
+	function applyStateHandler(component, style) {
+	    if(style !== undefined && style.stateHandler !== undefined) {
+	        // todo: using setCurrentStyle is a stopgap until I can implement better style application for $state and pseudoclasses (which probably will require a rewrite of much of the style logic)
+	        setCurrentStyle(component, style.stateHandler(component.state.subject))
+	        component.state.on('change', function() {
+	            setCurrentStyle(component, style.stateHandler(component.state.subject))
+	        })
+	    }
+	}
+	
+	// sets the style, replacing one if one already exists
+	function setStyleClass(component, style) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined) {
+	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
+	    }
+	    if(style !== undefined) {
+	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
+	    }
+	}
+	
+	function validateDefaultStyle(defaultStyle) {
+	    if(!(defaultStyle instanceof Style)) {
+	        throw new Error("defaultStyle property must be a Style object")
+	    } else if(
+	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
+	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
+	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
+	    ) {
+	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+	    }
+	}
+
+/***/ },
+/* 65 */
 /*!************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/domUtils.js ***!
   \************************************************************************************************/
@@ -11321,202 +11705,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 63 */
-/*!*******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
-  \*******************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
-	
-	var HashMap = __webpack_require__(/*! hashmap */ 46)
-	
-	var Style = __webpack_require__(/*! ./Style */ 51)
-	var utils = __webpack_require__(/*! ./utils */ 61)
-	
-	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
-	
-	// propogates a style-set change to a set of components
-	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
-	var propogateStyleSet = exports.propogateStyleSet = function (components, styleMap) {
-	    for(var n=0; n<components.length; n++) {
-	        var c = components[n]
-	
-	        // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
-	        if(c._style === undefined) {
-	            if(styleMap === undefined) {
-	                setCurrentStyle(c, undefined)
-	            } else {
-	                var styleFromMap = getStyleForComponent(styleMap, c)
-	                if(styleFromMap !== undefined) {
-	                    setCurrentStyle(c, styleFromMap)
-	                }
-	            }
-	        }
-	
-	        // set the computed style set
-	        var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
-	        if(c._style !== undefined) {
-	            mainStyle = c._style.get(c)
-	        } else if(styleMap !== undefined) {
-	            mainStyle = getStyleForComponent(styleMap, c)
-	            if(mainStyle !== undefined) {
-	                mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
-	            }
-	        }
-	
-	        if(mainStyle !== undefined) {
-	            if(styleMap !== undefined) {
-	                c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
-	            } else {
-	                c.computedStyleMap = mainStyle.componentStyleMap
-	            }
-	        } else {
-	            c.computedStyleMap = styleMap
-	        }
-	
-	        propogateStyleSet(c.children, c.computedStyleMap)
-	    }
-	}
-	
-	// gets the right style from the styleMap
-	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
-	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
-	    var constructor = block.constructor
-	    while(constructor !== undefined) {
-	        var style = styleMap[constructor.name]
-	        if(style !== undefined) {
-	            return style
-	        } else {
-	            constructor = constructor.parent
-	        }
-	    }
-	}
-	
-	// returns the conjunction of two style maps
-	// gets it from the computedStyles cache if its already in there
-	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
-	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
-	    if(cachedStyleMap === undefined) {
-	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
-	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
-	    }
-	
-	    return cachedStyleMap
-	}
-	
-	// takes labels into account
-	var setCurrentStyle = exports.setCurrentStyle = function (component, style) {
-	    if(style === component.currentStyle) return; // do nothing
-	
-	    if(style !== undefined)
-	        var specificStyle = style.get(component)
-	    else
-	        var specificStyle = style
-	
-	    setStyleClass(component, specificStyle)
-	    applyStyleKillFunction(component)
-	    component.currentStyle = specificStyle
-	    applyStyleSetupFunction(component, specificStyle)
-	    applyStateHandler(component, specificStyle)
-	}
-	
-	
-	exports.createDefaultBlockStyle = function (that) {
-	    if(that.defaultStyle !== undefined) {
-	        validateDefaultStyle(that.defaultStyle)
-	    }
-	
-	    // get list of default styles
-	    var defaultStyles = []
-	    var nextConstructor = that.constructor
-	    while(nextConstructor !== undefined) {
-	        if(nextConstructor.defaultStyle !== undefined) {
-	            defaultStyles.push(nextConstructor.defaultStyle)
-	        }
-	        nextConstructor = nextConstructor.parent
-	    }
-	
-	    // generate merged default style
-	    var defaultStyleSet = {}
-	    defaultStyles.reverse().forEach(function(style) {
-	        for(var k in style.styleDefinitions) {
-	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
-	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
-	        }
-	
-	    })
-	
-	    if(Object.keys(defaultStyleSet).length > 0)
-	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
-	    else
-	        var defaultBlockStyle = false // no special default
-	
-	    exports.defaultStyleMap.set(that.constructor, defaultBlockStyle)
-	    return defaultBlockStyle
-	}
-	
-	
-	// applies setup appropriately
-	function applyStyleSetupFunction(component, style) {
-	    if(style !== undefined && style.setup !== undefined) {
-	        component._styleSetupObject = style.setup(component) // call setup on the component
-	    } else {
-	        component._styleSetupObject = undefined
-	    }
-	}
-	// applies kill appropriately
-	function applyStyleKillFunction(component) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
-	        if(currentStyle.kill === undefined)
-	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
-	
-	        currentStyle.kill(component, component._styleSetupObject)
-	    }
-	}
-	
-	// initializes and sets up state-change handler
-	function applyStateHandler(component, style) {
-	    if(style !== undefined && style.stateHandler !== undefined) {
-	        // todo: using setCurrentStyle is a stopgap until I can implement better style application for $state and pseudoclasses (which probably will require a rewrite of much of the style logic)
-	        setCurrentStyle(component, style.stateHandler(component.state.subject))
-	        component.state.on('change', function() {
-	            setCurrentStyle(component, style.stateHandler(component.state.subject))
-	        })
-	    }
-	}
-	
-	// sets the style, replacing one if one already exists
-	function setStyleClass(component, style) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined) {
-	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
-	    }
-	    if(style !== undefined) {
-	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
-	    }
-	}
-	
-	function validateDefaultStyle(defaultStyle) {
-	    if(!(defaultStyle instanceof Style)) {
-	        throw new Error("defaultStyle property must be a Style object")
-	    } else if(
-	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
-	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
-	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
-	    ) {
-	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-	    }
-	}
-
-/***/ },
-/* 64 */
-/*!**************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
-  \**************************************************************************************************/
-26,
-/* 65 */
+/* 66 */
 /*!********************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/processResults.js ***!
   \********************************************************************************************************/
@@ -11653,13 +11842,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 66 */
+/* 67 */
 /*!****************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
   \****************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var path = __webpack_require__(/*! path */ 49)
+	var path = __webpack_require__(/*! path */ 50)
 	
 	module.exports = function isRelative(p) {
 	    var normal = path.normalize(p)
@@ -11668,12 +11857,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 67 */
+/* 68 */
 /*!*****************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/EventEmitterB.js ***!
   \*****************************************************************************************************/
-[101, 40, 61],
-/* 68 */
+[108, 44, 63],
+/* 69 */
 /*!**************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
   \**************************************************/
@@ -11700,7 +11889,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var punycode = __webpack_require__(/*! punycode */ 81);
+	var punycode = __webpack_require__(/*! punycode */ 82);
 	
 	exports.parse = urlParse;
 	exports.resolve = urlResolve;
@@ -11772,7 +11961,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'gopher:': true,
 	      'file:': true
 	    },
-	    querystring = __webpack_require__(/*! querystring */ 82);
+	    querystring = __webpack_require__(/*! querystring */ 83);
 	
 	function urlParse(url, parseQueryString, slashesDenoteHost) {
 	  if (url && isObject(url) && url instanceof Url) return url;
@@ -12389,7 +12578,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 69 */
+/* 70 */
 /*!***************************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/util/~/inherits/inherits_browser.js ***!
   \***************************************************************************/
@@ -12421,7 +12610,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 70 */
+/* 71 */
+/*!***************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
+  \***************************************************************************************************/
+44,
+/* 72 */
+/*!*****************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
+  \*****************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	 * Copyright 2009-2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE.txt or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 77).SourceMapGenerator;
+	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 78).SourceMapConsumer;
+	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 79).SourceNode;
+
+
+/***/ },
+/* 73 */
 /*!****************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
   \****************************************************************************************************************/
@@ -12429,7 +12640,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var trimArgs = __webpack_require__(/*! trimArguments */ 84)
+	var trimArgs = __webpack_require__(/*! trimArguments */ 90)
 	
 	
 	module.exports = Future
@@ -12795,114 +13006,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 71 */
-/*!***************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
-  \***************************************************************************************************/
-40,
-/* 72 */
-/*!*****************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
-  \*****************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * Copyright 2009-2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE.txt or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 78).SourceMapGenerator;
-	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 79).SourceMapConsumer;
-	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 80).SourceNode;
-
-
-/***/ },
-/* 73 */
-/*!***********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
-  \***********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 85)
-	var parsers = __webpack_require__(/*! ./tracelineParser */ 76)
-	var mode = __webpack_require__(/*! ./exceptionMode */ 77)
-	
-	module.exports = function(ex) {
-	    if(parsers[mode] === undefined)
-	        throw new Error("browser "+mode+" not supported")
-	
-	    var options = undefined
-	    if(ex !== undefined) {
-	        if(mode === 'ie' && ex.number === undefined)
-	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
-	        options = {e:ex, guess: true}
-	    }
-	    var trace = printStackTrace(options)
-	
-	    if(ex === undefined) {
-	        trace.splice(0,4) // strip stacktrace-js internals
-	    }
-	
-	    return parseStacktrace(trace)
-	}
-	
-	function TraceInfo(traceline) {
-	    this.traceline = traceline
-	}
-	TraceInfo.prototype = {
-	    get file() {
-	        return getInfo(this).file
-	    },
-	    get function() {
-	        return getInfo(this).function
-	    },
-	    get line() {
-	        return getInfo(this).line
-	    },
-	    get column() {
-	        return getInfo(this).column
-	    },
-	    get info() {
-	        return getInfo(this)
-	    }
-	}
-	
-	function getInfo(traceInfo) {
-	    if(traceInfo.cache === undefined) {
-	        var info = parsers[mode](traceInfo.traceline)
-	        if(info.line !== undefined)
-	            info.line = parseInt(info.line, 10)
-	        if(info.column !== undefined)
-	            info.column = parseInt(info.column, 10)
-	
-	        traceInfo.cache = info
-	    }
-	
-	    return traceInfo.cache
-	}
-	
-	function parseStacktrace(trace) {
-	    var results = []
-	    for(var n = 0; n<trace.length; n++) {
-	        results.push(new TraceInfo(trace[n]))
-	    }
-	    return results
-	}
-	
-	// here because i'm lazy, they're here for testing only
-	module.exports.parsers = parsers
-	module.exports.mode = mode
-	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
-
-
-/***/ },
 /* 74 */
 /*!*************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
   \*************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 92)
+	var Future = __webpack_require__(/*! async-future */ 91)
 	
 	// returns the XHR function or equivalent for use with ajax
 	// memoizes the function for faster repeated use
@@ -13014,6 +13124,85 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 75 */
+/*!***********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
+  \***********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 89)
+	var parsers = __webpack_require__(/*! ./tracelineParser */ 80)
+	var mode = __webpack_require__(/*! ./exceptionMode */ 81)
+	
+	module.exports = function(ex) {
+	    if(parsers[mode] === undefined)
+	        throw new Error("browser "+mode+" not supported")
+	
+	    var options = undefined
+	    if(ex !== undefined) {
+	        if(mode === 'ie' && ex.number === undefined)
+	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
+	        options = {e:ex, guess: true}
+	    }
+	    var trace = printStackTrace(options)
+	
+	    if(ex === undefined) {
+	        trace.splice(0,4) // strip stacktrace-js internals
+	    }
+	
+	    return parseStacktrace(trace)
+	}
+	
+	function TraceInfo(traceline) {
+	    this.traceline = traceline
+	}
+	TraceInfo.prototype = {
+	    get file() {
+	        return getInfo(this).file
+	    },
+	    get function() {
+	        return getInfo(this).function
+	    },
+	    get line() {
+	        return getInfo(this).line
+	    },
+	    get column() {
+	        return getInfo(this).column
+	    },
+	    get info() {
+	        return getInfo(this)
+	    }
+	}
+	
+	function getInfo(traceInfo) {
+	    if(traceInfo.cache === undefined) {
+	        var info = parsers[mode](traceInfo.traceline)
+	        if(info.line !== undefined)
+	            info.line = parseInt(info.line, 10)
+	        if(info.column !== undefined)
+	            info.column = parseInt(info.column, 10)
+	
+	        traceInfo.cache = info
+	    }
+	
+	    return traceInfo.cache
+	}
+	
+	function parseStacktrace(trace) {
+	    var results = []
+	    for(var n = 0; n<trace.length; n++) {
+	        results.push(new TraceInfo(trace[n]))
+	    }
+	    return results
+	}
+	
+	// here because i'm lazy, they're here for testing only
+	module.exports.parsers = parsers
+	module.exports.mode = mode
+	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
+
+
+/***/ },
+/* 76 */
 /*!*****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/source-map-resolve.js ***!
   \*****************************************************************************************************************************/
@@ -13028,7 +13217,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	void (function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 89), __webpack_require__(/*! resolve-url */ 91)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 93), __webpack_require__(/*! resolve-url */ 92)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
 	  } else if (typeof exports === "object") {
 	    var sourceMappingURL = require("source-map-url")
 	    var resolveUrl = require("resolve-url")
@@ -13256,173 +13445,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 83).setImmediate))
-
-/***/ },
-/* 76 */
-/*!*****************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
-  \*****************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = {
-	    chrome: function(line) {
-	        var m = line.match(CHROME_STACK_LINE);
-	        if (m) {
-	            var file = m[9] || m[18] || m[26]
-	            var fn = m[4] || m[7] || m[14] || m[23]
-	            var lineNumber = m[11] || m[20]
-	            var column = m[13] || m[22]
-	        } else {
-	            //throw new Error("Couldn't parse exception line: "+line)
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    firefox: function(line) {
-	        var m = line.match(FIREFOX_STACK_LINE);
-	        if (m) {
-	            var file = m[8]
-	            var fn = m[1]
-	            var lineNumber = m[10]
-	            var column = m[12]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    ie: function(line) {
-	        var m = line.match(IE_STACK_LINE);
-	        if (m) {
-	            var file = m[3] || m[10]
-	            var fn = m[2] || m[9]
-	            var lineNumber = m[5] || m[12]
-	            var column = m[7] || m[14]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    }
-	}
-	
-	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
-	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
-	var IDENTIFIER_PATTERN_ = '[\\w$]*';
-	// RegExp pattern for an URL + position inside the file.
-	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
-	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
-	
-	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
-	
-	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
-	
-	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
-	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
-	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
-	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
-	
-	// output from stacktrace.js is: "name()@..." instead of "name (...)"
-	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
-	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
-	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
-	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
-	
-	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
-	
-	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
-	
-	
-	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
-	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
-	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
-	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
-	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
-	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
-	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
-	
-	var IE_WHITESPACE = '[\\w \\t]'
-	var IE_FILE_AND_LINE = FILE_AND_LINE
-	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
-	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
-	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
-	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 84).setImmediate))
 
 /***/ },
 /* 77 */
-/*!***************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
-  \***************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	module.exports = exceptionMode(createException()) // basically what browser this is
-	
-	// verbatim from `mode` in stacktrace.js as of 2014-01-23
-	function exceptionMode(e) {
-	    if (e['arguments'] && e.stack) {
-	        return 'chrome';
-	    } else if (e.stack && e.sourceURL) {
-	        return 'safari';
-	    } else if (e.stack && e.number) {
-	        return 'ie';
-	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
-	        // e.message.indexOf("Backtrace:") > -1 -> opera
-	        // !e.stacktrace -> opera
-	        if (!e.stacktrace) {
-	            return 'opera9'; // use e.message
-	        }
-	        // 'opera#sourceloc' in e -> opera9, opera10a
-	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
-	            return 'opera9'; // use e.message
-	        }
-	        // e.stacktrace && !e.stack -> opera10a
-	        if (!e.stack) {
-	            return 'opera10a'; // use e.stacktrace
-	        }
-	        // e.stacktrace && e.stack -> opera10b
-	        if (e.stacktrace.indexOf("called from line") < 0) {
-	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
-	        }
-	        // e.stacktrace && e.stack -> opera11
-	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
-	    } else if (e.stack && !e.fileName) {
-	        // Chrome 27 does not have e.arguments as earlier versions,
-	        // but still does not have e.fileName as Firefox
-	        return 'chrome';
-	    } else if (e.stack) {
-	        return 'firefox';
-	    }
-	    return 'other';
-	}
-	
-	function createException() {
-	    try {
-	        this.undef();
-	    } catch (e) {
-	        return e;
-	    }
-	}
-
-
-/***/ },
-/* 78 */
 /*!**************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-generator.js ***!
   \**************************************************************************************************************************************/
@@ -13439,9 +13465,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 86);
-	  var util = __webpack_require__(/*! ./util */ 87);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 88).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 85);
+	  var util = __webpack_require__(/*! ./util */ 86);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 87).ArraySet;
 	
 	  /**
 	   * An instance of the SourceMapGenerator represents a source map which is
@@ -13828,7 +13854,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 79 */
+/* 78 */
 /*!*************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-consumer.js ***!
   \*************************************************************************************************************************************/
@@ -13845,10 +13871,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var util = __webpack_require__(/*! ./util */ 87);
-	  var binarySearch = __webpack_require__(/*! ./binary-search */ 90);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 88).ArraySet;
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 86);
+	  var util = __webpack_require__(/*! ./util */ 86);
+	  var binarySearch = __webpack_require__(/*! ./binary-search */ 88);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 87).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 85);
 	
 	  /**
 	   * A SourceMapConsumer instance represents a parsed source map which we can
@@ -14315,7 +14341,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 80 */
+/* 79 */
 /*!*****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
   \*****************************************************************************************************************************/
@@ -14332,8 +14358,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 78).SourceMapGenerator;
-	  var util = __webpack_require__(/*! ./util */ 87);
+	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 77).SourceMapGenerator;
+	  var util = __webpack_require__(/*! ./util */ 86);
 	
 	  /**
 	   * SourceNodes provide a way to abstract over interpolating/concatenating
@@ -14711,7 +14737,170 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 80 */
+/*!*****************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
+  \*****************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = {
+	    chrome: function(line) {
+	        var m = line.match(CHROME_STACK_LINE);
+	        if (m) {
+	            var file = m[9] || m[18] || m[26]
+	            var fn = m[4] || m[7] || m[14] || m[23]
+	            var lineNumber = m[11] || m[20]
+	            var column = m[13] || m[22]
+	        } else {
+	            //throw new Error("Couldn't parse exception line: "+line)
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    firefox: function(line) {
+	        var m = line.match(FIREFOX_STACK_LINE);
+	        if (m) {
+	            var file = m[8]
+	            var fn = m[1]
+	            var lineNumber = m[10]
+	            var column = m[12]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    ie: function(line) {
+	        var m = line.match(IE_STACK_LINE);
+	        if (m) {
+	            var file = m[3] || m[10]
+	            var fn = m[2] || m[9]
+	            var lineNumber = m[5] || m[12]
+	            var column = m[7] || m[14]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    }
+	}
+	
+	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
+	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
+	var IDENTIFIER_PATTERN_ = '[\\w$]*';
+	// RegExp pattern for an URL + position inside the file.
+	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
+	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
+	
+	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
+	
+	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
+	
+	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
+	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
+	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
+	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
+	
+	// output from stacktrace.js is: "name()@..." instead of "name (...)"
+	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
+	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
+	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
+	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
+	
+	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
+	
+	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
+	
+	
+	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
+	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
+	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
+	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
+	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
+	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
+	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
+	
+	var IE_WHITESPACE = '[\\w \\t]'
+	var IE_FILE_AND_LINE = FILE_AND_LINE
+	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
+	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
+	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
+	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
+
+/***/ },
 /* 81 */
+/*!***************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
+  \***************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	module.exports = exceptionMode(createException()) // basically what browser this is
+	
+	// verbatim from `mode` in stacktrace.js as of 2014-01-23
+	function exceptionMode(e) {
+	    if (e['arguments'] && e.stack) {
+	        return 'chrome';
+	    } else if (e.stack && e.sourceURL) {
+	        return 'safari';
+	    } else if (e.stack && e.number) {
+	        return 'ie';
+	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
+	        // e.message.indexOf("Backtrace:") > -1 -> opera
+	        // !e.stacktrace -> opera
+	        if (!e.stacktrace) {
+	            return 'opera9'; // use e.message
+	        }
+	        // 'opera#sourceloc' in e -> opera9, opera10a
+	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
+	            return 'opera9'; // use e.message
+	        }
+	        // e.stacktrace && !e.stack -> opera10a
+	        if (!e.stack) {
+	            return 'opera10a'; // use e.stacktrace
+	        }
+	        // e.stacktrace && e.stack -> opera10b
+	        if (e.stacktrace.indexOf("called from line") < 0) {
+	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
+	        }
+	        // e.stacktrace && e.stack -> opera11
+	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
+	    } else if (e.stack && !e.fileName) {
+	        // Chrome 27 does not have e.arguments as earlier versions,
+	        // but still does not have e.fileName as Firefox
+	        return 'chrome';
+	    } else if (e.stack) {
+	        return 'firefox';
+	    }
+	    return 'other';
+	}
+	
+	function createException() {
+	    try {
+	        this.undef();
+	    } catch (e) {
+	        return e;
+	    }
+	}
+
+
+/***/ },
+/* 82 */
 /*!************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
   \************************************************************/
@@ -15246,10 +15435,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/buildin/module.js */ 95)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/buildin/module.js */ 96)(module), (function() { return this; }())))
 
 /***/ },
-/* 82 */
+/* 83 */
 /*!****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/querystring-es3/index.js ***!
   \****************************************************************/
@@ -15257,18 +15446,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 93);
-	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 94);
+	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 94);
+	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 95);
 
 
 /***/ },
-/* 83 */
+/* 84 */
 /*!*****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/timers-browserify/main.js ***!
   \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 97).nextTick;
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 98).nextTick;
 	var slice = Array.prototype.slice;
 	var immediateIds = {};
 	var nextImmediateId = 0;
@@ -15322,15 +15511,670 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 83).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 83).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 84).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 84).clearImmediate))
 
 /***/ },
-/* 84 */
-/*!**********************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
-  \**********************************************************************************************************************************/
-58,
 /* 85 */
+/*!****************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
+  \****************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 *
+	 * Based on the Base 64 VLQ implementation in Closure Compiler:
+	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
+	 *
+	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
+	 * Redistribution and use in source and binary forms, with or without
+	 * modification, are permitted provided that the following conditions are
+	 * met:
+	 *
+	 *  * Redistributions of source code must retain the above copyright
+	 *    notice, this list of conditions and the following disclaimer.
+	 *  * Redistributions in binary form must reproduce the above
+	 *    copyright notice, this list of conditions and the following
+	 *    disclaimer in the documentation and/or other materials provided
+	 *    with the distribution.
+	 *  * Neither the name of Google Inc. nor the names of its
+	 *    contributors may be used to endorse or promote products derived
+	 *    from this software without specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var base64 = __webpack_require__(/*! ./base64 */ 97);
+	
+	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
+	  // length quantities we use in the source map spec, the first bit is the sign,
+	  // the next four bits are the actual value, and the 6th bit is the
+	  // continuation bit. The continuation bit tells us whether there are more
+	  // digits in this value following this digit.
+	  //
+	  //   Continuation
+	  //   |    Sign
+	  //   |    |
+	  //   V    V
+	  //   101011
+	
+	  var VLQ_BASE_SHIFT = 5;
+	
+	  // binary: 100000
+	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
+	
+	  // binary: 011111
+	  var VLQ_BASE_MASK = VLQ_BASE - 1;
+	
+	  // binary: 100000
+	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
+	
+	  /**
+	   * Converts from a two-complement value to a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
+	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
+	   */
+	  function toVLQSigned(aValue) {
+	    return aValue < 0
+	      ? ((-aValue) << 1) + 1
+	      : (aValue << 1) + 0;
+	  }
+	
+	  /**
+	   * Converts to a two-complement value from a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
+	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
+	   */
+	  function fromVLQSigned(aValue) {
+	    var isNegative = (aValue & 1) === 1;
+	    var shifted = aValue >> 1;
+	    return isNegative
+	      ? -shifted
+	      : shifted;
+	  }
+	
+	  /**
+	   * Returns the base 64 VLQ encoded value.
+	   */
+	  exports.encode = function base64VLQ_encode(aValue) {
+	    var encoded = "";
+	    var digit;
+	
+	    var vlq = toVLQSigned(aValue);
+	
+	    do {
+	      digit = vlq & VLQ_BASE_MASK;
+	      vlq >>>= VLQ_BASE_SHIFT;
+	      if (vlq > 0) {
+	        // There are still more digits in this value, so we must make sure the
+	        // continuation bit is marked.
+	        digit |= VLQ_CONTINUATION_BIT;
+	      }
+	      encoded += base64.encode(digit);
+	    } while (vlq > 0);
+	
+	    return encoded;
+	  };
+	
+	  /**
+	   * Decodes the next base 64 VLQ value from the given string and returns the
+	   * value and the rest of the string.
+	   */
+	  exports.decode = function base64VLQ_decode(aStr) {
+	    var i = 0;
+	    var strLen = aStr.length;
+	    var result = 0;
+	    var shift = 0;
+	    var continuation, digit;
+	
+	    do {
+	      if (i >= strLen) {
+	        throw new Error("Expected more digits in base 64 VLQ value.");
+	      }
+	      digit = base64.decode(aStr.charAt(i++));
+	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
+	      digit &= VLQ_BASE_MASK;
+	      result = result + (digit << shift);
+	      shift += VLQ_BASE_SHIFT;
+	    } while (continuation);
+	
+	    return {
+	      value: fromVLQSigned(result),
+	      rest: aStr.slice(i)
+	    };
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 86 */
+/*!**********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
+  \**********************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  /**
+	   * This is a helper function for getting values from parameter/options
+	   * objects.
+	   *
+	   * @param args The object we are extracting values from
+	   * @param name The name of the property we are getting.
+	   * @param defaultValue An optional value to return if the property is missing
+	   * from the object. If this is not specified and the property is missing, an
+	   * error will be thrown.
+	   */
+	  function getArg(aArgs, aName, aDefaultValue) {
+	    if (aName in aArgs) {
+	      return aArgs[aName];
+	    } else if (arguments.length === 3) {
+	      return aDefaultValue;
+	    } else {
+	      throw new Error('"' + aName + '" is a required argument.');
+	    }
+	  }
+	  exports.getArg = getArg;
+	
+	  var urlRegexp = /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.]*)(?::(\d+))?(\S*)$/;
+	  var dataUrlRegexp = /^data:.+\,.+$/;
+	
+	  function urlParse(aUrl) {
+	    var match = aUrl.match(urlRegexp);
+	    if (!match) {
+	      return null;
+	    }
+	    return {
+	      scheme: match[1],
+	      auth: match[2],
+	      host: match[3],
+	      port: match[4],
+	      path: match[5]
+	    };
+	  }
+	  exports.urlParse = urlParse;
+	
+	  function urlGenerate(aParsedUrl) {
+	    var url = '';
+	    if (aParsedUrl.scheme) {
+	      url += aParsedUrl.scheme + ':';
+	    }
+	    url += '//';
+	    if (aParsedUrl.auth) {
+	      url += aParsedUrl.auth + '@';
+	    }
+	    if (aParsedUrl.host) {
+	      url += aParsedUrl.host;
+	    }
+	    if (aParsedUrl.port) {
+	      url += ":" + aParsedUrl.port
+	    }
+	    if (aParsedUrl.path) {
+	      url += aParsedUrl.path;
+	    }
+	    return url;
+	  }
+	  exports.urlGenerate = urlGenerate;
+	
+	  /**
+	   * Normalizes a path, or the path portion of a URL:
+	   *
+	   * - Replaces consequtive slashes with one slash.
+	   * - Removes unnecessary '.' parts.
+	   * - Removes unnecessary '<dir>/..' parts.
+	   *
+	   * Based on code in the Node.js 'path' core module.
+	   *
+	   * @param aPath The path or url to normalize.
+	   */
+	  function normalize(aPath) {
+	    var path = aPath;
+	    var url = urlParse(aPath);
+	    if (url) {
+	      if (!url.path) {
+	        return aPath;
+	      }
+	      path = url.path;
+	    }
+	    var isAbsolute = (path.charAt(0) === '/');
+	
+	    var parts = path.split(/\/+/);
+	    for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
+	      part = parts[i];
+	      if (part === '.') {
+	        parts.splice(i, 1);
+	      } else if (part === '..') {
+	        up++;
+	      } else if (up > 0) {
+	        if (part === '') {
+	          // The first part is blank if the path is absolute. Trying to go
+	          // above the root is a no-op. Therefore we can remove all '..' parts
+	          // directly after the root.
+	          parts.splice(i + 1, up);
+	          up = 0;
+	        } else {
+	          parts.splice(i, 2);
+	          up--;
+	        }
+	      }
+	    }
+	    path = parts.join('/');
+	
+	    if (path === '') {
+	      path = isAbsolute ? '/' : '.';
+	    }
+	
+	    if (url) {
+	      url.path = path;
+	      return urlGenerate(url);
+	    }
+	    return path;
+	  }
+	  exports.normalize = normalize;
+	
+	  /**
+	   * Joins two paths/URLs.
+	   *
+	   * @param aRoot The root path or URL.
+	   * @param aPath The path or URL to be joined with the root.
+	   *
+	   * - If aPath is a URL or a data URI, aPath is returned, unless aPath is a
+	   *   scheme-relative URL: Then the scheme of aRoot, if any, is prepended
+	   *   first.
+	   * - Otherwise aPath is a path. If aRoot is a URL, then its path portion
+	   *   is updated with the result and aRoot is returned. Otherwise the result
+	   *   is returned.
+	   *   - If aPath is absolute, the result is aPath.
+	   *   - Otherwise the two paths are joined with a slash.
+	   * - Joining for example 'http://' and 'www.example.com' is also supported.
+	   */
+	  function join(aRoot, aPath) {
+	    var aPathUrl = urlParse(aPath);
+	    var aRootUrl = urlParse(aRoot);
+	    if (aRootUrl) {
+	      aRoot = aRootUrl.path || '/';
+	    }
+	
+	    // `join(foo, '//www.example.org')`
+	    if (aPathUrl && !aPathUrl.scheme) {
+	      if (aRootUrl) {
+	        aPathUrl.scheme = aRootUrl.scheme;
+	      }
+	      return urlGenerate(aPathUrl);
+	    }
+	
+	    if (aPathUrl || aPath.match(dataUrlRegexp)) {
+	      return aPath;
+	    }
+	
+	    // `join('http://', 'www.example.com')`
+	    if (aRootUrl && !aRootUrl.host && !aRootUrl.path) {
+	      aRootUrl.host = aPath;
+	      return urlGenerate(aRootUrl);
+	    }
+	
+	    var joined = aPath.charAt(0) === '/'
+	      ? aPath
+	      : normalize(aRoot.replace(/\/+$/, '') + '/' + aPath);
+	
+	    if (aRootUrl) {
+	      aRootUrl.path = joined;
+	      return urlGenerate(aRootUrl);
+	    }
+	    return joined;
+	  }
+	  exports.join = join;
+	
+	  /**
+	   * Because behavior goes wacky when you set `__proto__` on objects, we
+	   * have to prefix all the strings in our set with an arbitrary character.
+	   *
+	   * See https://github.com/mozilla/source-map/pull/31 and
+	   * https://github.com/mozilla/source-map/issues/30
+	   *
+	   * @param String aStr
+	   */
+	  function toSetString(aStr) {
+	    return '$' + aStr;
+	  }
+	  exports.toSetString = toSetString;
+	
+	  function fromSetString(aStr) {
+	    return aStr.substr(1);
+	  }
+	  exports.fromSetString = fromSetString;
+	
+	  function relative(aRoot, aPath) {
+	    aRoot = aRoot.replace(/\/$/, '');
+	
+	    var url = urlParse(aRoot);
+	    if (aPath.charAt(0) == "/" && url && url.path == "/") {
+	      return aPath.slice(1);
+	    }
+	
+	    return aPath.indexOf(aRoot + '/') === 0
+	      ? aPath.substr(aRoot.length + 1)
+	      : aPath;
+	  }
+	  exports.relative = relative;
+	
+	  function strcmp(aStr1, aStr2) {
+	    var s1 = aStr1 || "";
+	    var s2 = aStr2 || "";
+	    return (s1 > s2) - (s1 < s2);
+	  }
+	
+	  /**
+	   * Comparator between two mappings where the original positions are compared.
+	   *
+	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
+	   * mappings with the same original source/line/column, but different generated
+	   * line and column the same. Useful when searching for a mapping with a
+	   * stubbed out mapping.
+	   */
+	  function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
+	    var cmp;
+	
+	    cmp = strcmp(mappingA.source, mappingB.source);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalLine - mappingB.originalLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalColumn - mappingB.originalColumn;
+	    if (cmp || onlyCompareOriginal) {
+	      return cmp;
+	    }
+	
+	    cmp = strcmp(mappingA.name, mappingB.name);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.generatedLine - mappingB.generatedLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    return mappingA.generatedColumn - mappingB.generatedColumn;
+	  };
+	  exports.compareByOriginalPositions = compareByOriginalPositions;
+	
+	  /**
+	   * Comparator between two mappings where the generated positions are
+	   * compared.
+	   *
+	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
+	   * mappings with the same generated line and column, but different
+	   * source/name/original line and column the same. Useful when searching for a
+	   * mapping with a stubbed out mapping.
+	   */
+	  function compareByGeneratedPositions(mappingA, mappingB, onlyCompareGenerated) {
+	    var cmp;
+	
+	    cmp = mappingA.generatedLine - mappingB.generatedLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.generatedColumn - mappingB.generatedColumn;
+	    if (cmp || onlyCompareGenerated) {
+	      return cmp;
+	    }
+	
+	    cmp = strcmp(mappingA.source, mappingB.source);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalLine - mappingB.originalLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalColumn - mappingB.originalColumn;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    return strcmp(mappingA.name, mappingB.name);
+	  };
+	  exports.compareByGeneratedPositions = compareByGeneratedPositions;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 87 */
+/*!***************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
+  \***************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var util = __webpack_require__(/*! ./util */ 86);
+	
+	  /**
+	   * A data structure which is a combination of an array and a set. Adding a new
+	   * member is O(1), testing for membership is O(1), and finding the index of an
+	   * element is O(1). Removing elements from the set is not supported. Only
+	   * strings are supported for membership.
+	   */
+	  function ArraySet() {
+	    this._array = [];
+	    this._set = {};
+	  }
+	
+	  /**
+	   * Static method for creating ArraySet instances from an existing array.
+	   */
+	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
+	    var set = new ArraySet();
+	    for (var i = 0, len = aArray.length; i < len; i++) {
+	      set.add(aArray[i], aAllowDuplicates);
+	    }
+	    return set;
+	  };
+	
+	  /**
+	   * Add the given string to this set.
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
+	    var isDuplicate = this.has(aStr);
+	    var idx = this._array.length;
+	    if (!isDuplicate || aAllowDuplicates) {
+	      this._array.push(aStr);
+	    }
+	    if (!isDuplicate) {
+	      this._set[util.toSetString(aStr)] = idx;
+	    }
+	  };
+	
+	  /**
+	   * Is the given string a member of this set?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.has = function ArraySet_has(aStr) {
+	    return Object.prototype.hasOwnProperty.call(this._set,
+	                                                util.toSetString(aStr));
+	  };
+	
+	  /**
+	   * What is the index of the given string in the array?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
+	    if (this.has(aStr)) {
+	      return this._set[util.toSetString(aStr)];
+	    }
+	    throw new Error('"' + aStr + '" is not in the set.');
+	  };
+	
+	  /**
+	   * What is the element at the given index?
+	   *
+	   * @param Number aIdx
+	   */
+	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
+	    if (aIdx >= 0 && aIdx < this._array.length) {
+	      return this._array[aIdx];
+	    }
+	    throw new Error('No element indexed by ' + aIdx);
+	  };
+	
+	  /**
+	   * Returns the array representation of this set (which has the proper indices
+	   * indicated by indexOf). Note that this is a copy of the internal array used
+	   * for storing the members so that no one can mess with internal state.
+	   */
+	  ArraySet.prototype.toArray = function ArraySet_toArray() {
+	    return this._array.slice();
+	  };
+	
+	  exports.ArraySet = ArraySet;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 88 */
+/*!*******************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
+  \*******************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  /**
+	   * Recursive implementation of binary search.
+	   *
+	   * @param aLow Indices here and lower do not contain the needle.
+	   * @param aHigh Indices here and higher do not contain the needle.
+	   * @param aNeedle The element being searched for.
+	   * @param aHaystack The non-empty array being searched.
+	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
+	   */
+	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
+	    // This function terminates when one of the following is true:
+	    //
+	    //   1. We find the exact element we are looking for.
+	    //
+	    //   2. We did not find the exact element, but we can return the next
+	    //      closest element that is less than that element.
+	    //
+	    //   3. We did not find the exact element, and there is no next-closest
+	    //      element which is less than the one we are searching for, so we
+	    //      return null.
+	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
+	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
+	    if (cmp === 0) {
+	      // Found the element we are looking for.
+	      return aHaystack[mid];
+	    }
+	    else if (cmp > 0) {
+	      // aHaystack[mid] is greater than our needle.
+	      if (aHigh - mid > 1) {
+	        // The element is in the upper half.
+	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
+	      }
+	      // We did not find an exact match, return the next closest one
+	      // (termination case 2).
+	      return aHaystack[mid];
+	    }
+	    else {
+	      // aHaystack[mid] is less than our needle.
+	      if (mid - aLow > 1) {
+	        // The element is in the lower half.
+	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
+	      }
+	      // The exact needle element was not found in this haystack. Determine if
+	      // we are in termination case (2) or (3) and return the appropriate thing.
+	      return aLow < 0
+	        ? null
+	        : aHaystack[aLow];
+	    }
+	  }
+	
+	  /**
+	   * This is an implementation of binary search which will always try and return
+	   * the next lowest value checked if there is no exact hit. This is because
+	   * mappings between original and generated line/col pairs are single points,
+	   * and there is an implicit region between each of them, so a miss just means
+	   * that you aren't on the very start of a region.
+	   *
+	   * @param aNeedle The element you are looking for.
+	   * @param aHaystack The array that is being searched.
+	   * @param aCompare A function which takes the needle and an element in the
+	   *     array and returns -1, 0, or 1 depending on whether the needle is less
+	   *     than, equal to, or greater than the element, respectively.
+	   */
+	  exports.search = function search(aNeedle, aHaystack, aCompare) {
+	    return aHaystack.length > 0
+	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
+	      : null;
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 89 */
 /*!****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/~/stacktrace-js/stacktrace.js ***!
   \****************************************************************************************************************************/
@@ -15800,577 +16644,73 @@ return /******/ (function(modules) { // webpackBootstrap
 	}));
 
 /***/ },
-/* 86 */
-/*!****************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
-  \****************************************************************************************************************************/
+/* 90 */
+/*!**********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
+  \**********************************************************************************************************************************/
+59,
+/* 91 */
+/*!***********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
+  \***********************************************************************************************************************/
+[106, 99],
+/* 92 */
+/*!************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
+  \************************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 *
-	 * Based on the Base 64 VLQ implementation in Closure Compiler:
-	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
-	 *
-	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
-	 * Redistribution and use in source and binary forms, with or without
-	 * modification, are permitted provided that the following conditions are
-	 * met:
-	 *
-	 *  * Redistributions of source code must retain the above copyright
-	 *    notice, this list of conditions and the following disclaimer.
-	 *  * Redistributions in binary form must reproduce the above
-	 *    copyright notice, this list of conditions and the following
-	 *    disclaimer in the documentation and/or other materials provided
-	 *    with the distribution.
-	 *  * Neither the name of Google Inc. nor the names of its
-	 *    contributors may be used to endorse or promote products derived
-	 *    from this software without specific prior written permission.
-	 *
-	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
+	// X11 (“MIT”) Licensed. (See LICENSE.)
 	
-	  var base64 = __webpack_require__(/*! ./base64 */ 96);
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    module.exports = factory()
+	  } else {
+	    root.resolveUrl = factory()
+	  }
+	}(this, function() {
 	
-	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
-	  // length quantities we use in the source map spec, the first bit is the sign,
-	  // the next four bits are the actual value, and the 6th bit is the
-	  // continuation bit. The continuation bit tells us whether there are more
-	  // digits in this value following this digit.
-	  //
-	  //   Continuation
-	  //   |    Sign
-	  //   |    |
-	  //   V    V
-	  //   101011
+	  function resolveUrl(/* ...urls */) {
+	    var numUrls = arguments.length
 	
-	  var VLQ_BASE_SHIFT = 5;
+	    if (numUrls === 0) {
+	      throw new Error("resolveUrl requires at least one argument; got none.")
+	    }
 	
-	  // binary: 100000
-	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
+	    var base = document.createElement("base")
+	    base.href = arguments[0]
 	
-	  // binary: 011111
-	  var VLQ_BASE_MASK = VLQ_BASE - 1;
+	    if (numUrls === 1) {
+	      return base.href
+	    }
 	
-	  // binary: 100000
-	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
+	    var head = document.getElementsByTagName("head")[0]
+	    head.insertBefore(base, head.firstChild)
 	
-	  /**
-	   * Converts from a two-complement value to a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
-	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
-	   */
-	  function toVLQSigned(aValue) {
-	    return aValue < 0
-	      ? ((-aValue) << 1) + 1
-	      : (aValue << 1) + 0;
+	    var a = document.createElement("a")
+	    var resolved
+	
+	    for (var index = 1; index < numUrls; index++) {
+	      a.href = arguments[index]
+	      resolved = a.href
+	      base.href = resolved
+	    }
+	
+	    head.removeChild(base)
+	
+	    return resolved
 	  }
 	
-	  /**
-	   * Converts to a two-complement value from a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
-	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
-	   */
-	  function fromVLQSigned(aValue) {
-	    var isNegative = (aValue & 1) === 1;
-	    var shifted = aValue >> 1;
-	    return isNegative
-	      ? -shifted
-	      : shifted;
-	  }
+	  return resolveUrl
 	
-	  /**
-	   * Returns the base 64 VLQ encoded value.
-	   */
-	  exports.encode = function base64VLQ_encode(aValue) {
-	    var encoded = "";
-	    var digit;
-	
-	    var vlq = toVLQSigned(aValue);
-	
-	    do {
-	      digit = vlq & VLQ_BASE_MASK;
-	      vlq >>>= VLQ_BASE_SHIFT;
-	      if (vlq > 0) {
-	        // There are still more digits in this value, so we must make sure the
-	        // continuation bit is marked.
-	        digit |= VLQ_CONTINUATION_BIT;
-	      }
-	      encoded += base64.encode(digit);
-	    } while (vlq > 0);
-	
-	    return encoded;
-	  };
-	
-	  /**
-	   * Decodes the next base 64 VLQ value from the given string and returns the
-	   * value and the rest of the string.
-	   */
-	  exports.decode = function base64VLQ_decode(aStr) {
-	    var i = 0;
-	    var strLen = aStr.length;
-	    var result = 0;
-	    var shift = 0;
-	    var continuation, digit;
-	
-	    do {
-	      if (i >= strLen) {
-	        throw new Error("Expected more digits in base 64 VLQ value.");
-	      }
-	      digit = base64.decode(aStr.charAt(i++));
-	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
-	      digit &= VLQ_BASE_MASK;
-	      result = result + (digit << shift);
-	      shift += VLQ_BASE_SHIFT;
-	    } while (continuation);
-	
-	    return {
-	      value: fromVLQSigned(result),
-	      rest: aStr.slice(i)
-	    };
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	}));
 
 
 /***/ },
-/* 87 */
-/*!**********************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
-  \**********************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  /**
-	   * This is a helper function for getting values from parameter/options
-	   * objects.
-	   *
-	   * @param args The object we are extracting values from
-	   * @param name The name of the property we are getting.
-	   * @param defaultValue An optional value to return if the property is missing
-	   * from the object. If this is not specified and the property is missing, an
-	   * error will be thrown.
-	   */
-	  function getArg(aArgs, aName, aDefaultValue) {
-	    if (aName in aArgs) {
-	      return aArgs[aName];
-	    } else if (arguments.length === 3) {
-	      return aDefaultValue;
-	    } else {
-	      throw new Error('"' + aName + '" is a required argument.');
-	    }
-	  }
-	  exports.getArg = getArg;
-	
-	  var urlRegexp = /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.]*)(?::(\d+))?(\S*)$/;
-	  var dataUrlRegexp = /^data:.+\,.+$/;
-	
-	  function urlParse(aUrl) {
-	    var match = aUrl.match(urlRegexp);
-	    if (!match) {
-	      return null;
-	    }
-	    return {
-	      scheme: match[1],
-	      auth: match[2],
-	      host: match[3],
-	      port: match[4],
-	      path: match[5]
-	    };
-	  }
-	  exports.urlParse = urlParse;
-	
-	  function urlGenerate(aParsedUrl) {
-	    var url = '';
-	    if (aParsedUrl.scheme) {
-	      url += aParsedUrl.scheme + ':';
-	    }
-	    url += '//';
-	    if (aParsedUrl.auth) {
-	      url += aParsedUrl.auth + '@';
-	    }
-	    if (aParsedUrl.host) {
-	      url += aParsedUrl.host;
-	    }
-	    if (aParsedUrl.port) {
-	      url += ":" + aParsedUrl.port
-	    }
-	    if (aParsedUrl.path) {
-	      url += aParsedUrl.path;
-	    }
-	    return url;
-	  }
-	  exports.urlGenerate = urlGenerate;
-	
-	  /**
-	   * Normalizes a path, or the path portion of a URL:
-	   *
-	   * - Replaces consequtive slashes with one slash.
-	   * - Removes unnecessary '.' parts.
-	   * - Removes unnecessary '<dir>/..' parts.
-	   *
-	   * Based on code in the Node.js 'path' core module.
-	   *
-	   * @param aPath The path or url to normalize.
-	   */
-	  function normalize(aPath) {
-	    var path = aPath;
-	    var url = urlParse(aPath);
-	    if (url) {
-	      if (!url.path) {
-	        return aPath;
-	      }
-	      path = url.path;
-	    }
-	    var isAbsolute = (path.charAt(0) === '/');
-	
-	    var parts = path.split(/\/+/);
-	    for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
-	      part = parts[i];
-	      if (part === '.') {
-	        parts.splice(i, 1);
-	      } else if (part === '..') {
-	        up++;
-	      } else if (up > 0) {
-	        if (part === '') {
-	          // The first part is blank if the path is absolute. Trying to go
-	          // above the root is a no-op. Therefore we can remove all '..' parts
-	          // directly after the root.
-	          parts.splice(i + 1, up);
-	          up = 0;
-	        } else {
-	          parts.splice(i, 2);
-	          up--;
-	        }
-	      }
-	    }
-	    path = parts.join('/');
-	
-	    if (path === '') {
-	      path = isAbsolute ? '/' : '.';
-	    }
-	
-	    if (url) {
-	      url.path = path;
-	      return urlGenerate(url);
-	    }
-	    return path;
-	  }
-	  exports.normalize = normalize;
-	
-	  /**
-	   * Joins two paths/URLs.
-	   *
-	   * @param aRoot The root path or URL.
-	   * @param aPath The path or URL to be joined with the root.
-	   *
-	   * - If aPath is a URL or a data URI, aPath is returned, unless aPath is a
-	   *   scheme-relative URL: Then the scheme of aRoot, if any, is prepended
-	   *   first.
-	   * - Otherwise aPath is a path. If aRoot is a URL, then its path portion
-	   *   is updated with the result and aRoot is returned. Otherwise the result
-	   *   is returned.
-	   *   - If aPath is absolute, the result is aPath.
-	   *   - Otherwise the two paths are joined with a slash.
-	   * - Joining for example 'http://' and 'www.example.com' is also supported.
-	   */
-	  function join(aRoot, aPath) {
-	    var aPathUrl = urlParse(aPath);
-	    var aRootUrl = urlParse(aRoot);
-	    if (aRootUrl) {
-	      aRoot = aRootUrl.path || '/';
-	    }
-	
-	    // `join(foo, '//www.example.org')`
-	    if (aPathUrl && !aPathUrl.scheme) {
-	      if (aRootUrl) {
-	        aPathUrl.scheme = aRootUrl.scheme;
-	      }
-	      return urlGenerate(aPathUrl);
-	    }
-	
-	    if (aPathUrl || aPath.match(dataUrlRegexp)) {
-	      return aPath;
-	    }
-	
-	    // `join('http://', 'www.example.com')`
-	    if (aRootUrl && !aRootUrl.host && !aRootUrl.path) {
-	      aRootUrl.host = aPath;
-	      return urlGenerate(aRootUrl);
-	    }
-	
-	    var joined = aPath.charAt(0) === '/'
-	      ? aPath
-	      : normalize(aRoot.replace(/\/+$/, '') + '/' + aPath);
-	
-	    if (aRootUrl) {
-	      aRootUrl.path = joined;
-	      return urlGenerate(aRootUrl);
-	    }
-	    return joined;
-	  }
-	  exports.join = join;
-	
-	  /**
-	   * Because behavior goes wacky when you set `__proto__` on objects, we
-	   * have to prefix all the strings in our set with an arbitrary character.
-	   *
-	   * See https://github.com/mozilla/source-map/pull/31 and
-	   * https://github.com/mozilla/source-map/issues/30
-	   *
-	   * @param String aStr
-	   */
-	  function toSetString(aStr) {
-	    return '$' + aStr;
-	  }
-	  exports.toSetString = toSetString;
-	
-	  function fromSetString(aStr) {
-	    return aStr.substr(1);
-	  }
-	  exports.fromSetString = fromSetString;
-	
-	  function relative(aRoot, aPath) {
-	    aRoot = aRoot.replace(/\/$/, '');
-	
-	    var url = urlParse(aRoot);
-	    if (aPath.charAt(0) == "/" && url && url.path == "/") {
-	      return aPath.slice(1);
-	    }
-	
-	    return aPath.indexOf(aRoot + '/') === 0
-	      ? aPath.substr(aRoot.length + 1)
-	      : aPath;
-	  }
-	  exports.relative = relative;
-	
-	  function strcmp(aStr1, aStr2) {
-	    var s1 = aStr1 || "";
-	    var s2 = aStr2 || "";
-	    return (s1 > s2) - (s1 < s2);
-	  }
-	
-	  /**
-	   * Comparator between two mappings where the original positions are compared.
-	   *
-	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
-	   * mappings with the same original source/line/column, but different generated
-	   * line and column the same. Useful when searching for a mapping with a
-	   * stubbed out mapping.
-	   */
-	  function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
-	    var cmp;
-	
-	    cmp = strcmp(mappingA.source, mappingB.source);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalLine - mappingB.originalLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalColumn - mappingB.originalColumn;
-	    if (cmp || onlyCompareOriginal) {
-	      return cmp;
-	    }
-	
-	    cmp = strcmp(mappingA.name, mappingB.name);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.generatedLine - mappingB.generatedLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    return mappingA.generatedColumn - mappingB.generatedColumn;
-	  };
-	  exports.compareByOriginalPositions = compareByOriginalPositions;
-	
-	  /**
-	   * Comparator between two mappings where the generated positions are
-	   * compared.
-	   *
-	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
-	   * mappings with the same generated line and column, but different
-	   * source/name/original line and column the same. Useful when searching for a
-	   * mapping with a stubbed out mapping.
-	   */
-	  function compareByGeneratedPositions(mappingA, mappingB, onlyCompareGenerated) {
-	    var cmp;
-	
-	    cmp = mappingA.generatedLine - mappingB.generatedLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.generatedColumn - mappingB.generatedColumn;
-	    if (cmp || onlyCompareGenerated) {
-	      return cmp;
-	    }
-	
-	    cmp = strcmp(mappingA.source, mappingB.source);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalLine - mappingB.originalLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalColumn - mappingB.originalColumn;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    return strcmp(mappingA.name, mappingB.name);
-	  };
-	  exports.compareByGeneratedPositions = compareByGeneratedPositions;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 88 */
-/*!***************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
-  \***************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var util = __webpack_require__(/*! ./util */ 87);
-	
-	  /**
-	   * A data structure which is a combination of an array and a set. Adding a new
-	   * member is O(1), testing for membership is O(1), and finding the index of an
-	   * element is O(1). Removing elements from the set is not supported. Only
-	   * strings are supported for membership.
-	   */
-	  function ArraySet() {
-	    this._array = [];
-	    this._set = {};
-	  }
-	
-	  /**
-	   * Static method for creating ArraySet instances from an existing array.
-	   */
-	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
-	    var set = new ArraySet();
-	    for (var i = 0, len = aArray.length; i < len; i++) {
-	      set.add(aArray[i], aAllowDuplicates);
-	    }
-	    return set;
-	  };
-	
-	  /**
-	   * Add the given string to this set.
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
-	    var isDuplicate = this.has(aStr);
-	    var idx = this._array.length;
-	    if (!isDuplicate || aAllowDuplicates) {
-	      this._array.push(aStr);
-	    }
-	    if (!isDuplicate) {
-	      this._set[util.toSetString(aStr)] = idx;
-	    }
-	  };
-	
-	  /**
-	   * Is the given string a member of this set?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.has = function ArraySet_has(aStr) {
-	    return Object.prototype.hasOwnProperty.call(this._set,
-	                                                util.toSetString(aStr));
-	  };
-	
-	  /**
-	   * What is the index of the given string in the array?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
-	    if (this.has(aStr)) {
-	      return this._set[util.toSetString(aStr)];
-	    }
-	    throw new Error('"' + aStr + '" is not in the set.');
-	  };
-	
-	  /**
-	   * What is the element at the given index?
-	   *
-	   * @param Number aIdx
-	   */
-	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
-	    if (aIdx >= 0 && aIdx < this._array.length) {
-	      return this._array[aIdx];
-	    }
-	    throw new Error('No element indexed by ' + aIdx);
-	  };
-	
-	  /**
-	   * Returns the array representation of this set (which has the proper indices
-	   * indicated by indexOf). Note that this is a copy of the internal array used
-	   * for storing the members so that no one can mess with internal state.
-	   */
-	  ArraySet.prototype.toArray = function ArraySet_toArray() {
-	    return this._array.slice();
-	  };
-	
-	  exports.ArraySet = ArraySet;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 89 */
+/* 93 */
 /*!******************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
   \******************************************************************************************************************************************/
@@ -16457,158 +16797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 90 */
-/*!*******************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
-  \*******************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  /**
-	   * Recursive implementation of binary search.
-	   *
-	   * @param aLow Indices here and lower do not contain the needle.
-	   * @param aHigh Indices here and higher do not contain the needle.
-	   * @param aNeedle The element being searched for.
-	   * @param aHaystack The non-empty array being searched.
-	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
-	   */
-	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
-	    // This function terminates when one of the following is true:
-	    //
-	    //   1. We find the exact element we are looking for.
-	    //
-	    //   2. We did not find the exact element, but we can return the next
-	    //      closest element that is less than that element.
-	    //
-	    //   3. We did not find the exact element, and there is no next-closest
-	    //      element which is less than the one we are searching for, so we
-	    //      return null.
-	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
-	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
-	    if (cmp === 0) {
-	      // Found the element we are looking for.
-	      return aHaystack[mid];
-	    }
-	    else if (cmp > 0) {
-	      // aHaystack[mid] is greater than our needle.
-	      if (aHigh - mid > 1) {
-	        // The element is in the upper half.
-	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
-	      }
-	      // We did not find an exact match, return the next closest one
-	      // (termination case 2).
-	      return aHaystack[mid];
-	    }
-	    else {
-	      // aHaystack[mid] is less than our needle.
-	      if (mid - aLow > 1) {
-	        // The element is in the lower half.
-	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
-	      }
-	      // The exact needle element was not found in this haystack. Determine if
-	      // we are in termination case (2) or (3) and return the appropriate thing.
-	      return aLow < 0
-	        ? null
-	        : aHaystack[aLow];
-	    }
-	  }
-	
-	  /**
-	   * This is an implementation of binary search which will always try and return
-	   * the next lowest value checked if there is no exact hit. This is because
-	   * mappings between original and generated line/col pairs are single points,
-	   * and there is an implicit region between each of them, so a miss just means
-	   * that you aren't on the very start of a region.
-	   *
-	   * @param aNeedle The element you are looking for.
-	   * @param aHaystack The array that is being searched.
-	   * @param aCompare A function which takes the needle and an element in the
-	   *     array and returns -1, 0, or 1 depending on whether the needle is less
-	   *     than, equal to, or greater than the element, respectively.
-	   */
-	  exports.search = function search(aNeedle, aHaystack, aCompare) {
-	    return aHaystack.length > 0
-	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
-	      : null;
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 91 */
-/*!************************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
-  \************************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
-	// X11 (“MIT”) Licensed. (See LICENSE.)
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    module.exports = factory()
-	  } else {
-	    root.resolveUrl = factory()
-	  }
-	}(this, function() {
-	
-	  function resolveUrl(/* ...urls */) {
-	    var numUrls = arguments.length
-	
-	    if (numUrls === 0) {
-	      throw new Error("resolveUrl requires at least one argument; got none.")
-	    }
-	
-	    var base = document.createElement("base")
-	    base.href = arguments[0]
-	
-	    if (numUrls === 1) {
-	      return base.href
-	    }
-	
-	    var head = document.getElementsByTagName("head")[0]
-	    head.insertBefore(base, head.firstChild)
-	
-	    var a = document.createElement("a")
-	    var resolved
-	
-	    for (var index = 1; index < numUrls; index++) {
-	      a.href = arguments[index]
-	      resolved = a.href
-	      base.href = resolved
-	    }
-	
-	    head.removeChild(base)
-	
-	    return resolved
-	  }
-	
-	  return resolveUrl
-	
-	}));
-
-
-/***/ },
-/* 92 */
-/*!***********************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
-  \***********************************************************************************************************************/
-[99, 98],
-/* 93 */
+/* 94 */
 /*!*****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
   \*****************************************************************/
@@ -16701,7 +16890,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 94 */
+/* 95 */
 /*!*****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
   \*****************************************************************/
@@ -16795,7 +16984,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 95 */
+/* 96 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
@@ -16814,7 +17003,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 96 */
+/* 97 */
 /*!************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64.js ***!
   \************************************************************************************************************************/
@@ -16865,7 +17054,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 97 */
+/* 98 */
 /*!******************************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/timers-browserify/~/process/browser.js ***!
   \******************************************************************************/
@@ -16931,14 +17120,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 98 */
+/* 99 */
 /*!*****************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/~/trimArguments/trimArguments.js ***!
   \*****************************************************************************************************************************************/
-58,
-/* 99 */
+59,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */
 /*!***********************************!*\
-  !*** template of 39 referencing  ***!
+  !*** template of 43 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
@@ -17243,9 +17438,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 100 */
+/* 107 */
 /*!***********************************!*\
-  !*** template of 52 referencing  ***!
+  !*** template of 54 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__, __webpack_module_template_argument_1__) {
 
@@ -17280,13 +17475,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 101 */
+/* 108 */
 /*!*************************************!*\
-  !*** template of 67 referencing 38 ***!
+  !*** template of 68 referencing 39 ***!
   \*************************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__, __webpack_module_template_argument_1__) {
 
-	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
+	var EventEmitter = __webpack_require__(/*! events */ 39).EventEmitter
 	var proto = __webpack_require__(__webpack_module_template_argument_0__)
 	var utils = __webpack_require__(__webpack_module_template_argument_1__)
 	

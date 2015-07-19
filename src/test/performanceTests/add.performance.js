@@ -5,12 +5,18 @@ var Text = require('Components/Text')
 var Style = require('Style')
 
 var test = testUtils.performanceTest
+var buildNestedStructure = testUtils.buildNestedStructure
+var buildNestedStyle = testUtils.buildNestedStyle
 
-// warm up
+
+// warm up (not sure if this is really a good warm up)
 for(var n=0; n<100; n++) {
     Container().add(Text("x"))
 }
 
+
+
+//*
 
 test("simple repetitive add performance", function() {
     var c = Container()
@@ -129,20 +135,4 @@ test("performance of add on end of nested structure with native pseudoclass styl
     testUtils.cleanupDemo(nodes)
 })
 
-function buildNestedStructure(nestings) {
-    var innerMost = Container()
-    var cur = innerMost
-    for(var n=0; n<nestings; n++) {
-        cur = Container([cur])
-    }
-    return {innerMost:innerMost, top: cur}
-}
-
-function buildNestedStyle(nestings) {
-    var styleObject = {};
-    for(var n=0; n<nestings; n++) {
-        styleObject = {color: 'red', Container: styleObject}
-    }
-
-    return Style(styleObject)
-}
+//*/

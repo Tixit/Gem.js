@@ -1240,6 +1240,9 @@ Optimization ideas:
 Changelog
 ========
 
+* 1.1.2
+    * fixing minor bug where in certain cases involving native-rendered pseudoclass styles, the browser's default value was used instead of blocks's default
+    * Attempting to improve style cache performance
 * 1.1.1 - MINOR BREAKING CHANGE
     * MINOR BREAKING CHANGE: detach can no longer take an optional first parameter, but always detaches blocks from whatever dom parent they have
     * Fixing bugs in attach and detach

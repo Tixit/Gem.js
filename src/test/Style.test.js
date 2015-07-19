@@ -1902,7 +1902,8 @@ module.exports = function(t) {
             ])
             c.style = Style({
                 Text: {
-                    color: 'rgb(12, 25, 36)'
+                    color: 'rgb(12, 25, 36)',
+                    display: "block"
                 },
                 $a: {
                     '$$nthChild(1)': {
@@ -1916,6 +1917,7 @@ module.exports = function(t) {
             testUtils.demo('native pseudoclass style overriding block default styles when they must override a StyleMap style with "initial"', c)
 
             t.eq($(text.domNode).css('color'), 'rgb(100, 200, 250)')
+            t.eq($(text.domNode).css('display'), 'inline-block') // should be the base default value
         })
     })
     //*/
