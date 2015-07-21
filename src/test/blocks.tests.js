@@ -13,9 +13,9 @@ module.exports = function() {
         this.timeout(700*1000) // chrissake its taking a long time now
 
 
-         t.test('Style',require('./Style.test'))
 
-        /*
+
+        //*
         t.test('EventEmitterB',require('./EventEmitterB.test')).complete.then(function(){
             return t.test('Block',require('./Block.test')).complete
         }).then(function(){

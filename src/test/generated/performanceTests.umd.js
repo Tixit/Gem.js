@@ -93,22 +93,22 @@ return /******/ (function(modules) { // webpackBootstrap
   \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.Block = __webpack_require__(/*! Block */ 5)
+	exports.Block = __webpack_require__(/*! Block */ 7)
 	exports.Style = __webpack_require__(/*! Style */ 6)
 	
-	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 8)
-	exports.Container = __webpack_require__(/*! Components/Container */ 9)
-	exports.Button = __webpack_require__(/*! Components/Button */ 10)
-	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 11)
-	exports.Image = __webpack_require__(/*! Components/Image */ 12)
-	exports.List = __webpack_require__(/*! Components/List */ 13)
+	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 10)
+	exports.Container = __webpack_require__(/*! Components/Container */ 8)
+	exports.Button = __webpack_require__(/*! Components/Button */ 11)
+	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 12)
+	exports.Image = __webpack_require__(/*! Components/Image */ 13)
+	exports.List = __webpack_require__(/*! Components/List */ 14)
 	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
-	exports.Radio = __webpack_require__(/*! Components/Radio */ 14)
-	exports.Select = __webpack_require__(/*! Components/Select */ 15)
-	exports.Table = __webpack_require__(/*! Components/Table */ 16)
-	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 17)
-	exports.TextField = __webpack_require__(/*! Components/TextField */ 18)
-	exports.Text = __webpack_require__(/*! Components/Text */ 19)
+	exports.Radio = __webpack_require__(/*! Components/Radio */ 15)
+	exports.Select = __webpack_require__(/*! Components/Select */ 16)
+	exports.Table = __webpack_require__(/*! Components/Table */ 17)
+	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 18)
+	exports.TextField = __webpack_require__(/*! Components/TextField */ 19)
+	exports.Text = __webpack_require__(/*! Components/Text */ 9)
 	
 	
 	
@@ -139,9 +139,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 7)
-	var Container = __webpack_require__(/*! Components/Container */ 9)
-	var Text = __webpack_require__(/*! Components/Text */ 19)
+	var testUtils = __webpack_require__(/*! testUtils */ 5)
+	var Container = __webpack_require__(/*! Components/Container */ 8)
+	var Text = __webpack_require__(/*! Components/Text */ 9)
 	var Style = __webpack_require__(/*! Style */ 6)
 	
 	var test = testUtils.performanceTest
@@ -285,9 +285,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 7)
-	var Container = __webpack_require__(/*! Components/Container */ 9)
-	var Text = __webpack_require__(/*! Components/Text */ 19)
+	var testUtils = __webpack_require__(/*! testUtils */ 5)
+	var Container = __webpack_require__(/*! Components/Container */ 8)
+	var Text = __webpack_require__(/*! Components/Text */ 9)
 	var Style = __webpack_require__(/*! Style */ 6)
 	
 	var test = testUtils.performanceTest
@@ -442,8 +442,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var Future = __webpack_require__(/*! async-future */ 43)
-	var proto = __webpack_require__(/*! proto */ 44)
+	var Future = __webpack_require__(/*! async-future */ 40)
+	var proto = __webpack_require__(/*! proto */ 41)
 	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 20)
 	
 	var Container = __webpack_require__(/*! blocks.js/Container */ 33)
@@ -457,7 +457,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	module.exports = deadunitInternal({
-	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 45),
+	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 42),
 	
 	    environmentSpecificMethods: function() {
 	        var red = 'rgb(200,30,30)'
@@ -1119,15 +1119,1478 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 5 */
+/*!************************!*\
+  !*** ./~/testUtils.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(/*! async-future */ 38)
+	var Style = __webpack_require__(/*! Style */ 6)
+	var Container = __webpack_require__(/*! Components/Container */ 8)
+	
+	// compares arrays and objects for value equality (all elements and members must match)
+	exports.equal = function(a,b) {
+	    if(a instanceof Array) {
+	        if(!(b instanceof Array))
+	            return false
+	        if(a.length !== b.length) {
+	            return false
+	        } else {
+	            return a.reduce(function(previousValue, currentValue, index) {
+	                return previousValue && exports.equal(currentValue,b[index])
+	            }, true)
+	        }
+	    } else if(a instanceof Object) {
+	        if(!(b instanceof Object))
+	            return false
+	
+	        var aKeys = Object.keys(a)
+	        var bKeys = Object.keys(b)
+	
+	        if(aKeys.length !== bKeys.length) {
+	            return false
+	        } else {
+	            for(var n=0; n<aKeys.length; n++) {
+	                var key = aKeys[n]
+	                var aVal = a[key]
+	                var bVal = b[key]
+	
+	                if(!exports.equal(aVal,bVal)) {
+	                    return false
+	                }
+	            }
+	            // else
+	            return true
+	        }
+	    } else {
+	        return a===b
+	    }
+	}
+	
+	
+	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
+	// returns a function that, each time its called, calls the next function in the list with the passed argument
+	// example:
+	/*
+	var sequenceX = testUtils.seq(
+	 function(x) {
+	     t.ok(x === 'a')
+	 },
+	 function(x) {
+	     t.ok(x === 'b')
+	 },
+	 function(x) {
+	     t.ok(x === 'c')
+	})
+	
+	 var obj = {a:1,b:2,c:3}
+	 for(var x in obj) {
+	     sequenceX(x)
+	 }
+	 */
+	exports.seq = function (/*functions*/) {
+	    var n=-1
+	    var fns = arguments
+	    return function() {
+	        n++
+	        if(n>=fns.length)
+	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
+	        // else
+	        fns[n].apply(this,arguments)
+	    }
+	}
+	
+	
+	exports.demo = function(name, component) {
+	    var header = document.createElement("h1")
+	        header.textContent = name
+	
+	    $("#demos").append(header);
+	    component.attach($("#demos")[0])
+	
+	    return [header, component]
+	}
+	exports.cleanupDemo = function(nodes) {
+	    $(nodes[0]).remove()
+	    nodes[1].detach()
+	}
+	exports.manualDemo = function(name, component) {
+	    var header = document.createElement("h1")
+	        header.textContent = name
+	
+	    $("#manualDemos").append(header);
+	    component.attach($("#manualDemos")[0])
+	}
+	exports.textOutput = function(name, textContent) {
+	    var header = document.createElement("h1")
+	        header.textContent = name
+	
+	    var text = document.createElement("div")
+	        text.textContent = textContent
+	
+	    $("#results").append([header, text]);
+	}
+	
+	// future wraps a function like: function(result) {}
+	exports.wrapSingleParameter = function() {
+	    if(arguments.length === 1) {
+	        var fn = arguments[0]
+	    } else {
+	        var object = arguments[0]
+	        var method = arguments[1]
+	        var fn = object[method]
+	    }
+	
+	    return function() {
+	        var args = Array.prototype.slice.call(arguments)
+			var future = new Future
+			args.push(function(result) {
+			    future.return(result)
+			})
+			var me = this
+	        if(object) me = object
+	        fn.apply(me, args)
+			return future
+	    }
+	}
+	
+	exports.performanceTest = function(name, testDefinition) {
+	    setTimeout(function() {
+	        var times = []
+	        var totalTime = 0
+	        while(totalTime < 2000) {
+	            var time = oneIteration()
+	            times.push(time)
+	            totalTime += time
+	        }
+	
+	        var averageTime = totalTime/times.length
+	        var stdDeviationPercentage = standardDeviation(times)/averageTime
+	
+	        //console.log(mean(times)+ ' vs '+averageTime) // these should be equal and looks like they are
+	        exports.textOutput(name, Math.round(averageTime)+'ms (averaged over '+times.length+" iterations) - standard deviation: "+Math.round(stdDeviationPercentage*100)/100+'%')
+	
+	
+	        function oneIteration() {
+	            var time;
+	            testDefinition.call({
+	                time: function(testFn) {
+	                    var start = performance.now()
+	                    testFn()
+	                    time = performance.now() - start // ms
+	                }
+	            })
+	
+	            return time
+	        }
+	    },0)
+	}
+	
+	function standardDeviation(numberSet) {
+	    return Math.sqrt(variance(numberSet))
+	}
+	
+	function variance(numberSet) {
+	    var theMean = mean(numberSet)
+	    var sumOfDifferenceSquares = numberSet.reduce(function(acc,x) {
+	        var difference = x-theMean
+	        return acc + difference*difference
+	    },0)
+	
+	    return sumOfDifferenceSquares / (numberSet.length-1)
+	}
+	
+	function mean(numberSet) {
+	    var sum = numberSet.reduce(function(acc,x) {
+	        return acc+x
+	    },0)
+	
+	    return sum/numberSet.length
+	}
+	
+	
+	exports.buildNestedStructure = function (nestings) {
+	    var innerMost = Container()
+	    var cur = innerMost
+	    for(var n=0; n<nestings; n++) {
+	        cur = Container('moose', [cur])
+	    }
+	    return {innerMost:innerMost, top: cur}
+	}
+	
+	exports.buildNestedStyle = function(nestings) {
+	    var styleObject = {};
+	    for(var n=0; n<nestings; n++) {
+	        styleObject = {color: 'red', Container: styleObject}
+	    }
+	
+	    return Style(styleObject)
+	}
+
+/***/ },
+/* 6 */
+/*!*********************!*\
+  !*** ../~/Style.js ***!
+  \*********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var jssModule = __webpack_require__(/*! ../external/jss */ 27)
+	var proto = __webpack_require__(/*! proto */ 37)
+	var HashMap = __webpack_require__(/*! hashmap */ 47)
+	
+	var utils = __webpack_require__(/*! ./utils */ 24)
+	
+	var baseClassName = '_ComponentStyle_' // the base name for generated class names
+	var nextClassNumber = 0
+	
+	
+	var mixedStyles = new HashMap() // maps from a pair of Style objects to the resulting mixed style
+	
+	// creates a style object
+	var Style = module.exports = proto(function() {
+	
+	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
+	
+	    // styleDefinition is an object where key-value pairs can be any of the following:
+	    // <cssPropertyName>: the value should be a valid css value for that style attribute
+	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
+	    // $setup: the value is a function to be run on a component when the style is applied to it
+	    // $kill: the value is a function to be run on a component when a style is removed from it
+	    // $state: the value should be a state handler function
+	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
+	    // $inherit: this style should inherit from whatever style would otherwise have been in its placed if it was undefined
+	    this.init = function(styleDefinition, privateOptions) {
+	        if(isStyleObject(styleDefinition))
+	            return styleDefinition
+	        // else
+	
+	        if(privateOptions === undefined) privateOptions = {}
+	
+	        this.className = baseClassName+nextClassNumber
+	        nextClassNumber++
+	
+	        this.componentStyleMap = {}
+	        this.nativeCssInfoCache = new HashMap
+	        this.pureStyleInteractionCache = new HashMap
+	        this.nativePseudoclassesWritten = {}
+	        this.basicProperties = {}
+	        if(Style.isDev()) this.nativePseudoclassStyles = {}
+	
+	        var flatPseudoClassStyles = new HashMap
+	        for(var key in styleDefinition) {
+	            var value = styleDefinition[key]
+	
+	            if(key === '$setup') {
+	                if(!(value instanceof Function)) throw new Error("$setup key must be a function ('setup' can't be used as a label)")
+	                this.setup = value
+	
+	            } else if(key === '$kill') {
+	                if(!(value instanceof Function)) throw new Error("$kill key must be a function ('kill' can't be used as a label)")
+	                this.kill = value
+	
+	            } else if(key === '$state') {
+	                if(!(value instanceof Function)) throw new Error("$state key must be a function ('$state' can't be used as a label)")
+	                this.stateHandler = value
+	
+	            } else if(key === '$inherit') {
+	                this.inherit = true
+	
+	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
+	                var pseudoClass = mapCamelCase(key.substr(2))
+	                if(pseudoClass === '') {
+	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
+	                }
+	
+	                var flattenedPseudoclassObject = flattenPseudoClassStyles([pseudoClass], Style(value))
+	
+	                // mix in the resulting compound pseudoclass styles with what has already been found
+	                flattenedPseudoclassObject.forEach(function(style, key) {
+	                    styleHashmapMerge(flatPseudoClassStyles, key, style)
+	                })
+	
+	            } else if(key === '$') {
+	                throw new Error("Empty label name not valid (style key '$')")
+	            } else if(value instanceof Object || isStyleObject(value)) {  // $label or Block style
+	                this.componentStyleMap[key] = Style(value)  // turn the object description into a full fledged style object (or pass back the object if its already a Style)
+	            } else if(value === undefined) {
+	                // ignore
+	            } else {
+	                var cssStyle = key
+	                var cssStyleName = mapCamelCase(cssStyle)
+	                this.basicProperties[cssStyleName] = cssValue(cssStyleName, value)
+	            }
+	        }
+	
+	        this.pseudoclasses = processFlattenedPseudoclasses(flatPseudoClassStyles, this.componentStyleMap)
+	        this.pureNative = isPureNative(this)
+	
+	
+	        // takes in a list of pseudoClassRules and changes any nesting like {$$hover: {$$focus: {}}} into something like {hover: {}, ['hover','focus']: {}}
+	        // returns a new HashMap where
+	            // each key is the list of pseudoclasses that need to apply for that style to take effect, and
+	            // each value is a Style object
+	        // also does some validation
+	        // pseudoClasses - an array of pseudoclasses
+	        // pseudoClassStyle - a Style object representing the style inside the pseudoclass
+	        function flattenPseudoClassStyles(pseudoClasses, pseudoClassStyle) {
+	
+	            if(pseudoClassStyle.stateHandler !== undefined) {
+	                throw new Error('$state style functions are not valid directly inside psuedoclasses')
+	            }
+	
+	            var flattenedStyles = new HashMap
+	            var pseudoClassStyleCopy = pseudoClassStyle.copy() // copy so you're not clobbering a style something else relies on
+	
+	            var pseudoclasses = pseudoClassStyleCopy.pseudoclasses
+	
+	            // remove the pseudoclasses
+	            pseudoClassStyleCopy.pseudoclasses = {classes:new HashMap,emulatedInfo:{}}//{native:new HashMap,emulated:new HashMap,emulatedInfo:{}, emulatedOrder:[]}
+	
+	            // write the top-level pseudoClass
+	            flattenedStyles.set(pseudoClasses, pseudoClassStyleCopy)
+	
+	            // create flattened styles (with merged in styles from its parent pseudoclass
+	
+	            pseudoclasses.classes.forEach(function(substyle, subPseudoClass){
+	                var newCompoundSelector = canonicalizeCompoundPseudoclass(pseudoClasses.concat(subPseudoClass))
+	                var mixedStyle = pseudoClassStyleCopy.mix(substyle)
+	                flattenedStyles.set(newCompoundSelector, mixedStyle)
+	            })
+	
+	            return flattenedStyles
+	        }
+	
+	        // pseudoclassList - the list of pseudoclasses that make up the key
+	        // mutates pseudoclassList into a canonicalized list
+	        function canonicalizeCompoundPseudoclass(pseudoclassList) {
+	            pseudoclassList.sort()  // some string sort to canonicalize the list of pseudoclasses (not really important how it sorts exactly, just that its consistent)
+	
+	            // remove duplicates
+	            var lastKey = pseudoclassList[0]
+	            for(var n=1; n<pseudoclassList.length;) {
+	                if(pseudoclassList[n] === lastKey) {
+	                    pseudoclassList.splice(n,1)
+	                } else {
+	                    n++
+	                }
+	            }
+	
+	            return pseudoclassList
+	        }
+	
+	
+	        // merges two hashmaps together, where if the same key is set in both hashmaps, the values (being Style objects) are mixed together (styles in b overriding)
+	        // mutates map
+	        function styleHashmapMerge(map, newKey, newStyle) {
+	            if(map.has(newKey)) {
+	                var valueToSet = map.get(newKey).mix(newStyle)
+	            } else {
+	                var valueToSet = newStyle
+	            }
+	
+	            map.set(newKey, valueToSet)
+	        }
+	
+	        // returns an object containing the following properties
+	            // emulated - a hashmap object
+	                // each key is a canonicalized array of pseudoclasses for only emulatable pseudoclasses, and
+	                // each value is a Style object
+	            // native - just like `emulated` except the pseudoclasses in the key and all the Style object values are all natively renderable
+	            // emulatedOrder - an array of canonicalized pseudoclasses sorted from most specific to least specific (longest to shortest
+	            // emulatedInfo - an object where
+	                // each key is an individual psuedoclass selector (like the elements in a canonicalized pseudoclass list), and
+	                // each value is an object containing the properties:
+	                    // fns - the emulated psuedoclass functions `check`, `setup`, and `kill`
+	                    // parameter - the psuedoclass parameter to pass into `check` and `setup`
+	        // compoundPseudoClassStyles - a hashmap where
+	            // each key is a canonicalized array of pseudoclasses, and
+	            // each value is a Style object
+	        function processFlattenedPseudoclasses(compoundPseudoClassStyles, componentStyleMap) {
+	
+	            var pseudoclasses = new HashMap
+	            compoundPseudoClassStyles.forEach(function(pseudoclassStyle, key) {
+	                if(pseudoclassStyle.pureNative) {
+	                    // make sure the pseudoclasses are all natively renderable (any js-rendered pseudoclass that isn't marked 'emulated' is not natively emulatable)
+	                    var allEmulated = true
+	                    for(var n=0; n<key.length; n++) {
+	                        var parts = getPseudoClassParts(key[n])
+	                        var psuedoclassInfo = jsRenderedPseduoclasses[parts.class]
+	                        if(psuedoclassInfo !== undefined && !psuedoclassInfo.emulated) {
+	                            allEmulated = false
+	                            break
+	                        }
+	                    }
+	
+	                    var componentStyleMapConflicts = false
+	                    if(allEmulated) {
+	                        componentStyleMapConflicts = styleMapConflicts(componentStyleMap, pseudoclassStyle.componentStyleMap)
+	                    }
+	
+	                    pseudoclassStyle.pureNative = allEmulated && !componentStyleMapConflicts
+	                }
+	
+	                for(var n=0; n<key.length; n++) {
+	                    var parts = getPseudoClassParts(key[n])
+	                    var psuedoclassInfo = jsRenderedPseduoclasses[parts.class]
+	                    if(psuedoclassInfo !== undefined && psuedoclassInfo.parameterTransform !== undefined) {
+	                        var transformedParameter = psuedoclassInfo.parameterTransform(parts.parameter)
+	                        key[n] = parts.class+"("+transformedParameter+")"
+	                    }
+	                }
+	
+	                pseudoclasses.set(key, pseudoclassStyle)
+	            })
+	
+	            var emulatedInfo={}
+	            pseudoclasses.forEach(function(pseudoclassStyle,individualPseudoclasses) {
+	                if(!pseudoclassStyle.pureNative) {
+	                    individualPseudoclasses.forEach(function(pseudoclass) {
+	                        if(!(pseudoclass in emulatedInfo)) {
+	                            emulatedInfo[pseudoclass] = getEmulatedInfo(pseudoclass)
+	                        }
+	                    })
+	                }
+	            })
+	
+	            return {classes: pseudoclasses, emulatedInfo:emulatedInfo}
+	        }
+	    }
+	
+	    // returns true if there are any styleMap conflicts, which is when any inner style of pseudoclassStyleMap collides with a non-pure style in mainStyleMap
+	    function styleMapConflicts(mainStyleMap, pseudoclassStyleMap) {
+	        for(var blockSelector in mainStyleMap) {
+	            if(blockSelector in pseudoclassStyleMap) {
+	                if(!mainStyleMap[blockSelector].pureNative) {
+	                    return true
+	                } else {
+	                    var pseudoclassInnerStyle = pseudoclassStyleMap[blockSelector]
+	                    if(styleMapConflicts(mainStyleMap, pseudoclassInnerStyle.componentStyleMap)) {
+	                        return true
+	                    }
+	
+	                    var pseudoclassStyles = pseudoclassInnerStyle.pseudoclasses.classes.values()
+	                    for(var n=0; n<pseudoclassStyles.length; n++) {
+	                        var pseudoclassStyle = pseudoclassStyles[n]
+	                        if(styleMapConflicts(mainStyleMap, pseudoclassStyle.componentStyleMap)) {
+	                            return true
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	
+	        return false
+	    }
+	
+	
+	    // returns true if there are any styleMap conflicts, which is when any inner style of pseudoclassStyleMap collides with a non-pure style in mainStyleMap
+	    function styleMapConflicts(mainStyleMap, pseudoclassStyleMap) {
+	        for(var blockSelector in pseudoclassStyleMap) {
+	            if(blockSelector in mainStyleMap) {
+	                if(!mainStyleMap[blockSelector].pureNative) {
+	                    return true
+	                }
+	            }
+	
+	            var pseudoclassInnerStyle = pseudoclassStyleMap[blockSelector]
+	            if(styleMapConflicts(mainStyleMap, pseudoclassInnerStyle.componentStyleMap)) {
+	                return true
+	            }
+	
+	            var pseudoclassStyles = pseudoclassInnerStyle.pseudoclasses.classes.values()
+	            for(var n=0; n<pseudoclassStyles.length; n++) {
+	                var pseudoclassStyle = pseudoclassStyles[n]
+	                if(styleMapConflicts(mainStyleMap, pseudoclassStyle.componentStyleMap)) {
+	                    return true
+	                }
+	            }
+	        }
+	
+	        return false
+	    }
+	
+	    // returns either
+	        // this style if styleB is undefined, or
+	        // a new Style object that merges styleB's properties into the current one such that styleB's properties override the current Style's properties
+	    // mixInherit - (default: false) if true, mixes in the 'inherit' property
+	    this.mix = function(styleB, mixInherit) {
+	        if(mixInherit === undefined) mixInherit = false
+	        if(styleB === undefined)
+	            return this
+	
+	        var cacheKey = [this,styleB,mixInherit]
+	        var mixedStyle = mixedStyles.get(cacheKey)
+	        if(mixedStyle === undefined) {     // note: mixedStyle can only be undefined if the two style have never been mixed before
+	            var mixedStyle = mixWithoutCreatingNativePseudoclasses(this, styleB, mixInherit)
+	            mixedStyles.set(cacheKey, mixedStyle)
+	        }
+	
+	        return mixedStyle
+	    }
+	
+	    // returns a copy of the style with a new className
+	    this.copy = function () {
+	        return mixWithoutCreatingNativePseudoclasses(this, Style(), true)
+	    }
+	
+	    // returns an object with the members
+	        // fns - the functions for the given pseudoclass
+	        // parameter - the processed parameter to pass into fns.setup
+	    // pseudoclass - a pseudoclass selector (eg "not(:required)")
+	    function getEmulatedInfo(pseudoclass) {
+	        var parts = getPseudoClassParts(pseudoclass)
+	        var fns = jsRenderedPseduoclasses[parts.class]
+	
+	        if(fns ===  undefined) {
+	            throw new Error("Pseudoclass "+parts.class+" isn't emulated, but has a style that can't be rendered in pure css")
+	        }
+	
+	        var info = {fns: fns}
+	        if(parts.parameter !== undefined) {
+	            if(fns.processParameter !== undefined) {
+	                info.parameter = fns.processParameter(parts.parameter)
+	            } else {
+	                info.parameter = parts.parameter
+	            }
+	        }
+	
+	        return info
+	    }
+	
+	    // returns an object
+	        // either with the properties:
+	            // style - style that has native css properties (basic and pseudoclass) set for it and its block's computedStyleMap
+	                // this return value *can* be this style itself if there are no interactions with the passed styleMap
+	            // styleMap - a potentially new styleMap that has copied or inserted styles needed for native psuedoclass rendering
+	            // nativePsuedoclassMap - a new pseudoclassMap to set on the block
+	        // OR with the proeprties:
+	            // cancel:true - exists if a pure native psuedoclass style can't be rendered native because of a collision with a computedStyleMap style that isn't pure native
+	            // style - the new style to get the pseudoclass style from (and then set with setPreStyleMapStyle)
+	    // styleMap - a map of style selectors (Block names or labels) to Styles who's classNames will be used to create the native css
+	        // intended to be a style map that comes from a block's computedStyleMap property
+	        // the computedStyleMap can affect how sub-pseudoclass selectors are written
+	    // nativePseudoclassSelectorMap - an object where each key is a base css-selector, and each value is a Style object
+	    // jsRenderedPseudoclassIndex - if this style is a js-redered/emulated psueodclass, this is its index inside its parent style's pseudoclasses.classes map, otherwise the value will be 0
+	    this.createNativeCssInfo = function(styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
+	        var cacheHasStyleMap = this.nativeCssInfoCache.has(styleMap), cacheValue=undefined
+	        if(cacheHasStyleMap) {
+	            cacheValue = this.nativeCssInfoCache.get(styleMap)
+	            if(jsRenderedPseudoclassIndex in cacheValue) {
+	                return cacheValue[jsRenderedPseudoclassIndex]
+	            }
+	        }
+	        // else
+	        var styleToReturn = this // can change below if there is an interaction with the styleMap
+	        if(this.pureNative && this.pseudoclasses.classes.keys() !== 0) { // only care about pseudoclass interactions if it has pseudoclasses
+	            var styleSelectors = containedStyleSelectors(this)
+	            var info = stylesInfo(styleSelectors, styleMap)
+	            var interacts = info.impure.length > 0
+	            if(!interacts) {
+	                var pureStyleInteractionCacheItem = this.pureStyleInteractionCache.get(info.undef)
+	                if(pureStyleInteractionCacheItem === undefined) {
+	                    var evenNewerComputedStyleMap = utils.merge({},styleMap) // copy
+	                    for(var key in evenNewerComputedStyleMap) {
+	                        if(key in styleSelectors) {
+	                            evenNewerComputedStyleMap[key] = evenNewerComputedStyleMap[key].copy() // copy to ensure that a unique className is created (so that native pseudoclasses don't have the possibility of merging weirdly)
+	                        }
+	                    }
+	                    for(var n=0; n<info.undef.length; n++) {
+	                        evenNewerComputedStyleMap[info.undef[n]] = Style()  // empty style who's className will be used to create native pseudoclass styles
+	                    }
+	
+	                    styleToReturn = this.copy()    // a new style className is needed to avoid potential incorrect css overlap
+	                    styleMap = evenNewerComputedStyleMap
+	                    this.pureStyleInteractionCache.set(info.undef, {style:styleToReturn, map: styleMap})
+	                } else {
+	                    styleToReturn = pureStyleInteractionCacheItem.style
+	                    styleMap = pureStyleInteractionCacheItem.map
+	                }
+	            } else {
+	                var retryStyle = this.copy()
+	                changeStyleToNonNative(retryStyle)
+	
+	                var result = {cancel: true, retryStyle: retryStyle}
+	                setNativeCssInfoCache(this.nativeCssInfoCache, result)
+	                return result
+	            }
+	        }
+	
+	        if(!styleToReturn.basicNativeCssRendered) {
+	            setCss('.'+styleToReturn.className, styleToReturn.basicProperties)
+	            styleToReturn.basicNativeCssRendered = true
+	        }
+	
+	        var newNativePseudoclassMap = createNativePseudoclasses(styleToReturn, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
+	
+	        var result = {style: styleToReturn, styleMap: styleMap, nativePseudoclassMap: newNativePseudoclassMap}
+	        setNativeCssInfoCache(this.nativeCssInfoCache, result)
+	        return result
+	
+	
+	        // mutates the passed style so that its not native
+	        function changeStyleToNonNative(style) {
+	            style.pureNative = false
+	            var newClasses = new HashMap
+	            style.pseudoclasses.classes.forEach(function(pseudoclassStyle, individualPseudoclasses) {
+	                //if(style.pureNative) { // all of these will be pureNative, or style wouldn't be
+	                    var copy = pseudoclassStyle.copy()
+	                    copy.pureNative = false
+	                    newClasses.set(individualPseudoclasses, copy)
+	
+	                    individualPseudoclasses.forEach(function(pseudoclass) {
+	                        if(!(pseudoclass in pseudoclassStyle.pseudoclasses.emulatedInfo)) {
+	                            style.pseudoclasses.emulatedInfo[pseudoclass] = getEmulatedInfo(pseudoclass)
+	                        }
+	                    })
+	
+	                /*} else {
+	                    newClasses.set(individualPseudoclasses, style)
+	                }*/
+	            })
+	
+	            style.pseudoclasses.classes = newClasses
+	
+	            return style
+	        }
+	
+	        function setNativeCssInfoCache(nativeCssInfoCache, value) {
+	            if(cacheHasStyleMap) {
+	                cacheValue[jsRenderedPseudoclassIndex] = value
+	            } else {
+	                var cacheValue = {}
+	                cacheValue[jsRenderedPseudoclassIndex] = value
+	                nativeCssInfoCache.set(styleMap, cacheValue)
+	            }
+	        }
+	
+	        // returns the label and block selectors within the style (recursive)
+	        // the grabs from both componentStyleMap and psuedoclasses.native[x].componentStyleMap
+	        function containedStyleSelectors(style) {
+	            var result = {}
+	            for(var key in style.componentStyleMap) {
+	                var innerStyle = style.componentStyleMap[key]
+	                mergeInSelectors(key, innerStyle)
+	            }
+	
+	            style.pseudoclasses.classes.forEach(function(innerStyle) {
+	                if(innerStyle.pureNative) {
+	                    for(var key in innerStyle.componentStyleMap) {
+	                        var innerStyle = innerStyle.componentStyleMap[key]
+	                        mergeInSelectors(key, innerStyle)
+	                    }
+	                }
+	            })
+	
+	            return result
+	
+	
+	            function mergeInSelectors(key, innerStyle) {
+	                result[key] = true
+	
+	                var selectors = containedStyleSelectors(innerStyle)
+	                utils.merge(result, selectors)
+	            }
+	        }
+	
+	        // returns info about what styles in styleSelectors and in newComputedStyleMap are:
+	            // impure in newComputedStyleMap
+	            // not defined in newComputedStyleMap
+	        function stylesInfo(styleSelectors, newComputedStyleMap) {
+	            var impure = []
+	            var undef = []
+	            for(var key in styleSelectors) {
+	                var style = newComputedStyleMap[key]
+	                if(style === undefined) {
+	                    undef.push(key)
+	                } else if(!style.pureNative) {
+	                    impure.push(key)
+	                }
+	            }
+	            return {impure:impure,undef:undef}
+	        }
+	    }
+	
+	
+	    // instance properties
+	
+	    this.className          // the css classname for this style
+	    this.componentStyleMap; // maps a Component name to a Style object for that component
+	    this.setup;             // run some javascript on any element this class is applied to
+	    this.kill;              // a function to run on removal of the style (should reverse setup)
+	
+	
+	    // private properties
+	
+	    this.nativeCssInfoCache; // instance property that stores a map between a styleMap and a potentially modified pair: {style:<Style object>, styleMap: <computedStyleMap>}
+	    this.basicNativeCssRendered; // contains true if the css class has been written to a stylesheet
+	
+	
+	    // creates a new style with styleB mixed into styleA (styleB overrides)
+	    // does not create native pseudoclass styles
+	    // mixInherit - if true, mixes in the 'inherit' property, if false, 'inherit' will get undefined (same as inherit===false)
+	    function mixWithoutCreatingNativePseudoclasses(styleA, styleB, mixInherit) {
+	        // mix css properties and non-emulated pseudoclass properties
+	        var mainStylesMerged = utils.merge({}, styleA.basicProperties, styleB.basicProperties)
+	        var newStyle = Style(mainStylesMerged)
+	
+	        // mix block and label properties
+	        newStyle.componentStyleMap = mergeComponentStyleMaps(styleA, styleB)
+	
+	        // mix pseudoclass properties
+	        newStyle.pseudoclasses = mergePseudoclasses(styleA, styleB)
+	
+	        // mix $state
+	        if(styleB.stateHandler !== undefined) {
+	            newStyle.stateHandler = styleB.stateHandler
+	        } else {
+	            newStyle.stateHandler = styleA.stateHandler
+	        }
+	
+	        // mix $setup and $kill                                                                                                                                                                                                                                                                 waaahhh hah hah haaaaaaa
+	        if(styleB.setup !== undefined) {
+	            newStyle.setup = styleB.setup
+	        } else {
+	            newStyle.setup = styleA.setup
+	        }
+	        if(styleB.kill !== undefined) {
+	            newStyle.kill = styleB.kill
+	        } else {
+	            newStyle.kill = styleA.kill
+	        }
+	
+	        if(mixInherit) {
+	            newStyle.inherit = styleA.inherit || styleB.inherit
+	        }
+	
+	        newStyle.pureNative = isPureNative(newStyle)
+	
+	        return newStyle
+	    }
+	
+	    // returns a new component style map where styleB overrides styleA
+	    // handles the 'inherit' option on styles
+	    function mergeComponentStyleMaps(styleA, styleB) {
+	        var mergedStyleMap = utils.merge({}, styleA.componentStyleMap)
+	        for(var key in styleB.componentStyleMap) {
+	            var styleMapping = styleB.componentStyleMap[key] // a Style object
+	
+	            mergedStyleMap[key] = conditionalMix(mergedStyleMap[key], styleMapping)
+	        }
+	
+	        return mergedStyleMap
+	    }
+	
+	    // conditionally mixes two styles
+	    // returns b mixed into a if b inherits
+	    // otherwise returns b
+	    function conditionalMix(a,b) {
+	        if(b === undefined)
+	            return a
+	
+	        if(b.inherit) {
+	            if(a === undefined)
+	                return b
+	            else
+	                return a.mix(b)
+	        } else {
+	            return b
+	        }
+	    }
+	
+	    // returns true if the style can be rendered with pure css (no javascript needed)
+	    function isPureNative(style) {
+	        if(style.setup === undefined && style.kill === undefined && style.stateHandler === undefined
+	        ) {
+	            var allPseudoclassesNative = true
+	            style.pseudoclasses.classes.forEach(function(style) {
+	                if(!style.pureNative) allPseudoclassesNative = false
+	            })
+	            if(!allPseudoclassesNative) {
+	                return false
+	            }
+	
+	            var allPureNative = true
+	            for(var key in style.componentStyleMap) {
+	                if(style.componentStyleMap[key].pureNative !== true) {
+	                    allPureNative = false
+	                    break
+	                }
+	            }
+	            if(!allPureNative) {
+	                return false
+	            }
+	
+	            return true
+	        }
+	    }
+	
+	    // mixes together the pseudoclass properties of two styles
+	    // handles changing native pseudoclass handling to emulated (and vice versa)
+	    function mergePseudoclasses(styleA, styleB) {
+	        var merged = mergeStyleMaps(styleA.pseudoclasses.classes, styleB.pseudoclasses.classes)
+	        var emulatedInfo = utils.merge({}, styleA.pseudoclasses.emulatedInfo, styleB.pseudoclasses.emulatedInfo)
+	
+	        return {classes: merged, emulatedInfo:emulatedInfo}
+	
+	
+	        // returns a new map with mapA and mapB merged, where mapB's styles override
+	        function mergeStyleMaps(styleMapA, styleMapB) {
+	            var result = utils.hashmapMerge(new HashMap, styleMapA)
+	            styleMapB.forEach(function(v, key) {
+	                if(result.has(key)) {
+	                    var resultValue = result.get(key).mix(styleMapB.get(key), true)
+	                } else {
+	                    var resultValue = styleMapB.get(key)
+	                }
+	
+	                result.set(key, resultValue)
+	            })
+	
+	            return result
+	        }
+	    }
+	
+	    var singleColonForPseudoElements = false; // may be changed if its detected that the browser does this
+	    var doubleColonPseudoElRegex =      /(::)(before|after|first-line|first-letter|selection)/;
+	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
+	
+	    // creates a css selector with the passed properties
+	    function setCss(selector, properties) {
+	        var unCamelCasedProperties = {}
+	        for (key in properties) {
+	            unCamelCasedProperties[mapCamelCase(key)] = properties[key]
+	        }
+	
+	        var rule = addRule(jss.defaultSheet, selector)
+	        setStyleProperties(rule, properties);
+	
+	
+	
+	        function addRule(sheet, selector) {
+		        var rules = sheet.cssRules || sheet.rules || [];
+		        var index = rules.length;
+	
+	            var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
+	            if (!pseudoElementRule) {
+	                addRuleToSheet(sheet, selector, index);
+	            }
+	
+		        return rules[index].style
+		    }
+	
+	        // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
+	        function addPseudoElementRule(sheet, selector, rules, index) {
+	            var doubleColonSelector;
+	            var singleColonSelector;
+	
+	            if (doubleColonPseudoElRegex.exec(selector)) {
+	                doubleColonSelector = selector;
+	                singleColonSelector = toSingleColonPseudoElements(selector);
+	            } else if (singleColonPseudoElRegex.exec(selector)) {
+	                doubleColonSelector = toDoubleColonPseudoElements(selector);
+	                singleColonSelector = selector;
+	            } else {
+	                return false; // Not dealing with a pseudo element
+	            }
+	
+	            if (!singleColonForPseudoElements) {
+	                // Assume modern browser and then check if successful
+	                addRuleToSheet(sheet, doubleColonSelector, index);
+	                if (rules.length <= index) {
+	                    singleColonForPseudoElements = true;
+	                }
+	            }
+	            if (singleColonForPseudoElements) {
+	                addRuleToSheet(sheet, singleColonSelector, index);
+	            }
+	
+	            return true;
+	        }
+	
+	        function addRuleToSheet(sheet, selector, index) {
+		        if (sheet.insertRule) {
+		            sheet.insertRule(selector + ' { }', index);
+		        } else {
+		            sheet.addRule(selector, null, index);
+		        }
+		    }
+	
+	        function setStyleProperties(ruleStyle, properties) {
+		        for (var key in properties) {
+	                ruleStyle.setProperty(key, properties[key])
+		        }
+		    }
+	
+	        function toDoubleColonPseudoElements(selector) {
+	            return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
+	                return submatch1 + '::' + submatch3;
+	            });
+	        }
+	        function toSingleColonPseudoElements(selector) {
+	            return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
+	                return ':' + submatch2;
+	            })
+	        }
+	    }
+	
+	
+	    // creates the css styles necessary to render the native pseudoclass styles of this style (and contained styles that can be rendered native)
+	    // intended to be called only once per style
+	    // styleMap - A block's new computedStyleMap. Selectors that also exist in native pseudoclasses of the style have already been created or copied (so you can be sure creating css class styles for them won't conflict with anything)
+	    // jsRenderedPseudoclassIndex - the index of the active pseudoclass style - needed for deciding what native css needs to be overridden by `style`
+	        // if this is 0, no overriding needs to happen (so 0 is also set when there's no active js-rendered/emulated pseudoclass)
+	    function createNativePseudoclasses(style, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
+	        if(nativePseudoclassSelectorMap === undefined) nativePseudoclassSelectorMap = {}
+	
+	        var nativePseudoclassSelectors = []
+	        //var nativePseudoclassPropertiesToOverride = {}   // stores what style properties for what pseudoclasses needs to be overridden by an emulated style
+	        var newNativePseudoclassMap = {} // a mapping from a Block name to a nativePseudoclassSelectorMap
+	        var index = 0
+	        style.pseudoclasses.classes.forEach(function(pseudoclassStyle, pseudoclassKey) {
+	            var fullSelector = '.'+style.className+':'+pseudoclassKey.join(':')
+	            if(pseudoclassStyle.pureNative) {
+	                // create css styles for top-level css properties of the native psuedoclass
+	                createPseudoClassRules(fullSelector, pseudoclassStyle.basicProperties, style)
+	                nativePseudoclassSelectors.push(pseudoclassKey.join(':'))
+	
+	                for(var blockSelector in pseudoclassStyle.componentStyleMap) {
+	                    addNativePseudoclassMapItem(blockSelector, fullSelector, pseudoclassStyle.componentStyleMap[blockSelector])
+	                }
+	            } else if(index === jsRenderedPseudoclassIndex) {
+	                // create overriding css styles for top-level css properties of the emulated psuedoclass (so that emulated and native pseudoclasses mix properly)
+	                for(var n=0; n<nativePseudoclassSelectors.length; n++) {
+	                    var selector = nativePseudoclassSelectors[n]
+	                    createPseudoClassRules(fullSelector+":"+selector, style.basicProperties, style)
+	                }
+	            }
+	
+	            index++
+	        })
+	
+	        for(var selector in nativePseudoclassSelectorMap) {
+	            var pseudoclassStyle = nativePseudoclassSelectorMap[selector]
+	            var fullSelector = selector+' '+'.'+style.className
+	
+	            // create css styles for the top-level style when inside a pure native pseudoclass style of its parent
+	            createPseudoClassRules(fullSelector, pseudoclassStyle.basicProperties, style)
+	
+	            for(var blockSelector in pseudoclassStyle.componentStyleMap) {
+	                addNativePseudoclassMapItem(blockSelector, fullSelector, pseudoclassStyle.componentStyleMap[blockSelector])
+	            }
+	
+	            // create css styles for pseudoclass styles when inside a pure natiev pseudoclass style of its parent
+	            pseudoclassStyle.pseudoclasses.classes.forEach(function(pseudoclassStyle, pseudoclassKey) {
+	                if(pseudoclassStyle.pureNative) {
+	                    createPseudoClassRules(fullSelector+':'+pseudoclassKey.join(':'), pseudoclassStyle.basicProperties, style)
+	                }
+	            })
+	        }
+	
+	        return newNativePseudoclassMap
+	
+	
+	        function addNativePseudoclassMapItem(blockSelector, cssSelector, styleValue) {
+	            if(newNativePseudoclassMap[blockSelector] === undefined)
+	                newNativePseudoclassMap[blockSelector] = {}
+	            newNativePseudoclassMap[blockSelector][cssSelector] = styleValue
+	        }
+	
+	        // cssProperties - The css rules to apply (should only contain native css properties). CamelCase and certain integer values will be converted.
+	        function createPseudoClassRules(selector, cssProperties,  /*temporary*/ styleMapStyle) {
+	            if(!style.nativePseudoclassesWritten[selector]) {
+	                var pseudoClassCss = {}
+	
+	                // overwrite styles that would bleed over from the styleMapStyle
+	                for(var key in styleMapStyle.basicProperties) {
+	                    var initialStyle = defaultStyle?defaultStyle.basicProperties[key] || defaultStyleValues[key] || 'initial':'initial'
+	                    pseudoClassCss[key] = initialStyle // todo: write a function to calculate the inital value, since 'initial' isn't supported in IE (of course) - tho it will be eventually since its becoming apart of css3
+	                }
+	
+	                for(var key in cssProperties) {
+	                    var value = cssProperties[key]
+	
+	                    var cssStyle = key
+	                    var cssStyleName = mapCamelCase(cssStyle)
+	                    pseudoClassCss[cssStyleName] = cssValue(cssStyleName, value)
+	                }
+	
+	                // create immediate pseudo class style
+	                setCss(selector, pseudoClassCss) // create the css class with the pseudoClass
+	                if(Style.isDev()) {
+	                    styleMapStyle.nativePseudoclassStyles[selector] = pseudoClassCss
+	                }
+	
+	                style.nativePseudoclassesWritten[selector] = true
+	            }
+	        }
+	    }
+	})
+	
+	
+	// private
+	
+	
+	// a map of pseudoclass names and how they are emulated with javascript
+	// each pseudoclass sets up the following functions:
+	    // check - a function that checks if that pseudoclass currently applies to the component when its called
+	    // setup - calls a callback when the pseudoClass starts and stops applying
+	        // should return an object that will be passed to the kill function (as its 'state' parameter)
+	    // kill - cleans up anything set up in the 'setup' function
+	    // processParameter - takes the pseudoclass parameter and returns some object representing it that will be used by the setup and check functions
+	var jsRenderedPseduoclasses = {
+	    hover: {
+	        emulated: true,
+	        check: function(component) {
+	            var nodes = document.querySelectorAll( ":hover" )
+	            for(var n=0; n<nodes.length; n++) {
+	                if(nodes[n] === component.domNode) {
+	                    return true
+	                }
+	            }
+	            return false
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            component.on("mouseover", function() {
+	                startCallback()
+	            })
+	            component.on("mouseout", endCallback)
+	
+	            return {start: startCallback, end: endCallback}
+	        },
+	        kill: function(component, state) {
+	            component.off("mouseover", state.start)
+	            component.off("mouseout", state.end)
+	        }
+	    },
+	    checked: {
+	        emulated: true,
+	        check: function(component) {
+	            if(component.domNode.nodeName !== 'INPUT' && component.domNode.nodeName !== 'OPTION') {
+	                console.warn("The pseudoclass 'checked' can only apply to 'input' nodes (Button, CheckBox, RadioButton, or TextField) or 'option' nodes (Option)")
+	                return false
+	            }
+	            return component.selected
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var setupState = {}
+	            component.on("change", setupState.listener = function() {
+	                if(component.selected) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            return setupState
+	        },
+	        kill: function(component, state) {
+	            component.removeListener("change", state.listener)
+	        }
+	    },
+	    required: {
+	        emulated: true,
+	        check: function(component) {
+	            if(component.domNode.nodeName !== 'INPUT') {
+	                console.warn("The pseudoclass 'required' can only apply to 'input' nodes (Button, CheckBox, RadioButton, or TextField)")
+	                return false
+	            }
+	            return component.attr('required') !== undefined
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var observer = new MutationObserver(function() {
+	                if(component.attr('required') !== undefined) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            observer.observe(component.domNode, {attributes: true})
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        }
+	    },
+	    'last-child': {
+	        emulated: true,
+	        check: function(component) {
+	            return nthLastChildCheck(component, '1')
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var observer = new MutationObserver(function() {
+	                if(nthLastChildCheck(component, '1')) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            var setupObserver = function() {
+	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
+	                observer.observe(component.parent.domNode, {childList: true})
+	            }
+	
+	            if(component.parent !== undefined) {
+	                setupObserver()
+	            }
+	
+	            component.on('newParent', function() {
+	                setupObserver()
+	            })
+	            component.on('parentRemoved', function() {
+	                observer.disconnect()
+	            })
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        }
+	    },
+	    'nth-child': {
+	        emulated: true,
+	        parameterTransform: function(parameter) {
+	            var parts = parseNthChildParameter(parameter)
+	            if(parts.variable === 0) {
+	                return parts.constant+''
+	            } else if(parts.constant === 0) {
+	                return parts.variable+'n'
+	            } else {
+	                return parts.variable+'n+'+parts.constant
+	            }
+	        },
+	
+	        check: function(component, parameterCheck) {
+	            return nthChildCheck(component, parameterCheck)
+	        },
+	        setup: function(component, startCallback, endCallback, parameterCheck) {
+	
+	            var checkAndCallCallbacks = function() {
+	                if(nthChildCheck(component, parameterCheck)) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            }
+	
+	            var observer = new MutationObserver(function() {
+	                checkAndCallCallbacks()
+	            })
+	
+	            var setupObserver = function() {
+	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
+	                observer.observe(component.parent.domNode, {childList: true})
+	            }
+	
+	            if(component.parent !== undefined) {
+	                setupObserver()
+	            }
+	
+	            component.on('newParent', function() {
+	                setupObserver()
+	                checkAndCallCallbacks()
+	            })
+	            component.on('parentRemoved', function() {
+	                observer.disconnect()
+	                checkAndCallCallbacks()
+	            })
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        },
+	
+	        // returns a function that takes an index and tell you if that index applies to the nthChildParameter
+	        processParameter: function(parameter) {
+	            var parts = parseNthChildParameter(parameter)
+	
+	            if(parts.variable === 0) {
+	                return function(index) {
+	                    return index+1 === parts.constant
+	                }
+	            } else {
+	                return function(index) {
+	                    return ((index+1-parts.constant)/parts.variable) % 1 === 0
+	                }
+	            }
+	        }
+	    },
+	
+	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
+	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
+	    /*not: {
+	        check: function() {
+	
+	        },
+	    }*/
+	}
+	
+	// name is the name of the new pseudoclass
+	// options is an object with the members:
+	    // check(component) - returns true if the pseudoclass applies to the component
+	    // setup(component, startCallback, endCallback, parameter) - a function that should call startCallback when the pseudoclass starts applying, and endCallback when it stops applying
+	        // parameter - the parameter passed to the pseudoclass (e.g. in :not(:first-child), ":first-child" is the parameter)
+	    // kill - a function that cleans up any event listeners or anything else set up in the 'setup' function
+	    // processParameter - a function that processes the pseudoclass parameter and returns some object the 'setup' function will get as its 4th argument
+	        // if this is undefined, the pseudoclass will throw an exception for styles that have a parameter for it
+	    // emulated - if true, it means that there is a corresponding native pseudoclass that can be used if the style can be rendered with pure css
+	module.exports.addPseudoClass = function(name, options) {
+	    if(jsRenderedPseduoclasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
+	    // else
+	    jsRenderedPseduoclasses[name] = options
+	}
+	
+	
+	function nthChildCheck(component, testFn) {
+	    if(component.domNode.parentNode === null)
+	        return false
+	
+	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
+	    var index = Array.prototype.indexOf.call(children, component.domNode)
+	    return testFn(index)
+	}
+	
+	function nthLastChildCheck(component, parameter) {
+	    if(component.domNode.parentNode === null)
+	        return false
+	
+	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
+	    var index = children.length - parseInt(parameter)
+	    return children[index] === component.domNode
+	}
+	
+	var nthChildParameter = new RegExp(
+	    '^' // begin
+	        +'('
+	            +'('
+	                +'(-?\\d*)'        // constant
+	                +'(([+-]\\d*)n?)?' // first-order term
+	            +')|'
+	            +'('
+	                +'(-?\\d)*n?' // first-order term first
+	                +'([+-]\\d*)?' // then constant
+	            +')'
+	        +')'
+	    +'$' // the EYND
+	)
+	
+	// returns the variable and constnat parts of the parameter
+	function parseNthChildParameter(parameter) {
+	    var parts = parameter.replace(/\s/g, '').match(nthChildParameter)
+	    if(parts === null)
+	        throw new Error("nth-child parameter '"+parameter+"' isn't valid")
+	
+	    if(parts[2] !== undefined) {
+	        var constant = parts[3]
+	        var variable = parts[5]
+	    } else {
+	        var constant = parts[8]
+	        var variable = parts[7]
+	    }
+	
+	
+	
+	    if(constant === undefined) constant = 0
+	    else                       constant = parseInt(constant)
+	    if(variable === undefined) variable = 0
+	    else                       variable = parseInt(variable)
+	
+	    return {variable: variable, constant: constant}
+	}
+	
+	
+	// maps a style value to a css value
+	// style values that are numbers are mapped to strings, usually with px postfix
+	function cssValue(cssStyleName, value) {
+	    // If a number was passed in, add 'px' to the (except for certain CSS properties) [also taken from jquery's code]
+	    if(typeof(value) === "number" && cssNumber[cssStyleName] === undefined) {
+	        return value+"px"
+	    } else {
+	        return value.toString()
+	    }
+	}
+	
+	var pseudoClassRegex = new RegExp( // /^([^(]*)(\((.*)\))?$/
+	    "([^(]*)"        // anything that's not an open paren
+	    +"(\\((.*)\\))?" // optionally some arbitrary string inside parens
+	    +"$"             // THE EYND!
+	)
+	
+	// pulls apart the pseudoclass name from its (optional) parameter
+	// e.g. pulls out 'nth-child' and '2+3n' from 'nth-child(2+3n)'
+	function getPseudoClassParts(fullPsuedoClass) {
+	    var x = fullPsuedoClass.match(pseudoClassRegex)
+	    if(x === null) throw new Error("Pseudoclass '"+fullPsuedoClass+"' is invalid")
+	    return {class: x[1], parameter: x[3]}
+	}
+	
+	
+	// taken from jquery's code
+	var cssNumber = {
+	    "column-count": 1,
+	    "fill-opacity": 1,
+	    "flex-grow": 1,
+	    "flex-shrink": 1,
+	    "font-weight": 1,
+	    "line-height": 1,
+	    "opacity": 1,
+	    "order": 1,
+	    "orphans": 1,
+	    "widows": 1,
+	    "z-index": 1,
+	    "zoom": 1
+	}
+	
+	function isStyleObject(o) {
+	    return o !== undefined && o.componentStyleMap !== undefined
+	}
+	
+	
+	//var asciiA = 'A'.charCodeAt(0), asciiZ = 'Z'.charCodeAt(0), difference = 'a'.charCodeAt(0) - asciiA
+	function mapCamelCase(cssStyleName) {
+	    return cssStyleName.replace(/([A-Z])/g, function(match, submatch) {          // this is from jss
+	        return '-' + submatch.toLowerCase();
+	    })
+	
+	    /*for(var n=0; n<cssStyleName.length; n++) {
+	        var ascii = cssStyleName.charCodeAt(n)
+	        if(asciiA <= ascii && ascii <= asciiZ) { // found capital letter
+	            cssStyleName = cssStyleName.slice(0, n) + '-'+String.fromCharCode(ascii+difference) + cssStyleName.slice(n+1)
+	            n++ // increment a second time for the dash
+	        }
+	    }
+	
+	    return cssStyleName*/
+	}
+	
+	// maps all the styles that are inherited by descendant nodes to their default values
+	// source: http://stackoverflow.com/questions/5612302/which-css-styles-are-inherited
+	var defaultStyleValues = {
+	    'azimuth': 'center',
+	    'border-collapse': 'separate',
+	    'border-spacing': '0',
+	    'box-sizing': 'border-box',
+	    'caption-side': 'top',
+	    //'color': 'black',         // let this inherit
+	    //'cursor': 'auto',         // let this one inherit - its weird otherwise
+	    'direction': 'ltr',
+	     display: 'inline-block', // changes the default display to inline-block
+	    'elevation': '',
+	    'empty-cells': 'show',
+	    // 'font-family': '',       // let this inherit
+	    // 'font-size': 'medium',   // let this inherit
+	    //'font-style': 'normal',   // let this inherit
+	    //'font-variant': 'normal', // let this inherit
+	    //'font-weight': 'normal',  // let this inherit
+	    'letter-spacing': 'normal',
+	    'line-height': 'normal',
+	    'list-style-image': 'none',
+	    'list-style-position': 'outside',
+	    'list-style-type': 'disc',
+	    'orphans': '2',
+	    'pitch-range': '',
+	    'pitch': '',
+	     position: 'relative', // changes the default positioning so that absolute is relative to its parent by default
+	    'quotes': '',
+	    'richness': '',
+	    'speak-header': '',
+	    'speak-numeral': '',
+	    'speak-punctuation': '',
+	    'speak': '',
+	    'speak-rate': '',
+	    'stress': '',
+	    'text-align': 'left',
+	    'text-indent': '0',
+	    'text-transform': 'none',
+	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
+	    'voice-family': '',
+	    'volume': '',
+	    'white-space': 'normal',
+	    'widows': '2',
+	    'word-spacing': 'normal'
+	}
+	
+	
+	
+	
+	// returns index of the passed css classname, or undefined if sheet containing that class isn't found
+	function cssClassSheetIndex(classname) {
+	    var result = undefined
+	
+	    var styleNodes = document.querySelectorAll("style")
+	    for(var n=0; n<styleNodes.length; n++) {
+	        var sheet = styleNodes[n].sheet
+	        jssModule.defaultSheet = sheet
+	
+	        var defaultStyleMaybe = jssModule.get(classname)
+	        if(Object.keys(defaultStyleMaybe).length > 0) {
+	            result = n
+	            break
+	        }
+	    }
+	
+	    jssModule.defaultSheet = undefined
+	    return result
+	}
+	
+	
+	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
+	var jss = jssModule.forDocument(document)
+	
+	var defaultClassSheetIndex = cssClassSheetIndex('.'+Style.defaultClassName)
+	if(defaultClassSheetIndex === undefined) {
+	    defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
+	
+	    jss.defaultSheet = jss._createSheet()
+	} else {
+	    // if the default styleclass *already* exists, it probably means that blocks.js is being loaded twice
+	    console.log("Warning: the default-styles class name for blocks.js looks like its already in use. This probably means you have two versions of blocks.js loaded. If so, Blocks.js will continue to work, but your app will be a bit bloated. If something other than block.js created that class, blocks.js may break that style.")
+	
+	    var styleNodes = document.querySelectorAll("style")
+	    defaultJss.defaultSheet = styleNodes[defaultClassSheetIndex].sheet
+	    jss.defaultSheet = styleNodes[defaultClassSheetIndex+1].sheet
+	
+	    // make sure the baseClassName isn't already taken
+	    var dedupNumber = 0
+	    while(true) {
+	        var testBaseClassName = baseClassName+dedupNumber
+	        if(cssClassSheetIndex('.'+testBaseClassName+dedupNumber+0) !== undefined) {
+	            dedupNumber++
+	        } else {
+	            break;
+	        }
+	    }
+	
+	    baseClassName = testBaseClassName+dedupNumber
+	}
+	
+	defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
+	
+	defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
+	    cursor: 'inherit'
+	})
+	defaultJss.set('img', { // images should retain content-box sizing, since pixel perfect width on images is important so you avoid resizing the image
+	    'box-sizing': 'content-box'
+	})
+	
+	
+	/*private*/ module.exports.isDev; // should be set by Block
+
+
+/***/ },
+/* 7 */
 /*!*********************!*\
   !*** ../~/Block.js ***!
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 23)
-	var proto = __webpack_require__(/*! proto */ 38);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 40)
-	var observe = __webpack_require__(/*! observe */ 41)
+	var proto = __webpack_require__(/*! proto */ 37);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 45)
+	var observe = __webpack_require__(/*! observe */ 46)
 	
 	var utils = __webpack_require__(/*! ./utils */ 24)
 	var domUtils = __webpack_require__(/*! ./domUtils */ 25)
@@ -1617,1472 +3080,75 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 6 */
-/*!*********************!*\
-  !*** ../~/Style.js ***!
-  \*********************/
+/* 8 */
+/*!************************************!*\
+  !*** ../~/Components/Container.js ***!
+  \************************************/
+[129, 7, 37],
+/* 9 */
+/*!*******************************!*\
+  !*** ../~/Components/Text.js ***!
+  \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 27)
-	var proto = __webpack_require__(/*! proto */ 38)
-	var HashMap = __webpack_require__(/*! hashmap */ 42)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var utils = __webpack_require__(/*! ./utils */ 24)
+	var Block = __webpack_require__(/*! Block */ 7)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
-	var baseClassName = '_ComponentStyle_' // the base name for generated class names
-	var nextClassNumber = 0
+	var domUtils = __webpack_require__(/*! domUtils */ 25)
 	
 	
-	var mixedStyles = new HashMap() // maps from a pair of Style objects to the resulting mixed style
 	
-	// creates a style object
-	var Style = module.exports = proto(function() {
+	module.exports = proto(Block, function(superclass) {
 	
-	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
+	    //static properties
 	
-	    // styleDefinition is an object where key-value pairs can be any of the following:
-	    // <cssPropertyName>: the value should be a valid css value for that style attribute
-	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
-	    // $setup: the value is a function to be run on a component when the style is applied to it
-	    // $kill: the value is a function to be run on a component when a style is removed from it
-	    // $state: the value should be a state handler function
-	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
-	    // $inherit: this style should inherit from whatever style would otherwise have been in its placed if it was undefined
-	    this.init = function(styleDefinition, privateOptions) {
-	        if(isStyleObject(styleDefinition))
-	            return styleDefinition
-	        // else
+	    this.name = 'Text'
 	
-	        if(privateOptions === undefined) privateOptions = {}
-	        //if(privateOptions.inLabel===undefined) inLabel = false
+	    this.defaultStyle = Style({
+	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
+	    })
 	
-	        this.className = baseClassName+nextClassNumber
-	        nextClassNumber++
-	
-	        this.componentStyleMap = {}
-	        //this.labelStyleMap = {}
-	        this.nativeCssInfoCache = new HashMap
-	        this.pureStyleInteractionCache = new HashMap
-	        this.basicProperties = {}
-	        if(Style.isDev()) this.nativePseudoclassStyles = {}
-	
-	        //var labelStyles = {}
-	        var flatPseudoClassStyles = new HashMap
-	        for(var key in styleDefinition) {
-	            var value = styleDefinition[key]
-	
-	            if(key === '$setup') {
-	                if(!(value instanceof Function)) throw new Error("$setup key must be a function ('setup' can't be used as a label)")
-	                this.setup = value
-	
-	            } else if(key === '$kill') {
-	                if(!(value instanceof Function)) throw new Error("$kill key must be a function ('kill' can't be used as a label)")
-	                this.kill = value
-	
-	            } else if(key === '$state') {
-	                if(!(value instanceof Function)) throw new Error("$state key must be a function ('$state' can't be used as a label)")
-	                this.stateHandler = value
-	
-	            } else if(key === '$inherit') {
-	                this.inherit = true
-	
-	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
-	                var pseudoClass = mapCamelCase(key.substr(2))
-	                if(pseudoClass === '') {
-	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
-	                }
-	
-	                var flattenedPseudoclassObject = flattenPseudoClassStyles([pseudoClass], Style(value))
-	
-	                // mix in the resulting compound pseudoclass styles with what has already been found
-	                flattenedPseudoclassObject.forEach(function(style, key) {
-	                    styleHashmapMerge(flatPseudoClassStyles, key, style)
-	                })
-	
-	            } else if(key === '$') {
-	                throw new Error("Empty label name not valid (style key '$')")
-	            } else if(value instanceof Object || isStyleObject(value)) {  // $label or Block style
-	                this.componentStyleMap[key] = Style(value)  // turn the object description into a full fledged style object (or pass back the object if its already a Style)
-	            } else if(value === undefined) {
-	                // ignore
-	            } else {
-	                var cssStyle = key
-	                var cssStyleName = mapCamelCase(cssStyle)
-	                this.basicProperties[cssStyleName] = cssValue(cssStyleName, value)
-	            }
+	    this.init = function(/*[label,] text*/) {
+	        if(arguments.length === 1) {
+	            var text = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var text = arguments[1]
 	        }
 	
-	        this.pseudoclasses = processFlattenedPseudoclasses(flatPseudoClassStyles, this.componentStyleMap)
-	        this.pureNative = isPureNative(this)
+	        if (text === undefined) text = '';
 	
+	        superclass.init.call(this) // superclass constructor
 	
-	        // takes in a list of pseudoClassRules and changes any nesting like {$$hover: {$$focus: {}}} into something like {hover: {}, ['hover','focus']: {}}
-	        // returns a new HashMap where
-	            // each key is the list of pseudoclasses that need to apply for that style to take effect, and
-	            // each value is a Style object
-	        // also does some validation
-	        // pseudoClasses - an array of pseudoclasses
-	        // pseudoClassStyle - a Style object representing the style inside the pseudoclass
-	        function flattenPseudoClassStyles(pseudoClasses, pseudoClassStyle) {
-	
-	            if(pseudoClassStyle.stateHandler !== undefined) {
-	                throw new Error('$state style functions are not valid directly inside psuedoclasses')
-	            }
-	
-	            var flattenedStyles = new HashMap
-	            var pseudoClassStyleCopy = pseudoClassStyle.copy() // copy so you're not clobbering a style something else relies on
-	
-	            var pseudoclasses = pseudoClassStyleCopy.pseudoclasses
-	
-	            // remove the pseudoclasses
-	            pseudoClassStyleCopy.pseudoclasses = {classes:new HashMap,emulatedInfo:{}}//{native:new HashMap,emulated:new HashMap,emulatedInfo:{}, emulatedOrder:[]}
-	
-	            // write the top-level pseudoClass
-	            flattenedStyles.set(pseudoClasses, pseudoClassStyleCopy)
-	
-	            // create flattened styles (with merged in styles from its parent pseudoclass
-	
-	            pseudoclasses.classes.forEach(function(substyle, subPseudoClass){
-	                var newCompoundSelector = canonicalizeCompoundPseudoclass(pseudoClasses.concat(subPseudoClass))
-	                var mixedStyle = pseudoClassStyleCopy.mix(substyle)
-	                flattenedStyles.set(newCompoundSelector, mixedStyle)
-	            })
-	
-	            return flattenedStyles
-	        }
-	
-	        // pseudoclassList - the list of pseudoclasses that make up the key
-	        // mutates pseudoclassList into a canonicalized list
-	        function canonicalizeCompoundPseudoclass(pseudoclassList) {
-	            pseudoclassList.sort()  // some string sort to canonicalize the list of pseudoclasses (not really important how it sorts exactly, just that its consistent)
-	
-	            // remove duplicates
-	            var lastKey = pseudoclassList[0]
-	            for(var n=1; n<pseudoclassList.length;) {
-	                if(pseudoclassList[n] === lastKey) {
-	                    pseudoclassList.splice(n,1)
-	                } else {
-	                    n++
-	                }
-	            }
-	
-	            return pseudoclassList
-	        }
-	
-	
-	        // merges two hashmaps together, where if the same key is set in both hashmaps, the values (being Style objects) are mixed together (styles in b overriding)
-	        // mutates map
-	        function styleHashmapMerge(map, newKey, newStyle) {
-	            if(map.has(newKey)) {
-	                var valueToSet = map.get(newKey).mix(newStyle)
-	            } else {
-	                var valueToSet = newStyle
-	            }
-	
-	            map.set(newKey, valueToSet)
-	        }
-	
-	        // returns an object containing the following properties
-	            // emulated - a hashmap object
-	                // each key is a canonicalized array of pseudoclasses for only emulatable pseudoclasses, and
-	                // each value is a Style object
-	            // native - just like `emulated` except the pseudoclasses in the key and all the Style object values are all natively renderable
-	            // emulatedOrder - an array of canonicalized pseudoclasses sorted from most specific to least specific (longest to shortest
-	            // emulatedInfo - an object where
-	                // each key is an individual psuedoclass selector (like the elements in a canonicalized pseudoclass list), and
-	                // each value is an object containing the properties:
-	                    // fns - the emulated psuedoclass functions `check`, `setup`, and `kill`
-	                    // parameter - the psuedoclass parameter to pass into `check` and `setup`
-	        // compoundPseudoClassStyles - a hashmap where
-	            // each key is a canonicalized array of pseudoclasses, and
-	            // each value is a Style object
-	        function processFlattenedPseudoclasses(compoundPseudoClassStyles, componentStyleMap) {
-	
-	            var pseudoclasses = new HashMap
-	            compoundPseudoClassStyles.forEach(function(pseudoclassStyle, key) {
-	                if(pseudoclassStyle.pureNative) {
-	                    // make sure the pseudoclasses are all natively renderable (any js-rendered pseudoclass that isn't marked 'emulated' is not natively emulatable)
-	                    var allEmulated = true
-	                    for(var n=0; n<key.length; n++) {
-	                        var parts = getPseudoClassParts(key[n])
-	                        var psuedoclassInfo = jsRenderedPseduoclasses[parts.class]
-	                        if(psuedoclassInfo !== undefined && !psuedoclassInfo.emulated) {
-	                            allEmulated = false
-	                            break
-	                        }
-	                    }
-	
-	                    var componentStyleMapConflicts = false
-	                    if(allEmulated) {
-	                        componentStyleMapConflicts = styleMapConflicts(componentStyleMap, pseudoclassStyle.componentStyleMap)
-	                    }
-	
-	                    pseudoclassStyle.pureNative = allEmulated && !componentStyleMapConflicts
-	                }
-	
-	                for(var n=0; n<key.length; n++) {
-	                    var parts = getPseudoClassParts(key[n])
-	                    var psuedoclassInfo = jsRenderedPseduoclasses[parts.class]
-	                    if(psuedoclassInfo !== undefined && psuedoclassInfo.parameterTransform !== undefined) {
-	                        var transformedParameter = psuedoclassInfo.parameterTransform(parts.parameter)
-	                        key[n] = parts.class+"("+transformedParameter+")"
-	                    }
-	                }
-	
-	                pseudoclasses.set(key, pseudoclassStyle)
-	            })
-	
-	            var emulatedInfo={}
-	            pseudoclasses.forEach(function(pseudoclassStyle,individualPseudoclasses) {
-	                if(!pseudoclassStyle.pureNative) {
-	                    individualPseudoclasses.forEach(function(pseudoclass) {
-	                        if(!(pseudoclass in emulatedInfo)) {
-	                            emulatedInfo[pseudoclass] = getEmulatedInfo(pseudoclass)
-	                        }
-	                    })
-	                }
-	            })
-	
-	            return {classes: pseudoclasses, emulatedInfo:emulatedInfo}
-	        }
+	        this.label = label
+	        this.text = text
 	    }
-	
-	    // returns true if there are any styleMap conflicts, which is when any inner style of pseudoclassStyleMap collides with a non-pure style in mainStyleMap
-	    function styleMapConflicts(mainStyleMap, pseudoclassStyleMap) {
-	        for(var blockSelector in mainStyleMap) {
-	            if(blockSelector in pseudoclassStyleMap) {
-	                if(!mainStyleMap[blockSelector].pureNative) {
-	                    return true
-	                } else {
-	                    var pseudoclassInnerStyle = pseudoclassStyleMap[blockSelector]
-	                    if(styleMapConflicts(mainStyleMap, pseudoclassInnerStyle.componentStyleMap)) {
-	                        return true
-	                    }
-	
-	                    var pseudoclassStyles = pseudoclassInnerStyle.pseudoclasses.classes.values()
-	                    for(var n=0; n<pseudoclassStyles.length; n++) {
-	                        var pseudoclassStyle = pseudoclassStyles[n]
-	                        if(styleMapConflicts(mainStyleMap, pseudoclassStyle.componentStyleMap)) {
-	                            return true
-	                        }
-	                    }
-	                }
-	            }
-	        }
-	
-	        return false
-	    }
-	
-	
-	    // returns true if there are any styleMap conflicts, which is when any inner style of pseudoclassStyleMap collides with a non-pure style in mainStyleMap
-	    function styleMapConflicts(mainStyleMap, pseudoclassStyleMap) {
-	        for(var blockSelector in pseudoclassStyleMap) {
-	            if(blockSelector in mainStyleMap) {
-	                if(!mainStyleMap[blockSelector].pureNative) {
-	                    return true
-	                }
-	            }
-	
-	            var pseudoclassInnerStyle = pseudoclassStyleMap[blockSelector]
-	            if(styleMapConflicts(mainStyleMap, pseudoclassInnerStyle.componentStyleMap)) {
-	                return true
-	            }
-	
-	            var pseudoclassStyles = pseudoclassInnerStyle.pseudoclasses.classes.values()
-	            for(var n=0; n<pseudoclassStyles.length; n++) {
-	                var pseudoclassStyle = pseudoclassStyles[n]
-	                if(styleMapConflicts(mainStyleMap, pseudoclassStyle.componentStyleMap)) {
-	                    return true
-	                }
-	            }
-	        }
-	
-	        return false
-	    }
-	
-	    // returns either
-	        // this style if styleB is undefined, or
-	        // a new Style object that merges styleB's properties into the current one such that styleB's properties override the current Style's properties
-	    // mixInherit - (default: false) if true, mixes in the 'inherit' property
-	    this.mix = function(styleB, mixInherit) {
-	        if(mixInherit === undefined) mixInherit = false
-	        if(styleB === undefined)
-	            return this
-	
-	        var cacheKey = [this,styleB,mixInherit]
-	        var mixedStyle = mixedStyles.get(cacheKey)
-	        if(mixedStyle === undefined) {     // note: mixedStyle can only be undefined if the two style have never been mixed before
-	            var mixedStyle = mixWithoutCreatingNativePseudoclasses(this, styleB, mixInherit)
-	            mixedStyles.set(cacheKey, mixedStyle)
-	        }
-	
-	        return mixedStyle
-	    }
-	
-	    // returns a copy of the style with a new className
-	    this.copy = function () {
-	        return mixWithoutCreatingNativePseudoclasses(this, Style(), true)
-	    }
-	
-	    // returns an object with the members
-	        // fns - the functions for the given pseudoclass
-	        // parameter - the processed parameter to pass into fns.setup
-	    // pseudoclass - a pseudoclass selector (eg "not(:required)")
-	    function getEmulatedInfo(pseudoclass) {
-	        var parts = getPseudoClassParts(pseudoclass)
-	        var fns = jsRenderedPseduoclasses[parts.class]
-	
-	        if(fns ===  undefined) {
-	            throw new Error("Pseudoclass "+parts.class+" isn't emulated, but has a style that can't be rendered in pure css")
-	        }
-	
-	        var info = {fns: fns}
-	        if(parts.parameter !== undefined) {
-	            if(fns.processParameter !== undefined) {
-	                info.parameter = fns.processParameter(parts.parameter)
-	            } else {
-	                info.parameter = parts.parameter
-	            }
-	        }
-	
-	        return info
-	    }
-	
-	    // returns an object
-	        // either with the properties:
-	            // style - style that has native css properties (basic and pseudoclass) set for it and its block's computedStyleMap
-	                // this return value *can* be this style itself if there are no interactions with the passed styleMap
-	            // styleMap - a potentially new styleMap that has copied or inserted styles needed for native psuedoclass rendering
-	            // nativePsuedoclassMap - a new pseudoclassMap to set on the block
-	        // OR with the proeprties:
-	            // cancel:true - exists if a pure native psuedoclass style can't be rendered native because of a collision with a computedStyleMap style that isn't pure native
-	            // style - the new style to get the pseudoclass style from (and then set with setPreStyleMapStyle)
-	    // styleMap - a map of style selectors (Block names or labels) to Styles who's classNames will be used to create the native css
-	        // intended to be a style map that comes from a block's computedStyleMap property
-	        // the computedStyleMap can affect how sub-pseudoclass selectors are written
-	    // nativePseudoclassSelectorMap - an object where each key is a base css-selector, and each value is a Style object
-	    // jsRenderedPseudoclassIndex - if this style is a js-redered/emulated psueodclass, this is its index inside its parent style's pseudoclasses.classes map, otherwise the value will be 0
-	    this.createNativeCssInfo = function(styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
-	        var cacheHasStyleMap = this.nativeCssInfoCache.has(styleMap), cacheValue=undefined
-	        if(cacheHasStyleMap) {
-	            cacheValue = this.nativeCssInfoCache.get(styleMap)
-	            if(jsRenderedPseudoclassIndex in cacheValue) {
-	                return cacheValue[jsRenderedPseudoclassIndex]
-	            }
-	        }
-	        // else
-	        var styleToReturn = this // can change below if there is an interaction with the styleMap
-	        if(this.pureNative && this.pseudoclasses.classes.keys() !== 0) { // only care about pseudoclass interactions if it has pseudoclasses
-	            var styleSelectors = containedStyleSelectors(this)
-	            var info = stylesInfo(styleSelectors, styleMap)
-	            var interacts = info.impure.length > 0
-	            if(!interacts) {
-	                var pureStyleInteractionCacheItem = this.pureStyleInteractionCache.get(info.undef)
-	                if(pureStyleInteractionCacheItem === undefined) {
-	                    var evenNewerComputedStyleMap = utils.merge({},styleMap) // copy
-	                    for(var key in evenNewerComputedStyleMap) {
-	                        if(key in styleSelectors) {
-	                            evenNewerComputedStyleMap[key] = evenNewerComputedStyleMap[key].copy() // copy to ensure that a unique className is created (so that native pseudoclasses don't have the possibility of merging weirdly)
-	                        }
-	                    }
-	                    for(var n=0; n<info.undef.length; n++) {
-	                        evenNewerComputedStyleMap[info.undef[n]] = Style()  // empty style who's className will be used to create native pseudoclass styles
-	                    }
-	
-	                    styleToReturn = this.copy()    // a new style className is needed to avoid potential incorrect css overlap
-	                    styleMap = evenNewerComputedStyleMap
-	                    this.pureStyleInteractionCache.set(info.undef, {style:styleToReturn, map: styleMap})
-	                } else {
-	                    styleToReturn = pureStyleInteractionCacheItem.style
-	                    styleMap = pureStyleInteractionCacheItem.map
-	                }
-	            } else {
-	                var retryStyle = this.copy()
-	                changeStyleToNonNative(retryStyle)
-	
-	                var result = {cancel: true, retryStyle: retryStyle}
-	                setNativeCssInfoCache(this.nativeCssInfoCache, result)
-	                return result
-	            }
-	        }
-	
-	        setCss('.'+styleToReturn.className, styleToReturn.basicProperties)
-	
-	        var newNativePseudoclassMap = createNativePseudoclasses(styleToReturn, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
-	
-	        var result = {style: styleToReturn, styleMap: styleMap, nativePseudoclassMap: newNativePseudoclassMap}
-	        setNativeCssInfoCache(this.nativeCssInfoCache, result)
-	        return result
-	
-	
-	        // mutates the passed style so that its not native
-	        function changeStyleToNonNative(style) {
-	            style.pureNative = false
-	            var newClasses = new HashMap
-	            style.pseudoclasses.classes.forEach(function(pseudoclassStyle, individualPseudoclasses) {
-	                //if(style.pureNative) { // all of these will be pureNative, or style wouldn't be
-	                    var copy = pseudoclassStyle.copy()
-	                    copy.pureNative = false
-	                    newClasses.set(individualPseudoclasses, copy)
-	
-	                    individualPseudoclasses.forEach(function(pseudoclass) {
-	                        if(!(pseudoclass in pseudoclassStyle.pseudoclasses.emulatedInfo)) {
-	                            style.pseudoclasses.emulatedInfo[pseudoclass] = getEmulatedInfo(pseudoclass)
-	                        }
-	                    })
-	
-	                /*} else {
-	                    newClasses.set(individualPseudoclasses, style)
-	                }*/
-	            })
-	
-	            style.pseudoclasses.classes = newClasses
-	
-	            return style
-	        }
-	
-	        function setNativeCssInfoCache(nativeCssInfoCache, value) {
-	            if(cacheHasStyleMap) {
-	                cacheValue[jsRenderedPseudoclassIndex] = value
-	            } else {
-	                var cacheValue = {}
-	                cacheValue[jsRenderedPseudoclassIndex] = value
-	                nativeCssInfoCache.set(styleMap, cacheValue)
-	            }
-	        }
-	
-	        // returns the label and block selectors within the style (recursive)
-	        // the grabs from both componentStyleMap and psuedoclasses.native[x].componentStyleMap
-	        function containedStyleSelectors(style) {
-	            var result = {}
-	            for(var key in style.componentStyleMap) {
-	                var innerStyle = style.componentStyleMap[key]
-	                mergeInSelectors(key, innerStyle)
-	            }
-	
-	            style.pseudoclasses.classes.forEach(function(innerStyle) {
-	                if(innerStyle.pureNative) {
-	                    for(var key in innerStyle.componentStyleMap) {
-	                        var innerStyle = innerStyle.componentStyleMap[key]
-	                        mergeInSelectors(key, innerStyle)
-	                    }
-	                }
-	            })
-	
-	            return result
-	
-	
-	            function mergeInSelectors(key, innerStyle) {
-	                result[key] = true
-	
-	                var selectors = containedStyleSelectors(innerStyle)
-	                utils.merge(result, selectors)
-	            }
-	        }
-	
-	        // returns info about what styles in styleSelectors and in newComputedStyleMap are:
-	            // impure in newComputedStyleMap
-	            // not defined in newComputedStyleMap
-	        function stylesInfo(styleSelectors, newComputedStyleMap) {
-	            var impure = []
-	            var undef = []
-	            for(var key in styleSelectors) {
-	                var style = newComputedStyleMap[key]
-	                if(style === undefined) {
-	                    undef.push(key)
-	                } else if(!style.pureNative) {
-	                    impure.push(key)
-	                }
-	            }
-	            return {impure:impure,undef:undef}
-	        }
-	    }
-	
 	
 	    // instance properties
 	
-	    this.className          // the css classname for this style
-	    this.componentStyleMap; // maps a Component name to a Style object for that component
-	    //this.labelStyleMap;     // maps a label name to a Style object for that label
-	    this.setup;             // run some javascript on any element this class is applied to
-	    this.kill;              // a function to run on removal of the style (should reverse setup)
-	
-	
-	    // private properties
-	
-	    this.nativeCssInfoCache; // instance property that stores a map between a styleMap and a potentially modified pair: {style:<Style object>, styleMap: <computedStyleMap>}
-	
-	    // creates a new style with styleB mixed into styleA (styleB overrides)
-	    // does not create native pseudoclass styles
-	    // mixInherit - if true, mixes in the 'inherit' property, if false, 'inherit' will get undefined (same as inherit===false)
-	    function mixWithoutCreatingNativePseudoclasses(styleA, styleB, mixInherit) {
-	        // mix css properties and non-emulated pseudoclass properties
-	        var mainStylesMerged = utils.merge({}, styleA.basicProperties, styleB.basicProperties)
-	        var newStyle = Style(mainStylesMerged)
-	
-	        // mix block and label properties
-	        newStyle.componentStyleMap = mergeComponentStyleMaps(styleA, styleB)
-	
-	        // mix pseudoclass properties
-	        newStyle.pseudoclasses = mergePseudoclasses(styleA, styleB)
-	
-	        // mix $state
-	        if(styleB.stateHandler !== undefined) {
-	            newStyle.stateHandler = styleB.stateHandler
-	        } else {
-	            newStyle.stateHandler = styleA.stateHandler
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode[domUtils.textProperty]
+	        }, set: function(v) {
+	             this.domNode[domUtils.textProperty] = v
 	        }
-	
-	        // mix $setup and $kill                                                                                                                                                                                                                                                                 waaahhh hah hah haaaaaaa
-	        if(styleB.setup !== undefined) {
-	            newStyle.setup = styleB.setup
-	        } else {
-	            newStyle.setup = styleA.setup
-	        }
-	        if(styleB.kill !== undefined) {
-	            newStyle.kill = styleB.kill
-	        } else {
-	            newStyle.kill = styleA.kill
-	        }
-	
-	        if(mixInherit) {
-	            newStyle.inherit = styleA.inherit || styleB.inherit
-	        }
-	
-	        newStyle.pureNative = isPureNative(newStyle)
-	
-	        return newStyle
-	    }
-	
-	    // returns a new component style map where styleB overrides styleA
-	    // handles the 'inherit' option on styles
-	    function mergeComponentStyleMaps(styleA, styleB) {
-	        var mergedStyleMap = utils.merge({}, styleA.componentStyleMap)
-	        for(var key in styleB.componentStyleMap) {
-	            var styleMapping = styleB.componentStyleMap[key] // a Style object
-	
-	            mergedStyleMap[key] = conditionalMix(mergedStyleMap[key], styleMapping)
-	        }
-	
-	        return mergedStyleMap
-	    }
-	
-	    // conditionally mixes two styles
-	    // returns b mixed into a if b inherits
-	    // otherwise returns b
-	    function conditionalMix(a,b) {
-	        if(b === undefined)
-	            return a
-	
-	        if(b.inherit) {
-	            if(a === undefined)
-	                return b
-	            else
-	                return a.mix(b)
-	        } else {
-	            return b
-	        }
-	    }
-	
-	    // returns true if the style can be rendered with pure css (no javascript needed)
-	    function isPureNative(style) {
-	        if(style.setup === undefined && style.kill === undefined && style.stateHandler === undefined
-	        ) {
-	            var allPseudoclassesNative = true
-	            style.pseudoclasses.classes.forEach(function(style) {
-	                if(!style.pureNative) allPseudoclassesNative = false
-	            })
-	            if(!allPseudoclassesNative) {
-	                return false
-	            }
-	
-	            var allPureNative = true
-	            for(var key in style.componentStyleMap) {
-	                if(style.componentStyleMap[key].pureNative !== true) {
-	                    allPureNative = false
-	                    break
-	                }
-	            }
-	            if(!allPureNative) {
-	                return false
-	            }
-	
-	            return true
-	        }
-	    }
-	
-	    // mixes together the pseudoclass properties of two styles
-	    // handles changing native pseudoclass handling to emulated (and vice versa)
-	    function mergePseudoclasses(styleA, styleB) {
-	        var merged = mergeStyleMaps(styleA.pseudoclasses.classes, styleB.pseudoclasses.classes)
-	        var emulatedInfo = utils.merge({}, styleA.pseudoclasses.emulatedInfo, styleB.pseudoclasses.emulatedInfo)
-	
-	        return {classes: merged, emulatedInfo:emulatedInfo}
-	
-	
-	        // returns a new map with mapA and mapB merged, where mapB's styles override
-	        function mergeStyleMaps(styleMapA, styleMapB) {
-	            var result = utils.hashmapMerge(new HashMap, styleMapA)
-	            styleMapB.forEach(function(v, key) {
-	                if(result.has(key)) {
-	                    var resultValue = result.get(key).mix(styleMapB.get(key), true)
-	                } else {
-	                    var resultValue = styleMapB.get(key)
-	                }
-	
-	                result.set(key, resultValue)
-	            })
-	
-	            return result
-	        }
-	    }
-	
-	    var singleColonForPseudoElements = false; // may be changed if its detected that the browser does this
-	    var doubleColonPseudoElRegex =      /(::)(before|after|first-line|first-letter|selection)/;
-	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
-	
-	    // creates a css selector with the passed properties
-	    function setCss(selector, properties) {
-	        var unCamelCasedProperties = {}
-	        for (key in properties) {
-	            unCamelCasedProperties[mapCamelCase(key)] = properties[key]
-	        }
-	
-	        var rule = addRule(jss.defaultSheet, selector)
-	        setStyleProperties(rule, properties);
-	
-	
-	
-	        function addRule(sheet, selector) {
-		        var rules = sheet.cssRules || sheet.rules || [];
-		        var index = rules.length;
-	
-	            var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
-	            if (!pseudoElementRule) {
-	                addRuleToSheet(sheet, selector, index);
-	            }
-	
-		        return rules[index].style
-		    }
-	
-	        // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
-	        function addPseudoElementRule(sheet, selector, rules, index) {
-	            var doubleColonSelector;
-	            var singleColonSelector;
-	
-	            if (doubleColonPseudoElRegex.exec(selector)) {
-	                doubleColonSelector = selector;
-	                singleColonSelector = toSingleColonPseudoElements(selector);
-	            } else if (singleColonPseudoElRegex.exec(selector)) {
-	                doubleColonSelector = toDoubleColonPseudoElements(selector);
-	                singleColonSelector = selector;
-	            } else {
-	                return false; // Not dealing with a pseudo element
-	            }
-	
-	            if (!singleColonForPseudoElements) {
-	                // Assume modern browser and then check if successful
-	                addRuleToSheet(sheet, doubleColonSelector, index);
-	                if (rules.length <= index) {
-	                    singleColonForPseudoElements = true;
-	                }
-	            }
-	            if (singleColonForPseudoElements) {
-	                addRuleToSheet(sheet, singleColonSelector, index);
-	            }
-	
-	            return true;
-	        }
-	
-	        function addRuleToSheet(sheet, selector, index) {
-		        if (sheet.insertRule) {
-		            sheet.insertRule(selector + ' { }', index);
-		        } else {
-		            sheet.addRule(selector, null, index);
-		        }
-		    }
-	
-	        function setStyleProperties(ruleStyle, properties) {
-		        for (var key in properties) {
-	                ruleStyle.setProperty(key, properties[key])
-		        }
-		    }
-	
-	        function toDoubleColonPseudoElements(selector) {
-	            return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
-	                return submatch1 + '::' + submatch3;
-	            });
-	        }
-	        function toSingleColonPseudoElements(selector) {
-	            return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
-	                return ':' + submatch2;
-	            })
-	        }
-	    }
-	
-	
-	    // creates the css styles necessary to render the native pseudoclass styles of this style (and contained styles that can be rendered native)
-	    // intended to be called only once per style
-	    // styleMap - A block's new computedStyleMap. Selectors that also exist in native pseudoclasses of the style have already been created or copied (so you can be sure creating css class styles for them won't conflict with anything)
-	    // jsRenderedPseudoclassIndex - the index of the active pseudoclass style - needed for deciding what native css needs to be overridden by `style`
-	        // if this is 0, no overriding needs to happen (so 0 is also set when there's no active js-rendered/emulated pseudoclass)
-	    function createNativePseudoclasses(style, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
-	        if(nativePseudoclassSelectorMap === undefined) nativePseudoclassSelectorMap = {}
-	
-	        var nativePseudoclassSelectors = []
-	        //var nativePseudoclassPropertiesToOverride = {}   // stores what style properties for what pseudoclasses needs to be overridden by an emulated style
-	        var newNativePseudoclassMap = {} // a mapping from a Block name to a nativePseudoclassSelectorMap
-	        var index = 0
-	        style.pseudoclasses.classes.forEach(function(pseudoclassStyle, pseudoclassKey) {
-	            var fullSelector = '.'+style.className+':'+pseudoclassKey.join(':')
-	            if(pseudoclassStyle.pureNative) {
-	                // create css styles for top-level css properties of the native psuedoclass
-	                createPseudoClassRules(fullSelector, pseudoclassStyle.basicProperties, style)
-	                nativePseudoclassSelectors.push(pseudoclassKey.join(':'))
-	
-	                for(var blockSelector in pseudoclassStyle.componentStyleMap) {
-	                    addNativePseudoclassMapItem(blockSelector, fullSelector, pseudoclassStyle.componentStyleMap[blockSelector])
-	                }
-	            } else if(index === jsRenderedPseudoclassIndex) {
-	                // create overriding css styles for top-level css properties of the emulated psuedoclass (so that emulated and native pseudoclasses mix properly)
-	                for(var n=0; n<nativePseudoclassSelectors.length; n++) {
-	                    var selector = nativePseudoclassSelectors[n]
-	                    createPseudoClassRules(fullSelector+":"+selector, style.basicProperties, style)
-	                }
-	            }
-	
-	            index++
-	        })
-	
-	        for(var selector in nativePseudoclassSelectorMap) {
-	            var pseudoclassStyle = nativePseudoclassSelectorMap[selector]
-	            var fullSelector = selector+' '+'.'+style.className
-	
-	            // create css styles for the top-level style when inside a pure native pseudoclass style of its parent
-	            createPseudoClassRules(fullSelector, pseudoclassStyle.basicProperties, style)
-	
-	            for(var blockSelector in pseudoclassStyle.componentStyleMap) {
-	                addNativePseudoclassMapItem(blockSelector, fullSelector, pseudoclassStyle.componentStyleMap[blockSelector])
-	            }
-	
-	            // create css styles for pseudoclass styles when inside a pure natiev pseudoclass style of its parent
-	            pseudoclassStyle.pseudoclasses.classes.forEach(function(pseudoclassStyle, pseudoclassKey) {
-	                if(pseudoclassStyle.pureNative) {
-	                    createPseudoClassRules(fullSelector+':'+pseudoclassKey.join(':'), pseudoclassStyle.basicProperties, style)
-	                }
-	            })
-	        }
-	
-	        return newNativePseudoclassMap
-	
-	
-	        function addNativePseudoclassMapItem(blockSelector, cssSelector, styleValue) {
-	            if(newNativePseudoclassMap[blockSelector] === undefined)
-	                newNativePseudoclassMap[blockSelector] = {}
-	            newNativePseudoclassMap[blockSelector][cssSelector] = styleValue
-	        }
-	
-	        // cssProperties - The css rules to apply (should only contain native css properties). CamelCase and certain integer values will be converted.
-	        function createPseudoClassRules(selector, cssProperties,  /*temporary*/ styleMapStyle) {
-	
-	            var pseudoClassCss = {}
-	
-	            // overwrite styles that would bleed over from the styleMapStyle
-	            for(var key in styleMapStyle.basicProperties) {
-	                var initialStyle = defaultStyle?defaultStyle.basicProperties[key]||'initial':'initial'
-	                pseudoClassCss[key] = initialStyle // todo: write a function to calculate the inital value, since 'initial' isn't supported in IE (of course) - tho it will be eventually since its becoming apart of css3
-	            }
-	
-	            for(var key in cssProperties) {
-	                var value = cssProperties[key]
-	
-	                var cssStyle = key
-	                var cssStyleName = mapCamelCase(cssStyle)
-	                pseudoClassCss[cssStyleName] = cssValue(cssStyleName, value)
-	            }
-	
-	            // create immediate pseudo class style
-	            setCss(selector, pseudoClassCss) // create the css class with the pseudoClass
-	            if(Style.isDev()) {
-	                styleMapStyle.nativePseudoclassStyles[selector] = pseudoClassCss
-	            }
-	        }
-	    }
-	})
-	
-	
-	// private
-	
-	
-	// a map of pseudoclass names and how they are emulated with javascript
-	// each pseudoclass sets up the following functions:
-	    // check - a function that checks if that pseudoclass currently applies to the component when its called
-	    // setup - calls a callback when the pseudoClass starts and stops applying
-	        // should return an object that will be passed to the kill function (as its 'state' parameter)
-	    // kill - cleans up anything set up in the 'setup' function
-	    // processParameter - takes the pseudoclass parameter and returns some object representing it that will be used by the setup and check functions
-	var jsRenderedPseduoclasses = {
-	    hover: {
-	        emulated: true,
-	        check: function(component) {
-	            var nodes = document.querySelectorAll( ":hover" )
-	            for(var n=0; n<nodes.length; n++) {
-	                if(nodes[n] === component.domNode) {
-	                    return true
-	                }
-	            }
-	            return false
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            component.on("mouseover", function() {
-	                startCallback()
-	            })
-	            component.on("mouseout", endCallback)
-	
-	            return {start: startCallback, end: endCallback}
-	        },
-	        kill: function(component, state) {
-	            component.off("mouseover", state.start)
-	            component.off("mouseout", state.end)
-	        }
-	    },
-	    checked: {
-	        emulated: true,
-	        check: function(component) {
-	            if(component.domNode.nodeName !== 'INPUT' && component.domNode.nodeName !== 'OPTION') {
-	                console.warn("The pseudoclass 'checked' can only apply to 'input' nodes (Button, CheckBox, RadioButton, or TextField) or 'option' nodes (Option)")
-	                return false
-	            }
-	            return component.selected
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var setupState = {}
-	            component.on("change", setupState.listener = function() {
-	                if(component.selected) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            return setupState
-	        },
-	        kill: function(component, state) {
-	            component.removeListener("change", state.listener)
-	        }
-	    },
-	    required: {
-	        emulated: true,
-	        check: function(component) {
-	            if(component.domNode.nodeName !== 'INPUT') {
-	                console.warn("The pseudoclass 'required' can only apply to 'input' nodes (Button, CheckBox, RadioButton, or TextField)")
-	                return false
-	            }
-	            return component.attr('required') !== undefined
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var observer = new MutationObserver(function() {
-	                if(component.attr('required') !== undefined) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            observer.observe(component.domNode, {attributes: true})
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        }
-	    },
-	    'last-child': {
-	        emulated: true,
-	        check: function(component) {
-	            return nthLastChildCheck(component, '1')
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var observer = new MutationObserver(function() {
-	                if(nthLastChildCheck(component, '1')) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            var setupObserver = function() {
-	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
-	                observer.observe(component.parent.domNode, {childList: true})
-	            }
-	
-	            if(component.parent !== undefined) {
-	                setupObserver()
-	            }
-	
-	            component.on('newParent', function() {
-	                setupObserver()
-	            })
-	            component.on('parentRemoved', function() {
-	                observer.disconnect()
-	            })
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        }
-	    },
-	    'nth-child': {
-	        emulated: true,
-	        parameterTransform: function(parameter) {
-	            var parts = parseNthChildParameter(parameter)
-	            if(parts.variable === 0) {
-	                return parts.constant+''
-	            } else if(parts.constant === 0) {
-	                return parts.variable+'n'
-	            } else {
-	                return parts.variable+'n+'+parts.constant
-	            }
-	        },
-	
-	        check: function(component, parameterCheck) {
-	            return nthChildCheck(component, parameterCheck)
-	        },
-	        setup: function(component, startCallback, endCallback, parameterCheck) {
-	
-	            var checkAndCallCallbacks = function() {
-	                if(nthChildCheck(component, parameterCheck)) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            }
-	
-	            var observer = new MutationObserver(function() {
-	                checkAndCallCallbacks()
-	            })
-	
-	            var setupObserver = function() {
-	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
-	                observer.observe(component.parent.domNode, {childList: true})
-	            }
-	
-	            if(component.parent !== undefined) {
-	                setupObserver()
-	            }
-	
-	            component.on('newParent', function() {
-	                setupObserver()
-	                checkAndCallCallbacks()
-	            })
-	            component.on('parentRemoved', function() {
-	                observer.disconnect()
-	                checkAndCallCallbacks()
-	            })
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        },
-	
-	        // returns a function that takes an index and tell you if that index applies to the nthChildParameter
-	        processParameter: function(parameter) {
-	            var parts = parseNthChildParameter(parameter)
-	
-	            if(parts.variable === 0) {
-	                return function(index) {
-	                    return index+1 === parts.constant
-	                }
-	            } else {
-	                return function(index) {
-	                    return ((index+1-parts.constant)/parts.variable) % 1 === 0
-	                }
-	            }
-	        }
-	    },
-	
-	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
-	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
-	    /*not: {
-	        check: function() {
-	
-	        },
-	    }*/
-	}
-	
-	// name is the name of the new pseudoclass
-	// options is an object with the members:
-	    // check(component) - returns true if the pseudoclass applies to the component
-	    // setup(component, startCallback, endCallback, parameter) - a function that should call startCallback when the pseudoclass starts applying, and endCallback when it stops applying
-	        // parameter - the parameter passed to the pseudoclass (e.g. in :not(:first-child), ":first-child" is the parameter)
-	    // kill - a function that cleans up any event listeners or anything else set up in the 'setup' function
-	    // processParameter - a function that processes the pseudoclass parameter and returns some object the 'setup' function will get as its 4th argument
-	        // if this is undefined, the pseudoclass will throw an exception for styles that have a parameter for it
-	    // emulated - if true, it means that there is a corresponding native pseudoclass that can be used if the style can be rendered with pure css
-	module.exports.addPseudoClass = function(name, options) {
-	    if(jsRenderedPseduoclasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
-	    // else
-	    jsRenderedPseduoclasses[name] = options
-	}
-	
-	
-	function nthChildCheck(component, testFn) {
-	    if(component.domNode.parentNode === null)
-	        return false
-	
-	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
-	    var index = Array.prototype.indexOf.call(children, component.domNode)
-	    return testFn(index)
-	}
-	
-	function nthLastChildCheck(component, parameter) {
-	    if(component.domNode.parentNode === null)
-	        return false
-	
-	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
-	    var index = children.length - parseInt(parameter)
-	    return children[index] === component.domNode
-	}
-	
-	var nthChildParameter = new RegExp(
-	    '^' // begin
-	        +'('
-	            +'('
-	                +'(-?\\d*)'        // constant
-	                +'(([+-]\\d*)n?)?' // first-order term
-	            +')|'
-	            +'('
-	                +'(-?\\d)*n?' // first-order term first
-	                +'([+-]\\d*)?' // then constant
-	            +')'
-	        +')'
-	    +'$' // the EYND
-	)
-	
-	// returns the variable and constnat parts of the parameter
-	function parseNthChildParameter(parameter) {
-	    var parts = parameter.replace(/\s/g, '').match(nthChildParameter)
-	    if(parts === null)
-	        throw new Error("nth-child parameter '"+parameter+"' isn't valid")
-	
-	    if(parts[2] !== undefined) {
-	        var constant = parts[3]
-	        var variable = parts[5]
-	    } else {
-	        var constant = parts[8]
-	        var variable = parts[7]
-	    }
-	
-	
-	
-	    if(constant === undefined) constant = 0
-	    else                       constant = parseInt(constant)
-	    if(variable === undefined) variable = 0
-	    else                       variable = parseInt(variable)
-	
-	    return {variable: variable, constant: constant}
-	}
-	
-	
-	// maps a style value to a css value
-	// style values that are numbers are mapped to strings, usually with px postfix
-	function cssValue(cssStyleName, value) {
-	    // If a number was passed in, add 'px' to the (except for certain CSS properties) [also taken from jquery's code]
-	    if(typeof(value) === "number" && cssNumber[cssStyleName] === undefined) {
-	        return value+"px"
-	    } else {
-	        return value.toString()
-	    }
-	}
-	
-	var pseudoClassRegex = new RegExp( // /^([^(]*)(\((.*)\))?$/
-	    "([^(]*)"        // anything that's not an open paren
-	    +"(\\((.*)\\))?" // optionally some arbitrary string inside parens
-	    +"$"             // THE EYND!
-	)
-	
-	// pulls apart the pseudoclass name from its (optional) parameter
-	// e.g. pulls out 'nth-child' and '2+3n' from 'nth-child(2+3n)'
-	function getPseudoClassParts(fullPsuedoClass) {
-	    var x = fullPsuedoClass.match(pseudoClassRegex)
-	    if(x === null) throw new Error("Pseudoclass '"+fullPsuedoClass+"' is invalid")
-	    return {class: x[1], parameter: x[3]}
-	}
-	
-	
-	// taken from jquery's code
-	var cssNumber = {
-	    "column-count": 1,
-	    "fill-opacity": 1,
-	    "flex-grow": 1,
-	    "flex-shrink": 1,
-	    "font-weight": 1,
-	    "line-height": 1,
-	    "opacity": 1,
-	    "order": 1,
-	    "orphans": 1,
-	    "widows": 1,
-	    "z-index": 1,
-	    "zoom": 1
-	}
-	
-	function isStyleObject(o) {
-	    return o !== undefined && o.componentStyleMap !== undefined
-	}
-	
-	
-	//var asciiA = 'A'.charCodeAt(0), asciiZ = 'Z'.charCodeAt(0), difference = 'a'.charCodeAt(0) - asciiA
-	function mapCamelCase(cssStyleName) {
-	    return cssStyleName.replace(/([A-Z])/g, function(match, submatch) {          // this is from jss
-	        return '-' + submatch.toLowerCase();
 	    })
-	
-	    /*for(var n=0; n<cssStyleName.length; n++) {
-	        var ascii = cssStyleName.charCodeAt(n)
-	        if(asciiA <= ascii && ascii <= asciiZ) { // found capital letter
-	            cssStyleName = cssStyleName.slice(0, n) + '-'+String.fromCharCode(ascii+difference) + cssStyleName.slice(n+1)
-	            n++ // increment a second time for the dash
-	        }
-	    }
-	
-	    return cssStyleName*/
-	}
-	
-	// maps all the styles that are inherited by descendant nodes to their default values
-	// source: http://stackoverflow.com/questions/5612302/which-css-styles-are-inherited
-	var defaultStyleValues = {
-	    'azimuth': 'center',
-	    'border-collapse': 'separate',
-	    'border-spacing': '0',
-	    'box-sizing': 'border-box',
-	    'caption-side': 'top',
-	    //'color': 'black',         // let this inherit
-	    //'cursor': 'auto',         // let this one inherit - its weird otherwise
-	    'direction': 'ltr',
-	     display: 'inline-block', // changes the default display to inline-block
-	    'elevation': '',
-	    'empty-cells': 'show',
-	    // 'font-family': '',       // let this inherit
-	    // 'font-size': 'medium',   // let this inherit
-	    //'font-style': 'normal',   // let this inherit
-	    //'font-variant': 'normal', // let this inherit
-	    //'font-weight': 'normal',  // let this inherit
-	    'letter-spacing': 'normal',
-	    'line-height': 'normal',
-	    'list-style-image': 'none',
-	    'list-style-position': 'outside',
-	    'list-style-type': 'disc',
-	    'orphans': '2',
-	    'pitch-range': '',
-	    'pitch': '',
-	     position: 'relative', // changes the default positioning so that absolute is relative to its parent by default
-	    'quotes': '',
-	    'richness': '',
-	    'speak-header': '',
-	    'speak-numeral': '',
-	    'speak-punctuation': '',
-	    'speak': '',
-	    'speak-rate': '',
-	    'stress': '',
-	    'text-align': 'left',
-	    'text-indent': '0',
-	    'text-transform': 'none',
-	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
-	    'voice-family': '',
-	    'volume': '',
-	    'white-space': 'normal',
-	    'widows': '2',
-	    'word-spacing': 'normal'
-	}
+	});
 	
 	
-	
-	
-	// returns index of the passed css classname, or undefined if sheet containing that class isn't found
-	function cssClassSheetIndex(classname) {
-	    var result = undefined
-	
-	    var styleNodes = document.querySelectorAll("style")
-	    for(var n=0; n<styleNodes.length; n++) {
-	        var sheet = styleNodes[n].sheet
-	        jssModule.defaultSheet = sheet
-	
-	        var defaultStyleMaybe = jssModule.get(classname)
-	        if(Object.keys(defaultStyleMaybe).length > 0) {
-	            result = n
-	            break
-	        }
-	    }
-	
-	    jssModule.defaultSheet = undefined
-	    return result
-	}
-	
-	
-	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
-	var jss = jssModule.forDocument(document)
-	
-	var defaultClassSheetIndex = cssClassSheetIndex('.'+Style.defaultClassName)
-	if(defaultClassSheetIndex === undefined) {
-	    defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
-	
-	    jss.defaultSheet = jss._createSheet()
-	
-	    defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
-	
-	    defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
-	        cursor: 'inherit'
-	    })
-	    defaultJss.set('img', { // images should retain content-box sizing, since pixel perfect width on images is important so you avoid resizing the image
-	        'box-sizing': 'content-box'
-	    })
-	} else {
-	    // if the default styleclass *already* exists, it probably means that blocks.js is being loaded twice
-	    console.log("Warning: the default-styles class name for blocks.js looks like its already in use. This probably means you have two versions of blocks.js loaded. If so, Blocks.js will continue to work, but your app will be a bit bloated. If something other than block.js created that class, blocks.js may break that style.")
-	
-	    var styleNodes = document.querySelectorAll("style")
-	    defaultJss.defaultSheet = styleNodes[defaultClassSheetIndex].sheet
-	    jss.defaultSheet = styleNodes[defaultClassSheetIndex+1].sheet
-	
-	    // make sure the baseClassName isn't already taken
-	    var dedupNumber = 0
-	    while(true) {
-	        var testBaseClassName = baseClassName+dedupNumber
-	        if(cssClassSheetIndex('.'+testBaseClassName+dedupNumber+0) !== undefined) {
-	            dedupNumber++
-	        } else {
-	            break;
-	        }
-	    }
-	
-	    baseClassName = testBaseClassName+dedupNumber
-	}
-	
-	
-	/*private*/ module.exports.isDev; // should be set by Block
 
 
 /***/ },
-/* 7 */
-/*!************************!*\
-  !*** ./~/testUtils.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Future = __webpack_require__(/*! async-future */ 37)
-	var Style = __webpack_require__(/*! Style */ 6)
-	var Container = __webpack_require__(/*! Components/Container */ 9)
-	
-	// compares arrays and objects for value equality (all elements and members must match)
-	exports.equal = function(a,b) {
-	    if(a instanceof Array) {
-	        if(!(b instanceof Array))
-	            return false
-	        if(a.length !== b.length) {
-	            return false
-	        } else {
-	            return a.reduce(function(previousValue, currentValue, index) {
-	                return previousValue && exports.equal(currentValue,b[index])
-	            }, true)
-	        }
-	    } else if(a instanceof Object) {
-	        if(!(b instanceof Object))
-	            return false
-	
-	        var aKeys = Object.keys(a)
-	        var bKeys = Object.keys(b)
-	
-	        if(aKeys.length !== bKeys.length) {
-	            return false
-	        } else {
-	            for(var n=0; n<aKeys.length; n++) {
-	                var key = aKeys[n]
-	                var aVal = a[key]
-	                var bVal = b[key]
-	
-	                if(!exports.equal(aVal,bVal)) {
-	                    return false
-	                }
-	            }
-	            // else
-	            return true
-	        }
-	    } else {
-	        return a===b
-	    }
-	}
-	
-	
-	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
-	// returns a function that, each time its called, calls the next function in the list with the passed argument
-	// example:
-	/*
-	var sequenceX = testUtils.seq(
-	 function(x) {
-	     t.ok(x === 'a')
-	 },
-	 function(x) {
-	     t.ok(x === 'b')
-	 },
-	 function(x) {
-	     t.ok(x === 'c')
-	})
-	
-	 var obj = {a:1,b:2,c:3}
-	 for(var x in obj) {
-	     sequenceX(x)
-	 }
-	 */
-	exports.seq = function (/*functions*/) {
-	    var n=-1
-	    var fns = arguments
-	    return function() {
-	        n++
-	        if(n>=fns.length)
-	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
-	        // else
-	        fns[n].apply(this,arguments)
-	    }
-	}
-	
-	
-	exports.demo = function(name, component) {
-	    var header = document.createElement("h1")
-	        header.textContent = name
-	
-	    $("#demos").append(header);
-	    component.attach($("#demos")[0])
-	
-	    return [header, component]
-	}
-	exports.cleanupDemo = function(nodes) {
-	    $(nodes[0]).remove()
-	    nodes[1].detach()
-	}
-	exports.manualDemo = function(name, component) {
-	    var header = document.createElement("h1")
-	        header.textContent = name
-	
-	    $("#manualDemos").append(header);
-	    component.attach($("#manualDemos")[0])
-	}
-	exports.textOutput = function(name, textContent) {
-	    var header = document.createElement("h1")
-	        header.textContent = name
-	
-	    var text = document.createElement("div")
-	        text.textContent = textContent
-	
-	    $("#results").append([header, text]);
-	}
-	
-	// future wraps a function like: function(result) {}
-	exports.wrapSingleParameter = function() {
-	    if(arguments.length === 1) {
-	        var fn = arguments[0]
-	    } else {
-	        var object = arguments[0]
-	        var method = arguments[1]
-	        var fn = object[method]
-	    }
-	
-	    return function() {
-	        var args = Array.prototype.slice.call(arguments)
-			var future = new Future
-			args.push(function(result) {
-			    future.return(result)
-			})
-			var me = this
-	        if(object) me = object
-	        fn.apply(me, args)
-			return future
-	    }
-	}
-	
-	exports.performanceTest = function(name, testDefinition) {
-	    setTimeout(function() {
-	        var times = []
-	        var totalTime = 0
-	        while(totalTime < 2000) {
-	            var time = oneIteration()
-	            times.push(time)
-	            totalTime += time
-	        }
-	
-	        var averageTime = totalTime/times.length
-	        var stdDeviationPercentage = standardDeviation(times)/averageTime
-	
-	        //console.log(mean(times)+ ' vs '+averageTime) // these should be equal and looks like they are
-	        exports.textOutput(name, Math.round(averageTime)+'ms (averaged over '+times.length+" iterations) - standard deviation: "+Math.round(stdDeviationPercentage*100)/100+'%')
-	
-	
-	        function oneIteration() {
-	            var time;
-	            testDefinition.call({
-	                time: function(testFn) {
-	                    var start = performance.now()
-	                    testFn()
-	                    time = performance.now() - start // ms
-	                }
-	            })
-	
-	            return time
-	        }
-	    },0)
-	}
-	
-	function standardDeviation(numberSet) {
-	    return Math.sqrt(variance(numberSet))
-	}
-	
-	function variance(numberSet) {
-	    var theMean = mean(numberSet)
-	    var sumOfDifferenceSquares = numberSet.reduce(function(acc,x) {
-	        var difference = x-theMean
-	        return acc + difference*difference
-	    },0)
-	
-	    return sumOfDifferenceSquares / (numberSet.length-1)
-	}
-	
-	function mean(numberSet) {
-	    var sum = numberSet.reduce(function(acc,x) {
-	        return acc+x
-	    },0)
-	
-	    return sum/numberSet.length
-	}
-	
-	
-	exports.buildNestedStructure = function (nestings) {
-	    var innerMost = Container()
-	    var cur = innerMost
-	    for(var n=0; n<nestings; n++) {
-	        cur = Container('moose', [cur])
-	    }
-	    return {innerMost:innerMost, top: cur}
-	}
-	
-	exports.buildNestedStyle = function(nestings) {
-	    var styleObject = {};
-	    for(var n=0; n<nestings; n++) {
-	        styleObject = {color: 'red', Container: styleObject}
-	    }
-	
-	    return Style(styleObject)
-	}
-
-/***/ },
-/* 8 */
+/* 10 */
 /*!*********************************!*\
   !*** ../~/Components/Canvas.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Block = __webpack_require__(/*! Block */ 7)
+	var proto = __webpack_require__(/*! proto */ 37)
 	var Style = __webpack_require__(/*! Style */ 6)
 	
 	module.exports = proto(Block, function(superclass) {
@@ -3137,19 +3203,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
-/*!************************************!*\
-  !*** ../~/Components/Container.js ***!
-  \************************************/
-[107, 5, 38],
-/* 10 */
+/* 11 */
 /*!*********************************!*\
   !*** ../~/Components/Button.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Block = __webpack_require__(/*! Block */ 7)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3189,14 +3250,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /*!***********************************!*\
   !*** ../~/Components/CheckBox.js ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Block = __webpack_require__(/*! Block */ 7)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
 	module.exports = proto(Block, function(superclass) {
 		// static variables
@@ -3232,14 +3293,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /*!********************************!*\
   !*** ../~/Components/Image.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Block = __webpack_require__(/*! Block */ 7)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3277,15 +3338,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /*!*******************************!*\
   !*** ../~/Components/List.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 38)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var Block = __webpack_require__(/*! Block */ 5)
+	var Block = __webpack_require__(/*! Block */ 7)
 	var Style = __webpack_require__(/*! Style */ 6)
 	
 	var Item = __webpack_require__(/*! ./Item */ 28);
@@ -3354,16 +3415,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 14 */
+/* 15 */
 /*!********************************!*\
   !*** ../~/Components/Radio.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 38)
+	var proto = __webpack_require__(/*! proto */ 37)
 	var EventEmitter = __webpack_require__(/*! events */ 39).EventEmitter
 	
-	var Block = __webpack_require__(/*! ../Block */ 5)
+	var Block = __webpack_require__(/*! ../Block */ 7)
 	
 	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
 	
@@ -3623,16 +3684,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 15 */
+/* 16 */
 /*!*********************************!*\
   !*** ../~/Components/Select.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Block = __webpack_require__(/*! ../Block */ 7)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var Option = __webpack_require__(/*! Components/Option */ 29)
+	var Option = __webpack_require__(/*! Components/Option */ 32)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Block, function(superclass) {
@@ -3779,20 +3840,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /*!********************************!*\
   !*** ../~/Components/Table.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 38)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var Block = __webpack_require__(/*! ../Block */ 5)
+	var Block = __webpack_require__(/*! ../Block */ 7)
 	var Style = __webpack_require__(/*! Style */ 6)
 	
-	var Header = __webpack_require__(/*! ./Header */ 30);
-	var Row = __webpack_require__(/*! ./Row */ 31);
-	var Cell = __webpack_require__(/*! ./Cell */ 32);
+	var Header = __webpack_require__(/*! ./Header */ 29);
+	var Row = __webpack_require__(/*! ./Row */ 30);
+	var Cell = __webpack_require__(/*! ./Cell */ 31);
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3846,14 +3907,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 17 */
+/* 18 */
 /*!***********************************!*\
   !*** ../~/Components/TextArea.js ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Block = __webpack_require__(/*! ../Block */ 7)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -3889,14 +3950,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /*!************************************!*\
   !*** ../~/Components/TextField.js ***!
   \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Block = __webpack_require__(/*! ../Block */ 7)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
 	var domUtils = __webpack_require__(/*! ../domUtils */ 25)
 	
@@ -3918,7 +3979,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        superclass.init.call(this) // superclass constructor
 	
 			this.label = label
-	        this.domNode.className = 'field'
 			domUtils.setAttribute(this.domNode,'type','text');
 	        if(password)
 	            domUtils.setAttribute(this.domNode, 'type', 'password')
@@ -3946,72 +4006,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
-/*!*******************************!*\
-  !*** ../~/Components/Text.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 38)
-	
-	var Block = __webpack_require__(/*! Block */ 5)
-	var Style = __webpack_require__(/*! Style */ 6)
-	
-	var domUtils = __webpack_require__(/*! domUtils */ 25)
-	
-	
-	
-	module.exports = proto(Block, function(superclass) {
-	
-	    //static properties
-	
-	    this.name = 'Text'
-	
-	    this.defaultStyle = Style({
-	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
-	    })
-	
-	    this.init = function(/*[label,] text*/) {
-	        if(arguments.length === 1) {
-	            var text = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var text = arguments[1]
-	        }
-	
-	        if (text === undefined) text = '';
-	
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	        this.text = text
-	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode[domUtils.textProperty]
-	        }, set: function(v) {
-	             this.domNode[domUtils.textProperty] = v
-	        }
-	    })
-	});
-	
-	
-
-
-/***/ },
 /* 20 */
 /*!************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/defaultFormats.js ***!
   \************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 43)
+	var Future = __webpack_require__(/*! async-future */ 40)
 	
-	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 46)
-	var indent = __webpack_require__(/*! ./indent */ 47)
+	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 43)
+	var indent = __webpack_require__(/*! ./indent */ 44)
 	var utils = __webpack_require__(/*! ./utils */ 22)
 	
 	// unitTest is a deadunit-core UnitTest object
@@ -4459,10 +4463,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var exports = {}
 	
 	    var deadunitCore = options.deadunitCore
-	    var proto = __webpack_require__(/*! proto */ 44)
+	    var proto = __webpack_require__(/*! proto */ 41)
 	
 	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 20)
-	    exports.format = __webpack_require__(/*! ./basicFormatter */ 46)
+	    exports.format = __webpack_require__(/*! ./basicFormatter */ 43)
 	
 	    exports.error = deadunitCore.error
 	
@@ -4597,7 +4601,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /*!*****************************!*\
   !*** ../~/EventEmitterB.js ***!
   \*****************************/
-[108, 38, 24],
+[130, 37, 24],
 /* 24 */
 /*!*********************!*\
   !*** ../~/utils.js ***!
@@ -4892,7 +4896,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
 	
-	var HashMap = __webpack_require__(/*! hashmap */ 42)
+	var HashMap = __webpack_require__(/*! hashmap */ 47)
 	
 	var Style = __webpack_require__(/*! ./Style */ 6)
 	var utils = __webpack_require__(/*! ./utils */ 24)
@@ -4903,7 +4907,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	// gets the right style from the styleMap, depending on the block's `name` and `label` (`label` styles take precedence)
 	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
-	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
+	var getStyleMapEntryForBlock = exports.getStyleForComponent = function (styleMap, block) {
 	    if(styleMap === undefined)
 	        return undefined
 	
@@ -5159,7 +5163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if(block.parent !== undefined) var nativePseudoclassMap = block.parent._nativePseudoclassMap
 	        else                           var nativePseudoclassMap = {}
 	
-	        var nativePseudoclassSelectorMap = getStyleForComponent(nativePseudoclassMap, block)
+	        var nativePseudoclassSelectorMap = getStyleMapEntryForBlock(nativePseudoclassMap, block)
 	        var nativeCssInfo = newPreStyleMapStyle.createNativeCssInfo(newComputedStyleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
 	
 	        if(nativeCssInfo.cancel) {
@@ -5633,8 +5637,8 @@ return /******/ (function(modules) { // webpackBootstrap
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Block = __webpack_require__(/*! Block */ 7)
+	var proto = __webpack_require__(/*! proto */ 37)
 	var Style = __webpack_require__(/*! Style */ 6)
 	
 	module.exports = proto(Block, function(superclass) {
@@ -5673,15 +5677,89 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 29 */
 /*!*********************************!*\
+  !*** ../~/Components/Header.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 48);
+	
+	module.exports = RowlikeGenerator('th', "TableHeader")
+
+/***/ },
+/* 30 */
+/*!******************************!*\
+  !*** ../~/Components/Row.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 48);
+	
+	module.exports = RowlikeGenerator('tr', "TableRow")
+
+
+/***/ },
+/* 31 */
+/*!*******************************!*\
+  !*** ../~/Components/Cell.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 7)
+	var proto = __webpack_require__(/*! proto */ 37)
+	var Style = __webpack_require__(/*! Style */ 6)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'TableCell'
+	
+	    this.defaultStyle = Style({
+	        display: 'table-cell'
+	    })
+		
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Block || typeof(contents) !== 'string') {
+	            this.add(contents)
+	        } else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	
+		this.colspan = function(cols) {
+			this.attr('colspan',cols);
+		}
+	});
+
+
+/***/ },
+/* 32 */
+/*!*********************************!*\
   !*** ../~/Components/Option.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// note: this is  not intended to be used directly - only through Select and MultiSelect
 	
-	var proto = __webpack_require__(/*! proto */ 38)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var Block = __webpack_require__(/*! Block */ 5)
+	var Block = __webpack_require__(/*! Block */ 7)
 	var Style = __webpack_require__(/*! Style */ 6)
 	var domUtils = __webpack_require__(/*! domUtils */ 25)
 	
@@ -5779,80 +5857,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})
 
 /***/ },
-/* 30 */
-/*!*********************************!*\
-  !*** ../~/Components/Header.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 48);
-	
-	module.exports = RowlikeGenerator('th', "TableHeader")
-
-/***/ },
-/* 31 */
-/*!******************************!*\
-  !*** ../~/Components/Row.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 48);
-	
-	module.exports = RowlikeGenerator('tr', "TableRow")
-
-
-/***/ },
-/* 32 */
-/*!*******************************!*\
-  !*** ../~/Components/Cell.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! ../Block */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
-	var Style = __webpack_require__(/*! Style */ 6)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-		this.name = 'TableCell'
-	
-	    this.defaultStyle = Style({
-	        display: 'table-cell'
-	    })
-		
-	
-		// instance properties
-	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
-	
-	        if(contents instanceof Block || typeof(contents) !== 'string') {
-	            this.add(contents)
-	        } else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
-		}
-	
-		this.colspan = function(cols) {
-			this.attr('colspan',cols);
-		}
-	});
-
-
-/***/ },
 /* 33 */
 /*!*******************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Container.js ***!
@@ -5860,7 +5864,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Container')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 54)
+	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 55)
 
 /***/ },
 /* 34 */
@@ -5870,7 +5874,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Text')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 55)
+	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 56)
 
 /***/ },
 /* 35 */
@@ -5880,7 +5884,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Block */ 52)
+	module.exports = __webpack_require__(/*! ./src/~/Block */ 53)
 
 /***/ },
 /* 36 */
@@ -5890,10 +5894,149 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Style */ 53)
+	module.exports = __webpack_require__(/*! ./src/~/Style */ 54)
 
 /***/ },
 /* 37 */
+/*!************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/proto/proto.js ***!
+  \************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                }
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 38 */
 /*!*************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/async-future/asyncFuture.js ***!
   \*************************************************************************************/
@@ -6266,145 +6409,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 38 */
-/*!************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/proto/proto.js ***!
-  \************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                }
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
 /* 39 */
 /*!********************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/events/events.js ***!
@@ -6716,6 +6720,342 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 40 */
+/*!************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/asyncFuture.js ***!
+  \************************************************************************************************/
+[128, 61],
+/* 41 */
+/*!***********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/proto/proto.js ***!
+  \***********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                },
+	                configurable: true // so you can change it if you want
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 42 */
+/*!**************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
+  \**************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 51)
+	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 52)
+	
+	module.exports = deadunitCore(browserConfig())
+
+/***/ },
+/* 43 */
+/*!************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/basicFormatter.js ***!
+  \************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 40)
+	
+	// built in test formatting helper
+	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
+	    if(arguments.length === 3) {
+	        var format = arguments[2]
+	    } else /* if(arguments.length > 3) */{
+	        var color = arguments[2]
+	        var format = arguments[3]
+	    }
+	
+	    var dotText = '.'
+	    if(color !== undefined) {
+	        dotText = color.green('.')
+	    }
+	
+	    var result = new Future
+	
+	    var lastPrintWasDot = false
+	    var printDot = function(dot) {
+	        if(dot) {
+	            process.stdout.write(dotText)
+	        } else if(lastPrintWasDot) {
+	            process.stdout.write('\n')
+	        }
+	
+	        lastPrintWasDot = dot
+	    }
+	
+	    var ended = false
+	    var events = {
+	        end: function(e) {
+	            ended = true
+	            if(printOnTheFly) printDot(false)
+	
+	            var results = unitTest.results()
+	            result.return(formatGroup(results, format, 0).result)
+	
+	            if(format.end !== undefined)
+	                format.end()
+	        }
+	    }
+	
+	    if(printOnTheFly) {
+	        var groups = {}
+	        events.assert = function(e) {
+	            printDot(e.success && !ended)
+	            if(e.success) {
+	                groups[e.parent].testSuccesses++
+	                groups[e.parent].assertSuccesses++
+	            } else {
+	                groups[e.parent].testFailures++
+	                groups[e.parent].assertFailures++
+	            }
+	
+	            if(!e.success || ended) {
+	                console.log(format.assert(e, undefined, true))
+	            }
+	        }
+	        events.exception = function(e) {
+	            printDot(false)
+	            groups[e.parent].exceptions++
+	
+	            console.log(format.exception(e.error, true))
+	        }
+	        events.log = function(e) {
+	            printDot(false)
+	            console.log(format.log(e.values, true))
+	        }
+	        events.group = function(g) {
+	            groups[g.id] = {parent: g.parent, name: g.name, testSuccesses: 0, testFailures: 0, assertSuccesses: 0, assertFailures: 0, exceptions: 0}
+	        }
+	        events.groupEnd = function(g) {
+	            var parent = groups[g.id].parent
+	            if(parent !== undefined) {
+	                printDot(false)
+	                if(groups[g.id].testFailures === 0 && groups[g.id].assertFailures === 0 && groups[g.id].exceptions === 0) {
+	                    groups[parent].testSuccesses++
+	                } else {
+	                    groups[parent].testFailures++
+	                }
+	
+	                console.log(format.group(groups[g.id].name, undefined, groups[g.id].testSuccesses,groups[g.id].testFailures,groups[g.id].assertSuccesses,groups[g.id].assertFailures,
+	                                        groups[g.id].exceptions, [], [], 1, false, true))
+	            }
+	        }
+	    }
+	
+	    unitTest.events(events)
+	
+	    return result
+	}
+	
+	function formatGroup(testResults, format, nestingLevel) {
+	    var assertSuccesses = 0
+	    var assertFailures = 0
+	    var exceptions = 0
+	
+	    var testCaseSuccesses= 0, testCaseFailures=0;
+	
+	    var results = []
+	    testResults.results.forEach(function(result) {
+	        if(result.type === 'assert') {
+	            if(result.success) {
+	                testCaseSuccesses++
+	                assertSuccesses ++
+	            } else {
+	                testCaseFailures++
+	                assertFailures++
+	            }
+	
+	            results.push(format.assert(result, testResults.name, false))
+	
+	        } else if(result.type === 'group') {
+	            var group = formatGroup(result, format, nestingLevel+1)
+	            exceptions+= group.exceptions
+	
+	            if(group.failures === 0 && group.exceptions === 0)
+	                testCaseSuccesses++
+	            else
+	                testCaseFailures++
+	
+	            results.push(group.result)
+	            assertSuccesses+= group.assertSuccesses
+	            assertFailures+= group.assertFailures
+	
+	        } else if(result.type === 'log') {
+	            results.push(format.log(result.values, false))
+	        } else {
+	            throw new Error("Unknown result type: "+result.type)
+	        }
+	    })
+	
+	    var exceptionResults = []
+	    testResults.exceptions.forEach(function(e) {
+	        exceptionResults.push(format.exception(e, false))
+	    })
+	
+	    exceptions+= testResults.exceptions.length
+	
+	    var formattedGroup = format.group(testResults.name, testResults.duration,
+	                                      testCaseSuccesses, testCaseFailures,
+	                                      assertSuccesses, assertFailures, exceptions,
+	                                      results, exceptionResults, nestingLevel, testResults.timeout, false)
+	    return {result: formattedGroup,
+	            successes: testCaseSuccesses,
+	            failures: testCaseFailures,
+	            assertSuccesses: assertSuccesses,
+	            assertFailures: assertFailures,
+	            exceptions: exceptions
+	    }
+	}
+	
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 58)))
+
+/***/ },
+/* 44 */
+/*!****************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/indent.js ***!
+  \****************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = function(i, str) {
+	    return i+str.split("\n")       // get all lines
+	              .join("\n"+i)      // join all lines with an indent
+	}
+
+/***/ },
+/* 45 */
 /*!****************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/trimArguments/trimArguments.js ***!
   \****************************************************************************************/
@@ -6739,15 +7079,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 41 */
+/* 46 */
 /*!****************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/observe.js ***!
   \****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 38)
+	var proto = __webpack_require__(/*! proto */ 37)
 	var EventEmitter = __webpack_require__(/*! events */ 39).EventEmitter
-	var utils = __webpack_require__(/*! ./utils */ 51)
+	var utils = __webpack_require__(/*! ./utils */ 57)
 	
 	
 	// emits the event:
@@ -7163,7 +7503,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 42 */
+/* 47 */
 /*!****************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/hashmap/hashmap.js ***!
   \****************************************************************************/
@@ -7359,353 +7699,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 43 */
-/*!************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/asyncFuture.js ***!
-  \************************************************************************************************/
-[106, 61],
-/* 44 */
-/*!***********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/proto/proto.js ***!
-  \***********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                },
-	                configurable: true // so you can change it if you want
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
-/* 45 */
-/*!**************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
-  \**************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 56)
-	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 57)
-	
-	module.exports = deadunitCore(browserConfig())
-
-/***/ },
-/* 46 */
-/*!************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/basicFormatter.js ***!
-  \************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 43)
-	
-	// built in test formatting helper
-	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
-	    if(arguments.length === 3) {
-	        var format = arguments[2]
-	    } else /* if(arguments.length > 3) */{
-	        var color = arguments[2]
-	        var format = arguments[3]
-	    }
-	
-	    var dotText = '.'
-	    if(color !== undefined) {
-	        dotText = color.green('.')
-	    }
-	
-	    var result = new Future
-	
-	    var lastPrintWasDot = false
-	    var printDot = function(dot) {
-	        if(dot) {
-	            process.stdout.write(dotText)
-	        } else if(lastPrintWasDot) {
-	            process.stdout.write('\n')
-	        }
-	
-	        lastPrintWasDot = dot
-	    }
-	
-	    var ended = false
-	    var events = {
-	        end: function(e) {
-	            ended = true
-	            if(printOnTheFly) printDot(false)
-	
-	            var results = unitTest.results()
-	            result.return(formatGroup(results, format, 0).result)
-	
-	            if(format.end !== undefined)
-	                format.end()
-	        }
-	    }
-	
-	    if(printOnTheFly) {
-	        var groups = {}
-	        events.assert = function(e) {
-	            printDot(e.success && !ended)
-	            if(e.success) {
-	                groups[e.parent].testSuccesses++
-	                groups[e.parent].assertSuccesses++
-	            } else {
-	                groups[e.parent].testFailures++
-	                groups[e.parent].assertFailures++
-	            }
-	
-	            if(!e.success || ended) {
-	                console.log(format.assert(e, undefined, true))
-	            }
-	        }
-	        events.exception = function(e) {
-	            printDot(false)
-	            groups[e.parent].exceptions++
-	
-	            console.log(format.exception(e.error, true))
-	        }
-	        events.log = function(e) {
-	            printDot(false)
-	            console.log(format.log(e.values, true))
-	        }
-	        events.group = function(g) {
-	            groups[g.id] = {parent: g.parent, name: g.name, testSuccesses: 0, testFailures: 0, assertSuccesses: 0, assertFailures: 0, exceptions: 0}
-	        }
-	        events.groupEnd = function(g) {
-	            var parent = groups[g.id].parent
-	            if(parent !== undefined) {
-	                printDot(false)
-	                if(groups[g.id].testFailures === 0 && groups[g.id].assertFailures === 0 && groups[g.id].exceptions === 0) {
-	                    groups[parent].testSuccesses++
-	                } else {
-	                    groups[parent].testFailures++
-	                }
-	
-	                console.log(format.group(groups[g.id].name, undefined, groups[g.id].testSuccesses,groups[g.id].testFailures,groups[g.id].assertSuccesses,groups[g.id].assertFailures,
-	                                        groups[g.id].exceptions, [], [], 1, false, true))
-	            }
-	        }
-	    }
-	
-	    unitTest.events(events)
-	
-	    return result
-	}
-	
-	function formatGroup(testResults, format, nestingLevel) {
-	    var assertSuccesses = 0
-	    var assertFailures = 0
-	    var exceptions = 0
-	
-	    var testCaseSuccesses= 0, testCaseFailures=0;
-	
-	    var results = []
-	    testResults.results.forEach(function(result) {
-	        if(result.type === 'assert') {
-	            if(result.success) {
-	                testCaseSuccesses++
-	                assertSuccesses ++
-	            } else {
-	                testCaseFailures++
-	                assertFailures++
-	            }
-	
-	            results.push(format.assert(result, testResults.name, false))
-	
-	        } else if(result.type === 'group') {
-	            var group = formatGroup(result, format, nestingLevel+1)
-	            exceptions+= group.exceptions
-	
-	            if(group.failures === 0 && group.exceptions === 0)
-	                testCaseSuccesses++
-	            else
-	                testCaseFailures++
-	
-	            results.push(group.result)
-	            assertSuccesses+= group.assertSuccesses
-	            assertFailures+= group.assertFailures
-	
-	        } else if(result.type === 'log') {
-	            results.push(format.log(result.values, false))
-	        } else {
-	            throw new Error("Unknown result type: "+result.type)
-	        }
-	    })
-	
-	    var exceptionResults = []
-	    testResults.exceptions.forEach(function(e) {
-	        exceptionResults.push(format.exception(e, false))
-	    })
-	
-	    exceptions+= testResults.exceptions.length
-	
-	    var formattedGroup = format.group(testResults.name, testResults.duration,
-	                                      testCaseSuccesses, testCaseFailures,
-	                                      assertSuccesses, assertFailures, exceptions,
-	                                      results, exceptionResults, nestingLevel, testResults.timeout, false)
-	    return {result: formattedGroup,
-	            successes: testCaseSuccesses,
-	            failures: testCaseFailures,
-	            assertSuccesses: assertSuccesses,
-	            assertFailures: assertFailures,
-	            exceptions: exceptions
-	    }
-	}
-	
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 58)))
-
-/***/ },
-/* 47 */
-/*!****************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/indent.js ***!
-  \****************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = function(i, str) {
-	    return i+str.split("\n")       // get all lines
-	              .join("\n"+i)      // join all lines with an indent
-	}
-
-/***/ },
 /* 48 */
 /*!*******************************************!*\
   !*** ../~/Components/RowlikeGenerator.js ***!
   \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 38)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var Block = __webpack_require__(/*! Block */ 5)
+	var Block = __webpack_require__(/*! Block */ 7)
 	var Style = __webpack_require__(/*! Style */ 6)
-	var Cell = __webpack_require__(/*! ./Cell */ 32);
+	var Cell = __webpack_require__(/*! ./Cell */ 31);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -8583,1437 +8587,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 51 */
-/*!**************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/utils.js ***!
-  \**************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	var path = __webpack_require__(/*! path */ 50)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       }
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 52 */
-/*!*********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
-  \*********************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 68)
-	var proto = __webpack_require__(/*! proto */ 44);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 40)
-	var observe = __webpack_require__(/*! observe */ 41)
-	
-	var utils = __webpack_require__(/*! ./utils */ 63)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 65)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 64)
-	
-	var Style = __webpack_require__(/*! ./Style */ 53)
-	Style.isDev = function() {return module.exports.dev}
-	
-	var components = {};
-	
-	var setOfBrowserEvents = utils.arrayToMap([
-	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
-	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
-	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
-	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
-	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
-	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
-	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
-	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
-	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
-	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
-	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
-	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
-	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
-	])
-	
-	// events:
-	    // newParent - emits this when a component gets a new parent
-	    // parentRemoved - emits this when a component is detached from its parent
-	var Block = module.exports = proto(EventEmitterB,function(superclass) {
-	
-	    // static properties
-	
-	    // constructor
-		this.init = function() {
-	        var that = this
-	
-	        if(this.name === undefined) {
-	            throw new Error("The 'name' property is required for Blocks")
-	        }
-	
-	        var defaultBlockStyle = blockStyleUtils.defaultStyleMap.get(this.constructor)
-	        if(defaultBlockStyle === undefined) {
-	            defaultBlockStyle = blockStyleUtils.createDefaultBlockStyle(this)
-	        }
-	
-	        superclass.init.call(this)
-	
-	        this.children = []
-	        this.state = observe({})
-	        this.parent = undefined;
-	
-			if (this.id !== undefined) {
-				components[this.id] = this;
-			}
-	
-	        if(this.domNode === undefined) {
-	            this.domNode = domUtils.div()
-	        }
-	
-	        this.build.apply(this, arguments)
-	
-	        //if(module.exports.dev) {
-	            this.attr('blkName', this.name)
-	        //}
-	
-	        var classList = [this.domNode.className]
-	        if(defaultBlockStyle !== false) classList.push(defaultBlockStyle.className)
-	        classList.push(Style.defaultClassName)
-	        this.domNode.className = classList.join(' ') // note that the order of classes doesn't matter
-	
-	        // set up dom event handlers
-	        var ifonHandlers={}
-	        that.ifon(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        that.ifoff(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.removeEventListener(event,ifonHandlers[event])
-	            }
-	        })
-		}
-	
-	    // sub-constructor - called by the constructor
-	    // parameters:
-	        // label - (Optional) A label that can be used to style a component differently.
-	                   // Intended to be some string describing what the component is being used for.
-	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
-	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
-	    this.build = function(/*[label,] domNode*/) {
-	        if(arguments.length === 1) {
-	            this.domNode = arguments[0]
-	        } else if(arguments.length >= 2) {
-	            this.label = arguments[0]
-	            this.domNode = arguments[1]
-	        }
-	    }
-		
-	
-		// instance properties
-	
-		
-		this.domNode;
-	    this.label;
-	    this.excludeDomEvents;
-	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
-	
-	
-	    Object.defineProperty(this, 'label', {
-	        get: function() {
-	            return this._label
-	        }, set: function(v) {
-	            if(this._label === undefined) {
-	                this._label = v
-	
-	                if(module.exports.dev) {
-	                    this.attr('label', this._label)
-	                }
-	            } else {
-	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
-	            }
-	        }
-	    })
-	
-	    // adds elements to the components main domNode
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.add = function() {
-	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
-		}
-	
-	    // adds nodes at a particular index
-	    // nodes can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addAt = function(index/*, nodes...*/) {
-	        var nodes = normalizeAddAtArguments.apply(this, arguments)
-	
-	        for (var i=0;i<nodes.length;i++) {
-				var node = nodes[i];
-	            this.children.splice(index+i, 0, node)
-	
-	            if(!isBlock(node)) {
-	                throw new Error("node is not a Block")
-	            }
-	
-	            node.parent = undefined
-	            node.emit('parentRemoved')
-	
-	            var beforeChild = this.children[1+i+index]
-	            if(beforeChild === undefined) {
-	                this.domNode.appendChild(node.domNode)
-	            } else {
-	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
-	            }
-	
-	            node.parent = this;
-	            node.emit('newParent')
-	
-	            // apply styles
-	            //if(itsaBlock) { // its always a component now
-	                var that = this
-	                node.getParentStyleMap = function() {return that.computedStyleMap}
-	                blockStyleUtils.propogateStyleSet([node], this.computedStyleMap)
-	            //}
-			}
-	    }
-	
-		// add a list of nodes before a particular node
-	    // if beforeChild is undefined, this will append the given nodes
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addBefore = this.addBeforeNode = function(beforeChild) {
-	        var nodes = trimArguments(arguments).slice(1)
-	        if(beforeChild === undefined) {
-	            this.add.apply(this, nodes)
-	        } else {
-	            var index = this.children.indexOf(beforeChild)
-	            this.addAt.apply(this, [index].concat(nodes))
-	        }
-	    }
-	
-	
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // index, index, index, ... - each index is the numerical index to remove
-	        // arrayOfComponents
-	        // arrayOfIndexes
-	    this.remove = function() {
-	        var removals = normalizeRemoveArguments.apply(this, arguments)
-	        removals = removals.sort(function(a,b) {
-	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
-	        })
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	            var c = this.children[r]
-	
-	            if(c === undefined) {
-	                throw new Error("There is no child at index "+r)
-	            }
-	
-	            c.parent = undefined
-	            this.children.splice(r, 1)
-	            this.domNode.removeChild(this.domNode.childNodes[r])
-	
-	            c.emit('parentRemoved')
-	        }
-	    }
-	
-	    // sets or gets an attribute on the components domNode
-	    // parameter sets:
-	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
-	    // if there are two arguments passed, the attribute is set
-	        // if 'value' is undefined, the attribute is removed
-	    this.attr = function(/*attribute, value OR attributeObject*/) {
-	        if(arguments.length === 1) {
-	            if(arguments[0] instanceof Object) {
-	                var attributes = arguments[0]
-	                for(var attribute in attributes) {
-	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
-	                }
-	            } else {
-	                var attribute = this.domNode.getAttribute(arguments[0])
-	                if(attribute === null) {
-	                    return undefined // screw null
-	                } else {
-	                    return attribute
-	                }
-	            }
-	        } else {
-	            var attribute = arguments[0]
-	            if(arguments[1] !== undefined) {
-	                var value = arguments[1]
-	                domUtils.setAttribute(this.domNode, arguments[0], value)
-	            } else {
-	                this.domNode.removeAttribute(attribute)
-	            }
-	        }
-	    }
-	
-	    Object.defineProperty(this, 'visible', {
-	        // returns true if the element is visible
-	        get: function() {
-	            return this.domNode.style.display !== 'none';
-	
-	        // sets whether or not the element is visible
-	        }, set: function(setToVisible) {
-	            if(setToVisible) {
-	                if (this._displayStyle !== undefined) {
-	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
-	                    this._displayStyle = undefined
-	                } else {
-	                    this.domNode.style.display = ''
-	                }
-	            } else {
-	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
-	                    this._displayStyle = this.domNode.style.display
-	                }
-	
-	                this.domNode.style.display = 'none'
-	            }
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'focus', {
-	        // returns true if the element is in focus
-	        get: function() {
-	            return document.activeElement === this.domNode
-	
-	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
-	        }, set: function(setToInFocus) {
-	            if(setToInFocus) {
-	                this.domNode.focus()
-	            } else {
-	                this.domNode.blur()
-	            }
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'style', {
-	        get: function() {
-	            return this._style
-	
-	        // sets the style, replacing one if one already exists
-	        }, set: function(styleObject) {
-	            if(styleObject === undefined) {
-	                var styleMap = this.getParentStyleMap()
-	                if(styleMap !== undefined) {
-	                    blockStyleUtils.setCurrentStyle(this, blockStyleUtils.getStyleForComponent(styleMap, this))
-	                } else {
-	                    blockStyleUtils.setCurrentStyle(this, undefined)
-	                }
-	
-	                this.computedStyleMap = styleMap
-	
-	            } else {
-	                blockStyleUtils.setCurrentStyle(this, styleObject)
-	                var specificStyle = styleObject.get(this)
-	                if(this.getParentStyleMap() !== undefined) {
-	                    this.computedStyleMap = blockStyleUtils.styleMapConjunction(this.getParentStyleMap(), specificStyle.componentStyleMap)
-	                } else {
-	                    this.computedStyleMap = specificStyle.componentStyleMap
-	                }
-	            }
-	
-	            this._style = styleObject
-	            blockStyleUtils.propogateStyleSet(this.children, this.computedStyleMap) // propogate styles to children
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'selectionRange', {
-	        // returns the visible character selection range inside the element
-	        // returns an array like [offsetStart, offsetEnd]
-	        get: function() {
-	            return domUtils.getSelectionRange(this.domNode)
-	
-	        // sets the visible character selection range
-	        }, set: function(selection) {
-	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
-	        }
-	    })
-	
-	    this.attach = function() {
-	        attach(this)
-	    }
-	    this.detach = function() {
-	        detach(this)
-	    }
-	
-	
-		// private instance variables/functions
-	
-	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
-	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
-	
-		this._style;              // the object's explicit Style object (undefined if it inherits a style)
-	    this.currentStyle;       // the object's current Style (inherited or explicit)
-	    this._displayStyle;      // temporariliy stores an inline display style while the element is hidden (for use when 'show' is called)
-	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
-	});
-	
-	
-	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
-	
-	
-	// appends components to the body
-	var attach = module.exports.attach = function(/*component,component,.. or components*/) {
-	    if(arguments[0] instanceof Array) {
-	        var components = arguments[0]
-	    } else {
-	        var components = arguments
-	    }
-	
-	    if(document.body === null) throw new Error("Your document does not have a body.")
-	
-	    for(var n=0; n<components.length; n++) {
-	        document.body.appendChild(components[n].domNode)
-	    }
-	}
-	// removes components from the body
-	var detach = module.exports.detach = function(/*component,component,.. or components*/) {
-	    if(arguments[0] instanceof Array) {
-	        var components = arguments[0]
-	    } else {
-	        var components = arguments
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        document.body.removeChild(components[n].domNode)
-	    }
-	}
-	
-	// creates a body tag (only call this if document.body is null)
-	
-	module.exports.createBody = function(callback) {
-	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-	    var body = dom.createElement("body")
-	    dom.documentElement.appendChild(body)
-	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
-	        callback()
-	    },0)
-	}
-	
-	
-	
-	
-	// returns a list of indexes to remove from Block.remove's arguments
-	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
-	    var that = this
-	
-	    if(arguments[0] instanceof Array) {
-	        var removals = arguments[0]
-	    } else {
-	        var removals = Array.prototype.slice.call(arguments)
-	    }
-	
-	    return removals.map(function(removal, parameterIndex) {
-	        if(isBlock(removal)) {
-	            var index = that.children.indexOf(removal)
-	            if(index === -1) {
-	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
-	            }
-	            return index
-	        } else {
-	            return removal
-	        }
-	
-	    })
-	}
-	
-	// returns a list of nodes to add
-	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
-	    if(arguments.length === 2) {
-	        if(arguments[1] instanceof Array) {
-	            return arguments[1]
-	        } else {
-	            return [arguments[1]]
-	        }
-	    } else { // > 2
-	        return trimArguments(arguments).slice(1)
-	    }
-	}
-	
-	function isBlock(c) {
-	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
-	}
-	function isDomNode(node) {
-	    return node.nodeName !== undefined
-	}
-
-/***/ },
-/* 53 */
-/*!*********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Style.js ***!
-  \*********************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var jssModule = __webpack_require__(/*! ../external/jss */ 62)
-	var proto = __webpack_require__(/*! proto */ 44)
-	var HashMap = __webpack_require__(/*! hashmap */ 42)
-	
-	var utils = __webpack_require__(/*! ./utils */ 63)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 64)
-	
-	var baseClassName = '_ComponentStyle_' // the base name for generated class names
-	var nextClassNumber = 0
-	
-	// creates a style object
-	var Style = module.exports = proto(function() {
-	
-	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
-	
-	    // styleDefinition is an object where key-value pairs can be any of the following:
-	    // <cssPropertyName>: the value should be a valid css value for that style attribute
-	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
-	    // $setup: the value is a function to be run on a component when the style is applied to it
-	    // $kill: the value is a function to be run on a component when a style is removed from it
-	    // $state: the value should be a state handler function
-	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
-	    this.init = function(styleDefinition, privateOptions) {
-	        if(privateOptions === undefined) privateOptions = {}
-	        if(privateOptions.inLabel===undefined) inLabel = false
-	
-	        this.className = baseClassName+nextClassNumber
-	        nextClassNumber++
-	
-	        this.componentStyleMap = {}
-	        this.labelStyleMap = {}
-	
-	        var labelStyles = {}
-	        var pseudoClassStyles = {}
-	        var cssProperties = {}
-	        for(var key in styleDefinition) {
-	            var value = styleDefinition[key]
-	
-	            if(key === '$setup') {
-	                if(!(value instanceof Function)) throw new Error("$setup key must be a function ('setup' can't be used as a label)")
-	                this.setup = value
-	
-	            } else if(key === '$kill') {
-	                if(!(value instanceof Function)) throw new Error("$kill key must be a function ('kill' can't be used as a label)")
-	                this.kill = value
-	
-	            } else if(key === '$state') {
-	                if(!(value instanceof Function)) throw new Error("$state key must be a function ('$state' can't be used as a label)")
-	                this.stateHandler = value
-	
-	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
-	                var pseudoClass = mapCamelCase(key.substr(2))
-	                if(pseudoClass === '') {
-	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
-	                }
-	
-	                utils.merge(pseudoClassStyles, flattenPseudoClassStyles(pseudoClass, value))
-	
-	            } else if(key.indexOf('$') === 0) {   // label style
-	                if(privateOptions.inLabel)
-	                    throw new Error("Can't create nested label style "+key+" because components can only have one label")
-	
-	                var label = key.substr(1)
-	                if(label === '') {
-	                    throw new Error("Empty label name not valid (style key '$')")
-	                }
-	
-	                labelStyles[label] = value
-	
-	            } else if(isStyleObject(value)) {
-	                this.componentStyleMap[key] = value
-	
-	            } else if(value instanceof Object) {
-	                this.componentStyleMap[key] = Style(value)  // turn the object description into a full fledged style object
-	            } else {
-	                var cssStyle = key
-	                var cssStyleName = mapCamelCase(cssStyle)
-	                cssProperties[cssStyleName] = cssValue(cssStyleName, value)
-	            }
-	        }
-	
-	        // create the css class
-	        if(privateOptions.default) {
-	            var jssSheet = defaultJss
-	        } else {
-	            var jssSheet = jss
-	        }
-	
-	        jssSheet.set('.'+this.className, cssProperties)
-	
-	        //if(module.exports.isDev) {
-	            this.styleDefinitions = {}
-	            this.styleDefinitions['.'+this.className] = cssProperties
-	        //}
-	
-	        // create label styles
-	        if(Object.keys(labelStyles).length > 0) {
-	            var baseStyle = utils.merge({}, cssProperties, this.componentStyleMap)
-	
-	            for(var label in labelStyles) {
-	                if(isStyleObject(labelStyles[label])) {
-	                    this.labelStyleMap[label] = labelStyles[label]
-	                } else {
-	                    var mergedStyle = utils.merge({}, baseStyle, labelStyles[label])
-	                    this.labelStyleMap[label] = Style(mergedStyle, {inLabel:true})
-	                }
-	            }
-	        }
-	
-	        // create pseudoclass styles
-	        if(Object.keys(pseudoClassStyles).length > 0) {
-	
-	            var tieredPseudoClasses = createTieredPseudoClasses(this, pseudoClassStyles)
-	            pseudoclassCombinations(tieredPseudoClasses) // mutates tieredPseudoClasses
-	
-	            // turn the emulatable pseudo classes into Style objects
-	            // also build up the set of psuedoclasses that will be emulated
-	            // also build up a map of pseudoclasses-to-emulate to the emulation functions for those pseudoclasses
-	            var pseudoClasesToEmulate = []
-	            var preSplitPseudoClasses = [] // a list where each element looks like: [pseudoClassList, styleObject]  (this is primarily for performance - so we don't have to split the key every time we check for state changes)
-	            var pseudoClassesToEmulationInfo = {}
-	            for(var key in tieredPseudoClasses) {
-	                if(isStyleObject(tieredPseudoClasses[key])) {
-	                    tieredPseudoClasses[key] = tieredPseudoClasses[key]
-	                } else {
-	                    var newStyle = Style(utils.merge({}, cssProperties, tieredPseudoClasses[key])) // pseudoClassStyles merged with parent css styles
-	
-	                    // merge in componentStyleMap and labelStyleMap
-	                    for(var k in this.componentStyleMap) {
-	                        if(newStyle.componentStyleMap[k] === undefined)
-	                            newStyle.componentStyleMap[k] = this.componentStyleMap[k]
-	                    }
-	                    for(var k in this.labelStyleMap) {
-	                        if(newStyle.labelStyleMap[k] === undefined)
-	                            newStyle.labelStyleMap[k] = this.labelStyleMap[k]
-	                    }
-	
-	                    tieredPseudoClasses[key] = newStyle
-	                }
-	
-	
-	                var pseudoClassList = key.split(":")
-	                for(var n=0; n<pseudoClassList.length; n++) {
-	                    var pseudoClass = pseudoClassList[n]
-	                    if(pseudoClasesToEmulate.indexOf(pseudoClass) === -1) {
-	                        pseudoClasesToEmulate.push(pseudoClass)
-	
-	                        var pseudoClassParts = getPseudoClassParts(pseudoClass)
-	                        var fns = emulatedPseudoClasses[pseudoClassParts.class]
-	                        var info = {fns: fns}
-	                        if(fns.processParameter !== undefined) {
-	                            info.parameter = fns.processParameter(pseudoClassParts.parameter)
-	                        }
-	                        pseudoClassesToEmulationInfo[pseudoClass] = info
-	                    }
-	                }
-	
-	                preSplitPseudoClasses.push([pseudoClassList, tieredPseudoClasses[key]])
-	            }
-	
-	            // create functions that initialize and keep track of state
-	            var initializeState = function(component) {
-	                var state = {}
-	                for(var n=0; n<pseudoClasesToEmulate.length; n++) {
-	                    var pseudoClass = pseudoClasesToEmulate[n]
-	                    var pseudoClassEmulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
-	                    state[pseudoClass] = pseudoClassEmulationInfo.fns.check(component, pseudoClassEmulationInfo.parameter)
-	                }
-	
-	                return state
-	            }
-	
-	            var that = this
-	            var changeStyleIfNecessary = function(currentStyle, component, state) {
-	                var longestMatchingLength = 0;
-	                var mostSpecificMatchingStyle = that; // if nothing else matches, change back to the base style object
-	                for(var n=0; n<preSplitPseudoClasses.length; n++) {
-	                    var pseudoClassList = preSplitPseudoClasses[n][0]
-	                    for(var j=0; j<pseudoClassList.length; j++) {
-	                        if(!state[pseudoClassList[j]]) {
-	                            break;
-	                        }
-	                    }
-	
-	                    if(j === pseudoClassList.length && j > longestMatchingLength) {
-	                        longestMatchingLength = j
-	                        mostSpecificMatchingStyle = preSplitPseudoClasses[n][1]
-	                    }
-	                }
-	
-	                if(mostSpecificMatchingStyle !== currentStyle) {
-	                    component.style = mostSpecificMatchingStyle
-	
-	                    //blockStyleUtils.setCurrentStyle(component, mostSpecificMatchingStyle)
-	                    //blockStyleUtils.propogateStyleSet(component.children, component.computedStyleMap) // propogate styles to children
-	                }
-	            }
-	
-	            // setup pseudoclass emulation with $setup and $kill handlers
-	
-	            var wrapSetupAndKill = function(style) {
-	                var originalSetup = style.setup
-	                style.setup = function(component) {
-	                    var that = this
-	
-	                    this._styleSetupStates = {} // maps pseudoClass to setupState
-	                    var state = initializeState(component)
-	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
-	                        ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
-	                            that._styleSetupStates[pseudoClass] = emulationInfo.fns.setup(component, function() { // start
-	                                state[pseudoClass] = true
-	                                changeStyleIfNecessary(that, component, state)
-	                            }, function() { // end
-	                                state[pseudoClass] = false
-	                                changeStyleIfNecessary(that, component, state)
-	                            }, emulationInfo.parameter)
-	
-	                        })(pseudoClass, pseudoClassesToEmulationInfo[pseudoClass])
-	                    }
-	
-	                    changeStyleIfNecessary(that, component, state)
-	
-	                    if(originalSetup !== undefined) {
-	                        originalSetup.apply(this, arguments)
-	                    }
-	                }
-	
-	                var originalKill = style.kill
-	                style.kill = function(component) {
-	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
-	                        var emulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
-	                        emulationInfo.fns.kill(component, this._styleSetupStates[pseudoClass])
-	                    }
-	
-	                    if(originalKill !== undefined) {
-	                        originalKill.apply(this, arguments)
-	                    }
-	                }
-	            }
-	
-	            // wrap all the setup and kill functions
-	
-	            for(var key in tieredPseudoClasses) {
-	                var style = tieredPseudoClasses[key]
-	                wrapSetupAndKill(style)
-	            }
-	
-	            wrapSetupAndKill(this)
-	        }
-	    }
-	
-	    // instance properties
-	
-	    this.className          // the css classname for this style
-	    this.componentStyleMap; // maps a Component name to a Style object for that component
-	    this.labelStyleMap;     // maps a label name to a Style object for that label
-	    this.setup;             // run some javascript on any element this class is applied to
-	    this.kill;              // a function to run on removal of the style (should reverse setup)
-	
-	    // gets the style object for a component based on the current style object (takes into account whether the component has a label
-	    this.get = function(component) {
-	        if(component.label !== undefined) {
-	            var labelStyle = this.labelStyleMap[component.label]
-	            if(labelStyle !==  undefined) {
-	                return labelStyle
-	            }
-	        }
-	        // else
-	        return this
-	    }
-	})
-	
-	
-	// private
-	
-	
-	// returns a two-level map where the top-level keys are emulatable psuedo classes, and non-emulatable pseudo classes are at the second level
-	// the classes will also be sorted and deduped
-	// Example return value: {"hover:lastChild": {color:'red', "$$visited:disabled": {fontWeight: 'bold'}}, }
-	// parameters:
-	    // style - the style object being created
-	    // pseudoClassStyles - a flat object where each key is a list of pseudoclasses separated by colons (e.g. "hover" or "hover:focus") and the value is an object of styles that don't contain pseudoclasses
-	function createTieredPseudoClasses(style, pseudoClassStyles) {
-	    var tieredPseudoClasses = {} // the two-level map
-	    for(var key in pseudoClassStyles) {
-	        var value = pseudoClassStyles[key]
-	
-	        // split key into pseudoclass list
-	        var pseudoClassList = key.split(":")
-	        var emulatablePseudoClasses = []
-	        var nonEmulatablePseudoClasses = []
-	        for(var n in pseudoClassList) {
-	            var pseudoClass = pseudoClassList[n]
-	            var pseudoClassParts = getPseudoClassParts(pseudoClass)
-	            if(pseudoClassParts.class in emulatedPseudoClasses) {
-	                emulatablePseudoClasses.push(pseudoClass)
-	            } else {
-	                nonEmulatablePseudoClasses.push(pseudoClass)
-	            }
-	        }
-	
-	        // todo: add a third branch as an optimization: if the Style can be rendered without emulation - do that
-	        if(emulatablePseudoClasses.length === 0) { // if none of the pseudoclasses can be emulated using javascript
-	            validatePurePseudoClassStyles(key, value)                        // then validate the value and
-	            createPseudoClassRules(style, key, '.'+style.className+":"+key, value)   // create pseudoClassRules
-	
-	        } else { // if some of the pseudoclasses can be emulated using javascript
-	
-	            emulatablePseudoClasses.sort()
-	            var emulatablePseudoClassKey = emulatablePseudoClasses.join(':')
-	            if(tieredPseudoClasses[emulatablePseudoClassKey] === undefined)
-	                tieredPseudoClasses[emulatablePseudoClassKey] = {}
-	
-	            if(nonEmulatablePseudoClasses.length === 0) {
-	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], value)
-	            } else {
-	                nonEmulatablePseudoClasses.sort()
-	                var nonEmulatablePsuedoClassKey = nonEmulatablePseudoClasses.join(':')
-	
-	                var secondTier = {}
-	                secondTier['$$'+nonEmulatablePsuedoClassKey] = value
-	
-	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], secondTier)
-	            }
-	        }
-	    }
-	
-	    return tieredPseudoClasses
-	}
-	
-	
-	
-	// make combinations of the emulatable pseudoclasses, so that they combine like the non-emulated ones do
-	// info about mathematical combination: https://en.wikipedia.org/wiki/Combination
-	// mutates tieredPseudoClasses
-	function pseudoclassCombinations(tieredPseudoClasses) {
-	    var tieredPseudoClassesKeys = Object.keys(tieredPseudoClasses).reverse().map(function(v) {    // reverse first so that more specific pseudoclasses go first
-	        return {key: v, parts: v.split(':')} // so it doesn't have to split every time
-	    })
-	
-	    for(var n=0; n<tieredPseudoClassesKeys.length; n++) {
-	        var keyA = tieredPseudoClassesKeys[n]
-	        for(var k=2; k <= tieredPseudoClassesKeys.length; k++) { // k is the number of psuedoclasses to combine
-	            for(var j=n+1; j<tieredPseudoClassesKeys.length-(k-2); j++) {
-	                var result = combinePseudoclasses(tieredPseudoClasses, [keyA].concat(tieredPseudoClassesKeys.slice(j, k)))
-	                if(result.key in tieredPseudoClasses) {
-	                    utils.merge(tieredPseudoClasses[result.key], result.value)
-	                } else { // new key
-	                    tieredPseudoClasses[result.key] = result.value
-	                }
-	            }
-	        }
-	    }
-	}
-	
-	
-	
-	// keys is a list of objects where each object has the members:
-	    // key - the original string key
-	    // parts - the key split by ":"
-	// returns an object with the following members:
-	    // key - the new combined key
-	    // value - the new merged value
-	var combinePseudoclasses = function(pseudoclasses, keys) {
-	    var resultKeyParts = keys[0].parts
-	    var resultValue = utils.merge({}, pseudoclasses[keys[0].key]) // make a copy
-	    for(var n=1; n<keys.length; n++) {
-	        var key = keys[n]
-	        // merge all psuedoclasses that don't already exist into the resultKey
-	        for(var j=0; j<key.parts.length; j++) {
-	            var part = key.parts[j]
-	            if(resultKeyParts.indexOf(part) === -1) {
-	                resultKeyParts.push(part)
-	            }
-	        }
-	
-	        // merge the value into resultValue
-	        utils.merge(resultValue, pseudoclasses[key.key])
-	    }
-	
-	    return {key: resultKeyParts.join(':'), value: resultValue}
-	}
-	
-	// a map of pseudoclass names and how they are emulated with javascript
-	// each pseudoclass sets up the following functions:
-	    // check - a function that checks if that pseudoclass currently applies to the component when its called
-	    // setup - calls a callback when the pseudoClass starts and stops applying
-	        // should return an object that will be passed to the kill function (as its 'state' parameter)
-	    // kill - cleans up anything set up in the 'setup' function
-	    // processParameter - takes the pseudoclass parameter and returns some object representing it that will be used by the setup and check functions
-	var emulatedPseudoClasses = {
-	    hover: {
-	        check: function(component) {
-	            var nodes = document.querySelectorAll( ":hover" )
-	            for(var n=0; n<nodes.length; n++) {
-	                if(nodes[n] === component.domNode) {
-	                    return true
-	                }
-	            }
-	            return false
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            component.on("mouseover", function() {
-	                startCallback()
-	            })
-	            component.on("mouseout", endCallback)
-	
-	            return {start: startCallback, end: endCallback}
-	        },
-	        kill: function(component, state) {
-	            component.off("mouseover", state.start)
-	            component.off("mouseout", state.end)
-	        }
-	    },
-	    checked: {
-	        check: function(component) {
-	            return component.selected
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var setupState = {}
-	            component.on("change", setupState.listener = function() {
-	                if(component.selected) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            return setupState
-	        },
-	        kill: function(component, state) {
-	            component.removeListener("change", state.listener)
-	        }
-	    },
-	    required: {
-	        check: function(component) {
-	            return component.attr('required') !== undefined
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var observer = new MutationObserver(function() {
-	                if(component.attr('required') !== undefined) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            observer.observe(component.domNode, {attributes: true})
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        }
-	    },
-	    'last-child': {
-	        check: function(component) {
-	            return nthLastChildCheck(component, '1')
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var observer = new MutationObserver(function() {
-	                if(nthLastChildCheck(component, '1')) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            var setupObserver = function() {
-	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
-	                observer.observe(component.parent.domNode, {childList: true})
-	            }
-	
-	            if(component.parent !== undefined) {
-	                setupObserver()
-	            }
-	
-	            component.on('newParent', function() {
-	                setupObserver()
-	            })
-	            component.on('parentRemoved', function() {
-	                observer.disconnect()
-	            })
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        }
-	    },
-	    'nth-child': {
-	        // todo: support full an+b parameters for nth-child https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
-	        check: function(component, parameterCheck) {
-	            return nthChildCheck(component, parameterCheck)
-	        },
-	        setup: function(component, startCallback, endCallback, parameterCheck) {
-	
-	            var checkAndCallCallbacks = function() {
-	                if(nthChildCheck(component, parameterCheck)) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            }
-	
-	            var observer = new MutationObserver(function() {
-	                checkAndCallCallbacks()
-	            })
-	
-	            var setupObserver = function() {
-	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
-	                observer.observe(component.parent.domNode, {childList: true})
-	            }
-	
-	            if(component.parent !== undefined) {
-	                setupObserver()
-	            }
-	
-	            component.on('newParent', function() {
-	                setupObserver()
-	                checkAndCallCallbacks()
-	            })
-	            component.on('parentRemoved', function() {
-	                observer.disconnect()
-	                checkAndCallCallbacks()
-	            })
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        },
-	        processParameter: function(parameter) {
-	            return nthChildParameterFn(parameter)
-	        }
-	    },
-	
-	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
-	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
-	    /*not: {
-	        check: function() {
-	
-	        },
-	    }*/
-	}
-	
-	// name is the name of the new pseudoclass
-	// fns is an object with the members:
-	    // check(component) - returns true if the pseudoclass applies to the component
-	    // setup(component, startCallback, endCallback, parameter) - a function that should call startCallback when the pseudoclass starts applying, and endCallback when it stops applying
-	        // parameter - the parameter passed to the pseudoclass (e.g. in :not(:first-child), ":first-child" is the parameter)
-	    // kill - a function that cleans up any event listeners or anything else set up in the 'setup' function
-	module.exports.addPseudoClass = function(name, fns) {
-	    if(emulatedPseudoClasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
-	    // else
-	    emulatedPseudoClasses[name] = fns
-	}
-	
-	
-	function nthChildCheck(component, testFn) {
-	    if(component.domNode.parentNode === null)
-	        return false
-	
-	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
-	    var index = Array.prototype.indexOf.call(children, component.domNode)
-	    return testFn(index)
-	}
-	
-	function nthLastChildCheck(component, parameter) {
-	    if(component.domNode.parentNode === null)
-	        return false
-	
-	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
-	    var index = children.length - parseInt(parameter)
-	    return children[index] === component.domNode
-	}
-	
-	// returns a function that takes an index and tell you if that index applies to the nthChildParameter
-	var nthChildParameter = /^(((-?\d*)(([+-]\d*)n?)?)|((-?\d)*n?([+-]\d*)?))$/
-	function nthChildParameterFn(parameter) {
-	    var parts = parameter.match(nthChildParameter)
-	    if(parts === null)
-	        throw new Error("nth-child parameter '"+parameter+"' isn't valid")
-	
-	    if(parts[2] !== undefined) {
-	        var constant = parts[3]
-	        var variable = parts[5]
-	    } else {
-	        var constant = parts[8]
-	        var variable = parts[7]
-	    }
-	
-	    if(constant === undefined) constant = 0
-	    else                       constant = parseInt(constant)
-	    if(variable === undefined) variable = 0
-	    else                       variable = parseInt(variable)
-	
-	    if(variable === 0) {
-	        return function(index) {
-	            return index+1 === constant
-	        }
-	    } else {
-	        return function(index) {
-	            return ((index+1-constant)/variable) % 1 === 0
-	        }
-	    }
-	
-	}
-	
-	// maps a style value to a css value
-	// style values that are numbers are mapped to strings, usually with px postfix
-	function cssValue(cssStyleName, value) {
-	    // If a number was passed in, add 'px' to the (except for certain CSS properties) [also taken from jquery's code]
-	    if(typeof(value) === "number" && cssNumber[cssStyleName] === undefined) {
-	        return value+"px"
-	    } else {
-	        return value.toString()
-	    }
-	}
-	
-	function createPseudoClassRules(that, pseudoClass, selector, pseudoClassStyle) {
-	
-	    var pseudoClassCss = {}
-	    for(var key in pseudoClassStyle) {
-	        var value = pseudoClassStyle[key]
-	
-	        if(!(value instanceof Object)) {
-	            var cssStyle = key
-	            var cssStyleName = mapCamelCase(cssStyle)
-	            pseudoClassCss[cssStyleName] = cssValue(cssStyleName, value)
-	        } else {
-	            throw new Error("All properties within the pseudoclasses '"+pseudoClass+"' must be css styles")
-	        }
-	    }
-	
-	    // create immediate pseudo class style
-	    defaultJss.set(selector, pseudoClassCss) // create the css class with the pseudoClass
-	
-	    //if(module.exports.isDev) {
-	        that.styleDefinitions = {}
-	        that.styleDefinitions[selector] = pseudoClassCss
-	    //}
-	}
-	
-	// throws exceptions for various style configurations that are unsupported by pure pseudo classes (ones that can't be emulated usuing javascript)
-	function validatePurePseudoClassStyles(pseudoClass, pseudoClassStyles) {
-	    for(var key in pseudoClassStyles) {
-	        var value = pseudoClassStyles[key]
-	
-	        if(isStyleObject(value)) {
-	            throw new Error("Can't set the pseudoclasses '"+pseudoClass+"' to a Style object")
-	        } else if(key === '$setup') {
-	            throw new Error("$setup can't be used within the pseudoclasses '"+pseudoClass+"'")
-	        } else if(key === '$kill') {
-	            throw new Error("$kill can't be used within the pseudoclasses '"+pseudoClass+"'")
-	        } else if(key.indexOf('$') === 0) {   // label style
-	            throw new Error("Block labels can't be used within the pseudoclasses '"+pseudoClass+"'")
-	        }
-	    }
-	}
-	
-	// e.g. pulls out 'nth-child' and '2+3n' from 'nth-child(2+3n)'
-	var pseudoClassRegex = /^([^(]*)(\((.*)\))?$/
-	function getPseudoClassParts(fullPsuedoClass) {
-	    var x = fullPsuedoClass.match(pseudoClassRegex)
-	    if(x === null) throw new Error("Pseudoclass '"+fullPsuedoClass+"' is invalid")
-	    return {class: x[1], parameter: x[3]}
-	}
-	
-	
-	// takes in a list of pseudoClassRules and changes any nesting like {hover: {focus: {}}} into something like {hover: {}, "hover:focus": {}}
-	// also does some validation
-	function flattenPseudoClassStyles(pseudoClass, pseudoClassStyle) {
-	    var nonPseudoClassStyles = {}
-	    var subpseudoClasses = {}
-	    for(var key in pseudoClassStyle) {
-	        var value = pseudoClassStyle[key]
-	
-	        if(key.indexOf('$$') === 0) { // pseudo-class style
-	            var subPseudoClass = key.substr(2)
-	            if(subPseudoClass === '') {
-	                throw new Error("Empty pseudo-class name not valid (style key '$$')")
-	            }
-	
-	            subpseudoClasses[subPseudoClass] = value
-	        } else {
-	            nonPseudoClassStyles[key] = value
-	        }
-	    }
-	
-	    // create flattened styles (with merged in styles from its parent pseudoclass
-	    var flattenedStyles = {}
-	    for(var subPseudoClass in subpseudoClasses) {
-	        var value = subpseudoClasses[subPseudoClass]
-	
-	        if(isStyleObject(value)) {
-	            flattenedStyles[pseudoClass+":"+subPseudoClass] =  value
-	        } else {
-	            utils.merge(flattenedStyles, flattenPseudoClassStyles(pseudoClass+":"+subPseudoClass, utils.merge({}, nonPseudoClassStyles, value)))
-	        }
-	    }
-	
-	    // write the top-level pseudoClass
-	    flattenedStyles[pseudoClass] = nonPseudoClassStyles
-	
-	    return flattenedStyles
-	}
-	
-	
-	// taken from jquery's code
-	var cssNumber = {
-	    "column-count": 1,
-	    "fill-opacity": 1,
-	    "flex-grow": 1,
-	    "flex-shrink": 1,
-	    "font-weight": 1,
-	    "line-height": 1,
-	    "opacity": 1,
-	    "order": 1,
-	    "orphans": 1,
-	    "widows": 1,
-	    "z-index": 1,
-	    "zoom": 1
-	}
-	
-	function isStyleObject(o) {
-	    return o.componentStyleMap !== undefined
-	}
-	
-	
-	var asciiA = 'A'.charCodeAt(0), asciiZ = 'Z'.charCodeAt(0), difference = 'a'.charCodeAt(0) - asciiA
-	function mapCamelCase(cssStyleName) {
-	    for(var n=0; n<cssStyleName.length; n++) {
-	        var ascii = cssStyleName.charCodeAt(n)
-	        if(asciiA <= ascii && ascii <= asciiZ) { // found capital letter
-	            cssStyleName = cssStyleName.slice(0, n) + '-'+String.fromCharCode(ascii+difference) + cssStyleName.slice(n+1)
-	            n++ // increment a second time for the dash
-	        }
-	    }
-	
-	    return cssStyleName
-	}
-	
-	// maps all the styles that are inherited by descendant nodes to their default values
-	// source: http://stackoverflow.com/questions/5612302/which-css-styles-are-inherited
-	var defaultStyleValues = {
-	    'azimuth': 'center',
-	    'border-collapse': 'separate',
-	    'border-spacing': '0',
-	    'caption-side': 'top',
-	    //'color': 'black',         // let this inherit
-	    //'cursor': 'auto',         // let this one inherit - its weird otherwise
-	    'direction': 'ltr',
-	     display: 'inline-block', // changes the default display to inline-block
-	    'elevation': '',
-	    'empty-cells': 'show',
-	    // 'font-family': '',       // let this inherit
-	    // 'font-size': 'medium',   // let this inherit
-	    //'font-style': 'normal',   // let this inherit
-	    //'font-variant': 'normal', // let this inherit
-	    //'font-weight': 'normal',  // let this inherit
-	    'letter-spacing': 'normal',
-	    'line-height': 'normal',
-	    'list-style-image': 'none',
-	    'list-style-position': 'outside',
-	    'list-style-type': 'disc',
-	    'orphans': '2',
-	    'pitch-range': '',
-	    'pitch': '',
-	     position: 'relative', // changes the default positioning so that absolute is relative to its parent by default
-	    'quotes': '',
-	    'richness': '',
-	    'speak-header': '',
-	    'speak-numeral': '',
-	    'speak-punctuation': '',
-	    'speak': '',
-	    'speak-rate': '',
-	    'stress': '',
-	    'text-align': 'left',
-	    'text-indent': '0',
-	    'text-transform': 'none',
-	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
-	    'voice-family': '',
-	    'volume': '',
-	    'white-space': 'normal',
-	    'widows': '2',
-	    'word-spacing': 'normal'
-	}
-	
-	
-	
-	// returns index of the passed css classname, or undefined if sheet containing that class isn't found
-	function cssClassSheetIndex(classname) {
-	    var result = undefined
-	
-	    var styleNodes = document.querySelectorAll("style")
-	    for(var n=0; n<styleNodes.length; n++) {
-	        var sheet = styleNodes[n].sheet
-	        jssModule.defaultSheet = sheet
-	
-	        var defaultStyleMaybe = jssModule.get(classname)
-	        if(Object.keys(defaultStyleMaybe).length > 0) {
-	            result = n
-	            break
-	        }
-	    }
-	
-	    jssModule.defaultSheet = undefined
-	    return result
-	}
-	
-	
-	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
-	var jss = jssModule.forDocument(document)
-	
-	var defaultClassSheetIndex = cssClassSheetIndex('.'+Style.defaultClassName)
-	if(defaultClassSheetIndex === undefined) {
-	    defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
-	
-	    jss.defaultSheet = jss._createSheet()
-	
-	    defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
-	
-	    defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
-	        cursor: 'inherit'
-	    })
-	} else {
-	    // if the default styleclass *already* exists, it probably means that blocks.js is being loaded twice
-	    console.log("Warning: the default-styles class name for blocks.js looks like its already in use. This probably means you have two versions of blocks.js loaded. If so, Blocks.js will continue to work, but your app will be a bit bloated. If something other than block.js created that class, blocks.js may break that style.")
-	
-	    var styleNodes = document.querySelectorAll("style")
-	    defaultJss.defaultSheet = styleNodes[defaultClassSheetIndex].sheet
-	    jss.defaultSheet = styleNodes[defaultClassSheetIndex+1].sheet
-	
-	    // make sure the baseClassName isn't already taken
-	    var dedupNumber = 0
-	    while(true) {
-	        var testBaseClassName = baseClassName+dedupNumber
-	        if(cssClassSheetIndex('.'+testBaseClassName+dedupNumber+0) !== undefined) {
-	            dedupNumber++
-	        } else {
-	            break;
-	        }
-	    }
-	
-	    baseClassName = testBaseClassName+dedupNumber
-	}
-	
-	
-	/*private*/ module.exports.isDev; // should be set by Block
-	
-	var computedStyles = module.exports.computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
-	
-
-
-/***/ },
-/* 54 */
-/*!************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Container.js ***!
-  \************************************************************************************************************/
-[107, 52, 44],
-/* 55 */
-/*!*******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Text.js ***!
-  \*******************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! ../Block */ 52)
-	var proto = __webpack_require__(/*! proto */ 44)
-	var Style = __webpack_require__(/*! Style */ 53)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-	    //static properties
-	
-	    this.name = 'Text'
-	
-	    this.defaultStyle = Style({
-	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
-	    })
-	
-	    this.init = function(/*[label,] text*/) {
-	        if(arguments.length === 1) {
-	            var text = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var text = arguments[1]
-	        }
-	
-	        if (text === undefined) text = '';
-	
-	        superclass.init.call(this) // superclass constructor
-	
-	        var that = this
-	
-	        this.label = label
-	        this.text = text
-	
-	        this.on("input",function(data) {
-	            var eventData = {newText:data.srcElement.textContent,oldText:that.oldText};
-	            that.oldText = eventData.newText;
-	            //that.emit("input",eventData);
-	        });
-	
-	        this.on("blur",function(data) {
-	            var eventData = {newText:data.srcElement.textContent,oldText:that.lastFocus};
-	            that.lastFocus = eventData.newText;
-	            //that.emit("blur",eventData);
-	        });
-	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode.textContent
-	        }, set: function(v) {
-	            this.domNode.innerText = v   // apparently textContent can't be set or something
-	        }
-	    })
-	});
-
-
-/***/ },
-/* 56 */
 /*!******************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.js ***!
   \******************************************************************************************************/
@@ -10026,11 +8599,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Url = __webpack_require__(/*! url */ 69)
 	
 	var proto = __webpack_require__(/*! proto */ 71)
-	var Future = __webpack_require__(/*! async-future */ 73)
-	var SourceMapConsumer = __webpack_require__(/*! source-map */ 72).SourceMapConsumer
+	var Future = __webpack_require__(/*! async-future */ 72)
+	var SourceMapConsumer = __webpack_require__(/*! source-map */ 76).SourceMapConsumer
 	
 	var processResults = __webpack_require__(/*! ./processResults */ 66)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 67)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 62)
 	
 	// returns a module intended for a specific environment (that environment being described by the options)
 	// options can contain:
@@ -10931,7 +9504,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 57 */
+/* 52 */
 /*!********************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browserConfig.js ***!
   \********************************************************************************************************************/
@@ -10942,14 +9515,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var path = __webpack_require__(/*! path */ 50);
 	
-	var Future = __webpack_require__(/*! async-future */ 73)
+	var Future = __webpack_require__(/*! async-future */ 72)
 	var proto = __webpack_require__(/*! proto */ 71)
-	var stackinfo = __webpack_require__(/*! stackinfo */ 75)
+	var stackinfo = __webpack_require__(/*! stackinfo */ 73)
 	var ajax = __webpack_require__(/*! ajax */ 74)
-	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 76).resolveSourceMap)
+	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 75).resolveSourceMap)
 	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 56)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 67)
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 51)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 62)
 	
 	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
 	
@@ -11108,6 +9681,1437 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 53 */
+/*!*********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
+  \*********************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 68)
+	var proto = __webpack_require__(/*! proto */ 41);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 45)
+	var observe = __webpack_require__(/*! observe */ 46)
+	
+	var utils = __webpack_require__(/*! ./utils */ 63)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 64)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 65)
+	
+	var Style = __webpack_require__(/*! ./Style */ 54)
+	Style.isDev = function() {return module.exports.dev}
+	
+	var components = {};
+	
+	var setOfBrowserEvents = utils.arrayToMap([
+	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
+	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
+	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
+	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
+	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
+	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
+	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
+	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
+	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
+	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
+	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
+	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
+	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
+	])
+	
+	// events:
+	    // newParent - emits this when a component gets a new parent
+	    // parentRemoved - emits this when a component is detached from its parent
+	var Block = module.exports = proto(EventEmitterB,function(superclass) {
+	
+	    // static properties
+	
+	    // constructor
+		this.init = function() {
+	        var that = this
+	
+	        if(this.name === undefined) {
+	            throw new Error("The 'name' property is required for Blocks")
+	        }
+	
+	        var defaultBlockStyle = blockStyleUtils.defaultStyleMap.get(this.constructor)
+	        if(defaultBlockStyle === undefined) {
+	            defaultBlockStyle = blockStyleUtils.createDefaultBlockStyle(this)
+	        }
+	
+	        superclass.init.call(this)
+	
+	        this.children = []
+	        this.state = observe({})
+	        this.parent = undefined;
+	
+			if (this.id !== undefined) {
+				components[this.id] = this;
+			}
+	
+	        if(this.domNode === undefined) {
+	            this.domNode = domUtils.div()
+	        }
+	
+	        this.build.apply(this, arguments)
+	
+	        //if(module.exports.dev) {
+	            this.attr('blkName', this.name)
+	        //}
+	
+	        var classList = [this.domNode.className]
+	        if(defaultBlockStyle !== false) classList.push(defaultBlockStyle.className)
+	        classList.push(Style.defaultClassName)
+	        this.domNode.className = classList.join(' ') // note that the order of classes doesn't matter
+	
+	        // set up dom event handlers
+	        var ifonHandlers={}
+	        that.ifon(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        that.ifoff(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.removeEventListener(event,ifonHandlers[event])
+	            }
+	        })
+		}
+	
+	    // sub-constructor - called by the constructor
+	    // parameters:
+	        // label - (Optional) A label that can be used to style a component differently.
+	                   // Intended to be some string describing what the component is being used for.
+	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
+	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
+	    this.build = function(/*[label,] domNode*/) {
+	        if(arguments.length === 1) {
+	            this.domNode = arguments[0]
+	        } else if(arguments.length >= 2) {
+	            this.label = arguments[0]
+	            this.domNode = arguments[1]
+	        }
+	    }
+		
+	
+		// instance properties
+	
+		
+		this.domNode;
+	    this.label;
+	    this.excludeDomEvents;
+	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
+	
+	
+	    Object.defineProperty(this, 'label', {
+	        get: function() {
+	            return this._label
+	        }, set: function(v) {
+	            if(this._label === undefined) {
+	                this._label = v
+	
+	                if(module.exports.dev) {
+	                    this.attr('label', this._label)
+	                }
+	            } else {
+	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
+	            }
+	        }
+	    })
+	
+	    // adds elements to the components main domNode
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.add = function() {
+	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
+		}
+	
+	    // adds nodes at a particular index
+	    // nodes can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addAt = function(index/*, nodes...*/) {
+	        var nodes = normalizeAddAtArguments.apply(this, arguments)
+	
+	        for (var i=0;i<nodes.length;i++) {
+				var node = nodes[i];
+	            this.children.splice(index+i, 0, node)
+	
+	            if(!isBlock(node)) {
+	                throw new Error("node is not a Block")
+	            }
+	
+	            node.parent = undefined
+	            node.emit('parentRemoved')
+	
+	            var beforeChild = this.children[1+i+index]
+	            if(beforeChild === undefined) {
+	                this.domNode.appendChild(node.domNode)
+	            } else {
+	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
+	            }
+	
+	            node.parent = this;
+	            node.emit('newParent')
+	
+	            // apply styles
+	            //if(itsaBlock) { // its always a component now
+	                var that = this
+	                node.getParentStyleMap = function() {return that.computedStyleMap}
+	                blockStyleUtils.propogateStyleSet([node], this.computedStyleMap)
+	            //}
+			}
+	    }
+	
+		// add a list of nodes before a particular node
+	    // if beforeChild is undefined, this will append the given nodes
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addBefore = this.addBeforeNode = function(beforeChild) {
+	        var nodes = trimArguments(arguments).slice(1)
+	        if(beforeChild === undefined) {
+	            this.add.apply(this, nodes)
+	        } else {
+	            var index = this.children.indexOf(beforeChild)
+	            this.addAt.apply(this, [index].concat(nodes))
+	        }
+	    }
+	
+	
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // index, index, index, ... - each index is the numerical index to remove
+	        // arrayOfComponents
+	        // arrayOfIndexes
+	    this.remove = function() {
+	        var removals = normalizeRemoveArguments.apply(this, arguments)
+	        removals = removals.sort(function(a,b) {
+	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
+	        })
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	            var c = this.children[r]
+	
+	            if(c === undefined) {
+	                throw new Error("There is no child at index "+r)
+	            }
+	
+	            c.parent = undefined
+	            this.children.splice(r, 1)
+	            this.domNode.removeChild(this.domNode.childNodes[r])
+	
+	            c.emit('parentRemoved')
+	        }
+	    }
+	
+	    // sets or gets an attribute on the components domNode
+	    // parameter sets:
+	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
+	    // if there are two arguments passed, the attribute is set
+	        // if 'value' is undefined, the attribute is removed
+	    this.attr = function(/*attribute, value OR attributeObject*/) {
+	        if(arguments.length === 1) {
+	            if(arguments[0] instanceof Object) {
+	                var attributes = arguments[0]
+	                for(var attribute in attributes) {
+	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
+	                }
+	            } else {
+	                var attribute = this.domNode.getAttribute(arguments[0])
+	                if(attribute === null) {
+	                    return undefined // screw null
+	                } else {
+	                    return attribute
+	                }
+	            }
+	        } else {
+	            var attribute = arguments[0]
+	            if(arguments[1] !== undefined) {
+	                var value = arguments[1]
+	                domUtils.setAttribute(this.domNode, arguments[0], value)
+	            } else {
+	                this.domNode.removeAttribute(attribute)
+	            }
+	        }
+	    }
+	
+	    Object.defineProperty(this, 'visible', {
+	        // returns true if the element is visible
+	        get: function() {
+	            return this.domNode.style.display !== 'none';
+	
+	        // sets whether or not the element is visible
+	        }, set: function(setToVisible) {
+	            if(setToVisible) {
+	                if (this._displayStyle !== undefined) {
+	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
+	                    this._displayStyle = undefined
+	                } else {
+	                    this.domNode.style.display = ''
+	                }
+	            } else {
+	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
+	                    this._displayStyle = this.domNode.style.display
+	                }
+	
+	                this.domNode.style.display = 'none'
+	            }
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'focus', {
+	        // returns true if the element is in focus
+	        get: function() {
+	            return document.activeElement === this.domNode
+	
+	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
+	        }, set: function(setToInFocus) {
+	            if(setToInFocus) {
+	                this.domNode.focus()
+	            } else {
+	                this.domNode.blur()
+	            }
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'style', {
+	        get: function() {
+	            return this._style
+	
+	        // sets the style, replacing one if one already exists
+	        }, set: function(styleObject) {
+	            if(styleObject === undefined) {
+	                var styleMap = this.getParentStyleMap()
+	                if(styleMap !== undefined) {
+	                    blockStyleUtils.setCurrentStyle(this, blockStyleUtils.getStyleForComponent(styleMap, this))
+	                } else {
+	                    blockStyleUtils.setCurrentStyle(this, undefined)
+	                }
+	
+	                this.computedStyleMap = styleMap
+	
+	            } else {
+	                blockStyleUtils.setCurrentStyle(this, styleObject)
+	                var specificStyle = styleObject.get(this)
+	                if(this.getParentStyleMap() !== undefined) {
+	                    this.computedStyleMap = blockStyleUtils.styleMapConjunction(this.getParentStyleMap(), specificStyle.componentStyleMap)
+	                } else {
+	                    this.computedStyleMap = specificStyle.componentStyleMap
+	                }
+	            }
+	
+	            this._style = styleObject
+	            blockStyleUtils.propogateStyleSet(this.children, this.computedStyleMap) // propogate styles to children
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'selectionRange', {
+	        // returns the visible character selection range inside the element
+	        // returns an array like [offsetStart, offsetEnd]
+	        get: function() {
+	            return domUtils.getSelectionRange(this.domNode)
+	
+	        // sets the visible character selection range
+	        }, set: function(selection) {
+	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
+	        }
+	    })
+	
+	    this.attach = function() {
+	        attach(this)
+	    }
+	    this.detach = function() {
+	        detach(this)
+	    }
+	
+	
+		// private instance variables/functions
+	
+	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
+	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
+	
+		this._style;              // the object's explicit Style object (undefined if it inherits a style)
+	    this.currentStyle;       // the object's current Style (inherited or explicit)
+	    this._displayStyle;      // temporariliy stores an inline display style while the element is hidden (for use when 'show' is called)
+	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
+	});
+	
+	
+	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
+	
+	
+	// appends components to the body
+	var attach = module.exports.attach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
+	    }
+	
+	    if(document.body === null) throw new Error("Your document does not have a body.")
+	
+	    for(var n=0; n<components.length; n++) {
+	        document.body.appendChild(components[n].domNode)
+	    }
+	}
+	// removes components from the body
+	var detach = module.exports.detach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        document.body.removeChild(components[n].domNode)
+	    }
+	}
+	
+	// creates a body tag (only call this if document.body is null)
+	
+	module.exports.createBody = function(callback) {
+	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+	    var body = dom.createElement("body")
+	    dom.documentElement.appendChild(body)
+	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
+	        callback()
+	    },0)
+	}
+	
+	
+	
+	
+	// returns a list of indexes to remove from Block.remove's arguments
+	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
+	    var that = this
+	
+	    if(arguments[0] instanceof Array) {
+	        var removals = arguments[0]
+	    } else {
+	        var removals = Array.prototype.slice.call(arguments)
+	    }
+	
+	    return removals.map(function(removal, parameterIndex) {
+	        if(isBlock(removal)) {
+	            var index = that.children.indexOf(removal)
+	            if(index === -1) {
+	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
+	            }
+	            return index
+	        } else {
+	            return removal
+	        }
+	
+	    })
+	}
+	
+	// returns a list of nodes to add
+	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
+	    if(arguments.length === 2) {
+	        if(arguments[1] instanceof Array) {
+	            return arguments[1]
+	        } else {
+	            return [arguments[1]]
+	        }
+	    } else { // > 2
+	        return trimArguments(arguments).slice(1)
+	    }
+	}
+	
+	function isBlock(c) {
+	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
+	}
+	function isDomNode(node) {
+	    return node.nodeName !== undefined
+	}
+
+/***/ },
+/* 54 */
+/*!*********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Style.js ***!
+  \*********************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var jssModule = __webpack_require__(/*! ../external/jss */ 67)
+	var proto = __webpack_require__(/*! proto */ 41)
+	var HashMap = __webpack_require__(/*! hashmap */ 47)
+	
+	var utils = __webpack_require__(/*! ./utils */ 63)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 65)
+	
+	var baseClassName = '_ComponentStyle_' // the base name for generated class names
+	var nextClassNumber = 0
+	
+	// creates a style object
+	var Style = module.exports = proto(function() {
+	
+	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
+	
+	    // styleDefinition is an object where key-value pairs can be any of the following:
+	    // <cssPropertyName>: the value should be a valid css value for that style attribute
+	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
+	    // $setup: the value is a function to be run on a component when the style is applied to it
+	    // $kill: the value is a function to be run on a component when a style is removed from it
+	    // $state: the value should be a state handler function
+	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
+	    this.init = function(styleDefinition, privateOptions) {
+	        if(privateOptions === undefined) privateOptions = {}
+	        if(privateOptions.inLabel===undefined) inLabel = false
+	
+	        this.className = baseClassName+nextClassNumber
+	        nextClassNumber++
+	
+	        this.componentStyleMap = {}
+	        this.labelStyleMap = {}
+	
+	        var labelStyles = {}
+	        var pseudoClassStyles = {}
+	        var cssProperties = {}
+	        for(var key in styleDefinition) {
+	            var value = styleDefinition[key]
+	
+	            if(key === '$setup') {
+	                if(!(value instanceof Function)) throw new Error("$setup key must be a function ('setup' can't be used as a label)")
+	                this.setup = value
+	
+	            } else if(key === '$kill') {
+	                if(!(value instanceof Function)) throw new Error("$kill key must be a function ('kill' can't be used as a label)")
+	                this.kill = value
+	
+	            } else if(key === '$state') {
+	                if(!(value instanceof Function)) throw new Error("$state key must be a function ('$state' can't be used as a label)")
+	                this.stateHandler = value
+	
+	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
+	                var pseudoClass = mapCamelCase(key.substr(2))
+	                if(pseudoClass === '') {
+	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
+	                }
+	
+	                utils.merge(pseudoClassStyles, flattenPseudoClassStyles(pseudoClass, value))
+	
+	            } else if(key.indexOf('$') === 0) {   // label style
+	                if(privateOptions.inLabel)
+	                    throw new Error("Can't create nested label style "+key+" because components can only have one label")
+	
+	                var label = key.substr(1)
+	                if(label === '') {
+	                    throw new Error("Empty label name not valid (style key '$')")
+	                }
+	
+	                labelStyles[label] = value
+	
+	            } else if(isStyleObject(value)) {
+	                this.componentStyleMap[key] = value
+	
+	            } else if(value instanceof Object) {
+	                this.componentStyleMap[key] = Style(value)  // turn the object description into a full fledged style object
+	            } else {
+	                var cssStyle = key
+	                var cssStyleName = mapCamelCase(cssStyle)
+	                cssProperties[cssStyleName] = cssValue(cssStyleName, value)
+	            }
+	        }
+	
+	        // create the css class
+	        if(privateOptions.default) {
+	            var jssSheet = defaultJss
+	        } else {
+	            var jssSheet = jss
+	        }
+	
+	        jssSheet.set('.'+this.className, cssProperties)
+	
+	        //if(module.exports.isDev) {
+	            this.styleDefinitions = {}
+	            this.styleDefinitions['.'+this.className] = cssProperties
+	        //}
+	
+	        // create label styles
+	        if(Object.keys(labelStyles).length > 0) {
+	            var baseStyle = utils.merge({}, cssProperties, this.componentStyleMap)
+	
+	            for(var label in labelStyles) {
+	                if(isStyleObject(labelStyles[label])) {
+	                    this.labelStyleMap[label] = labelStyles[label]
+	                } else {
+	                    var mergedStyle = utils.merge({}, baseStyle, labelStyles[label])
+	                    this.labelStyleMap[label] = Style(mergedStyle, {inLabel:true})
+	                }
+	            }
+	        }
+	
+	        // create pseudoclass styles
+	        if(Object.keys(pseudoClassStyles).length > 0) {
+	
+	            var tieredPseudoClasses = createTieredPseudoClasses(this, pseudoClassStyles)
+	            pseudoclassCombinations(tieredPseudoClasses) // mutates tieredPseudoClasses
+	
+	            // turn the emulatable pseudo classes into Style objects
+	            // also build up the set of psuedoclasses that will be emulated
+	            // also build up a map of pseudoclasses-to-emulate to the emulation functions for those pseudoclasses
+	            var pseudoClasesToEmulate = []
+	            var preSplitPseudoClasses = [] // a list where each element looks like: [pseudoClassList, styleObject]  (this is primarily for performance - so we don't have to split the key every time we check for state changes)
+	            var pseudoClassesToEmulationInfo = {}
+	            for(var key in tieredPseudoClasses) {
+	                if(isStyleObject(tieredPseudoClasses[key])) {
+	                    tieredPseudoClasses[key] = tieredPseudoClasses[key]
+	                } else {
+	                    var newStyle = Style(utils.merge({}, cssProperties, tieredPseudoClasses[key])) // pseudoClassStyles merged with parent css styles
+	
+	                    // merge in componentStyleMap and labelStyleMap
+	                    for(var k in this.componentStyleMap) {
+	                        if(newStyle.componentStyleMap[k] === undefined)
+	                            newStyle.componentStyleMap[k] = this.componentStyleMap[k]
+	                    }
+	                    for(var k in this.labelStyleMap) {
+	                        if(newStyle.labelStyleMap[k] === undefined)
+	                            newStyle.labelStyleMap[k] = this.labelStyleMap[k]
+	                    }
+	
+	                    tieredPseudoClasses[key] = newStyle
+	                }
+	
+	
+	                var pseudoClassList = key.split(":")
+	                for(var n=0; n<pseudoClassList.length; n++) {
+	                    var pseudoClass = pseudoClassList[n]
+	                    if(pseudoClasesToEmulate.indexOf(pseudoClass) === -1) {
+	                        pseudoClasesToEmulate.push(pseudoClass)
+	
+	                        var pseudoClassParts = getPseudoClassParts(pseudoClass)
+	                        var fns = emulatedPseudoClasses[pseudoClassParts.class]
+	                        var info = {fns: fns}
+	                        if(fns.processParameter !== undefined) {
+	                            info.parameter = fns.processParameter(pseudoClassParts.parameter)
+	                        }
+	                        pseudoClassesToEmulationInfo[pseudoClass] = info
+	                    }
+	                }
+	
+	                preSplitPseudoClasses.push([pseudoClassList, tieredPseudoClasses[key]])
+	            }
+	
+	            // create functions that initialize and keep track of state
+	            var initializeState = function(component) {
+	                var state = {}
+	                for(var n=0; n<pseudoClasesToEmulate.length; n++) {
+	                    var pseudoClass = pseudoClasesToEmulate[n]
+	                    var pseudoClassEmulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
+	                    state[pseudoClass] = pseudoClassEmulationInfo.fns.check(component, pseudoClassEmulationInfo.parameter)
+	                }
+	
+	                return state
+	            }
+	
+	            var that = this
+	            var changeStyleIfNecessary = function(currentStyle, component, state) {
+	                var longestMatchingLength = 0;
+	                var mostSpecificMatchingStyle = that; // if nothing else matches, change back to the base style object
+	                for(var n=0; n<preSplitPseudoClasses.length; n++) {
+	                    var pseudoClassList = preSplitPseudoClasses[n][0]
+	                    for(var j=0; j<pseudoClassList.length; j++) {
+	                        if(!state[pseudoClassList[j]]) {
+	                            break;
+	                        }
+	                    }
+	
+	                    if(j === pseudoClassList.length && j > longestMatchingLength) {
+	                        longestMatchingLength = j
+	                        mostSpecificMatchingStyle = preSplitPseudoClasses[n][1]
+	                    }
+	                }
+	
+	                if(mostSpecificMatchingStyle !== currentStyle) {
+	                    component.style = mostSpecificMatchingStyle
+	
+	                    //blockStyleUtils.setCurrentStyle(component, mostSpecificMatchingStyle)
+	                    //blockStyleUtils.propogateStyleSet(component.children, component.computedStyleMap) // propogate styles to children
+	                }
+	            }
+	
+	            // setup pseudoclass emulation with $setup and $kill handlers
+	
+	            var wrapSetupAndKill = function(style) {
+	                var originalSetup = style.setup
+	                style.setup = function(component) {
+	                    var that = this
+	
+	                    this._styleSetupStates = {} // maps pseudoClass to setupState
+	                    var state = initializeState(component)
+	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
+	                        ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
+	                            that._styleSetupStates[pseudoClass] = emulationInfo.fns.setup(component, function() { // start
+	                                state[pseudoClass] = true
+	                                changeStyleIfNecessary(that, component, state)
+	                            }, function() { // end
+	                                state[pseudoClass] = false
+	                                changeStyleIfNecessary(that, component, state)
+	                            }, emulationInfo.parameter)
+	
+	                        })(pseudoClass, pseudoClassesToEmulationInfo[pseudoClass])
+	                    }
+	
+	                    changeStyleIfNecessary(that, component, state)
+	
+	                    if(originalSetup !== undefined) {
+	                        originalSetup.apply(this, arguments)
+	                    }
+	                }
+	
+	                var originalKill = style.kill
+	                style.kill = function(component) {
+	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
+	                        var emulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
+	                        emulationInfo.fns.kill(component, this._styleSetupStates[pseudoClass])
+	                    }
+	
+	                    if(originalKill !== undefined) {
+	                        originalKill.apply(this, arguments)
+	                    }
+	                }
+	            }
+	
+	            // wrap all the setup and kill functions
+	
+	            for(var key in tieredPseudoClasses) {
+	                var style = tieredPseudoClasses[key]
+	                wrapSetupAndKill(style)
+	            }
+	
+	            wrapSetupAndKill(this)
+	        }
+	    }
+	
+	    // instance properties
+	
+	    this.className          // the css classname for this style
+	    this.componentStyleMap; // maps a Component name to a Style object for that component
+	    this.labelStyleMap;     // maps a label name to a Style object for that label
+	    this.setup;             // run some javascript on any element this class is applied to
+	    this.kill;              // a function to run on removal of the style (should reverse setup)
+	
+	    // gets the style object for a component based on the current style object (takes into account whether the component has a label
+	    this.get = function(component) {
+	        if(component.label !== undefined) {
+	            var labelStyle = this.labelStyleMap[component.label]
+	            if(labelStyle !==  undefined) {
+	                return labelStyle
+	            }
+	        }
+	        // else
+	        return this
+	    }
+	})
+	
+	
+	// private
+	
+	
+	// returns a two-level map where the top-level keys are emulatable psuedo classes, and non-emulatable pseudo classes are at the second level
+	// the classes will also be sorted and deduped
+	// Example return value: {"hover:lastChild": {color:'red', "$$visited:disabled": {fontWeight: 'bold'}}, }
+	// parameters:
+	    // style - the style object being created
+	    // pseudoClassStyles - a flat object where each key is a list of pseudoclasses separated by colons (e.g. "hover" or "hover:focus") and the value is an object of styles that don't contain pseudoclasses
+	function createTieredPseudoClasses(style, pseudoClassStyles) {
+	    var tieredPseudoClasses = {} // the two-level map
+	    for(var key in pseudoClassStyles) {
+	        var value = pseudoClassStyles[key]
+	
+	        // split key into pseudoclass list
+	        var pseudoClassList = key.split(":")
+	        var emulatablePseudoClasses = []
+	        var nonEmulatablePseudoClasses = []
+	        for(var n in pseudoClassList) {
+	            var pseudoClass = pseudoClassList[n]
+	            var pseudoClassParts = getPseudoClassParts(pseudoClass)
+	            if(pseudoClassParts.class in emulatedPseudoClasses) {
+	                emulatablePseudoClasses.push(pseudoClass)
+	            } else {
+	                nonEmulatablePseudoClasses.push(pseudoClass)
+	            }
+	        }
+	
+	        // todo: add a third branch as an optimization: if the Style can be rendered without emulation - do that
+	        if(emulatablePseudoClasses.length === 0) { // if none of the pseudoclasses can be emulated using javascript
+	            validatePurePseudoClassStyles(key, value)                        // then validate the value and
+	            createPseudoClassRules(style, key, '.'+style.className+":"+key, value)   // create pseudoClassRules
+	
+	        } else { // if some of the pseudoclasses can be emulated using javascript
+	
+	            emulatablePseudoClasses.sort()
+	            var emulatablePseudoClassKey = emulatablePseudoClasses.join(':')
+	            if(tieredPseudoClasses[emulatablePseudoClassKey] === undefined)
+	                tieredPseudoClasses[emulatablePseudoClassKey] = {}
+	
+	            if(nonEmulatablePseudoClasses.length === 0) {
+	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], value)
+	            } else {
+	                nonEmulatablePseudoClasses.sort()
+	                var nonEmulatablePsuedoClassKey = nonEmulatablePseudoClasses.join(':')
+	
+	                var secondTier = {}
+	                secondTier['$$'+nonEmulatablePsuedoClassKey] = value
+	
+	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], secondTier)
+	            }
+	        }
+	    }
+	
+	    return tieredPseudoClasses
+	}
+	
+	
+	
+	// make combinations of the emulatable pseudoclasses, so that they combine like the non-emulated ones do
+	// info about mathematical combination: https://en.wikipedia.org/wiki/Combination
+	// mutates tieredPseudoClasses
+	function pseudoclassCombinations(tieredPseudoClasses) {
+	    var tieredPseudoClassesKeys = Object.keys(tieredPseudoClasses).reverse().map(function(v) {    // reverse first so that more specific pseudoclasses go first
+	        return {key: v, parts: v.split(':')} // so it doesn't have to split every time
+	    })
+	
+	    for(var n=0; n<tieredPseudoClassesKeys.length; n++) {
+	        var keyA = tieredPseudoClassesKeys[n]
+	        for(var k=2; k <= tieredPseudoClassesKeys.length; k++) { // k is the number of psuedoclasses to combine
+	            for(var j=n+1; j<tieredPseudoClassesKeys.length-(k-2); j++) {
+	                var result = combinePseudoclasses(tieredPseudoClasses, [keyA].concat(tieredPseudoClassesKeys.slice(j, k)))
+	                if(result.key in tieredPseudoClasses) {
+	                    utils.merge(tieredPseudoClasses[result.key], result.value)
+	                } else { // new key
+	                    tieredPseudoClasses[result.key] = result.value
+	                }
+	            }
+	        }
+	    }
+	}
+	
+	
+	
+	// keys is a list of objects where each object has the members:
+	    // key - the original string key
+	    // parts - the key split by ":"
+	// returns an object with the following members:
+	    // key - the new combined key
+	    // value - the new merged value
+	var combinePseudoclasses = function(pseudoclasses, keys) {
+	    var resultKeyParts = keys[0].parts
+	    var resultValue = utils.merge({}, pseudoclasses[keys[0].key]) // make a copy
+	    for(var n=1; n<keys.length; n++) {
+	        var key = keys[n]
+	        // merge all psuedoclasses that don't already exist into the resultKey
+	        for(var j=0; j<key.parts.length; j++) {
+	            var part = key.parts[j]
+	            if(resultKeyParts.indexOf(part) === -1) {
+	                resultKeyParts.push(part)
+	            }
+	        }
+	
+	        // merge the value into resultValue
+	        utils.merge(resultValue, pseudoclasses[key.key])
+	    }
+	
+	    return {key: resultKeyParts.join(':'), value: resultValue}
+	}
+	
+	// a map of pseudoclass names and how they are emulated with javascript
+	// each pseudoclass sets up the following functions:
+	    // check - a function that checks if that pseudoclass currently applies to the component when its called
+	    // setup - calls a callback when the pseudoClass starts and stops applying
+	        // should return an object that will be passed to the kill function (as its 'state' parameter)
+	    // kill - cleans up anything set up in the 'setup' function
+	    // processParameter - takes the pseudoclass parameter and returns some object representing it that will be used by the setup and check functions
+	var emulatedPseudoClasses = {
+	    hover: {
+	        check: function(component) {
+	            var nodes = document.querySelectorAll( ":hover" )
+	            for(var n=0; n<nodes.length; n++) {
+	                if(nodes[n] === component.domNode) {
+	                    return true
+	                }
+	            }
+	            return false
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            component.on("mouseover", function() {
+	                startCallback()
+	            })
+	            component.on("mouseout", endCallback)
+	
+	            return {start: startCallback, end: endCallback}
+	        },
+	        kill: function(component, state) {
+	            component.off("mouseover", state.start)
+	            component.off("mouseout", state.end)
+	        }
+	    },
+	    checked: {
+	        check: function(component) {
+	            return component.selected
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var setupState = {}
+	            component.on("change", setupState.listener = function() {
+	                if(component.selected) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            return setupState
+	        },
+	        kill: function(component, state) {
+	            component.removeListener("change", state.listener)
+	        }
+	    },
+	    required: {
+	        check: function(component) {
+	            return component.attr('required') !== undefined
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var observer = new MutationObserver(function() {
+	                if(component.attr('required') !== undefined) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            observer.observe(component.domNode, {attributes: true})
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        }
+	    },
+	    'last-child': {
+	        check: function(component) {
+	            return nthLastChildCheck(component, '1')
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var observer = new MutationObserver(function() {
+	                if(nthLastChildCheck(component, '1')) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            var setupObserver = function() {
+	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
+	                observer.observe(component.parent.domNode, {childList: true})
+	            }
+	
+	            if(component.parent !== undefined) {
+	                setupObserver()
+	            }
+	
+	            component.on('newParent', function() {
+	                setupObserver()
+	            })
+	            component.on('parentRemoved', function() {
+	                observer.disconnect()
+	            })
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        }
+	    },
+	    'nth-child': {
+	        // todo: support full an+b parameters for nth-child https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
+	        check: function(component, parameterCheck) {
+	            return nthChildCheck(component, parameterCheck)
+	        },
+	        setup: function(component, startCallback, endCallback, parameterCheck) {
+	
+	            var checkAndCallCallbacks = function() {
+	                if(nthChildCheck(component, parameterCheck)) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            }
+	
+	            var observer = new MutationObserver(function() {
+	                checkAndCallCallbacks()
+	            })
+	
+	            var setupObserver = function() {
+	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
+	                observer.observe(component.parent.domNode, {childList: true})
+	            }
+	
+	            if(component.parent !== undefined) {
+	                setupObserver()
+	            }
+	
+	            component.on('newParent', function() {
+	                setupObserver()
+	                checkAndCallCallbacks()
+	            })
+	            component.on('parentRemoved', function() {
+	                observer.disconnect()
+	                checkAndCallCallbacks()
+	            })
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        },
+	        processParameter: function(parameter) {
+	            return nthChildParameterFn(parameter)
+	        }
+	    },
+	
+	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
+	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
+	    /*not: {
+	        check: function() {
+	
+	        },
+	    }*/
+	}
+	
+	// name is the name of the new pseudoclass
+	// fns is an object with the members:
+	    // check(component) - returns true if the pseudoclass applies to the component
+	    // setup(component, startCallback, endCallback, parameter) - a function that should call startCallback when the pseudoclass starts applying, and endCallback when it stops applying
+	        // parameter - the parameter passed to the pseudoclass (e.g. in :not(:first-child), ":first-child" is the parameter)
+	    // kill - a function that cleans up any event listeners or anything else set up in the 'setup' function
+	module.exports.addPseudoClass = function(name, fns) {
+	    if(emulatedPseudoClasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
+	    // else
+	    emulatedPseudoClasses[name] = fns
+	}
+	
+	
+	function nthChildCheck(component, testFn) {
+	    if(component.domNode.parentNode === null)
+	        return false
+	
+	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
+	    var index = Array.prototype.indexOf.call(children, component.domNode)
+	    return testFn(index)
+	}
+	
+	function nthLastChildCheck(component, parameter) {
+	    if(component.domNode.parentNode === null)
+	        return false
+	
+	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
+	    var index = children.length - parseInt(parameter)
+	    return children[index] === component.domNode
+	}
+	
+	// returns a function that takes an index and tell you if that index applies to the nthChildParameter
+	var nthChildParameter = /^(((-?\d*)(([+-]\d*)n?)?)|((-?\d)*n?([+-]\d*)?))$/
+	function nthChildParameterFn(parameter) {
+	    var parts = parameter.match(nthChildParameter)
+	    if(parts === null)
+	        throw new Error("nth-child parameter '"+parameter+"' isn't valid")
+	
+	    if(parts[2] !== undefined) {
+	        var constant = parts[3]
+	        var variable = parts[5]
+	    } else {
+	        var constant = parts[8]
+	        var variable = parts[7]
+	    }
+	
+	    if(constant === undefined) constant = 0
+	    else                       constant = parseInt(constant)
+	    if(variable === undefined) variable = 0
+	    else                       variable = parseInt(variable)
+	
+	    if(variable === 0) {
+	        return function(index) {
+	            return index+1 === constant
+	        }
+	    } else {
+	        return function(index) {
+	            return ((index+1-constant)/variable) % 1 === 0
+	        }
+	    }
+	
+	}
+	
+	// maps a style value to a css value
+	// style values that are numbers are mapped to strings, usually with px postfix
+	function cssValue(cssStyleName, value) {
+	    // If a number was passed in, add 'px' to the (except for certain CSS properties) [also taken from jquery's code]
+	    if(typeof(value) === "number" && cssNumber[cssStyleName] === undefined) {
+	        return value+"px"
+	    } else {
+	        return value.toString()
+	    }
+	}
+	
+	function createPseudoClassRules(that, pseudoClass, selector, pseudoClassStyle) {
+	
+	    var pseudoClassCss = {}
+	    for(var key in pseudoClassStyle) {
+	        var value = pseudoClassStyle[key]
+	
+	        if(!(value instanceof Object)) {
+	            var cssStyle = key
+	            var cssStyleName = mapCamelCase(cssStyle)
+	            pseudoClassCss[cssStyleName] = cssValue(cssStyleName, value)
+	        } else {
+	            throw new Error("All properties within the pseudoclasses '"+pseudoClass+"' must be css styles")
+	        }
+	    }
+	
+	    // create immediate pseudo class style
+	    defaultJss.set(selector, pseudoClassCss) // create the css class with the pseudoClass
+	
+	    //if(module.exports.isDev) {
+	        that.styleDefinitions = {}
+	        that.styleDefinitions[selector] = pseudoClassCss
+	    //}
+	}
+	
+	// throws exceptions for various style configurations that are unsupported by pure pseudo classes (ones that can't be emulated usuing javascript)
+	function validatePurePseudoClassStyles(pseudoClass, pseudoClassStyles) {
+	    for(var key in pseudoClassStyles) {
+	        var value = pseudoClassStyles[key]
+	
+	        if(isStyleObject(value)) {
+	            throw new Error("Can't set the pseudoclasses '"+pseudoClass+"' to a Style object")
+	        } else if(key === '$setup') {
+	            throw new Error("$setup can't be used within the pseudoclasses '"+pseudoClass+"'")
+	        } else if(key === '$kill') {
+	            throw new Error("$kill can't be used within the pseudoclasses '"+pseudoClass+"'")
+	        } else if(key.indexOf('$') === 0) {   // label style
+	            throw new Error("Block labels can't be used within the pseudoclasses '"+pseudoClass+"'")
+	        }
+	    }
+	}
+	
+	// e.g. pulls out 'nth-child' and '2+3n' from 'nth-child(2+3n)'
+	var pseudoClassRegex = /^([^(]*)(\((.*)\))?$/
+	function getPseudoClassParts(fullPsuedoClass) {
+	    var x = fullPsuedoClass.match(pseudoClassRegex)
+	    if(x === null) throw new Error("Pseudoclass '"+fullPsuedoClass+"' is invalid")
+	    return {class: x[1], parameter: x[3]}
+	}
+	
+	
+	// takes in a list of pseudoClassRules and changes any nesting like {hover: {focus: {}}} into something like {hover: {}, "hover:focus": {}}
+	// also does some validation
+	function flattenPseudoClassStyles(pseudoClass, pseudoClassStyle) {
+	    var nonPseudoClassStyles = {}
+	    var subpseudoClasses = {}
+	    for(var key in pseudoClassStyle) {
+	        var value = pseudoClassStyle[key]
+	
+	        if(key.indexOf('$$') === 0) { // pseudo-class style
+	            var subPseudoClass = key.substr(2)
+	            if(subPseudoClass === '') {
+	                throw new Error("Empty pseudo-class name not valid (style key '$$')")
+	            }
+	
+	            subpseudoClasses[subPseudoClass] = value
+	        } else {
+	            nonPseudoClassStyles[key] = value
+	        }
+	    }
+	
+	    // create flattened styles (with merged in styles from its parent pseudoclass
+	    var flattenedStyles = {}
+	    for(var subPseudoClass in subpseudoClasses) {
+	        var value = subpseudoClasses[subPseudoClass]
+	
+	        if(isStyleObject(value)) {
+	            flattenedStyles[pseudoClass+":"+subPseudoClass] =  value
+	        } else {
+	            utils.merge(flattenedStyles, flattenPseudoClassStyles(pseudoClass+":"+subPseudoClass, utils.merge({}, nonPseudoClassStyles, value)))
+	        }
+	    }
+	
+	    // write the top-level pseudoClass
+	    flattenedStyles[pseudoClass] = nonPseudoClassStyles
+	
+	    return flattenedStyles
+	}
+	
+	
+	// taken from jquery's code
+	var cssNumber = {
+	    "column-count": 1,
+	    "fill-opacity": 1,
+	    "flex-grow": 1,
+	    "flex-shrink": 1,
+	    "font-weight": 1,
+	    "line-height": 1,
+	    "opacity": 1,
+	    "order": 1,
+	    "orphans": 1,
+	    "widows": 1,
+	    "z-index": 1,
+	    "zoom": 1
+	}
+	
+	function isStyleObject(o) {
+	    return o.componentStyleMap !== undefined
+	}
+	
+	
+	var asciiA = 'A'.charCodeAt(0), asciiZ = 'Z'.charCodeAt(0), difference = 'a'.charCodeAt(0) - asciiA
+	function mapCamelCase(cssStyleName) {
+	    for(var n=0; n<cssStyleName.length; n++) {
+	        var ascii = cssStyleName.charCodeAt(n)
+	        if(asciiA <= ascii && ascii <= asciiZ) { // found capital letter
+	            cssStyleName = cssStyleName.slice(0, n) + '-'+String.fromCharCode(ascii+difference) + cssStyleName.slice(n+1)
+	            n++ // increment a second time for the dash
+	        }
+	    }
+	
+	    return cssStyleName
+	}
+	
+	// maps all the styles that are inherited by descendant nodes to their default values
+	// source: http://stackoverflow.com/questions/5612302/which-css-styles-are-inherited
+	var defaultStyleValues = {
+	    'azimuth': 'center',
+	    'border-collapse': 'separate',
+	    'border-spacing': '0',
+	    'caption-side': 'top',
+	    //'color': 'black',         // let this inherit
+	    //'cursor': 'auto',         // let this one inherit - its weird otherwise
+	    'direction': 'ltr',
+	     display: 'inline-block', // changes the default display to inline-block
+	    'elevation': '',
+	    'empty-cells': 'show',
+	    // 'font-family': '',       // let this inherit
+	    // 'font-size': 'medium',   // let this inherit
+	    //'font-style': 'normal',   // let this inherit
+	    //'font-variant': 'normal', // let this inherit
+	    //'font-weight': 'normal',  // let this inherit
+	    'letter-spacing': 'normal',
+	    'line-height': 'normal',
+	    'list-style-image': 'none',
+	    'list-style-position': 'outside',
+	    'list-style-type': 'disc',
+	    'orphans': '2',
+	    'pitch-range': '',
+	    'pitch': '',
+	     position: 'relative', // changes the default positioning so that absolute is relative to its parent by default
+	    'quotes': '',
+	    'richness': '',
+	    'speak-header': '',
+	    'speak-numeral': '',
+	    'speak-punctuation': '',
+	    'speak': '',
+	    'speak-rate': '',
+	    'stress': '',
+	    'text-align': 'left',
+	    'text-indent': '0',
+	    'text-transform': 'none',
+	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
+	    'voice-family': '',
+	    'volume': '',
+	    'white-space': 'normal',
+	    'widows': '2',
+	    'word-spacing': 'normal'
+	}
+	
+	
+	
+	// returns index of the passed css classname, or undefined if sheet containing that class isn't found
+	function cssClassSheetIndex(classname) {
+	    var result = undefined
+	
+	    var styleNodes = document.querySelectorAll("style")
+	    for(var n=0; n<styleNodes.length; n++) {
+	        var sheet = styleNodes[n].sheet
+	        jssModule.defaultSheet = sheet
+	
+	        var defaultStyleMaybe = jssModule.get(classname)
+	        if(Object.keys(defaultStyleMaybe).length > 0) {
+	            result = n
+	            break
+	        }
+	    }
+	
+	    jssModule.defaultSheet = undefined
+	    return result
+	}
+	
+	
+	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
+	var jss = jssModule.forDocument(document)
+	
+	var defaultClassSheetIndex = cssClassSheetIndex('.'+Style.defaultClassName)
+	if(defaultClassSheetIndex === undefined) {
+	    defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
+	
+	    jss.defaultSheet = jss._createSheet()
+	
+	    defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
+	
+	    defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
+	        cursor: 'inherit'
+	    })
+	} else {
+	    // if the default styleclass *already* exists, it probably means that blocks.js is being loaded twice
+	    console.log("Warning: the default-styles class name for blocks.js looks like its already in use. This probably means you have two versions of blocks.js loaded. If so, Blocks.js will continue to work, but your app will be a bit bloated. If something other than block.js created that class, blocks.js may break that style.")
+	
+	    var styleNodes = document.querySelectorAll("style")
+	    defaultJss.defaultSheet = styleNodes[defaultClassSheetIndex].sheet
+	    jss.defaultSheet = styleNodes[defaultClassSheetIndex+1].sheet
+	
+	    // make sure the baseClassName isn't already taken
+	    var dedupNumber = 0
+	    while(true) {
+	        var testBaseClassName = baseClassName+dedupNumber
+	        if(cssClassSheetIndex('.'+testBaseClassName+dedupNumber+0) !== undefined) {
+	            dedupNumber++
+	        } else {
+	            break;
+	        }
+	    }
+	
+	    baseClassName = testBaseClassName+dedupNumber
+	}
+	
+	
+	/*private*/ module.exports.isDev; // should be set by Block
+	
+	var computedStyles = module.exports.computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
+	
+
+
+/***/ },
+/* 55 */
+/*!************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Container.js ***!
+  \************************************************************************************************************/
+[129, 53, 41],
+/* 56 */
+/*!*******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Text.js ***!
+  \*******************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 53)
+	var proto = __webpack_require__(/*! proto */ 41)
+	var Style = __webpack_require__(/*! Style */ 54)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Text'
+	
+	    this.defaultStyle = Style({
+	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
+	    })
+	
+	    this.init = function(/*[label,] text*/) {
+	        if(arguments.length === 1) {
+	            var text = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        }
+	
+	        if (text === undefined) text = '';
+	
+	        superclass.init.call(this) // superclass constructor
+	
+	        var that = this
+	
+	        this.label = label
+	        this.text = text
+	
+	        this.on("input",function(data) {
+	            var eventData = {newText:data.srcElement.textContent,oldText:that.oldText};
+	            that.oldText = eventData.newText;
+	            //that.emit("input",eventData);
+	        });
+	
+	        this.on("blur",function(data) {
+	            var eventData = {newText:data.srcElement.textContent,oldText:that.lastFocus};
+	            that.lastFocus = eventData.newText;
+	            //that.emit("blur",eventData);
+	        });
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode.textContent
+	        }, set: function(v) {
+	            this.domNode.innerText = v   // apparently textContent can't be set or something
+	        }
+	    })
+	});
+
+
+/***/ },
+/* 57 */
+/*!**************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/utils.js ***!
+  \**************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	var path = __webpack_require__(/*! path */ 50)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       }
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
 /* 58 */
 /*!**********************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/process/browser.js ***!
@@ -11245,10 +11249,20 @@ return /******/ (function(modules) { // webpackBootstrap
   \******************************************************************************************************************/
 59,
 /* 62 */
-/*!**************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
-  \**************************************************************************************************/
-27,
+/*!****************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
+  \****************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var path = __webpack_require__(/*! path */ 50)
+	
+	module.exports = function isRelative(p) {
+	    var normal = path.normalize(p)
+	    var absolute = path.resolve(p)
+	    return normal != absolute && p.indexOf('://') === -1// second part for urls
+	}
+
+/***/ },
 /* 63 */
 /*!*********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/utils.js ***!
@@ -11319,196 +11333,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 64 */
-/*!*******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
-  \*******************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
-	
-	var HashMap = __webpack_require__(/*! hashmap */ 42)
-	
-	var Style = __webpack_require__(/*! ./Style */ 53)
-	var utils = __webpack_require__(/*! ./utils */ 63)
-	
-	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
-	
-	// propogates a style-set change to a set of components
-	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
-	var propogateStyleSet = exports.propogateStyleSet = function (components, styleMap) {
-	    for(var n=0; n<components.length; n++) {
-	        var c = components[n]
-	
-	        // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
-	        if(c._style === undefined) {
-	            if(styleMap === undefined) {
-	                setCurrentStyle(c, undefined)
-	            } else {
-	                var styleFromMap = getStyleForComponent(styleMap, c)
-	                if(styleFromMap !== undefined) {
-	                    setCurrentStyle(c, styleFromMap)
-	                }
-	            }
-	        }
-	
-	        // set the computed style set
-	        var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
-	        if(c._style !== undefined) {
-	            mainStyle = c._style.get(c)
-	        } else if(styleMap !== undefined) {
-	            mainStyle = getStyleForComponent(styleMap, c)
-	            if(mainStyle !== undefined) {
-	                mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
-	            }
-	        }
-	
-	        if(mainStyle !== undefined) {
-	            if(styleMap !== undefined) {
-	                c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
-	            } else {
-	                c.computedStyleMap = mainStyle.componentStyleMap
-	            }
-	        } else {
-	            c.computedStyleMap = styleMap
-	        }
-	
-	        propogateStyleSet(c.children, c.computedStyleMap)
-	    }
-	}
-	
-	// gets the right style from the styleMap
-	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
-	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
-	    var constructor = block.constructor
-	    while(constructor !== undefined) {
-	        var style = styleMap[constructor.name]
-	        if(style !== undefined) {
-	            return style
-	        } else {
-	            constructor = constructor.parent
-	        }
-	    }
-	}
-	
-	// returns the conjunction of two style maps
-	// gets it from the computedStyles cache if its already in there
-	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
-	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
-	    if(cachedStyleMap === undefined) {
-	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
-	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
-	    }
-	
-	    return cachedStyleMap
-	}
-	
-	// takes labels into account
-	var setCurrentStyle = exports.setCurrentStyle = function (component, style) {
-	    if(style === component.currentStyle) return; // do nothing
-	
-	    if(style !== undefined)
-	        var specificStyle = style.get(component)
-	    else
-	        var specificStyle = style
-	
-	    setStyleClass(component, specificStyle)
-	    applyStyleKillFunction(component)
-	    component.currentStyle = specificStyle
-	    applyStyleSetupFunction(component, specificStyle)
-	    applyStateHandler(component, specificStyle)
-	}
-	
-	
-	exports.createDefaultBlockStyle = function (that) {
-	    if(that.defaultStyle !== undefined) {
-	        validateDefaultStyle(that.defaultStyle)
-	    }
-	
-	    // get list of default styles
-	    var defaultStyles = []
-	    var nextConstructor = that.constructor
-	    while(nextConstructor !== undefined) {
-	        if(nextConstructor.defaultStyle !== undefined) {
-	            defaultStyles.push(nextConstructor.defaultStyle)
-	        }
-	        nextConstructor = nextConstructor.parent
-	    }
-	
-	    // generate merged default style
-	    var defaultStyleSet = {}
-	    defaultStyles.reverse().forEach(function(style) {
-	        for(var k in style.styleDefinitions) {
-	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
-	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
-	        }
-	
-	    })
-	
-	    if(Object.keys(defaultStyleSet).length > 0)
-	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
-	    else
-	        var defaultBlockStyle = false // no special default
-	
-	    exports.defaultStyleMap.set(that.constructor, defaultBlockStyle)
-	    return defaultBlockStyle
-	}
-	
-	
-	// applies setup appropriately
-	function applyStyleSetupFunction(component, style) {
-	    if(style !== undefined && style.setup !== undefined) {
-	        component._styleSetupObject = style.setup(component) // call setup on the component
-	    } else {
-	        component._styleSetupObject = undefined
-	    }
-	}
-	// applies kill appropriately
-	function applyStyleKillFunction(component) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
-	        if(currentStyle.kill === undefined)
-	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
-	
-	        currentStyle.kill(component, component._styleSetupObject)
-	    }
-	}
-	
-	// initializes and sets up state-change handler
-	function applyStateHandler(component, style) {
-	    if(style !== undefined && style.stateHandler !== undefined) {
-	        // todo: using setCurrentStyle is a stopgap until I can implement better style application for $state and pseudoclasses (which probably will require a rewrite of much of the style logic)
-	        setCurrentStyle(component, style.stateHandler(component.state.subject))
-	        component.state.on('change', function() {
-	            setCurrentStyle(component, style.stateHandler(component.state.subject))
-	        })
-	    }
-	}
-	
-	// sets the style, replacing one if one already exists
-	function setStyleClass(component, style) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined) {
-	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
-	    }
-	    if(style !== undefined) {
-	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
-	    }
-	}
-	
-	function validateDefaultStyle(defaultStyle) {
-	    if(!(defaultStyle instanceof Style)) {
-	        throw new Error("defaultStyle property must be a Style object")
-	    } else if(
-	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
-	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
-	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
-	    ) {
-	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-	    }
-	}
-
-/***/ },
-/* 65 */
 /*!************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/domUtils.js ***!
   \************************************************************************************************/
@@ -11705,6 +11529,196 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
+/* 65 */
+/*!*******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
+  \*******************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
+	
+	var HashMap = __webpack_require__(/*! hashmap */ 47)
+	
+	var Style = __webpack_require__(/*! ./Style */ 54)
+	var utils = __webpack_require__(/*! ./utils */ 63)
+	
+	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
+	
+	// propogates a style-set change to a set of components
+	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
+	var propogateStyleSet = exports.propogateStyleSet = function (components, styleMap) {
+	    for(var n=0; n<components.length; n++) {
+	        var c = components[n]
+	
+	        // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
+	        if(c._style === undefined) {
+	            if(styleMap === undefined) {
+	                setCurrentStyle(c, undefined)
+	            } else {
+	                var styleFromMap = getStyleForComponent(styleMap, c)
+	                if(styleFromMap !== undefined) {
+	                    setCurrentStyle(c, styleFromMap)
+	                }
+	            }
+	        }
+	
+	        // set the computed style set
+	        var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
+	        if(c._style !== undefined) {
+	            mainStyle = c._style.get(c)
+	        } else if(styleMap !== undefined) {
+	            mainStyle = getStyleForComponent(styleMap, c)
+	            if(mainStyle !== undefined) {
+	                mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
+	            }
+	        }
+	
+	        if(mainStyle !== undefined) {
+	            if(styleMap !== undefined) {
+	                c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
+	            } else {
+	                c.computedStyleMap = mainStyle.componentStyleMap
+	            }
+	        } else {
+	            c.computedStyleMap = styleMap
+	        }
+	
+	        propogateStyleSet(c.children, c.computedStyleMap)
+	    }
+	}
+	
+	// gets the right style from the styleMap
+	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
+	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
+	    var constructor = block.constructor
+	    while(constructor !== undefined) {
+	        var style = styleMap[constructor.name]
+	        if(style !== undefined) {
+	            return style
+	        } else {
+	            constructor = constructor.parent
+	        }
+	    }
+	}
+	
+	// returns the conjunction of two style maps
+	// gets it from the computedStyles cache if its already in there
+	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
+	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
+	    if(cachedStyleMap === undefined) {
+	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
+	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
+	    }
+	
+	    return cachedStyleMap
+	}
+	
+	// takes labels into account
+	var setCurrentStyle = exports.setCurrentStyle = function (component, style) {
+	    if(style === component.currentStyle) return; // do nothing
+	
+	    if(style !== undefined)
+	        var specificStyle = style.get(component)
+	    else
+	        var specificStyle = style
+	
+	    setStyleClass(component, specificStyle)
+	    applyStyleKillFunction(component)
+	    component.currentStyle = specificStyle
+	    applyStyleSetupFunction(component, specificStyle)
+	    applyStateHandler(component, specificStyle)
+	}
+	
+	
+	exports.createDefaultBlockStyle = function (that) {
+	    if(that.defaultStyle !== undefined) {
+	        validateDefaultStyle(that.defaultStyle)
+	    }
+	
+	    // get list of default styles
+	    var defaultStyles = []
+	    var nextConstructor = that.constructor
+	    while(nextConstructor !== undefined) {
+	        if(nextConstructor.defaultStyle !== undefined) {
+	            defaultStyles.push(nextConstructor.defaultStyle)
+	        }
+	        nextConstructor = nextConstructor.parent
+	    }
+	
+	    // generate merged default style
+	    var defaultStyleSet = {}
+	    defaultStyles.reverse().forEach(function(style) {
+	        for(var k in style.styleDefinitions) {
+	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
+	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
+	        }
+	
+	    })
+	
+	    if(Object.keys(defaultStyleSet).length > 0)
+	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
+	    else
+	        var defaultBlockStyle = false // no special default
+	
+	    exports.defaultStyleMap.set(that.constructor, defaultBlockStyle)
+	    return defaultBlockStyle
+	}
+	
+	
+	// applies setup appropriately
+	function applyStyleSetupFunction(component, style) {
+	    if(style !== undefined && style.setup !== undefined) {
+	        component._styleSetupObject = style.setup(component) // call setup on the component
+	    } else {
+	        component._styleSetupObject = undefined
+	    }
+	}
+	// applies kill appropriately
+	function applyStyleKillFunction(component) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
+	        if(currentStyle.kill === undefined)
+	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
+	
+	        currentStyle.kill(component, component._styleSetupObject)
+	    }
+	}
+	
+	// initializes and sets up state-change handler
+	function applyStateHandler(component, style) {
+	    if(style !== undefined && style.stateHandler !== undefined) {
+	        // todo: using setCurrentStyle is a stopgap until I can implement better style application for $state and pseudoclasses (which probably will require a rewrite of much of the style logic)
+	        setCurrentStyle(component, style.stateHandler(component.state.subject))
+	        component.state.on('change', function() {
+	            setCurrentStyle(component, style.stateHandler(component.state.subject))
+	        })
+	    }
+	}
+	
+	// sets the style, replacing one if one already exists
+	function setStyleClass(component, style) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined) {
+	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
+	    }
+	    if(style !== undefined) {
+	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
+	    }
+	}
+	
+	function validateDefaultStyle(defaultStyle) {
+	    if(!(defaultStyle instanceof Style)) {
+	        throw new Error("defaultStyle property must be a Style object")
+	    } else if(
+	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
+	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
+	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
+	    ) {
+	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+	    }
+	}
+
+/***/ },
 /* 66 */
 /*!********************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/processResults.js ***!
@@ -11843,25 +11857,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 67 */
-/*!****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
-  \****************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var path = __webpack_require__(/*! path */ 50)
-	
-	module.exports = function isRelative(p) {
-	    var normal = path.normalize(p)
-	    var absolute = path.resolve(p)
-	    return normal != absolute && p.indexOf('://') === -1// second part for urls
-	}
-
-/***/ },
+/*!**************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
+  \**************************************************************************************************/
+27,
 /* 68 */
 /*!*****************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/EventEmitterB.js ***!
   \*****************************************************************************************************/
-[108, 44, 63],
+[130, 41, 63],
 /* 69 */
 /*!**************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
@@ -12614,25 +12618,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /*!***************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
   \***************************************************************************************************/
-44,
+41,
 /* 72 */
-/*!*****************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
-  \*****************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * Copyright 2009-2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE.txt or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 77).SourceMapGenerator;
-	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 78).SourceMapConsumer;
-	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 79).SourceNode;
-
-
-/***/ },
-/* 73 */
 /*!****************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
   \****************************************************************************************************************/
@@ -12640,7 +12627,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var trimArgs = __webpack_require__(/*! trimArguments */ 90)
+	var trimArgs = __webpack_require__(/*! trimArguments */ 86)
 	
 	
 	module.exports = Future
@@ -13006,13 +12993,92 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
+/* 73 */
+/*!***********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
+  \***********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 85)
+	var parsers = __webpack_require__(/*! ./tracelineParser */ 77)
+	var mode = __webpack_require__(/*! ./exceptionMode */ 78)
+	
+	module.exports = function(ex) {
+	    if(parsers[mode] === undefined)
+	        throw new Error("browser "+mode+" not supported")
+	
+	    var options = undefined
+	    if(ex !== undefined) {
+	        if(mode === 'ie' && ex.number === undefined)
+	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
+	        options = {e:ex, guess: true}
+	    }
+	    var trace = printStackTrace(options)
+	
+	    if(ex === undefined) {
+	        trace.splice(0,4) // strip stacktrace-js internals
+	    }
+	
+	    return parseStacktrace(trace)
+	}
+	
+	function TraceInfo(traceline) {
+	    this.traceline = traceline
+	}
+	TraceInfo.prototype = {
+	    get file() {
+	        return getInfo(this).file
+	    },
+	    get function() {
+	        return getInfo(this).function
+	    },
+	    get line() {
+	        return getInfo(this).line
+	    },
+	    get column() {
+	        return getInfo(this).column
+	    },
+	    get info() {
+	        return getInfo(this)
+	    }
+	}
+	
+	function getInfo(traceInfo) {
+	    if(traceInfo.cache === undefined) {
+	        var info = parsers[mode](traceInfo.traceline)
+	        if(info.line !== undefined)
+	            info.line = parseInt(info.line, 10)
+	        if(info.column !== undefined)
+	            info.column = parseInt(info.column, 10)
+	
+	        traceInfo.cache = info
+	    }
+	
+	    return traceInfo.cache
+	}
+	
+	function parseStacktrace(trace) {
+	    var results = []
+	    for(var n = 0; n<trace.length; n++) {
+	        results.push(new TraceInfo(trace[n]))
+	    }
+	    return results
+	}
+	
+	// here because i'm lazy, they're here for testing only
+	module.exports.parsers = parsers
+	module.exports.mode = mode
+	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
+
+
+/***/ },
 /* 74 */
 /*!*************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
   \*************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 91)
+	var Future = __webpack_require__(/*! async-future */ 87)
 	
 	// returns the XHR function or equivalent for use with ajax
 	// memoizes the function for faster repeated use
@@ -13124,85 +13190,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 75 */
-/*!***********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
-  \***********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 89)
-	var parsers = __webpack_require__(/*! ./tracelineParser */ 80)
-	var mode = __webpack_require__(/*! ./exceptionMode */ 81)
-	
-	module.exports = function(ex) {
-	    if(parsers[mode] === undefined)
-	        throw new Error("browser "+mode+" not supported")
-	
-	    var options = undefined
-	    if(ex !== undefined) {
-	        if(mode === 'ie' && ex.number === undefined)
-	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
-	        options = {e:ex, guess: true}
-	    }
-	    var trace = printStackTrace(options)
-	
-	    if(ex === undefined) {
-	        trace.splice(0,4) // strip stacktrace-js internals
-	    }
-	
-	    return parseStacktrace(trace)
-	}
-	
-	function TraceInfo(traceline) {
-	    this.traceline = traceline
-	}
-	TraceInfo.prototype = {
-	    get file() {
-	        return getInfo(this).file
-	    },
-	    get function() {
-	        return getInfo(this).function
-	    },
-	    get line() {
-	        return getInfo(this).line
-	    },
-	    get column() {
-	        return getInfo(this).column
-	    },
-	    get info() {
-	        return getInfo(this)
-	    }
-	}
-	
-	function getInfo(traceInfo) {
-	    if(traceInfo.cache === undefined) {
-	        var info = parsers[mode](traceInfo.traceline)
-	        if(info.line !== undefined)
-	            info.line = parseInt(info.line, 10)
-	        if(info.column !== undefined)
-	            info.column = parseInt(info.column, 10)
-	
-	        traceInfo.cache = info
-	    }
-	
-	    return traceInfo.cache
-	}
-	
-	function parseStacktrace(trace) {
-	    var results = []
-	    for(var n = 0; n<trace.length; n++) {
-	        results.push(new TraceInfo(trace[n]))
-	    }
-	    return results
-	}
-	
-	// here because i'm lazy, they're here for testing only
-	module.exports.parsers = parsers
-	module.exports.mode = mode
-	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
-
-
-/***/ },
-/* 76 */
 /*!*****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/source-map-resolve.js ***!
   \*****************************************************************************************************************************/
@@ -13217,7 +13204,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	void (function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 93), __webpack_require__(/*! resolve-url */ 92)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 89), __webpack_require__(/*! resolve-url */ 88)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
 	  } else if (typeof exports === "object") {
 	    var sourceMappingURL = require("source-map-url")
 	    var resolveUrl = require("resolve-url")
@@ -13448,7 +13435,187 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 84).setImmediate))
 
 /***/ },
+/* 76 */
+/*!*****************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
+  \*****************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	 * Copyright 2009-2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE.txt or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 79).SourceMapGenerator;
+	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 80).SourceMapConsumer;
+	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 81).SourceNode;
+
+
+/***/ },
 /* 77 */
+/*!*****************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
+  \*****************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = {
+	    chrome: function(line) {
+	        var m = line.match(CHROME_STACK_LINE);
+	        if (m) {
+	            var file = m[9] || m[18] || m[26]
+	            var fn = m[4] || m[7] || m[14] || m[23]
+	            var lineNumber = m[11] || m[20]
+	            var column = m[13] || m[22]
+	        } else {
+	            //throw new Error("Couldn't parse exception line: "+line)
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    firefox: function(line) {
+	        var m = line.match(FIREFOX_STACK_LINE);
+	        if (m) {
+	            var file = m[8]
+	            var fn = m[1]
+	            var lineNumber = m[10]
+	            var column = m[12]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    ie: function(line) {
+	        var m = line.match(IE_STACK_LINE);
+	        if (m) {
+	            var file = m[3] || m[10]
+	            var fn = m[2] || m[9]
+	            var lineNumber = m[5] || m[12]
+	            var column = m[7] || m[14]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    }
+	}
+	
+	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
+	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
+	var IDENTIFIER_PATTERN_ = '[\\w$]*';
+	// RegExp pattern for an URL + position inside the file.
+	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
+	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
+	
+	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
+	
+	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
+	
+	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
+	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
+	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
+	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
+	
+	// output from stacktrace.js is: "name()@..." instead of "name (...)"
+	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
+	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
+	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
+	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
+	
+	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
+	
+	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
+	
+	
+	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
+	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
+	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
+	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
+	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
+	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
+	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
+	
+	var IE_WHITESPACE = '[\\w \\t]'
+	var IE_FILE_AND_LINE = FILE_AND_LINE
+	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
+	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
+	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
+	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
+
+/***/ },
+/* 78 */
+/*!***************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
+  \***************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	module.exports = exceptionMode(createException()) // basically what browser this is
+	
+	// verbatim from `mode` in stacktrace.js as of 2014-01-23
+	function exceptionMode(e) {
+	    if (e['arguments'] && e.stack) {
+	        return 'chrome';
+	    } else if (e.stack && e.sourceURL) {
+	        return 'safari';
+	    } else if (e.stack && e.number) {
+	        return 'ie';
+	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
+	        // e.message.indexOf("Backtrace:") > -1 -> opera
+	        // !e.stacktrace -> opera
+	        if (!e.stacktrace) {
+	            return 'opera9'; // use e.message
+	        }
+	        // 'opera#sourceloc' in e -> opera9, opera10a
+	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
+	            return 'opera9'; // use e.message
+	        }
+	        // e.stacktrace && !e.stack -> opera10a
+	        if (!e.stack) {
+	            return 'opera10a'; // use e.stacktrace
+	        }
+	        // e.stacktrace && e.stack -> opera10b
+	        if (e.stacktrace.indexOf("called from line") < 0) {
+	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
+	        }
+	        // e.stacktrace && e.stack -> opera11
+	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
+	    } else if (e.stack && !e.fileName) {
+	        // Chrome 27 does not have e.arguments as earlier versions,
+	        // but still does not have e.fileName as Firefox
+	        return 'chrome';
+	    } else if (e.stack) {
+	        return 'firefox';
+	    }
+	    return 'other';
+	}
+	
+	function createException() {
+	    try {
+	        this.undef();
+	    } catch (e) {
+	        return e;
+	    }
+	}
+
+
+/***/ },
+/* 79 */
 /*!**************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-generator.js ***!
   \**************************************************************************************************************************************/
@@ -13465,9 +13632,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 85);
-	  var util = __webpack_require__(/*! ./util */ 86);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 87).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 90);
+	  var util = __webpack_require__(/*! ./util */ 91);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 92).ArraySet;
 	
 	  /**
 	   * An instance of the SourceMapGenerator represents a source map which is
@@ -13854,7 +14021,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 78 */
+/* 80 */
 /*!*************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-consumer.js ***!
   \*************************************************************************************************************************************/
@@ -13871,10 +14038,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var util = __webpack_require__(/*! ./util */ 86);
-	  var binarySearch = __webpack_require__(/*! ./binary-search */ 88);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 87).ArraySet;
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 85);
+	  var util = __webpack_require__(/*! ./util */ 91);
+	  var binarySearch = __webpack_require__(/*! ./binary-search */ 93);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 92).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 90);
 	
 	  /**
 	   * A SourceMapConsumer instance represents a parsed source map which we can
@@ -14341,7 +14508,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 79 */
+/* 81 */
 /*!*****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
   \*****************************************************************************************************************************/
@@ -14358,8 +14525,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 77).SourceMapGenerator;
-	  var util = __webpack_require__(/*! ./util */ 86);
+	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 79).SourceMapGenerator;
+	  var util = __webpack_require__(/*! ./util */ 91);
 	
 	  /**
 	   * SourceNodes provide a way to abstract over interpolating/concatenating
@@ -14734,169 +14901,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  exports.SourceNode = SourceNode;
 	
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 80 */
-/*!*****************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
-  \*****************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = {
-	    chrome: function(line) {
-	        var m = line.match(CHROME_STACK_LINE);
-	        if (m) {
-	            var file = m[9] || m[18] || m[26]
-	            var fn = m[4] || m[7] || m[14] || m[23]
-	            var lineNumber = m[11] || m[20]
-	            var column = m[13] || m[22]
-	        } else {
-	            //throw new Error("Couldn't parse exception line: "+line)
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    firefox: function(line) {
-	        var m = line.match(FIREFOX_STACK_LINE);
-	        if (m) {
-	            var file = m[8]
-	            var fn = m[1]
-	            var lineNumber = m[10]
-	            var column = m[12]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    ie: function(line) {
-	        var m = line.match(IE_STACK_LINE);
-	        if (m) {
-	            var file = m[3] || m[10]
-	            var fn = m[2] || m[9]
-	            var lineNumber = m[5] || m[12]
-	            var column = m[7] || m[14]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    }
-	}
-	
-	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
-	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
-	var IDENTIFIER_PATTERN_ = '[\\w$]*';
-	// RegExp pattern for an URL + position inside the file.
-	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
-	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
-	
-	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
-	
-	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
-	
-	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
-	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
-	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
-	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
-	
-	// output from stacktrace.js is: "name()@..." instead of "name (...)"
-	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
-	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
-	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
-	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
-	
-	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
-	
-	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
-	
-	
-	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
-	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
-	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
-	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
-	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
-	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
-	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
-	
-	var IE_WHITESPACE = '[\\w \\t]'
-	var IE_FILE_AND_LINE = FILE_AND_LINE
-	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
-	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
-	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
-	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
-
-/***/ },
-/* 81 */
-/*!***************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
-  \***************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	module.exports = exceptionMode(createException()) // basically what browser this is
-	
-	// verbatim from `mode` in stacktrace.js as of 2014-01-23
-	function exceptionMode(e) {
-	    if (e['arguments'] && e.stack) {
-	        return 'chrome';
-	    } else if (e.stack && e.sourceURL) {
-	        return 'safari';
-	    } else if (e.stack && e.number) {
-	        return 'ie';
-	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
-	        // e.message.indexOf("Backtrace:") > -1 -> opera
-	        // !e.stacktrace -> opera
-	        if (!e.stacktrace) {
-	            return 'opera9'; // use e.message
-	        }
-	        // 'opera#sourceloc' in e -> opera9, opera10a
-	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
-	            return 'opera9'; // use e.message
-	        }
-	        // e.stacktrace && !e.stack -> opera10a
-	        if (!e.stack) {
-	            return 'opera10a'; // use e.stacktrace
-	        }
-	        // e.stacktrace && e.stack -> opera10b
-	        if (e.stacktrace.indexOf("called from line") < 0) {
-	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
-	        }
-	        // e.stacktrace && e.stack -> opera11
-	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
-	    } else if (e.stack && !e.fileName) {
-	        // Chrome 27 does not have e.arguments as earlier versions,
-	        // but still does not have e.fileName as Firefox
-	        return 'chrome';
-	    } else if (e.stack) {
-	        return 'firefox';
-	    }
-	    return 'other';
-	}
-	
-	function createException() {
-	    try {
-	        this.undef();
-	    } catch (e) {
-	        return e;
-	    }
-	}
 
 
 /***/ },
@@ -15516,666 +15520,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 85 */
 /*!****************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
-  \****************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 *
-	 * Based on the Base 64 VLQ implementation in Closure Compiler:
-	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
-	 *
-	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
-	 * Redistribution and use in source and binary forms, with or without
-	 * modification, are permitted provided that the following conditions are
-	 * met:
-	 *
-	 *  * Redistributions of source code must retain the above copyright
-	 *    notice, this list of conditions and the following disclaimer.
-	 *  * Redistributions in binary form must reproduce the above
-	 *    copyright notice, this list of conditions and the following
-	 *    disclaimer in the documentation and/or other materials provided
-	 *    with the distribution.
-	 *  * Neither the name of Google Inc. nor the names of its
-	 *    contributors may be used to endorse or promote products derived
-	 *    from this software without specific prior written permission.
-	 *
-	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var base64 = __webpack_require__(/*! ./base64 */ 97);
-	
-	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
-	  // length quantities we use in the source map spec, the first bit is the sign,
-	  // the next four bits are the actual value, and the 6th bit is the
-	  // continuation bit. The continuation bit tells us whether there are more
-	  // digits in this value following this digit.
-	  //
-	  //   Continuation
-	  //   |    Sign
-	  //   |    |
-	  //   V    V
-	  //   101011
-	
-	  var VLQ_BASE_SHIFT = 5;
-	
-	  // binary: 100000
-	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
-	
-	  // binary: 011111
-	  var VLQ_BASE_MASK = VLQ_BASE - 1;
-	
-	  // binary: 100000
-	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
-	
-	  /**
-	   * Converts from a two-complement value to a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
-	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
-	   */
-	  function toVLQSigned(aValue) {
-	    return aValue < 0
-	      ? ((-aValue) << 1) + 1
-	      : (aValue << 1) + 0;
-	  }
-	
-	  /**
-	   * Converts to a two-complement value from a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
-	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
-	   */
-	  function fromVLQSigned(aValue) {
-	    var isNegative = (aValue & 1) === 1;
-	    var shifted = aValue >> 1;
-	    return isNegative
-	      ? -shifted
-	      : shifted;
-	  }
-	
-	  /**
-	   * Returns the base 64 VLQ encoded value.
-	   */
-	  exports.encode = function base64VLQ_encode(aValue) {
-	    var encoded = "";
-	    var digit;
-	
-	    var vlq = toVLQSigned(aValue);
-	
-	    do {
-	      digit = vlq & VLQ_BASE_MASK;
-	      vlq >>>= VLQ_BASE_SHIFT;
-	      if (vlq > 0) {
-	        // There are still more digits in this value, so we must make sure the
-	        // continuation bit is marked.
-	        digit |= VLQ_CONTINUATION_BIT;
-	      }
-	      encoded += base64.encode(digit);
-	    } while (vlq > 0);
-	
-	    return encoded;
-	  };
-	
-	  /**
-	   * Decodes the next base 64 VLQ value from the given string and returns the
-	   * value and the rest of the string.
-	   */
-	  exports.decode = function base64VLQ_decode(aStr) {
-	    var i = 0;
-	    var strLen = aStr.length;
-	    var result = 0;
-	    var shift = 0;
-	    var continuation, digit;
-	
-	    do {
-	      if (i >= strLen) {
-	        throw new Error("Expected more digits in base 64 VLQ value.");
-	      }
-	      digit = base64.decode(aStr.charAt(i++));
-	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
-	      digit &= VLQ_BASE_MASK;
-	      result = result + (digit << shift);
-	      shift += VLQ_BASE_SHIFT;
-	    } while (continuation);
-	
-	    return {
-	      value: fromVLQSigned(result),
-	      rest: aStr.slice(i)
-	    };
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 86 */
-/*!**********************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
-  \**********************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  /**
-	   * This is a helper function for getting values from parameter/options
-	   * objects.
-	   *
-	   * @param args The object we are extracting values from
-	   * @param name The name of the property we are getting.
-	   * @param defaultValue An optional value to return if the property is missing
-	   * from the object. If this is not specified and the property is missing, an
-	   * error will be thrown.
-	   */
-	  function getArg(aArgs, aName, aDefaultValue) {
-	    if (aName in aArgs) {
-	      return aArgs[aName];
-	    } else if (arguments.length === 3) {
-	      return aDefaultValue;
-	    } else {
-	      throw new Error('"' + aName + '" is a required argument.');
-	    }
-	  }
-	  exports.getArg = getArg;
-	
-	  var urlRegexp = /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.]*)(?::(\d+))?(\S*)$/;
-	  var dataUrlRegexp = /^data:.+\,.+$/;
-	
-	  function urlParse(aUrl) {
-	    var match = aUrl.match(urlRegexp);
-	    if (!match) {
-	      return null;
-	    }
-	    return {
-	      scheme: match[1],
-	      auth: match[2],
-	      host: match[3],
-	      port: match[4],
-	      path: match[5]
-	    };
-	  }
-	  exports.urlParse = urlParse;
-	
-	  function urlGenerate(aParsedUrl) {
-	    var url = '';
-	    if (aParsedUrl.scheme) {
-	      url += aParsedUrl.scheme + ':';
-	    }
-	    url += '//';
-	    if (aParsedUrl.auth) {
-	      url += aParsedUrl.auth + '@';
-	    }
-	    if (aParsedUrl.host) {
-	      url += aParsedUrl.host;
-	    }
-	    if (aParsedUrl.port) {
-	      url += ":" + aParsedUrl.port
-	    }
-	    if (aParsedUrl.path) {
-	      url += aParsedUrl.path;
-	    }
-	    return url;
-	  }
-	  exports.urlGenerate = urlGenerate;
-	
-	  /**
-	   * Normalizes a path, or the path portion of a URL:
-	   *
-	   * - Replaces consequtive slashes with one slash.
-	   * - Removes unnecessary '.' parts.
-	   * - Removes unnecessary '<dir>/..' parts.
-	   *
-	   * Based on code in the Node.js 'path' core module.
-	   *
-	   * @param aPath The path or url to normalize.
-	   */
-	  function normalize(aPath) {
-	    var path = aPath;
-	    var url = urlParse(aPath);
-	    if (url) {
-	      if (!url.path) {
-	        return aPath;
-	      }
-	      path = url.path;
-	    }
-	    var isAbsolute = (path.charAt(0) === '/');
-	
-	    var parts = path.split(/\/+/);
-	    for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
-	      part = parts[i];
-	      if (part === '.') {
-	        parts.splice(i, 1);
-	      } else if (part === '..') {
-	        up++;
-	      } else if (up > 0) {
-	        if (part === '') {
-	          // The first part is blank if the path is absolute. Trying to go
-	          // above the root is a no-op. Therefore we can remove all '..' parts
-	          // directly after the root.
-	          parts.splice(i + 1, up);
-	          up = 0;
-	        } else {
-	          parts.splice(i, 2);
-	          up--;
-	        }
-	      }
-	    }
-	    path = parts.join('/');
-	
-	    if (path === '') {
-	      path = isAbsolute ? '/' : '.';
-	    }
-	
-	    if (url) {
-	      url.path = path;
-	      return urlGenerate(url);
-	    }
-	    return path;
-	  }
-	  exports.normalize = normalize;
-	
-	  /**
-	   * Joins two paths/URLs.
-	   *
-	   * @param aRoot The root path or URL.
-	   * @param aPath The path or URL to be joined with the root.
-	   *
-	   * - If aPath is a URL or a data URI, aPath is returned, unless aPath is a
-	   *   scheme-relative URL: Then the scheme of aRoot, if any, is prepended
-	   *   first.
-	   * - Otherwise aPath is a path. If aRoot is a URL, then its path portion
-	   *   is updated with the result and aRoot is returned. Otherwise the result
-	   *   is returned.
-	   *   - If aPath is absolute, the result is aPath.
-	   *   - Otherwise the two paths are joined with a slash.
-	   * - Joining for example 'http://' and 'www.example.com' is also supported.
-	   */
-	  function join(aRoot, aPath) {
-	    var aPathUrl = urlParse(aPath);
-	    var aRootUrl = urlParse(aRoot);
-	    if (aRootUrl) {
-	      aRoot = aRootUrl.path || '/';
-	    }
-	
-	    // `join(foo, '//www.example.org')`
-	    if (aPathUrl && !aPathUrl.scheme) {
-	      if (aRootUrl) {
-	        aPathUrl.scheme = aRootUrl.scheme;
-	      }
-	      return urlGenerate(aPathUrl);
-	    }
-	
-	    if (aPathUrl || aPath.match(dataUrlRegexp)) {
-	      return aPath;
-	    }
-	
-	    // `join('http://', 'www.example.com')`
-	    if (aRootUrl && !aRootUrl.host && !aRootUrl.path) {
-	      aRootUrl.host = aPath;
-	      return urlGenerate(aRootUrl);
-	    }
-	
-	    var joined = aPath.charAt(0) === '/'
-	      ? aPath
-	      : normalize(aRoot.replace(/\/+$/, '') + '/' + aPath);
-	
-	    if (aRootUrl) {
-	      aRootUrl.path = joined;
-	      return urlGenerate(aRootUrl);
-	    }
-	    return joined;
-	  }
-	  exports.join = join;
-	
-	  /**
-	   * Because behavior goes wacky when you set `__proto__` on objects, we
-	   * have to prefix all the strings in our set with an arbitrary character.
-	   *
-	   * See https://github.com/mozilla/source-map/pull/31 and
-	   * https://github.com/mozilla/source-map/issues/30
-	   *
-	   * @param String aStr
-	   */
-	  function toSetString(aStr) {
-	    return '$' + aStr;
-	  }
-	  exports.toSetString = toSetString;
-	
-	  function fromSetString(aStr) {
-	    return aStr.substr(1);
-	  }
-	  exports.fromSetString = fromSetString;
-	
-	  function relative(aRoot, aPath) {
-	    aRoot = aRoot.replace(/\/$/, '');
-	
-	    var url = urlParse(aRoot);
-	    if (aPath.charAt(0) == "/" && url && url.path == "/") {
-	      return aPath.slice(1);
-	    }
-	
-	    return aPath.indexOf(aRoot + '/') === 0
-	      ? aPath.substr(aRoot.length + 1)
-	      : aPath;
-	  }
-	  exports.relative = relative;
-	
-	  function strcmp(aStr1, aStr2) {
-	    var s1 = aStr1 || "";
-	    var s2 = aStr2 || "";
-	    return (s1 > s2) - (s1 < s2);
-	  }
-	
-	  /**
-	   * Comparator between two mappings where the original positions are compared.
-	   *
-	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
-	   * mappings with the same original source/line/column, but different generated
-	   * line and column the same. Useful when searching for a mapping with a
-	   * stubbed out mapping.
-	   */
-	  function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
-	    var cmp;
-	
-	    cmp = strcmp(mappingA.source, mappingB.source);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalLine - mappingB.originalLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalColumn - mappingB.originalColumn;
-	    if (cmp || onlyCompareOriginal) {
-	      return cmp;
-	    }
-	
-	    cmp = strcmp(mappingA.name, mappingB.name);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.generatedLine - mappingB.generatedLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    return mappingA.generatedColumn - mappingB.generatedColumn;
-	  };
-	  exports.compareByOriginalPositions = compareByOriginalPositions;
-	
-	  /**
-	   * Comparator between two mappings where the generated positions are
-	   * compared.
-	   *
-	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
-	   * mappings with the same generated line and column, but different
-	   * source/name/original line and column the same. Useful when searching for a
-	   * mapping with a stubbed out mapping.
-	   */
-	  function compareByGeneratedPositions(mappingA, mappingB, onlyCompareGenerated) {
-	    var cmp;
-	
-	    cmp = mappingA.generatedLine - mappingB.generatedLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.generatedColumn - mappingB.generatedColumn;
-	    if (cmp || onlyCompareGenerated) {
-	      return cmp;
-	    }
-	
-	    cmp = strcmp(mappingA.source, mappingB.source);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalLine - mappingB.originalLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalColumn - mappingB.originalColumn;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    return strcmp(mappingA.name, mappingB.name);
-	  };
-	  exports.compareByGeneratedPositions = compareByGeneratedPositions;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 87 */
-/*!***************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
-  \***************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var util = __webpack_require__(/*! ./util */ 86);
-	
-	  /**
-	   * A data structure which is a combination of an array and a set. Adding a new
-	   * member is O(1), testing for membership is O(1), and finding the index of an
-	   * element is O(1). Removing elements from the set is not supported. Only
-	   * strings are supported for membership.
-	   */
-	  function ArraySet() {
-	    this._array = [];
-	    this._set = {};
-	  }
-	
-	  /**
-	   * Static method for creating ArraySet instances from an existing array.
-	   */
-	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
-	    var set = new ArraySet();
-	    for (var i = 0, len = aArray.length; i < len; i++) {
-	      set.add(aArray[i], aAllowDuplicates);
-	    }
-	    return set;
-	  };
-	
-	  /**
-	   * Add the given string to this set.
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
-	    var isDuplicate = this.has(aStr);
-	    var idx = this._array.length;
-	    if (!isDuplicate || aAllowDuplicates) {
-	      this._array.push(aStr);
-	    }
-	    if (!isDuplicate) {
-	      this._set[util.toSetString(aStr)] = idx;
-	    }
-	  };
-	
-	  /**
-	   * Is the given string a member of this set?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.has = function ArraySet_has(aStr) {
-	    return Object.prototype.hasOwnProperty.call(this._set,
-	                                                util.toSetString(aStr));
-	  };
-	
-	  /**
-	   * What is the index of the given string in the array?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
-	    if (this.has(aStr)) {
-	      return this._set[util.toSetString(aStr)];
-	    }
-	    throw new Error('"' + aStr + '" is not in the set.');
-	  };
-	
-	  /**
-	   * What is the element at the given index?
-	   *
-	   * @param Number aIdx
-	   */
-	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
-	    if (aIdx >= 0 && aIdx < this._array.length) {
-	      return this._array[aIdx];
-	    }
-	    throw new Error('No element indexed by ' + aIdx);
-	  };
-	
-	  /**
-	   * Returns the array representation of this set (which has the proper indices
-	   * indicated by indexOf). Note that this is a copy of the internal array used
-	   * for storing the members so that no one can mess with internal state.
-	   */
-	  ArraySet.prototype.toArray = function ArraySet_toArray() {
-	    return this._array.slice();
-	  };
-	
-	  exports.ArraySet = ArraySet;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 88 */
-/*!*******************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
-  \*******************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  /**
-	   * Recursive implementation of binary search.
-	   *
-	   * @param aLow Indices here and lower do not contain the needle.
-	   * @param aHigh Indices here and higher do not contain the needle.
-	   * @param aNeedle The element being searched for.
-	   * @param aHaystack The non-empty array being searched.
-	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
-	   */
-	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
-	    // This function terminates when one of the following is true:
-	    //
-	    //   1. We find the exact element we are looking for.
-	    //
-	    //   2. We did not find the exact element, but we can return the next
-	    //      closest element that is less than that element.
-	    //
-	    //   3. We did not find the exact element, and there is no next-closest
-	    //      element which is less than the one we are searching for, so we
-	    //      return null.
-	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
-	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
-	    if (cmp === 0) {
-	      // Found the element we are looking for.
-	      return aHaystack[mid];
-	    }
-	    else if (cmp > 0) {
-	      // aHaystack[mid] is greater than our needle.
-	      if (aHigh - mid > 1) {
-	        // The element is in the upper half.
-	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
-	      }
-	      // We did not find an exact match, return the next closest one
-	      // (termination case 2).
-	      return aHaystack[mid];
-	    }
-	    else {
-	      // aHaystack[mid] is less than our needle.
-	      if (mid - aLow > 1) {
-	        // The element is in the lower half.
-	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
-	      }
-	      // The exact needle element was not found in this haystack. Determine if
-	      // we are in termination case (2) or (3) and return the appropriate thing.
-	      return aLow < 0
-	        ? null
-	        : aHaystack[aLow];
-	    }
-	  }
-	
-	  /**
-	   * This is an implementation of binary search which will always try and return
-	   * the next lowest value checked if there is no exact hit. This is because
-	   * mappings between original and generated line/col pairs are single points,
-	   * and there is an implicit region between each of them, so a miss just means
-	   * that you aren't on the very start of a region.
-	   *
-	   * @param aNeedle The element you are looking for.
-	   * @param aHaystack The array that is being searched.
-	   * @param aCompare A function which takes the needle and an element in the
-	   *     array and returns -1, 0, or 1 depending on whether the needle is less
-	   *     than, equal to, or greater than the element, respectively.
-	   */
-	  exports.search = function search(aNeedle, aHaystack, aCompare) {
-	    return aHaystack.length > 0
-	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
-	      : null;
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 89 */
-/*!****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/~/stacktrace-js/stacktrace.js ***!
   \****************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
@@ -16644,17 +15988,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	}));
 
 /***/ },
-/* 90 */
+/* 86 */
 /*!**********************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
   \**********************************************************************************************************************************/
 59,
-/* 91 */
+/* 87 */
 /*!***********************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
   \***********************************************************************************************************************/
-[106, 99],
-/* 92 */
+[128, 99],
+/* 88 */
 /*!************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
   \************************************************************************************************************************************/
@@ -16710,7 +16054,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 93 */
+/* 89 */
 /*!******************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
   \******************************************************************************************************************************************/
@@ -16794,6 +16138,666 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return new SourceMappingURL(["/*", " */"])
 	
 	}));
+
+
+/***/ },
+/* 90 */
+/*!****************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
+  \****************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 *
+	 * Based on the Base 64 VLQ implementation in Closure Compiler:
+	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
+	 *
+	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
+	 * Redistribution and use in source and binary forms, with or without
+	 * modification, are permitted provided that the following conditions are
+	 * met:
+	 *
+	 *  * Redistributions of source code must retain the above copyright
+	 *    notice, this list of conditions and the following disclaimer.
+	 *  * Redistributions in binary form must reproduce the above
+	 *    copyright notice, this list of conditions and the following
+	 *    disclaimer in the documentation and/or other materials provided
+	 *    with the distribution.
+	 *  * Neither the name of Google Inc. nor the names of its
+	 *    contributors may be used to endorse or promote products derived
+	 *    from this software without specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var base64 = __webpack_require__(/*! ./base64 */ 97);
+	
+	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
+	  // length quantities we use in the source map spec, the first bit is the sign,
+	  // the next four bits are the actual value, and the 6th bit is the
+	  // continuation bit. The continuation bit tells us whether there are more
+	  // digits in this value following this digit.
+	  //
+	  //   Continuation
+	  //   |    Sign
+	  //   |    |
+	  //   V    V
+	  //   101011
+	
+	  var VLQ_BASE_SHIFT = 5;
+	
+	  // binary: 100000
+	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
+	
+	  // binary: 011111
+	  var VLQ_BASE_MASK = VLQ_BASE - 1;
+	
+	  // binary: 100000
+	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
+	
+	  /**
+	   * Converts from a two-complement value to a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
+	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
+	   */
+	  function toVLQSigned(aValue) {
+	    return aValue < 0
+	      ? ((-aValue) << 1) + 1
+	      : (aValue << 1) + 0;
+	  }
+	
+	  /**
+	   * Converts to a two-complement value from a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
+	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
+	   */
+	  function fromVLQSigned(aValue) {
+	    var isNegative = (aValue & 1) === 1;
+	    var shifted = aValue >> 1;
+	    return isNegative
+	      ? -shifted
+	      : shifted;
+	  }
+	
+	  /**
+	   * Returns the base 64 VLQ encoded value.
+	   */
+	  exports.encode = function base64VLQ_encode(aValue) {
+	    var encoded = "";
+	    var digit;
+	
+	    var vlq = toVLQSigned(aValue);
+	
+	    do {
+	      digit = vlq & VLQ_BASE_MASK;
+	      vlq >>>= VLQ_BASE_SHIFT;
+	      if (vlq > 0) {
+	        // There are still more digits in this value, so we must make sure the
+	        // continuation bit is marked.
+	        digit |= VLQ_CONTINUATION_BIT;
+	      }
+	      encoded += base64.encode(digit);
+	    } while (vlq > 0);
+	
+	    return encoded;
+	  };
+	
+	  /**
+	   * Decodes the next base 64 VLQ value from the given string and returns the
+	   * value and the rest of the string.
+	   */
+	  exports.decode = function base64VLQ_decode(aStr) {
+	    var i = 0;
+	    var strLen = aStr.length;
+	    var result = 0;
+	    var shift = 0;
+	    var continuation, digit;
+	
+	    do {
+	      if (i >= strLen) {
+	        throw new Error("Expected more digits in base 64 VLQ value.");
+	      }
+	      digit = base64.decode(aStr.charAt(i++));
+	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
+	      digit &= VLQ_BASE_MASK;
+	      result = result + (digit << shift);
+	      shift += VLQ_BASE_SHIFT;
+	    } while (continuation);
+	
+	    return {
+	      value: fromVLQSigned(result),
+	      rest: aStr.slice(i)
+	    };
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 91 */
+/*!**********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
+  \**********************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  /**
+	   * This is a helper function for getting values from parameter/options
+	   * objects.
+	   *
+	   * @param args The object we are extracting values from
+	   * @param name The name of the property we are getting.
+	   * @param defaultValue An optional value to return if the property is missing
+	   * from the object. If this is not specified and the property is missing, an
+	   * error will be thrown.
+	   */
+	  function getArg(aArgs, aName, aDefaultValue) {
+	    if (aName in aArgs) {
+	      return aArgs[aName];
+	    } else if (arguments.length === 3) {
+	      return aDefaultValue;
+	    } else {
+	      throw new Error('"' + aName + '" is a required argument.');
+	    }
+	  }
+	  exports.getArg = getArg;
+	
+	  var urlRegexp = /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.]*)(?::(\d+))?(\S*)$/;
+	  var dataUrlRegexp = /^data:.+\,.+$/;
+	
+	  function urlParse(aUrl) {
+	    var match = aUrl.match(urlRegexp);
+	    if (!match) {
+	      return null;
+	    }
+	    return {
+	      scheme: match[1],
+	      auth: match[2],
+	      host: match[3],
+	      port: match[4],
+	      path: match[5]
+	    };
+	  }
+	  exports.urlParse = urlParse;
+	
+	  function urlGenerate(aParsedUrl) {
+	    var url = '';
+	    if (aParsedUrl.scheme) {
+	      url += aParsedUrl.scheme + ':';
+	    }
+	    url += '//';
+	    if (aParsedUrl.auth) {
+	      url += aParsedUrl.auth + '@';
+	    }
+	    if (aParsedUrl.host) {
+	      url += aParsedUrl.host;
+	    }
+	    if (aParsedUrl.port) {
+	      url += ":" + aParsedUrl.port
+	    }
+	    if (aParsedUrl.path) {
+	      url += aParsedUrl.path;
+	    }
+	    return url;
+	  }
+	  exports.urlGenerate = urlGenerate;
+	
+	  /**
+	   * Normalizes a path, or the path portion of a URL:
+	   *
+	   * - Replaces consequtive slashes with one slash.
+	   * - Removes unnecessary '.' parts.
+	   * - Removes unnecessary '<dir>/..' parts.
+	   *
+	   * Based on code in the Node.js 'path' core module.
+	   *
+	   * @param aPath The path or url to normalize.
+	   */
+	  function normalize(aPath) {
+	    var path = aPath;
+	    var url = urlParse(aPath);
+	    if (url) {
+	      if (!url.path) {
+	        return aPath;
+	      }
+	      path = url.path;
+	    }
+	    var isAbsolute = (path.charAt(0) === '/');
+	
+	    var parts = path.split(/\/+/);
+	    for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
+	      part = parts[i];
+	      if (part === '.') {
+	        parts.splice(i, 1);
+	      } else if (part === '..') {
+	        up++;
+	      } else if (up > 0) {
+	        if (part === '') {
+	          // The first part is blank if the path is absolute. Trying to go
+	          // above the root is a no-op. Therefore we can remove all '..' parts
+	          // directly after the root.
+	          parts.splice(i + 1, up);
+	          up = 0;
+	        } else {
+	          parts.splice(i, 2);
+	          up--;
+	        }
+	      }
+	    }
+	    path = parts.join('/');
+	
+	    if (path === '') {
+	      path = isAbsolute ? '/' : '.';
+	    }
+	
+	    if (url) {
+	      url.path = path;
+	      return urlGenerate(url);
+	    }
+	    return path;
+	  }
+	  exports.normalize = normalize;
+	
+	  /**
+	   * Joins two paths/URLs.
+	   *
+	   * @param aRoot The root path or URL.
+	   * @param aPath The path or URL to be joined with the root.
+	   *
+	   * - If aPath is a URL or a data URI, aPath is returned, unless aPath is a
+	   *   scheme-relative URL: Then the scheme of aRoot, if any, is prepended
+	   *   first.
+	   * - Otherwise aPath is a path. If aRoot is a URL, then its path portion
+	   *   is updated with the result and aRoot is returned. Otherwise the result
+	   *   is returned.
+	   *   - If aPath is absolute, the result is aPath.
+	   *   - Otherwise the two paths are joined with a slash.
+	   * - Joining for example 'http://' and 'www.example.com' is also supported.
+	   */
+	  function join(aRoot, aPath) {
+	    var aPathUrl = urlParse(aPath);
+	    var aRootUrl = urlParse(aRoot);
+	    if (aRootUrl) {
+	      aRoot = aRootUrl.path || '/';
+	    }
+	
+	    // `join(foo, '//www.example.org')`
+	    if (aPathUrl && !aPathUrl.scheme) {
+	      if (aRootUrl) {
+	        aPathUrl.scheme = aRootUrl.scheme;
+	      }
+	      return urlGenerate(aPathUrl);
+	    }
+	
+	    if (aPathUrl || aPath.match(dataUrlRegexp)) {
+	      return aPath;
+	    }
+	
+	    // `join('http://', 'www.example.com')`
+	    if (aRootUrl && !aRootUrl.host && !aRootUrl.path) {
+	      aRootUrl.host = aPath;
+	      return urlGenerate(aRootUrl);
+	    }
+	
+	    var joined = aPath.charAt(0) === '/'
+	      ? aPath
+	      : normalize(aRoot.replace(/\/+$/, '') + '/' + aPath);
+	
+	    if (aRootUrl) {
+	      aRootUrl.path = joined;
+	      return urlGenerate(aRootUrl);
+	    }
+	    return joined;
+	  }
+	  exports.join = join;
+	
+	  /**
+	   * Because behavior goes wacky when you set `__proto__` on objects, we
+	   * have to prefix all the strings in our set with an arbitrary character.
+	   *
+	   * See https://github.com/mozilla/source-map/pull/31 and
+	   * https://github.com/mozilla/source-map/issues/30
+	   *
+	   * @param String aStr
+	   */
+	  function toSetString(aStr) {
+	    return '$' + aStr;
+	  }
+	  exports.toSetString = toSetString;
+	
+	  function fromSetString(aStr) {
+	    return aStr.substr(1);
+	  }
+	  exports.fromSetString = fromSetString;
+	
+	  function relative(aRoot, aPath) {
+	    aRoot = aRoot.replace(/\/$/, '');
+	
+	    var url = urlParse(aRoot);
+	    if (aPath.charAt(0) == "/" && url && url.path == "/") {
+	      return aPath.slice(1);
+	    }
+	
+	    return aPath.indexOf(aRoot + '/') === 0
+	      ? aPath.substr(aRoot.length + 1)
+	      : aPath;
+	  }
+	  exports.relative = relative;
+	
+	  function strcmp(aStr1, aStr2) {
+	    var s1 = aStr1 || "";
+	    var s2 = aStr2 || "";
+	    return (s1 > s2) - (s1 < s2);
+	  }
+	
+	  /**
+	   * Comparator between two mappings where the original positions are compared.
+	   *
+	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
+	   * mappings with the same original source/line/column, but different generated
+	   * line and column the same. Useful when searching for a mapping with a
+	   * stubbed out mapping.
+	   */
+	  function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
+	    var cmp;
+	
+	    cmp = strcmp(mappingA.source, mappingB.source);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalLine - mappingB.originalLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalColumn - mappingB.originalColumn;
+	    if (cmp || onlyCompareOriginal) {
+	      return cmp;
+	    }
+	
+	    cmp = strcmp(mappingA.name, mappingB.name);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.generatedLine - mappingB.generatedLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    return mappingA.generatedColumn - mappingB.generatedColumn;
+	  };
+	  exports.compareByOriginalPositions = compareByOriginalPositions;
+	
+	  /**
+	   * Comparator between two mappings where the generated positions are
+	   * compared.
+	   *
+	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
+	   * mappings with the same generated line and column, but different
+	   * source/name/original line and column the same. Useful when searching for a
+	   * mapping with a stubbed out mapping.
+	   */
+	  function compareByGeneratedPositions(mappingA, mappingB, onlyCompareGenerated) {
+	    var cmp;
+	
+	    cmp = mappingA.generatedLine - mappingB.generatedLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.generatedColumn - mappingB.generatedColumn;
+	    if (cmp || onlyCompareGenerated) {
+	      return cmp;
+	    }
+	
+	    cmp = strcmp(mappingA.source, mappingB.source);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalLine - mappingB.originalLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalColumn - mappingB.originalColumn;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    return strcmp(mappingA.name, mappingB.name);
+	  };
+	  exports.compareByGeneratedPositions = compareByGeneratedPositions;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 92 */
+/*!***************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
+  \***************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var util = __webpack_require__(/*! ./util */ 91);
+	
+	  /**
+	   * A data structure which is a combination of an array and a set. Adding a new
+	   * member is O(1), testing for membership is O(1), and finding the index of an
+	   * element is O(1). Removing elements from the set is not supported. Only
+	   * strings are supported for membership.
+	   */
+	  function ArraySet() {
+	    this._array = [];
+	    this._set = {};
+	  }
+	
+	  /**
+	   * Static method for creating ArraySet instances from an existing array.
+	   */
+	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
+	    var set = new ArraySet();
+	    for (var i = 0, len = aArray.length; i < len; i++) {
+	      set.add(aArray[i], aAllowDuplicates);
+	    }
+	    return set;
+	  };
+	
+	  /**
+	   * Add the given string to this set.
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
+	    var isDuplicate = this.has(aStr);
+	    var idx = this._array.length;
+	    if (!isDuplicate || aAllowDuplicates) {
+	      this._array.push(aStr);
+	    }
+	    if (!isDuplicate) {
+	      this._set[util.toSetString(aStr)] = idx;
+	    }
+	  };
+	
+	  /**
+	   * Is the given string a member of this set?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.has = function ArraySet_has(aStr) {
+	    return Object.prototype.hasOwnProperty.call(this._set,
+	                                                util.toSetString(aStr));
+	  };
+	
+	  /**
+	   * What is the index of the given string in the array?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
+	    if (this.has(aStr)) {
+	      return this._set[util.toSetString(aStr)];
+	    }
+	    throw new Error('"' + aStr + '" is not in the set.');
+	  };
+	
+	  /**
+	   * What is the element at the given index?
+	   *
+	   * @param Number aIdx
+	   */
+	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
+	    if (aIdx >= 0 && aIdx < this._array.length) {
+	      return this._array[aIdx];
+	    }
+	    throw new Error('No element indexed by ' + aIdx);
+	  };
+	
+	  /**
+	   * Returns the array representation of this set (which has the proper indices
+	   * indicated by indexOf). Note that this is a copy of the internal array used
+	   * for storing the members so that no one can mess with internal state.
+	   */
+	  ArraySet.prototype.toArray = function ArraySet_toArray() {
+	    return this._array.slice();
+	  };
+	
+	  exports.ArraySet = ArraySet;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 93 */
+/*!*******************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
+  \*******************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  /**
+	   * Recursive implementation of binary search.
+	   *
+	   * @param aLow Indices here and lower do not contain the needle.
+	   * @param aHigh Indices here and higher do not contain the needle.
+	   * @param aNeedle The element being searched for.
+	   * @param aHaystack The non-empty array being searched.
+	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
+	   */
+	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
+	    // This function terminates when one of the following is true:
+	    //
+	    //   1. We find the exact element we are looking for.
+	    //
+	    //   2. We did not find the exact element, but we can return the next
+	    //      closest element that is less than that element.
+	    //
+	    //   3. We did not find the exact element, and there is no next-closest
+	    //      element which is less than the one we are searching for, so we
+	    //      return null.
+	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
+	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
+	    if (cmp === 0) {
+	      // Found the element we are looking for.
+	      return aHaystack[mid];
+	    }
+	    else if (cmp > 0) {
+	      // aHaystack[mid] is greater than our needle.
+	      if (aHigh - mid > 1) {
+	        // The element is in the upper half.
+	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
+	      }
+	      // We did not find an exact match, return the next closest one
+	      // (termination case 2).
+	      return aHaystack[mid];
+	    }
+	    else {
+	      // aHaystack[mid] is less than our needle.
+	      if (mid - aLow > 1) {
+	        // The element is in the lower half.
+	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
+	      }
+	      // The exact needle element was not found in this haystack. Determine if
+	      // we are in termination case (2) or (3) and return the appropriate thing.
+	      return aLow < 0
+	        ? null
+	        : aHaystack[aLow];
+	    }
+	  }
+	
+	  /**
+	   * This is an implementation of binary search which will always try and return
+	   * the next lowest value checked if there is no exact hit. This is because
+	   * mappings between original and generated line/col pairs are single points,
+	   * and there is an implicit region between each of them, so a miss just means
+	   * that you aren't on the very start of a region.
+	   *
+	   * @param aNeedle The element you are looking for.
+	   * @param aHaystack The array that is being searched.
+	   * @param aCompare A function which takes the needle and an element in the
+	   *     array and returns -1, 0, or 1 depending on whether the needle is less
+	   *     than, equal to, or greater than the element, respectively.
+	   */
+	  exports.search = function search(aNeedle, aHaystack, aCompare) {
+	    return aHaystack.length > 0
+	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
+	      : null;
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
 /***/ },
@@ -17131,9 +17135,31 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 103 */,
 /* 104 */,
 /* 105 */,
-/* 106 */
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */
 /*!***********************************!*\
-  !*** template of 43 referencing  ***!
+  !*** template of 40 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
@@ -17438,9 +17464,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 107 */
+/* 129 */
 /*!***********************************!*\
-  !*** template of 54 referencing  ***!
+  !*** template of 55 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__, __webpack_module_template_argument_1__) {
 
@@ -17475,7 +17501,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 108 */
+/* 130 */
 /*!*************************************!*\
   !*** template of 68 referencing 39 ***!
   \*************************************/

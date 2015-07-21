@@ -57,4 +57,14 @@ module.exports = function() {
         var t = TextField("label", false)
         this.eq(t.label, "label")
     })
+
+    this.test("former bugs", function() {
+        this.test("TextField was messing directly with the domNode's classname for god knows what reason", function() {
+            var field = TextField(true)
+            var inner = Container([field])
+            container.add(inner)
+
+            this.eq($(field.domNode).css('box-sizing'), 'border-box')
+        })
+    })
 };
