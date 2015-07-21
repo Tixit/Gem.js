@@ -1246,6 +1246,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 1.1.3 - fixing bug in TextField, and optimizing Style performance by only creating each css class once (was creating once per block)
 * 1.1.2
     * fixing minor bug where in certain cases involving native-rendered pseudoclass styles, the browser's default value was used instead of blocks's default
     * Attempting to improve style cache performance
