@@ -28,6 +28,7 @@ module.exports = function(t) {
 
 
 
+
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -1987,6 +1988,40 @@ module.exports = function(t) {
             t.eq($(thing.domNode).css('display'), 'block') // should be the set value
             t.eq($(thing.domNode).css('minHeight'), '22px')
             t.eq($(thing.domNode).css('borderBottom'), '0px none rgb(0, 0, 0)')   // this is what you get back for "none"
+        })
+
+        this.test('native pseudoclass style not overriding competing psuedoclass styles', function(t) {
+
+            var C = proto(Container, function(superclass) {
+                this.name = 'Whatever'
+            })
+
+            var thing = C(Text("a'llo"))
+            var c = Container([
+                Container([thing])
+            ])
+            c.style = Style({
+                Container: {
+                    Whatever: {
+                        display: 'table-cell',
+
+                        $$firstChild: {
+                            color: 'rgb(45, 46, 49)'
+                        }
+                    },
+
+                    $$firstChild: {
+                        Whatever: {
+
+                        }
+                    }
+                },
+            })
+
+            testUtils.demo('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', c)
+
+            t.eq($(thing.domNode).css('color'), 'rgb(0, 0, 0)')
+            t.eq($(thing.domNode).css('display'), 'inline-block')
         })
 
     })
