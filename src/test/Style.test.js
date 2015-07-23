@@ -25,6 +25,9 @@ module.exports = function(t) {
 
 
 
+
+
+
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -1926,7 +1929,7 @@ module.exports = function(t) {
                 this.name = 'blah'
             })
 
-            var text = C("a'llo")
+            var text = C(Text("a'llo"))
             var c = Container([
                 Container('a', [text])
             ])
@@ -1947,6 +1950,45 @@ module.exports = function(t) {
 
             t.eq($(text.domNode).css('display'), 'inline-block') // should be the base default value
         })
+
+        this.test('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', function(t) {
+
+            var C = proto(Container, function(superclass) {
+                this.name = 'TicketView'
+            })
+
+            var thing = C(Text("a'llo"))
+            var c = Container([
+                C([thing])
+            ])
+            c.style = Style({
+                TicketView: {
+                    display: 'block',
+
+                    TicketView: {
+                        display: 'block',
+                        minHeight: 22,
+
+                        borderBottom: "1px solid red",
+
+                        $$lastChild: {
+                            borderBottom: 'none'
+                        },
+                        $componentContainer: {
+                            display: 'flex',
+                            alignItems: 'center',
+                        }
+                    }
+                }
+            })
+
+            testUtils.demo('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', c)
+
+            t.eq($(thing.domNode).css('display'), 'block') // should be the set value
+            t.eq($(thing.domNode).css('minHeight'), '22px')
+            t.eq($(thing.domNode).css('borderBottom'), '0px none rgb(0, 0, 0)')   // this is what you get back for "none"
+        })
+
     })
     //*/
 }

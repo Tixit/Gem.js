@@ -1246,6 +1246,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 1.1.5 - Another native pseudoclass bug fix related to overrides
 * 1.1.4 - Fixing bug where base defaults weren't being used for native-rendered pseudoclass styles in cases where a block doesn't have a defaultStyle
 * 1.1.3 - fixing bug in TextField, and optimizing Style performance by only creating each css class once (was creating once per block)
 * 1.1.2
