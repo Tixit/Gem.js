@@ -18,6 +18,7 @@ Blocks.js is here to change that. Finally, modern application development for th
 
 - [Example](#example)
 - [Why use `blocks.js`?](#why-use-blocksjs)
+- [Comparisons](#comparisons)
 - [Install](#install)
 - [Usage](#usage)
   - [`Block`](#block)
@@ -166,6 +167,10 @@ Why use `blocks.js`?
 * Unlike [HTML web components](http://robdodson.me/why-web-components/), `blocks.js` **works in modern browsers without polyfills**.
 * Also unlike HTML web components, [element name collision](https://groups.google.com/forum/#!topic/polymer-dev/90Dq_2bk8CU) isn't a problem.
 * Has a small footprint: **16.5KB minified and gzipped in umd format**
+
+Comparisons
+===========
+* See [the comparison to React])https://github.com/Tixit/blocks.js/wiki/Comparison-to-React)
 
 Install
 =======
