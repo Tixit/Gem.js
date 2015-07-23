@@ -170,7 +170,7 @@ Why use `blocks.js`?
 
 Comparisons
 ===========
-* See [the comparison to React])https://github.com/Tixit/blocks.js/wiki/Comparison-to-React)
+* See [the comparison to React](https://github.com/Tixit/blocks.js/wiki/Comparison-to-React)
 
 Install
 =======
