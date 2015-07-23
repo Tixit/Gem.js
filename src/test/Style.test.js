@@ -1919,6 +1919,34 @@ module.exports = function(t) {
             t.eq($(text.domNode).css('color'), 'rgb(100, 200, 250)')
             t.eq($(text.domNode).css('display'), 'inline-block') // should be the base default value
         })
+
+        this.test('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', function(t) {
+
+            var C = proto(Container, function(superclass) {
+                this.name = 'blah'
+            })
+
+            var text = C("a'llo")
+            var c = Container([
+                Container('a', [text])
+            ])
+            c.style = Style({
+                Container: {
+                    display: "block"
+                },
+                $a: {
+                    '$$nthChild(1)': {
+                        Container: {
+                            // color left as default (which should override the 'red' above)
+                        }
+                    }
+                }
+            })
+
+            testUtils.demo('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', c)
+
+            t.eq($(text.domNode).css('display'), 'inline-block') // should be the base default value
+        })
     })
     //*/
 }
