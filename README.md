@@ -1095,9 +1095,20 @@ Style({
 })
 ```
 
-### `styleObject.mix(styleObject2)`
+### `styleObject.mix`
 
-Returns a new style that combines together calling style object and the passed style object. The properties from the passed style object override the ones from the calling object.
+`styleObject.mix(styleObject2)`
+`styleObject.mix(styleDefinition)`
+
+Returns a new style that combines together calling style object and the passed style object or style definition. The properties from the passed style object override the ones from the calling object.
+
+Examples:
+```javascript
+var newStyle = oldStyle.mix({
+   color: 'red'
+})
+var newStyle2 = oldStyle.mix(anotherStyle)
+```
 
 ### `styleObject.copy()`
 
@@ -1251,6 +1262,9 @@ Optimization ideas:
 Changelog
 ========
 
+* 1.1.7
+    * Attempting to fix a bug caused by a cache that wasn't specific enough, triggered by native pseudoclass interacting with non-native styles
+    * Allowing style definitions (rather than Style objects) to be passed into Style.mix
 * 1.1.6 - Another native pseudoclass bug fix related to overrides of other pseudoclasseses
 * 1.1.5 - Another native pseudoclass bug fix related to overrides
 * 1.1.4 - Fixing bug where base defaults weren't being used for native-rendered pseudoclass styles in cases where a block doesn't have a defaultStyle

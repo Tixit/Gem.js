@@ -28,7 +28,6 @@ module.exports = function(t) {
 
 
 
-
     //*
     this.test('simple styling',function(t) {
         this.count(2)
