@@ -1207,6 +1207,9 @@ Contributors
 Todo
 ======
 
+* have an event a block will emit when it or one of its ancestors becomes detached from the dom
+    * Think about what to do about event forwarding for such an event, and for the 'newParent' and "parentRemoved' events - they shouldn't be forwarded
+* consider adding vertical-align:top to the default css, since it solves weird issues with inline-blocks causing extra bottom-margin: http://stackoverflow.com/questions/20310690/overflowhidden-on-inline-block-adds-height-to-parent
 * Implement an $inherit option on Styles, so that they can implicitly inherit from styles above them without specifying which style to combine into it
 * Emulate the :not psuedoclass
 
@@ -1262,6 +1265,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 1.1.8 - fixing broken style caching (by removing a cache step)
 * 1.1.7
     * Attempting to fix a bug caused by a cache that wasn't specific enough, triggered by native pseudoclass interacting with non-native styles
     * Allowing style definitions (rather than Style objects) to be passed into Style.mix

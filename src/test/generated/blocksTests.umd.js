@@ -78,9 +78,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 35)
+	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 12)
 	
-	var blocks = __webpack_require__(/*! ../blocks.browser */ 15)
+	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
 	blocks.dev = true
 	
 	module.exports = function() {
@@ -94,39 +94,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	        //*
-	        t.test('EventEmitterB',__webpack_require__(/*! ./EventEmitterB.test */ 1)).complete.then(function(){
-	            return t.test('Block',__webpack_require__(/*! ./Block.test */ 2)).complete
+	        t.test('EventEmitterB',__webpack_require__(/*! ./EventEmitterB.test */ 143)).complete.then(function(){
+	            return t.test('Block',__webpack_require__(/*! ./Block.test */ 144)).complete
 	        }).then(function(){
-	            return t.test('Style',__webpack_require__(/*! ./Style.test */ 3)).complete
+	            return t.test('Style',__webpack_require__(/*! ./Style.test */ 2)).complete
 	        }).then(function() {
 	            return t.test("standard components", function(t) {
 	                t.count(13)
 	
 	                // it seems a bit faster when the tests are run sequentially
-	                t.test('Button',__webpack_require__(/*! ./ComponentTests/Button.test */ 4)).complete.then(function() {
-	                    return t.test('Canvas',__webpack_require__(/*! ./ComponentTests/Canvas.test */ 5)).complete
+	                t.test('Button',__webpack_require__(/*! ./ComponentTests/Button.test */ 145)).complete.then(function() {
+	                    return t.test('Canvas',__webpack_require__(/*! ./ComponentTests/Canvas.test */ 146)).complete
 	                }).then(function() {
-	                    return t.test('CheckBox',__webpack_require__(/*! ./ComponentTests/CheckBox.test */ 6)).complete
+	                    return t.test('CheckBox',__webpack_require__(/*! ./ComponentTests/CheckBox.test */ 147)).complete
 	                }).then(function() {
-	                    return t.test('Container',__webpack_require__(/*! ./ComponentTests/Container.test */ 7)).complete
+	                    return t.test('Container',__webpack_require__(/*! ./ComponentTests/Container.test */ 148)).complete
 	                }).then(function() {
-	                    return t.test('Image',__webpack_require__(/*! ./ComponentTests/Image.test */ 8)).complete
+	                    return t.test('Image',__webpack_require__(/*! ./ComponentTests/Image.test */ 149)).complete
 	                }).then(function() {
-	                    return t.test('List',__webpack_require__(/*! ./ComponentTests/List.test */ 9)).complete
+	                    return t.test('List',__webpack_require__(/*! ./ComponentTests/List.test */ 150)).complete
 	                }).then(function() {
-	                    return t.test('MultiSelect',__webpack_require__(/*! ./ComponentTests/MultiSelect.test */ 10)).complete
+	                    return t.test('MultiSelect',__webpack_require__(/*! ./ComponentTests/MultiSelect.test */ 151)).complete
 	                }).then(function() {
-	                    return t.test('Radio',__webpack_require__(/*! ./ComponentTests/Radio.test */ 11)).complete
+	                    return t.test('Radio',__webpack_require__(/*! ./ComponentTests/Radio.test */ 152)).complete
 	                }).then(function() {
-	                    return t.test('Select',__webpack_require__(/*! ./ComponentTests/Select.test */ 12)).complete
+	                    return t.test('Select',__webpack_require__(/*! ./ComponentTests/Select.test */ 153)).complete
 	                }).then(function() {
-	                    return t.test('table',__webpack_require__(/*! ./ComponentTests/Table.test */ 13)).complete
+	                    return t.test('table',__webpack_require__(/*! ./ComponentTests/Table.test */ 154)).complete
 	                }).then(function() {
-	                    return t.test('text',__webpack_require__(/*! ./ComponentTests/Text.test */ 14)).complete
+	                    return t.test('text',__webpack_require__(/*! ./ComponentTests/Text.test */ 155)).complete
 	                }).then(function() {
-	                    return t.test('textarea',__webpack_require__(/*! ./ComponentTests/TextArea.test */ 16)).complete
+	                    return t.test('textarea',__webpack_require__(/*! ./ComponentTests/TextArea.test */ 156)).complete
 	                }).then(function() {
-	                    return t.test('textfield',__webpack_require__(/*! ./ComponentTests/TextField.test */ 17)).complete
+	                    return t.test('textfield',__webpack_require__(/*! ./ComponentTests/TextField.test */ 157)).complete
 	                })
 	            }).complete
 	        }).done()
@@ -143,1298 +143,62 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/*!*******************************!*\
-  !*** ./EventEmitterB.test.js ***!
-  \*******************************/
+/*!****************************!*\
+  !*** ../blocks.browser.js ***!
+  \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 48);
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 34);
-	
-	module.exports = function(t) {
-	
-	
-	
-	    //*
-	    this.test("ifon, ifoff", function() {
-	
-	        this.test("normal usage", function(t) {
-	            this.count(56)
-	
-	            var e = EventEmitterB()
-	
-	            var event = testUtils.seq(
-	            // e.on('a', cb1)
-	              function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.on('b', cb2)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.removeListener('b', cb2)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.removeListener('a', cb2)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.once('a', cb3)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.emit('a')
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.on('a', cb1)
-	            // e.on('b', cb1)
-	            // e.on('a', cb2)
-	            // e.on('b', cb2)
-	            // e.on('c', cb1)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'c')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.removeAllListeners('a')
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.removeAllListeners()
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'c')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	            })
-	
-	            e.ifon('a', function() {
-	                event('a', 'on')
-	            })
-	            e.ifoff('a', function() {
-	                event('a', 'off')
-	            })
-	            e.ifon('b', function() {
-	                event('b', 'on')
-	            })
-	            e.ifoff('b', function() {
-	                event('b', 'off')
-	            })
-	
-	            e.ifon(function(eventName) {
-	                event(eventName, 'on', true)
-	            })
-	            e.ifoff(function(eventName) {
-	                event(eventName, 'off', true)
-	            })
-	
-	            var cb1 = function(){}
-	            var cb2 = function(){}
-	            var cb3 = function(){}
-	
-	            e.on('a', cb1)
-	            e.on('b', cb2)
-	            e.on('a', cb2)
-	            e.removeListener('a', cb1)
-	            e.removeListener('b', cb2)
-	            e.removeListener('a', cb2)
-	
-	            e.once('a', cb3)
-	            e.emit('a')
-	
-	            e.on('a', cb1)
-	            e.on('b', cb1)
-	            e.on('a', cb2)
-	            e.on('b', cb2)
-	            e.on('c', cb1)
-	            e.removeAllListeners('a')
-	            e.removeAllListeners()
-	        })
-	
-	        this.test("ifon after events have been attachd", function(t) {
-	            this.count(4)
-	
-	            var e = EventEmitterB()
-	
-	            var sequenceEvent = testUtils.seq(
-	            // e.on('a', cb1)
-	              function(eventName) {
-	                t.eq(eventName, 'shmaotown')
-	            },function(eventName) {
-	                t.eq(eventName, 'you lazy plughole')
-	            },function(eventName) {
-	                t.eq(eventName, 'all shmaotown')
-	            },function(eventName) {
-	                t.eq(eventName, 'all you lazy plughole')
-	            })
-	
-	            e.on('shmaotown', function() {})
-	            e.on('you lazy plughole', function() {})
-	
-	
-	            e.ifon('shmaotown', function() {
-	                sequenceEvent('shmaotown')
-	            })
-	            e.ifon('you lazy plughole', function() {
-	                sequenceEvent('you lazy plughole')
-	            })
-	            e.ifon(function(eventName) {
-	                sequenceEvent('all '+eventName)
-	            })
-	        })
-	
-	        this.test("remove ifon", function(t) {
-	            this.count(26)
-	
-	            var e = EventEmitterB()
-	
-	            var event = testUtils.seq(
-	            // remove a
-	              function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'b')
-	            },function(eventName) {
-	                t.eq(eventName, 'b2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove bs
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove ifon-all callback
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            })
-	
-	            var a,a2, b,b2, c,c2, all1,all2
-	            e.ifon('a', a = function() {
-	                event('a')
-	            })
-	            e.ifon('a', a2=function() {
-	                event('a2')
-	            })
-	            e.ifon('b', b=function() {
-	                event('b')
-	            })
-	            e.ifon('b', b2=function() {
-	                event('b2')
-	            })
-	            e.ifon('c', c=function() {
-	                event('c')
-	            })
-	            e.ifon('c', c2=function() {
-	                event('c2')
-	            })
-	
-	            e.ifon(all1=function() {
-	                event('all1')
-	            })
-	            e.ifon(all2=function() {
-	                event('all2')
-	            })
-	
-	            t.log('remove a')
-	            e.removeIfon('a', a)
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	
-	            e.removeAllListeners()
-	
-	            t.log('remove bs')
-	            e.removeIfon('b')
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	
-	            e.removeAllListeners()
-	
-	            t.log('remove ifon-all callback')
-	            e.removeIfon(all1)
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	
-	            e.removeAllListeners()
-	
-	            t.log('remove all')
-	            e.removeIfon()
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	        })
-	
-	        this.test("remove ifoff", function(t) {
-	            this.count(26)
-	
-	            var e = EventEmitterB()
-	
-	            var event = testUtils.seq(
-	            // remove a
-	              function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'b')
-	            },function(eventName) {
-	                t.eq(eventName, 'b2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove bs
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove ifoff-all callback
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            })
-	
-	            var a,a2, b,b2, c,c2, all1, all2
-	            e.ifoff('a', a = function() {
-	                event('a')
-	            })
-	            e.ifoff('a', a2=function() {
-	                event('a2')
-	            })
-	            e.ifoff('b', b=function() {
-	                event('b')
-	            })
-	            e.ifoff('b', b2=function() {
-	                event('b2')
-	            })
-	            e.ifoff('c', c=function() {
-	                event('c')
-	            })
-	            e.ifoff('c', c2=function() {
-	                event('c2')
-	            })
-	
-	            e.ifoff(all1=function() {
-	                event('all1')
-	            })
-	            e.ifoff(all2=function() {
-	                event('all2')
-	            })
-	
-	            var a,b,c
-	
-	            t.log('remove a')
-	            e.removeIfoff('a', a)
-	            e.on('a',a=function(){})
-	            e.on('b',b=function(){})
-	            e.on('c',c=function(){})
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	
-	            e.on('a',a)
-	            e.on('b',b)
-	            e.on('c',c)
-	
-	            t.log('remove bs')
-	            e.removeIfoff('b')
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	
-	            e.on('a',a)
-	            e.on('b',b)
-	            e.on('c',c)
-	
-	            t.log('remove ifoff-all callback')
-	            e.removeIfoff(all1)
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	
-	            e.on('a',a)
-	            e.on('b',b)
-	            e.on('c',c)
-	
-	            t.log('remove all')
-	            e.removeIfoff()
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	        })
-	    })
-	
-	    this.test("proxy events", function() {
-	        this.test("proxy all", function(t){
-	            this.count(2)
-	
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            var testEvent = testUtils.seq(
-	              function(eventName) {
-	                t.eq(eventName, 'moose')
-	            },function(eventName) {
-	                t.eq(eventName, 'bark')
-	            })
-	
-	
-	            A.proxy(B)   // proxy all events
-	
-	            A.on('moose', function() {
-	                testEvent('moose')
-	            })
-	            A.on('bark', function() {
-	                testEvent('bark')
-	            })
-	
-	            B.emit('moose')
-	            B.emit('bark')
-	        })
-	
-	        this.test("proxy only", function(t){
-	            this.count(1)
-	
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            var testEvent = testUtils.seq(
-	              function(eventName) {
-	                t.eq(eventName, 'moose')
-	            })
-	
-	
-	            A.proxy(B, {only: ['moose']})   // proxy only the 'moose' event
-	
-	            A.on('moose', function() {
-	                testEvent('moose')
-	            })
-	            A.on('bark', function() {
-	                testEvent('bark')
-	            })
-	
-	            B.emit('moose')
-	            B.emit('bark')
-	        })
-	
-	        this.test("proxy except", function(t){
-	            this.count(1)
-	
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            var testEvent = testUtils.seq(
-	              function(eventName) {
-	                t.eq(eventName, 'bark')
-	            })
-	
-	
-	            A.proxy(B, {except: ['moose']})   // proxy only the 'moose' event
-	
-	            A.on('moose', function() {
-	                testEvent('moose')
-	            })
-	            A.on('bark', function() {
-	                testEvent('bark')
-	            })
-	
-	            B.emit('moose')
-	            B.emit('bark')
-	        })
-	
-	        this.test("proxy removeListener and removeAllListeners", function() {
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            this.eq(B.listeners('moose').length, 0)
-	
-	            A.proxy(B)
-	
-	            var handler;
-	            A.on('moose', handler=function() {
-	                testEvent('moose')
-	            })
-	
-	            this.eq(B.listeners('moose').length, 1)
-	
-	            A.removeListener('moose',handler)
-	            this.eq(B.listeners('moose').length, 0)
-	
-	            A.on('moose', handler)
-	            A.removeAllListeners('moose')
-	            this.eq(B.listeners('moose').length, 0)
-	
-	            A.on('moose', handler)
-	            A.removeAllListeners()
-	            this.eq(B.listeners('moose').length, 0)
-	        })
-	    })
-	    //*/
-	};
+	exports.Block = __webpack_require__(/*! Block */ 3)
+	exports.Style = __webpack_require__(/*! Style */ 16)
+	
+	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 7)
+	exports.Container = __webpack_require__(/*! Components/Container */ 11)
+	exports.Button = __webpack_require__(/*! Components/Button */ 6)
+	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 8)
+	exports.Image = __webpack_require__(/*! Components/Image */ 10)
+	exports.List = __webpack_require__(/*! Components/List */ 9)
+	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
+	exports.Radio = __webpack_require__(/*! Components/Radio */ 4)
+	exports.Select = __webpack_require__(/*! Components/Select */ 5)
+	exports.Table = __webpack_require__(/*! Components/Table */ 15)
+	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 13)
+	exports.TextField = __webpack_require__(/*! Components/TextField */ 14)
+	exports.Text = __webpack_require__(/*! Components/Text */ 17)
+	
+	
+	
+	Object.defineProperty(exports, 'dev', {
+	    get: function() {
+	        return exports.Block.dev
+	    }, set: function(v) {
+	        exports.Block.dev = v
+	    }
+	})
+	
+	exports.attach = function(/*component,component,.. or components*/) {
+	    exports.Block.attach.apply(this,arguments)
+	}
+	exports.detach = function(/*component,component,.. or components*/) {
+	    exports.Block.detach.apply(this,arguments)
+	}
+	
+	exports.createBody = function(callback) {
+	    exports.Block.detach.apply(this,arguments)
+	}
 
 /***/ },
 /* 2 */
-/*!***********************!*\
-  !*** ./Block.test.js ***!
-  \***********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 48)
-	var Future = __webpack_require__(/*! async-future */ 47)
-	
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var blocks = __webpack_require__(/*! ../blocks.browser */ 15)
-	var Block = blocks.Block
-	
-	var Text = blocks.Text
-	var Button = blocks.Button
-	
-	
-	
-	module.exports = function(t) {
-	
-	    // basic test block
-	    var TestThinger = proto(Block,function(superclass) {
-	        this.name = 'TestThinger'
-	    })
-	
-	
-	
-	
-	    //*
-	
-		this.test('testEvent',function(t) {
-	        this.count(2);
-	
-			var obj = new Button("some text");
-			obj.on("flick",function(data) {
-				t.ok(true);
-				t.ok(data.obj === "blah");
-			});
-	
-			obj.emit("flick",{obj:"blah"});
-		});
-	
-	    this.test('add, addAt, addBefore', function() {
-			this.count(5);
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'addTest'
-	            this.init = function() {
-	                superclass.init.call(this) // set style with constructor
-	            }
-	        })
-	
-	        this.test('add', function() {
-	            var x = C()
-	
-	            x.add(Text('a'))
-	            this.eq(x.domNode.children.length, 1)
-	            this.eq(x.children.length, 1)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode.textContent , 'a')
-	
-	            x.add(Text('x', 'b'))
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'b')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            x.add([Text('c'), Text('x', 'd')])
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'b')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            this.eq(x.domNode.children[2].textContent , 'c')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'd')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	        })
-	
-	        this.test('addAt', function() {
-	            var x = C()
-	
-	            x.addAt(0, Text('a'))
-	            this.eq(x.domNode.children.length, 1)
-	            this.eq(x.children.length, 1)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode.textContent , 'a')
-	
-	            x.addAt(0, Text('x', 'b'))
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'a')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            x.addAt(1, [Text('c'), Text('x', 'd')])
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'c')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'd')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'a')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	            this.test('errors', function() {
-	                this.count(1)
-	
-	                var x = C()
-	                x.addAt(0, Text("moose"))
-	
-	                try {
-	                    x.addAt(0, x.children[0])
-	                } catch(e) {
-	                    this.eq(e.message, 'Node at index 0 already has a parent. Remove the node from its parent before adding it somewhere else.')
-	                }
-	            })
-	        })
-	
-	        this.test('addBefore', function() {
-	            var x = C()
-	
-	            var one = Text('a')
-	            x.addBefore(undefined, one)
-	            this.eq(x.domNode.children.length, 1)
-	            this.eq(x.children.length, 1)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode.textContent , 'a')
-	
-	            var two = Text('x', 'b')
-	            x.addBefore(one, two)
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'a')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            x.addBefore(one, [Text('c'), Text('x', 'd')])
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'c')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'd')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'a')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	            x.addBefore(undefined, Text('e'))
-	            this.eq(x.domNode.children.length, 5)
-	            this.eq(x.children.length, 5)
-	            this.eq(x.domNode.children[4].textContent , 'e')
-	            this.eq(x.children[4].domNode , x.domNode.children[4])
-	        })
-	
-	        this.test('remove', function() {
-	            var C = proto(Block, function(superclass) {
-	                this.name = 'removeTest'
-	
-	                this.init = function() {
-	                    superclass.init.call(this) // set style with constructor
-	                }
-	            })
-	
-	            var x = C()
-	
-	            var zero = Text('a')
-	            var one = Text('b')
-	            var two = Text('c')
-	            var three = Text('d')
-	            var four = Text('e')
-	            x.add(zero,one,two,three,four)
-	
-	            this.eq(zero.parent, x)
-	            this.eq(one.parent, x)
-	            this.eq(two.parent, x)
-	            this.eq(three.parent, x)
-	            this.eq(four.parent, x)
-	
-	            x.remove(2)
-	            this.eq(two.parent, undefined)
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'b')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'd')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'e')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	            x.remove(one)
-	            this.eq(one.parent, undefined)
-	            this.eq(x.domNode.children.length, 3)
-	            this.eq(x.children.length, 3)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'd')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'e')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	
-	            x.remove(zero)
-	            this.eq(zero.parent, undefined)
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'd')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'e')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            // what's left is three and four
-	            x.remove([0, four])
-	            this.eq(three.parent, undefined)
-	            this.eq(four.parent, undefined)
-	            this.eq(x.domNode.children.length, 0)
-	            this.eq(x.children.length, 0)
-	        })
-	
-			this.test('setting parent',function() {
-				this.count(2);
-				var C = proto(Block, function(superclass) {
-	                this.name = 'parent'
-	
-	                this.init = function() {
-	                    superclass.init.call(this)
-	                }
-	            })
-	
-				var C2 = proto(Block, function(superclass) {
-	                this.name = 'child'
-	
-	                this.init = function() {
-	                    superclass.init.call(this)
-	                }
-	            })
-	
-				var parent = C();
-				var child = C2();
-				this.eq(child.parent,undefined);
-				parent.add(child);
-				this.eq(child.parent,parent);
-				
-			})
-	    })
-	
-	    this.test('attr', function() {
-	        var thinger = TestThinger()
-	        thinger.attr("moose", '5')
-	        this.eq(thinger.domNode.getAttribute("moose"), '5')
-	        this.eq(thinger.attr('moose'), '5')
-	
-	        thinger.attr("moose", 'ha ha ha \'\"haaaaaaa <moose></moose>')
-	        this.eq(thinger.domNode.getAttribute("moose"), 'ha ha ha \'\"haaaaaaa <moose></moose>')
-	        this.eq(thinger.attr('moose'), 'ha ha ha \'\"haaaaaaa <moose></moose>')
-	
-	        thinger.attr('moose', undefined)
-	        this.eq(thinger.domNode.getAttribute("moose"), null)
-	        this.eq(thinger.attr('moose'), undefined)
-	
-	        thinger.attr({arg:1, blah:2})
-	        this.eq(thinger.attr('arg'), '1')
-	        this.eq(thinger.attr('blah'), '2')
-	    })
-	
-	    this.test('label property', function() {
-	        blocks.dev = false // turn off dev for a second
-	
-	        var thinger = TestThinger()
-	        this.eq(thinger.label, undefined)
-	        this.eq(thinger.attr('label'), undefined)
-	
-	        thinger.label = "moose"
-	        this.eq(thinger.label, 'moose')
-	        //this.eq(thinger.attr('label'), undefined) why not just do it for everything // only set in dev mode
-	
-	        var thinger2 = TestThinger()
-	        blocks.dev = true // turn back on
-	        thinger2.label = "moose2"
-	        this.eq(thinger2.label, "moose2")
-	        this.eq(thinger2.attr('label'), "moose2")
-	
-	        try {
-	            thinger.label = 'setagainfails'
-	        } catch(e) {
-	            this.eq(e.message, "A Block's label can only be set once (was already set to: moose)")
-	        }
-	    })
-	
-	    this.test('visible', function() {
-	        var container = blocks.Container()
-	        testUtils.demo("visible test", container)
-	
-	        var thinger = TestThinger()
-	        container.add(thinger)
-	        this.eq(thinger.visible, true)
-	        this.eq($(thinger.domNode).css('display'), "inline-block")
-	
-	        thinger.visible = true                       // does nothing if its already showing
-	        this.eq(thinger.visible, true)
-	        this.eq($(thinger.domNode).css('display'), "inline-block")
-	
-	        thinger.visible = false
-	        this.eq(thinger.visible, false)
-	//        this.eq(thinger.domNode.style.display, "none")
-	        this.eq($(thinger.domNode).css('display'), "none")
-	
-	        thinger.visible = false                      // does nothing if its already hiding
-	        this.eq(thinger.visible, false)
-	        this.eq($(thinger.domNode).css('display'), "none")
-	
-	        thinger.visible = true
-	        this.eq(thinger.visible, true)
-	        this.eq($(thinger.domNode).css('display'), "inline-block")
-	
-	        this.test("with styled css display", function() {
-	            var thinger = TestThinger()
-	            container.add(thinger)
-	            thinger.attached = true // pretend its attached so it'll render the style
-	            thinger.style = blocks.Style({display: 'inline'})
-	
-	            this.eq($(thinger.domNode).css('display'), "inline")
-	
-	            thinger.visible = false
-	            this.eq($(thinger.domNode).css('display'), "none")
-	            this.eq(thinger.visible, false)
-	
-	            thinger.visible = true
-	            this.eq(thinger.visible, true)
-	            this.eq($(thinger.domNode).css('display'), "inline")
-	        })
-	
-	        this.test("with inline css", function() {
-	            var thinger = TestThinger()
-	            container.add(thinger)
-	            thinger.domNode.style.display = 'block'
-	
-	            this.eq($(thinger.domNode).css('display'), "block")
-	
-	            thinger.visible = false
-	            this.eq($(thinger.domNode).css('display'), "none")
-	            this.eq(thinger.visible, false)
-	
-	            thinger.visible = true
-	            this.eq(thinger.visible, true)
-	            this.eq($(thinger.domNode).css('display'), "block")
-	        })
-	    })
-	
-	    this.test("focus", function() {
-	        var input = blocks.TextField()
-	        testUtils.demo("focus test", input)
-	
-	        this.ok(input.domNode !== document.activeElement)
-	
-	        input.focus = true
-	        this.ok(input.domNode === document.activeElement)
-	
-	        input.focus = false
-	        this.ok(input.domNode !== document.activeElement)
-	    })
-	
-	    this.test("setSelection and getCaratOffset", function() {
-	        var container = blocks.Container()
-	        testUtils.demo("setSelection and getCaratOffset", container)
-	
-	        this.test('input textfield', function() {
-	            var input = blocks.TextField()
-	            container.add(input)
-	            input.val = "whatever yo"
-	
-	            this.eq(input.selectionRange, undefined)
-	
-	            input.selectionRange = [1,1]
-	            this.eq(input.selectionRange[0], 1)
-	            this.eq(input.selectionRange[1], 1)
-	
-	            input.selectionRange = [2,5]
-	            this.eq(input.selectionRange[0], 2)
-	            this.eq(input.selectionRange[1], 5)
-	
-	            this.test("input textfields that are next to eachother", function() {
-	                var c = blocks.Container()
-	                container.add(c)
-	                var input = blocks.TextField(), input2 = blocks.TextField()
-	                c.add(input, input2)
-	                input.val = "whatever yo"
-	                input2.val = 'more whatever'
-	
-	                this.eq(input.selectionRange, undefined)
-	                this.eq(input2.selectionRange, undefined)
-	
-	                input.focus = true
-	
-	                // when its focused on after being set programatically, it should have the active caret (note that this is different from gaining focus by being tabbed to)
-	                // seems to start its caret at the end of the input
-	                this.eq(input.selectionRange[0], input.val.length)
-	                this.eq(input.selectionRange[1], input.val.length)
-	                this.eq(input2.selectionRange, undefined)
-	
-	                input.selectionRange = [2,4]
-	                this.eq(input.selectionRange[0], 2)
-	                this.eq(input.selectionRange[1], 4)
-	                this.eq(input2.selectionRange, undefined)
-	
-	                input2.selectionRange = [3,5]
-	                this.eq(input.selectionRange, undefined)
-	                this.eq(input2.selectionRange[0], 3)
-	                this.eq(input2.selectionRange[1], 5)
-	
-	            })
-	        })
-	
-	        this.test('textarea', function() {
-	            var input = blocks.TextArea()
-	            container.add(input)
-	            input.val = "whatever yo"
-	
-	            this.eq(input.selectionRange, undefined)
-	
-	            input.selectionRange = [1,1]
-	            this.eq(input.selectionRange[0], 1)
-	            this.eq(input.selectionRange[1], 1)
-	
-	            input.selectionRange = [2,5]
-	            this.eq(input.selectionRange[0], 2)
-	            this.eq(input.selectionRange[1], 5)
-	        })
-	
-	        this.test("regular div", function() {
-	            var div = blocks.Text("Whatever")
-	            div.attr("contenteditable", true)
-	            container.add(div)
-	
-	            this.eq(div.selectionRange, undefined)
-	
-	            div.selectionRange = [1,1]
-	            this.eq(div.selectionRange[0], 1)
-	            this.eq(div.selectionRange[1], 1)
-	
-	            div.selectionRange = [2,5]
-	            this.eq(div.selectionRange[0], 2)
-	            this.eq(div.selectionRange[1], 5)
-	        })
-	
-	        this.test("contenteditable div", function() {
-	            var input = blocks.Text("Whatever")
-	            input.attr("contenteditable", true)
-	            container.add(input)
-	
-	            this.eq(input.selectionRange, undefined)
-	
-	            input.selectionRange = [1,1]
-	            this.eq(input.selectionRange[0], 1)
-	            this.eq(input.selectionRange[1], 1)
-	
-	            input.selectionRange = [2,5]
-	            this.eq(input.selectionRange[0], 2)
-	            this.eq(input.selectionRange[1], 5)
-	
-	            input.domNode.innerHTML = "<span>hi</span><span>lo</span><span>mo<br>scrow</span>"
-	            this.eq(input.selectionRange[0], 0)
-	            this.eq(input.selectionRange[1], 11)           // is this right?
-	
-	            input.selectionRange = [4,11]
-	            this.eq(input.selectionRange[0], 4)
-	            this.eq(input.selectionRange[1], 11)
-	
-	        })
-	
-	        this.test("selectionRange across nodes", function() {
-	            var one = Text('one'), two = Text("two"), three = Text("three")
-	            var c = blocks.Container(one, two, three)
-	            container.add(c)
-	
-	            c.selectionRange = [2,8]
-	            this.eq(c.selectionRange[0], 2)
-	            this.eq(c.selectionRange[1], 8)
-	            this.eq(one.selectionRange[0], 2)
-	            this.eq(one.selectionRange[1], 3)
-	            this.eq(two.selectionRange[0], 0)
-	            this.eq(two.selectionRange[1], 3)
-	            this.eq(three.selectionRange[0], 0)
-	            this.eq(three.selectionRange[1], 2)
-	        })
-	    })
-	
-	    this.test("on, addListener, once, removeListener, removeAllListeners", function(t) {
-	        this.count(10)
-	
-	        var EventWhore = proto(Block,function(superclass) {
-	            this.name = 'EventWhore'
-	        })
-	
-	        var e = EventWhore()
-	
-	        var event = testUtils.seq(
-	          function(eventName, data) {
-	            t.eq(eventName, 'a')
-	            t.eq(data, 1)
-	        },function(eventName, data) {
-	            t.eq(eventName, 'a')
-	            t.eq(data, 2)
-	
-	        },function(eventName, data) {
-	            t.eq(eventName, 'b')
-	            t.eq(data, 3)
-	        },function(eventName, data) {
-	            t.eq(eventName, 'b')
-	            t.eq(data, 4)
-	
-	        },function(eventName, data) {
-	            t.eq(eventName, 'c')
-	            t.eq(data, 5)
-	        })
-	
-	        var acb, bcb, ccb;
-	        e.on('a', acb = function(data) {
-	            event('a', data)
-	        })
-	        e.addListener('b', bcb = function bcb(data) {
-	            event('b', data)
-	        })
-	        e.once('c', cbc = function(data) {
-	            event('c', data)
-	        })
-	
-	        e.emit('a', 1)
-	        e.emit('a', 2)
-	
-	        e.emit('b', 3)
-	        e.emit('b', 4)
-	
-	        e.emit('c', 5)
-	        e.emit('c', 6)
-	
-	        e.removeListener('a', acb)
-	        e.emit('a', 7)
-	
-	        e.removeAllListeners('b')
-	        e.emit('b', 8)
-	
-	        e.on('d', acb = function(data) {
-	            event('a', data)
-	        })
-	        e.removeAllListeners()
-	        e.emit('d', 9)
-	    })
-	
-	
-	    this.test('listening on standard browser events', function(t) {
-	        var container = blocks.Container()
-	        testUtils.demo('listening on standard browser events', container)
-	        this.test("basic browser events", function (t) {
-	            this.count(1)
-	
-	            var EventEmitter = __webpack_require__(/*! events */ 36).EventEmitter
-	
-	            var EventWhore = proto(Block,function(superclass) {
-	                this.name = 'EventWhore'
-	            })
-	
-	            var e = EventWhore()
-	            container.add(e)
-	
-	            var testEvent = testUtils.seq(function(eventName) {
-	                t.eq(eventName, 'click')
-	            })
-	
-	            // events shouldn't be emitted unless bound with the EventEmitterB/Block `on` method (the EventEmitter `on` method bypasses the critical dom event handling setup)
-	            var eventEmitterPrototypeHandler;
-	            EventEmitter.prototype.on.call(e, "click", eventEmitterPrototypeHandler=function() {
-	                testEvent('EventEmitter click')
-	            })
-	
-	            var handler;
-	            syn.click(e.domNode).then(function() {
-	                EventEmitter.prototype.removeListener.call(e, "click", eventEmitterPrototypeHandler) // get rid of the EventEmitter listener, cause otherwise it'll mess out stuff up
-	
-	                e.on('click', handler = function() {
-	                    testEvent('click')
-	                })
-	
-	                return syn.click(e.domNode)
-	            }).then(function() {
-	                e.removeListener('click', handler)
-	
-	                return syn.click(e.domNode)
-	            }).then(function() {
-	                e.on('click', handler = function() {
-	                    event('click')
-	                })
-	
-	                e.removeAllListeners('click')
-	
-	                return syn.click(e.domNode)
-	            }).then(function() {
-	                e.on('click', handler = function() {
-	                    event('click')
-	                })
-	
-	                e.removeAllListeners()
-	
-	                return syn.click(e.domNode)
-	            }).done()
-	        })
-	
-	        this.test("browser events with exclusion", function(t) {
-	            this.count(1)
-	
-	            var EventWhore = proto(Block,function(superclass) {
-	                this.name = 'EventWhore'
-	
-	                this.excludeDomEvents = {click: 1}
-	            })
-	
-	            var e = EventWhore()
-	            container.add(e)
-	
-	            var testEvent = testUtils.seq(function(eventName) {
-	                t.eq(eventName, 'mousedown')
-	            })
-	
-	            e.on('click', function() {
-	                testEvent('click')
-	            })
-	            e.on('mousedown', function() {
-	                testEvent('mousedown')
-	            })
-	
-	            syn.click(e.domNode).done()
-	        })
-	    })
-	
-	    this.test("attach and detach", function() {
-	        var a = blocks.Text("tach")
-	        a.attach()
-	        this.eq(a.domNode.parentNode, document.body)
-	
-	        var b = blocks.Text("tach2")
-	        b.attach(a.domNode)
-	        this.eq(b.domNode.parentNode, a.domNode)
-	
-	
-	        var c = blocks.Text("tach3")
-	        blocks.attach(c)
-	        this.eq(c.domNode.parentNode, document.body)
-	
-	        var d = blocks.Text("tach4")
-	        blocks.attach(c.domNode, d)
-	        this.eq(d.domNode.parentNode, c.domNode)
-	
-	
-	        var e = blocks.Text("tach5")
-	        blocks.attach([e])
-	        this.eq(e.domNode.parentNode, document.body)
-	
-	        var f = blocks.Text("tach6")
-	        blocks.attach(e.domNode, [f])
-	        this.eq(f.domNode.parentNode, e.domNode)
-	
-	
-	        blocks.detach(f)
-	        this.eq(f.domNode.parentNode, null)
-	        blocks.detach([e,d])
-	        this.eq(e.domNode.parentNode, null)
-	        this.eq(d.domNode.parentNode, null)
-	        c.detach()
-	        b.detach()
-	        this.eq(c.domNode.parentNode, null)
-	        this.eq(b.domNode.parentNode, null)
-	    })
-	
-	    this.test("former bugs", function() {
-	        // note, i thought this would have been a bug.. but apparently not? I'm unclear how to manifest the incorrect code i see.. but what the hell, i'll just fix the code without a test
-	        this.test("dom events handlers not being unbound correctly when more than one type of event is bound", function(t) {
-	            this.count(1)
-	
-	            var EventWhore = proto(Block,function(superclass) {
-	                this.name = 'EventWhore'
-	            })
-	
-	            var e = EventWhore()
-	
-	            var clickHandler
-	            e.on('click', clickHandler=function() {
-	                t.ok(false)
-	            })
-	            e.on('mousedown', function() {
-	                t.ok(true)
-	            })
-	
-	            e.off('click', clickHandler)
-	
-	            syn.click(e.domNode)
-	        })
-	    })
-	
-	    //*/
-	}
-	
-
-
-/***/ },
-/* 3 */
 /*!***********************!*\
   !*** ./Style.test.js ***!
   \***********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 48)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var blocks = __webpack_require__(/*! ../blocks.browser */ 15)
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
 	var Block = blocks.Block
-	var domUtils = __webpack_require__(/*! domUtils */ 37)
+	var domUtils = __webpack_require__(/*! domUtils */ 19)
 	var syn = __webpack_require__(/*! fsyn */ 32)
 	
 	var Style = blocks.Style
@@ -1450,10 +214,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	     // todo:
 	        // test mix and copy
-	
-	
-	
-	
 	
 	
 	
@@ -3455,1939 +2215,86 @@ return /******/ (function(modules) { // webpackBootstrap
 	            t.eq($(thing.domNode).css('display'), 'inline-block')
 	        })
 	
+	        this.test("improper caching caused invalid styles to be returned - case 1", function() {
+	
+	            var text = Text("text")
+	            var inner = Container([Container('wrapper', [text])])
+	            inner.style = Style({
+	                marginRight: 2,
+	
+	                Text: {
+	                    minWidth: 22,
+	                }
+	            })
+	
+	            var component = Container(Container([inner]))
+	            component.style = Style({
+	                Container: {
+	                    display: 'block'
+	                }
+	            })
+	
+	            testUtils.demo('improper caching caused invalid styles to be returned - case 1', component)
+	
+	            this.eq($(text.domNode).css('minWidth'), '22px')
+	        })
+	
+	        this.test("improper caching caused invalid styles to be returned - case 2", function() {
+	
+	            var text = Text()
+	            var inner = Container([Container('wrapper', [text])])
+	            inner.style = Style({
+	                marginRight: 2,
+	
+	                Text: {
+	                    minWidth: 22,
+	                    padding: '0 2px',
+	                    textAlign: 'center',
+	                    border: '1px solid black',
+	                    minHeight: 18,
+	                    lineHeight: '15px',
+	                    cursor: 'pointer'
+	                },
+	
+	                UserSelection: {
+	                    $setup: function(){},
+	                    Container: {}  /// ????? why does removing this make the style *not* work?
+	                }
+	            })
+	
+	            var component = Container(Container([inner]))
+	            component.style = Style({
+	                Container: {
+	                    display: 'block'
+	                }
+	            })
+	
+	            testUtils.demo("improper caching caused invalid styles to be returned - case 2", component)
+	
+	            this.eq($(text.domNode).css('borderWidth'), '1px')
+	        })
+	
 	    })
 	    //*/
 	}
 
 /***/ },
-/* 4 */
-/*!***************************************!*\
-  !*** ./ComponentTests/Button.test.js ***!
-  \***************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	
-	var Button = __webpack_require__(/*! Components/Button */ 22)
-	
-	module.exports = function(t) {
-	    t.count(5)
-	
-	    var obj = new Button("Text");
-	    obj.on("click",function() {
-	        t.ok(true);
-	    })
-	
-	    testUtils.demo("Button", obj)
-	
-	    this.eq(obj.text, "Text")
-	    this.eq(obj.domNode.value, "Text")
-	    obj.text = "MOOOO"
-	    this.eq(obj.text, "MOOOO")
-	    this.eq(obj.domNode.value, "MOOOO")
-	
-	    syn.click(obj.domNode)
-	};
-
-
-/***/ },
-/* 5 */
-/*!***************************************!*\
-  !*** ./ComponentTests/Canvas.test.js ***!
-  \***************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	
-	var Canvas = __webpack_require__(/*! Components/Canvas */ 20);
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Canvas", container)
-	
-		this.test('basic usage',function(t) {
-			var obj = Canvas(20,30)
-	        container.add(obj)
-	
-	        this.eq(obj.height, 20)
-	        this.eq(obj.domNode.height, 20)
-	        this.eq(obj.attr('height'), '20')
-	        this.eq(obj.width, 30)
-	        this.eq(obj.domNode.width, 30)
-	        this.eq(obj.attr('width'), '30')
-	
-	        this.eq(obj.toDataURL(), obj.toImg())
-	        this.ok(obj.toImg() !== undefined)
-	
-	        this.ok(obj.context('2d') instanceof CanvasRenderingContext2D)
-	        this.ok(obj.context('webgl') === null || obj.context('webgl') instanceof WebGLRenderingContext)
-		});
-	
-	    this.test("label argument", function() {
-	        var obj = Canvas("label", 30, 40)
-	        this.eq(obj.label, "label")
-	        this.eq(obj.height, 30)
-	        this.eq(obj.domNode.height, 30)
-	        this.eq(obj.width, 40)
-	        this.eq(obj.domNode.width, 40)
-	    })
-	};
-
-
-/***/ },
-/* 6 */
-/*!*****************************************!*\
-  !*** ./ComponentTests/CheckBox.test.js ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	
-	var CheckBox = __webpack_require__(/*! Components/CheckBox */ 23)
-	
-	module.exports = function(t) {
-	    t.count(14)
-	
-	    var obj = new CheckBox()
-	    this.test("clicks", function(t) {
-	        this.count(2)
-	        obj.on("click",function() {
-	            t.ok(true)
-	        })
-	    })
-	    this.test("clicks", function(t) {
-	        this.count(4)
-	        obj.on("change",function() {
-	            t.ok(true)
-	        })
-	    })
-	
-	    testUtils.demo("Checkbox", obj)
-	
-	    this.eq(obj.selected, false)
-	    this.eq(obj.domNode.checked, false)
-	
-	    obj.selected = true          // causes a change event (but no click)
-	    this.eq(obj.selected, true)
-	    this.eq(obj.domNode.checked, true)
-	
-	    obj.selected = true          // nothing should happen since its already selected
-	    this.eq(obj.selected, true)
-	    this.eq(obj.domNode.checked, true)
-	
-	    obj.selected = false         // causes a change event (but no click)
-	    this.eq(obj.selected, false)
-	    this.eq(obj.domNode.checked, false)
-	
-	    syn.click(obj.domNode).then(function() {     // causes a change event and a click event
-	        t.eq(obj.selected, true)
-	        t.eq(obj.domNode.checked, true)
-	
-	        return syn.click(obj.domNode)            // causes a change event and a click event
-	    }).then(function(){
-	        t.eq(obj.selected, false)
-	        t.eq(obj.domNode.checked, false)
-	    }).done()
-	};
-
-
-/***/ },
-/* 7 */
-/*!******************************************!*\
-  !*** ./ComponentTests/Container.test.js ***!
-  \******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	var Text = __webpack_require__(/*! Components/Text */ 31)
-	
-	module.exports = function() {
-	
-	    this.test('basic usage', function(t) {
-	        t.count(18)
-	
-	        var demoContainer = Container()
-	        testUtils.demo("Container", demoContainer)
-	
-	
-	        var text1 = Text('a')
-	        var c1 = Container(text1)
-	        demoContainer.add(c1)
-	
-	        this.eq(c1.children.length, 1)
-	        this.eq(c1.domNode.childNodes.length, 1)
-	        this.eq(c1.children[0], text1)
-	        this.eq(c1.domNode.childNodes[0], text1.domNode)
-	
-	        c1.on("click",function(e) {
-	            t.ok(e !== undefined)
-	        })
-	
-	        syn.click(text1.domNode)  // produces a click event
-	        syn.click(c1.domNode)     // produces another click event
-	
-	
-	        var text2 = Text('b'), text3 = Text('c')
-	        var c2 = Container(text2, text3)
-	        demoContainer.add(c2)
-	
-	        this.eq(c2.children.length, 2)
-	        this.eq(c2.children[0], text2)
-	        this.eq(c2.children[1], text3)
-	
-	
-	        var text4 = Text('d'), text5 = Text('e')
-	        var c3 = Container([text4, text5])
-	        demoContainer.add(c3)
-	
-	        this.eq(c3.children.length, 2)
-	        this.eq(c3.children[0], text4)
-	        this.eq(c3.children[1], text5)
-	
-	
-	        // test to make sure label arguments work
-	
-	        var c4 = Container('aLabel1', Text('e'))
-	        this.eq(c4.children.length, 1)
-	        this.eq(c4.attr('label', 'aLabel1'))
-	
-	        var c5 = Container('aLabel2', Text('f'), Text('g'))
-	        this.eq(c5.children.length, 2)
-	        this.eq(c5.attr('label', 'aLabel2'))
-	
-	        var c6 = Container('aLabel3', [Text('h')])
-	        this.eq(c6.children.length, 1)
-	        this.eq(c6.attr('label', 'aLabel3'))
-	
-	    })
-	
-	    this.test('label arguments', function() {
-	        var c1 = Container("label1")
-	        var c2 = Container("label2", [])
-	        var c3 = Container("label3", Text("a"), Text("b"))
-	
-	        this.eq(c1.label, "label1")
-	        this.eq(c2.label, "label2")
-	        this.eq(c3.label, "label3")
-	
-	        this.eq(c1.children.length, 0)
-	        this.eq(c2.children.length, 0)
-	        this.eq(c3.children.length, 2)
-	    })
-	};
-
-
-/***/ },
-/* 8 */
-/*!**************************************!*\
-  !*** ./ComponentTests/Image.test.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	
-	var Image = __webpack_require__(/*! Components/Image */ 24);
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Image", container)
-	
-		this.test('basic usage',function(t) {
-			var obj = new Image("https://avatars1.githubusercontent.com/u/149531")
-	        container.add(obj)
-	
-	        t.eq(obj.domNode.nodeName, "IMG")
-	
-	        t.eq(obj.src, "https://avatars1.githubusercontent.com/u/149531")
-	        t.eq(obj.domNode.src, "https://avatars1.githubusercontent.com/u/149531")
-	
-	        obj.src = "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg"
-	        t.eq(obj.src, "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg")
-	        t.eq(obj.domNode.src, "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg")
-		});
-	
-	    this.test("label argument", function() {
-	        var img = Image("label", "https://avatars1.githubusercontent.com/u/149531")
-	
-	        this.eq(img.label, "label")
-	        this.eq(img.src, "https://avatars1.githubusercontent.com/u/149531")
-	        this.eq(img.domNode.src, "https://avatars1.githubusercontent.com/u/149531")
-	    })
-	};
-
-
-/***/ },
-/* 9 */
-/*!*************************************!*\
-  !*** ./ComponentTests/List.test.js ***!
-  \*************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	var domUtils = __webpack_require__(/*! domUtils */ 37)
-	
-	var Text = __webpack_require__(/*! Components/Text */ 31)
-	var List = __webpack_require__(/*! Components/List */ 25)
-	
-	module.exports = function(t) {
-	
-	
-	    var container = Container()
-	    testUtils.demo("List", container)
-	
-	    this.test("simple creation - unordered", function() {
-	        var list = List([Text('a'), Text('b'), Text('c')])
-	
-	        container.add(Text("list1"), list)
-	
-	        this.eq(list.children.length, 3)
-	        this.ok(list.children[0] instanceof List.Item)
-	        this.ok(list.children[1] instanceof List.Item)
-	        this.ok(list.children[2] instanceof List.Item)
-	        this.eq(list.domNode.nodeName, 'UL') // default is unordered list
-	
-	        var firstItem = $($(list.domNode).find("li")[0])[0]
-	        this.eq(firstItem[domUtils.textProperty], 'a')
-	
-	        this.test("list constructed with raw strings instead of elements", function() {
-	            var list = List(['a', 'b'])
-	
-	            container.add(Text("list2"), list)
-	
-	            this.eq(list.children.length, 2)
-	            this.eq(list.children[0].domNode[domUtils.textProperty], 'a')
-	        })
-	    })
-	
-	    this.test("simple creation - ordered", function() {
-	        var list = List(true, [Text('a'), Text('b'), Text('c')])
-	        this.eq(list.domNode.nodeName, 'OL')    // the true argument means ordered list
-	        container.add(Text("olist"), list)
-	
-	        var list = List(false, [Text('a'), Text('b'), Text('c')])
-	        this.eq(list.domNode.nodeName, 'UL')    // false means unordered
-	    })
-	
-	    this.test("individual item creation", function() {
-	        var list = List()
-	
-	        this.eq(list.domNode.nodeName, 'UL') // default is unordered list
-	
-	        var item1 = list.item(Text('a'))
-	        this.eq(list.children.length, 1)
-	
-	        var item2 = list.item(Text('B'))
-	
-	        this.eq(list.children.length, 2)
-	        this.ok(list.children[0] instanceof List.Item)
-	        this.ok(list.children[1] instanceof List.Item)
-	        this.ok(list.children[0] === item1)
-	        this.ok(list.children[1] === item2)
-	
-	        this.eq(list.children[0].children[0].text, 'a')
-	        var firstItem = $($(list.domNode).find("li")[0])[0]
-	        this.eq(firstItem[domUtils.textProperty], 'a')
-	
-	        this.test("items constructed with raw strings instead of elements", function() {
-	            var list = List()
-	
-	            var item1 = list.item('a')
-	
-	            this.eq(list.children.length, 1)
-	            this.eq(list.children[0].domNode[domUtils.textProperty], 'a')
-	        })
-	
-	        this.test("ordering argument alone", function() {
-	            var list = List(true)
-	            this.eq(list.domNode.nodeName, 'OL')
-	
-	            var list2 = List(false)
-	            this.eq(list2.domNode.nodeName, 'UL')
-	        })
-	    })
-	
-	    this.test("label arguments", function() {
-	        var list1 = List('aLabel')
-	        var list2 = List('aLabel2', ['a', 'b', 'c'])
-	        this.eq(list1.label, 'aLabel')
-	        this.eq(list2.label, 'aLabel2')
-	        this.eq(list1.domNode.nodeName, 'UL')
-	        this.eq(list2.domNode.nodeName, 'UL')
-	        this.eq(list1.children.length, 0)
-	        this.eq(list2.children.length, 3)
-	
-	        var item1 = list1.item('aLabel4', 'e')
-	        this.eq(list1.children.length, 1)
-	        this.eq(item1.label, 'aLabel4')
-	        this.eq(item1.domNode[domUtils.textProperty], 'e')
-	
-	        var list3 = List('aLabel5', true)
-	        this.eq(list3.label, 'aLabel5')
-	        this.eq(list3.domNode.nodeName, 'OL')
-	        this.eq(list3.children.length, 0)
-	
-	        var list4 = List('aLabel6', false)
-	        this.eq(list4.label, 'aLabel6')
-	        this.eq(list4.domNode.nodeName, 'UL')
-	        this.eq(list4.children.length, 0)
-	
-	        var list5 = List('aLabel7', true, ['x'])
-	        this.eq(list5.label, 'aLabel7')
-	        this.eq(list5.domNode.nodeName, 'OL')
-	        this.eq(list5.children.length, 1)
-	
-	        var list6 = List('aLabel8', false, ['y'])
-	        this.eq(list6.label, 'aLabel8')
-	        this.eq(list6.domNode.nodeName, 'UL')
-	        this.eq(list6.children.length, 1)
-	
-	    })
-	};
-
-
-/***/ },
-/* 10 */
-/*!********************************************!*\
-  !*** ./ComponentTests/MultiSelect.test.js ***!
-  \********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	var Text = __webpack_require__(/*! Components/Text */ 31)
-	
-	var MultiSelect = __webpack_require__(/*! Components/MultiSelect */ 38)
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("MultiSelect", container)
-	
-	    this.test("basic usage", function(t) {
-	        this.count(49)
-	
-	        var s1 = MultiSelect({4: 'Option 4', 5: "Option 5"})
-	        container.add(Text("Group 1: "), s1)
-	
-	        this.eq(Object.keys(s1.options).length, 2)
-	        this.eq(s1.options[4].val, "4")
-	        this.eq(s1.options[5].val, "5")
-	        this.eq(s1.val.length, 0)
-	
-	        var option6 = s1.option(6, "Option 6")
-	
-	        this.eq(Object.keys(s1.options).length, 3)
-	        this.eq(s1.options[6], option6)
-	
-	
-	        this.test("events", function(t) {
-	            this.count(43)
-	
-	            s1.on('change', function() {
-	                event('change','s1')
-	            })
-	
-	            s1.options[4].on('click', function() {
-	                event('click', 'option4')
-	            })
-	            s1.options[4].on('change', function() {
-	                event('change', 'option4')
-	            })
-	            s1.options[5].on('click', function() {
-	                event('click', 'option57')
-	            })
-	            s1.options[5].on('change', function() {
-	                event('change', 'option57')
-	            })
-	            option6.on('click', function() {
-	                event('click', 'option6')
-	            })
-	            option6.on('change', function() {
-	                event('change', 'option6')
-	            })
-	
-	            var event = testUtils.seq(
-	
-	            // change 1
-	              function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	
-	            // change 2
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 2)
-	
-	            // change 3
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	
-	            // change 4
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	                t.eq(s1.options[4].selected, true)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	                t.eq(s1.options[6].selected, true)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	                t.eq(s1.options[7].selected, false)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 2)
-	
-	            // change 5
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option6')
-	
-	            // change 6
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option57')
-	            })
-	
-	        })
-	
-	
-	
-	        this.ok(s1.val instanceof Array, s1.val)
-	        this.eq(s1.val.length, 0)
-	
-	        // change 1
-	        s1.options[4].selected = true
-	        this.eq(s1.val.length, 1)
-	        this.eq(s1.val[0], "4")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5].selected, false)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change 2
-	        s1.options[5].selected = true
-	        this.eq(s1.val.length, 2)
-	        this.eq(s1.val[0], "4")
-	        this.eq(s1.val[1], "5")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5].selected, true)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change option value
-	
-	        s1.options[5].val = 7
-	        this.eq(s1.options[7].val, '7')
-	        this.eq(s1.val[1], '7')
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5], undefined)     // moved to value 7
-	        this.eq(s1.options[6].selected, false)
-	        this.eq(s1.options[7].selected, true)
-	
-	        // change option text
-	        s1.options[7].text = 'Option 7<select></select>'
-	        this.eq(s1.options[7].domNode.textContent, 'Option 7<select></select>')
-	        this.eq(s1.options[7].text, 'Option 7<select></select>')
-	
-	        // change 3
-	        s1.options[4].selected = false
-	        this.eq(s1.val.length, 1)
-	        this.eq(s1.val[0], "7")
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[6].selected, false)
-	        this.eq(s1.options[7].selected, true)
-	
-	        // change 4
-	        // change the value of the select object directly
-	        s1.val = [4,6]
-	        this.eq(s1.val.length, 2)
-	        this.eq(s1.val[0], "4")
-	        this.eq(s1.val[1], "6")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[6].selected, true)
-	        this.eq(s1.options[7].selected, false)
-	
-	
-	        // select just one of the already selected options with a click
-	        // change 5
-	        syn.click(option6.domNode).then(function() {
-	            t.eq(s1.val.length, 1)
-	            t.eq(s1.val[0], "6")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, false)
-	
-	            // change 6
-	            // click one that wasn't already selected
-	            return syn.click(s1.options[7].domNode)
-	        }).then(function(){
-	            t.eq(s1.val.length, 1)
-	            t.eq(s1.val[0], "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, false)
-	            t.eq(s1.options[7].selected, true)
-	        }).done()
-	
-	        /* todo: test selecting multiple items with shift-clicking once syn supports that
-	        syn.type(option6.domNode, "[shift]").click(option6.domNode).type(option6.domNode, "[shift-up]").then(function() {
-	            t.eq(s1.val.length, 2)
-	            t.eq(s1.val[0], "6")
-	            t.eq(s1.val[1], "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, true)
-	
-	            return syn.click(s1.options[7].domNode)
-	        }).then(function(){
-	            t.eq(s1.val.length, 2)
-	            t.eq(s1.val[0], "6")
-	            t.eq(s1.val[1], "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, false)
-	        }).done()
-	        */
-	    })
-	
-	
-	    // todo:
-	    /*
-	    this.test("test keyboard events", function() {
-	
-	        this.test("basic changing selected options with the keyboard", function(t) {
-	            var select1 = MultiSelect({1: 'one', 2: 'two', 3: 'three'})
-	
-	            container.add(Text("Another Group: "), select1)
-	
-	            select1.focus()
-	            syn.key(option1A.domNode, "[down]").then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return syn.key(option1A.domNode, "[down]")
-	            })/*.then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                return key(option1A.domNode, "[left]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	
-	                // test looping
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                // test looping
-	                return key(option1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	            }).done()
-	        })
-	
-	    })
-	    */
-	
-	
-	    this.test("labels", function(t) {
-	        var s1 = MultiSelect("myLabel")
-	        this.eq(s1.label, "myLabel")
-	        this.eq(Object.keys(s1.options).length, 0)
-	
-	        var s2 = MultiSelect("myLabel2", {1: "one"})
-	        this.eq(s2.label, "myLabel2")
-	        this.eq(Object.keys(s2.options).length, 1)
-	
-	        var option = s1.option("myLabel3", "value", "text")
-	        this.eq(option.label, "myLabel3")
-	        this.eq(option.val, "value")
-	        this.eq(option.text, "text")
-	    })
-	
-	
-	    this.test("remove", function(t) {
-	        this.count(13)
-	
-	        var select = MultiSelect()
-	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
-	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
-	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
-	
-	        option0.selected = true
-	
-	        select.on('change', function() {
-	            event(select.val)
-	        })
-	
-	        var event = testUtils.seq(function(values) {
-	            t.eq(values.length, 0)
-	        })
-	
-	
-	        this.eq(option1.parent, select)
-	
-	        select.remove(1)
-	        this.eq(select.val.length, 1)
-	        this.eq(option1.parent, undefined)
-	        this.eq(Object.keys(select.options).length, 5)
-	
-	        try {
-	            select.val = ["option1"]
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option1'")
-	        }
-	
-	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
-	        this.eq(select.val.length, 0)
-	        this.eq(option0.parent, undefined)
-	        this.eq(Object.keys(select.options).length, 4)
-	
-	        try {
-	            select.val = "option0"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option0'")
-	        }
-	
-	        select.remove([2, 3]) // these are option4 and option5
-	
-	
-	        try {
-	            select.val = "option4"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option4'")
-	        }
-	
-	        this.eq(Object.keys(select.options).length, 2)
-	
-	        select.remove([option2])
-	
-	        this.eq(Object.keys(select.options).length, 1)
-	    })
-	
-	    // todo:
-	    /*
-	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
-	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
-	    })
-	     */
-	
-	    this.test("errors", function() {
-	        this.count(9)
-	
-	        var select = MultiSelect({1: "text", 3: 'moretext', 4: "seriously"})
-	
-	        try {
-	            select.option("1", 'text')
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the MultiSelect (value: '1')")
-	        }
-	
-	        var optionB = select.option("2", 'text')
-	        try {
-	            optionB.val = "1"
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
-	        }
-	
-	        select.options[1].selected = true
-	
-	        // verify the values beforehand (these values should remain the same after the error below)
-	        this.eq(select.val.length, 1)
-	        this.eq(select.val[0], '1')
-	
-	        try {
-	            select.val = "nonexistent"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'nonexistent'")
-	        }
-	
-	        // make sure this didn't change any values (since an exception was thrown, nothing should have been changed)
-	        this.eq(select.val.length, 1)
-	        this.eq(select.val[0], '1')
-	
-	        try {
-	            select.remove(300)
-	        } catch(e) {
-	            this.eq(e.message, "There is no child at index 300")
-	        }
-	
-	        var select2 = MultiSelect({x: 'x', 'y':'y', z:'z'})
-	        try {
-	            select2.remove(optionB)
-	        } catch(e) {
-	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
-	        }
-	    })
-	};
-
-
-/***/ },
-/* 11 */
-/*!**************************************!*\
-  !*** ./ComponentTests/Radio.test.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	var Text = __webpack_require__(/*! Components/Text */ 31)
-	
-	var Radio = __webpack_require__(/*! Components/Radio */ 26)
-	
-	
-	module.exports = function(t) {
-	
-	    var container = Container()
-	    testUtils.demo("Radio", container)
-	
-	    this.test('required',function(t) {
-	        this.test("basic usage", function(t) {
-	            this.count(23)
-	
-	            var radio = Radio() // default is required
-	            var button1 = radio.button("1"), button2 = radio.button("2")
-	            container.add(Text("Required: "),button1, button2)
-	
-	            radio.on('change', function() {
-	                event('change','radio')
-	            })
-	
-	            button1.on('click', function() {
-	                event('click', 'button1')
-	            })
-	            button1.on('change', function() {
-	                event('change', 'button1')
-	            })
-	            button2.on('click', function() {
-	                event('click', 'button2')
-	            })
-	            button2.on('change', function() {
-	                event('change', 'button2')
-	            })
-	
-	            var event = testUtils.seq(function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'button1')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'button1')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'button2')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'radio')
-	
-	                t.eq(radio.val, '2')
-	                t.eq(radio.selected, button2)
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'button2')
-	            })
-	
-	            // for a required one, the first button created will be selected by default
-	            t.eq(button1.domNode.checked, true)
-	            t.eq(button2.domNode.checked, false)
-	            t.eq(radio.selected, button1)
-	            t.eq(radio.val, "1")
-	
-	            // nothing should happen if you click the selected one (for required)
-	            syn.click(button1.domNode).then(function() {
-	                t.eq(button1.domNode.checked, true)
-	                t.eq(button2.domNode.checked, false)
-	                t.eq(radio.selected, button1)
-	                t.eq(radio.val, "1")
-	
-	                // select the other one
-	                return syn.click(button2.domNode)
-	            }).then(function() {
-	                t.eq(button1.domNode.checked, false)
-	                t.eq(button2.domNode.checked, true)
-	                t.eq(radio.val, "2")
-	            }).done()
-	        })
-	
-	        this.test("remove", function(t) {
-	            this.count(14)
-	
-	            var radio = Radio()
-	            var button0 = radio.button("0"), button1 = radio.button("1"), button2 = radio.button("2"), button3 = radio.button("3")
-	            var button4 = radio.button("4"), button5 = radio.button("5")
-	
-	            radio.on('change', function() {
-	                event(radio.val)
-	            })
-	
-	            var event = testUtils.seq(function(value) {
-	                t.eq(value, '2')
-	            },function(value) {
-	                t.eq(value, '4')
-	            },function(value) {
-	                t.eq(value, '5')
-	            })
-	
-	
-	            this.eq(button1.group, radio)
-	
-	            radio.remove(button1)
-	            this.eq(radio.val, "0")
-	            this.eq(button1.group, undefined)
-	            this.eq(Object.keys(radio.buttons).length, 5)
-	
-	            try {
-	                radio.val = "1"
-	            } catch(e) {
-	                this.eq(e.message, "There is no RadioButton in the group with the value: '1'")
-	            }
-	
-	            radio.remove(button0)
-	            this.eq(radio.val, "2")  // for required, another RadioButton is selected
-	            this.eq(button0.group, undefined)
-	            this.eq(Object.keys(radio.buttons).length, 4)
-	
-	            try {
-	                radio.val = "0"
-	            } catch(e) {
-	                this.eq(e.message, "There is no RadioButton in the group with the value: '0'")
-	            }
-	
-	            radio.remove([button2, button3])
-	
-	            this.eq(Object.keys(radio.buttons).length, 2)
-	
-	            radio.remove([button4])
-	
-	            this.eq(Object.keys(radio.buttons).length, 1)
-	        })
-	
-	        // todo: when syn support keyboard events on radio buttons
-	        /*
-	        this.test("changing selected radio buttons with the keyboard", function(t) {
-	            var radio1 = Radio(true)
-	            var button1A = radio1.button("1"), button1B = radio1.button("2"), button1C = radio1.button("3")
-	
-	            container.add(button1A, button1B, button1C)
-	
-	            // todo: add events testing to this too
-	
-	            button1A.focus()
-	            key(button1A.domNode, "[right]").then(function() {
-	                t.eq(document.activeElement, button1B)
-	                t.eq(radio1.val, "2")
-	
-	                return key(button1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1C)
-	                t.eq(radio1.val, "3")
-	
-	                return key(button1A.domNode, "[left]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1B)
-	                t.eq(radio1.val, "2")
-	
-	                return key(button1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1A)
-	                t.eq(radio1.val, "1")
-	
-	                // test looping
-	                return key(button1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1C)
-	                t.eq(radio1.val, "3")
-	
-	                // test looping
-	                return key(button1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1A)
-	                t.eq(radio1.val, "1")
-	            }).done()
-	        })
-	
-	        this.test("tabbing", function() {
-	            var radio1 = Radio(true)
-	            var button1A = radio1.button("1"), button1B = radio1.button("2")
-	            var radio2 = Radio(true)
-	            var button2A = radio2.button("1"), button2B = radio2.button("2")
-	
-	            container.add(button1A, button1B, button2A, button2B)
-	        })*/
-	
-		})
-	
-	    this.test("notRequired", function(t) {
-	        var radio = Radio(false)
-	        var button1 = radio.button("1"), button2 = radio.button("2")
-	        container.add(Text("Not required: "), button1, button2)
-	
-	        // for a non-required Radio group, the group starts out without
-	        t.eq(button1.domNode.checked, false)
-	        t.eq(button2.domNode.checked, false)
-	        t.eq(radio.selected, undefined)
-	        t.eq(radio.val, undefined)
-	
-	        radio.val = "1"
-	        t.eq(radio.val, "1")
-	
-	        syn.click(button1.domNode).then(function() {
-	            t.eq(radio.val, undefined)
-	        }).done()
-	    })
-	
-	    this.test("labels", function(t) {
-	        var radio = Radio()
-	        var button1 = radio.button("myLabel", "1")
-	
-	        t.eq(button1.val, "1")
-	        t.eq(button1.label, "myLabel")
-	    })
-	
-	    this.test("edge cases", function() {
-	        this.test("changing a button's value", function() {
-	            var radio = Radio()
-	            var button1 = radio.button("1")
-	            var button2 = radio.button("2")
-	
-	            button2.val = "3"
-	            this.eq(button2.val, "3")
-	
-	            radio.val = "3"
-	            this.eq(radio.selected, button2)
-	            this.eq(radio.val, "3")
-	
-	            var button3 = radio.button("2")
-	            radio.val = "2"
-	            this.eq(radio.selected, button3)
-	            this.eq(radio.val, "2")
-	
-	        })
-	    })
-	
-	    this.test("errors", function() {
-	        this.count(5)
-	
-	        var radio = Radio()
-	        radio.button("1")
-	
-	        try {
-	            radio.button("1")
-	        } catch(e) {
-	            this.eq(e.message, "Can't give a RadioButton the same value as another in the group (value: '"+1+"')")
-	        }
-	
-	        var buttonB = radio.button("2")
-	        try {
-	            buttonB.val = "1"
-	        } catch(e) {
-	            this.eq(e.message, "Can't give a RadioButton the same value as another in the group (value: '"+1+"')")
-	        }
-	
-	        try {
-	            radio.val = "nonexistent"
-	        } catch(e) {
-	            this.eq(e.message, "There is no RadioButton in the group with the value: 'nonexistent'")
-	        }
-	
-	        try {
-	            radio.val = undefined
-	        } catch(e) {
-	            this.eq(e.message, "Can't unset this Radio set, a value is required.")
-	        }
-	
-	        var radio2 = Radio()
-	        try {
-	            radio2.remove(buttonB)
-	        } catch(e) {
-	            this.eq(e.message, "The button passed at index 0 is not part of the group.")
-	        }
-	    })
-	};
-	
-
-
-/***/ },
-/* 12 */
-/*!***************************************!*\
-  !*** ./ComponentTests/Select.test.js ***!
-  \***************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	var domUtils = __webpack_require__(/*! domUtils */ 37)
-	
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	var Text = __webpack_require__(/*! Components/Text */ 31)
-	
-	var Select = __webpack_require__(/*! Components/Select */ 27)
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Select", container)
-	
-	    this.test("basic usage", function(t) {
-	        this.count(34)
-	
-	        var s1 = Select({4: 'Option 4', 5: "Option 5"})
-	        container.add(Text("Select 1: "), s1)
-	
-	        this.eq(Object.keys(s1.options).length, 2)
-	        this.eq(s1.options[4].val, "4")
-	        this.eq(s1.options[5].val, "5")
-	        this.eq(s1.val, "4") // selects first created option on creation
-	
-	        var option6 = s1.option(6, "Option 6")
-	
-	        this.eq(Object.keys(s1.options).length, 3)
-	        this.eq(s1.options[6], option6)
-	
-	
-	        this.test("events", function(t) {
-	            this.count(27)
-	
-	            s1.on('change', function() {
-	                event('change','s1')
-	            })
-	
-	            s1.options[4].on('click', function() {
-	                event('click', 'option4')
-	            })
-	            s1.options[4].on('change', function() {
-	                event('change', 'option4')
-	            })
-	            s1.options[5].on('click', function() {
-	                event('click', 'option57')
-	            })
-	            s1.options[5].on('change', function() {
-	                event('change', 'option57')
-	            })
-	            option6.on('click', function() {
-	                event('click', 'option6')
-	            })
-	            option6.on('change', function() {
-	                event('change', 'option6')
-	            })
-	
-	            var event = testUtils.seq(
-	            // change 2
-	              function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val, '5')
-	
-	            // change 3
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	                t.eq(s1.options[7].selected, false)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	                t.eq(s1.options[6].selected, true)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val, '6')
-	
-	            // change 4
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option6')
-	
-	            // change 5
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val, '7')
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option57')
-	            })
-	
-	        })
-	
-	
-	
-	        // change 1 - really no change because option4 is already selected
-	        s1.options[4].selected = true
-	        this.eq(s1.val, "4")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5].selected, false)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change 2
-	        s1.options[5].selected = true
-	        this.eq(s1.val, "5")
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[5].selected, true)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change option value
-	        s1.options[5].val = 7
-	        this.eq(s1.options[7].val, '7')
-	        this.eq(s1.val, '7')
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[5], undefined)     // moved to value 7
-	        this.eq(s1.options[6].selected, false)
-	        this.eq(s1.options[7].selected, true)
-	
-	        // change option text
-	        s1.options[7].text = 'Option 7'
-	        this.eq(s1.options[7].domNode[domUtils.textProperty], 'Option 7')
-	
-	        // change 3
-	        // change the value of the select object directly
-	        s1.val = "6"
-	        this.eq(s1.val, "6")
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[6].selected, true)
-	        this.eq(s1.options[7].selected, false)
-	
-	
-	        // select just one of the already selected options with a click
-	        // change 4
-	        syn.click(option6.domNode).then(function() {
-	            t.eq(s1.val, "6")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, false)
-	
-	            // change 5
-	            // click one that wasn't already selected
-	            return syn.click(s1.options[7].domNode)
-	        }).then(function(){
-	            t.eq(s1.val, "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, false)
-	            t.eq(s1.options[7].selected, true)
-	        }).done()
-	    })
-	
-	
-	    // todo:
-	    /*
-	    this.test("test keyboard events", function() {
-	
-	        this.test("basic changing selected options with the keyboard", function(t) {
-	            var select1 = Select({1: 'one', 2: 'two', 3: 'three'})
-	
-	            container.add(Text("Another Group: "), select1)
-	
-	            select1.focus()
-	            syn.key(option1A.domNode, "[down]").then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return syn.key(option1A.domNode, "[down]")
-	            })/*.then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                return key(option1A.domNode, "[left]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	
-	                // test looping
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                // test looping
-	                return key(option1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	            }).done()
-	        })
-	
-	    })
-	    */
-	
-	
-	    this.test("labels", function(t) {
-	        var s1 = Select("myLabel")
-	        this.eq(s1.label, "myLabel")
-	        this.eq(Object.keys(s1.options).length, 0)
-	
-	        var s2 = Select("myLabel2", {1: "one"})
-	        this.eq(s2.label, "myLabel2")
-	        this.eq(Object.keys(s2.options).length, 1)
-	
-	        var option = s1.option("myLabel3", "value", "text")
-	        this.eq(option.label, "myLabel3")
-	        this.eq(option.val, "value")
-	        this.eq(option.text, "text")
-	    })
-	
-	
-	    this.test("remove", function(t) {
-	        this.count(14)
-	
-	        var select = Select()
-	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
-	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
-	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
-	
-	        option0.selected = true
-	
-	        select.on('change', function() {
-	            event(select.val)
-	        })
-	
-	        var event = testUtils.seq(function(value) {
-	            t.eq(value, 'option2')
-	        },function(value) {
-	            t.eq(value, 'option3')
-	        })
-	
-	
-	        this.eq(option1.parent, select)
-	
-	        select.remove(1)
-	        this.eq(select.val, 'option0')
-	        this.eq(option1.parent, undefined)
-	        this.eq(Object.keys(select.options).length, 5)
-	
-	        try {
-	            select.val = "option1"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'option1'")
-	        }
-	
-	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
-	        this.eq(select.val, 'option2')
-	        this.eq(option0.group, undefined)
-	        this.eq(Object.keys(select.options).length, 4)
-	
-	        try {
-	            select.val = "option0"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'option0'")
-	        }
-	
-	        select.remove([2, 3]) // these are option4 and option5
-	
-	
-	        try {
-	            select.val = "option4"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'option4'")
-	        }
-	
-	        this.eq(Object.keys(select.options).length, 2)
-	
-	        select.remove([option2]) // should generate another change event
-	
-	        this.eq(Object.keys(select.options).length, 1)
-	    })
-	
-	    // todo:
-	    /*
-	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
-	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
-	    })
-	     */
-	
-	    this.test("errors", function() {
-	        this.count(5)
-	
-	        var select = Select({1: "text"})
-	
-	        try {
-	            select.option("1", 'text')
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the Select (value: '1')")
-	        }
-	
-	        var optionB = select.option("2", 'text')
-	        try {
-	            optionB.val = "1"
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
-	        }
-	
-	        try {
-	            select.val = "nonexistent"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'nonexistent'")
-	        }
-	
-	        try {
-	            select.remove(300)
-	        } catch(e) {
-	            this.eq(e.message, "There is no child at index 300")
-	        }
-	
-	        var select2 = Select()
-	        try {
-	            select2.remove(optionB)
-	        } catch(e) {
-	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
-	        }
-	    })
-	};
-
-
-/***/ },
-/* 13 */
-/*!**************************************!*\
-  !*** ./ComponentTests/Table.test.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	var domUtils = __webpack_require__(/*! domUtils */ 37)
-	
-	var Text = __webpack_require__(/*! Components/Text */ 31)
-	var Table = __webpack_require__(/*! Components/Table */ 28)
-	
-	module.exports = function(t) {
-	
-	
-	    var container = Container()
-	    testUtils.demo("Table", container)
-	
-	    this.test("simple creation", function() {
-	        var table = Table([
-	            [Text('a'), Text('b'), Text('c'), Text('d')],
-	            [Text('A'), Text('B'), Text('C'), Text('D'), Text("E")],
-	            [Text('AY'), Text('BEE'), Text('CEE'), Text('DEE'), Text("EEeeeeee")]
-	        ])
-	
-	        container.add(Text("table1"), table)
-	
-	        this.eq(table.children.length, 3)
-	        this.ok(table.children[0] instanceof Table.Row)
-	        this.ok(table.children[1] instanceof Table.Row)
-	        this.ok(table.children[2] instanceof Table.Row)
-	
-	        this.eq(table.children[0].children.length, 4)
-	        this.eq(table.children[1].children.length, 5)
-	        this.eq(table.children[2].children.length, 5)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("tr")[0])
-	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
-	
-	        this.ok(table.children[2].children[3] instanceof Table.Cell)
-	        this.ok(table.children[2].children[3].children[0] instanceof Text)
-	        this.eq(table.children[2].children[3].children[0].text, 'DEE')
-	        this.eq(table.domNode.children[2].children[3].children[0][domUtils.textProperty], 'DEE')
-	        var lastRow = $($(table.domNode).find("tr")[2])
-	        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'DEE')
-	
-	        this.test("tables constructed with raw strings instead of elements", function() {
-	            var table = Table([
-	                ['a', 'b', 'c'],
-	                ['d', 'e', 'f']
-	            ])
-	
-	            container.add(Text("table2"), table)
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
-	        })
-	    })
-	
-	    this.test("individual row creation", function() {
-	        var table = Table()
-	
-	        var row1 = table.row([Text('a'), Text('b'), Text('c'), Text('d')])
-	        this.eq(table.children.length, 1)
-	
-	        var row2 = table.row([Text('A'), Text('B'), Text('C'), Text('D'), Text("E")])
-	
-	        this.eq(table.children.length, 2)
-	        this.ok(table.children[0] instanceof Table.Row)
-	        this.ok(table.children[1] instanceof Table.Row)
-	        this.eq(table.children[0], row1)
-	        this.eq(table.children[1], row2)
-	
-	        this.eq(table.children[0].children.length, 4)
-	        this.eq(table.children[1].children.length, 5)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("tr")[0])
-	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
-	
-	        this.ok(table.children[1].children[3] instanceof Table.Cell)
-	        this.eq(table.children[1].children[3].children[0].text, 'D')
-	        this.eq(table.domNode.children[1].children[3][domUtils.textProperty], 'D')
-	        var lastRow = $($(table.domNode).find("tr")[1])
-	        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'D')
-	
-	        this.test("rows constructed with raw strings instead of elements", function() {
-	            var table = Table()
-	
-	            table.row(['a', 'b', 'c'])
-	            table.row(['d', 'e', 'f'])
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
-	        })
-	    })
-	
-	    // table headers are exactly the same as table rows, except...  apply directly to the forehead
-	    this.test("individual header creation", function() {
-	        var table = Table()
-	
-	        var row1 = table.header([Text('a'), Text('b'), Text('c'), Text('d')])
-	        this.eq(table.children.length, 1)
-	
-	        var row2 = table.header([Text('A'), Text('B'), Text('C'), Text('D'), Text("E")])
-	
-	        this.eq(table.children.length, 2)
-	        this.ok(table.children[0] instanceof Table.Header)
-	        this.ok(table.children[1] instanceof Table.Header)
-	        this.eq(table.children[0], row1)
-	        this.eq(table.children[1], row2)
-	
-	        this.eq(table.children[0].children.length, 4)
-	        this.eq(table.children[1].children.length, 5)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("th")[0])
-	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
-	
-	        this.ok(table.children[1].children[3] instanceof Table.Cell)
-	        this.eq(table.children[1].children[3].children[0].text, 'D')
-	        this.eq(table.domNode.children[1].children[3][domUtils.textProperty], 'D')
-	        var lastRow = $($(table.domNode).find("th")[1])
-	        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'D')
-	
-	        this.test("rows constructed with raw strings instead of elements", function() {
-	            var table = Table()
-	
-	            table.header(['a', 'b', 'c'])
-	            table.header(['d', 'e', 'f'])
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
-	        })
-	    })
-	
-	    this.test('individual cell creation', function() {
-	        var table = Table()
-	        container.add(Text("table3"), table)
-	
-	        var row1 = table.row()
-	        var row2 = table.row()
-	
-	        var cell1 = row1.cell(Text('a'))
-	
-	        var cell2 = row2.cell(Text('A'))
-	        var cell3 = row2.cell([Text('B')])
-	
-	        this.eq(table.children.length, 2)
-	        this.eq(table.children[0], row1)
-	        this.eq(table.children[1], row2)
-	
-	        this.eq(table.children[0].children.length, 1)
-	        this.eq(table.children[1].children.length, 2)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0], cell1)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("tr")[0])
-	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
-	
-	        this.ok(table.children[1].children[1] instanceof Table.Cell)
-	        this.eq(table.children[1].children[0], cell2)
-	        this.eq(table.children[1].children[1], cell3)
-	        this.eq(table.children[1].children[1].children[0].text, 'B')
-	        this.eq(table.domNode.children[1].children[1][domUtils.textProperty], 'B')
-	        var lastRow = $($(table.domNode).find("tr")[1])
-	        this.eq(lastRow.find('td')[1][domUtils.textProperty], 'B')
-	
-	        this.test("colspan", function() {
-	            cell1.colspan(2)
-	            this.eq(cell1.attr('colspan'), '2')
-	        })
-	
-	        this.test("cells constructed with raw strings instead of elements", function() {
-	            var table = Table()
-	
-	            var row1 = table.row()
-	            var row2 = table.row()
-	
-	            row1.cell('a')
-	            row1.cell('b')
-	            row1.cell('c')
-	
-	            row2.cell('d')
-	            row2.cell('e')
-	            row2.cell('f')
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
-	        })
-	    })
-	
-	    this.test("label arguments", function() {
-	        var table1 = Table('aLabel')
-	        var table2 = Table('aLabel2', [['a', 'b'],['c', 'd'],['e']])
-	        this.eq(table1.label, 'aLabel')
-	        this.eq(table2.label, 'aLabel2')
-	        this.eq(table2.children.length, 3)
-	
-	        var row1 = table1.row('aLabel3')
-	        var row2 = table1.row('aLabel4', ['f','g'])
-	        this.eq(row1.label, 'aLabel3')
-	        this.eq(row2.label, 'aLabel4')
-	        this.eq(table1.children.length, 2)
-	
-	        var cell1 = row1.cell('label5', 'value')
-	        var cell2 = row1.cell('label6', undefined)
-	        this.eq(cell1.label, 'label5')
-	        this.eq(cell1.domNode[domUtils.textProperty], 'value')
-	        this.eq(cell2.label, 'label6')
-	    })
-	};
-
-
-/***/ },
-/* 14 */
-/*!*************************************!*\
-  !*** ./ComponentTests/Text.test.js ***!
-  \*************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	var domUtils = __webpack_require__(/*! domUtils */ 37)
-	
-	var Text = __webpack_require__(/*! Components/Text */ 31);
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Text", container)
-	
-		this.test('basic usage',function(t) {
-			var obj = new Text();
-	        container.add(obj)
-	        t.eq(obj.text,"");
-	
-	        obj.text = "   "
-			t.ok(obj.domNode.offsetWidth > 0); // make sure the spaces aren't collapsed (by default)
-	
-	        var obj2 = Text("<div>whatever</div>")
-	        container.add(obj2)
-	        t.eq(obj2.text,"<div>whatever</div>");
-	        t.eq(obj2.domNode[domUtils.textProperty], "<div>whatever</div>")
-	
-		});
-	
-	    this.test("label argument", function() {
-	        var t = Text("label", "text")
-	
-	        this.eq(t.label, "label")
-	        this.eq(t.domNode[domUtils.textProperty], "text")
-	    })
-	};
-
-
-/***/ },
-/* 15 */
-/*!****************************!*\
-  !*** ../blocks.browser.js ***!
-  \****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports.Block = __webpack_require__(/*! Block */ 18)
-	exports.Style = __webpack_require__(/*! Style */ 19)
-	
-	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 20)
-	exports.Container = __webpack_require__(/*! Components/Container */ 21)
-	exports.Button = __webpack_require__(/*! Components/Button */ 22)
-	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 23)
-	exports.Image = __webpack_require__(/*! Components/Image */ 24)
-	exports.List = __webpack_require__(/*! Components/List */ 25)
-	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
-	exports.Radio = __webpack_require__(/*! Components/Radio */ 26)
-	exports.Select = __webpack_require__(/*! Components/Select */ 27)
-	exports.Table = __webpack_require__(/*! Components/Table */ 28)
-	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 29)
-	exports.TextField = __webpack_require__(/*! Components/TextField */ 30)
-	exports.Text = __webpack_require__(/*! Components/Text */ 31)
-	
-	
-	
-	Object.defineProperty(exports, 'dev', {
-	    get: function() {
-	        return exports.Block.dev
-	    }, set: function(v) {
-	        exports.Block.dev = v
-	    }
-	})
-	
-	exports.attach = function(/*component,component,.. or components*/) {
-	    exports.Block.attach.apply(this,arguments)
-	}
-	exports.detach = function(/*component,component,.. or components*/) {
-	    exports.Block.detach.apply(this,arguments)
-	}
-	
-	exports.createBody = function(callback) {
-	    exports.Block.detach.apply(this,arguments)
-	}
-
-/***/ },
-/* 16 */
-/*!*****************************************!*\
-  !*** ./ComponentTests/TextArea.test.js ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	
-	var TextArea = __webpack_require__(/*! Components/TextArea */ 29)
-	
-	module.exports = function(t) {
-	
-	    var container = Container()
-	    testUtils.demo("TextArea", container)
-	
-		this.test('basic usage',function(t) {
-	        this.count(3)
-	
-			var obj = TextArea()
-	        container.add(obj)
-	
-	        this.test("events", function(t) {
-	            this.count(5)
-	
-	            obj.on("click",function() {
-	                event('click')
-	            })
-	            obj.on("change",function() {
-	                event('change')
-	            })
-	
-	            var event = testUtils.seq(function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!")
-	            },function(name) {
-	                t.eq(name, 'click')
-	            },function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!second")
-	            })
-	        })
-	
-	        obj.val = "first!"
-	        this.eq(obj.val, "first!")
-	
-	        syn.click(obj.domNode).then(function() {
-	            return syn.type(obj.domNode, "second")
-	        }).then(function() {
-	            t.eq(obj.val, "first!second")
-	            obj.domNode.blur()
-	        }).done()
-		});
-	
-	    this.test("label argument", function() {
-	        var t = TextArea("label")
-	        this.eq(t.label, "label")
-	    })
-	};
-
-
-/***/ },
-/* 17 */
-/*!******************************************!*\
-  !*** ./ComponentTests/TextField.test.js ***!
-  \******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 33)
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	
-	var TextField = __webpack_require__(/*! Components/TextField */ 30)
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("TextArea", container)
-	
-		this.test('basic usage',function(t) {
-	        this.count(3)
-	
-			var obj = TextField()
-	        container.add(obj)
-	
-	        this.test("events", function(t) {
-	            this.count(5)
-	
-	            obj.on("click",function() {
-	                event('click')
-	            })
-	            obj.on("change",function() {
-	                event('change')
-	            })
-	
-	            var event = testUtils.seq(function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!")
-	            },function(name) {
-	                t.eq(name, 'click')
-	            },function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!second")
-	            })
-	        })
-	
-	        obj.val = "first!"
-	        this.eq(obj.val, "first!")
-	
-	        syn.click(obj.domNode).then(function() {
-	            return syn.type(obj.domNode, "second")
-	        }).then(function() {
-	            t.eq(obj.val, "first!second")
-	            obj.domNode.blur()
-	        }).done()
-		});
-	
-	    this.test("password (manually verify)", function() {
-	        var field = TextField(true)
-	        container.add(field)
-	        field.val = "something, but it should be like, astrisks"
-	    })
-	
-	    this.test("label argument", function() {
-	        var t = TextField("label", false)
-	        this.eq(t.label, "label")
-	    })
-	
-	    this.test("former bugs", function() {
-	        this.test("TextField was messing directly with the domNode's classname for god knows what reason", function() {
-	            var field = TextField(true)
-	            var inner = Container([field])
-	            container.add(inner)
-	
-	            this.eq($(field.domNode).css('box-sizing'), 'border-box')
-	        })
-	    })
-	};
-
-
-/***/ },
-/* 18 */
+/* 3 */
 /*!*********************!*\
   !*** ../~/Block.js ***!
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 34)
-	var proto = __webpack_require__(/*! proto */ 48);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 52)
-	var observe = __webpack_require__(/*! observe */ 53)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 18)
+	var proto = __webpack_require__(/*! proto */ 28);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 30)
+	var observe = __webpack_require__(/*! observe */ 36)
 	
-	var utils = __webpack_require__(/*! ./utils */ 39)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 37)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 40)
+	var utils = __webpack_require__(/*! ./utils */ 22)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 19)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 21)
 	
-	var Style = __webpack_require__(/*! ./Style */ 19)
+	var Style = __webpack_require__(/*! ./Style */ 16)
 	Style.isDev = function() {return module.exports.dev}
 	
 	var components = {};
@@ -5871,17 +2778,1572 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 19 */
+/* 4 */
+/*!********************************!*\
+  !*** ../~/Components/Radio.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 28)
+	var EventEmitter = __webpack_require__(/*! events */ 24).EventEmitter
+	
+	var Block = __webpack_require__(/*! ../Block */ 3)
+	
+	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
+	
+	// A group of radio buttons
+	module.exports = proto(EventEmitter, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'Radio'
+	
+		// instance properties
+	
+	
+	    // required - If true, a radio button must always be selected. Otherwise, radio buttons can be deselected by clicking on them.
+		this.init = function(required) {
+	        //this.selected
+	        this.required = required === true || required === undefined
+	        this.buttons = {} // maps values to the buttons that have each value
+	        this.randomStart = randomStart++
+		}
+	
+	    // returns a new radio button
+	    this.button = function(/*[label,] value*/) {
+	        if(arguments.length >= 2) {
+	            var label = arguments[0]
+	            var value = arguments[1]
+	        } else {
+	            var value = arguments[0]
+	        }
+	
+	        if(this.buttons[value] !== undefined) {
+	            throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
+	        }
+	
+	        var button = RadioButton(this, label, value, "_radioblock"+this.randomStart)
+	        this.buttons[value] = button
+	
+	        if(this.required && this._selected === undefined) {
+	            button.selected = true
+	        }
+	
+	        return button
+	    }
+	
+	    // returns the RadioButton in the group that's selected (or undefined if none are selected)
+	    Object.defineProperty(this, 'selected', {
+	        get: function() {
+	            return this._selected
+	        },
+	        set: function() {
+	            throw new Error("Can't set selected on a Radio object")
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the selected radio button in the group (undefined if none are selected)
+	        get: function() {
+	            var selected = this._selected
+	            if(selected === undefined) return undefined
+	            // else
+	            return selected.attr('value')
+	        },
+	
+	        // sets the value of the checkbox to the passed value (true for checked)
+	        // throws an exception if none of the radio buttons have that value
+	        // throws an exception if an unset is attempted for a required Radio set
+	        set: function(value) {
+	            if(value === undefined) {
+	                var selected = this._selected
+	                if(selected !== undefined) {
+	                    selected.selected = false
+	                }
+	            } else {
+	                var button = this.buttons[value]
+	                if(button === undefined) throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
+	
+	                button.selected = true
+	            }
+	        }
+	    })
+	
+	
+	    // arguments can be one of the following:
+	        // RadioButton, RadioButton, RadioButton, ...
+	        // value, value, value, ... - each value is the value of the RadioButton to remove
+	        // arrayOfRadioButtons
+	        // arrayOfValues
+	    this.remove = function() {
+	        if(arguments[0] instanceof Array) {
+	            var removals = arguments[0]
+	        } else {
+	            var removals = arguments
+	        }
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	
+	            if(r instanceof RadioButton) {
+	                var button = r
+	                var value = r.val
+	
+	                if(this.buttons[value] !== r) {
+	                    throw new Error("The button passed at index "+n+" is not part of the group.")
+	                }
+	            } else {
+	                var button = this.buttons[r]
+	                var value = r
+	
+	                if(button === undefined) {
+	                    throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
+	                }
+	            }
+	
+	            var originalSelected = this.selected
+	            if(this.selected === button) {
+	                this._selected = undefined
+	            }
+	
+	            this.buttons[value].group = undefined // fully remove it from the group
+	            delete this.buttons[value]
+	        }
+	
+	        if(this.required && this.selected === undefined) {
+	            for(var v in this.buttons) {
+	                this.buttons[v].selected = true // just select the first one
+	                break; // yes this doesn't loop
+	            }
+	        } else if(originalSelected !== this.selected) {
+	            this.emit('change')
+	        }
+	    }
+	
+	})
+	
+	var RadioButton = proto(Block, function(superclass) {
+	    this.name = 'RadioButton'
+	
+	    this.init = function(radioGroup, label, value, name) {
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	        this.group = radioGroup
+	
+	        this.attr('type', 'radio')
+	        this.attr('name', name) // the name is needed so that using tab to move through page elements can tab between different radio groups
+	        this.val = value
+	
+	        var that = this
+			this.on("mousedown",function(event) {
+	            event.preventDefault()           // this needs to be here otherwise the radio button can't be changed
+	
+				if(that.group.required) {
+	                if(that.selected === false) {
+	                    that.selected = true
+	                }
+	            } else {
+	                that.selected = !that.selected // toggle
+	            }
+			})
+	        this.on("click",function(event) {
+	            event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
+	        })
+	        this.on("keydown",function(event) {
+	            if(event.keyCode === 40 || event.keyCode === 39) { // down or right
+	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                that.selectNext()
+	            } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
+	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                that.selectPrevious()
+	            }
+	        })
+	    }
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value attribute of the checkbox
+	        get: function() {
+	            return this.attr('value')
+	        },
+	
+	        // sets the value attribute of the checkbox
+	        set: function(value) {
+	            if(this.group.buttons[value] !== undefined) {
+	                throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
+	            }
+	
+	            var oldValue = this.val
+	            this.attr('value', value)
+	            if(oldValue !== undefined) delete this.group.buttons[oldValue]
+	            this.group.buttons[value] = this
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the checkbox is checked
+	        get: function() {
+	            return this.domNode.checked
+	        },
+	
+	        // sets the selected state of the checkbox to the passed value (true for checked)
+	        set: function(value) {
+	            var booleanValue = value === true
+	            if(this.selected === value) return; // ignore if there's no change
+	
+	            if(booleanValue) {
+	                var previouslySelected = this.group.selected
+	                setButtonInGroup(this.group, this)
+	                if(previouslySelected !== undefined)
+	                    previouslySelected.emit('change')
+	            } else {
+	                if(this.group.required) throw new Error("Can't unset this Radio set, a value is required.")
+	                this.domNode.checked = false
+	                this.group._selected = undefined
+	            }
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	            this.group.emit('change')
+	        }
+	    })
+	
+	    this.selectNext = function() {
+	        selectSibling(this,1)
+	    }
+	    this.selectPrevious = function() {
+	        selectSibling(this,-1)
+	    }
+	
+	})
+	
+	// direction can be +1 or -1
+	function selectSibling(button, direction) {
+	    var buttons = button.group.buttons
+	    var values = Object.keys(buttons)
+	    var index = values.indexOf(button.attr('value'))
+	    if(direction === 1 && index === values.length-1) {
+	        var buttonToSelect = buttons[values[0]]
+	    } else if(direction === -1 && index === 0) {
+	        var buttonToSelect = buttons[values[values.length-1]]
+	
+	    } else {
+	        var buttonToSelect = buttons[values[index+direction]]
+	    }
+	
+	    buttonToSelect.selected = true
+	    buttonToSelect.focus()
+	}
+	
+	function setButtonInGroup(group, button) {
+	    var selected = group._selected
+	    if(selected !== undefined) selected.domNode.checked = false
+	    button.domNode.checked = true
+	    group._selected = button
+	}
+	
+	function getRandomInt(min, max) {
+	  return Math.floor(Math.random() * (max - min)) + min;
+	}
+
+/***/ },
+/* 5 */
+/*!*********************************!*\
+  !*** ../~/Components/Select.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 3)
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	var Option = __webpack_require__(/*! Components/Option */ 20)
+	
+	// emits a 'change' event when its 'val' changes
+	module.exports = proto(Block, function(superclass) {
+	
+		// static variables
+	
+	    this.name = 'Select'
+	
+	    this.Option = Option
+	
+		this.init = function(/*[label,] options*/) {
+	        if(arguments[0] instanceof Object) {
+	            var options = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var options = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	        this.label = label
+	
+	        this.options = {}
+	
+			for(var value in options) {
+				this.option(value, options[value])
+			}
+		}
+	
+	
+		// instance methods
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value that is selected
+	        get: function() {
+	            for(var value in this.options) {
+	                if(this.options[value].selected) {
+	                    return value
+	                }
+	            }
+	        },
+	
+	        set: function(value) {
+	            var option = this.options[value]
+	            if(option === undefined) throw new Error("There is no Option in the Select with the value: '"+value+"'")
+	            option.selected = true
+	        }
+	    })
+		
+		this.option = function(/*[label,] value,text*/) {
+	        if(arguments.length === 2) {
+	            var value = arguments[0]
+	            var text = arguments[1]
+	        } else if(arguments.length === 3) {
+	            var label = arguments[0]
+	            var value = arguments[1]
+	            var text = arguments[2]
+	        } else {
+	            throw new Error("Invalid number of arguments")
+	        }
+	
+	        var newOption = Option(label, value,text)
+	        this.add(newOption)
+	
+	        return newOption
+	
+		}
+	
+	    // same interface as Block.addAt
+	    /*override*/ this.addAt = function(index/*, nodes...*/) {
+	        var that = this
+	
+	        var nodesToAdd = Block.normalizeAddAtArguments.apply(this, arguments)
+	
+	        // validation first
+	        nodesToAdd.forEach(function(option) {
+	            if(that.options[option.val] !== undefined) {
+	                throw new Error("Can't give an Option the same value as another in the Select (value: '"+option.val+"')")
+	            }
+	        })
+	
+	        superclass.addAt.call(this, index, nodesToAdd)
+	
+	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var anyWereSelected = false
+	        nodesToAdd.forEach(function(option) {
+	            if(option.selected) anyWereSelected = true
+	            that.options[option.val] = option
+	
+	            // set up Select events
+	            // todo: remove events when the Option is removed
+	
+	            option.on("mousedown",function(event) {
+	                option.parent.val = option.val      // select this one
+	            })
+	        })
+	
+	        if(anyWereSelected) {
+	            this.emit('change')
+	        }
+	    }
+	
+	    // same interface as Block.remove
+	    /*override*/ this.remove = function() {
+	        var that = this
+	
+	        var removalIndexes = Block.normalizeRemoveArguments.apply(this, arguments)
+	        var removals = removalIndexes.map(function(index) {
+	            return that.children[index]
+	        })
+	
+	        superclass.remove.call(this, removalIndexes)
+	
+	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var theSelectedWasRemoved = false
+	        removals.forEach(function(option) {
+	            if(option.selected) theSelectedWasRemoved = true
+	            delete that.options[option.val]
+	        })
+	
+	        if(theSelectedWasRemoved) {
+	            //this.children[0].selected = true // I think the browser does this automatically??
+	            this.emit('change')
+	        }
+	    }
+	
+	
+	    // private
+	
+	    this.prepareForValueChange = function(values) {
+	        var value = values[0]
+	
+	        for(var optionValue in this.options) {
+	            if(optionValue !== value) {
+	                var option = this.options[optionValue]
+	                if(option.selected === true) {
+	                    option.setSelectedQuiet(false)
+	                }
+	            }
+	        }
+	    }
+	})
+	
+
+
+/***/ },
+/* 6 */
+/*!*********************************!*\
+  !*** ../~/Components/Button.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! Block */ 3)
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+	    // static variables
+	
+	    this.name = 'Button'
+	
+	
+	    // instance properties
+	
+		this.init = function(/*[label,] text*/) {
+	        if(arguments.length >= 2) {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        } else {
+	            var text = arguments[0]
+	        }
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+			this.attr('type','button');
+			this.text = text
+		}
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.attr('value')
+	        },
+	        set: function(text) {
+	            this.attr('value', text)
+	        }
+	    })
+	
+	})
+
+
+/***/ },
+/* 7 */
+/*!*********************************!*\
+  !*** ../~/Components/Canvas.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! Block */ 3)
+	var proto = __webpack_require__(/*! proto */ 28)
+	var Style = __webpack_require__(/*! Style */ 16)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Canvas'
+	
+	    this.init = function(/*[label,] height, width*/) {
+	        if(arguments.length === 2) {
+	            var height = arguments[0]
+	            var width = arguments[1]
+	        } else {
+	            var label = arguments[0]
+	            var height = arguments[1]
+	            var width = arguments[2]
+	        }
+	
+	        this.domNode = document.createElement('canvas') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	        this.height = height
+	        this.width = width
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'width', {
+	        get: function() {
+	            return this.domNode.width
+	        }, set: function(v) {
+	            this.domNode.width = v
+	        }
+	    })
+	    Object.defineProperty(this, 'height', {
+	        get: function() {
+	            return this.domNode.height
+	        }, set: function(v) {
+	            this.domNode.height = v
+	        }
+	    })
+	
+	    this.context = function() {
+	        return this.domNode.getContext.apply(this.domNode, arguments)
+	    }
+	
+	    this.toImg = this.toDataURL = function() {
+	        return this.domNode.toDataURL()
+	    }
+	});
+
+
+/***/ },
+/* 8 */
+/*!***********************************!*\
+  !*** ../~/Components/CheckBox.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! Block */ 3)
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	module.exports = proto(Block, function(superclass) {
+		// static variables
+	    this.name = 'CheckBox'
+	
+		// instance methods
+		this.init = function(label) {
+	        var that = this
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+			this.attr('type','checkbox')
+		}
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the checkbox is checked
+	        get: function() {
+	            return this.domNode.checked
+	        },
+	        // sets the value of the checkbox to the passed value (true for checked)
+	        set: function(checked) {
+	            var newValue = checked === true
+	            var curValue = this.domNode.checked
+	            if(curValue === newValue) return;  // do nothing if nothing's changing
+	
+	            this.domNode.checked = newValue
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	        }
+	    })
+	})
+
+
+/***/ },
+/* 9 */
+/*!*******************************!*\
+  !*** ../~/Components/List.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	var Block = __webpack_require__(/*! Block */ 3)
+	var Style = __webpack_require__(/*! Style */ 16)
+	
+	var Item = __webpack_require__(/*! ./Item */ 23);
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+		this.Item = Item
+	
+	    this.name = 'List'
+	
+		// instance properties
+	
+		this.init = function(/*[label,] [ordered,] listInit*/) {
+			if(arguments[0] instanceof Array) {
+	            var listInit = arguments[0]
+	        } else {
+	            if(arguments[1] instanceof Array) {
+	                var listInit = arguments[1]
+	            } else if(arguments[2] instanceof Array) {
+	                var listInit = arguments[2]
+	            }
+	
+	            if(typeof(arguments[0]) === 'boolean') {
+	                var ordered = arguments[0]
+	            } else {
+	                if(typeof(arguments[1]) === 'boolean') {
+	                    var ordered = arguments[1]
+	                } else {
+	                    var ordered = false // default
+	                }
+	
+	                if(typeof(arguments[0]) === 'string') {
+	                    var label = arguments[0]
+	                }
+	            }
+	        }
+	
+	        if(ordered) {
+	            var type = 'ol'
+	        } else {
+	            var type = 'ul'
+	            this.defaultStyle = Style({
+	                listStyleType: 'decimal'
+	            })
+	        }
+	
+	
+	        this.domNode = document.createElement(type) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	        this.label = label
+	
+	        if(listInit !== undefined) {
+	            for(var n=0; n<listInit.length; n++) {
+	                this.item(listInit[n])
+	            }
+	        }
+		}
+	
+		this.item = function() {
+			var item = Item.apply(this, arguments)
+	        this.add(item)
+	        return item
+		}
+	});
+
+/***/ },
+/* 10 */
+/*!********************************!*\
+  !*** ../~/Components/Image.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! Block */ 3)
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Image'
+	
+	    this.init = function(/*[label,] imageSource*/) {
+	        if(arguments.length === 1) {
+	            var imageSource = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var imageSource = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement('img') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        var that = this
+	
+	        this.label = label
+	        if(imageSource !==  undefined) this.src = imageSource
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'src', {
+	        get: function() {
+	            return this.domNode.src
+	        }, set: function(v) {
+	            this.domNode.src = v
+	        }
+	    })
+	});
+
+
+/***/ },
+/* 11 */
+/*!************************************!*\
+  !*** ../~/Components/Container.js ***!
+  \************************************/
+[159, 3, 28],
+/* 12 */
+/*!**************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/deadunit.browser.js ***!
+  \**************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var Future = __webpack_require__(/*! async-future */ 44)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 33)
+	
+	var Container = __webpack_require__(/*! blocks.js/Container */ 51)
+	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 52)
+	var Block = __webpack_require__(/*! blocks.js/Block */ 53)
+	Block.dev = true
+	var Style = __webpack_require__(/*! blocks.js/Style */ 50)
+	
+	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 34)
+	var utils = __webpack_require__(/*! ./utils */ 35)
+	
+	
+	module.exports = deadunitInternal({
+	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 40),
+	
+	    environmentSpecificMethods: function() {
+	        var red = 'rgb(200,30,30)'
+	
+	        var warningWritten = false
+	        function warnAboutLateEvents(domNode) {
+	            if(!warningWritten) {
+	                append(domNode, "Test results were accessed before asynchronous parts of tests were fully complete.", {style: "color: red;"})
+	                warningWritten = true
+	            }
+	        }
+	
+	        function writeLateEvent(written, ended, domNode, event, manager) {
+	            if(ended) {
+	                written.then(function() {
+	                    warnAboutLateEvents(domNode)
+	                    append(domNode, JSON.stringify(event), {style: "color: red;"})
+	                })
+	            }
+	        }
+	
+	        // writes html on the current (browser) page
+	        this.writeHtml = function(domNode) {
+	            if(domNode === undefined) domNode = document.body
+	
+	            var f = new Future, groups = {}, ended = false, mainGroup, lateEventsWarningPrinted=false;
+	            this.events({
+	                group: function(groupStartEvent) {
+	                    if(groupStartEvent.parent === undefined) {
+	                        var group = mainGroup = MainGroup(groupStartEvent.name, groupStartEvent.time)
+	                        domNode.appendChild(mainGroup.domNode)
+	
+	                    } else {
+	                        var group = Group(mainGroup, groupStartEvent.name, groupStartEvent.time, groups[groupStartEvent.parent])
+	                        group.parentGroup.addSubGroup(group)
+	                    }
+	
+	                    groups[groupStartEvent.id] = group
+	                    lateEventCheck()
+	                },
+	                count: function(e) {
+	                    groups[e.parent].addExpectedCount(e.expected, Count(e.sourceLines, e.file, e.line, e.column, ended, e.expected))
+	                    lateEventCheck()
+	                },
+	                assert: function(e) {
+	                    groups[e.parent].addAssert(Assert(e.sourceLines, e.file, e.line, e.column, ended, e.expected, e.actual, e.success))
+	                    lateEventCheck()
+	                },
+	                exception: function(exceptionEvent) {
+	                    groups[exceptionEvent.parent].addException(Exception(exceptionEvent.error, ended))
+	                    lateEventCheck()
+	                },
+	                log: function(logEvent) {
+	                    groups[logEvent.parent].results.add(Log(logEvent.values, ended))
+	                    lateEventCheck()
+	                },
+	                groupEnd: function(groupEvent) {
+	                    var group = groups[groupEvent.id]
+	                    group.end(groupEvent.time, ended)
+	
+	                    if(group.parentGroup !== undefined && group.state.subject.success) {
+	                        group.parentGroup.title.passed++
+	                        group.parentGroup.updateTitle()
+	                    }
+	
+	                    lateEventCheck()
+	                },
+	                end: function(endEvent) {
+	                    mainGroup.endTest(endEvent.type, endEvent.time)
+	                    ended = true
+	                    f.return()
+	                }
+	            })
+	            return f
+	
+	            // if late is true, prints out the late event warning, unless it's already been printed
+	            function lateEventCheck() {
+	                if(ended && !lateEventsWarningPrinted) {
+	                    mainGroup.add(Text('lateEventsWarning', "Warning: some events happened after the test ended."))
+	                    lateEventsWarningPrinted = true
+	                }
+	            }
+	        }
+	
+	    }
+	})
+	
+	function append(domNode, content, attributes) {
+	    if(domNode.setAttributeNode === undefined || domNode.appendChild === undefined)
+	        console.log("Object that is not a dom node passed to 'append' (jquery objects aren't supported anymore): "+domNode)
+	    if(attributes ===  undefined) attributes = {}
+	
+	    /*var div = document.createElement('div')
+	        div.innerHTML = content
+	    for(var attribute in attributes) {
+	        var a = document.createAttribute(attribute)
+	            a.nodeValue = attributes[attribute]
+	        domNode.setAttributeNode(a);
+	    }
+	
+	    domNode.appendChild(div)
+	    */
+	    $(domNode).append(content)
+	}
+	
+	var color = defaultFormats.htmlColors
+	
+	document.body.style.backgroundColor = color.black
+	var mainGroupStyle = Style({
+	    color: color.white,
+	    marginTop: 10,
+	
+	    Text: {
+	        $mainTitle:{
+	            cursor: 'pointer',
+	            color: color.brightBlue,
+	            fontSize: 28,
+	            fontWeight: 'bold',
+	            margin: '9px 0'
+	        },
+	        $timeout: {
+	            color: color.red
+	        },
+	        $lateEventsWarning: {
+	            color: color.yellow
+	        }
+	    },
+	
+	    Container:{$results:{
+	        $state: function(state) {
+	            if(state.success) {
+	                if(state.late) {
+	                    var borderColor = color.darkYellow
+	                } else {
+	                    var borderColor = color.green
+	                }
+	            } else {
+	                var borderColor = color.red
+	            }
+	
+	            return Style({
+	                border: '1px solid '+borderColor,
+	                display: 'block',
+	                padding: 5
+	            })
+	        }
+	    }},
+	
+	    MainBar: {
+	        $state: function(state) {
+	            if(state.success) {
+	                if(state.late) {
+	                    var borderColor = color.darkYellow
+	                } else {
+	                    var borderColor = color.green
+	                }
+	            } else {
+	                var borderColor = color.red
+	            }
+	
+	            return Style({
+	                cursor: 'pointer',
+	                border: "2px solid "+borderColor,
+	                display: 'block',
+	                padding: 1,
+	            })
+	        },
+	
+	
+	        Container: {
+	            $inner: {
+	                $state: function(state) {
+	                    if(state.success) {
+	                        if(state.late) {
+	                            var backgroundColor = color.darkYellow
+	                        } else {
+	                            var backgroundColor = color.green
+	                        }
+	                    } else {
+	                        var backgroundColor = color.red
+	                    }
+	
+	                    return Style({
+	                        backgroundColor: backgroundColor,
+	                        display: "block",
+	                        padding: "1px 3px",
+	                    })
+	                },
+	
+	                Text: {
+	                    color: color.white,
+	                    $title: {
+	                        color: color.brightBlue
+	                    }
+	                }
+	            },
+	            $passes: {
+	                Text: {color: color.brightGreen}
+	            },
+	            $failures: {
+	                Text: {color: color.darkRed}
+	            },
+	            $exceptions: {
+	                Text: {color: color.brightPurple}
+	            },
+	            $clickText: {
+	                float: 'right',
+	                Text: {fontStyle: 'italic'}
+	            }
+	        },
+	    },
+	
+	    Group: {
+	        padding: 1,
+	        margin: '8px 0',
+	
+	        GroupTitle: {
+	            $state: function(state) {
+	                if(state.success) {
+	                    var textColor = color.brightGreen
+	                    if(state.late) {
+	                        var backgroundColor = color.darkYellow
+	                    } else {
+	                        var backgroundColor = color.green
+	                    }
+	                } else {
+	                    var textColor = color.white
+	                    var backgroundColor = color.red
+	                }
+	
+	                return Style({
+	                    backgroundColor: backgroundColor,
+	                    color: textColor,
+	                    paddingLeft: 3,
+	                    cursor: 'pointer'
+	                })
+	            },
+	
+	            Text: {
+	                $timeElapsed: {
+	                    color: color.gray
+	                }
+	            }
+	        },
+	    },
+	
+	    ResultLine: {
+	        $state: function(state) {
+	            if(!state.success) {
+	                var textColor = color.red
+	            } else if(state.late) {
+	                var textColor = color.yellow
+	            } else {
+	                var textColor = color.green
+	            }
+	
+	            return Style({color: textColor})
+	        },
+	
+	        Container: {
+	            $location: {
+	                Text: {
+	                    color: color.gray,
+	                    $line: {
+	                        color: color.white
+	                    }
+	                }
+	            },
+	            $expectedAndActual: {
+	                Text: {
+	                    color: color.gray,
+	                    $actual: {
+	                        color: color.white
+	                    },
+	                    $expected: {
+	                        color: color.white
+	                    }
+	                }
+	            }
+	        }
+	    },
+	
+	    Exception: {
+	        color: color.purple
+	    },
+	    Log: {
+	        Text: {
+	            display: 'block'
+	        }
+	    }
+	})
+	
+	
+	
+	// a Block on its own line
+	var Line = proto(Block, function() {
+	    this.name = "Line"
+	    this.defaultStyle = Style({
+	        display: 'block'
+	    })
+	})
+	
+	var Group = proto(Line, function() {
+	    this.name = "Group"
+	
+	    this.build = function(mainGroup, groupTitle, time, parentGroup) {
+	        this.mainGroup = mainGroup
+	        this.results = Container('results')
+	        this.parentGroup = parentGroup
+	
+	        this.add(this.results)
+	        this.createTitleBar(groupTitle)
+	        this.startTime = time
+	        this.count = 0
+	
+	        this.title.on('click', function() {
+	            this.results.visible = !this.results.visible
+	        }.bind(this))
+	    }
+	
+	    this.createTitleBar = function(groupTitle) {
+	        this.title = GroupTitle(groupTitle)
+	        this.addAt(0, this.title)
+	    }
+	
+	    this.addExpectedCount = function(expected, countBlock) {
+	        this.expected = expected
+	        this.countBlock = countBlock
+	        this.countBlock.count = this.count
+	        this.results.addAt(0, countBlock)
+	        this.title.total++
+	
+	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
+	        this.updateTitle()
+	    }
+	
+	    this.addAssert = function(assertBlock) {
+	        this.results.add(assertBlock)
+	        this.count++
+	        if(this.countBlock !== undefined)
+	            this.countBlock.count = this.count
+	
+	        this.title.total++
+	        if(assertBlock.state.subject.success) {
+	            this.title.passed++
+	            this.mainGroup.title.testTotalPasses++
+	        } else {
+	            this.mainGroup.title.testTotalFailures++
+	        }
+	
+	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
+	        this.updateTitle()
+	    }
+	
+	    this.addException = function(exceptionBlock) {
+	        this.results.add(exceptionBlock)
+	        this.title.exceptions++
+	        this.mainGroup.title.testTotalExceptions++
+	
+	        this.updateTitle()
+	    }
+	
+	    this.addSubGroup = function(groupBlock) {
+	        this.results.add(groupBlock)
+	        this.count++
+	        if(this.countBlock !== undefined)
+	            this.countBlock.count = this.count
+	
+	        this.title.total++
+	
+	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
+	        this.updateTitle()
+	    }
+	
+	    this.end = function(time) {
+	        //updateCountSuccess(this, true) // must be run before groupEnded is set (because it relies on groupEnded being false at this point)
+	        if(this.expected !== undefined && !(this.count === this.expected)) this.mainGroup.title.testTotalFailures++
+	
+	        this.groupEnded = true
+	        this.updateTitle()
+	        if(!(this instanceof MainGroup)) {
+	            this.title.add(Text('timeElapsed', ' took '+(time - this.startTime)+'ms'))
+	        }
+	    }
+	
+	    this.updateTitle = function() {
+	        var success = this.title.passed === this.title.total && this.title.exceptions === 0
+	                      && (this !== this.mainGroup || this.title.testTotalFailures === 0 && this.title.testTotalExceptions === 0)
+	
+	        this.results.visible = !success
+	        var parts = [this,this.results,this.title]// things to set success on (since $state styling is currently so limited, you have to set it on everything that needs a style)
+	        if(this instanceof MainGroup) {
+	            parts.push(this.title.inner)
+	        }
+	
+	        var ended = this.mainGroup.ended
+	        parts.forEach(function(block) {
+	            block.state.set("success", success)
+	            block.state.set("late", ended)
+	        })
+	
+	        if(this.parentGroup !== undefined) this.parentGroup.updateTitle()
+	    }
+	})
+	
+	// figure out if count succeeded and update the main group and the countblock state
+	function updateCountSuccess(that) {
+	    if(that.expected !== undefined) {
+	        var countSuccess = that.count === that.expected
+	        that.countBlock.state.set("success", countSuccess)
+	        if(that.groupEnded) that.countBlock.results.state.set("late", true)
+	
+	        if(countSuccess) {
+	            that.mainGroup.title.testTotalPasses++
+	            that.title.passed++
+	            if(that.groupEnded) {
+	                that.mainGroup.title.testTotalFailures--
+	                that.groupEndCountSubtracted = true // marks that failures were subtracted after the test finished (so successes can be later subtracted correctly if need be)
+	            }
+	        } else if(that.groupEndCountSubtracted || that.count - 1 === that.expected) {
+	            that.title.passed--
+	            that.mainGroup.title.testTotalPasses--
+	            if(that.groupEnded) {
+	                that.mainGroup.title.testTotalFailures++
+	            }
+	        }
+	    }
+	}
+	
+	var MainGroup = proto(Group, function(superclass) {
+	    this.name = "MainGroup"
+	
+	    this.createTitleBar = function(groupTitle) {
+	        this.title = MainBar(groupTitle)
+	        this.add(this.title)
+	    }
+	
+	    this.build = function(groupTitle, time) {
+	        superclass.build.call(this, this,groupTitle,time)
+	        this.style = mainGroupStyle
+	
+	        var mainTitle = Text('mainTitle', groupTitle)
+	        this.addAt(0, mainTitle)
+	        this.add(this.pendingText=Text("Pending..."))
+	
+	        mainTitle.on('click', function() {
+	            this.results.visible = !this.results.visible
+	        }.bind(this))
+	    }
+	
+	    this.endTest = function(type, time) {
+	        if(type === 'timeout')
+	            this.add(Text('timeout', "The test timed out!"))
+	
+	        this.pendingText.visible = false
+	        this.updateTitle()
+	        this.testTotalTime = getTimeDisplay(time - this.startTime)
+	        this.title.takenText.text = "Took "
+	        this.ended = true
+	    }
+	})
+	
+	
+	
+	var Text = proto(OriginalText, function() { // doing this cause i'm to lazy to update blocks.js right now
+	    this.defaultStyle = Style({
+	        whiteSpace: 'pre-wrap'
+	    })
+	})
+	
+	
+	var GroupTitle = proto(Line, function() {
+	    this.name = "GroupTitle"
+	
+	    this.build = function(title) {
+	        this.totalNode = Text('0')
+	        this.passedNode = Text('0')
+	        this.exceptionsNode = Text('0')
+	
+	
+	        if(title !== undefined) {
+	            this.add(Text(title+":       "))
+	        }
+	
+	        this.add(this.passedNode, Text('/'), this.totalNode, Text(' and '), this.exceptionsNode, Text(" exceptions "))
+	    }
+	
+	    ;['total','passed','exceptions'].forEach(function(property) {
+	        Object.defineProperty(this, property, {
+	            get: function() {  return parseInt(this[property+"Node"].text)},
+	            set: function(v) {
+	                this[property+"Node"].text = v
+	                if(property === 'total' && this.totalPlural) {
+	                    if(v == 1) this.totalPlural.visible = false
+	                    else       this.totalPlural.visible = true
+	                }
+	            }
+	        })
+	    }.bind(this))
+	})
+	
+	var MainBar = proto(GroupTitle, function() {
+	    this.name = "MainBar"
+	
+	    /*override*/ this.build = function(title) {
+	        this.totalNode = Text('0'); this.totalPlural = Text('s')
+	        this.passedNode = Text('0')
+	        this.exceptionsNode = Text('0')  // unused, but needed to match the interface of GroupTitle
+	
+	        this.testTotalPassesNode = Text('0'); this.testTotalPassesPlural = Text('es')
+	        this.testTotalFailuresNode = Text('0'); this.testTotalFailuresPlural = Text('s')
+	        this.testTotalExceptionsNode = Text('0'); this.testTotalExceptionsPlural = Text('s')
+	        this.testTotalTimeNode = Text('0')
+	
+	        // used temporarily to approximate the time when counting up on-the-fly
+	        // will be replaced by the time coming from deadunitCore's events at the end
+	        this.temporaryStartTime = Date.now()
+	
+	        this.inner = Container('inner', []) // outer used for styling)
+	        this.add(this.inner)
+	
+	        if(title !== undefined) {
+	            this.inner.add(Text('title', title), Text(' - '))
+	        }
+	
+	        this.inner.add(
+	            this.passedNode, Text('/'), this.totalNode, Text(' successful test'),this.totalPlural,Text('. '),
+	            Container('passes', this.testTotalPassesNode, Text(" pass"), this.testTotalPassesPlural), Text(", "),
+	            Container('failures', this.testTotalFailuresNode, Text(" failure"),this.testTotalFailuresPlural), Text(", and "),
+	            Container('exceptions', this.testTotalExceptionsNode, Text(" exception"), this.testTotalExceptionsPlural), Text(". "),
+	            Container('time', this.takenText=Text("Has taken "), this.testTotalTimeNode, Text(".")),
+	            Container('clickText', Text("click on this bar"))
+	        )
+	    }
+	
+	    ;['testTotalPasses','testTotalFailures','testTotalExceptions','testTotalTime'].forEach(function(property) {
+	        Object.defineProperty(this, property, {
+	            get: function() {  return parseInt(this[property+"Node"].text)},
+	            set: function(v) {
+	                this[property+"Node"].text = v
+	
+	                if(property!=='testTotalTime') {
+	                    this.testTotalTime = getTimeDisplay(Date.now() - this.temporaryStartTime)
+	
+	                    if(v == 1) this[property+'Plural'].visible = false
+	                    else        this[property+'Plural'].visible = true
+	                }
+	            }
+	        })
+	    }.bind(this))
+	})
+	
+	
+	// a line of result text
+	var ResultLine = proto(Line, function() {
+	    this.name = "ResultLine"
+	
+	    this.build = function(resultText, sourceLines, file, line, column, expected, actual) {
+	        this.resultTextNode = Text(resultText)
+	        var location = Container('location',[Text("["+file+' '), Text('line',line), Text(":"+column+'] ')])
+	        this.add(this.resultTextNode, location, Text(sourceLines))
+	
+	        this.expectedAndActual = Container('expectedAndActual')
+	        this.add(this.expectedAndActual)
+	
+	        if(expected !== undefined) {
+	            this.expectedAndActual.add(Text(" Expected "), Text('expected', utils.valueToMessage(expected)))
+	        }
+	        if(actual !== undefined) {
+	            if(expected !== undefined)
+	                this.expectedAndActual.add(Text(","))
+	
+	            this.got = Text("actual", utils.valueToMessage(actual))
+	            this.expectedAndActual.add(Text(" Got "), this.got)
+	        }
+	    }
+	})
+	
+	
+	var Assert = proto(Line, function() {
+	    this.name = "Assert"
+	
+	    this.successText = "Ok! "
+	    this.failText = "Fail: "
+	
+	    this.build = function(sourceLines, file, line, column, late, expected, actual, success) {
+	        var text = success?this.successText:this.failText
+	
+	        this.results = ResultLine(text, sourceLines, file, line, column, expected, actual)
+	        this.add(this.results)
+	
+	        var that = this
+	        this.state.on('change', function() {
+	            that.results.expectedAndActual.visible = !that.state.subject.success
+	        })
+	
+	        this.state.set("success", success)
+	        this.results.state.set("success", success)
+	        if(late) this.results.state.set("late", true)
+	    }
+	})
+	
+	var Exception = proto(Line, function() {
+	    this.name = "Exception"
+	
+	    this.build = function(error, late) {
+	        if(late) this.state.set("late", true)
+	
+	        var exceptionText = Text(utils.errorToString(error))
+	        this.add(exceptionText)
+	    }
+	})
+	
+	var Count = proto(Assert, function(superclass) {
+	    this.name = "Count"
+	
+	    this.build = function(sourceLines, file, line, column, late, expected) {
+	        superclass.build.call(this, sourceLines, file, line, column, late, expected, 0, false)
+	        this.expected = expected
+	    }
+	
+	    Object.defineProperty(this, 'count', {
+	        get: function() {
+	            return this.results.got.text
+	        }, set: function(count) {
+	            this.results.got.text = count
+	            if(count === this.expected) {
+	                this.results.resultTextNode.text = this.successText
+	            } else {
+	                this.results.resultTextNode.text = this.failText
+	            }
+	
+	            this.results.state.set("success", count === this.expected)
+	        }
+	    })
+	})
+	
+	var Log = proto(Line, function() {
+	    this.name = "Log"
+	
+	    this.build = function(values, late) {
+	        if(late) this.state.set("late", true)
+	
+	        values.forEach(function(v) {
+	            this.add(Text(utils.valueToString(v)))
+	        }.bind(this))
+	
+	    }
+	})
+	
+	function getTimeDisplay(milliseconds) {
+	    if(milliseconds > 1000) {
+	        return Math.floor(milliseconds/1000)+'s'
+	    } else {
+	        return milliseconds+'ms'
+	    }
+	}
+
+
+/***/ },
+/* 13 */
+/*!***********************************!*\
+  !*** ../~/Components/TextArea.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 3)
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static variables
+	
+	    this.name = 'TextArea'
+	
+		this.init = function(label) {
+	        this.domNode = document.createElement("textarea") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+			this.label = label
+		}
+	
+	
+		// instance properties
+	
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.domNode.value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.val === value) return; // do nothing if there's no change
+	
+	            this.domNode.value = value
+	            this.emit('change')
+	        }
+	    })
+	});
+
+
+/***/ },
+/* 14 */
+/*!************************************!*\
+  !*** ../~/Components/TextField.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 3)
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	var domUtils = __webpack_require__(/*! ../domUtils */ 19)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'TextField'
+	
+		this.init = function(/*[label,] password*/) {
+	        if(arguments.length === 1) {
+	            var password = arguments[0]
+	        } else if(arguments.length > 1) {
+	            var label = arguments[0]
+	            var password = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+			this.label = label
+			domUtils.setAttribute(this.domNode,'type','text');
+	        if(password)
+	            domUtils.setAttribute(this.domNode, 'type', 'password')
+		}
+	
+	
+		// instance properties
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.domNode.value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.val === value) return; // do nothing if there's no change
+	
+	            this.domNode.value = value
+	            this.emit('change')
+	        }
+	    })
+	
+	});
+
+
+/***/ },
+/* 15 */
+/*!********************************!*\
+  !*** ../~/Components/Table.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	var Block = __webpack_require__(/*! ../Block */ 3)
+	var Style = __webpack_require__(/*! Style */ 16)
+	
+	var Header = __webpack_require__(/*! ./Header */ 25);
+	var Row = __webpack_require__(/*! ./Row */ 26);
+	var Cell = __webpack_require__(/*! ./Cell */ 27);
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'Table'
+	
+	    this.defaultStyle = Style({
+	        borderSpacing: 0
+	    })
+	
+	    this.Row = Row
+		this.Header = Header
+	    this.Cell = Cell
+	
+	
+		// instance properties
+	
+		this.init = function(/*[label,] tableInit*/) {
+			if(arguments[0] instanceof Array) {
+	            var tableInit = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var tableInit = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("table") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	        this.label = label
+	
+	        if(tableInit !== undefined) {
+	            for(var n=0; n<tableInit.length; n++) {
+	                this.row(tableInit[n])
+	            }
+	        }
+		}
+		
+		this.header = function(/*[]label,] listOfBlocksOrText*/) {
+	        return headerOrRegularRow(this, Header, arguments)
+		}
+	
+		this.row = function() {
+			return headerOrRegularRow(this, Row, arguments)
+		}
+	});
+	
+	function headerOrRegularRow(that, Prototype, args) {
+	    var row = Prototype.apply(undefined, args)
+	    that.add(row)
+	    return row
+	}
+
+/***/ },
+/* 16 */
 /*!*********************!*\
   !*** ../~/Style.js ***!
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 46)
-	var proto = __webpack_require__(/*! proto */ 48)
-	var HashMap = __webpack_require__(/*! hashmap */ 56)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 29)
+	var proto = __webpack_require__(/*! proto */ 28)
+	var HashMap = __webpack_require__(/*! hashmap */ 38)
 	
-	var utils = __webpack_require__(/*! ./utils */ 39)
+	var utils = __webpack_require__(/*! ./utils */ 22)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -5914,7 +4376,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.componentStyleMap = {}
 	        this.nativeCssInfoCache = new HashMap
-	        this.pureStyleInteractionCache = new HashMap
+	//        this.pureStyleInteractionCache = new HashMap
 	        this.nativePseudoclassesWritten = {}
 	        this.basicProperties = {}
 	        if(Style.isDev()) this.nativePseudoclassStyles = {}
@@ -6160,6 +4622,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if(mixInherit === undefined) mixInherit = false
 	        if(styleB === undefined)
 	            return this
+	        if(!isStyleObject(styleB)) styleB = Style(styleB)
 	
 	        var cacheKey = [this,styleB,mixInherit]
 	        var mixedStyle = mixedStyles.get(cacheKey)
@@ -6215,12 +4678,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // nativePseudoclassSelectorMap - an object where each key is a base css-selector, and each value is a Style object
 	    // jsRenderedPseudoclassIndex - if this style is a js-redered/emulated psueodclass, this is its index inside its parent style's pseudoclasses.classes map, otherwise the value will be 0
 	    this.createNativeCssInfo = function(styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
-	        var cacheHasStyleMap = this.nativeCssInfoCache.has(styleMap), cacheValue=undefined
+	        var cacheKey = [styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle]
+	        var cacheHasStyleMap = this.nativeCssInfoCache.has(cacheKey)
 	        if(cacheHasStyleMap) {
-	            cacheValue = this.nativeCssInfoCache.get(styleMap)
-	            if(jsRenderedPseudoclassIndex in cacheValue) {
-	                return cacheValue[jsRenderedPseudoclassIndex]
-	            }
+	            return this.nativeCssInfoCache.get(cacheKey)
 	        }
 	        // else
 	        var styleToReturn = this // can change below if there is an interaction with the styleMap
@@ -6229,8 +4690,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var info = stylesInfo(styleSelectors, styleMap)
 	            var interacts = info.impure.length > 0
 	            if(!interacts) {
-	                var pureStyleInteractionCacheItem = this.pureStyleInteractionCache.get(info.undef)
-	                if(pureStyleInteractionCacheItem === undefined) {
+	//                var pureStyleInteractionCacheItem = this.pureStyleInteractionCache.get(info.undef)
+	//                if(pureStyleInteractionCacheItem === undefined) {
 	                    var evenNewerComputedStyleMap = utils.merge({},styleMap) // copy
 	                    for(var key in evenNewerComputedStyleMap) {
 	                        if(key in styleSelectors) {
@@ -6243,11 +4704,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                    styleToReturn = this.copy()    // a new style className is needed to avoid potential incorrect css overlap
 	                    styleMap = evenNewerComputedStyleMap
-	                    this.pureStyleInteractionCache.set(info.undef, {style:styleToReturn, map: styleMap})
-	                } else {
-	                    styleToReturn = pureStyleInteractionCacheItem.style
-	                    styleMap = pureStyleInteractionCacheItem.map
-	                }
+	//                    this.pureStyleInteractionCache.set(info.undef, {style:styleToReturn, map: styleMap})
+	//                } else {
+	//                    styleToReturn = pureStyleInteractionCacheItem.style
+	//                    styleMap = pureStyleInteractionCacheItem.map
+	//                }
 	            } else {
 	                var retryStyle = this.copy()
 	                changeStyleToNonNative(retryStyle)
@@ -6297,13 +4758,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        function setNativeCssInfoCache(nativeCssInfoCache, value) {
-	            if(cacheHasStyleMap) {
-	                cacheValue[jsRenderedPseudoclassIndex] = value
-	            } else {
-	                var cacheValue = {}
-	                cacheValue[jsRenderedPseudoclassIndex] = value
-	                nativeCssInfoCache.set(styleMap, cacheValue)
-	            }
+	            nativeCssInfoCache.set(cacheKey, value)
 	        }
 	
 	        // returns the label and block selectors within the style (recursive)
@@ -7138,888 +5593,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
-/*!*********************************!*\
-  !*** ../~/Components/Canvas.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! Block */ 18)
-	var proto = __webpack_require__(/*! proto */ 48)
-	var Style = __webpack_require__(/*! Style */ 19)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-	    //static properties
-	
-	    this.name = 'Canvas'
-	
-	    this.init = function(/*[label,] height, width*/) {
-	        if(arguments.length === 2) {
-	            var height = arguments[0]
-	            var width = arguments[1]
-	        } else {
-	            var label = arguments[0]
-	            var height = arguments[1]
-	            var width = arguments[2]
-	        }
-	
-	        this.domNode = document.createElement('canvas') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	        this.height = height
-	        this.width = width
-	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'width', {
-	        get: function() {
-	            return this.domNode.width
-	        }, set: function(v) {
-	            this.domNode.width = v
-	        }
-	    })
-	    Object.defineProperty(this, 'height', {
-	        get: function() {
-	            return this.domNode.height
-	        }, set: function(v) {
-	            this.domNode.height = v
-	        }
-	    })
-	
-	    this.context = function() {
-	        return this.domNode.getContext.apply(this.domNode, arguments)
-	    }
-	
-	    this.toImg = this.toDataURL = function() {
-	        return this.domNode.toDataURL()
-	    }
-	});
-
-
-/***/ },
-/* 21 */
-/*!************************************!*\
-  !*** ../~/Components/Container.js ***!
-  \************************************/
-[117, 18, 48],
-/* 22 */
-/*!*********************************!*\
-  !*** ../~/Components/Button.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! Block */ 18)
-	var proto = __webpack_require__(/*! proto */ 48)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-	    // static variables
-	
-	    this.name = 'Button'
-	
-	
-	    // instance properties
-	
-		this.init = function(/*[label,] text*/) {
-	        if(arguments.length >= 2) {
-	            var label = arguments[0]
-	            var text = arguments[1]
-	        } else {
-	            var text = arguments[0]
-	        }
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-			this.attr('type','button');
-			this.text = text
-		}
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.attr('value')
-	        },
-	        set: function(text) {
-	            this.attr('value', text)
-	        }
-	    })
-	
-	})
-
-
-/***/ },
-/* 23 */
-/*!***********************************!*\
-  !*** ../~/Components/CheckBox.js ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! Block */ 18)
-	var proto = __webpack_require__(/*! proto */ 48)
-	
-	module.exports = proto(Block, function(superclass) {
-		// static variables
-	    this.name = 'CheckBox'
-	
-		// instance methods
-		this.init = function(label) {
-	        var that = this
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-			this.attr('type','checkbox')
-		}
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the checkbox is checked
-	        get: function() {
-	            return this.domNode.checked
-	        },
-	        // sets the value of the checkbox to the passed value (true for checked)
-	        set: function(checked) {
-	            var newValue = checked === true
-	            var curValue = this.domNode.checked
-	            if(curValue === newValue) return;  // do nothing if nothing's changing
-	
-	            this.domNode.checked = newValue
-	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	        }
-	    })
-	})
-
-
-/***/ },
-/* 24 */
-/*!********************************!*\
-  !*** ../~/Components/Image.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! Block */ 18)
-	var proto = __webpack_require__(/*! proto */ 48)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-	    //static properties
-	
-	    this.name = 'Image'
-	
-	    this.init = function(/*[label,] imageSource*/) {
-	        if(arguments.length === 1) {
-	            var imageSource = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var imageSource = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement('img') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        var that = this
-	
-	        this.label = label
-	        if(imageSource !==  undefined) this.src = imageSource
-	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'src', {
-	        get: function() {
-	            return this.domNode.src
-	        }, set: function(v) {
-	            this.domNode.src = v
-	        }
-	    })
-	});
-
-
-/***/ },
-/* 25 */
-/*!*******************************!*\
-  !*** ../~/Components/List.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 48)
-	
-	var Block = __webpack_require__(/*! Block */ 18)
-	var Style = __webpack_require__(/*! Style */ 19)
-	
-	var Item = __webpack_require__(/*! ./Item */ 41);
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-		this.Item = Item
-	
-	    this.name = 'List'
-	
-		// instance properties
-	
-		this.init = function(/*[label,] [ordered,] listInit*/) {
-			if(arguments[0] instanceof Array) {
-	            var listInit = arguments[0]
-	        } else {
-	            if(arguments[1] instanceof Array) {
-	                var listInit = arguments[1]
-	            } else if(arguments[2] instanceof Array) {
-	                var listInit = arguments[2]
-	            }
-	
-	            if(typeof(arguments[0]) === 'boolean') {
-	                var ordered = arguments[0]
-	            } else {
-	                if(typeof(arguments[1]) === 'boolean') {
-	                    var ordered = arguments[1]
-	                } else {
-	                    var ordered = false // default
-	                }
-	
-	                if(typeof(arguments[0]) === 'string') {
-	                    var label = arguments[0]
-	                }
-	            }
-	        }
-	
-	        if(ordered) {
-	            var type = 'ol'
-	        } else {
-	            var type = 'ul'
-	            this.defaultStyle = Style({
-	                listStyleType: 'decimal'
-	            })
-	        }
-	
-	
-	        this.domNode = document.createElement(type) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	        this.label = label
-	
-	        if(listInit !== undefined) {
-	            for(var n=0; n<listInit.length; n++) {
-	                this.item(listInit[n])
-	            }
-	        }
-		}
-	
-		this.item = function() {
-			var item = Item.apply(this, arguments)
-	        this.add(item)
-	        return item
-		}
-	});
-
-/***/ },
-/* 26 */
-/*!********************************!*\
-  !*** ../~/Components/Radio.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 48)
-	var EventEmitter = __webpack_require__(/*! events */ 36).EventEmitter
-	
-	var Block = __webpack_require__(/*! ../Block */ 18)
-	
-	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
-	
-	// A group of radio buttons
-	module.exports = proto(EventEmitter, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Radio'
-	
-		// instance properties
-	
-	
-	    // required - If true, a radio button must always be selected. Otherwise, radio buttons can be deselected by clicking on them.
-		this.init = function(required) {
-	        //this.selected
-	        this.required = required === true || required === undefined
-	        this.buttons = {} // maps values to the buttons that have each value
-	        this.randomStart = randomStart++
-		}
-	
-	    // returns a new radio button
-	    this.button = function(/*[label,] value*/) {
-	        if(arguments.length >= 2) {
-	            var label = arguments[0]
-	            var value = arguments[1]
-	        } else {
-	            var value = arguments[0]
-	        }
-	
-	        if(this.buttons[value] !== undefined) {
-	            throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
-	        }
-	
-	        var button = RadioButton(this, label, value, "_radioblock"+this.randomStart)
-	        this.buttons[value] = button
-	
-	        if(this.required && this._selected === undefined) {
-	            button.selected = true
-	        }
-	
-	        return button
-	    }
-	
-	    // returns the RadioButton in the group that's selected (or undefined if none are selected)
-	    Object.defineProperty(this, 'selected', {
-	        get: function() {
-	            return this._selected
-	        },
-	        set: function() {
-	            throw new Error("Can't set selected on a Radio object")
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the selected radio button in the group (undefined if none are selected)
-	        get: function() {
-	            var selected = this._selected
-	            if(selected === undefined) return undefined
-	            // else
-	            return selected.attr('value')
-	        },
-	
-	        // sets the value of the checkbox to the passed value (true for checked)
-	        // throws an exception if none of the radio buttons have that value
-	        // throws an exception if an unset is attempted for a required Radio set
-	        set: function(value) {
-	            if(value === undefined) {
-	                var selected = this._selected
-	                if(selected !== undefined) {
-	                    selected.selected = false
-	                }
-	            } else {
-	                var button = this.buttons[value]
-	                if(button === undefined) throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
-	
-	                button.selected = true
-	            }
-	        }
-	    })
-	
-	
-	    // arguments can be one of the following:
-	        // RadioButton, RadioButton, RadioButton, ...
-	        // value, value, value, ... - each value is the value of the RadioButton to remove
-	        // arrayOfRadioButtons
-	        // arrayOfValues
-	    this.remove = function() {
-	        if(arguments[0] instanceof Array) {
-	            var removals = arguments[0]
-	        } else {
-	            var removals = arguments
-	        }
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	
-	            if(r instanceof RadioButton) {
-	                var button = r
-	                var value = r.val
-	
-	                if(this.buttons[value] !== r) {
-	                    throw new Error("The button passed at index "+n+" is not part of the group.")
-	                }
-	            } else {
-	                var button = this.buttons[r]
-	                var value = r
-	
-	                if(button === undefined) {
-	                    throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
-	                }
-	            }
-	
-	            var originalSelected = this.selected
-	            if(this.selected === button) {
-	                this._selected = undefined
-	            }
-	
-	            this.buttons[value].group = undefined // fully remove it from the group
-	            delete this.buttons[value]
-	        }
-	
-	        if(this.required && this.selected === undefined) {
-	            for(var v in this.buttons) {
-	                this.buttons[v].selected = true // just select the first one
-	                break; // yes this doesn't loop
-	            }
-	        } else if(originalSelected !== this.selected) {
-	            this.emit('change')
-	        }
-	    }
-	
-	})
-	
-	var RadioButton = proto(Block, function(superclass) {
-	    this.name = 'RadioButton'
-	
-	    this.init = function(radioGroup, label, value, name) {
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	        this.group = radioGroup
-	
-	        this.attr('type', 'radio')
-	        this.attr('name', name) // the name is needed so that using tab to move through page elements can tab between different radio groups
-	        this.val = value
-	
-	        var that = this
-			this.on("mousedown",function(event) {
-	            event.preventDefault()           // this needs to be here otherwise the radio button can't be changed
-	
-				if(that.group.required) {
-	                if(that.selected === false) {
-	                    that.selected = true
-	                }
-	            } else {
-	                that.selected = !that.selected // toggle
-	            }
-			})
-	        this.on("click",function(event) {
-	            event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
-	        })
-	        this.on("keydown",function(event) {
-	            if(event.keyCode === 40 || event.keyCode === 39) { // down or right
-	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                that.selectNext()
-	            } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
-	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                that.selectPrevious()
-	            }
-	        })
-	    }
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value attribute of the checkbox
-	        get: function() {
-	            return this.attr('value')
-	        },
-	
-	        // sets the value attribute of the checkbox
-	        set: function(value) {
-	            if(this.group.buttons[value] !== undefined) {
-	                throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
-	            }
-	
-	            var oldValue = this.val
-	            this.attr('value', value)
-	            if(oldValue !== undefined) delete this.group.buttons[oldValue]
-	            this.group.buttons[value] = this
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the checkbox is checked
-	        get: function() {
-	            return this.domNode.checked
-	        },
-	
-	        // sets the selected state of the checkbox to the passed value (true for checked)
-	        set: function(value) {
-	            var booleanValue = value === true
-	            if(this.selected === value) return; // ignore if there's no change
-	
-	            if(booleanValue) {
-	                var previouslySelected = this.group.selected
-	                setButtonInGroup(this.group, this)
-	                if(previouslySelected !== undefined)
-	                    previouslySelected.emit('change')
-	            } else {
-	                if(this.group.required) throw new Error("Can't unset this Radio set, a value is required.")
-	                this.domNode.checked = false
-	                this.group._selected = undefined
-	            }
-	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	            this.group.emit('change')
-	        }
-	    })
-	
-	    this.selectNext = function() {
-	        selectSibling(this,1)
-	    }
-	    this.selectPrevious = function() {
-	        selectSibling(this,-1)
-	    }
-	
-	})
-	
-	// direction can be +1 or -1
-	function selectSibling(button, direction) {
-	    var buttons = button.group.buttons
-	    var values = Object.keys(buttons)
-	    var index = values.indexOf(button.attr('value'))
-	    if(direction === 1 && index === values.length-1) {
-	        var buttonToSelect = buttons[values[0]]
-	    } else if(direction === -1 && index === 0) {
-	        var buttonToSelect = buttons[values[values.length-1]]
-	
-	    } else {
-	        var buttonToSelect = buttons[values[index+direction]]
-	    }
-	
-	    buttonToSelect.selected = true
-	    buttonToSelect.focus()
-	}
-	
-	function setButtonInGroup(group, button) {
-	    var selected = group._selected
-	    if(selected !== undefined) selected.domNode.checked = false
-	    button.domNode.checked = true
-	    group._selected = button
-	}
-	
-	function getRandomInt(min, max) {
-	  return Math.floor(Math.random() * (max - min)) + min;
-	}
-
-/***/ },
-/* 27 */
-/*!*********************************!*\
-  !*** ../~/Components/Select.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! ../Block */ 18)
-	var proto = __webpack_require__(/*! proto */ 48)
-	
-	var Option = __webpack_require__(/*! Components/Option */ 45)
-	
-	// emits a 'change' event when its 'val' changes
-	module.exports = proto(Block, function(superclass) {
-	
-		// static variables
-	
-	    this.name = 'Select'
-	
-	    this.Option = Option
-	
-		this.init = function(/*[label,] options*/) {
-	        if(arguments[0] instanceof Object) {
-	            var options = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var options = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	        this.label = label
-	
-	        this.options = {}
-	
-			for(var value in options) {
-				this.option(value, options[value])
-			}
-		}
-	
-	
-		// instance methods
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value that is selected
-	        get: function() {
-	            for(var value in this.options) {
-	                if(this.options[value].selected) {
-	                    return value
-	                }
-	            }
-	        },
-	
-	        set: function(value) {
-	            var option = this.options[value]
-	            if(option === undefined) throw new Error("There is no Option in the Select with the value: '"+value+"'")
-	            option.selected = true
-	        }
-	    })
-		
-		this.option = function(/*[label,] value,text*/) {
-	        if(arguments.length === 2) {
-	            var value = arguments[0]
-	            var text = arguments[1]
-	        } else if(arguments.length === 3) {
-	            var label = arguments[0]
-	            var value = arguments[1]
-	            var text = arguments[2]
-	        } else {
-	            throw new Error("Invalid number of arguments")
-	        }
-	
-	        var newOption = Option(label, value,text)
-	        this.add(newOption)
-	
-	        return newOption
-	
-		}
-	
-	    // same interface as Block.addAt
-	    /*override*/ this.addAt = function(index/*, nodes...*/) {
-	        var that = this
-	
-	        var nodesToAdd = Block.normalizeAddAtArguments.apply(this, arguments)
-	
-	        // validation first
-	        nodesToAdd.forEach(function(option) {
-	            if(that.options[option.val] !== undefined) {
-	                throw new Error("Can't give an Option the same value as another in the Select (value: '"+option.val+"')")
-	            }
-	        })
-	
-	        superclass.addAt.call(this, index, nodesToAdd)
-	
-	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var anyWereSelected = false
-	        nodesToAdd.forEach(function(option) {
-	            if(option.selected) anyWereSelected = true
-	            that.options[option.val] = option
-	
-	            // set up Select events
-	            // todo: remove events when the Option is removed
-	
-	            option.on("mousedown",function(event) {
-	                option.parent.val = option.val      // select this one
-	            })
-	        })
-	
-	        if(anyWereSelected) {
-	            this.emit('change')
-	        }
-	    }
-	
-	    // same interface as Block.remove
-	    /*override*/ this.remove = function() {
-	        var that = this
-	
-	        var removalIndexes = Block.normalizeRemoveArguments.apply(this, arguments)
-	        var removals = removalIndexes.map(function(index) {
-	            return that.children[index]
-	        })
-	
-	        superclass.remove.call(this, removalIndexes)
-	
-	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var theSelectedWasRemoved = false
-	        removals.forEach(function(option) {
-	            if(option.selected) theSelectedWasRemoved = true
-	            delete that.options[option.val]
-	        })
-	
-	        if(theSelectedWasRemoved) {
-	            //this.children[0].selected = true // I think the browser does this automatically??
-	            this.emit('change')
-	        }
-	    }
-	
-	
-	    // private
-	
-	    this.prepareForValueChange = function(values) {
-	        var value = values[0]
-	
-	        for(var optionValue in this.options) {
-	            if(optionValue !== value) {
-	                var option = this.options[optionValue]
-	                if(option.selected === true) {
-	                    option.setSelectedQuiet(false)
-	                }
-	            }
-	        }
-	    }
-	})
-	
-
-
-/***/ },
-/* 28 */
-/*!********************************!*\
-  !*** ../~/Components/Table.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 48)
-	
-	var Block = __webpack_require__(/*! ../Block */ 18)
-	var Style = __webpack_require__(/*! Style */ 19)
-	
-	var Header = __webpack_require__(/*! ./Header */ 42);
-	var Row = __webpack_require__(/*! ./Row */ 43);
-	var Cell = __webpack_require__(/*! ./Cell */ 44);
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Table'
-	
-	    this.defaultStyle = Style({
-	        borderSpacing: 0
-	    })
-	
-	    this.Row = Row
-		this.Header = Header
-	    this.Cell = Cell
-	
-	
-		// instance properties
-	
-		this.init = function(/*[label,] tableInit*/) {
-			if(arguments[0] instanceof Array) {
-	            var tableInit = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var tableInit = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("table") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	        this.label = label
-	
-	        if(tableInit !== undefined) {
-	            for(var n=0; n<tableInit.length; n++) {
-	                this.row(tableInit[n])
-	            }
-	        }
-		}
-		
-		this.header = function(/*[]label,] listOfBlocksOrText*/) {
-	        return headerOrRegularRow(this, Header, arguments)
-		}
-	
-		this.row = function() {
-			return headerOrRegularRow(this, Row, arguments)
-		}
-	});
-	
-	function headerOrRegularRow(that, Prototype, args) {
-	    var row = Prototype.apply(undefined, args)
-	    that.add(row)
-	    return row
-	}
-
-/***/ },
-/* 29 */
-/*!***********************************!*\
-  !*** ../~/Components/TextArea.js ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! ../Block */ 18)
-	var proto = __webpack_require__(/*! proto */ 48)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static variables
-	
-	    this.name = 'TextArea'
-	
-		this.init = function(label) {
-	        this.domNode = document.createElement("textarea") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-			this.label = label
-		}
-	
-	
-		// instance properties
-	
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.domNode.value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.val === value) return; // do nothing if there's no change
-	
-	            this.domNode.value = value
-	            this.emit('change')
-	        }
-	    })
-	});
-
-
-/***/ },
-/* 30 */
-/*!************************************!*\
-  !*** ../~/Components/TextField.js ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! ../Block */ 18)
-	var proto = __webpack_require__(/*! proto */ 48)
-	
-	var domUtils = __webpack_require__(/*! ../domUtils */ 37)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'TextField'
-	
-		this.init = function(/*[label,] password*/) {
-	        if(arguments.length === 1) {
-	            var password = arguments[0]
-	        } else if(arguments.length > 1) {
-	            var label = arguments[0]
-	            var password = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-			this.label = label
-			domUtils.setAttribute(this.domNode,'type','text');
-	        if(password)
-	            domUtils.setAttribute(this.domNode, 'type', 'password')
-		}
-	
-	
-		// instance properties
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.domNode.value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.val === value) return; // do nothing if there's no change
-	
-	            this.domNode.value = value
-	            this.emit('change')
-	        }
-	    })
-	
-	});
-
-
-/***/ },
-/* 31 */
+/* 17 */
 /*!*******************************!*\
   !*** ../~/Components/Text.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 48)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
-	var Block = __webpack_require__(/*! Block */ 18)
-	var Style = __webpack_require__(/*! Style */ 19)
+	var Block = __webpack_require__(/*! Block */ 3)
+	var Style = __webpack_require__(/*! Style */ 16)
 	
-	var domUtils = __webpack_require__(/*! domUtils */ 37)
+	var domUtils = __webpack_require__(/*! domUtils */ 19)
 	
 	
 	
@@ -8064,1268 +5649,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 32 */
-/*!*******************!*\
-  !*** ./~/fsyn.js ***!
-  \*******************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// requires: syn (loaded as a global variable from an html script tag)
-	
-	var Future = __webpack_require__(/*! async-future */ 47)
-	
-	exports.click = wrap(syn.click)
-	exports.rightClick = wrap(syn.rightClick)
-	exports.dblClick = wrap(syn.dblClick)
-	exports.move = wrap(syn.move)
-	exports.type = wrap(syn.type)
-	exports.key = wrap(syn.key)
-	
-	
-	
-	function wrap(fn) {
-	    return function() {
-	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
-	
-	        // for chaining
-	        var target = arguments[0]
-	        resultFuture.click = function() {
-	            exports.click.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.rightClick = function() {
-	            exports.rightClick.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.dblClick = function() {
-	            exports.dblClick.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.move = function() {
-	            exports.move.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.type = function() {
-	            exports.type.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.key = function() {
-	            exports.key.apply(this, [target].concat(arguments))
-	        }
-	
-	        return resultFuture
-	    }
-	}
-	
-
-
-/***/ },
-/* 33 */
-/*!************************!*\
-  !*** ./~/testUtils.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Future = __webpack_require__(/*! async-future */ 47)
-	var Style = __webpack_require__(/*! Style */ 19)
-	var Container = __webpack_require__(/*! Components/Container */ 21)
-	
-	// compares arrays and objects for value equality (all elements and members must match)
-	exports.equal = function(a,b) {
-	    if(a instanceof Array) {
-	        if(!(b instanceof Array))
-	            return false
-	        if(a.length !== b.length) {
-	            return false
-	        } else {
-	            return a.reduce(function(previousValue, currentValue, index) {
-	                return previousValue && exports.equal(currentValue,b[index])
-	            }, true)
-	        }
-	    } else if(a instanceof Object) {
-	        if(!(b instanceof Object))
-	            return false
-	
-	        var aKeys = Object.keys(a)
-	        var bKeys = Object.keys(b)
-	
-	        if(aKeys.length !== bKeys.length) {
-	            return false
-	        } else {
-	            for(var n=0; n<aKeys.length; n++) {
-	                var key = aKeys[n]
-	                var aVal = a[key]
-	                var bVal = b[key]
-	
-	                if(!exports.equal(aVal,bVal)) {
-	                    return false
-	                }
-	            }
-	            // else
-	            return true
-	        }
-	    } else {
-	        return a===b
-	    }
-	}
-	
-	
-	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
-	// returns a function that, each time its called, calls the next function in the list with the passed argument
-	// example:
-	/*
-	var sequenceX = testUtils.seq(
-	 function(x) {
-	     t.ok(x === 'a')
-	 },
-	 function(x) {
-	     t.ok(x === 'b')
-	 },
-	 function(x) {
-	     t.ok(x === 'c')
-	})
-	
-	 var obj = {a:1,b:2,c:3}
-	 for(var x in obj) {
-	     sequenceX(x)
-	 }
-	 */
-	exports.seq = function (/*functions*/) {
-	    var n=-1
-	    var fns = arguments
-	    return function() {
-	        n++
-	        if(n>=fns.length)
-	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
-	        // else
-	        fns[n].apply(this,arguments)
-	    }
-	}
-	
-	
-	exports.demo = function(name, component) {
-	    var header = document.createElement("h1")
-	        header.textContent = name
-	
-	    $("#demos").append(header);
-	    component.attach($("#demos")[0])
-	
-	    return [header, component]
-	}
-	exports.cleanupDemo = function(nodes) {
-	    $(nodes[0]).remove()
-	    nodes[1].detach()
-	}
-	exports.manualDemo = function(name, component) {
-	    var header = document.createElement("h1")
-	        header.textContent = name
-	
-	    $("#manualDemos").append(header);
-	    component.attach($("#manualDemos")[0])
-	}
-	exports.textOutput = function(name, textContent) {
-	    var header = document.createElement("h1")
-	        header.textContent = name
-	
-	    var text = document.createElement("div")
-	        text.textContent = textContent
-	
-	    $("#results").append([header, text]);
-	}
-	
-	// future wraps a function like: function(result) {}
-	exports.wrapSingleParameter = function() {
-	    if(arguments.length === 1) {
-	        var fn = arguments[0]
-	    } else {
-	        var object = arguments[0]
-	        var method = arguments[1]
-	        var fn = object[method]
-	    }
-	
-	    return function() {
-	        var args = Array.prototype.slice.call(arguments)
-			var future = new Future
-			args.push(function(result) {
-			    future.return(result)
-			})
-			var me = this
-	        if(object) me = object
-	        fn.apply(me, args)
-			return future
-	    }
-	}
-	
-	exports.performanceTest = function(name, testDefinition) {
-	    setTimeout(function() {
-	        var times = []
-	        var totalTime = 0
-	        while(totalTime < 2000) {
-	            var time = oneIteration()
-	            times.push(time)
-	            totalTime += time
-	        }
-	
-	        var averageTime = totalTime/times.length
-	        var stdDeviationPercentage = standardDeviation(times)/averageTime
-	
-	        //console.log(mean(times)+ ' vs '+averageTime) // these should be equal and looks like they are
-	        exports.textOutput(name, Math.round(averageTime)+'ms (averaged over '+times.length+" iterations) - standard deviation: "+Math.round(stdDeviationPercentage*100)/100+'%')
-	
-	
-	        function oneIteration() {
-	            var time;
-	            testDefinition.call({
-	                time: function(testFn) {
-	                    var start = performance.now()
-	                    testFn()
-	                    time = performance.now() - start // ms
-	                }
-	            })
-	
-	            return time
-	        }
-	    },0)
-	}
-	
-	function standardDeviation(numberSet) {
-	    return Math.sqrt(variance(numberSet))
-	}
-	
-	function variance(numberSet) {
-	    var theMean = mean(numberSet)
-	    var sumOfDifferenceSquares = numberSet.reduce(function(acc,x) {
-	        var difference = x-theMean
-	        return acc + difference*difference
-	    },0)
-	
-	    return sumOfDifferenceSquares / (numberSet.length-1)
-	}
-	
-	function mean(numberSet) {
-	    var sum = numberSet.reduce(function(acc,x) {
-	        return acc+x
-	    },0)
-	
-	    return sum/numberSet.length
-	}
-	
-	
-	exports.buildNestedStructure = function (nestings) {
-	    var innerMost = Container()
-	    var cur = innerMost
-	    for(var n=0; n<nestings; n++) {
-	        cur = Container('moose', [cur])
-	    }
-	    return {innerMost:innerMost, top: cur}
-	}
-	
-	exports.buildNestedStyle = function(nestings) {
-	    var styleObject = {};
-	    for(var n=0; n<nestings; n++) {
-	        styleObject = {color: 'red', Container: styleObject}
-	    }
-	
-	    return Style(styleObject)
-	}
-
-/***/ },
-/* 34 */
+/* 18 */
 /*!*****************************!*\
   !*** ../~/EventEmitterB.js ***!
   \*****************************/
-[118, 48, 39],
-/* 35 */
-/*!**************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/deadunit.browser.js ***!
-  \**************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var Future = __webpack_require__(/*! async-future */ 62)
-	var proto = __webpack_require__(/*! proto */ 57)
-	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 49)
-	
-	var Container = __webpack_require__(/*! blocks.js/Container */ 64)
-	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 66)
-	var Block = __webpack_require__(/*! blocks.js/Block */ 63)
-	Block.dev = true
-	var Style = __webpack_require__(/*! blocks.js/Style */ 65)
-	
-	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 50)
-	var utils = __webpack_require__(/*! ./utils */ 51)
-	
-	
-	module.exports = deadunitInternal({
-	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 58),
-	
-	    environmentSpecificMethods: function() {
-	        var red = 'rgb(200,30,30)'
-	
-	        var warningWritten = false
-	        function warnAboutLateEvents(domNode) {
-	            if(!warningWritten) {
-	                append(domNode, "Test results were accessed before asynchronous parts of tests were fully complete.", {style: "color: red;"})
-	                warningWritten = true
-	            }
-	        }
-	
-	        function writeLateEvent(written, ended, domNode, event, manager) {
-	            if(ended) {
-	                written.then(function() {
-	                    warnAboutLateEvents(domNode)
-	                    append(domNode, JSON.stringify(event), {style: "color: red;"})
-	                })
-	            }
-	        }
-	
-	        // writes html on the current (browser) page
-	        this.writeHtml = function(domNode) {
-	            if(domNode === undefined) domNode = document.body
-	
-	            var f = new Future, groups = {}, ended = false, mainGroup, lateEventsWarningPrinted=false;
-	            this.events({
-	                group: function(groupStartEvent) {
-	                    if(groupStartEvent.parent === undefined) {
-	                        var group = mainGroup = MainGroup(groupStartEvent.name, groupStartEvent.time)
-	                        domNode.appendChild(mainGroup.domNode)
-	
-	                    } else {
-	                        var group = Group(mainGroup, groupStartEvent.name, groupStartEvent.time, groups[groupStartEvent.parent])
-	                        group.parentGroup.addSubGroup(group)
-	                    }
-	
-	                    groups[groupStartEvent.id] = group
-	                    lateEventCheck()
-	                },
-	                count: function(e) {
-	                    groups[e.parent].addExpectedCount(e.expected, Count(e.sourceLines, e.file, e.line, e.column, ended, e.expected))
-	                    lateEventCheck()
-	                },
-	                assert: function(e) {
-	                    groups[e.parent].addAssert(Assert(e.sourceLines, e.file, e.line, e.column, ended, e.expected, e.actual, e.success))
-	                    lateEventCheck()
-	                },
-	                exception: function(exceptionEvent) {
-	                    groups[exceptionEvent.parent].addException(Exception(exceptionEvent.error, ended))
-	                    lateEventCheck()
-	                },
-	                log: function(logEvent) {
-	                    groups[logEvent.parent].results.add(Log(logEvent.values, ended))
-	                    lateEventCheck()
-	                },
-	                groupEnd: function(groupEvent) {
-	                    var group = groups[groupEvent.id]
-	                    group.end(groupEvent.time, ended)
-	
-	                    if(group.parentGroup !== undefined && group.state.subject.success) {
-	                        group.parentGroup.title.passed++
-	                        group.parentGroup.updateTitle()
-	                    }
-	
-	                    lateEventCheck()
-	                },
-	                end: function(endEvent) {
-	                    mainGroup.endTest(endEvent.type, endEvent.time)
-	                    ended = true
-	                    f.return()
-	                }
-	            })
-	            return f
-	
-	            // if late is true, prints out the late event warning, unless it's already been printed
-	            function lateEventCheck() {
-	                if(ended && !lateEventsWarningPrinted) {
-	                    mainGroup.add(Text('lateEventsWarning', "Warning: some events happened after the test ended."))
-	                    lateEventsWarningPrinted = true
-	                }
-	            }
-	        }
-	
-	    }
-	})
-	
-	function append(domNode, content, attributes) {
-	    if(domNode.setAttributeNode === undefined || domNode.appendChild === undefined)
-	        console.log("Object that is not a dom node passed to 'append' (jquery objects aren't supported anymore): "+domNode)
-	    if(attributes ===  undefined) attributes = {}
-	
-	    /*var div = document.createElement('div')
-	        div.innerHTML = content
-	    for(var attribute in attributes) {
-	        var a = document.createAttribute(attribute)
-	            a.nodeValue = attributes[attribute]
-	        domNode.setAttributeNode(a);
-	    }
-	
-	    domNode.appendChild(div)
-	    */
-	    $(domNode).append(content)
-	}
-	
-	var color = defaultFormats.htmlColors
-	
-	document.body.style.backgroundColor = color.black
-	var mainGroupStyle = Style({
-	    color: color.white,
-	    marginTop: 10,
-	
-	    Text: {
-	        $mainTitle:{
-	            cursor: 'pointer',
-	            color: color.brightBlue,
-	            fontSize: 28,
-	            fontWeight: 'bold',
-	            margin: '9px 0'
-	        },
-	        $timeout: {
-	            color: color.red
-	        },
-	        $lateEventsWarning: {
-	            color: color.yellow
-	        }
-	    },
-	
-	    Container:{$results:{
-	        $state: function(state) {
-	            if(state.success) {
-	                if(state.late) {
-	                    var borderColor = color.darkYellow
-	                } else {
-	                    var borderColor = color.green
-	                }
-	            } else {
-	                var borderColor = color.red
-	            }
-	
-	            return Style({
-	                border: '1px solid '+borderColor,
-	                display: 'block',
-	                padding: 5
-	            })
-	        }
-	    }},
-	
-	    MainBar: {
-	        $state: function(state) {
-	            if(state.success) {
-	                if(state.late) {
-	                    var borderColor = color.darkYellow
-	                } else {
-	                    var borderColor = color.green
-	                }
-	            } else {
-	                var borderColor = color.red
-	            }
-	
-	            return Style({
-	                cursor: 'pointer',
-	                border: "2px solid "+borderColor,
-	                display: 'block',
-	                padding: 1,
-	            })
-	        },
-	
-	
-	        Container: {
-	            $inner: {
-	                $state: function(state) {
-	                    if(state.success) {
-	                        if(state.late) {
-	                            var backgroundColor = color.darkYellow
-	                        } else {
-	                            var backgroundColor = color.green
-	                        }
-	                    } else {
-	                        var backgroundColor = color.red
-	                    }
-	
-	                    return Style({
-	                        backgroundColor: backgroundColor,
-	                        display: "block",
-	                        padding: "1px 3px",
-	                    })
-	                },
-	
-	                Text: {
-	                    color: color.white,
-	                    $title: {
-	                        color: color.brightBlue
-	                    }
-	                }
-	            },
-	            $passes: {
-	                Text: {color: color.brightGreen}
-	            },
-	            $failures: {
-	                Text: {color: color.darkRed}
-	            },
-	            $exceptions: {
-	                Text: {color: color.brightPurple}
-	            },
-	            $clickText: {
-	                float: 'right',
-	                Text: {fontStyle: 'italic'}
-	            }
-	        },
-	    },
-	
-	    Group: {
-	        padding: 1,
-	        margin: '8px 0',
-	
-	        GroupTitle: {
-	            $state: function(state) {
-	                if(state.success) {
-	                    var textColor = color.brightGreen
-	                    if(state.late) {
-	                        var backgroundColor = color.darkYellow
-	                    } else {
-	                        var backgroundColor = color.green
-	                    }
-	                } else {
-	                    var textColor = color.white
-	                    var backgroundColor = color.red
-	                }
-	
-	                return Style({
-	                    backgroundColor: backgroundColor,
-	                    color: textColor,
-	                    paddingLeft: 3,
-	                    cursor: 'pointer'
-	                })
-	            },
-	
-	            Text: {
-	                $timeElapsed: {
-	                    color: color.gray
-	                }
-	            }
-	        },
-	    },
-	
-	    ResultLine: {
-	        $state: function(state) {
-	            if(!state.success) {
-	                var textColor = color.red
-	            } else if(state.late) {
-	                var textColor = color.yellow
-	            } else {
-	                var textColor = color.green
-	            }
-	
-	            return Style({color: textColor})
-	        },
-	
-	        Container: {
-	            $location: {
-	                Text: {
-	                    color: color.gray,
-	                    $line: {
-	                        color: color.white
-	                    }
-	                }
-	            },
-	            $expectedAndActual: {
-	                Text: {
-	                    color: color.gray,
-	                    $actual: {
-	                        color: color.white
-	                    },
-	                    $expected: {
-	                        color: color.white
-	                    }
-	                }
-	            }
-	        }
-	    },
-	
-	    Exception: {
-	        color: color.purple
-	    },
-	    Log: {
-	        Text: {
-	            display: 'block'
-	        }
-	    }
-	})
-	
-	
-	
-	// a Block on its own line
-	var Line = proto(Block, function() {
-	    this.name = "Line"
-	    this.defaultStyle = Style({
-	        display: 'block'
-	    })
-	})
-	
-	var Group = proto(Line, function() {
-	    this.name = "Group"
-	
-	    this.build = function(mainGroup, groupTitle, time, parentGroup) {
-	        this.mainGroup = mainGroup
-	        this.results = Container('results')
-	        this.parentGroup = parentGroup
-	
-	        this.add(this.results)
-	        this.createTitleBar(groupTitle)
-	        this.startTime = time
-	        this.count = 0
-	
-	        this.title.on('click', function() {
-	            this.results.visible = !this.results.visible
-	        }.bind(this))
-	    }
-	
-	    this.createTitleBar = function(groupTitle) {
-	        this.title = GroupTitle(groupTitle)
-	        this.addAt(0, this.title)
-	    }
-	
-	    this.addExpectedCount = function(expected, countBlock) {
-	        this.expected = expected
-	        this.countBlock = countBlock
-	        this.countBlock.count = this.count
-	        this.results.addAt(0, countBlock)
-	        this.title.total++
-	
-	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
-	        this.updateTitle()
-	    }
-	
-	    this.addAssert = function(assertBlock) {
-	        this.results.add(assertBlock)
-	        this.count++
-	        if(this.countBlock !== undefined)
-	            this.countBlock.count = this.count
-	
-	        this.title.total++
-	        if(assertBlock.state.subject.success) {
-	            this.title.passed++
-	            this.mainGroup.title.testTotalPasses++
-	        } else {
-	            this.mainGroup.title.testTotalFailures++
-	        }
-	
-	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
-	        this.updateTitle()
-	    }
-	
-	    this.addException = function(exceptionBlock) {
-	        this.results.add(exceptionBlock)
-	        this.title.exceptions++
-	        this.mainGroup.title.testTotalExceptions++
-	
-	        this.updateTitle()
-	    }
-	
-	    this.addSubGroup = function(groupBlock) {
-	        this.results.add(groupBlock)
-	        this.count++
-	        if(this.countBlock !== undefined)
-	            this.countBlock.count = this.count
-	
-	        this.title.total++
-	
-	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
-	        this.updateTitle()
-	    }
-	
-	    this.end = function(time) {
-	        //updateCountSuccess(this, true) // must be run before groupEnded is set (because it relies on groupEnded being false at this point)
-	        if(this.expected !== undefined && !(this.count === this.expected)) this.mainGroup.title.testTotalFailures++
-	
-	        this.groupEnded = true
-	        this.updateTitle()
-	        if(!(this instanceof MainGroup)) {
-	            this.title.add(Text('timeElapsed', ' took '+(time - this.startTime)+'ms'))
-	        }
-	    }
-	
-	    this.updateTitle = function() {
-	        var success = this.title.passed === this.title.total && this.title.exceptions === 0
-	                      && (this !== this.mainGroup || this.title.testTotalFailures === 0 && this.title.testTotalExceptions === 0)
-	
-	        this.results.visible = !success
-	        var parts = [this,this.results,this.title]// things to set success on (since $state styling is currently so limited, you have to set it on everything that needs a style)
-	        if(this instanceof MainGroup) {
-	            parts.push(this.title.inner)
-	        }
-	
-	        var ended = this.mainGroup.ended
-	        parts.forEach(function(block) {
-	            block.state.set("success", success)
-	            block.state.set("late", ended)
-	        })
-	
-	        if(this.parentGroup !== undefined) this.parentGroup.updateTitle()
-	    }
-	})
-	
-	// figure out if count succeeded and update the main group and the countblock state
-	function updateCountSuccess(that) {
-	    if(that.expected !== undefined) {
-	        var countSuccess = that.count === that.expected
-	        that.countBlock.state.set("success", countSuccess)
-	        if(that.groupEnded) that.countBlock.results.state.set("late", true)
-	
-	        if(countSuccess) {
-	            that.mainGroup.title.testTotalPasses++
-	            that.title.passed++
-	            if(that.groupEnded) {
-	                that.mainGroup.title.testTotalFailures--
-	                that.groupEndCountSubtracted = true // marks that failures were subtracted after the test finished (so successes can be later subtracted correctly if need be)
-	            }
-	        } else if(that.groupEndCountSubtracted || that.count - 1 === that.expected) {
-	            that.title.passed--
-	            that.mainGroup.title.testTotalPasses--
-	            if(that.groupEnded) {
-	                that.mainGroup.title.testTotalFailures++
-	            }
-	        }
-	    }
-	}
-	
-	var MainGroup = proto(Group, function(superclass) {
-	    this.name = "MainGroup"
-	
-	    this.createTitleBar = function(groupTitle) {
-	        this.title = MainBar(groupTitle)
-	        this.add(this.title)
-	    }
-	
-	    this.build = function(groupTitle, time) {
-	        superclass.build.call(this, this,groupTitle,time)
-	        this.style = mainGroupStyle
-	
-	        var mainTitle = Text('mainTitle', groupTitle)
-	        this.addAt(0, mainTitle)
-	        this.add(this.pendingText=Text("Pending..."))
-	
-	        mainTitle.on('click', function() {
-	            this.results.visible = !this.results.visible
-	        }.bind(this))
-	    }
-	
-	    this.endTest = function(type, time) {
-	        if(type === 'timeout')
-	            this.add(Text('timeout', "The test timed out!"))
-	
-	        this.pendingText.visible = false
-	        this.updateTitle()
-	        this.testTotalTime = getTimeDisplay(time - this.startTime)
-	        this.title.takenText.text = "Took "
-	        this.ended = true
-	    }
-	})
-	
-	
-	
-	var Text = proto(OriginalText, function() { // doing this cause i'm to lazy to update blocks.js right now
-	    this.defaultStyle = Style({
-	        whiteSpace: 'pre-wrap'
-	    })
-	})
-	
-	
-	var GroupTitle = proto(Line, function() {
-	    this.name = "GroupTitle"
-	
-	    this.build = function(title) {
-	        this.totalNode = Text('0')
-	        this.passedNode = Text('0')
-	        this.exceptionsNode = Text('0')
-	
-	
-	        if(title !== undefined) {
-	            this.add(Text(title+":       "))
-	        }
-	
-	        this.add(this.passedNode, Text('/'), this.totalNode, Text(' and '), this.exceptionsNode, Text(" exceptions "))
-	    }
-	
-	    ;['total','passed','exceptions'].forEach(function(property) {
-	        Object.defineProperty(this, property, {
-	            get: function() {  return parseInt(this[property+"Node"].text)},
-	            set: function(v) {
-	                this[property+"Node"].text = v
-	                if(property === 'total' && this.totalPlural) {
-	                    if(v == 1) this.totalPlural.visible = false
-	                    else       this.totalPlural.visible = true
-	                }
-	            }
-	        })
-	    }.bind(this))
-	})
-	
-	var MainBar = proto(GroupTitle, function() {
-	    this.name = "MainBar"
-	
-	    /*override*/ this.build = function(title) {
-	        this.totalNode = Text('0'); this.totalPlural = Text('s')
-	        this.passedNode = Text('0')
-	        this.exceptionsNode = Text('0')  // unused, but needed to match the interface of GroupTitle
-	
-	        this.testTotalPassesNode = Text('0'); this.testTotalPassesPlural = Text('es')
-	        this.testTotalFailuresNode = Text('0'); this.testTotalFailuresPlural = Text('s')
-	        this.testTotalExceptionsNode = Text('0'); this.testTotalExceptionsPlural = Text('s')
-	        this.testTotalTimeNode = Text('0')
-	
-	        // used temporarily to approximate the time when counting up on-the-fly
-	        // will be replaced by the time coming from deadunitCore's events at the end
-	        this.temporaryStartTime = Date.now()
-	
-	        this.inner = Container('inner', []) // outer used for styling)
-	        this.add(this.inner)
-	
-	        if(title !== undefined) {
-	            this.inner.add(Text('title', title), Text(' - '))
-	        }
-	
-	        this.inner.add(
-	            this.passedNode, Text('/'), this.totalNode, Text(' successful test'),this.totalPlural,Text('. '),
-	            Container('passes', this.testTotalPassesNode, Text(" pass"), this.testTotalPassesPlural), Text(", "),
-	            Container('failures', this.testTotalFailuresNode, Text(" failure"),this.testTotalFailuresPlural), Text(", and "),
-	            Container('exceptions', this.testTotalExceptionsNode, Text(" exception"), this.testTotalExceptionsPlural), Text(". "),
-	            Container('time', this.takenText=Text("Has taken "), this.testTotalTimeNode, Text(".")),
-	            Container('clickText', Text("click on this bar"))
-	        )
-	    }
-	
-	    ;['testTotalPasses','testTotalFailures','testTotalExceptions','testTotalTime'].forEach(function(property) {
-	        Object.defineProperty(this, property, {
-	            get: function() {  return parseInt(this[property+"Node"].text)},
-	            set: function(v) {
-	                this[property+"Node"].text = v
-	
-	                if(property!=='testTotalTime') {
-	                    this.testTotalTime = getTimeDisplay(Date.now() - this.temporaryStartTime)
-	
-	                    if(v == 1) this[property+'Plural'].visible = false
-	                    else        this[property+'Plural'].visible = true
-	                }
-	            }
-	        })
-	    }.bind(this))
-	})
-	
-	
-	// a line of result text
-	var ResultLine = proto(Line, function() {
-	    this.name = "ResultLine"
-	
-	    this.build = function(resultText, sourceLines, file, line, column, expected, actual) {
-	        this.resultTextNode = Text(resultText)
-	        var location = Container('location',[Text("["+file+' '), Text('line',line), Text(":"+column+'] ')])
-	        this.add(this.resultTextNode, location, Text(sourceLines))
-	
-	        this.expectedAndActual = Container('expectedAndActual')
-	        this.add(this.expectedAndActual)
-	
-	        if(expected !== undefined) {
-	            this.expectedAndActual.add(Text(" Expected "), Text('expected', utils.valueToMessage(expected)))
-	        }
-	        if(actual !== undefined) {
-	            if(expected !== undefined)
-	                this.expectedAndActual.add(Text(","))
-	
-	            this.got = Text("actual", utils.valueToMessage(actual))
-	            this.expectedAndActual.add(Text(" Got "), this.got)
-	        }
-	    }
-	})
-	
-	
-	var Assert = proto(Line, function() {
-	    this.name = "Assert"
-	
-	    this.successText = "Ok! "
-	    this.failText = "Fail: "
-	
-	    this.build = function(sourceLines, file, line, column, late, expected, actual, success) {
-	        var text = success?this.successText:this.failText
-	
-	        this.results = ResultLine(text, sourceLines, file, line, column, expected, actual)
-	        this.add(this.results)
-	
-	        var that = this
-	        this.state.on('change', function() {
-	            that.results.expectedAndActual.visible = !that.state.subject.success
-	        })
-	
-	        this.state.set("success", success)
-	        this.results.state.set("success", success)
-	        if(late) this.results.state.set("late", true)
-	    }
-	})
-	
-	var Exception = proto(Line, function() {
-	    this.name = "Exception"
-	
-	    this.build = function(error, late) {
-	        if(late) this.state.set("late", true)
-	
-	        var exceptionText = Text(utils.errorToString(error))
-	        this.add(exceptionText)
-	    }
-	})
-	
-	var Count = proto(Assert, function(superclass) {
-	    this.name = "Count"
-	
-	    this.build = function(sourceLines, file, line, column, late, expected) {
-	        superclass.build.call(this, sourceLines, file, line, column, late, expected, 0, false)
-	        this.expected = expected
-	    }
-	
-	    Object.defineProperty(this, 'count', {
-	        get: function() {
-	            return this.results.got.text
-	        }, set: function(count) {
-	            this.results.got.text = count
-	            if(count === this.expected) {
-	                this.results.resultTextNode.text = this.successText
-	            } else {
-	                this.results.resultTextNode.text = this.failText
-	            }
-	
-	            this.results.state.set("success", count === this.expected)
-	        }
-	    })
-	})
-	
-	var Log = proto(Line, function() {
-	    this.name = "Log"
-	
-	    this.build = function(values, late) {
-	        if(late) this.state.set("late", true)
-	
-	        values.forEach(function(v) {
-	            this.add(Text(utils.valueToString(v)))
-	        }.bind(this))
-	
-	    }
-	})
-	
-	function getTimeDisplay(milliseconds) {
-	    if(milliseconds > 1000) {
-	        return Math.floor(milliseconds/1000)+'s'
-	    } else {
-	        return milliseconds+'ms'
-	    }
-	}
-
-
-/***/ },
-/* 36 */
-/*!********************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/events/events.js ***!
-  \********************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	function EventEmitter() {
-	  this._events = this._events || {};
-	  this._maxListeners = this._maxListeners || undefined;
-	}
-	module.exports = EventEmitter;
-	
-	// Backwards-compat with node 0.10.x
-	EventEmitter.EventEmitter = EventEmitter;
-	
-	EventEmitter.prototype._events = undefined;
-	EventEmitter.prototype._maxListeners = undefined;
-	
-	// By default EventEmitters will print a warning if more than 10 listeners are
-	// added to it. This is a useful default which helps finding memory leaks.
-	EventEmitter.defaultMaxListeners = 10;
-	
-	// Obviously not all Emitters should be limited to 10. This function allows
-	// that to be increased. Set to zero for unlimited.
-	EventEmitter.prototype.setMaxListeners = function(n) {
-	  if (!isNumber(n) || n < 0 || isNaN(n))
-	    throw TypeError('n must be a positive number');
-	  this._maxListeners = n;
-	  return this;
-	};
-	
-	EventEmitter.prototype.emit = function(type) {
-	  var er, handler, len, args, i, listeners;
-	
-	  if (!this._events)
-	    this._events = {};
-	
-	  // If there is no 'error' event listener then throw.
-	  if (type === 'error') {
-	    if (!this._events.error ||
-	        (isObject(this._events.error) && !this._events.error.length)) {
-	      er = arguments[1];
-	      if (er instanceof Error) {
-	        throw er; // Unhandled 'error' event
-	      }
-	      throw TypeError('Uncaught, unspecified "error" event.');
-	    }
-	  }
-	
-	  handler = this._events[type];
-	
-	  if (isUndefined(handler))
-	    return false;
-	
-	  if (isFunction(handler)) {
-	    switch (arguments.length) {
-	      // fast cases
-	      case 1:
-	        handler.call(this);
-	        break;
-	      case 2:
-	        handler.call(this, arguments[1]);
-	        break;
-	      case 3:
-	        handler.call(this, arguments[1], arguments[2]);
-	        break;
-	      // slower
-	      default:
-	        len = arguments.length;
-	        args = new Array(len - 1);
-	        for (i = 1; i < len; i++)
-	          args[i - 1] = arguments[i];
-	        handler.apply(this, args);
-	    }
-	  } else if (isObject(handler)) {
-	    len = arguments.length;
-	    args = new Array(len - 1);
-	    for (i = 1; i < len; i++)
-	      args[i - 1] = arguments[i];
-	
-	    listeners = handler.slice();
-	    len = listeners.length;
-	    for (i = 0; i < len; i++)
-	      listeners[i].apply(this, args);
-	  }
-	
-	  return true;
-	};
-	
-	EventEmitter.prototype.addListener = function(type, listener) {
-	  var m;
-	
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  if (!this._events)
-	    this._events = {};
-	
-	  // To avoid recursion in the case that type === "newListener"! Before
-	  // adding it to the listeners, first emit "newListener".
-	  if (this._events.newListener)
-	    this.emit('newListener', type,
-	              isFunction(listener.listener) ?
-	              listener.listener : listener);
-	
-	  if (!this._events[type])
-	    // Optimize the case of one listener. Don't need the extra array object.
-	    this._events[type] = listener;
-	  else if (isObject(this._events[type]))
-	    // If we've already got an array, just append.
-	    this._events[type].push(listener);
-	  else
-	    // Adding the second element, need to change to array.
-	    this._events[type] = [this._events[type], listener];
-	
-	  // Check for listener leak
-	  if (isObject(this._events[type]) && !this._events[type].warned) {
-	    var m;
-	    if (!isUndefined(this._maxListeners)) {
-	      m = this._maxListeners;
-	    } else {
-	      m = EventEmitter.defaultMaxListeners;
-	    }
-	
-	    if (m && m > 0 && this._events[type].length > m) {
-	      this._events[type].warned = true;
-	      console.error('(node) warning: possible EventEmitter memory ' +
-	                    'leak detected. %d listeners added. ' +
-	                    'Use emitter.setMaxListeners() to increase limit.',
-	                    this._events[type].length);
-	      if (typeof console.trace === 'function') {
-	        // not supported in IE 10
-	        console.trace();
-	      }
-	    }
-	  }
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-	
-	EventEmitter.prototype.once = function(type, listener) {
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  var fired = false;
-	
-	  function g() {
-	    this.removeListener(type, g);
-	
-	    if (!fired) {
-	      fired = true;
-	      listener.apply(this, arguments);
-	    }
-	  }
-	
-	  g.listener = listener;
-	  this.on(type, g);
-	
-	  return this;
-	};
-	
-	// emits a 'removeListener' event iff the listener was removed
-	EventEmitter.prototype.removeListener = function(type, listener) {
-	  var list, position, length, i;
-	
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  if (!this._events || !this._events[type])
-	    return this;
-	
-	  list = this._events[type];
-	  length = list.length;
-	  position = -1;
-	
-	  if (list === listener ||
-	      (isFunction(list.listener) && list.listener === listener)) {
-	    delete this._events[type];
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	
-	  } else if (isObject(list)) {
-	    for (i = length; i-- > 0;) {
-	      if (list[i] === listener ||
-	          (list[i].listener && list[i].listener === listener)) {
-	        position = i;
-	        break;
-	      }
-	    }
-	
-	    if (position < 0)
-	      return this;
-	
-	    if (list.length === 1) {
-	      list.length = 0;
-	      delete this._events[type];
-	    } else {
-	      list.splice(position, 1);
-	    }
-	
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	  }
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.removeAllListeners = function(type) {
-	  var key, listeners;
-	
-	  if (!this._events)
-	    return this;
-	
-	  // not listening for removeListener, no need to emit
-	  if (!this._events.removeListener) {
-	    if (arguments.length === 0)
-	      this._events = {};
-	    else if (this._events[type])
-	      delete this._events[type];
-	    return this;
-	  }
-	
-	  // emit removeListener for all listeners on all events
-	  if (arguments.length === 0) {
-	    for (key in this._events) {
-	      if (key === 'removeListener') continue;
-	      this.removeAllListeners(key);
-	    }
-	    this.removeAllListeners('removeListener');
-	    this._events = {};
-	    return this;
-	  }
-	
-	  listeners = this._events[type];
-	
-	  if (isFunction(listeners)) {
-	    this.removeListener(type, listeners);
-	  } else {
-	    // LIFO order
-	    while (listeners.length)
-	      this.removeListener(type, listeners[listeners.length - 1]);
-	  }
-	  delete this._events[type];
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.listeners = function(type) {
-	  var ret;
-	  if (!this._events || !this._events[type])
-	    ret = [];
-	  else if (isFunction(this._events[type]))
-	    ret = [this._events[type]];
-	  else
-	    ret = this._events[type].slice();
-	  return ret;
-	};
-	
-	EventEmitter.listenerCount = function(emitter, type) {
-	  var ret;
-	  if (!emitter._events || !emitter._events[type])
-	    ret = 0;
-	  else if (isFunction(emitter._events[type]))
-	    ret = 1;
-	  else
-	    ret = emitter._events[type].length;
-	  return ret;
-	};
-	
-	function isFunction(arg) {
-	  return typeof arg === 'function';
-	}
-	
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-	
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-	
-	function isUndefined(arg) {
-	  return arg === void 0;
-	}
-
-
-/***/ },
-/* 37 */
+[160, 28, 22],
+/* 19 */
 /*!************************!*\
   !*** ../~/domUtils.js ***!
   \************************/
@@ -9525,328 +5854,115 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 38 */
-/*!**************************************!*\
-  !*** ../~/Components/MultiSelect.js ***!
-  \**************************************/
+/* 20 */
+/*!*********************************!*\
+  !*** ../~/Components/Option.js ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 18)
-	var proto = __webpack_require__(/*! proto */ 48)
+	// note: this is  not intended to be used directly - only through Select and MultiSelect
 	
-	var Option = __webpack_require__(/*! Components/Option */ 45)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
-	// emits a 'change' event when its 'val' changes
+	var Block = __webpack_require__(/*! Block */ 3)
+	var Style = __webpack_require__(/*! Style */ 16)
+	var domUtils = __webpack_require__(/*! domUtils */ 19)
+	
+	// emits a 'change' event when its 'selected' value changes
 	module.exports = proto(Block, function(superclass) {
 	
-		// static variables
+	    // staic members
 	
-	    this.name = 'MultiSelect'
+	    this.name = 'Option'
 	
-	    this.Option = Option
+	    this.defaultStyle = Style({
+	        display: 'block'
+	    })
 	
-		this.init = function(/*[label,] options*/) {
-	        if(arguments[0] instanceof Object) {
-	            var options = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var options = arguments[1]
-	        }
 	
-	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	    // instance members
+	
+	    this.init = function(label, value, text) {
+	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        superclass.init.call(this) // superclass constructor
-			this.attr('multiple','multiple')
+	
 	        this.label = label
 	
-	        this.options = {}
-	
-			for(var value in options) {
-				this.option(value, options[value])
-			}
-	
-	        /*
-			var that = this
-	        that.domNode.addEventListener('mousedown', function() {
-	            console.log("parent mousedown")
-	            var enterHandler, upHandler;
-	            that.children.forEach(function(child) {
-	                child.domNode.addEventListener('mouseover', enterHandler = function() {
-	                    console.log("child mouseover")
-	                    child.selected = true
-	                })
-	            })
-	
-	            that.domNode.addEventListener('mouseup', upHandler = function() {
-	                console.log("parent mouseup")
-	                that.children.forEach(function(child) {
-	                    child.domNode.removeEventListener('mouseover', enterHandler)
-	                })
-	
-	                that.domNode.removeEventListener('mouseup', upHandler)
-	            })
-	        })*/
-		}
-	
-	
-		// instance methods
+	        this.text = text
+	        this.val = value
+	    }
 	
 	    Object.defineProperty(this, 'val', {
-	        // returns a list of the values that are selected
+	        // returns the value of the Option
 	        get: function() {
-	            var result = []
-	            for(var value in this.options) {
-	                if(this.options[value].selected) {
-	                    result.push(value)
-	                }
-	            }
-	
-	            return result
+	            return this.attr('value')
 	        },
 	
-	        // values can either be an array, or a single value to select
-	        set: function(values) {
-	            if(!(values instanceof Array))
-	                values = [values]
-	
-	            var that = this
-	            values.forEach(function(value) {
-	                if(that.options[value] === undefined) {
-	                    throw new Error("There is no Option in the MultiSelect with the value: '"+value+"'")
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.parent !== undefined) {
+	                if(this.parent.options[value] !== undefined) {
+	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: '"+value+"')")
 	                }
-	            })
 	
-	            var stringifiedValues = values.map(function(v){return v.toString()})
-	
-	            var somethingChanged = false
-	            for(var value in this.options) {
-	                var selected = stringifiedValues.indexOf(value) !== -1
-	                var option = this.options[value]
-	
-	                if(option.selected !== selected) {  // selected state change
-	                    somethingChanged = true
-	                    option.setSelectedQuiet(selected)
+	                if(this.val !== null) {
+	                    delete this.parent.options[this.val]
 	                }
+	
+	                this.parent.options[value] = this
 	            }
 	
-	            if(somethingChanged) {
-	                this.emit('change')
-	            }
+	            this.attr('value', value)
+	
 	        }
 	    })
-		
-		this.option = function(/*[label,] value,text*/) {
-	        if(arguments.length === 2) {
-	            var value = arguments[0]
-	            var text = arguments[1]
-	        } else if(arguments.length === 3) {
-	            var label = arguments[0]
-	            var value = arguments[1]
-	            var text = arguments[2]
-	        } else {
-	            throw new Error("Invalid number of arguments")
+	
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the option is selected
+	        get: function() {
+	            return this.domNode.selected
+	        },
+	
+	        // sets the selected state of the option to the passed value (true for selected)
+	        set: function(value) {
+	            var booleanValue = value === true
+	            if(this.selected === booleanValue) return false; // ignore if there's no change
+	
+	            if(this.parent !== undefined)
+	                this.parent.prepareForValueChange([this.val])
+	
+	            this.setSelectedQuiet(booleanValue)
+	
+	            if(this.parent !== undefined)
+	                this.parent.emit('change')
 	        }
+	    })
 	
-	        var newOption = Option(label, value,text)
-	        this.add(newOption)
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode[domUtils.textProperty]
+	        },
 	
-	        return newOption
-	
-		}
-	
-	    // same interface as Block.addAt
-	    /*override*/ this.addAt = function(index/*, nodes...*/) {
-	        var that = this
-	
-	        var nodesToAdd = Block.normalizeAddAtArguments.apply(this, arguments)
-	
-	        // validation first
-	        nodesToAdd.forEach(function(option) {
-	            if(that.options[option.val] !== undefined) {
-	                throw new Error("Can't give an Option the same value as another in the MultiSelect (value: '"+option.val+"')")
-	            }
-	        })
-	
-	        superclass.addAt.call(this, index, nodesToAdd)
-	
-	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var anyWereSelected = false
-	        nodesToAdd.forEach(function(option) {
-	            if(option.selected) anyWereSelected = true
-	            that.options[option.val] = option
-	
-	
-	            // set up multi-select events
-	            // todo: remove events when the Option is removed
-	
-	            option.on("mousedown",function(event) {
-	                event.preventDefault()           // this needs to be here otherwise the options can't be deselected
-	
-	                option.parent.focus = true // without this, the parent doesn't gain focus
-	                option.focus = true
-	                if(event.shiftKey || event.ctrlKey) {
-	                    option.selected = !option.selected // toggle
-	                } else {
-	                    var parentVal = option.parent.val
-	                    var onlyThisIsSelected = parentVal.length === 1 && parentVal[0] === option.val
-	                    if(onlyThisIsSelected) {
-	                        option.selected = false
-	                    } else {
-	                        option.parent.val = [option.val] // select only this one
-	                    }
-	                }
-	            })
-	            /*option.domNode.addEventListener("click",function(event) {
-	                //event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
-	                option.emit('click', event)
-	            })*/
-	            option.on("mousemove",function(event) {
-	                event.preventDefault()         // this needs to be here otherwise the radio button is unset as soon as you move the mouse (when the mouse is down)
-	            })
-	            /*this.domNode.addEventListener("keydown",function(event) {
-	                if(event.keyCode === 40 || event.keyCode === 39) { // down or right
-	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                    option.selectNext()
-	                } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
-	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                    option.selectPrevious()
-	                }
-	            })*/
-	
-	            /*;['click', 'drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop', 'cancel',
-	                'mousedown', 'mouseenter', 'mousemove', 'mouseleave', 'mouseout', 'mouseover', 'mouseup'
-	            ].forEach(function(eventType) {
-	                option.domNode.addEventListener(eventType, function( event ) {
-	                    //event.preventDefault()
-	                    console.log(eventType)
-	                });
-	            })*/
-	
-	        })
-	
-	        if(anyWereSelected) {
-	            this.emit('change')
+	        set: function(text) {
+	            this.domNode[domUtils.textProperty] = text
 	        }
-	    }
-	
-	    // same interface as Block.remove
-	    /*override*/ this.remove = function() {
-	        var that = this
-	
-	        var removalIndexes = Block.normalizeRemoveArguments.apply(this, arguments)
-	        var removals = removalIndexes.map(function(index) {
-	            return that.children[index]
-	        })
-	
-	        superclass.remove.call(this, removalIndexes)
-	
-	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var anyWereSelected = false
-	        removals.forEach(function(option) {
-	            if(option.selected) anyWereSelected = true
-	            delete that.options[option.val]
-	        })
-	
-	        if(anyWereSelected) {
-	            this.emit('change')
-	        }
-	    }
+	    })
 	
 	
 	    // private
 	
-	    this.prepareForValueChange = function() {} // no-op
+	    // does everything for setting the selected state except emit the parent's change event
+	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
+	        if(this.selected === booleanValue) return; // ignore if there's no change
+	
+	        this.domNode.selected = booleanValue
+	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	    }
 	})
-	
-
 
 /***/ },
-/* 39 */
-/*!*********************!*\
-  !*** ../~/utils.js ***!
-  \*********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	//require('hashmap') // here to mark hashmapMerge's dependency on this module
-	var path = __webpack_require__(/*! path */ 55)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	// merges two hashmaps together just like merge does for regular objects
-	// non-deep merge
-	exports.hashmapMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    obj2.forEach(function(value, key) {
-	        obj1.set(key, obj2.get(key))
-	    })
-	
-	    if(arguments.length > 2) {
-	        var newObjects = [obj1].concat(Array.prototype.slice.call(arguments, 2))
-	        return exports.hashmapMerge.apply(this, newObjects)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
-	exports.objectConjunction = function(a, b) {
-	    var objectCopy = {}
-	    merge(objectCopy, a)
-	    merge(objectCopy, b)
-	    return objectCopy
-	}
-	
-	// turns an array of values into a an object where those values are all keys that point to 'true'
-	exports.arrayToMap = function(array) {
-	    var result = {}
-	    array.forEach(function(v) {
-	        result[v] = true
-	    })
-	    return result
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       //if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       //}
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 40 */
+/* 21 */
 /*!*******************************!*\
   !*** ../~/blockStyleUtils.js ***!
   \*******************************/
@@ -9854,10 +5970,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
 	
-	var HashMap = __webpack_require__(/*! hashmap */ 56)
+	var HashMap = __webpack_require__(/*! hashmap */ 38)
 	
-	var Style = __webpack_require__(/*! ./Style */ 19)
-	var utils = __webpack_require__(/*! ./utils */ 39)
+	var Style = __webpack_require__(/*! ./Style */ 16)
+	var utils = __webpack_require__(/*! ./utils */ 22)
 	
 	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
 	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
@@ -10291,15 +6407,101 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 41 */
+/* 22 */
+/*!*********************!*\
+  !*** ../~/utils.js ***!
+  \*********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	//require('hashmap') // here to mark hashmapMerge's dependency on this module
+	var path = __webpack_require__(/*! path */ 37)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	// merges two hashmaps together just like merge does for regular objects
+	// non-deep merge
+	exports.hashmapMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    obj2.forEach(function(value, key) {
+	        obj1.set(key, obj2.get(key))
+	    })
+	
+	    if(arguments.length > 2) {
+	        var newObjects = [obj1].concat(Array.prototype.slice.call(arguments, 2))
+	        return exports.hashmapMerge.apply(this, newObjects)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
+	exports.objectConjunction = function(a, b) {
+	    var objectCopy = {}
+	    merge(objectCopy, a)
+	    merge(objectCopy, b)
+	    return objectCopy
+	}
+	
+	// turns an array of values into a an object where those values are all keys that point to 'true'
+	exports.arrayToMap = function(array) {
+	    var result = {}
+	    array.forEach(function(v) {
+	        result[v] = true
+	    })
+	    return result
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       //if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       //}
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 23 */
 /*!*******************************!*\
   !*** ../~/Components/Item.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! Block */ 18)
-	var proto = __webpack_require__(/*! proto */ 48)
-	var Style = __webpack_require__(/*! Style */ 19)
+	var Block = __webpack_require__(/*! Block */ 3)
+	var proto = __webpack_require__(/*! proto */ 28)
+	var Style = __webpack_require__(/*! Style */ 16)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -10335,7 +6537,317 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 42 */
+/* 24 */
+/*!********************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/events/events.js ***!
+  \********************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+	
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+	
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+	
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+	
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function(n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n))
+	    throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+	
+	EventEmitter.prototype.emit = function(type) {
+	  var er, handler, len, args, i, listeners;
+	
+	  if (!this._events)
+	    this._events = {};
+	
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error ||
+	        (isObject(this._events.error) && !this._events.error.length)) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      }
+	      throw TypeError('Uncaught, unspecified "error" event.');
+	    }
+	  }
+	
+	  handler = this._events[type];
+	
+	  if (isUndefined(handler))
+	    return false;
+	
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        len = arguments.length;
+	        args = new Array(len - 1);
+	        for (i = 1; i < len; i++)
+	          args[i - 1] = arguments[i];
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    len = arguments.length;
+	    args = new Array(len - 1);
+	    for (i = 1; i < len; i++)
+	      args[i - 1] = arguments[i];
+	
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++)
+	      listeners[i].apply(this, args);
+	  }
+	
+	  return true;
+	};
+	
+	EventEmitter.prototype.addListener = function(type, listener) {
+	  var m;
+	
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  if (!this._events)
+	    this._events = {};
+	
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener)
+	    this.emit('newListener', type,
+	              isFunction(listener.listener) ?
+	              listener.listener : listener);
+	
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;
+	  else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);
+	  else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+	
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    var m;
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+	
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' +
+	                    'leak detected. %d listeners added. ' +
+	                    'Use emitter.setMaxListeners() to increase limit.',
+	                    this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+	
+	EventEmitter.prototype.once = function(type, listener) {
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  var fired = false;
+	
+	  function g() {
+	    this.removeListener(type, g);
+	
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+	
+	  g.listener = listener;
+	  this.on(type, g);
+	
+	  return this;
+	};
+	
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function(type, listener) {
+	  var list, position, length, i;
+	
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  if (!this._events || !this._events[type])
+	    return this;
+	
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+	
+	  if (list === listener ||
+	      (isFunction(list.listener) && list.listener === listener)) {
+	    delete this._events[type];
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener ||
+	          (list[i].listener && list[i].listener === listener)) {
+	        position = i;
+	        break;
+	      }
+	    }
+	
+	    if (position < 0)
+	      return this;
+	
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+	
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.removeAllListeners = function(type) {
+	  var key, listeners;
+	
+	  if (!this._events)
+	    return this;
+	
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0)
+	      this._events = {};
+	    else if (this._events[type])
+	      delete this._events[type];
+	    return this;
+	  }
+	
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+	
+	  listeners = this._events[type];
+	
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else {
+	    // LIFO order
+	    while (listeners.length)
+	      this.removeListener(type, listeners[listeners.length - 1]);
+	  }
+	  delete this._events[type];
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.listeners = function(type) {
+	  var ret;
+	  if (!this._events || !this._events[type])
+	    ret = [];
+	  else if (isFunction(this._events[type]))
+	    ret = [this._events[type]];
+	  else
+	    ret = this._events[type].slice();
+	  return ret;
+	};
+	
+	EventEmitter.listenerCount = function(emitter, type) {
+	  var ret;
+	  if (!emitter._events || !emitter._events[type])
+	    ret = 0;
+	  else if (isFunction(emitter._events[type]))
+	    ret = 1;
+	  else
+	    ret = emitter._events[type].length;
+	  return ret;
+	};
+	
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+	
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+	
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+	
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
+
+/***/ },
+/* 25 */
 /*!*********************************!*\
   !*** ../~/Components/Header.js ***!
   \*********************************/
@@ -10343,32 +6855,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	
 	
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 54);
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 41);
 	
 	module.exports = RowlikeGenerator('th', "TableHeader")
 
 /***/ },
-/* 43 */
+/* 26 */
 /*!******************************!*\
   !*** ../~/Components/Row.js ***!
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 54);
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 41);
 	
 	module.exports = RowlikeGenerator('tr', "TableRow")
 
 
 /***/ },
-/* 44 */
+/* 27 */
 /*!*******************************!*\
   !*** ../~/Components/Cell.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 18)
-	var proto = __webpack_require__(/*! proto */ 48)
-	var Style = __webpack_require__(/*! Style */ 19)
+	var Block = __webpack_require__(/*! ../Block */ 3)
+	var proto = __webpack_require__(/*! proto */ 28)
+	var Style = __webpack_require__(/*! Style */ 16)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -10409,115 +6921,146 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 45 */
-/*!*********************************!*\
-  !*** ../~/Components/Option.js ***!
-  \*********************************/
+/* 28 */
+/*!************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/proto/proto.js ***!
+  \************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// note: this is  not intended to be used directly - only through Select and MultiSelect
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var proto = __webpack_require__(/*! proto */ 48)
+	var noop = function() {}
 	
-	var Block = __webpack_require__(/*! Block */ 18)
-	var Style = __webpack_require__(/*! Style */ 19)
-	var domUtils = __webpack_require__(/*! domUtils */ 37)
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
 	
-	// emits a 'change' event when its 'selected' value changes
-	module.exports = proto(Block, function(superclass) {
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
 	
-	    // staic members
-	
-	    this.name = 'Option'
-	
-	    this.defaultStyle = Style({
-	        display: 'block'
-	    })
-	
-	
-	    // instance members
-	
-	    this.init = function(label, value, text) {
-	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	
-	        this.text = text
-	        this.val = value
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
 	    }
 	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.attr('value')
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.parent !== undefined) {
-	                if(this.parent.options[value] !== undefined) {
-	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: '"+value+"')")
-	                }
-	
-	                if(this.val !== null) {
-	                    delete this.parent.options[this.val]
-	                }
-	
-	                this.parent.options[value] = this
-	            }
-	
-	            this.attr('value', value)
-	
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the option is selected
-	        get: function() {
-	            return this.domNode.selected
-	        },
-	
-	        // sets the selected state of the option to the passed value (true for selected)
-	        set: function(value) {
-	            var booleanValue = value === true
-	            if(this.selected === booleanValue) return false; // ignore if there's no change
-	
-	            if(this.parent !== undefined)
-	                this.parent.prepareForValueChange([this.val])
-	
-	            this.setSelectedQuiet(booleanValue)
-	
-	            if(this.parent !== undefined)
-	                this.parent.emit('change')
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode[domUtils.textProperty]
-	        },
-	
-	        set: function(text) {
-	            this.domNode[domUtils.textProperty] = text
-	        }
-	    })
-	
-	
-	    // private
-	
-	    // does everything for setting the selected state except emit the parent's change event
-	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
-	        if(this.selected === booleanValue) return; // ignore if there's no change
-	
-	        this.domNode.selected = booleanValue
-	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
 	    }
-	})
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                }
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
 
 /***/ },
-/* 46 */
+/* 29 */
 /*!**************************!*\
   !*** ../external/jss.js ***!
   \**************************/
@@ -10815,107 +7358,145 @@ return /******/ (function(modules) { // webpackBootstrap
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
 
 /***/ },
-/* 47 */
-/*!*************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/async-future/asyncFuture.js ***!
-  \*************************************************************************************/
+/* 30 */
+/*!****************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/trimArguments/trimArguments.js ***!
+  \****************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
 	
-	var trimArgs = __webpack_require__(/*! trimArguments */ 68)
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	        else
+	            break
+	    }
+	    args.splice(args.length-count, count)
+	    return args
+	}
+
+/***/ },
+/* 31 */
+/*!************************!*\
+  !*** ./~/testUtils.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(/*! async-future */ 39)
+	var Style = __webpack_require__(/*! Style */ 16)
+	var Container = __webpack_require__(/*! Components/Container */ 11)
 	
-	
-	module.exports = Future
-	
-	Future.debug = false // switch this to true if you want ids and long stack traces
-	
-	var curId = 0         // for ids\
-	function Future(value) {
-		if(arguments.length > 0) {
-			var f = new Future()
-	        f.return(value)
-	        return f
-		} else {
-	        this.isResolved = false
-	        this.queue = []
-	        this.n = 1 // future depth (for preventing "too much recursion" RangeErrors)
-	        if(Future.debug) {
-	            curId++
-	            this.id = curId
+	// compares arrays and objects for value equality (all elements and members must match)
+	exports.equal = function(a,b) {
+	    if(a instanceof Array) {
+	        if(!(b instanceof Array))
+	            return false
+	        if(a.length !== b.length) {
+	            return false
+	        } else {
+	            return a.reduce(function(previousValue, currentValue, index) {
+	                return previousValue && exports.equal(currentValue,b[index])
+	            }, true)
 	        }
+	    } else if(a instanceof Object) {
+	        if(!(b instanceof Object))
+	            return false
+	
+	        var aKeys = Object.keys(a)
+	        var bKeys = Object.keys(b)
+	
+	        if(aKeys.length !== bKeys.length) {
+	            return false
+	        } else {
+	            for(var n=0; n<aKeys.length; n++) {
+	                var key = aKeys[n]
+	                var aVal = a[key]
+	                var bVal = b[key]
+	
+	                if(!exports.equal(aVal,bVal)) {
+	                    return false
+	                }
+	            }
+	            // else
+	            return true
+	        }
+	    } else {
+	        return a===b
 	    }
 	}
 	
-	// static methods
 	
-	// has one parameter: either a bunch of futures, or a single array of futures
-	// returns a promise that resolves when one of them errors, or when all of them succeeds
-	Future.all = function() {
-	    if(arguments[0] instanceof Array) {
-	        var futures = arguments[0]
-	    } else {
-	        var futures = trimArgs(arguments)
-	    }
+	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
+	// returns a function that, each time its called, calls the next function in the list with the passed argument
+	// example:
+	/*
+	var sequenceX = testUtils.seq(
+	 function(x) {
+	     t.ok(x === 'a')
+	 },
+	 function(x) {
+	     t.ok(x === 'b')
+	 },
+	 function(x) {
+	     t.ok(x === 'c')
+	})
 	
-	    var f = new Future()
-	    var results = []
-	
-	    if(futures.length > 0) {
-	        var current = futures[0]
-	        futures.forEach(function(future, index) {
-	            current = current.then(function(v) {
-	                results[index] = v
-	                return futures[index+1]
-	            })
-	        })
-	
-	        //if
-	        current.catch(function(e) {
-	            f.throw(e)
-	        })
-	        // else
-	        current.then(function() {
-	            f.return(results)
-	        })
-	
-	
-	    } else {
-	        f.return(results)
-	    }
-	
-	    return f
-	}
-	
-	// either used like futureWrap(function(){ ... })(arg1,arg2,etc) or
-	//  futureWrap(object, 'methodName')(arg1,arg2,etc)
-	Future.wrap = function() {
-	    // function
-	    if(arguments.length === 1) {
-	        var fn = arguments[0]
-	        var object = undefined
-	
-	
-	    // object, function
-	    } else {
-	        var object = arguments[0]
-	        var fn = object[arguments[1]]
-	    }
-	
+	 var obj = {a:1,b:2,c:3}
+	 for(var x in obj) {
+	     sequenceX(x)
+	 }
+	 */
+	exports.seq = function (/*functions*/) {
+	    var n=-1
+	    var fns = arguments
 	    return function() {
-	        var args = Array.prototype.slice.call(arguments)
-	        var future = new Future
-	        args.push(future.resolver())
-	        var me = this
-	        if(object) me = object
-	        fn.apply(me, args)
-	        return future
+	        n++
+	        if(n>=fns.length)
+	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
+	        // else
+	        fns[n].apply(this,arguments)
 	    }
 	}
 	
-	// future wraps a function who's callback only takes one parameter - the return value (no error is available)
-	// eg: function(result) {}
-	Future.wrapSingleParameter = function() {
+	
+	exports.demo = function(name, component) {
+	    var header = document.createElement("h1")
+	        header.textContent = name
+	
+	    $("#demos").append(header);
+	    component.attach($("#demos")[0])
+	
+	    return [header, component]
+	}
+	exports.cleanupDemo = function(nodes) {
+	    $(nodes[0]).remove()
+	    nodes[1].detach()
+	}
+	exports.manualDemo = function(name, component) {
+	    var header = document.createElement("h1")
+	        header.textContent = name
+	
+	    $("#manualDemos").append(header);
+	    component.attach($("#manualDemos")[0])
+	}
+	exports.textOutput = function(name, textContent) {
+	    var header = document.createElement("h1")
+	        header.textContent = name
+	
+	    var text = document.createElement("div")
+	        text.textContent = textContent
+	
+	    $("#results").append([header, text]);
+	}
+	
+	// future wraps a function like: function(result) {}
+	exports.wrapSingleParameter = function() {
 	    if(arguments.length === 1) {
 	        var fn = arguments[0]
 	    } else {
@@ -10937,407 +7518,142 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	}
 	
-	
-	// default
-	var unhandledErrorHandler = function(e) {
+	exports.performanceTest = function(name, testDefinition) {
 	    setTimeout(function() {
-	        throw e
+	        var times = []
+	        var totalTime = 0
+	        while(totalTime < 2000) {
+	            var time = oneIteration()
+	            times.push(time)
+	            totalTime += time
+	        }
+	
+	        var averageTime = totalTime/times.length
+	        var stdDeviationPercentage = standardDeviation(times)/averageTime
+	
+	        //console.log(mean(times)+ ' vs '+averageTime) // these should be equal and looks like they are
+	        exports.textOutput(name, Math.round(averageTime)+'ms (averaged over '+times.length+" iterations) - standard deviation: "+Math.round(stdDeviationPercentage*100)/100+'%')
+	
+	
+	        function oneIteration() {
+	            var time;
+	            testDefinition.call({
+	                time: function(testFn) {
+	                    var start = performance.now()
+	                    testFn()
+	                    time = performance.now() - start // ms
+	                }
+	            })
+	
+	            return time
+	        }
 	    },0)
 	}
 	
-	// setup unhandled error handler
-	// unhandled errors happen when done is called, and  then an exception is thrown from the future
-	Future.error = function(handler) {
-	    unhandledErrorHandler = handler
+	function standardDeviation(numberSet) {
+	    return Math.sqrt(variance(numberSet))
 	}
 	
-	// instance methods
+	function variance(numberSet) {
+	    var theMean = mean(numberSet)
+	    var sumOfDifferenceSquares = numberSet.reduce(function(acc,x) {
+	        var difference = x-theMean
+	        return acc + difference*difference
+	    },0)
 	
-	// returns a value for the future (can only be executed once)
-	// if there are callbacks waiting on this value, they are run in the next tick
-	    // (ie they aren't run immediately, allowing the current thread of execution to complete)
-	Future.prototype.return = function(v) {
-	    resolve(this, 'return', v)
+	    return sumOfDifferenceSquares / (numberSet.length-1)
 	}
-	Future.prototype.throw = function(e) {
-	    if(this.location !== undefined) {
-	        e.stack += '\n    ---------------------------\n'+this.location.stack.split('\n').slice(4).join('\n')
+	
+	function mean(numberSet) {
+	    var sum = numberSet.reduce(function(acc,x) {
+	        return acc+x
+	    },0)
+	
+	    return sum/numberSet.length
+	}
+	
+	
+	exports.buildNestedStructure = function (nestings) {
+	    var innerMost = Container()
+	    var cur = innerMost
+	    for(var n=0; n<nestings; n++) {
+	        cur = Container('moose', [cur])
 	    }
-	    resolve(this, 'error', e)
+	    return {innerMost:innerMost, top: cur}
 	}
 	
-	function setNext(that, future) {
-	    resolve(that, 'next', future)
-	}
-	
-	function wait(that, cb) {
-	    if(that.isResolved) {
-	        executeCallbacks(that, [cb])
-	    } else {
-	        that.queue.push(cb)
+	exports.buildNestedStyle = function(nestings) {
+	    var styleObject = {};
+	    for(var n=0; n<nestings; n++) {
+	        styleObject = {color: 'red', Container: styleObject}
 	    }
-	}
 	
-	// duck typing to determine if something is or isn't a future
-	var isLikeAFuture = Future.isLikeAFuture = function(x) {
-	    return x.isResolved !== undefined && x.queue !== undefined && x.then !== undefined
-	}
-	
-	function waitOnResult(f, result, cb) {
-	    wait(result, function() {
-	        if(this.hasError) {
-	            f.throw(this.error)
-	        } else if(this.hasNext) {
-	            waitOnResult(f, this.next, cb)
-	        } else {
-	            try {
-	                setNext(f, executeCallback(cb,this.result))
-	            } catch(e) {
-	                f.throw(e)
-	            }
-	        }
-	    })
-	}
-	
-	
-	// cb takes one parameter - the value returned
-	// cb can return a Future, in which case the result of that Future is passed to next-in-chain
-	Future.prototype.then = function(cb) {
-	    var f = createChainFuture(this)
-	    wait(this, function() {
-	        if(this.hasError)
-	            f.throw(this.error)
-	        else if(this.hasNext)
-	            waitOnResult(f, this.next, cb)
-	        else {
-	            try {
-	                setNext(f, executeCallback(cb,this.result))
-	            } catch(e) {
-	                f.throw(e)
-	            }
-	        }
-	    })
-	    return f
-	}
-	// cb takes one parameter - the error caught
-	// cb can return a Future, in which case the result of that Future is passed to next-in-chain
-	Future.prototype.catch = function(cb) {
-	    var f = createChainFuture(this)
-	    wait(this, function() {
-	        if(this.hasError) {
-	            try {
-	                setNext(f, executeCallback(cb,this.error))
-	            } catch(e) {
-	                f.throw(e)
-	            }
-	        } else if(this.hasNext) {
-	            this.next.then(function(v) {
-	                f.return(v)
-	            }).catch(function(e) {
-	                try {
-	                    setNext(f, executeCallback(cb,e))
-	                } catch(e) {
-	                    f.throw(e)
-	                }
-	            })
-	        } else {
-	            f.return(this.result)
-	        }
-	    })
-	    return f
-	}
-	// cb takes no parameters
-	// callback's return value is ignored, but thrown exceptions propogate normally
-	Future.prototype.finally = function(cb) {
-	    var f = createChainFuture(this)
-	    wait(this, function() {
-	        try {
-	            var that = this
-	            if(this.hasNext) {
-	                this.next.then(function(v) {
-	                    var x = executeCallback(cb)
-	                    f.return(v)
-	                    return x
-	                }).catch(function(e) {
-	                    var x = executeCallback(cb)
-	                    f.throw(e)
-	                    return x
-	                }).done()
-	            } else if(this.hasError) {
-	                Future(true).then(function() {
-	                    return executeCallback(cb)
-	                }).then(function() {
-	                    f.throw(that.error)
-	                }).catch(function(e) {
-	                    f.throw(e)
-	                }).done()
-	
-	            } else  {
-	                Future(true).then(function() {
-	                    return executeCallback(cb)
-	                }).then(function() {
-	                    f.return(that.result)
-	                }).catch(function(e) {
-	                    f.throw(e)
-	                }).done()
-	            }
-	        } catch(e) {
-	            f.throw(e)
-	        }
-	    })
-	    return f
-	}
-	
-	// a future created for the chain functions (then, catch, and finally)
-	function createChainFuture(that) {
-	    var f = new Future
-	    f.n = that.n + 1
-	    if(Future.debug) {
-	        f.location = createException()  // used for long traces
-	    }
-	    return f
-	}
-	
-	// all unused futures should end with this (e.g. most then-chains)
-	// detatches the future so any propogated exception is thrown (so the exception isn't silently lost)
-	Future.prototype.done = function() {
-	    wait(this, function() {
-	        if(this.hasError) {
-	            unhandledErrorHandler(this.error)
-	        } else if(this.hasNext) {
-	            this.next.catch(function(e) {
-	                unhandledErrorHandler(e)
-	            })
-	        }
-	    })
-	}
-	
-	
-	
-	Future.prototype.resolver = function() {
-	    var me = this
-	
-	    return function(e,v) {
-	        if(e) { // error argument
-	            me.throw(e)
-	        } else {
-	            me.return(v)
-	        }
-	    }
-	}
-	
-	Future.prototype.resolved = function() {
-	    return this.isResolved
-	}
-	
-	
-	function resolve(that, type, value) {
-	    if(that.isResolved)
-	        throw Error("Future resolved more than once! Resolution: "+value)
-	
-	    that.isResolved = true
-	    that.hasError = type === 'error'
-	    that.hasNext = type === 'next' && value !== undefined
-	
-	    if(that.hasError)
-	        that.error = value
-	    else if(that.hasNext)
-	        that.next = value
-	    else
-	        that.result = value
-	
-	    // 100 is a pretty arbitrary number - it should be set significantly lower than common maximum stack depths, and high enough to make sure performance isn't significantly affected
-	    // in using this for deadunit, firefox was getting a recursion error at 150, but not at 100. This doesn't mean that it can't happen at 100 too, but it'll certainly make it less likely
-	    // if you're getting recursion errors even with this mechanism, you probably need to figure that out in your own code
-	    if(that.n % 100 !== 0) {
-	        executeCallbacks(that, that.queue)
-	    } else {
-	        setTimeout(function() { // this prevents too much recursion errors
-	            executeCallbacks(that, that.queue)
-	        }, 0)
-	    }
-	}
-	
-	function executeCallbacks(that, callbacks) {
-	    if(callbacks.length > 0) {
-	        try {
-	            callbacks.forEach(function(cb) {
-	                cb.apply(that)
-	            })
-	        } catch(e) {
-	            unhandledErrorHandler(e)
-	        }
-	    }
-	}
-	
-	// executes a callback and ensures that it returns a future
-	function executeCallback(cb, arg) {
-	    var r = cb(arg)
-	    if(r !== undefined && !isLikeAFuture(r) )
-	        throw Error("Value returned from then or catch ("+r+") is *not* a Future. Callback: "+cb.toString())
-	
-	    return r
-	}
-	
-	function createException() {
-	    try {
-	        throw new Error()
-	    } catch(e) {
-	        return e
-	    }
+	    return Style(styleObject)
 	}
 
 /***/ },
-/* 48 */
-/*!************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/proto/proto.js ***!
-  \************************************************************************/
+/* 32 */
+/*!*******************!*\
+  !*** ./~/fsyn.js ***!
+  \*******************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	// requires: syn (loaded as a global variable from an html script tag)
 	
-	var noop = function() {}
+	var Future = __webpack_require__(/*! async-future */ 39)
 	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
+	exports.click = wrap(syn.click)
+	exports.rightClick = wrap(syn.rightClick)
+	exports.dblClick = wrap(syn.dblClick)
+	exports.move = wrap(syn.move)
+	exports.type = wrap(syn.type)
+	exports.key = wrap(syn.key)
 	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
 	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
 	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
+	function wrap(fn) {
+	    return function() {
+	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
 	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
+	        // for chaining
+	        var target = arguments[0]
+	        resultFuture.click = function() {
+	            exports.click.apply(this, [target].concat(arguments))
 	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
+	        resultFuture.rightClick = function() {
+	            exports.rightClick.apply(this, [target].concat(arguments))
 	        }
+	        resultFuture.dblClick = function() {
+	            exports.dblClick.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.move = function() {
+	            exports.move.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.type = function() {
+	            exports.type.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.key = function() {
+	            exports.key.apply(this, [target].concat(arguments))
+	        }
+	
+	        return resultFuture
 	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
 	}
 	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                }
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
+
 
 /***/ },
-/* 49 */
+/* 33 */
 /*!************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/defaultFormats.js ***!
   \************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 62)
+	var Future = __webpack_require__(/*! async-future */ 44)
 	
-	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 60)
-	var indent = __webpack_require__(/*! ./indent */ 59)
-	var utils = __webpack_require__(/*! ./utils */ 51)
+	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 43)
+	var indent = __webpack_require__(/*! ./indent */ 45)
+	var utils = __webpack_require__(/*! ./utils */ 35)
 	
 	// unitTest is a deadunit-core UnitTest object
 	// if consoleColoring is true, the string will contain console color annotations
@@ -11771,7 +8087,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 50 */
+/* 34 */
 /*!***************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/deadunit.internal.js ***!
   \***************************************************************************************/
@@ -11784,10 +8100,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var exports = {}
 	
 	    var deadunitCore = options.deadunitCore
-	    var proto = __webpack_require__(/*! proto */ 57)
+	    var proto = __webpack_require__(/*! proto */ 42)
 	
-	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 49)
-	    exports.format = __webpack_require__(/*! ./basicFormatter */ 60)
+	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 33)
+	    exports.format = __webpack_require__(/*! ./basicFormatter */ 43)
 	
 	    exports.error = deadunitCore.error
 	
@@ -11814,14 +8130,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 51 */
+/* 35 */
 /*!***************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/utils.js ***!
   \***************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var util = __webpack_require__(/*! util */ 67)
+	var util = __webpack_require__(/*! util */ 49)
 	
 	exports.plural = function (num, plural, singular) {
 		var plur = num!==1;
@@ -11918,39 +8234,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 52 */
-/*!****************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/trimArguments/trimArguments.js ***!
-  \****************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	        else
-	            break
-	    }
-	    args.splice(args.length-count, count)
-	    return args
-	}
-
-/***/ },
-/* 53 */
+/* 36 */
 /*!****************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/observe.js ***!
   \****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 48)
-	var EventEmitter = __webpack_require__(/*! events */ 36).EventEmitter
-	var utils = __webpack_require__(/*! ./utils */ 61)
+	var proto = __webpack_require__(/*! proto */ 28)
+	var EventEmitter = __webpack_require__(/*! events */ 24).EventEmitter
+	var utils = __webpack_require__(/*! ./utils */ 48)
 	
 	
 	// emits the event:
@@ -12366,64 +8658,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 54 */
-/*!*******************************************!*\
-  !*** ../~/Components/RowlikeGenerator.js ***!
-  \*******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 48)
-	
-	var Block = __webpack_require__(/*! Block */ 18)
-	var Style = __webpack_require__(/*! Style */ 19)
-	var Cell = __webpack_require__(/*! ./Cell */ 44);
-	
-	// generates either a Header or a Row, depending on what you pass in
-	// elementType should either be "tr" or "th
-	// name should either be "Header" or "Row
-	module.exports = function(elementType, name) {
-	    return proto(Block, function(superclass) {
-	
-	        // static properties
-	
-	        this.name = name
-	
-	        this.defaultStyle = Style({
-	            display: 'table-row'
-	        })
-	
-	
-	        // instance properties
-	
-	        this.init = function(/*[label,] rowInit*/) {
-	            if(arguments[0] instanceof Array) {
-	                var rowInit = arguments[0]
-	            } else {
-	                var label = arguments[0]
-	                var rowInit = arguments[1]
-	            }
-	
-	            this.domNode = document.createElement(elementType) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	            superclass.init.call(this) // superclass constructor
-	            this.label = label
-	
-	            if(rowInit !== undefined) {
-	                for(var n=0; n<rowInit.length; n++) {
-	                    this.cell(rowInit[n])
-	                }
-	            }
-	        }
-	
-	        this.cell = function(/*[label,] contents*/) {
-	            var cell = Cell.apply(undefined, arguments);
-	            this.add(cell);
-	            return cell;
-	        }
-	    })
-	}
-
-/***/ },
-/* 55 */
+/* 37 */
 /*!****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/path-browserify/index.js ***!
   \****************************************************************/
@@ -12654,10 +8889,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 75)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 54)))
 
 /***/ },
-/* 56 */
+/* 38 */
 /*!****************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/hashmap/hashmap.js ***!
   \****************************************************************************/
@@ -12853,7 +9088,452 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 57 */
+/* 39 */
+/*!*************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/async-future/asyncFuture.js ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var trimArgs = __webpack_require__(/*! trimArguments */ 60)
+	
+	
+	module.exports = Future
+	
+	Future.debug = false // switch this to true if you want ids and long stack traces
+	
+	var curId = 0         // for ids\
+	function Future(value) {
+		if(arguments.length > 0) {
+			var f = new Future()
+	        f.return(value)
+	        return f
+		} else {
+	        this.isResolved = false
+	        this.queue = []
+	        this.n = 1 // future depth (for preventing "too much recursion" RangeErrors)
+	        if(Future.debug) {
+	            curId++
+	            this.id = curId
+	        }
+	    }
+	}
+	
+	// static methods
+	
+	// has one parameter: either a bunch of futures, or a single array of futures
+	// returns a promise that resolves when one of them errors, or when all of them succeeds
+	Future.all = function() {
+	    if(arguments[0] instanceof Array) {
+	        var futures = arguments[0]
+	    } else {
+	        var futures = trimArgs(arguments)
+	    }
+	
+	    var f = new Future()
+	    var results = []
+	
+	    if(futures.length > 0) {
+	        var current = futures[0]
+	        futures.forEach(function(future, index) {
+	            current = current.then(function(v) {
+	                results[index] = v
+	                return futures[index+1]
+	            })
+	        })
+	
+	        //if
+	        current.catch(function(e) {
+	            f.throw(e)
+	        })
+	        // else
+	        current.then(function() {
+	            f.return(results)
+	        })
+	
+	
+	    } else {
+	        f.return(results)
+	    }
+	
+	    return f
+	}
+	
+	// either used like futureWrap(function(){ ... })(arg1,arg2,etc) or
+	//  futureWrap(object, 'methodName')(arg1,arg2,etc)
+	Future.wrap = function() {
+	    // function
+	    if(arguments.length === 1) {
+	        var fn = arguments[0]
+	        var object = undefined
+	
+	
+	    // object, function
+	    } else {
+	        var object = arguments[0]
+	        var fn = object[arguments[1]]
+	    }
+	
+	    return function() {
+	        var args = Array.prototype.slice.call(arguments)
+	        var future = new Future
+	        args.push(future.resolver())
+	        var me = this
+	        if(object) me = object
+	        fn.apply(me, args)
+	        return future
+	    }
+	}
+	
+	// future wraps a function who's callback only takes one parameter - the return value (no error is available)
+	// eg: function(result) {}
+	Future.wrapSingleParameter = function() {
+	    if(arguments.length === 1) {
+	        var fn = arguments[0]
+	    } else {
+	        var object = arguments[0]
+	        var method = arguments[1]
+	        var fn = object[method]
+	    }
+	
+	    return function() {
+	        var args = Array.prototype.slice.call(arguments)
+			var future = new Future
+			args.push(function(result) {
+			    future.return(result)
+			})
+			var me = this
+	        if(object) me = object
+	        fn.apply(me, args)
+			return future
+	    }
+	}
+	
+	
+	// default
+	var unhandledErrorHandler = function(e) {
+	    setTimeout(function() {
+	        throw e
+	    },0)
+	}
+	
+	// setup unhandled error handler
+	// unhandled errors happen when done is called, and  then an exception is thrown from the future
+	Future.error = function(handler) {
+	    unhandledErrorHandler = handler
+	}
+	
+	// instance methods
+	
+	// returns a value for the future (can only be executed once)
+	// if there are callbacks waiting on this value, they are run in the next tick
+	    // (ie they aren't run immediately, allowing the current thread of execution to complete)
+	Future.prototype.return = function(v) {
+	    resolve(this, 'return', v)
+	}
+	Future.prototype.throw = function(e) {
+	    if(this.location !== undefined) {
+	        e.stack += '\n    ---------------------------\n'+this.location.stack.split('\n').slice(4).join('\n')
+	    }
+	    resolve(this, 'error', e)
+	}
+	
+	function setNext(that, future) {
+	    resolve(that, 'next', future)
+	}
+	
+	function wait(that, cb) {
+	    if(that.isResolved) {
+	        executeCallbacks(that, [cb])
+	    } else {
+	        that.queue.push(cb)
+	    }
+	}
+	
+	// duck typing to determine if something is or isn't a future
+	var isLikeAFuture = Future.isLikeAFuture = function(x) {
+	    return x.isResolved !== undefined && x.queue !== undefined && x.then !== undefined
+	}
+	
+	function waitOnResult(f, result, cb) {
+	    wait(result, function() {
+	        if(this.hasError) {
+	            f.throw(this.error)
+	        } else if(this.hasNext) {
+	            waitOnResult(f, this.next, cb)
+	        } else {
+	            try {
+	                setNext(f, executeCallback(cb,this.result))
+	            } catch(e) {
+	                f.throw(e)
+	            }
+	        }
+	    })
+	}
+	
+	
+	// cb takes one parameter - the value returned
+	// cb can return a Future, in which case the result of that Future is passed to next-in-chain
+	Future.prototype.then = function(cb) {
+	    var f = createChainFuture(this)
+	    wait(this, function() {
+	        if(this.hasError)
+	            f.throw(this.error)
+	        else if(this.hasNext)
+	            waitOnResult(f, this.next, cb)
+	        else {
+	            try {
+	                setNext(f, executeCallback(cb,this.result))
+	            } catch(e) {
+	                f.throw(e)
+	            }
+	        }
+	    })
+	    return f
+	}
+	// cb takes one parameter - the error caught
+	// cb can return a Future, in which case the result of that Future is passed to next-in-chain
+	Future.prototype.catch = function(cb) {
+	    var f = createChainFuture(this)
+	    wait(this, function() {
+	        if(this.hasError) {
+	            try {
+	                setNext(f, executeCallback(cb,this.error))
+	            } catch(e) {
+	                f.throw(e)
+	            }
+	        } else if(this.hasNext) {
+	            this.next.then(function(v) {
+	                f.return(v)
+	            }).catch(function(e) {
+	                try {
+	                    setNext(f, executeCallback(cb,e))
+	                } catch(e) {
+	                    f.throw(e)
+	                }
+	            })
+	        } else {
+	            f.return(this.result)
+	        }
+	    })
+	    return f
+	}
+	// cb takes no parameters
+	// callback's return value is ignored, but thrown exceptions propogate normally
+	Future.prototype.finally = function(cb) {
+	    var f = createChainFuture(this)
+	    wait(this, function() {
+	        try {
+	            var that = this
+	            if(this.hasNext) {
+	                this.next.then(function(v) {
+	                    var x = executeCallback(cb)
+	                    f.return(v)
+	                    return x
+	                }).catch(function(e) {
+	                    var x = executeCallback(cb)
+	                    f.throw(e)
+	                    return x
+	                }).done()
+	            } else if(this.hasError) {
+	                Future(true).then(function() {
+	                    return executeCallback(cb)
+	                }).then(function() {
+	                    f.throw(that.error)
+	                }).catch(function(e) {
+	                    f.throw(e)
+	                }).done()
+	
+	            } else  {
+	                Future(true).then(function() {
+	                    return executeCallback(cb)
+	                }).then(function() {
+	                    f.return(that.result)
+	                }).catch(function(e) {
+	                    f.throw(e)
+	                }).done()
+	            }
+	        } catch(e) {
+	            f.throw(e)
+	        }
+	    })
+	    return f
+	}
+	
+	// a future created for the chain functions (then, catch, and finally)
+	function createChainFuture(that) {
+	    var f = new Future
+	    f.n = that.n + 1
+	    if(Future.debug) {
+	        f.location = createException()  // used for long traces
+	    }
+	    return f
+	}
+	
+	// all unused futures should end with this (e.g. most then-chains)
+	// detatches the future so any propogated exception is thrown (so the exception isn't silently lost)
+	Future.prototype.done = function() {
+	    wait(this, function() {
+	        if(this.hasError) {
+	            unhandledErrorHandler(this.error)
+	        } else if(this.hasNext) {
+	            this.next.catch(function(e) {
+	                unhandledErrorHandler(e)
+	            })
+	        }
+	    })
+	}
+	
+	
+	
+	Future.prototype.resolver = function() {
+	    var me = this
+	
+	    return function(e,v) {
+	        if(e) { // error argument
+	            me.throw(e)
+	        } else {
+	            me.return(v)
+	        }
+	    }
+	}
+	
+	Future.prototype.resolved = function() {
+	    return this.isResolved
+	}
+	
+	
+	function resolve(that, type, value) {
+	    if(that.isResolved)
+	        throw Error("Future resolved more than once! Resolution: "+value)
+	
+	    that.isResolved = true
+	    that.hasError = type === 'error'
+	    that.hasNext = type === 'next' && value !== undefined
+	
+	    if(that.hasError)
+	        that.error = value
+	    else if(that.hasNext)
+	        that.next = value
+	    else
+	        that.result = value
+	
+	    // 100 is a pretty arbitrary number - it should be set significantly lower than common maximum stack depths, and high enough to make sure performance isn't significantly affected
+	    // in using this for deadunit, firefox was getting a recursion error at 150, but not at 100. This doesn't mean that it can't happen at 100 too, but it'll certainly make it less likely
+	    // if you're getting recursion errors even with this mechanism, you probably need to figure that out in your own code
+	    if(that.n % 100 !== 0) {
+	        executeCallbacks(that, that.queue)
+	    } else {
+	        setTimeout(function() { // this prevents too much recursion errors
+	            executeCallbacks(that, that.queue)
+	        }, 0)
+	    }
+	}
+	
+	function executeCallbacks(that, callbacks) {
+	    if(callbacks.length > 0) {
+	        try {
+	            callbacks.forEach(function(cb) {
+	                cb.apply(that)
+	            })
+	        } catch(e) {
+	            unhandledErrorHandler(e)
+	        }
+	    }
+	}
+	
+	// executes a callback and ensures that it returns a future
+	function executeCallback(cb, arg) {
+	    var r = cb(arg)
+	    if(r !== undefined && !isLikeAFuture(r) )
+	        throw Error("Value returned from then or catch ("+r+") is *not* a Future. Callback: "+cb.toString())
+	
+	    return r
+	}
+	
+	function createException() {
+	    try {
+	        throw new Error()
+	    } catch(e) {
+	        return e
+	    }
+	}
+
+/***/ },
+/* 40 */
+/*!**************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
+  \**************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 46)
+	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 47)
+	
+	module.exports = deadunitCore(browserConfig())
+
+/***/ },
+/* 41 */
+/*!*******************************************!*\
+  !*** ../~/Components/RowlikeGenerator.js ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	var Block = __webpack_require__(/*! Block */ 3)
+	var Style = __webpack_require__(/*! Style */ 16)
+	var Cell = __webpack_require__(/*! ./Cell */ 27);
+	
+	// generates either a Header or a Row, depending on what you pass in
+	// elementType should either be "tr" or "th
+	// name should either be "Header" or "Row
+	module.exports = function(elementType, name) {
+	    return proto(Block, function(superclass) {
+	
+	        // static properties
+	
+	        this.name = name
+	
+	        this.defaultStyle = Style({
+	            display: 'table-row'
+	        })
+	
+	
+	        // instance properties
+	
+	        this.init = function(/*[label,] rowInit*/) {
+	            if(arguments[0] instanceof Array) {
+	                var rowInit = arguments[0]
+	            } else {
+	                var label = arguments[0]
+	                var rowInit = arguments[1]
+	            }
+	
+	            this.domNode = document.createElement(elementType) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	            superclass.init.call(this) // superclass constructor
+	            this.label = label
+	
+	            if(rowInit !== undefined) {
+	                for(var n=0; n<rowInit.length; n++) {
+	                    this.cell(rowInit[n])
+	                }
+	            }
+	        }
+	
+	        this.cell = function(/*[label,] contents*/) {
+	            var cell = Cell.apply(undefined, arguments);
+	            this.add(cell);
+	            return cell;
+	        }
+	    })
+	}
+
+/***/ },
+/* 42 */
 /*!***********************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/proto/proto.js ***!
   \***********************************************************************************/
@@ -12993,41 +9673,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 58 */
-/*!**************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
-  \**************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 69)
-	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 70)
-	
-	module.exports = deadunitCore(browserConfig())
-
-/***/ },
-/* 59 */
-/*!****************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/indent.js ***!
-  \****************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = function(i, str) {
-	    return i+str.split("\n")       // get all lines
-	              .join("\n"+i)      // join all lines with an indent
-	}
-
-/***/ },
-/* 60 */
+/* 43 */
 /*!************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/basicFormatter.js ***!
   \************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 62)
+	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 44)
 	
 	// built in test formatting helper
 	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
@@ -13181,725 +9833,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 75)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 54)))
 
 /***/ },
-/* 61 */
-/*!**************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/utils.js ***!
-  \**************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	var path = __webpack_require__(/*! path */ 55)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       }
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 62 */
+/* 44 */
 /*!************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/asyncFuture.js ***!
   \************************************************************************************************/
-[116, 82],
-/* 63 */
-/*!***************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Block.js ***!
-  \***************************************************************************************/
+[142, 69],
+/* 45 */
+/*!****************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/indent.js ***!
+  \****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Block */ 71)
-
-/***/ },
-/* 64 */
-/*!*******************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Container.js ***!
-  \*******************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Container')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 74)
-
-/***/ },
-/* 65 */
-/*!***************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Style.js ***!
-  \***************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Style */ 72)
-
-/***/ },
-/* 66 */
-/*!**************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Text.js ***!
-  \**************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Text')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 73)
-
-/***/ },
-/* 67 */
-/*!****************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/util/util.js ***!
-  \****************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var formatRegExp = /%[sdj%]/g;
-	exports.format = function(f) {
-	  if (!isString(f)) {
-	    var objects = [];
-	    for (var i = 0; i < arguments.length; i++) {
-	      objects.push(inspect(arguments[i]));
-	    }
-	    return objects.join(' ');
-	  }
-	
-	  var i = 1;
-	  var args = arguments;
-	  var len = args.length;
-	  var str = String(f).replace(formatRegExp, function(x) {
-	    if (x === '%%') return '%';
-	    if (i >= len) return x;
-	    switch (x) {
-	      case '%s': return String(args[i++]);
-	      case '%d': return Number(args[i++]);
-	      case '%j':
-	        try {
-	          return JSON.stringify(args[i++]);
-	        } catch (_) {
-	          return '[Circular]';
-	        }
-	      default:
-	        return x;
-	    }
-	  });
-	  for (var x = args[i]; i < len; x = args[++i]) {
-	    if (isNull(x) || !isObject(x)) {
-	      str += ' ' + x;
-	    } else {
-	      str += ' ' + inspect(x);
-	    }
-	  }
-	  return str;
-	};
-	
-	
-	// Mark that a method should not be used.
-	// Returns a modified function which warns once by default.
-	// If --no-deprecation is set, then it is a no-op.
-	exports.deprecate = function(fn, msg) {
-	  // Allow for deprecating things in the process of starting up.
-	  if (isUndefined(global.process)) {
-	    return function() {
-	      return exports.deprecate(fn, msg).apply(this, arguments);
-	    };
-	  }
-	
-	  if (process.noDeprecation === true) {
-	    return fn;
-	  }
-	
-	  var warned = false;
-	  function deprecated() {
-	    if (!warned) {
-	      if (process.throwDeprecation) {
-	        throw new Error(msg);
-	      } else if (process.traceDeprecation) {
-	        console.trace(msg);
-	      } else {
-	        console.error(msg);
-	      }
-	      warned = true;
-	    }
-	    return fn.apply(this, arguments);
-	  }
-	
-	  return deprecated;
-	};
-	
-	
-	var debugs = {};
-	var debugEnviron;
-	exports.debuglog = function(set) {
-	  if (isUndefined(debugEnviron))
-	    debugEnviron = process.env.NODE_DEBUG || '';
-	  set = set.toUpperCase();
-	  if (!debugs[set]) {
-	    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-	      var pid = process.pid;
-	      debugs[set] = function() {
-	        var msg = exports.format.apply(exports, arguments);
-	        console.error('%s %d: %s', set, pid, msg);
-	      };
-	    } else {
-	      debugs[set] = function() {};
-	    }
-	  }
-	  return debugs[set];
-	};
-	
-	
-	/**
-	 * Echos the value of a value. Trys to print the value out
-	 * in the best way possible given the different types.
-	 *
-	 * @param {Object} obj The object to print out.
-	 * @param {Object} opts Optional options object that alters the output.
-	 */
-	/* legacy: obj, showHidden, depth, colors*/
-	function inspect(obj, opts) {
-	  // default options
-	  var ctx = {
-	    seen: [],
-	    stylize: stylizeNoColor
-	  };
-	  // legacy...
-	  if (arguments.length >= 3) ctx.depth = arguments[2];
-	  if (arguments.length >= 4) ctx.colors = arguments[3];
-	  if (isBoolean(opts)) {
-	    // legacy...
-	    ctx.showHidden = opts;
-	  } else if (opts) {
-	    // got an "options" object
-	    exports._extend(ctx, opts);
-	  }
-	  // set default options
-	  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-	  if (isUndefined(ctx.depth)) ctx.depth = 2;
-	  if (isUndefined(ctx.colors)) ctx.colors = false;
-	  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-	  if (ctx.colors) ctx.stylize = stylizeWithColor;
-	  return formatValue(ctx, obj, ctx.depth);
-	}
-	exports.inspect = inspect;
-	
-	
-	// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-	inspect.colors = {
-	  'bold' : [1, 22],
-	  'italic' : [3, 23],
-	  'underline' : [4, 24],
-	  'inverse' : [7, 27],
-	  'white' : [37, 39],
-	  'grey' : [90, 39],
-	  'black' : [30, 39],
-	  'blue' : [34, 39],
-	  'cyan' : [36, 39],
-	  'green' : [32, 39],
-	  'magenta' : [35, 39],
-	  'red' : [31, 39],
-	  'yellow' : [33, 39]
-	};
-	
-	// Don't use 'blue' not visible on cmd.exe
-	inspect.styles = {
-	  'special': 'cyan',
-	  'number': 'yellow',
-	  'boolean': 'yellow',
-	  'undefined': 'grey',
-	  'null': 'bold',
-	  'string': 'green',
-	  'date': 'magenta',
-	  // "name": intentionally not styling
-	  'regexp': 'red'
-	};
-	
-	
-	function stylizeWithColor(str, styleType) {
-	  var style = inspect.styles[styleType];
-	
-	  if (style) {
-	    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
-	           '\u001b[' + inspect.colors[style][1] + 'm';
-	  } else {
-	    return str;
-	  }
-	}
-	
-	
-	function stylizeNoColor(str, styleType) {
-	  return str;
-	}
-	
-	
-	function arrayToHash(array) {
-	  var hash = {};
-	
-	  array.forEach(function(val, idx) {
-	    hash[val] = true;
-	  });
-	
-	  return hash;
-	}
-	
-	
-	function formatValue(ctx, value, recurseTimes) {
-	  // Provide a hook for user-specified inspect functions.
-	  // Check that value is an object with an inspect function on it
-	  if (ctx.customInspect &&
-	      value &&
-	      isFunction(value.inspect) &&
-	      // Filter out the util module, it's inspect function is special
-	      value.inspect !== exports.inspect &&
-	      // Also filter out any prototype objects using the circular check.
-	      !(value.constructor && value.constructor.prototype === value)) {
-	    var ret = value.inspect(recurseTimes, ctx);
-	    if (!isString(ret)) {
-	      ret = formatValue(ctx, ret, recurseTimes);
-	    }
-	    return ret;
-	  }
-	
-	  // Primitive types cannot have properties
-	  var primitive = formatPrimitive(ctx, value);
-	  if (primitive) {
-	    return primitive;
-	  }
-	
-	  // Look up the keys of the object.
-	  var keys = Object.keys(value);
-	  var visibleKeys = arrayToHash(keys);
-	
-	  if (ctx.showHidden) {
-	    keys = Object.getOwnPropertyNames(value);
-	  }
-	
-	  // IE doesn't make error fields non-enumerable
-	  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-	  if (isError(value)
-	      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-	    return formatError(value);
-	  }
-	
-	  // Some type of object without properties can be shortcutted.
-	  if (keys.length === 0) {
-	    if (isFunction(value)) {
-	      var name = value.name ? ': ' + value.name : '';
-	      return ctx.stylize('[Function' + name + ']', 'special');
-	    }
-	    if (isRegExp(value)) {
-	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-	    }
-	    if (isDate(value)) {
-	      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-	    }
-	    if (isError(value)) {
-	      return formatError(value);
-	    }
-	  }
-	
-	  var base = '', array = false, braces = ['{', '}'];
-	
-	  // Make Array say that they are Array
-	  if (isArray(value)) {
-	    array = true;
-	    braces = ['[', ']'];
-	  }
-	
-	  // Make functions say that they are functions
-	  if (isFunction(value)) {
-	    var n = value.name ? ': ' + value.name : '';
-	    base = ' [Function' + n + ']';
-	  }
-	
-	  // Make RegExps say that they are RegExps
-	  if (isRegExp(value)) {
-	    base = ' ' + RegExp.prototype.toString.call(value);
-	  }
-	
-	  // Make dates with properties first say the date
-	  if (isDate(value)) {
-	    base = ' ' + Date.prototype.toUTCString.call(value);
-	  }
-	
-	  // Make error with message first say the error
-	  if (isError(value)) {
-	    base = ' ' + formatError(value);
-	  }
-	
-	  if (keys.length === 0 && (!array || value.length == 0)) {
-	    return braces[0] + base + braces[1];
-	  }
-	
-	  if (recurseTimes < 0) {
-	    if (isRegExp(value)) {
-	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-	    } else {
-	      return ctx.stylize('[Object]', 'special');
-	    }
-	  }
-	
-	  ctx.seen.push(value);
-	
-	  var output;
-	  if (array) {
-	    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-	  } else {
-	    output = keys.map(function(key) {
-	      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-	    });
-	  }
-	
-	  ctx.seen.pop();
-	
-	  return reduceToSingleString(output, base, braces);
-	}
-	
-	
-	function formatPrimitive(ctx, value) {
-	  if (isUndefined(value))
-	    return ctx.stylize('undefined', 'undefined');
-	  if (isString(value)) {
-	    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
-	                                             .replace(/'/g, "\\'")
-	                                             .replace(/\\"/g, '"') + '\'';
-	    return ctx.stylize(simple, 'string');
-	  }
-	  if (isNumber(value))
-	    return ctx.stylize('' + value, 'number');
-	  if (isBoolean(value))
-	    return ctx.stylize('' + value, 'boolean');
-	  // For some reason typeof null is "object", so special case here.
-	  if (isNull(value))
-	    return ctx.stylize('null', 'null');
-	}
-	
-	
-	function formatError(value) {
-	  return '[' + Error.prototype.toString.call(value) + ']';
-	}
-	
-	
-	function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-	  var output = [];
-	  for (var i = 0, l = value.length; i < l; ++i) {
-	    if (hasOwnProperty(value, String(i))) {
-	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-	          String(i), true));
-	    } else {
-	      output.push('');
-	    }
-	  }
-	  keys.forEach(function(key) {
-	    if (!key.match(/^\d+$/)) {
-	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-	          key, true));
-	    }
-	  });
-	  return output;
-	}
-	
-	
-	function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-	  var name, str, desc;
-	  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-	  if (desc.get) {
-	    if (desc.set) {
-	      str = ctx.stylize('[Getter/Setter]', 'special');
-	    } else {
-	      str = ctx.stylize('[Getter]', 'special');
-	    }
-	  } else {
-	    if (desc.set) {
-	      str = ctx.stylize('[Setter]', 'special');
-	    }
-	  }
-	  if (!hasOwnProperty(visibleKeys, key)) {
-	    name = '[' + key + ']';
-	  }
-	  if (!str) {
-	    if (ctx.seen.indexOf(desc.value) < 0) {
-	      if (isNull(recurseTimes)) {
-	        str = formatValue(ctx, desc.value, null);
-	      } else {
-	        str = formatValue(ctx, desc.value, recurseTimes - 1);
-	      }
-	      if (str.indexOf('\n') > -1) {
-	        if (array) {
-	          str = str.split('\n').map(function(line) {
-	            return '  ' + line;
-	          }).join('\n').substr(2);
-	        } else {
-	          str = '\n' + str.split('\n').map(function(line) {
-	            return '   ' + line;
-	          }).join('\n');
-	        }
-	      }
-	    } else {
-	      str = ctx.stylize('[Circular]', 'special');
-	    }
-	  }
-	  if (isUndefined(name)) {
-	    if (array && key.match(/^\d+$/)) {
-	      return str;
-	    }
-	    name = JSON.stringify('' + key);
-	    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-	      name = name.substr(1, name.length - 2);
-	      name = ctx.stylize(name, 'name');
-	    } else {
-	      name = name.replace(/'/g, "\\'")
-	                 .replace(/\\"/g, '"')
-	                 .replace(/(^"|"$)/g, "'");
-	      name = ctx.stylize(name, 'string');
-	    }
-	  }
-	
-	  return name + ': ' + str;
-	}
-	
-	
-	function reduceToSingleString(output, base, braces) {
-	  var numLinesEst = 0;
-	  var length = output.reduce(function(prev, cur) {
-	    numLinesEst++;
-	    if (cur.indexOf('\n') >= 0) numLinesEst++;
-	    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-	  }, 0);
-	
-	  if (length > 60) {
-	    return braces[0] +
-	           (base === '' ? '' : base + '\n ') +
-	           ' ' +
-	           output.join(',\n  ') +
-	           ' ' +
-	           braces[1];
-	  }
-	
-	  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-	}
-	
-	
-	// NOTE: These type checking functions intentionally don't use `instanceof`
-	// because it is fragile and can be easily faked with `Object.create()`.
-	function isArray(ar) {
-	  return Array.isArray(ar);
-	}
-	exports.isArray = isArray;
-	
-	function isBoolean(arg) {
-	  return typeof arg === 'boolean';
-	}
-	exports.isBoolean = isBoolean;
-	
-	function isNull(arg) {
-	  return arg === null;
-	}
-	exports.isNull = isNull;
-	
-	function isNullOrUndefined(arg) {
-	  return arg == null;
-	}
-	exports.isNullOrUndefined = isNullOrUndefined;
-	
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-	exports.isNumber = isNumber;
-	
-	function isString(arg) {
-	  return typeof arg === 'string';
-	}
-	exports.isString = isString;
-	
-	function isSymbol(arg) {
-	  return typeof arg === 'symbol';
-	}
-	exports.isSymbol = isSymbol;
-	
-	function isUndefined(arg) {
-	  return arg === void 0;
-	}
-	exports.isUndefined = isUndefined;
-	
-	function isRegExp(re) {
-	  return isObject(re) && objectToString(re) === '[object RegExp]';
-	}
-	exports.isRegExp = isRegExp;
-	
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-	exports.isObject = isObject;
-	
-	function isDate(d) {
-	  return isObject(d) && objectToString(d) === '[object Date]';
-	}
-	exports.isDate = isDate;
-	
-	function isError(e) {
-	  return isObject(e) &&
-	      (objectToString(e) === '[object Error]' || e instanceof Error);
-	}
-	exports.isError = isError;
-	
-	function isFunction(arg) {
-	  return typeof arg === 'function';
-	}
-	exports.isFunction = isFunction;
-	
-	function isPrimitive(arg) {
-	  return arg === null ||
-	         typeof arg === 'boolean' ||
-	         typeof arg === 'number' ||
-	         typeof arg === 'string' ||
-	         typeof arg === 'symbol' ||  // ES6 symbol
-	         typeof arg === 'undefined';
-	}
-	exports.isPrimitive = isPrimitive;
-	
-	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 81);
-	
-	function objectToString(o) {
-	  return Object.prototype.toString.call(o);
-	}
-	
-	
-	function pad(n) {
-	  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-	}
-	
-	
-	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-	              'Oct', 'Nov', 'Dec'];
-	
-	// 26 Feb 16:19:34
-	function timestamp() {
-	  var d = new Date();
-	  var time = [pad(d.getHours()),
-	              pad(d.getMinutes()),
-	              pad(d.getSeconds())].join(':');
-	  return [d.getDate(), months[d.getMonth()], time].join(' ');
-	}
-	
-	
-	// log is just a thin wrapper to console.log that prepends a timestamp
-	exports.log = function() {
-	  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-	};
-	
-	
-	/**
-	 * Inherit the prototype methods from one constructor into another.
-	 *
-	 * The Function.prototype.inherits from lang.js rewritten as a standalone
-	 * function (not on Function.prototype). NOTE: If this file is to be loaded
-	 * during bootstrapping this function needs to be rewritten using some native
-	 * functions as prototype setup using normal JavaScript does not work as
-	 * expected during bootstrapping (see mirror.js in r114903).
-	 *
-	 * @param {function} ctor Constructor function which needs to inherit the
-	 *     prototype.
-	 * @param {function} superCtor Constructor function to inherit prototype from.
-	 */
-	exports.inherits = __webpack_require__(/*! inherits */ 85);
-	
-	exports._extend = function(origin, add) {
-	  // Don't do anything if add isn't an object
-	  if (!add || !isObject(add)) return origin;
-	
-	  var keys = Object.keys(add);
-	  var i = keys.length;
-	  while (i--) {
-	    origin[keys[i]] = add[keys[i]];
-	  }
-	  return origin;
-	};
-	
-	function hasOwnProperty(obj, prop) {
-	  return Object.prototype.hasOwnProperty.call(obj, prop);
-	}
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 75)))
-
-/***/ },
-/* 68 */
-/*!*******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/async-future/~/trimArguments/trimArguments.js ***!
-  \*******************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	    }
-	    args.splice(-0, count)
-	    return args
+	module.exports = function(i, str) {
+	    return i+str.split("\n")       // get all lines
+	              .join("\n"+i)      // join all lines with an indent
 	}
 
 /***/ },
-/* 69 */
+/* 46 */
 /*!******************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.js ***!
   \******************************************************************************************************/
@@ -13908,15 +9863,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(/*! path */ 55)
-	var Url = __webpack_require__(/*! url */ 86)
+	var path = __webpack_require__(/*! path */ 37)
+	var Url = __webpack_require__(/*! url */ 65)
 	
-	var proto = __webpack_require__(/*! proto */ 90)
-	var Future = __webpack_require__(/*! async-future */ 87)
-	var SourceMapConsumer = __webpack_require__(/*! source-map */ 92).SourceMapConsumer
+	var proto = __webpack_require__(/*! proto */ 74)
+	var Future = __webpack_require__(/*! async-future */ 71)
+	var SourceMapConsumer = __webpack_require__(/*! source-map */ 72).SourceMapConsumer
 	
-	var processResults = __webpack_require__(/*! ./processResults */ 83)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 79)
+	var processResults = __webpack_require__(/*! ./processResults */ 61)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 59)
 	
 	// returns a module intended for a specific environment (that environment being described by the options)
 	// options can contain:
@@ -14817,7 +10772,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 70 */
+/* 47 */
 /*!********************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browserConfig.js ***!
   \********************************************************************************************************************/
@@ -14826,16 +10781,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(/*! path */ 55);
+	var path = __webpack_require__(/*! path */ 37);
 	
-	var Future = __webpack_require__(/*! async-future */ 87)
-	var proto = __webpack_require__(/*! proto */ 90)
-	var stackinfo = __webpack_require__(/*! stackinfo */ 91)
-	var ajax = __webpack_require__(/*! ajax */ 89)
-	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 88).resolveSourceMap)
+	var Future = __webpack_require__(/*! async-future */ 71)
+	var proto = __webpack_require__(/*! proto */ 74)
+	var stackinfo = __webpack_require__(/*! stackinfo */ 75)
+	var ajax = __webpack_require__(/*! ajax */ 73)
+	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 76).resolveSourceMap)
 	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 69)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 79)
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 46)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 59)
 	
 	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
 	
@@ -14994,22 +10949,805 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 71 */
+/* 48 */
+/*!**************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/utils.js ***!
+  \**************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	var path = __webpack_require__(/*! path */ 37)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       }
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 49 */
+/*!****************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/util.js ***!
+  \****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	var formatRegExp = /%[sdj%]/g;
+	exports.format = function(f) {
+	  if (!isString(f)) {
+	    var objects = [];
+	    for (var i = 0; i < arguments.length; i++) {
+	      objects.push(inspect(arguments[i]));
+	    }
+	    return objects.join(' ');
+	  }
+	
+	  var i = 1;
+	  var args = arguments;
+	  var len = args.length;
+	  var str = String(f).replace(formatRegExp, function(x) {
+	    if (x === '%%') return '%';
+	    if (i >= len) return x;
+	    switch (x) {
+	      case '%s': return String(args[i++]);
+	      case '%d': return Number(args[i++]);
+	      case '%j':
+	        try {
+	          return JSON.stringify(args[i++]);
+	        } catch (_) {
+	          return '[Circular]';
+	        }
+	      default:
+	        return x;
+	    }
+	  });
+	  for (var x = args[i]; i < len; x = args[++i]) {
+	    if (isNull(x) || !isObject(x)) {
+	      str += ' ' + x;
+	    } else {
+	      str += ' ' + inspect(x);
+	    }
+	  }
+	  return str;
+	};
+	
+	
+	// Mark that a method should not be used.
+	// Returns a modified function which warns once by default.
+	// If --no-deprecation is set, then it is a no-op.
+	exports.deprecate = function(fn, msg) {
+	  // Allow for deprecating things in the process of starting up.
+	  if (isUndefined(global.process)) {
+	    return function() {
+	      return exports.deprecate(fn, msg).apply(this, arguments);
+	    };
+	  }
+	
+	  if (process.noDeprecation === true) {
+	    return fn;
+	  }
+	
+	  var warned = false;
+	  function deprecated() {
+	    if (!warned) {
+	      if (process.throwDeprecation) {
+	        throw new Error(msg);
+	      } else if (process.traceDeprecation) {
+	        console.trace(msg);
+	      } else {
+	        console.error(msg);
+	      }
+	      warned = true;
+	    }
+	    return fn.apply(this, arguments);
+	  }
+	
+	  return deprecated;
+	};
+	
+	
+	var debugs = {};
+	var debugEnviron;
+	exports.debuglog = function(set) {
+	  if (isUndefined(debugEnviron))
+	    debugEnviron = process.env.NODE_DEBUG || '';
+	  set = set.toUpperCase();
+	  if (!debugs[set]) {
+	    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+	      var pid = process.pid;
+	      debugs[set] = function() {
+	        var msg = exports.format.apply(exports, arguments);
+	        console.error('%s %d: %s', set, pid, msg);
+	      };
+	    } else {
+	      debugs[set] = function() {};
+	    }
+	  }
+	  return debugs[set];
+	};
+	
+	
+	/**
+	 * Echos the value of a value. Trys to print the value out
+	 * in the best way possible given the different types.
+	 *
+	 * @param {Object} obj The object to print out.
+	 * @param {Object} opts Optional options object that alters the output.
+	 */
+	/* legacy: obj, showHidden, depth, colors*/
+	function inspect(obj, opts) {
+	  // default options
+	  var ctx = {
+	    seen: [],
+	    stylize: stylizeNoColor
+	  };
+	  // legacy...
+	  if (arguments.length >= 3) ctx.depth = arguments[2];
+	  if (arguments.length >= 4) ctx.colors = arguments[3];
+	  if (isBoolean(opts)) {
+	    // legacy...
+	    ctx.showHidden = opts;
+	  } else if (opts) {
+	    // got an "options" object
+	    exports._extend(ctx, opts);
+	  }
+	  // set default options
+	  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+	  if (isUndefined(ctx.depth)) ctx.depth = 2;
+	  if (isUndefined(ctx.colors)) ctx.colors = false;
+	  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+	  if (ctx.colors) ctx.stylize = stylizeWithColor;
+	  return formatValue(ctx, obj, ctx.depth);
+	}
+	exports.inspect = inspect;
+	
+	
+	// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+	inspect.colors = {
+	  'bold' : [1, 22],
+	  'italic' : [3, 23],
+	  'underline' : [4, 24],
+	  'inverse' : [7, 27],
+	  'white' : [37, 39],
+	  'grey' : [90, 39],
+	  'black' : [30, 39],
+	  'blue' : [34, 39],
+	  'cyan' : [36, 39],
+	  'green' : [32, 39],
+	  'magenta' : [35, 39],
+	  'red' : [31, 39],
+	  'yellow' : [33, 39]
+	};
+	
+	// Don't use 'blue' not visible on cmd.exe
+	inspect.styles = {
+	  'special': 'cyan',
+	  'number': 'yellow',
+	  'boolean': 'yellow',
+	  'undefined': 'grey',
+	  'null': 'bold',
+	  'string': 'green',
+	  'date': 'magenta',
+	  // "name": intentionally not styling
+	  'regexp': 'red'
+	};
+	
+	
+	function stylizeWithColor(str, styleType) {
+	  var style = inspect.styles[styleType];
+	
+	  if (style) {
+	    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+	           '\u001b[' + inspect.colors[style][1] + 'm';
+	  } else {
+	    return str;
+	  }
+	}
+	
+	
+	function stylizeNoColor(str, styleType) {
+	  return str;
+	}
+	
+	
+	function arrayToHash(array) {
+	  var hash = {};
+	
+	  array.forEach(function(val, idx) {
+	    hash[val] = true;
+	  });
+	
+	  return hash;
+	}
+	
+	
+	function formatValue(ctx, value, recurseTimes) {
+	  // Provide a hook for user-specified inspect functions.
+	  // Check that value is an object with an inspect function on it
+	  if (ctx.customInspect &&
+	      value &&
+	      isFunction(value.inspect) &&
+	      // Filter out the util module, it's inspect function is special
+	      value.inspect !== exports.inspect &&
+	      // Also filter out any prototype objects using the circular check.
+	      !(value.constructor && value.constructor.prototype === value)) {
+	    var ret = value.inspect(recurseTimes, ctx);
+	    if (!isString(ret)) {
+	      ret = formatValue(ctx, ret, recurseTimes);
+	    }
+	    return ret;
+	  }
+	
+	  // Primitive types cannot have properties
+	  var primitive = formatPrimitive(ctx, value);
+	  if (primitive) {
+	    return primitive;
+	  }
+	
+	  // Look up the keys of the object.
+	  var keys = Object.keys(value);
+	  var visibleKeys = arrayToHash(keys);
+	
+	  if (ctx.showHidden) {
+	    keys = Object.getOwnPropertyNames(value);
+	  }
+	
+	  // IE doesn't make error fields non-enumerable
+	  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+	  if (isError(value)
+	      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+	    return formatError(value);
+	  }
+	
+	  // Some type of object without properties can be shortcutted.
+	  if (keys.length === 0) {
+	    if (isFunction(value)) {
+	      var name = value.name ? ': ' + value.name : '';
+	      return ctx.stylize('[Function' + name + ']', 'special');
+	    }
+	    if (isRegExp(value)) {
+	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+	    }
+	    if (isDate(value)) {
+	      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+	    }
+	    if (isError(value)) {
+	      return formatError(value);
+	    }
+	  }
+	
+	  var base = '', array = false, braces = ['{', '}'];
+	
+	  // Make Array say that they are Array
+	  if (isArray(value)) {
+	    array = true;
+	    braces = ['[', ']'];
+	  }
+	
+	  // Make functions say that they are functions
+	  if (isFunction(value)) {
+	    var n = value.name ? ': ' + value.name : '';
+	    base = ' [Function' + n + ']';
+	  }
+	
+	  // Make RegExps say that they are RegExps
+	  if (isRegExp(value)) {
+	    base = ' ' + RegExp.prototype.toString.call(value);
+	  }
+	
+	  // Make dates with properties first say the date
+	  if (isDate(value)) {
+	    base = ' ' + Date.prototype.toUTCString.call(value);
+	  }
+	
+	  // Make error with message first say the error
+	  if (isError(value)) {
+	    base = ' ' + formatError(value);
+	  }
+	
+	  if (keys.length === 0 && (!array || value.length == 0)) {
+	    return braces[0] + base + braces[1];
+	  }
+	
+	  if (recurseTimes < 0) {
+	    if (isRegExp(value)) {
+	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+	    } else {
+	      return ctx.stylize('[Object]', 'special');
+	    }
+	  }
+	
+	  ctx.seen.push(value);
+	
+	  var output;
+	  if (array) {
+	    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+	  } else {
+	    output = keys.map(function(key) {
+	      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+	    });
+	  }
+	
+	  ctx.seen.pop();
+	
+	  return reduceToSingleString(output, base, braces);
+	}
+	
+	
+	function formatPrimitive(ctx, value) {
+	  if (isUndefined(value))
+	    return ctx.stylize('undefined', 'undefined');
+	  if (isString(value)) {
+	    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+	                                             .replace(/'/g, "\\'")
+	                                             .replace(/\\"/g, '"') + '\'';
+	    return ctx.stylize(simple, 'string');
+	  }
+	  if (isNumber(value))
+	    return ctx.stylize('' + value, 'number');
+	  if (isBoolean(value))
+	    return ctx.stylize('' + value, 'boolean');
+	  // For some reason typeof null is "object", so special case here.
+	  if (isNull(value))
+	    return ctx.stylize('null', 'null');
+	}
+	
+	
+	function formatError(value) {
+	  return '[' + Error.prototype.toString.call(value) + ']';
+	}
+	
+	
+	function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+	  var output = [];
+	  for (var i = 0, l = value.length; i < l; ++i) {
+	    if (hasOwnProperty(value, String(i))) {
+	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+	          String(i), true));
+	    } else {
+	      output.push('');
+	    }
+	  }
+	  keys.forEach(function(key) {
+	    if (!key.match(/^\d+$/)) {
+	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+	          key, true));
+	    }
+	  });
+	  return output;
+	}
+	
+	
+	function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+	  var name, str, desc;
+	  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+	  if (desc.get) {
+	    if (desc.set) {
+	      str = ctx.stylize('[Getter/Setter]', 'special');
+	    } else {
+	      str = ctx.stylize('[Getter]', 'special');
+	    }
+	  } else {
+	    if (desc.set) {
+	      str = ctx.stylize('[Setter]', 'special');
+	    }
+	  }
+	  if (!hasOwnProperty(visibleKeys, key)) {
+	    name = '[' + key + ']';
+	  }
+	  if (!str) {
+	    if (ctx.seen.indexOf(desc.value) < 0) {
+	      if (isNull(recurseTimes)) {
+	        str = formatValue(ctx, desc.value, null);
+	      } else {
+	        str = formatValue(ctx, desc.value, recurseTimes - 1);
+	      }
+	      if (str.indexOf('\n') > -1) {
+	        if (array) {
+	          str = str.split('\n').map(function(line) {
+	            return '  ' + line;
+	          }).join('\n').substr(2);
+	        } else {
+	          str = '\n' + str.split('\n').map(function(line) {
+	            return '   ' + line;
+	          }).join('\n');
+	        }
+	      }
+	    } else {
+	      str = ctx.stylize('[Circular]', 'special');
+	    }
+	  }
+	  if (isUndefined(name)) {
+	    if (array && key.match(/^\d+$/)) {
+	      return str;
+	    }
+	    name = JSON.stringify('' + key);
+	    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+	      name = name.substr(1, name.length - 2);
+	      name = ctx.stylize(name, 'name');
+	    } else {
+	      name = name.replace(/'/g, "\\'")
+	                 .replace(/\\"/g, '"')
+	                 .replace(/(^"|"$)/g, "'");
+	      name = ctx.stylize(name, 'string');
+	    }
+	  }
+	
+	  return name + ': ' + str;
+	}
+	
+	
+	function reduceToSingleString(output, base, braces) {
+	  var numLinesEst = 0;
+	  var length = output.reduce(function(prev, cur) {
+	    numLinesEst++;
+	    if (cur.indexOf('\n') >= 0) numLinesEst++;
+	    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+	  }, 0);
+	
+	  if (length > 60) {
+	    return braces[0] +
+	           (base === '' ? '' : base + '\n ') +
+	           ' ' +
+	           output.join(',\n  ') +
+	           ' ' +
+	           braces[1];
+	  }
+	
+	  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+	}
+	
+	
+	// NOTE: These type checking functions intentionally don't use `instanceof`
+	// because it is fragile and can be easily faked with `Object.create()`.
+	function isArray(ar) {
+	  return Array.isArray(ar);
+	}
+	exports.isArray = isArray;
+	
+	function isBoolean(arg) {
+	  return typeof arg === 'boolean';
+	}
+	exports.isBoolean = isBoolean;
+	
+	function isNull(arg) {
+	  return arg === null;
+	}
+	exports.isNull = isNull;
+	
+	function isNullOrUndefined(arg) {
+	  return arg == null;
+	}
+	exports.isNullOrUndefined = isNullOrUndefined;
+	
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+	exports.isNumber = isNumber;
+	
+	function isString(arg) {
+	  return typeof arg === 'string';
+	}
+	exports.isString = isString;
+	
+	function isSymbol(arg) {
+	  return typeof arg === 'symbol';
+	}
+	exports.isSymbol = isSymbol;
+	
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+	exports.isUndefined = isUndefined;
+	
+	function isRegExp(re) {
+	  return isObject(re) && objectToString(re) === '[object RegExp]';
+	}
+	exports.isRegExp = isRegExp;
+	
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+	exports.isObject = isObject;
+	
+	function isDate(d) {
+	  return isObject(d) && objectToString(d) === '[object Date]';
+	}
+	exports.isDate = isDate;
+	
+	function isError(e) {
+	  return isObject(e) &&
+	      (objectToString(e) === '[object Error]' || e instanceof Error);
+	}
+	exports.isError = isError;
+	
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+	exports.isFunction = isFunction;
+	
+	function isPrimitive(arg) {
+	  return arg === null ||
+	         typeof arg === 'boolean' ||
+	         typeof arg === 'number' ||
+	         typeof arg === 'string' ||
+	         typeof arg === 'symbol' ||  // ES6 symbol
+	         typeof arg === 'undefined';
+	}
+	exports.isPrimitive = isPrimitive;
+	
+	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 66);
+	
+	function objectToString(o) {
+	  return Object.prototype.toString.call(o);
+	}
+	
+	
+	function pad(n) {
+	  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+	}
+	
+	
+	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+	              'Oct', 'Nov', 'Dec'];
+	
+	// 26 Feb 16:19:34
+	function timestamp() {
+	  var d = new Date();
+	  var time = [pad(d.getHours()),
+	              pad(d.getMinutes()),
+	              pad(d.getSeconds())].join(':');
+	  return [d.getDate(), months[d.getMonth()], time].join(' ');
+	}
+	
+	
+	// log is just a thin wrapper to console.log that prepends a timestamp
+	exports.log = function() {
+	  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+	};
+	
+	
+	/**
+	 * Inherit the prototype methods from one constructor into another.
+	 *
+	 * The Function.prototype.inherits from lang.js rewritten as a standalone
+	 * function (not on Function.prototype). NOTE: If this file is to be loaded
+	 * during bootstrapping this function needs to be rewritten using some native
+	 * functions as prototype setup using normal JavaScript does not work as
+	 * expected during bootstrapping (see mirror.js in r114903).
+	 *
+	 * @param {function} ctor Constructor function which needs to inherit the
+	 *     prototype.
+	 * @param {function} superCtor Constructor function to inherit prototype from.
+	 */
+	exports.inherits = __webpack_require__(/*! inherits */ 70);
+	
+	exports._extend = function(origin, add) {
+	  // Don't do anything if add isn't an object
+	  if (!add || !isObject(add)) return origin;
+	
+	  var keys = Object.keys(add);
+	  var i = keys.length;
+	  while (i--) {
+	    origin[keys[i]] = add[keys[i]];
+	  }
+	  return origin;
+	};
+	
+	function hasOwnProperty(obj, prop) {
+	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	}
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 54)))
+
+/***/ },
+/* 50 */
+/*!***************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Style.js ***!
+  \***************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
+	module.exports = __webpack_require__(/*! ./src/~/Style */ 56)
+
+/***/ },
+/* 51 */
+/*!*******************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Container.js ***!
+  \*******************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Container')
+	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 57)
+
+/***/ },
+/* 52 */
+/*!**************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Text.js ***!
+  \**************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Text')
+	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 58)
+
+/***/ },
+/* 53 */
+/*!***************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Block.js ***!
+  \***************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
+	module.exports = __webpack_require__(/*! ./src/~/Block */ 55)
+
+/***/ },
+/* 54 */
+/*!**********************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/process/browser.js ***!
+  \**********************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// shim for using process in browser
+	
+	var process = module.exports = {};
+	
+	process.nextTick = (function () {
+	    var canSetImmediate = typeof window !== 'undefined'
+	    && window.setImmediate;
+	    var canMutationObserver = typeof window !== 'undefined'
+	    && window.MutationObserver;
+	    var canPost = typeof window !== 'undefined'
+	    && window.postMessage && window.addEventListener
+	    ;
+	
+	    if (canSetImmediate) {
+	        return function (f) { return window.setImmediate(f) };
+	    }
+	
+	    var queue = [];
+	
+	    if (canMutationObserver) {
+	        var hiddenDiv = document.createElement("div");
+	        var observer = new MutationObserver(function () {
+	            var queueList = queue.slice();
+	            queue.length = 0;
+	            queueList.forEach(function (fn) {
+	                fn();
+	            });
+	        });
+	
+	        observer.observe(hiddenDiv, { attributes: true });
+	
+	        return function nextTick(fn) {
+	            if (!queue.length) {
+	                hiddenDiv.setAttribute('yes', 'no');
+	            }
+	            queue.push(fn);
+	        };
+	    }
+	
+	    if (canPost) {
+	        window.addEventListener('message', function (ev) {
+	            var source = ev.source;
+	            if ((source === window || source === null) && ev.data === 'process-tick') {
+	                ev.stopPropagation();
+	                if (queue.length > 0) {
+	                    var fn = queue.shift();
+	                    fn();
+	                }
+	            }
+	        }, true);
+	
+	        return function nextTick(fn) {
+	            queue.push(fn);
+	            window.postMessage('process-tick', '*');
+	        };
+	    }
+	
+	    return function nextTick(fn) {
+	        setTimeout(fn, 0);
+	    };
+	})();
+	
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	
+	function noop() {}
+	
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+	
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+	
+	// TODO(shtylman)
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+
+
+/***/ },
+/* 55 */
 /*!*********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
   \*********************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 80)
-	var proto = __webpack_require__(/*! proto */ 57);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 52)
-	var observe = __webpack_require__(/*! observe */ 53)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 68)
+	var proto = __webpack_require__(/*! proto */ 42);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 30)
+	var observe = __webpack_require__(/*! observe */ 36)
 	
-	var utils = __webpack_require__(/*! ./utils */ 76)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 77)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 78)
+	var utils = __webpack_require__(/*! ./utils */ 62)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 63)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 64)
 	
-	var Style = __webpack_require__(/*! ./Style */ 72)
+	var Style = __webpack_require__(/*! ./Style */ 56)
 	Style.isDev = function() {return module.exports.dev}
 	
 	var components = {};
@@ -15443,18 +12181,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 72 */
+/* 56 */
 /*!*********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Style.js ***!
   \*********************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 84)
-	var proto = __webpack_require__(/*! proto */ 57)
-	var HashMap = __webpack_require__(/*! hashmap */ 56)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 67)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var HashMap = __webpack_require__(/*! hashmap */ 38)
 	
-	var utils = __webpack_require__(/*! ./utils */ 76)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 78)
+	var utils = __webpack_require__(/*! ./utils */ 62)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 64)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -16305,15 +13043,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 73 */
+/* 57 */
+/*!************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Container.js ***!
+  \************************************************************************************************************/
+[159, 55, 42],
+/* 58 */
 /*!*******************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Text.js ***!
   \*******************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 71)
-	var proto = __webpack_require__(/*! proto */ 57)
-	var Style = __webpack_require__(/*! Style */ 72)
+	var Block = __webpack_require__(/*! ../Block */ 55)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var Style = __webpack_require__(/*! Style */ 56)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -16368,107 +13111,181 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 74 */
-/*!************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Container.js ***!
-  \************************************************************************************************************/
-[117, 71, 57],
-/* 75 */
-/*!**********************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/process/browser.js ***!
-  \**********************************************************/
+/* 59 */
+/*!****************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
+  \****************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// shim for using process in browser
+	var path = __webpack_require__(/*! path */ 37)
 	
-	var process = module.exports = {};
-	
-	process.nextTick = (function () {
-	    var canSetImmediate = typeof window !== 'undefined'
-	    && window.setImmediate;
-	    var canMutationObserver = typeof window !== 'undefined'
-	    && window.MutationObserver;
-	    var canPost = typeof window !== 'undefined'
-	    && window.postMessage && window.addEventListener
-	    ;
-	
-	    if (canSetImmediate) {
-	        return function (f) { return window.setImmediate(f) };
-	    }
-	
-	    var queue = [];
-	
-	    if (canMutationObserver) {
-	        var hiddenDiv = document.createElement("div");
-	        var observer = new MutationObserver(function () {
-	            var queueList = queue.slice();
-	            queue.length = 0;
-	            queueList.forEach(function (fn) {
-	                fn();
-	            });
-	        });
-	
-	        observer.observe(hiddenDiv, { attributes: true });
-	
-	        return function nextTick(fn) {
-	            if (!queue.length) {
-	                hiddenDiv.setAttribute('yes', 'no');
-	            }
-	            queue.push(fn);
-	        };
-	    }
-	
-	    if (canPost) {
-	        window.addEventListener('message', function (ev) {
-	            var source = ev.source;
-	            if ((source === window || source === null) && ev.data === 'process-tick') {
-	                ev.stopPropagation();
-	                if (queue.length > 0) {
-	                    var fn = queue.shift();
-	                    fn();
-	                }
-	            }
-	        }, true);
-	
-	        return function nextTick(fn) {
-	            queue.push(fn);
-	            window.postMessage('process-tick', '*');
-	        };
-	    }
-	
-	    return function nextTick(fn) {
-	        setTimeout(fn, 0);
-	    };
-	})();
-	
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-	
-	function noop() {}
-	
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-	
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-	
-	// TODO(shtylman)
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
-
+	module.exports = function isRelative(p) {
+	    var normal = path.normalize(p)
+	    var absolute = path.resolve(p)
+	    return normal != absolute && p.indexOf('://') === -1// second part for urls
+	}
 
 /***/ },
-/* 76 */
+/* 60 */
+/*!*******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/async-future/~/trimArguments/trimArguments.js ***!
+  \*******************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
+	
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	    }
+	    args.splice(-0, count)
+	    return args
+	}
+
+/***/ },
+/* 61 */
+/*!********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/processResults.js ***!
+  \********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function returnResults(unitTestObject) {
+	
+	    var results;
+	    var groups = {}
+	    var groupMetadata = {}
+	
+	    var primaryGroup;
+	    var ended = false
+	
+	    unitTestObject.events({
+	        group: function(e) {
+	            var g = {
+	               parent: e.parent,
+	               id: e.id,              // a unique id for the test group
+	               type: 'group',         // indicates a test group (either a `Unit.test` call or `this.test`)
+	               name: e.name,          // the name of the test
+	               results: [],           // An array of test results, which can be of an `UnitTest` Result Types
+	               exceptions: [],        // An array of uncaught exceptions thrown in the test,
+	               time: e.time,
+	               duration: 0            // the duration of the test from its start til the last test action (assert, log, etc)
+	               //                       including asynchronous parts and including subtests
+	               //syncDuration: _,      // the synchronous duration of the test (not including any asynchronous parts)
+	               //totalSyncDuration: _  // syncDuration plus the before and after (if applicable)
+	            }
+	
+	            if(primaryGroup === undefined) primaryGroup = g
+	
+	            groups[e.id] = g
+	            groupMetadata[e.id] = {}
+	            if(e.parent === undefined) {
+	                results = g
+	            } else {
+	                groups[e.parent].results.push(g)
+	            }
+	        },
+	        assert: function(e) {
+	            e.type = 'assert'
+	            groups[e.parent].results.push(e)
+	            setGroupDuration(e.parent, e.time)
+	        },
+	        count: function(e) {
+	            e.type = 'assert'
+	            setGroupDuration(e.parent, e.time)
+	
+	            groupMetadata[e.parent].countInfo = e
+	        },
+	        exception: function(e) {
+	            groups[e.parent].exceptions.push(e.error)
+	            setGroupDuration(e.parent, e.time)
+	        },
+	        log: function(e) {
+	            e.type = 'log'
+	            groups[e.parent].results.push(e)
+	            setGroupDuration(e.parent, e.time)
+	        },
+	        before: function(e) {
+	            groups[e.parent].beforeStart = e.time
+	        },
+	        after: function(e) {
+	            groups[e.parent].afterStart = e.time
+	        },
+	        beforeEnd: function(e) {
+	            groups[e.parent].beforeDuration = e.time - groups[e.parent].beforeStart
+	        },
+	        afterEnd: function(e) {
+	            groups[e.parent].afterDuration = e.time - groups[e.parent].afterStart
+	        },
+	        groupEnd: function(e) {
+	            setGroupDuration(e.id, e.time)
+	        },
+	        end: function(e) {
+	            primaryGroup.timeout = e.type === 'timeout'
+	            setGroupDuration(primaryGroup.id, e.time)
+	
+	            // make the count assertions
+	            eachTest(primaryGroup, function(subtest, parenttest) {
+	                var countInfo = groupMetadata[subtest.id].countInfo
+	                if(countInfo !== undefined) {
+	                    var info = countInfo
+	                    var actualCount = 0
+	                    subtest.results.forEach(function(a) {
+	                        if(a.type === 'assert' || a.type === 'group')
+	                            actualCount++
+	                    })
+	
+	                    subtest.results.splice(0,0,{
+	                        parent: subtest.id,
+	                        type: 'assert',
+	                        success: actualCount === info.expected,
+	                        time: info.time,
+	                        sourceLines: info.sourceLines,
+	                        file: info.file,
+	                        line: info.line,
+	                        column: info.column,
+	                        expected: info.expected,
+	                        actual: actualCount
+	                    })
+	                }
+	            })
+	
+	            ended = true
+	        }
+	    })
+	
+	    function setGroupDuration(groupid, time) {
+	        var newDuration = time - groups[groupid].time
+	        if(newDuration > groups[groupid].duration) {
+	            groups[groupid].duration = newDuration
+	        }
+	
+	        if(groups[groupid].parent) {
+	            setGroupDuration(groups[groupid].parent, time)
+	        }
+	    }
+	
+	    return results
+	}
+	
+	
+	// iterates through the tests and subtests leaves first (depth first)
+	function eachTest(test, callback, parent) {
+	    test.results.forEach(function(result) {
+	        if(result.type === 'group') {
+	            eachTest(result, callback, test)
+	        }
+	    })
+	
+	    callback(test, parent)
+	}
+
+/***/ },
+/* 62 */
 /*!*********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/utils.js ***!
   \*********************************************************************************************/
@@ -16476,7 +13293,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var path = __webpack_require__(/*! path */ 55)
+	var path = __webpack_require__(/*! path */ 37)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -16537,7 +13354,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 77 */
+/* 63 */
 /*!************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/domUtils.js ***!
   \************************************************************************************************/
@@ -16734,7 +13551,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 78 */
+/* 64 */
 /*!*******************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
   \*******************************************************************************************************/
@@ -16742,10 +13559,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
 	
-	var HashMap = __webpack_require__(/*! hashmap */ 56)
+	var HashMap = __webpack_require__(/*! hashmap */ 38)
 	
-	var Style = __webpack_require__(/*! ./Style */ 72)
-	var utils = __webpack_require__(/*! ./utils */ 76)
+	var Style = __webpack_require__(/*! ./Style */ 56)
+	var utils = __webpack_require__(/*! ./utils */ 62)
 	
 	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
 	
@@ -16924,220 +13741,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 79 */
-/*!****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
-  \****************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var path = __webpack_require__(/*! path */ 55)
-	
-	module.exports = function isRelative(p) {
-	    var normal = path.normalize(p)
-	    var absolute = path.resolve(p)
-	    return normal != absolute && p.indexOf('://') === -1// second part for urls
-	}
-
-/***/ },
-/* 80 */
-/*!*****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/EventEmitterB.js ***!
-  \*****************************************************************************************************/
-[118, 57, 76],
-/* 81 */
-/*!***********************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
-  \***********************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function isBuffer(arg) {
-	  return arg && typeof arg === 'object'
-	    && typeof arg.copy === 'function'
-	    && typeof arg.fill === 'function'
-	    && typeof arg.readUInt8 === 'function';
-	}
-
-/***/ },
-/* 82 */
-/*!******************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
-  \******************************************************************************************************************/
-68,
-/* 83 */
-/*!********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/processResults.js ***!
-  \********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function returnResults(unitTestObject) {
-	
-	    var results;
-	    var groups = {}
-	    var groupMetadata = {}
-	
-	    var primaryGroup;
-	    var ended = false
-	
-	    unitTestObject.events({
-	        group: function(e) {
-	            var g = {
-	               parent: e.parent,
-	               id: e.id,              // a unique id for the test group
-	               type: 'group',         // indicates a test group (either a `Unit.test` call or `this.test`)
-	               name: e.name,          // the name of the test
-	               results: [],           // An array of test results, which can be of an `UnitTest` Result Types
-	               exceptions: [],        // An array of uncaught exceptions thrown in the test,
-	               time: e.time,
-	               duration: 0            // the duration of the test from its start til the last test action (assert, log, etc)
-	               //                       including asynchronous parts and including subtests
-	               //syncDuration: _,      // the synchronous duration of the test (not including any asynchronous parts)
-	               //totalSyncDuration: _  // syncDuration plus the before and after (if applicable)
-	            }
-	
-	            if(primaryGroup === undefined) primaryGroup = g
-	
-	            groups[e.id] = g
-	            groupMetadata[e.id] = {}
-	            if(e.parent === undefined) {
-	                results = g
-	            } else {
-	                groups[e.parent].results.push(g)
-	            }
-	        },
-	        assert: function(e) {
-	            e.type = 'assert'
-	            groups[e.parent].results.push(e)
-	            setGroupDuration(e.parent, e.time)
-	        },
-	        count: function(e) {
-	            e.type = 'assert'
-	            setGroupDuration(e.parent, e.time)
-	
-	            groupMetadata[e.parent].countInfo = e
-	        },
-	        exception: function(e) {
-	            groups[e.parent].exceptions.push(e.error)
-	            setGroupDuration(e.parent, e.time)
-	        },
-	        log: function(e) {
-	            e.type = 'log'
-	            groups[e.parent].results.push(e)
-	            setGroupDuration(e.parent, e.time)
-	        },
-	        before: function(e) {
-	            groups[e.parent].beforeStart = e.time
-	        },
-	        after: function(e) {
-	            groups[e.parent].afterStart = e.time
-	        },
-	        beforeEnd: function(e) {
-	            groups[e.parent].beforeDuration = e.time - groups[e.parent].beforeStart
-	        },
-	        afterEnd: function(e) {
-	            groups[e.parent].afterDuration = e.time - groups[e.parent].afterStart
-	        },
-	        groupEnd: function(e) {
-	            setGroupDuration(e.id, e.time)
-	        },
-	        end: function(e) {
-	            primaryGroup.timeout = e.type === 'timeout'
-	            setGroupDuration(primaryGroup.id, e.time)
-	
-	            // make the count assertions
-	            eachTest(primaryGroup, function(subtest, parenttest) {
-	                var countInfo = groupMetadata[subtest.id].countInfo
-	                if(countInfo !== undefined) {
-	                    var info = countInfo
-	                    var actualCount = 0
-	                    subtest.results.forEach(function(a) {
-	                        if(a.type === 'assert' || a.type === 'group')
-	                            actualCount++
-	                    })
-	
-	                    subtest.results.splice(0,0,{
-	                        parent: subtest.id,
-	                        type: 'assert',
-	                        success: actualCount === info.expected,
-	                        time: info.time,
-	                        sourceLines: info.sourceLines,
-	                        file: info.file,
-	                        line: info.line,
-	                        column: info.column,
-	                        expected: info.expected,
-	                        actual: actualCount
-	                    })
-	                }
-	            })
-	
-	            ended = true
-	        }
-	    })
-	
-	    function setGroupDuration(groupid, time) {
-	        var newDuration = time - groups[groupid].time
-	        if(newDuration > groups[groupid].duration) {
-	            groups[groupid].duration = newDuration
-	        }
-	
-	        if(groups[groupid].parent) {
-	            setGroupDuration(groups[groupid].parent, time)
-	        }
-	    }
-	
-	    return results
-	}
-	
-	
-	// iterates through the tests and subtests leaves first (depth first)
-	function eachTest(test, callback, parent) {
-	    test.results.forEach(function(result) {
-	        if(result.type === 'group') {
-	            eachTest(result, callback, test)
-	        }
-	    })
-	
-	    callback(test, parent)
-	}
-
-/***/ },
-/* 84 */
-/*!**************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
-  \**************************************************************************************************/
-46,
-/* 85 */
-/*!***************************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/util/~/inherits/inherits_browser.js ***!
-  \***************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	if (typeof Object.create === 'function') {
-	  // implementation from standard node.js 'util' module
-	  module.exports = function inherits(ctor, superCtor) {
-	    ctor.super_ = superCtor
-	    ctor.prototype = Object.create(superCtor.prototype, {
-	      constructor: {
-	        value: ctor,
-	        enumerable: false,
-	        writable: true,
-	        configurable: true
-	      }
-	    });
-	  };
-	} else {
-	  // old school shim for old browsers
-	  module.exports = function inherits(ctor, superCtor) {
-	    ctor.super_ = superCtor
-	    var TempCtor = function () {}
-	    TempCtor.prototype = superCtor.prototype
-	    ctor.prototype = new TempCtor()
-	    ctor.prototype.constructor = ctor
-	  }
-	}
-
-
-/***/ },
-/* 86 */
+/* 65 */
 /*!**************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
   \**************************************************/
@@ -17164,7 +13768,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var punycode = __webpack_require__(/*! punycode */ 93);
+	var punycode = __webpack_require__(/*! punycode */ 78);
 	
 	exports.parse = urlParse;
 	exports.resolve = urlResolve;
@@ -17236,7 +13840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'gopher:': true,
 	      'file:': true
 	    },
-	    querystring = __webpack_require__(/*! querystring */ 94);
+	    querystring = __webpack_require__(/*! querystring */ 77);
 	
 	function urlParse(url, parseQueryString, slashesDenoteHost) {
 	  if (url && isObject(url) && url instanceof Url) return url;
@@ -17853,7 +14457,68 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 87 */
+/* 66 */
+/*!***********************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
+  \***********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function isBuffer(arg) {
+	  return arg && typeof arg === 'object'
+	    && typeof arg.copy === 'function'
+	    && typeof arg.fill === 'function'
+	    && typeof arg.readUInt8 === 'function';
+	}
+
+/***/ },
+/* 67 */
+/*!**************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
+  \**************************************************************************************************/
+29,
+/* 68 */
+/*!*****************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/EventEmitterB.js ***!
+  \*****************************************************************************************************/
+[160, 42, 62],
+/* 69 */
+/*!******************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
+  \******************************************************************************************************************/
+60,
+/* 70 */
+/*!***************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/~/inherits/inherits_browser.js ***!
+  \***************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	if (typeof Object.create === 'function') {
+	  // implementation from standard node.js 'util' module
+	  module.exports = function inherits(ctor, superCtor) {
+	    ctor.super_ = superCtor
+	    ctor.prototype = Object.create(superCtor.prototype, {
+	      constructor: {
+	        value: ctor,
+	        enumerable: false,
+	        writable: true,
+	        configurable: true
+	      }
+	    });
+	  };
+	} else {
+	  // old school shim for old browsers
+	  module.exports = function inherits(ctor, superCtor) {
+	    ctor.super_ = superCtor
+	    var TempCtor = function () {}
+	    TempCtor.prototype = superCtor.prototype
+	    ctor.prototype = new TempCtor()
+	    ctor.prototype.constructor = ctor
+	  }
+	}
+
+
+/***/ },
+/* 71 */
 /*!****************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
   \****************************************************************************************************************/
@@ -17861,7 +14526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var trimArgs = __webpack_require__(/*! trimArguments */ 98)
+	var trimArgs = __webpack_require__(/*! trimArguments */ 87)
 	
 	
 	module.exports = Future
@@ -18227,7 +14892,225 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 88 */
+/* 72 */
+/*!*****************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
+  \*****************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	 * Copyright 2009-2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE.txt or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 79).SourceMapGenerator;
+	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 80).SourceMapConsumer;
+	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 81).SourceNode;
+
+
+/***/ },
+/* 73 */
+/*!*************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
+  \*************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(/*! async-future */ 92)
+	
+	// returns the XHR function or equivalent for use with ajax
+	// memoizes the function for faster repeated use
+	var createXMLHTTPObject = function() {
+	    var versions = ["Msxml2.XMLHTTP",
+	                    "Msxml3.XMLHTTP",
+	                    "Microsoft.XMLHTTP",
+	                    "MSXML2.XmlHttp.6.0",
+	                    "MSXML2.XmlHttp.5.0",
+	                    "MSXML2.XmlHttp.4.0",
+	                    "MSXML2.XmlHttp.3.0",
+	                    "MSXML2.XmlHttp.2.0"
+	    ]
+	
+	    if(XMLHttpRequest !== undefined) {  // For non-IE browsers
+	        createXMLHTTPObject = function() {  // Use memoization to cache the factory
+	            return new XMLHttpRequest()
+	        }
+	        return createXMLHTTPObject()
+	
+	    } else { // IE
+	        for(var i=0, n=versions.length; i<n; i++) {
+	            try {
+	                var version = versions[i]
+	                var fn = function() {
+	                    return new ActiveXObject(version)
+	                }
+	                createXMLHTTPObject = fn   // Use memoization to cache the factory
+	                return createXMLHTTPObject()
+	
+	            } catch(e) {   }
+	        }
+	    }
+	
+	    throw new Error('Cant get XmlHttpRequest object')
+	}
+	
+	
+	
+	var HEADER = "([^\\s]+): (.*)"
+	
+	// returns the contents and headers from a given URL
+	exports = module.exports = function(url) {
+	    if(getFromCache(url))
+	        return getFromCache(url)
+	
+	    var futureResult = new Future
+	    setOnCache(url, futureResult)
+	
+	    var req = createXMLHTTPObject()
+	    req.onreadystatechange = function() {
+	        if( req.readyState === 4 ) {
+	            if( req.status === 200 ) {
+	                var headers = {}
+	                req.getAllResponseHeaders().split('\n').forEach(function(line) {
+	                    var match = line.match(HEADER)
+	                    if(match !== null) {
+	                        var name = match[1]
+	                        var value = match[2]
+	
+	                        headers[name] = value
+	                    }
+	                })
+	
+	                futureResult.return({text: req.responseText, headers: headers})
+	
+	            } else {
+	                var error = new Error('Error in request: Status '+req.status)
+	                error.status = req.status
+	                futureResult.throw(error)
+	            }
+	        }
+	    }
+	
+	    req.onerror = function(e) {
+	        futureResult.throw(e)
+	    }
+	
+	
+	    req.open('GET', url, asynchronous)
+	    try {
+	        req.send()
+	    } catch(e) {
+	        futureResult.throw(e)
+	    }
+	
+	    return futureResult
+	}
+	
+	var cache = {}
+	var getFromCache = function(url) {
+	    return cache[url]
+	}
+	var setOnCache = function(url, futureResponse) {
+	    cache[url] = futureResponse
+	}
+	
+	var asynchronous = true
+	exports.setSynchronous = function(synchronous) { // this is here so I can work around this bug in chrome: https://code.google.com/p/chromium/issues/detail?id=368444
+	    asynchronous = !synchronous
+	}
+	
+	exports.cacheGet = function(fn) {
+	    getFromCache = fn
+	}
+	exports.cacheSet = function(fn) {
+	    setOnCache = fn
+	}
+
+/***/ },
+/* 74 */
+/*!***************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
+  \***************************************************************************************************/
+42,
+/* 75 */
+/*!***********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
+  \***********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 95)
+	var parsers = __webpack_require__(/*! ./tracelineParser */ 82)
+	var mode = __webpack_require__(/*! ./exceptionMode */ 83)
+	
+	module.exports = function(ex) {
+	    if(parsers[mode] === undefined)
+	        throw new Error("browser "+mode+" not supported")
+	
+	    var options = undefined
+	    if(ex !== undefined) {
+	        if(mode === 'ie' && ex.number === undefined)
+	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
+	        options = {e:ex, guess: true}
+	    }
+	    var trace = printStackTrace(options)
+	
+	    if(ex === undefined) {
+	        trace.splice(0,4) // strip stacktrace-js internals
+	    }
+	
+	    return parseStacktrace(trace)
+	}
+	
+	function TraceInfo(traceline) {
+	    this.traceline = traceline
+	}
+	TraceInfo.prototype = {
+	    get file() {
+	        return getInfo(this).file
+	    },
+	    get function() {
+	        return getInfo(this).function
+	    },
+	    get line() {
+	        return getInfo(this).line
+	    },
+	    get column() {
+	        return getInfo(this).column
+	    },
+	    get info() {
+	        return getInfo(this)
+	    }
+	}
+	
+	function getInfo(traceInfo) {
+	    if(traceInfo.cache === undefined) {
+	        var info = parsers[mode](traceInfo.traceline)
+	        if(info.line !== undefined)
+	            info.line = parseInt(info.line, 10)
+	        if(info.column !== undefined)
+	            info.column = parseInt(info.column, 10)
+	
+	        traceInfo.cache = info
+	    }
+	
+	    return traceInfo.cache
+	}
+	
+	function parseStacktrace(trace) {
+	    var results = []
+	    for(var n = 0; n<trace.length; n++) {
+	        results.push(new TraceInfo(trace[n]))
+	    }
+	    return results
+	}
+	
+	// here because i'm lazy, they're here for testing only
+	module.exports.parsers = parsers
+	module.exports.mode = mode
+	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
+
+
+/***/ },
+/* 76 */
 /*!*****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/source-map-resolve.js ***!
   \*****************************************************************************************************************************/
@@ -18242,7 +15125,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	void (function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 105), __webpack_require__(/*! resolve-url */ 108)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 93), __webpack_require__(/*! resolve-url */ 94)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
 	  } else if (typeof exports === "object") {
 	    var sourceMappingURL = require("source-map-url")
 	    var resolveUrl = require("resolve-url")
@@ -18470,228 +15353,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 95).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 86).setImmediate))
 
 /***/ },
-/* 89 */
-/*!*************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
-  \*************************************************************************************************/
+/* 77 */
+/*!****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/index.js ***!
+  \****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 102)
+	'use strict';
 	
-	// returns the XHR function or equivalent for use with ajax
-	// memoizes the function for faster repeated use
-	var createXMLHTTPObject = function() {
-	    var versions = ["Msxml2.XMLHTTP",
-	                    "Msxml3.XMLHTTP",
-	                    "Microsoft.XMLHTTP",
-	                    "MSXML2.XmlHttp.6.0",
-	                    "MSXML2.XmlHttp.5.0",
-	                    "MSXML2.XmlHttp.4.0",
-	                    "MSXML2.XmlHttp.3.0",
-	                    "MSXML2.XmlHttp.2.0"
-	    ]
-	
-	    if(XMLHttpRequest !== undefined) {  // For non-IE browsers
-	        createXMLHTTPObject = function() {  // Use memoization to cache the factory
-	            return new XMLHttpRequest()
-	        }
-	        return createXMLHTTPObject()
-	
-	    } else { // IE
-	        for(var i=0, n=versions.length; i<n; i++) {
-	            try {
-	                var version = versions[i]
-	                var fn = function() {
-	                    return new ActiveXObject(version)
-	                }
-	                createXMLHTTPObject = fn   // Use memoization to cache the factory
-	                return createXMLHTTPObject()
-	
-	            } catch(e) {   }
-	        }
-	    }
-	
-	    throw new Error('Cant get XmlHttpRequest object')
-	}
-	
-	
-	
-	var HEADER = "([^\\s]+): (.*)"
-	
-	// returns the contents and headers from a given URL
-	exports = module.exports = function(url) {
-	    if(getFromCache(url))
-	        return getFromCache(url)
-	
-	    var futureResult = new Future
-	    setOnCache(url, futureResult)
-	
-	    var req = createXMLHTTPObject()
-	    req.onreadystatechange = function() {
-	        if( req.readyState === 4 ) {
-	            if( req.status === 200 ) {
-	                var headers = {}
-	                req.getAllResponseHeaders().split('\n').forEach(function(line) {
-	                    var match = line.match(HEADER)
-	                    if(match !== null) {
-	                        var name = match[1]
-	                        var value = match[2]
-	
-	                        headers[name] = value
-	                    }
-	                })
-	
-	                futureResult.return({text: req.responseText, headers: headers})
-	
-	            } else {
-	                var error = new Error('Error in request: Status '+req.status)
-	                error.status = req.status
-	                futureResult.throw(error)
-	            }
-	        }
-	    }
-	
-	    req.onerror = function(e) {
-	        futureResult.throw(e)
-	    }
-	
-	
-	    req.open('GET', url, asynchronous)
-	    try {
-	        req.send()
-	    } catch(e) {
-	        futureResult.throw(e)
-	    }
-	
-	    return futureResult
-	}
-	
-	var cache = {}
-	var getFromCache = function(url) {
-	    return cache[url]
-	}
-	var setOnCache = function(url, futureResponse) {
-	    cache[url] = futureResponse
-	}
-	
-	var asynchronous = true
-	exports.setSynchronous = function(synchronous) { // this is here so I can work around this bug in chrome: https://code.google.com/p/chromium/issues/detail?id=368444
-	    asynchronous = !synchronous
-	}
-	
-	exports.cacheGet = function(fn) {
-	    getFromCache = fn
-	}
-	exports.cacheSet = function(fn) {
-	    setOnCache = fn
-	}
-
-/***/ },
-/* 90 */
-/*!***************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
-  \***************************************************************************************************/
-57,
-/* 91 */
-/*!***********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
-  \***********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 106)
-	var parsers = __webpack_require__(/*! ./tracelineParser */ 96)
-	var mode = __webpack_require__(/*! ./exceptionMode */ 97)
-	
-	module.exports = function(ex) {
-	    if(parsers[mode] === undefined)
-	        throw new Error("browser "+mode+" not supported")
-	
-	    var options = undefined
-	    if(ex !== undefined) {
-	        if(mode === 'ie' && ex.number === undefined)
-	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
-	        options = {e:ex, guess: true}
-	    }
-	    var trace = printStackTrace(options)
-	
-	    if(ex === undefined) {
-	        trace.splice(0,4) // strip stacktrace-js internals
-	    }
-	
-	    return parseStacktrace(trace)
-	}
-	
-	function TraceInfo(traceline) {
-	    this.traceline = traceline
-	}
-	TraceInfo.prototype = {
-	    get file() {
-	        return getInfo(this).file
-	    },
-	    get function() {
-	        return getInfo(this).function
-	    },
-	    get line() {
-	        return getInfo(this).line
-	    },
-	    get column() {
-	        return getInfo(this).column
-	    },
-	    get info() {
-	        return getInfo(this)
-	    }
-	}
-	
-	function getInfo(traceInfo) {
-	    if(traceInfo.cache === undefined) {
-	        var info = parsers[mode](traceInfo.traceline)
-	        if(info.line !== undefined)
-	            info.line = parseInt(info.line, 10)
-	        if(info.column !== undefined)
-	            info.column = parseInt(info.column, 10)
-	
-	        traceInfo.cache = info
-	    }
-	
-	    return traceInfo.cache
-	}
-	
-	function parseStacktrace(trace) {
-	    var results = []
-	    for(var n = 0; n<trace.length; n++) {
-	        results.push(new TraceInfo(trace[n]))
-	    }
-	    return results
-	}
-	
-	// here because i'm lazy, they're here for testing only
-	module.exports.parsers = parsers
-	module.exports.mode = mode
-	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
+	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 84);
+	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 85);
 
 
 /***/ },
-/* 92 */
-/*!*****************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
-  \*****************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * Copyright 2009-2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE.txt or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 100).SourceMapGenerator;
-	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 99).SourceMapConsumer;
-	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 101).SourceNode;
-
-
-/***/ },
-/* 93 */
+/* 78 */
 /*!************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
   \************************************************************/
@@ -19226,254 +15904,416 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/buildin/module.js */ 107)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/buildin/module.js */ 96)(module), (function() { return this; }())))
 
 /***/ },
-/* 94 */
-/*!****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/index.js ***!
-  \****************************************************************/
+/* 79 */
+/*!**************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-generator.js ***!
+  \**************************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 104);
-	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 103);
-
-
-/***/ },
-/* 95 */
-/*!*****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/timers-browserify/main.js ***!
-  \*****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 113).nextTick;
-	var slice = Array.prototype.slice;
-	var immediateIds = {};
-	var nextImmediateId = 0;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 91);
+	  var util = __webpack_require__(/*! ./util */ 88);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 90).ArraySet;
 	
-	// DOM APIs, for completeness
+	  /**
+	   * An instance of the SourceMapGenerator represents a source map which is
+	   * being built incrementally. You may pass an object with the following
+	   * properties:
+	   *
+	   *   - file: The filename of the generated source.
+	   *   - sourceRoot: A root for all relative URLs in this source map.
+	   */
+	  function SourceMapGenerator(aArgs) {
+	    if (!aArgs) {
+	      aArgs = {};
+	    }
+	    this._file = util.getArg(aArgs, 'file', null);
+	    this._sourceRoot = util.getArg(aArgs, 'sourceRoot', null);
+	    this._sources = new ArraySet();
+	    this._names = new ArraySet();
+	    this._mappings = [];
+	    this._sourcesContents = null;
+	  }
 	
-	if (typeof setTimeout !== 'undefined') exports.setTimeout = function() { return setTimeout.apply(window, arguments); };
-	if (typeof clearTimeout !== 'undefined') exports.clearTimeout = function() { clearTimeout.apply(window, arguments); };
-	if (typeof setInterval !== 'undefined') exports.setInterval = function() { return setInterval.apply(window, arguments); };
-	if (typeof clearInterval !== 'undefined') exports.clearInterval = function() { clearInterval.apply(window, arguments); };
+	  SourceMapGenerator.prototype._version = 3;
 	
-	// TODO: Change to more efficient list approach used in Node.js
-	// For now, we just implement the APIs using the primitives above.
+	  /**
+	   * Creates a new SourceMapGenerator based on a SourceMapConsumer
+	   *
+	   * @param aSourceMapConsumer The SourceMap.
+	   */
+	  SourceMapGenerator.fromSourceMap =
+	    function SourceMapGenerator_fromSourceMap(aSourceMapConsumer) {
+	      var sourceRoot = aSourceMapConsumer.sourceRoot;
+	      var generator = new SourceMapGenerator({
+	        file: aSourceMapConsumer.file,
+	        sourceRoot: sourceRoot
+	      });
+	      aSourceMapConsumer.eachMapping(function (mapping) {
+	        var newMapping = {
+	          generated: {
+	            line: mapping.generatedLine,
+	            column: mapping.generatedColumn
+	          }
+	        };
 	
-	exports.enroll = function(item, delay) {
-	  item._timeoutID = setTimeout(item._onTimeout, delay);
-	};
+	        if (mapping.source) {
+	          newMapping.source = mapping.source;
+	          if (sourceRoot) {
+	            newMapping.source = util.relative(sourceRoot, newMapping.source);
+	          }
 	
-	exports.unenroll = function(item) {
-	  clearTimeout(item._timeoutID);
-	};
+	          newMapping.original = {
+	            line: mapping.originalLine,
+	            column: mapping.originalColumn
+	          };
 	
-	exports.active = function(item) {
-	  // our naive impl doesn't care (correctness is still preserved)
-	};
+	          if (mapping.name) {
+	            newMapping.name = mapping.name;
+	          }
+	        }
 	
-	// That's not how node.js implements it but the exposed api is the same.
-	exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
-	  var id = nextImmediateId++;
-	  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+	        generator.addMapping(newMapping);
+	      });
+	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
+	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+	        if (content) {
+	          generator.setSourceContent(sourceFile, content);
+	        }
+	      });
+	      return generator;
+	    };
 	
-	  immediateIds[id] = true;
+	  /**
+	   * Add a single mapping from original source line and column to the generated
+	   * source's line and column for this source map being created. The mapping
+	   * object should have the following properties:
+	   *
+	   *   - generated: An object with the generated line and column positions.
+	   *   - original: An object with the original line and column positions.
+	   *   - source: The original source file (relative to the sourceRoot).
+	   *   - name: An optional original token name for this mapping.
+	   */
+	  SourceMapGenerator.prototype.addMapping =
+	    function SourceMapGenerator_addMapping(aArgs) {
+	      var generated = util.getArg(aArgs, 'generated');
+	      var original = util.getArg(aArgs, 'original', null);
+	      var source = util.getArg(aArgs, 'source', null);
+	      var name = util.getArg(aArgs, 'name', null);
 	
-	  nextTick(function onNextTick() {
-	    if (immediateIds[id]) {
-	      // fn.call() is faster so we optimize for the common use-case
-	      // @see http://jsperf.com/call-apply-segu
-	      if (args) {
-	        fn.apply(null, args);
-	      } else {
-	        fn.call(null);
+	      this._validateMapping(generated, original, source, name);
+	
+	      if (source && !this._sources.has(source)) {
+	        this._sources.add(source);
 	      }
-	      // Prevent ids from leaking
-	      exports.clearImmediate(id);
-	    }
-	  });
 	
-	  return id;
-	};
+	      if (name && !this._names.has(name)) {
+	        this._names.add(name);
+	      }
 	
-	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
-	  delete immediateIds[id];
-	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 95).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 95).clearImmediate))
+	      this._mappings.push({
+	        generatedLine: generated.line,
+	        generatedColumn: generated.column,
+	        originalLine: original != null && original.line,
+	        originalColumn: original != null && original.column,
+	        source: source,
+	        name: name
+	      });
+	    };
+	
+	  /**
+	   * Set the source content for a source file.
+	   */
+	  SourceMapGenerator.prototype.setSourceContent =
+	    function SourceMapGenerator_setSourceContent(aSourceFile, aSourceContent) {
+	      var source = aSourceFile;
+	      if (this._sourceRoot) {
+	        source = util.relative(this._sourceRoot, source);
+	      }
+	
+	      if (aSourceContent !== null) {
+	        // Add the source content to the _sourcesContents map.
+	        // Create a new _sourcesContents map if the property is null.
+	        if (!this._sourcesContents) {
+	          this._sourcesContents = {};
+	        }
+	        this._sourcesContents[util.toSetString(source)] = aSourceContent;
+	      } else {
+	        // Remove the source file from the _sourcesContents map.
+	        // If the _sourcesContents map is empty, set the property to null.
+	        delete this._sourcesContents[util.toSetString(source)];
+	        if (Object.keys(this._sourcesContents).length === 0) {
+	          this._sourcesContents = null;
+	        }
+	      }
+	    };
+	
+	  /**
+	   * Applies the mappings of a sub-source-map for a specific source file to the
+	   * source map being generated. Each mapping to the supplied source file is
+	   * rewritten using the supplied source map. Note: The resolution for the
+	   * resulting mappings is the minimium of this map and the supplied map.
+	   *
+	   * @param aSourceMapConsumer The source map to be applied.
+	   * @param aSourceFile Optional. The filename of the source file.
+	   *        If omitted, SourceMapConsumer's file property will be used.
+	   * @param aSourceMapPath Optional. The dirname of the path to the source map
+	   *        to be applied. If relative, it is relative to the SourceMapConsumer.
+	   *        This parameter is needed when the two source maps aren't in the same
+	   *        directory, and the source map to be applied contains relative source
+	   *        paths. If so, those relative source paths need to be rewritten
+	   *        relative to the SourceMapGenerator.
+	   */
+	  SourceMapGenerator.prototype.applySourceMap =
+	    function SourceMapGenerator_applySourceMap(aSourceMapConsumer, aSourceFile, aSourceMapPath) {
+	      // If aSourceFile is omitted, we will use the file property of the SourceMap
+	      if (!aSourceFile) {
+	        if (!aSourceMapConsumer.file) {
+	          throw new Error(
+	            'SourceMapGenerator.prototype.applySourceMap requires either an explicit source file, ' +
+	            'or the source map\'s "file" property. Both were omitted.'
+	          );
+	        }
+	        aSourceFile = aSourceMapConsumer.file;
+	      }
+	      var sourceRoot = this._sourceRoot;
+	      // Make "aSourceFile" relative if an absolute Url is passed.
+	      if (sourceRoot) {
+	        aSourceFile = util.relative(sourceRoot, aSourceFile);
+	      }
+	      // Applying the SourceMap can add and remove items from the sources and
+	      // the names array.
+	      var newSources = new ArraySet();
+	      var newNames = new ArraySet();
+	
+	      // Find mappings for the "aSourceFile"
+	      this._mappings.forEach(function (mapping) {
+	        if (mapping.source === aSourceFile && mapping.originalLine) {
+	          // Check if it can be mapped by the source map, then update the mapping.
+	          var original = aSourceMapConsumer.originalPositionFor({
+	            line: mapping.originalLine,
+	            column: mapping.originalColumn
+	          });
+	          if (original.source !== null) {
+	            // Copy mapping
+	            mapping.source = original.source;
+	            if (aSourceMapPath) {
+	              mapping.source = util.join(aSourceMapPath, mapping.source)
+	            }
+	            if (sourceRoot) {
+	              mapping.source = util.relative(sourceRoot, mapping.source);
+	            }
+	            mapping.originalLine = original.line;
+	            mapping.originalColumn = original.column;
+	            if (original.name !== null && mapping.name !== null) {
+	              // Only use the identifier name if it's an identifier
+	              // in both SourceMaps
+	              mapping.name = original.name;
+	            }
+	          }
+	        }
+	
+	        var source = mapping.source;
+	        if (source && !newSources.has(source)) {
+	          newSources.add(source);
+	        }
+	
+	        var name = mapping.name;
+	        if (name && !newNames.has(name)) {
+	          newNames.add(name);
+	        }
+	
+	      }, this);
+	      this._sources = newSources;
+	      this._names = newNames;
+	
+	      // Copy sourcesContents of applied map.
+	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
+	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+	        if (content) {
+	          if (sourceRoot) {
+	            sourceFile = util.relative(sourceRoot, sourceFile);
+	          }
+	          this.setSourceContent(sourceFile, content);
+	        }
+	      }, this);
+	    };
+	
+	  /**
+	   * A mapping can have one of the three levels of data:
+	   *
+	   *   1. Just the generated position.
+	   *   2. The Generated position, original position, and original source.
+	   *   3. Generated and original position, original source, as well as a name
+	   *      token.
+	   *
+	   * To maintain consistency, we validate that any new mapping being added falls
+	   * in to one of these categories.
+	   */
+	  SourceMapGenerator.prototype._validateMapping =
+	    function SourceMapGenerator_validateMapping(aGenerated, aOriginal, aSource,
+	                                                aName) {
+	      if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
+	          && aGenerated.line > 0 && aGenerated.column >= 0
+	          && !aOriginal && !aSource && !aName) {
+	        // Case 1.
+	        return;
+	      }
+	      else if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
+	               && aOriginal && 'line' in aOriginal && 'column' in aOriginal
+	               && aGenerated.line > 0 && aGenerated.column >= 0
+	               && aOriginal.line > 0 && aOriginal.column >= 0
+	               && aSource) {
+	        // Cases 2 and 3.
+	        return;
+	      }
+	      else {
+	        throw new Error('Invalid mapping: ' + JSON.stringify({
+	          generated: aGenerated,
+	          source: aSource,
+	          original: aOriginal,
+	          name: aName
+	        }));
+	      }
+	    };
+	
+	  /**
+	   * Serialize the accumulated mappings in to the stream of base 64 VLQs
+	   * specified by the source map format.
+	   */
+	  SourceMapGenerator.prototype._serializeMappings =
+	    function SourceMapGenerator_serializeMappings() {
+	      var previousGeneratedColumn = 0;
+	      var previousGeneratedLine = 1;
+	      var previousOriginalColumn = 0;
+	      var previousOriginalLine = 0;
+	      var previousName = 0;
+	      var previousSource = 0;
+	      var result = '';
+	      var mapping;
+	
+	      // The mappings must be guaranteed to be in sorted order before we start
+	      // serializing them or else the generated line numbers (which are defined
+	      // via the ';' separators) will be all messed up. Note: it might be more
+	      // performant to maintain the sorting as we insert them, rather than as we
+	      // serialize them, but the big O is the same either way.
+	      this._mappings.sort(util.compareByGeneratedPositions);
+	
+	      for (var i = 0, len = this._mappings.length; i < len; i++) {
+	        mapping = this._mappings[i];
+	
+	        if (mapping.generatedLine !== previousGeneratedLine) {
+	          previousGeneratedColumn = 0;
+	          while (mapping.generatedLine !== previousGeneratedLine) {
+	            result += ';';
+	            previousGeneratedLine++;
+	          }
+	        }
+	        else {
+	          if (i > 0) {
+	            if (!util.compareByGeneratedPositions(mapping, this._mappings[i - 1])) {
+	              continue;
+	            }
+	            result += ',';
+	          }
+	        }
+	
+	        result += base64VLQ.encode(mapping.generatedColumn
+	                                   - previousGeneratedColumn);
+	        previousGeneratedColumn = mapping.generatedColumn;
+	
+	        if (mapping.source) {
+	          result += base64VLQ.encode(this._sources.indexOf(mapping.source)
+	                                     - previousSource);
+	          previousSource = this._sources.indexOf(mapping.source);
+	
+	          // lines are stored 0-based in SourceMap spec version 3
+	          result += base64VLQ.encode(mapping.originalLine - 1
+	                                     - previousOriginalLine);
+	          previousOriginalLine = mapping.originalLine - 1;
+	
+	          result += base64VLQ.encode(mapping.originalColumn
+	                                     - previousOriginalColumn);
+	          previousOriginalColumn = mapping.originalColumn;
+	
+	          if (mapping.name) {
+	            result += base64VLQ.encode(this._names.indexOf(mapping.name)
+	                                       - previousName);
+	            previousName = this._names.indexOf(mapping.name);
+	          }
+	        }
+	      }
+	
+	      return result;
+	    };
+	
+	  SourceMapGenerator.prototype._generateSourcesContent =
+	    function SourceMapGenerator_generateSourcesContent(aSources, aSourceRoot) {
+	      return aSources.map(function (source) {
+	        if (!this._sourcesContents) {
+	          return null;
+	        }
+	        if (aSourceRoot) {
+	          source = util.relative(aSourceRoot, source);
+	        }
+	        var key = util.toSetString(source);
+	        return Object.prototype.hasOwnProperty.call(this._sourcesContents,
+	                                                    key)
+	          ? this._sourcesContents[key]
+	          : null;
+	      }, this);
+	    };
+	
+	  /**
+	   * Externalize the source map.
+	   */
+	  SourceMapGenerator.prototype.toJSON =
+	    function SourceMapGenerator_toJSON() {
+	      var map = {
+	        version: this._version,
+	        file: this._file,
+	        sources: this._sources.toArray(),
+	        names: this._names.toArray(),
+	        mappings: this._serializeMappings()
+	      };
+	      if (this._sourceRoot) {
+	        map.sourceRoot = this._sourceRoot;
+	      }
+	      if (this._sourcesContents) {
+	        map.sourcesContent = this._generateSourcesContent(map.sources, map.sourceRoot);
+	      }
+	
+	      return map;
+	    };
+	
+	  /**
+	   * Render the source map being generated to a string.
+	   */
+	  SourceMapGenerator.prototype.toString =
+	    function SourceMapGenerator_toString() {
+	      return JSON.stringify(this);
+	    };
+	
+	  exports.SourceMapGenerator = SourceMapGenerator;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
 
 /***/ },
-/* 96 */
-/*!*****************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
-  \*****************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = {
-	    chrome: function(line) {
-	        var m = line.match(CHROME_STACK_LINE);
-	        if (m) {
-	            var file = m[9] || m[18] || m[26]
-	            var fn = m[4] || m[7] || m[14] || m[23]
-	            var lineNumber = m[11] || m[20]
-	            var column = m[13] || m[22]
-	        } else {
-	            //throw new Error("Couldn't parse exception line: "+line)
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    firefox: function(line) {
-	        var m = line.match(FIREFOX_STACK_LINE);
-	        if (m) {
-	            var file = m[8]
-	            var fn = m[1]
-	            var lineNumber = m[10]
-	            var column = m[12]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    ie: function(line) {
-	        var m = line.match(IE_STACK_LINE);
-	        if (m) {
-	            var file = m[3] || m[10]
-	            var fn = m[2] || m[9]
-	            var lineNumber = m[5] || m[12]
-	            var column = m[7] || m[14]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    }
-	}
-	
-	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
-	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
-	var IDENTIFIER_PATTERN_ = '[\\w$]*';
-	// RegExp pattern for an URL + position inside the file.
-	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
-	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
-	
-	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
-	
-	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
-	
-	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
-	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
-	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
-	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
-	
-	// output from stacktrace.js is: "name()@..." instead of "name (...)"
-	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
-	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
-	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
-	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
-	
-	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
-	
-	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
-	
-	
-	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
-	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
-	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
-	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
-	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
-	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
-	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
-	
-	var IE_WHITESPACE = '[\\w \\t]'
-	var IE_FILE_AND_LINE = FILE_AND_LINE
-	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
-	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
-	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
-	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
-
-/***/ },
-/* 97 */
-/*!***************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
-  \***************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	module.exports = exceptionMode(createException()) // basically what browser this is
-	
-	// verbatim from `mode` in stacktrace.js as of 2014-01-23
-	function exceptionMode(e) {
-	    if (e['arguments'] && e.stack) {
-	        return 'chrome';
-	    } else if (e.stack && e.sourceURL) {
-	        return 'safari';
-	    } else if (e.stack && e.number) {
-	        return 'ie';
-	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
-	        // e.message.indexOf("Backtrace:") > -1 -> opera
-	        // !e.stacktrace -> opera
-	        if (!e.stacktrace) {
-	            return 'opera9'; // use e.message
-	        }
-	        // 'opera#sourceloc' in e -> opera9, opera10a
-	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
-	            return 'opera9'; // use e.message
-	        }
-	        // e.stacktrace && !e.stack -> opera10a
-	        if (!e.stack) {
-	            return 'opera10a'; // use e.stacktrace
-	        }
-	        // e.stacktrace && e.stack -> opera10b
-	        if (e.stacktrace.indexOf("called from line") < 0) {
-	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
-	        }
-	        // e.stacktrace && e.stack -> opera11
-	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
-	    } else if (e.stack && !e.fileName) {
-	        // Chrome 27 does not have e.arguments as earlier versions,
-	        // but still does not have e.fileName as Firefox
-	        return 'chrome';
-	    } else if (e.stack) {
-	        return 'firefox';
-	    }
-	    return 'other';
-	}
-	
-	function createException() {
-	    try {
-	        this.undef();
-	    } catch (e) {
-	        return e;
-	    }
-	}
-
-
-/***/ },
-/* 98 */
-/*!**********************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
-  \**********************************************************************************************************************************/
-68,
-/* 99 */
+/* 80 */
 /*!*************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-consumer.js ***!
   \*************************************************************************************************************************************/
@@ -19490,10 +16330,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var util = __webpack_require__(/*! ./util */ 109);
-	  var binarySearch = __webpack_require__(/*! ./binary-search */ 110);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 112).ArraySet;
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 111);
+	  var util = __webpack_require__(/*! ./util */ 88);
+	  var binarySearch = __webpack_require__(/*! ./binary-search */ 89);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 90).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 91);
 	
 	  /**
 	   * A SourceMapConsumer instance represents a parsed source map which we can
@@ -19960,413 +16800,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 100 */
-/*!**************************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-generator.js ***!
-  \**************************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 111);
-	  var util = __webpack_require__(/*! ./util */ 109);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 112).ArraySet;
-	
-	  /**
-	   * An instance of the SourceMapGenerator represents a source map which is
-	   * being built incrementally. You may pass an object with the following
-	   * properties:
-	   *
-	   *   - file: The filename of the generated source.
-	   *   - sourceRoot: A root for all relative URLs in this source map.
-	   */
-	  function SourceMapGenerator(aArgs) {
-	    if (!aArgs) {
-	      aArgs = {};
-	    }
-	    this._file = util.getArg(aArgs, 'file', null);
-	    this._sourceRoot = util.getArg(aArgs, 'sourceRoot', null);
-	    this._sources = new ArraySet();
-	    this._names = new ArraySet();
-	    this._mappings = [];
-	    this._sourcesContents = null;
-	  }
-	
-	  SourceMapGenerator.prototype._version = 3;
-	
-	  /**
-	   * Creates a new SourceMapGenerator based on a SourceMapConsumer
-	   *
-	   * @param aSourceMapConsumer The SourceMap.
-	   */
-	  SourceMapGenerator.fromSourceMap =
-	    function SourceMapGenerator_fromSourceMap(aSourceMapConsumer) {
-	      var sourceRoot = aSourceMapConsumer.sourceRoot;
-	      var generator = new SourceMapGenerator({
-	        file: aSourceMapConsumer.file,
-	        sourceRoot: sourceRoot
-	      });
-	      aSourceMapConsumer.eachMapping(function (mapping) {
-	        var newMapping = {
-	          generated: {
-	            line: mapping.generatedLine,
-	            column: mapping.generatedColumn
-	          }
-	        };
-	
-	        if (mapping.source) {
-	          newMapping.source = mapping.source;
-	          if (sourceRoot) {
-	            newMapping.source = util.relative(sourceRoot, newMapping.source);
-	          }
-	
-	          newMapping.original = {
-	            line: mapping.originalLine,
-	            column: mapping.originalColumn
-	          };
-	
-	          if (mapping.name) {
-	            newMapping.name = mapping.name;
-	          }
-	        }
-	
-	        generator.addMapping(newMapping);
-	      });
-	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
-	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-	        if (content) {
-	          generator.setSourceContent(sourceFile, content);
-	        }
-	      });
-	      return generator;
-	    };
-	
-	  /**
-	   * Add a single mapping from original source line and column to the generated
-	   * source's line and column for this source map being created. The mapping
-	   * object should have the following properties:
-	   *
-	   *   - generated: An object with the generated line and column positions.
-	   *   - original: An object with the original line and column positions.
-	   *   - source: The original source file (relative to the sourceRoot).
-	   *   - name: An optional original token name for this mapping.
-	   */
-	  SourceMapGenerator.prototype.addMapping =
-	    function SourceMapGenerator_addMapping(aArgs) {
-	      var generated = util.getArg(aArgs, 'generated');
-	      var original = util.getArg(aArgs, 'original', null);
-	      var source = util.getArg(aArgs, 'source', null);
-	      var name = util.getArg(aArgs, 'name', null);
-	
-	      this._validateMapping(generated, original, source, name);
-	
-	      if (source && !this._sources.has(source)) {
-	        this._sources.add(source);
-	      }
-	
-	      if (name && !this._names.has(name)) {
-	        this._names.add(name);
-	      }
-	
-	      this._mappings.push({
-	        generatedLine: generated.line,
-	        generatedColumn: generated.column,
-	        originalLine: original != null && original.line,
-	        originalColumn: original != null && original.column,
-	        source: source,
-	        name: name
-	      });
-	    };
-	
-	  /**
-	   * Set the source content for a source file.
-	   */
-	  SourceMapGenerator.prototype.setSourceContent =
-	    function SourceMapGenerator_setSourceContent(aSourceFile, aSourceContent) {
-	      var source = aSourceFile;
-	      if (this._sourceRoot) {
-	        source = util.relative(this._sourceRoot, source);
-	      }
-	
-	      if (aSourceContent !== null) {
-	        // Add the source content to the _sourcesContents map.
-	        // Create a new _sourcesContents map if the property is null.
-	        if (!this._sourcesContents) {
-	          this._sourcesContents = {};
-	        }
-	        this._sourcesContents[util.toSetString(source)] = aSourceContent;
-	      } else {
-	        // Remove the source file from the _sourcesContents map.
-	        // If the _sourcesContents map is empty, set the property to null.
-	        delete this._sourcesContents[util.toSetString(source)];
-	        if (Object.keys(this._sourcesContents).length === 0) {
-	          this._sourcesContents = null;
-	        }
-	      }
-	    };
-	
-	  /**
-	   * Applies the mappings of a sub-source-map for a specific source file to the
-	   * source map being generated. Each mapping to the supplied source file is
-	   * rewritten using the supplied source map. Note: The resolution for the
-	   * resulting mappings is the minimium of this map and the supplied map.
-	   *
-	   * @param aSourceMapConsumer The source map to be applied.
-	   * @param aSourceFile Optional. The filename of the source file.
-	   *        If omitted, SourceMapConsumer's file property will be used.
-	   * @param aSourceMapPath Optional. The dirname of the path to the source map
-	   *        to be applied. If relative, it is relative to the SourceMapConsumer.
-	   *        This parameter is needed when the two source maps aren't in the same
-	   *        directory, and the source map to be applied contains relative source
-	   *        paths. If so, those relative source paths need to be rewritten
-	   *        relative to the SourceMapGenerator.
-	   */
-	  SourceMapGenerator.prototype.applySourceMap =
-	    function SourceMapGenerator_applySourceMap(aSourceMapConsumer, aSourceFile, aSourceMapPath) {
-	      // If aSourceFile is omitted, we will use the file property of the SourceMap
-	      if (!aSourceFile) {
-	        if (!aSourceMapConsumer.file) {
-	          throw new Error(
-	            'SourceMapGenerator.prototype.applySourceMap requires either an explicit source file, ' +
-	            'or the source map\'s "file" property. Both were omitted.'
-	          );
-	        }
-	        aSourceFile = aSourceMapConsumer.file;
-	      }
-	      var sourceRoot = this._sourceRoot;
-	      // Make "aSourceFile" relative if an absolute Url is passed.
-	      if (sourceRoot) {
-	        aSourceFile = util.relative(sourceRoot, aSourceFile);
-	      }
-	      // Applying the SourceMap can add and remove items from the sources and
-	      // the names array.
-	      var newSources = new ArraySet();
-	      var newNames = new ArraySet();
-	
-	      // Find mappings for the "aSourceFile"
-	      this._mappings.forEach(function (mapping) {
-	        if (mapping.source === aSourceFile && mapping.originalLine) {
-	          // Check if it can be mapped by the source map, then update the mapping.
-	          var original = aSourceMapConsumer.originalPositionFor({
-	            line: mapping.originalLine,
-	            column: mapping.originalColumn
-	          });
-	          if (original.source !== null) {
-	            // Copy mapping
-	            mapping.source = original.source;
-	            if (aSourceMapPath) {
-	              mapping.source = util.join(aSourceMapPath, mapping.source)
-	            }
-	            if (sourceRoot) {
-	              mapping.source = util.relative(sourceRoot, mapping.source);
-	            }
-	            mapping.originalLine = original.line;
-	            mapping.originalColumn = original.column;
-	            if (original.name !== null && mapping.name !== null) {
-	              // Only use the identifier name if it's an identifier
-	              // in both SourceMaps
-	              mapping.name = original.name;
-	            }
-	          }
-	        }
-	
-	        var source = mapping.source;
-	        if (source && !newSources.has(source)) {
-	          newSources.add(source);
-	        }
-	
-	        var name = mapping.name;
-	        if (name && !newNames.has(name)) {
-	          newNames.add(name);
-	        }
-	
-	      }, this);
-	      this._sources = newSources;
-	      this._names = newNames;
-	
-	      // Copy sourcesContents of applied map.
-	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
-	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-	        if (content) {
-	          if (sourceRoot) {
-	            sourceFile = util.relative(sourceRoot, sourceFile);
-	          }
-	          this.setSourceContent(sourceFile, content);
-	        }
-	      }, this);
-	    };
-	
-	  /**
-	   * A mapping can have one of the three levels of data:
-	   *
-	   *   1. Just the generated position.
-	   *   2. The Generated position, original position, and original source.
-	   *   3. Generated and original position, original source, as well as a name
-	   *      token.
-	   *
-	   * To maintain consistency, we validate that any new mapping being added falls
-	   * in to one of these categories.
-	   */
-	  SourceMapGenerator.prototype._validateMapping =
-	    function SourceMapGenerator_validateMapping(aGenerated, aOriginal, aSource,
-	                                                aName) {
-	      if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
-	          && aGenerated.line > 0 && aGenerated.column >= 0
-	          && !aOriginal && !aSource && !aName) {
-	        // Case 1.
-	        return;
-	      }
-	      else if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
-	               && aOriginal && 'line' in aOriginal && 'column' in aOriginal
-	               && aGenerated.line > 0 && aGenerated.column >= 0
-	               && aOriginal.line > 0 && aOriginal.column >= 0
-	               && aSource) {
-	        // Cases 2 and 3.
-	        return;
-	      }
-	      else {
-	        throw new Error('Invalid mapping: ' + JSON.stringify({
-	          generated: aGenerated,
-	          source: aSource,
-	          original: aOriginal,
-	          name: aName
-	        }));
-	      }
-	    };
-	
-	  /**
-	   * Serialize the accumulated mappings in to the stream of base 64 VLQs
-	   * specified by the source map format.
-	   */
-	  SourceMapGenerator.prototype._serializeMappings =
-	    function SourceMapGenerator_serializeMappings() {
-	      var previousGeneratedColumn = 0;
-	      var previousGeneratedLine = 1;
-	      var previousOriginalColumn = 0;
-	      var previousOriginalLine = 0;
-	      var previousName = 0;
-	      var previousSource = 0;
-	      var result = '';
-	      var mapping;
-	
-	      // The mappings must be guaranteed to be in sorted order before we start
-	      // serializing them or else the generated line numbers (which are defined
-	      // via the ';' separators) will be all messed up. Note: it might be more
-	      // performant to maintain the sorting as we insert them, rather than as we
-	      // serialize them, but the big O is the same either way.
-	      this._mappings.sort(util.compareByGeneratedPositions);
-	
-	      for (var i = 0, len = this._mappings.length; i < len; i++) {
-	        mapping = this._mappings[i];
-	
-	        if (mapping.generatedLine !== previousGeneratedLine) {
-	          previousGeneratedColumn = 0;
-	          while (mapping.generatedLine !== previousGeneratedLine) {
-	            result += ';';
-	            previousGeneratedLine++;
-	          }
-	        }
-	        else {
-	          if (i > 0) {
-	            if (!util.compareByGeneratedPositions(mapping, this._mappings[i - 1])) {
-	              continue;
-	            }
-	            result += ',';
-	          }
-	        }
-	
-	        result += base64VLQ.encode(mapping.generatedColumn
-	                                   - previousGeneratedColumn);
-	        previousGeneratedColumn = mapping.generatedColumn;
-	
-	        if (mapping.source) {
-	          result += base64VLQ.encode(this._sources.indexOf(mapping.source)
-	                                     - previousSource);
-	          previousSource = this._sources.indexOf(mapping.source);
-	
-	          // lines are stored 0-based in SourceMap spec version 3
-	          result += base64VLQ.encode(mapping.originalLine - 1
-	                                     - previousOriginalLine);
-	          previousOriginalLine = mapping.originalLine - 1;
-	
-	          result += base64VLQ.encode(mapping.originalColumn
-	                                     - previousOriginalColumn);
-	          previousOriginalColumn = mapping.originalColumn;
-	
-	          if (mapping.name) {
-	            result += base64VLQ.encode(this._names.indexOf(mapping.name)
-	                                       - previousName);
-	            previousName = this._names.indexOf(mapping.name);
-	          }
-	        }
-	      }
-	
-	      return result;
-	    };
-	
-	  SourceMapGenerator.prototype._generateSourcesContent =
-	    function SourceMapGenerator_generateSourcesContent(aSources, aSourceRoot) {
-	      return aSources.map(function (source) {
-	        if (!this._sourcesContents) {
-	          return null;
-	        }
-	        if (aSourceRoot) {
-	          source = util.relative(aSourceRoot, source);
-	        }
-	        var key = util.toSetString(source);
-	        return Object.prototype.hasOwnProperty.call(this._sourcesContents,
-	                                                    key)
-	          ? this._sourcesContents[key]
-	          : null;
-	      }, this);
-	    };
-	
-	  /**
-	   * Externalize the source map.
-	   */
-	  SourceMapGenerator.prototype.toJSON =
-	    function SourceMapGenerator_toJSON() {
-	      var map = {
-	        version: this._version,
-	        file: this._file,
-	        sources: this._sources.toArray(),
-	        names: this._names.toArray(),
-	        mappings: this._serializeMappings()
-	      };
-	      if (this._sourceRoot) {
-	        map.sourceRoot = this._sourceRoot;
-	      }
-	      if (this._sourcesContents) {
-	        map.sourcesContent = this._generateSourcesContent(map.sources, map.sourceRoot);
-	      }
-	
-	      return map;
-	    };
-	
-	  /**
-	   * Render the source map being generated to a string.
-	   */
-	  SourceMapGenerator.prototype.toString =
-	    function SourceMapGenerator_toString() {
-	      return JSON.stringify(this);
-	    };
-	
-	  exports.SourceMapGenerator = SourceMapGenerator;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 101 */
+/* 81 */
 /*!*****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
   \*****************************************************************************************************************************/
@@ -20383,8 +16817,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 100).SourceMapGenerator;
-	  var util = __webpack_require__(/*! ./util */ 109);
+	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 79).SourceMapGenerator;
+	  var util = __webpack_require__(/*! ./util */ 88);
 	
 	  /**
 	   * SourceNodes provide a way to abstract over interpolating/concatenating
@@ -20762,12 +17196,263 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 102 */
-/*!***********************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
-  \***********************************************************************************************************************/
-[116, 114],
-/* 103 */
+/* 82 */
+/*!*****************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
+  \*****************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = {
+	    chrome: function(line) {
+	        var m = line.match(CHROME_STACK_LINE);
+	        if (m) {
+	            var file = m[9] || m[18] || m[26]
+	            var fn = m[4] || m[7] || m[14] || m[23]
+	            var lineNumber = m[11] || m[20]
+	            var column = m[13] || m[22]
+	        } else {
+	            //throw new Error("Couldn't parse exception line: "+line)
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    firefox: function(line) {
+	        var m = line.match(FIREFOX_STACK_LINE);
+	        if (m) {
+	            var file = m[8]
+	            var fn = m[1]
+	            var lineNumber = m[10]
+	            var column = m[12]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    ie: function(line) {
+	        var m = line.match(IE_STACK_LINE);
+	        if (m) {
+	            var file = m[3] || m[10]
+	            var fn = m[2] || m[9]
+	            var lineNumber = m[5] || m[12]
+	            var column = m[7] || m[14]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    }
+	}
+	
+	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
+	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
+	var IDENTIFIER_PATTERN_ = '[\\w$]*';
+	// RegExp pattern for an URL + position inside the file.
+	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
+	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
+	
+	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
+	
+	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
+	
+	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
+	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
+	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
+	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
+	
+	// output from stacktrace.js is: "name()@..." instead of "name (...)"
+	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
+	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
+	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
+	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
+	
+	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
+	
+	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
+	
+	
+	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
+	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
+	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
+	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
+	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
+	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
+	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
+	
+	var IE_WHITESPACE = '[\\w \\t]'
+	var IE_FILE_AND_LINE = FILE_AND_LINE
+	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
+	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
+	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
+	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
+
+/***/ },
+/* 83 */
+/*!***************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
+  \***************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	module.exports = exceptionMode(createException()) // basically what browser this is
+	
+	// verbatim from `mode` in stacktrace.js as of 2014-01-23
+	function exceptionMode(e) {
+	    if (e['arguments'] && e.stack) {
+	        return 'chrome';
+	    } else if (e.stack && e.sourceURL) {
+	        return 'safari';
+	    } else if (e.stack && e.number) {
+	        return 'ie';
+	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
+	        // e.message.indexOf("Backtrace:") > -1 -> opera
+	        // !e.stacktrace -> opera
+	        if (!e.stacktrace) {
+	            return 'opera9'; // use e.message
+	        }
+	        // 'opera#sourceloc' in e -> opera9, opera10a
+	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
+	            return 'opera9'; // use e.message
+	        }
+	        // e.stacktrace && !e.stack -> opera10a
+	        if (!e.stack) {
+	            return 'opera10a'; // use e.stacktrace
+	        }
+	        // e.stacktrace && e.stack -> opera10b
+	        if (e.stacktrace.indexOf("called from line") < 0) {
+	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
+	        }
+	        // e.stacktrace && e.stack -> opera11
+	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
+	    } else if (e.stack && !e.fileName) {
+	        // Chrome 27 does not have e.arguments as earlier versions,
+	        // but still does not have e.fileName as Firefox
+	        return 'chrome';
+	    } else if (e.stack) {
+	        return 'firefox';
+	    }
+	    return 'other';
+	}
+	
+	function createException() {
+	    try {
+	        this.undef();
+	    } catch (e) {
+	        return e;
+	    }
+	}
+
+
+/***/ },
+/* 84 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	// If obj.hasOwnProperty has been overridden, then calling
+	// obj.hasOwnProperty(prop) will break.
+	// See: https://github.com/joyent/node/issues/1707
+	function hasOwnProperty(obj, prop) {
+	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	}
+	
+	module.exports = function(qs, sep, eq, options) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  var obj = {};
+	
+	  if (typeof qs !== 'string' || qs.length === 0) {
+	    return obj;
+	  }
+	
+	  var regexp = /\+/g;
+	  qs = qs.split(sep);
+	
+	  var maxKeys = 1000;
+	  if (options && typeof options.maxKeys === 'number') {
+	    maxKeys = options.maxKeys;
+	  }
+	
+	  var len = qs.length;
+	  // maxKeys <= 0 means that we should not limit keys count
+	  if (maxKeys > 0 && len > maxKeys) {
+	    len = maxKeys;
+	  }
+	
+	  for (var i = 0; i < len; ++i) {
+	    var x = qs[i].replace(regexp, '%20'),
+	        idx = x.indexOf(eq),
+	        kstr, vstr, k, v;
+	
+	    if (idx >= 0) {
+	      kstr = x.substr(0, idx);
+	      vstr = x.substr(idx + 1);
+	    } else {
+	      kstr = x;
+	      vstr = '';
+	    }
+	
+	    k = decodeURIComponent(kstr);
+	    v = decodeURIComponent(vstr);
+	
+	    if (!hasOwnProperty(obj, k)) {
+	      obj[k] = v;
+	    } else if (isArray(obj[k])) {
+	      obj[k].push(v);
+	    } else {
+	      obj[k] = [obj[k], v];
+	    }
+	  }
+	
+	  return obj;
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+
+
+/***/ },
+/* 85 */
 /*!*****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
   \*****************************************************************/
@@ -20861,100 +17546,740 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 104 */
+/* 86 */
 /*!*****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
+  !*** (webpack)/~/node-libs-browser/~/timers-browserify/main.js ***!
   \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 98).nextTick;
+	var slice = Array.prototype.slice;
+	var immediateIds = {};
+	var nextImmediateId = 0;
 	
-	'use strict';
+	// DOM APIs, for completeness
 	
-	// If obj.hasOwnProperty has been overridden, then calling
-	// obj.hasOwnProperty(prop) will break.
-	// See: https://github.com/joyent/node/issues/1707
-	function hasOwnProperty(obj, prop) {
-	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	if (typeof setTimeout !== 'undefined') exports.setTimeout = function() { return setTimeout.apply(window, arguments); };
+	if (typeof clearTimeout !== 'undefined') exports.clearTimeout = function() { clearTimeout.apply(window, arguments); };
+	if (typeof setInterval !== 'undefined') exports.setInterval = function() { return setInterval.apply(window, arguments); };
+	if (typeof clearInterval !== 'undefined') exports.clearInterval = function() { clearInterval.apply(window, arguments); };
+	
+	// TODO: Change to more efficient list approach used in Node.js
+	// For now, we just implement the APIs using the primitives above.
+	
+	exports.enroll = function(item, delay) {
+	  item._timeoutID = setTimeout(item._onTimeout, delay);
+	};
+	
+	exports.unenroll = function(item) {
+	  clearTimeout(item._timeoutID);
+	};
+	
+	exports.active = function(item) {
+	  // our naive impl doesn't care (correctness is still preserved)
+	};
+	
+	// That's not how node.js implements it but the exposed api is the same.
+	exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+	  var id = nextImmediateId++;
+	  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+	
+	  immediateIds[id] = true;
+	
+	  nextTick(function onNextTick() {
+	    if (immediateIds[id]) {
+	      // fn.call() is faster so we optimize for the common use-case
+	      // @see http://jsperf.com/call-apply-segu
+	      if (args) {
+	        fn.apply(null, args);
+	      } else {
+	        fn.call(null);
+	      }
+	      // Prevent ids from leaking
+	      exports.clearImmediate(id);
+	    }
+	  });
+	
+	  return id;
+	};
+	
+	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+	  delete immediateIds[id];
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 86).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 86).clearImmediate))
+
+/***/ },
+/* 87 */
+/*!**********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
+  \**********************************************************************************************************************************/
+60,
+/* 88 */
+/*!**********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
+  \**********************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
 	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	module.exports = function(qs, sep, eq, options) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  var obj = {};
-	
-	  if (typeof qs !== 'string' || qs.length === 0) {
-	    return obj;
-	  }
-	
-	  var regexp = /\+/g;
-	  qs = qs.split(sep);
-	
-	  var maxKeys = 1000;
-	  if (options && typeof options.maxKeys === 'number') {
-	    maxKeys = options.maxKeys;
-	  }
-	
-	  var len = qs.length;
-	  // maxKeys <= 0 means that we should not limit keys count
-	  if (maxKeys > 0 && len > maxKeys) {
-	    len = maxKeys;
-	  }
-	
-	  for (var i = 0; i < len; ++i) {
-	    var x = qs[i].replace(regexp, '%20'),
-	        idx = x.indexOf(eq),
-	        kstr, vstr, k, v;
-	
-	    if (idx >= 0) {
-	      kstr = x.substr(0, idx);
-	      vstr = x.substr(idx + 1);
+	  /**
+	   * This is a helper function for getting values from parameter/options
+	   * objects.
+	   *
+	   * @param args The object we are extracting values from
+	   * @param name The name of the property we are getting.
+	   * @param defaultValue An optional value to return if the property is missing
+	   * from the object. If this is not specified and the property is missing, an
+	   * error will be thrown.
+	   */
+	  function getArg(aArgs, aName, aDefaultValue) {
+	    if (aName in aArgs) {
+	      return aArgs[aName];
+	    } else if (arguments.length === 3) {
+	      return aDefaultValue;
 	    } else {
-	      kstr = x;
-	      vstr = '';
-	    }
-	
-	    k = decodeURIComponent(kstr);
-	    v = decodeURIComponent(vstr);
-	
-	    if (!hasOwnProperty(obj, k)) {
-	      obj[k] = v;
-	    } else if (isArray(obj[k])) {
-	      obj[k].push(v);
-	    } else {
-	      obj[k] = [obj[k], v];
+	      throw new Error('"' + aName + '" is a required argument.');
 	    }
 	  }
+	  exports.getArg = getArg;
 	
-	  return obj;
-	};
+	  var urlRegexp = /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.]*)(?::(\d+))?(\S*)$/;
+	  var dataUrlRegexp = /^data:.+\,.+$/;
 	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
+	  function urlParse(aUrl) {
+	    var match = aUrl.match(urlRegexp);
+	    if (!match) {
+	      return null;
+	    }
+	    return {
+	      scheme: match[1],
+	      auth: match[2],
+	      host: match[3],
+	      port: match[4],
+	      path: match[5]
+	    };
+	  }
+	  exports.urlParse = urlParse;
+	
+	  function urlGenerate(aParsedUrl) {
+	    var url = '';
+	    if (aParsedUrl.scheme) {
+	      url += aParsedUrl.scheme + ':';
+	    }
+	    url += '//';
+	    if (aParsedUrl.auth) {
+	      url += aParsedUrl.auth + '@';
+	    }
+	    if (aParsedUrl.host) {
+	      url += aParsedUrl.host;
+	    }
+	    if (aParsedUrl.port) {
+	      url += ":" + aParsedUrl.port
+	    }
+	    if (aParsedUrl.path) {
+	      url += aParsedUrl.path;
+	    }
+	    return url;
+	  }
+	  exports.urlGenerate = urlGenerate;
+	
+	  /**
+	   * Normalizes a path, or the path portion of a URL:
+	   *
+	   * - Replaces consequtive slashes with one slash.
+	   * - Removes unnecessary '.' parts.
+	   * - Removes unnecessary '<dir>/..' parts.
+	   *
+	   * Based on code in the Node.js 'path' core module.
+	   *
+	   * @param aPath The path or url to normalize.
+	   */
+	  function normalize(aPath) {
+	    var path = aPath;
+	    var url = urlParse(aPath);
+	    if (url) {
+	      if (!url.path) {
+	        return aPath;
+	      }
+	      path = url.path;
+	    }
+	    var isAbsolute = (path.charAt(0) === '/');
+	
+	    var parts = path.split(/\/+/);
+	    for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
+	      part = parts[i];
+	      if (part === '.') {
+	        parts.splice(i, 1);
+	      } else if (part === '..') {
+	        up++;
+	      } else if (up > 0) {
+	        if (part === '') {
+	          // The first part is blank if the path is absolute. Trying to go
+	          // above the root is a no-op. Therefore we can remove all '..' parts
+	          // directly after the root.
+	          parts.splice(i + 1, up);
+	          up = 0;
+	        } else {
+	          parts.splice(i, 2);
+	          up--;
+	        }
+	      }
+	    }
+	    path = parts.join('/');
+	
+	    if (path === '') {
+	      path = isAbsolute ? '/' : '.';
+	    }
+	
+	    if (url) {
+	      url.path = path;
+	      return urlGenerate(url);
+	    }
+	    return path;
+	  }
+	  exports.normalize = normalize;
+	
+	  /**
+	   * Joins two paths/URLs.
+	   *
+	   * @param aRoot The root path or URL.
+	   * @param aPath The path or URL to be joined with the root.
+	   *
+	   * - If aPath is a URL or a data URI, aPath is returned, unless aPath is a
+	   *   scheme-relative URL: Then the scheme of aRoot, if any, is prepended
+	   *   first.
+	   * - Otherwise aPath is a path. If aRoot is a URL, then its path portion
+	   *   is updated with the result and aRoot is returned. Otherwise the result
+	   *   is returned.
+	   *   - If aPath is absolute, the result is aPath.
+	   *   - Otherwise the two paths are joined with a slash.
+	   * - Joining for example 'http://' and 'www.example.com' is also supported.
+	   */
+	  function join(aRoot, aPath) {
+	    var aPathUrl = urlParse(aPath);
+	    var aRootUrl = urlParse(aRoot);
+	    if (aRootUrl) {
+	      aRoot = aRootUrl.path || '/';
+	    }
+	
+	    // `join(foo, '//www.example.org')`
+	    if (aPathUrl && !aPathUrl.scheme) {
+	      if (aRootUrl) {
+	        aPathUrl.scheme = aRootUrl.scheme;
+	      }
+	      return urlGenerate(aPathUrl);
+	    }
+	
+	    if (aPathUrl || aPath.match(dataUrlRegexp)) {
+	      return aPath;
+	    }
+	
+	    // `join('http://', 'www.example.com')`
+	    if (aRootUrl && !aRootUrl.host && !aRootUrl.path) {
+	      aRootUrl.host = aPath;
+	      return urlGenerate(aRootUrl);
+	    }
+	
+	    var joined = aPath.charAt(0) === '/'
+	      ? aPath
+	      : normalize(aRoot.replace(/\/+$/, '') + '/' + aPath);
+	
+	    if (aRootUrl) {
+	      aRootUrl.path = joined;
+	      return urlGenerate(aRootUrl);
+	    }
+	    return joined;
+	  }
+	  exports.join = join;
+	
+	  /**
+	   * Because behavior goes wacky when you set `__proto__` on objects, we
+	   * have to prefix all the strings in our set with an arbitrary character.
+	   *
+	   * See https://github.com/mozilla/source-map/pull/31 and
+	   * https://github.com/mozilla/source-map/issues/30
+	   *
+	   * @param String aStr
+	   */
+	  function toSetString(aStr) {
+	    return '$' + aStr;
+	  }
+	  exports.toSetString = toSetString;
+	
+	  function fromSetString(aStr) {
+	    return aStr.substr(1);
+	  }
+	  exports.fromSetString = fromSetString;
+	
+	  function relative(aRoot, aPath) {
+	    aRoot = aRoot.replace(/\/$/, '');
+	
+	    var url = urlParse(aRoot);
+	    if (aPath.charAt(0) == "/" && url && url.path == "/") {
+	      return aPath.slice(1);
+	    }
+	
+	    return aPath.indexOf(aRoot + '/') === 0
+	      ? aPath.substr(aRoot.length + 1)
+	      : aPath;
+	  }
+	  exports.relative = relative;
+	
+	  function strcmp(aStr1, aStr2) {
+	    var s1 = aStr1 || "";
+	    var s2 = aStr2 || "";
+	    return (s1 > s2) - (s1 < s2);
+	  }
+	
+	  /**
+	   * Comparator between two mappings where the original positions are compared.
+	   *
+	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
+	   * mappings with the same original source/line/column, but different generated
+	   * line and column the same. Useful when searching for a mapping with a
+	   * stubbed out mapping.
+	   */
+	  function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
+	    var cmp;
+	
+	    cmp = strcmp(mappingA.source, mappingB.source);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalLine - mappingB.originalLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalColumn - mappingB.originalColumn;
+	    if (cmp || onlyCompareOriginal) {
+	      return cmp;
+	    }
+	
+	    cmp = strcmp(mappingA.name, mappingB.name);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.generatedLine - mappingB.generatedLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    return mappingA.generatedColumn - mappingB.generatedColumn;
+	  };
+	  exports.compareByOriginalPositions = compareByOriginalPositions;
+	
+	  /**
+	   * Comparator between two mappings where the generated positions are
+	   * compared.
+	   *
+	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
+	   * mappings with the same generated line and column, but different
+	   * source/name/original line and column the same. Useful when searching for a
+	   * mapping with a stubbed out mapping.
+	   */
+	  function compareByGeneratedPositions(mappingA, mappingB, onlyCompareGenerated) {
+	    var cmp;
+	
+	    cmp = mappingA.generatedLine - mappingB.generatedLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.generatedColumn - mappingB.generatedColumn;
+	    if (cmp || onlyCompareGenerated) {
+	      return cmp;
+	    }
+	
+	    cmp = strcmp(mappingA.source, mappingB.source);
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalLine - mappingB.originalLine;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    cmp = mappingA.originalColumn - mappingB.originalColumn;
+	    if (cmp) {
+	      return cmp;
+	    }
+	
+	    return strcmp(mappingA.name, mappingB.name);
+	  };
+	  exports.compareByGeneratedPositions = compareByGeneratedPositions;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
 /***/ },
-/* 105 */
+/* 89 */
+/*!*******************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
+  \*******************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  /**
+	   * Recursive implementation of binary search.
+	   *
+	   * @param aLow Indices here and lower do not contain the needle.
+	   * @param aHigh Indices here and higher do not contain the needle.
+	   * @param aNeedle The element being searched for.
+	   * @param aHaystack The non-empty array being searched.
+	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
+	   */
+	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
+	    // This function terminates when one of the following is true:
+	    //
+	    //   1. We find the exact element we are looking for.
+	    //
+	    //   2. We did not find the exact element, but we can return the next
+	    //      closest element that is less than that element.
+	    //
+	    //   3. We did not find the exact element, and there is no next-closest
+	    //      element which is less than the one we are searching for, so we
+	    //      return null.
+	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
+	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
+	    if (cmp === 0) {
+	      // Found the element we are looking for.
+	      return aHaystack[mid];
+	    }
+	    else if (cmp > 0) {
+	      // aHaystack[mid] is greater than our needle.
+	      if (aHigh - mid > 1) {
+	        // The element is in the upper half.
+	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
+	      }
+	      // We did not find an exact match, return the next closest one
+	      // (termination case 2).
+	      return aHaystack[mid];
+	    }
+	    else {
+	      // aHaystack[mid] is less than our needle.
+	      if (mid - aLow > 1) {
+	        // The element is in the lower half.
+	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
+	      }
+	      // The exact needle element was not found in this haystack. Determine if
+	      // we are in termination case (2) or (3) and return the appropriate thing.
+	      return aLow < 0
+	        ? null
+	        : aHaystack[aLow];
+	    }
+	  }
+	
+	  /**
+	   * This is an implementation of binary search which will always try and return
+	   * the next lowest value checked if there is no exact hit. This is because
+	   * mappings between original and generated line/col pairs are single points,
+	   * and there is an implicit region between each of them, so a miss just means
+	   * that you aren't on the very start of a region.
+	   *
+	   * @param aNeedle The element you are looking for.
+	   * @param aHaystack The array that is being searched.
+	   * @param aCompare A function which takes the needle and an element in the
+	   *     array and returns -1, 0, or 1 depending on whether the needle is less
+	   *     than, equal to, or greater than the element, respectively.
+	   */
+	  exports.search = function search(aNeedle, aHaystack, aCompare) {
+	    return aHaystack.length > 0
+	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
+	      : null;
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 90 */
+/*!***************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
+  \***************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var util = __webpack_require__(/*! ./util */ 88);
+	
+	  /**
+	   * A data structure which is a combination of an array and a set. Adding a new
+	   * member is O(1), testing for membership is O(1), and finding the index of an
+	   * element is O(1). Removing elements from the set is not supported. Only
+	   * strings are supported for membership.
+	   */
+	  function ArraySet() {
+	    this._array = [];
+	    this._set = {};
+	  }
+	
+	  /**
+	   * Static method for creating ArraySet instances from an existing array.
+	   */
+	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
+	    var set = new ArraySet();
+	    for (var i = 0, len = aArray.length; i < len; i++) {
+	      set.add(aArray[i], aAllowDuplicates);
+	    }
+	    return set;
+	  };
+	
+	  /**
+	   * Add the given string to this set.
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
+	    var isDuplicate = this.has(aStr);
+	    var idx = this._array.length;
+	    if (!isDuplicate || aAllowDuplicates) {
+	      this._array.push(aStr);
+	    }
+	    if (!isDuplicate) {
+	      this._set[util.toSetString(aStr)] = idx;
+	    }
+	  };
+	
+	  /**
+	   * Is the given string a member of this set?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.has = function ArraySet_has(aStr) {
+	    return Object.prototype.hasOwnProperty.call(this._set,
+	                                                util.toSetString(aStr));
+	  };
+	
+	  /**
+	   * What is the index of the given string in the array?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
+	    if (this.has(aStr)) {
+	      return this._set[util.toSetString(aStr)];
+	    }
+	    throw new Error('"' + aStr + '" is not in the set.');
+	  };
+	
+	  /**
+	   * What is the element at the given index?
+	   *
+	   * @param Number aIdx
+	   */
+	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
+	    if (aIdx >= 0 && aIdx < this._array.length) {
+	      return this._array[aIdx];
+	    }
+	    throw new Error('No element indexed by ' + aIdx);
+	  };
+	
+	  /**
+	   * Returns the array representation of this set (which has the proper indices
+	   * indicated by indexOf). Note that this is a copy of the internal array used
+	   * for storing the members so that no one can mess with internal state.
+	   */
+	  ArraySet.prototype.toArray = function ArraySet_toArray() {
+	    return this._array.slice();
+	  };
+	
+	  exports.ArraySet = ArraySet;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 91 */
+/*!****************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
+  \****************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 *
+	 * Based on the Base 64 VLQ implementation in Closure Compiler:
+	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
+	 *
+	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
+	 * Redistribution and use in source and binary forms, with or without
+	 * modification, are permitted provided that the following conditions are
+	 * met:
+	 *
+	 *  * Redistributions of source code must retain the above copyright
+	 *    notice, this list of conditions and the following disclaimer.
+	 *  * Redistributions in binary form must reproduce the above
+	 *    copyright notice, this list of conditions and the following
+	 *    disclaimer in the documentation and/or other materials provided
+	 *    with the distribution.
+	 *  * Neither the name of Google Inc. nor the names of its
+	 *    contributors may be used to endorse or promote products derived
+	 *    from this software without specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var base64 = __webpack_require__(/*! ./base64 */ 97);
+	
+	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
+	  // length quantities we use in the source map spec, the first bit is the sign,
+	  // the next four bits are the actual value, and the 6th bit is the
+	  // continuation bit. The continuation bit tells us whether there are more
+	  // digits in this value following this digit.
+	  //
+	  //   Continuation
+	  //   |    Sign
+	  //   |    |
+	  //   V    V
+	  //   101011
+	
+	  var VLQ_BASE_SHIFT = 5;
+	
+	  // binary: 100000
+	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
+	
+	  // binary: 011111
+	  var VLQ_BASE_MASK = VLQ_BASE - 1;
+	
+	  // binary: 100000
+	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
+	
+	  /**
+	   * Converts from a two-complement value to a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
+	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
+	   */
+	  function toVLQSigned(aValue) {
+	    return aValue < 0
+	      ? ((-aValue) << 1) + 1
+	      : (aValue << 1) + 0;
+	  }
+	
+	  /**
+	   * Converts to a two-complement value from a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
+	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
+	   */
+	  function fromVLQSigned(aValue) {
+	    var isNegative = (aValue & 1) === 1;
+	    var shifted = aValue >> 1;
+	    return isNegative
+	      ? -shifted
+	      : shifted;
+	  }
+	
+	  /**
+	   * Returns the base 64 VLQ encoded value.
+	   */
+	  exports.encode = function base64VLQ_encode(aValue) {
+	    var encoded = "";
+	    var digit;
+	
+	    var vlq = toVLQSigned(aValue);
+	
+	    do {
+	      digit = vlq & VLQ_BASE_MASK;
+	      vlq >>>= VLQ_BASE_SHIFT;
+	      if (vlq > 0) {
+	        // There are still more digits in this value, so we must make sure the
+	        // continuation bit is marked.
+	        digit |= VLQ_CONTINUATION_BIT;
+	      }
+	      encoded += base64.encode(digit);
+	    } while (vlq > 0);
+	
+	    return encoded;
+	  };
+	
+	  /**
+	   * Decodes the next base 64 VLQ value from the given string and returns the
+	   * value and the rest of the string.
+	   */
+	  exports.decode = function base64VLQ_decode(aStr) {
+	    var i = 0;
+	    var strLen = aStr.length;
+	    var result = 0;
+	    var shift = 0;
+	    var continuation, digit;
+	
+	    do {
+	      if (i >= strLen) {
+	        throw new Error("Expected more digits in base 64 VLQ value.");
+	      }
+	      digit = base64.decode(aStr.charAt(i++));
+	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
+	      digit &= VLQ_BASE_MASK;
+	      result = result + (digit << shift);
+	      shift += VLQ_BASE_SHIFT;
+	    } while (continuation);
+	
+	    return {
+	      value: fromVLQSigned(result),
+	      rest: aStr.slice(i)
+	    };
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 92 */
+/*!***********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
+  \***********************************************************************************************************************/
+[142, 99],
+/* 93 */
 /*!******************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
   \******************************************************************************************************************************************/
@@ -21041,7 +18366,63 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 106 */
+/* 94 */
+/*!************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
+  \************************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
+	// X11 (“MIT”) Licensed. (See LICENSE.)
+	
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    module.exports = factory()
+	  } else {
+	    root.resolveUrl = factory()
+	  }
+	}(this, function() {
+	
+	  function resolveUrl(/* ...urls */) {
+	    var numUrls = arguments.length
+	
+	    if (numUrls === 0) {
+	      throw new Error("resolveUrl requires at least one argument; got none.")
+	    }
+	
+	    var base = document.createElement("base")
+	    base.href = arguments[0]
+	
+	    if (numUrls === 1) {
+	      return base.href
+	    }
+	
+	    var head = document.getElementsByTagName("head")[0]
+	    head.insertBefore(base, head.firstChild)
+	
+	    var a = document.createElement("a")
+	    var resolved
+	
+	    for (var index = 1; index < numUrls; index++) {
+	      a.href = arguments[index]
+	      resolved = a.href
+	      base.href = resolved
+	    }
+	
+	    head.removeChild(base)
+	
+	    return resolved
+	  }
+	
+	  return resolveUrl
+	
+	}));
+
+
+/***/ },
+/* 95 */
 /*!****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/~/stacktrace-js/stacktrace.js ***!
   \****************************************************************************************************************************/
@@ -21511,7 +18892,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}));
 
 /***/ },
-/* 107 */
+/* 96 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
@@ -21530,66 +18911,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 108 */
-/*!************************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
-  \************************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
-	// X11 (“MIT”) Licensed. (See LICENSE.)
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    module.exports = factory()
-	  } else {
-	    root.resolveUrl = factory()
-	  }
-	}(this, function() {
-	
-	  function resolveUrl(/* ...urls */) {
-	    var numUrls = arguments.length
-	
-	    if (numUrls === 0) {
-	      throw new Error("resolveUrl requires at least one argument; got none.")
-	    }
-	
-	    var base = document.createElement("base")
-	    base.href = arguments[0]
-	
-	    if (numUrls === 1) {
-	      return base.href
-	    }
-	
-	    var head = document.getElementsByTagName("head")[0]
-	    head.insertBefore(base, head.firstChild)
-	
-	    var a = document.createElement("a")
-	    var resolved
-	
-	    for (var index = 1; index < numUrls; index++) {
-	      a.href = arguments[index]
-	      resolved = a.href
-	      base.href = resolved
-	    }
-	
-	    head.removeChild(base)
-	
-	    return resolved
-	  }
-	
-	  return resolveUrl
-	
-	}));
-
-
-/***/ },
-/* 109 */
-/*!**********************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
-  \**********************************************************************************************************************/
+/* 97 */
+/*!************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64.js ***!
+  \************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
@@ -21603,650 +18928,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  /**
-	   * This is a helper function for getting values from parameter/options
-	   * objects.
-	   *
-	   * @param args The object we are extracting values from
-	   * @param name The name of the property we are getting.
-	   * @param defaultValue An optional value to return if the property is missing
-	   * from the object. If this is not specified and the property is missing, an
-	   * error will be thrown.
-	   */
-	  function getArg(aArgs, aName, aDefaultValue) {
-	    if (aName in aArgs) {
-	      return aArgs[aName];
-	    } else if (arguments.length === 3) {
-	      return aDefaultValue;
-	    } else {
-	      throw new Error('"' + aName + '" is a required argument.');
-	    }
-	  }
-	  exports.getArg = getArg;
+	  var charToIntMap = {};
+	  var intToCharMap = {};
 	
-	  var urlRegexp = /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.]*)(?::(\d+))?(\S*)$/;
-	  var dataUrlRegexp = /^data:.+\,.+$/;
-	
-	  function urlParse(aUrl) {
-	    var match = aUrl.match(urlRegexp);
-	    if (!match) {
-	      return null;
-	    }
-	    return {
-	      scheme: match[1],
-	      auth: match[2],
-	      host: match[3],
-	      port: match[4],
-	      path: match[5]
-	    };
-	  }
-	  exports.urlParse = urlParse;
-	
-	  function urlGenerate(aParsedUrl) {
-	    var url = '';
-	    if (aParsedUrl.scheme) {
-	      url += aParsedUrl.scheme + ':';
-	    }
-	    url += '//';
-	    if (aParsedUrl.auth) {
-	      url += aParsedUrl.auth + '@';
-	    }
-	    if (aParsedUrl.host) {
-	      url += aParsedUrl.host;
-	    }
-	    if (aParsedUrl.port) {
-	      url += ":" + aParsedUrl.port
-	    }
-	    if (aParsedUrl.path) {
-	      url += aParsedUrl.path;
-	    }
-	    return url;
-	  }
-	  exports.urlGenerate = urlGenerate;
+	  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+	    .split('')
+	    .forEach(function (ch, index) {
+	      charToIntMap[ch] = index;
+	      intToCharMap[index] = ch;
+	    });
 	
 	  /**
-	   * Normalizes a path, or the path portion of a URL:
-	   *
-	   * - Replaces consequtive slashes with one slash.
-	   * - Removes unnecessary '.' parts.
-	   * - Removes unnecessary '<dir>/..' parts.
-	   *
-	   * Based on code in the Node.js 'path' core module.
-	   *
-	   * @param aPath The path or url to normalize.
+	   * Encode an integer in the range of 0 to 63 to a single base 64 digit.
 	   */
-	  function normalize(aPath) {
-	    var path = aPath;
-	    var url = urlParse(aPath);
-	    if (url) {
-	      if (!url.path) {
-	        return aPath;
-	      }
-	      path = url.path;
+	  exports.encode = function base64_encode(aNumber) {
+	    if (aNumber in intToCharMap) {
+	      return intToCharMap[aNumber];
 	    }
-	    var isAbsolute = (path.charAt(0) === '/');
-	
-	    var parts = path.split(/\/+/);
-	    for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
-	      part = parts[i];
-	      if (part === '.') {
-	        parts.splice(i, 1);
-	      } else if (part === '..') {
-	        up++;
-	      } else if (up > 0) {
-	        if (part === '') {
-	          // The first part is blank if the path is absolute. Trying to go
-	          // above the root is a no-op. Therefore we can remove all '..' parts
-	          // directly after the root.
-	          parts.splice(i + 1, up);
-	          up = 0;
-	        } else {
-	          parts.splice(i, 2);
-	          up--;
-	        }
-	      }
-	    }
-	    path = parts.join('/');
-	
-	    if (path === '') {
-	      path = isAbsolute ? '/' : '.';
-	    }
-	
-	    if (url) {
-	      url.path = path;
-	      return urlGenerate(url);
-	    }
-	    return path;
-	  }
-	  exports.normalize = normalize;
-	
-	  /**
-	   * Joins two paths/URLs.
-	   *
-	   * @param aRoot The root path or URL.
-	   * @param aPath The path or URL to be joined with the root.
-	   *
-	   * - If aPath is a URL or a data URI, aPath is returned, unless aPath is a
-	   *   scheme-relative URL: Then the scheme of aRoot, if any, is prepended
-	   *   first.
-	   * - Otherwise aPath is a path. If aRoot is a URL, then its path portion
-	   *   is updated with the result and aRoot is returned. Otherwise the result
-	   *   is returned.
-	   *   - If aPath is absolute, the result is aPath.
-	   *   - Otherwise the two paths are joined with a slash.
-	   * - Joining for example 'http://' and 'www.example.com' is also supported.
-	   */
-	  function join(aRoot, aPath) {
-	    var aPathUrl = urlParse(aPath);
-	    var aRootUrl = urlParse(aRoot);
-	    if (aRootUrl) {
-	      aRoot = aRootUrl.path || '/';
-	    }
-	
-	    // `join(foo, '//www.example.org')`
-	    if (aPathUrl && !aPathUrl.scheme) {
-	      if (aRootUrl) {
-	        aPathUrl.scheme = aRootUrl.scheme;
-	      }
-	      return urlGenerate(aPathUrl);
-	    }
-	
-	    if (aPathUrl || aPath.match(dataUrlRegexp)) {
-	      return aPath;
-	    }
-	
-	    // `join('http://', 'www.example.com')`
-	    if (aRootUrl && !aRootUrl.host && !aRootUrl.path) {
-	      aRootUrl.host = aPath;
-	      return urlGenerate(aRootUrl);
-	    }
-	
-	    var joined = aPath.charAt(0) === '/'
-	      ? aPath
-	      : normalize(aRoot.replace(/\/+$/, '') + '/' + aPath);
-	
-	    if (aRootUrl) {
-	      aRootUrl.path = joined;
-	      return urlGenerate(aRootUrl);
-	    }
-	    return joined;
-	  }
-	  exports.join = join;
-	
-	  /**
-	   * Because behavior goes wacky when you set `__proto__` on objects, we
-	   * have to prefix all the strings in our set with an arbitrary character.
-	   *
-	   * See https://github.com/mozilla/source-map/pull/31 and
-	   * https://github.com/mozilla/source-map/issues/30
-	   *
-	   * @param String aStr
-	   */
-	  function toSetString(aStr) {
-	    return '$' + aStr;
-	  }
-	  exports.toSetString = toSetString;
-	
-	  function fromSetString(aStr) {
-	    return aStr.substr(1);
-	  }
-	  exports.fromSetString = fromSetString;
-	
-	  function relative(aRoot, aPath) {
-	    aRoot = aRoot.replace(/\/$/, '');
-	
-	    var url = urlParse(aRoot);
-	    if (aPath.charAt(0) == "/" && url && url.path == "/") {
-	      return aPath.slice(1);
-	    }
-	
-	    return aPath.indexOf(aRoot + '/') === 0
-	      ? aPath.substr(aRoot.length + 1)
-	      : aPath;
-	  }
-	  exports.relative = relative;
-	
-	  function strcmp(aStr1, aStr2) {
-	    var s1 = aStr1 || "";
-	    var s2 = aStr2 || "";
-	    return (s1 > s2) - (s1 < s2);
-	  }
-	
-	  /**
-	   * Comparator between two mappings where the original positions are compared.
-	   *
-	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
-	   * mappings with the same original source/line/column, but different generated
-	   * line and column the same. Useful when searching for a mapping with a
-	   * stubbed out mapping.
-	   */
-	  function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
-	    var cmp;
-	
-	    cmp = strcmp(mappingA.source, mappingB.source);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalLine - mappingB.originalLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalColumn - mappingB.originalColumn;
-	    if (cmp || onlyCompareOriginal) {
-	      return cmp;
-	    }
-	
-	    cmp = strcmp(mappingA.name, mappingB.name);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.generatedLine - mappingB.generatedLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    return mappingA.generatedColumn - mappingB.generatedColumn;
+	    throw new TypeError("Must be between 0 and 63: " + aNumber);
 	  };
-	  exports.compareByOriginalPositions = compareByOriginalPositions;
 	
 	  /**
-	   * Comparator between two mappings where the generated positions are
-	   * compared.
-	   *
-	   * Optionally pass in `true` as `onlyCompareGenerated` to consider two
-	   * mappings with the same generated line and column, but different
-	   * source/name/original line and column the same. Useful when searching for a
-	   * mapping with a stubbed out mapping.
+	   * Decode a single base 64 digit to an integer.
 	   */
-	  function compareByGeneratedPositions(mappingA, mappingB, onlyCompareGenerated) {
-	    var cmp;
-	
-	    cmp = mappingA.generatedLine - mappingB.generatedLine;
-	    if (cmp) {
-	      return cmp;
+	  exports.decode = function base64_decode(aChar) {
+	    if (aChar in charToIntMap) {
+	      return charToIntMap[aChar];
 	    }
-	
-	    cmp = mappingA.generatedColumn - mappingB.generatedColumn;
-	    if (cmp || onlyCompareGenerated) {
-	      return cmp;
-	    }
-	
-	    cmp = strcmp(mappingA.source, mappingB.source);
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalLine - mappingB.originalLine;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    cmp = mappingA.originalColumn - mappingB.originalColumn;
-	    if (cmp) {
-	      return cmp;
-	    }
-	
-	    return strcmp(mappingA.name, mappingB.name);
-	  };
-	  exports.compareByGeneratedPositions = compareByGeneratedPositions;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 110 */
-/*!*******************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
-  \*******************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  /**
-	   * Recursive implementation of binary search.
-	   *
-	   * @param aLow Indices here and lower do not contain the needle.
-	   * @param aHigh Indices here and higher do not contain the needle.
-	   * @param aNeedle The element being searched for.
-	   * @param aHaystack The non-empty array being searched.
-	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
-	   */
-	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
-	    // This function terminates when one of the following is true:
-	    //
-	    //   1. We find the exact element we are looking for.
-	    //
-	    //   2. We did not find the exact element, but we can return the next
-	    //      closest element that is less than that element.
-	    //
-	    //   3. We did not find the exact element, and there is no next-closest
-	    //      element which is less than the one we are searching for, so we
-	    //      return null.
-	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
-	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
-	    if (cmp === 0) {
-	      // Found the element we are looking for.
-	      return aHaystack[mid];
-	    }
-	    else if (cmp > 0) {
-	      // aHaystack[mid] is greater than our needle.
-	      if (aHigh - mid > 1) {
-	        // The element is in the upper half.
-	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
-	      }
-	      // We did not find an exact match, return the next closest one
-	      // (termination case 2).
-	      return aHaystack[mid];
-	    }
-	    else {
-	      // aHaystack[mid] is less than our needle.
-	      if (mid - aLow > 1) {
-	        // The element is in the lower half.
-	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
-	      }
-	      // The exact needle element was not found in this haystack. Determine if
-	      // we are in termination case (2) or (3) and return the appropriate thing.
-	      return aLow < 0
-	        ? null
-	        : aHaystack[aLow];
-	    }
-	  }
-	
-	  /**
-	   * This is an implementation of binary search which will always try and return
-	   * the next lowest value checked if there is no exact hit. This is because
-	   * mappings between original and generated line/col pairs are single points,
-	   * and there is an implicit region between each of them, so a miss just means
-	   * that you aren't on the very start of a region.
-	   *
-	   * @param aNeedle The element you are looking for.
-	   * @param aHaystack The array that is being searched.
-	   * @param aCompare A function which takes the needle and an element in the
-	   *     array and returns -1, 0, or 1 depending on whether the needle is less
-	   *     than, equal to, or greater than the element, respectively.
-	   */
-	  exports.search = function search(aNeedle, aHaystack, aCompare) {
-	    return aHaystack.length > 0
-	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
-	      : null;
+	    throw new TypeError("Not a valid base 64 digit: " + aChar);
 	  };
 	
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
 /***/ },
-/* 111 */
-/*!****************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
-  \****************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 *
-	 * Based on the Base 64 VLQ implementation in Closure Compiler:
-	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
-	 *
-	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
-	 * Redistribution and use in source and binary forms, with or without
-	 * modification, are permitted provided that the following conditions are
-	 * met:
-	 *
-	 *  * Redistributions of source code must retain the above copyright
-	 *    notice, this list of conditions and the following disclaimer.
-	 *  * Redistributions in binary form must reproduce the above
-	 *    copyright notice, this list of conditions and the following
-	 *    disclaimer in the documentation and/or other materials provided
-	 *    with the distribution.
-	 *  * Neither the name of Google Inc. nor the names of its
-	 *    contributors may be used to endorse or promote products derived
-	 *    from this software without specific prior written permission.
-	 *
-	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var base64 = __webpack_require__(/*! ./base64 */ 115);
-	
-	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
-	  // length quantities we use in the source map spec, the first bit is the sign,
-	  // the next four bits are the actual value, and the 6th bit is the
-	  // continuation bit. The continuation bit tells us whether there are more
-	  // digits in this value following this digit.
-	  //
-	  //   Continuation
-	  //   |    Sign
-	  //   |    |
-	  //   V    V
-	  //   101011
-	
-	  var VLQ_BASE_SHIFT = 5;
-	
-	  // binary: 100000
-	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
-	
-	  // binary: 011111
-	  var VLQ_BASE_MASK = VLQ_BASE - 1;
-	
-	  // binary: 100000
-	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
-	
-	  /**
-	   * Converts from a two-complement value to a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
-	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
-	   */
-	  function toVLQSigned(aValue) {
-	    return aValue < 0
-	      ? ((-aValue) << 1) + 1
-	      : (aValue << 1) + 0;
-	  }
-	
-	  /**
-	   * Converts to a two-complement value from a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
-	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
-	   */
-	  function fromVLQSigned(aValue) {
-	    var isNegative = (aValue & 1) === 1;
-	    var shifted = aValue >> 1;
-	    return isNegative
-	      ? -shifted
-	      : shifted;
-	  }
-	
-	  /**
-	   * Returns the base 64 VLQ encoded value.
-	   */
-	  exports.encode = function base64VLQ_encode(aValue) {
-	    var encoded = "";
-	    var digit;
-	
-	    var vlq = toVLQSigned(aValue);
-	
-	    do {
-	      digit = vlq & VLQ_BASE_MASK;
-	      vlq >>>= VLQ_BASE_SHIFT;
-	      if (vlq > 0) {
-	        // There are still more digits in this value, so we must make sure the
-	        // continuation bit is marked.
-	        digit |= VLQ_CONTINUATION_BIT;
-	      }
-	      encoded += base64.encode(digit);
-	    } while (vlq > 0);
-	
-	    return encoded;
-	  };
-	
-	  /**
-	   * Decodes the next base 64 VLQ value from the given string and returns the
-	   * value and the rest of the string.
-	   */
-	  exports.decode = function base64VLQ_decode(aStr) {
-	    var i = 0;
-	    var strLen = aStr.length;
-	    var result = 0;
-	    var shift = 0;
-	    var continuation, digit;
-	
-	    do {
-	      if (i >= strLen) {
-	        throw new Error("Expected more digits in base 64 VLQ value.");
-	      }
-	      digit = base64.decode(aStr.charAt(i++));
-	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
-	      digit &= VLQ_BASE_MASK;
-	      result = result + (digit << shift);
-	      shift += VLQ_BASE_SHIFT;
-	    } while (continuation);
-	
-	    return {
-	      value: fromVLQSigned(result),
-	      rest: aStr.slice(i)
-	    };
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 112 */
-/*!***************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
-  \***************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var util = __webpack_require__(/*! ./util */ 109);
-	
-	  /**
-	   * A data structure which is a combination of an array and a set. Adding a new
-	   * member is O(1), testing for membership is O(1), and finding the index of an
-	   * element is O(1). Removing elements from the set is not supported. Only
-	   * strings are supported for membership.
-	   */
-	  function ArraySet() {
-	    this._array = [];
-	    this._set = {};
-	  }
-	
-	  /**
-	   * Static method for creating ArraySet instances from an existing array.
-	   */
-	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
-	    var set = new ArraySet();
-	    for (var i = 0, len = aArray.length; i < len; i++) {
-	      set.add(aArray[i], aAllowDuplicates);
-	    }
-	    return set;
-	  };
-	
-	  /**
-	   * Add the given string to this set.
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
-	    var isDuplicate = this.has(aStr);
-	    var idx = this._array.length;
-	    if (!isDuplicate || aAllowDuplicates) {
-	      this._array.push(aStr);
-	    }
-	    if (!isDuplicate) {
-	      this._set[util.toSetString(aStr)] = idx;
-	    }
-	  };
-	
-	  /**
-	   * Is the given string a member of this set?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.has = function ArraySet_has(aStr) {
-	    return Object.prototype.hasOwnProperty.call(this._set,
-	                                                util.toSetString(aStr));
-	  };
-	
-	  /**
-	   * What is the index of the given string in the array?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
-	    if (this.has(aStr)) {
-	      return this._set[util.toSetString(aStr)];
-	    }
-	    throw new Error('"' + aStr + '" is not in the set.');
-	  };
-	
-	  /**
-	   * What is the element at the given index?
-	   *
-	   * @param Number aIdx
-	   */
-	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
-	    if (aIdx >= 0 && aIdx < this._array.length) {
-	      return this._array[aIdx];
-	    }
-	    throw new Error('No element indexed by ' + aIdx);
-	  };
-	
-	  /**
-	   * Returns the array representation of this set (which has the proper indices
-	   * indicated by indexOf). Note that this is a copy of the internal array used
-	   * for storing the members so that no one can mess with internal state.
-	   */
-	  ArraySet.prototype.toArray = function ArraySet_toArray() {
-	    return this._array.slice();
-	  };
-	
-	  exports.ArraySet = ArraySet;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 113 */
+/* 98 */
 /*!******************************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/timers-browserify/~/process/browser.js ***!
   \******************************************************************************/
@@ -22312,65 +19028,56 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 114 */
+/* 99 */
 /*!*****************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/~/trimArguments/trimArguments.js ***!
   \*****************************************************************************************************************************************/
-68,
-/* 115 */
-/*!************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64.js ***!
-  \************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var charToIntMap = {};
-	  var intToCharMap = {};
-	
-	  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-	    .split('')
-	    .forEach(function (ch, index) {
-	      charToIntMap[ch] = index;
-	      intToCharMap[index] = ch;
-	    });
-	
-	  /**
-	   * Encode an integer in the range of 0 to 63 to a single base 64 digit.
-	   */
-	  exports.encode = function base64_encode(aNumber) {
-	    if (aNumber in intToCharMap) {
-	      return intToCharMap[aNumber];
-	    }
-	    throw new TypeError("Must be between 0 and 63: " + aNumber);
-	  };
-	
-	  /**
-	   * Decode a single base 64 digit to an integer.
-	   */
-	  exports.decode = function base64_decode(aChar) {
-	    if (aChar in charToIntMap) {
-	      return charToIntMap[aChar];
-	    }
-	    throw new TypeError("Not a valid base 64 digit: " + aChar);
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 116 */
+60,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */
 /*!***********************************!*\
-  !*** template of 62 referencing  ***!
+  !*** template of 44 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
@@ -22675,9 +19382,3392 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 117 */
+/* 143 */
+/*!*******************************!*\
+  !*** ./EventEmitterB.test.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 28);
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 18);
+	
+	module.exports = function(t) {
+	
+	
+	
+	    //*
+	    this.test("ifon, ifoff", function() {
+	
+	        this.test("normal usage", function(t) {
+	            this.count(56)
+	
+	            var e = EventEmitterB()
+	
+	            var event = testUtils.seq(
+	            // e.on('a', cb1)
+	              function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.on('b', cb2)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.removeListener('b', cb2)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.removeListener('a', cb2)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.once('a', cb3)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.emit('a')
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.on('a', cb1)
+	            // e.on('b', cb1)
+	            // e.on('a', cb2)
+	            // e.on('b', cb2)
+	            // e.on('c', cb1)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'c')
+	                t.eq(type, 'on')
+	                t.eq(all, true)
+	
+	            // e.removeAllListeners('a')
+	            },function(eventName, type) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'a')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	
+	            // e.removeAllListeners()
+	            },function(eventName, type) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'b')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	            },function(eventName, type, all) {
+	                t.eq(eventName, 'c')
+	                t.eq(type, 'off')
+	                t.eq(all, true)
+	            })
+	
+	            e.ifon('a', function() {
+	                event('a', 'on')
+	            })
+	            e.ifoff('a', function() {
+	                event('a', 'off')
+	            })
+	            e.ifon('b', function() {
+	                event('b', 'on')
+	            })
+	            e.ifoff('b', function() {
+	                event('b', 'off')
+	            })
+	
+	            e.ifon(function(eventName) {
+	                event(eventName, 'on', true)
+	            })
+	            e.ifoff(function(eventName) {
+	                event(eventName, 'off', true)
+	            })
+	
+	            var cb1 = function(){}
+	            var cb2 = function(){}
+	            var cb3 = function(){}
+	
+	            e.on('a', cb1)
+	            e.on('b', cb2)
+	            e.on('a', cb2)
+	            e.removeListener('a', cb1)
+	            e.removeListener('b', cb2)
+	            e.removeListener('a', cb2)
+	
+	            e.once('a', cb3)
+	            e.emit('a')
+	
+	            e.on('a', cb1)
+	            e.on('b', cb1)
+	            e.on('a', cb2)
+	            e.on('b', cb2)
+	            e.on('c', cb1)
+	            e.removeAllListeners('a')
+	            e.removeAllListeners()
+	        })
+	
+	        this.test("ifon after events have been attachd", function(t) {
+	            this.count(4)
+	
+	            var e = EventEmitterB()
+	
+	            var sequenceEvent = testUtils.seq(
+	            // e.on('a', cb1)
+	              function(eventName) {
+	                t.eq(eventName, 'shmaotown')
+	            },function(eventName) {
+	                t.eq(eventName, 'you lazy plughole')
+	            },function(eventName) {
+	                t.eq(eventName, 'all shmaotown')
+	            },function(eventName) {
+	                t.eq(eventName, 'all you lazy plughole')
+	            })
+	
+	            e.on('shmaotown', function() {})
+	            e.on('you lazy plughole', function() {})
+	
+	
+	            e.ifon('shmaotown', function() {
+	                sequenceEvent('shmaotown')
+	            })
+	            e.ifon('you lazy plughole', function() {
+	                sequenceEvent('you lazy plughole')
+	            })
+	            e.ifon(function(eventName) {
+	                sequenceEvent('all '+eventName)
+	            })
+	        })
+	
+	        this.test("remove ifon", function(t) {
+	            this.count(26)
+	
+	            var e = EventEmitterB()
+	
+	            var event = testUtils.seq(
+	            // remove a
+	              function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'b')
+	            },function(eventName) {
+	                t.eq(eventName, 'b2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove bs
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove ifon-all callback
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            })
+	
+	            var a,a2, b,b2, c,c2, all1,all2
+	            e.ifon('a', a = function() {
+	                event('a')
+	            })
+	            e.ifon('a', a2=function() {
+	                event('a2')
+	            })
+	            e.ifon('b', b=function() {
+	                event('b')
+	            })
+	            e.ifon('b', b2=function() {
+	                event('b2')
+	            })
+	            e.ifon('c', c=function() {
+	                event('c')
+	            })
+	            e.ifon('c', c2=function() {
+	                event('c2')
+	            })
+	
+	            e.ifon(all1=function() {
+	                event('all1')
+	            })
+	            e.ifon(all2=function() {
+	                event('all2')
+	            })
+	
+	            t.log('remove a')
+	            e.removeIfon('a', a)
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	
+	            e.removeAllListeners()
+	
+	            t.log('remove bs')
+	            e.removeIfon('b')
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	
+	            e.removeAllListeners()
+	
+	            t.log('remove ifon-all callback')
+	            e.removeIfon(all1)
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	
+	            e.removeAllListeners()
+	
+	            t.log('remove all')
+	            e.removeIfon()
+	            e.on('a',function(){})
+	            e.on('b',function(){})
+	            e.on('c',function(){})
+	        })
+	
+	        this.test("remove ifoff", function(t) {
+	            this.count(26)
+	
+	            var e = EventEmitterB()
+	
+	            var event = testUtils.seq(
+	            // remove a
+	              function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'b')
+	            },function(eventName) {
+	                t.eq(eventName, 'b2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove bs
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all1')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	
+	            // remove ifoff-all callback
+	            },function(eventName) {
+	                t.eq(eventName, 'a2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            },function(eventName) {
+	                t.eq(eventName, 'c')
+	            },function(eventName) {
+	                t.eq(eventName, 'c2')
+	            },function(eventName) {
+	                t.eq(eventName, 'all2')
+	            })
+	
+	            var a,a2, b,b2, c,c2, all1, all2
+	            e.ifoff('a', a = function() {
+	                event('a')
+	            })
+	            e.ifoff('a', a2=function() {
+	                event('a2')
+	            })
+	            e.ifoff('b', b=function() {
+	                event('b')
+	            })
+	            e.ifoff('b', b2=function() {
+	                event('b2')
+	            })
+	            e.ifoff('c', c=function() {
+	                event('c')
+	            })
+	            e.ifoff('c', c2=function() {
+	                event('c2')
+	            })
+	
+	            e.ifoff(all1=function() {
+	                event('all1')
+	            })
+	            e.ifoff(all2=function() {
+	                event('all2')
+	            })
+	
+	            var a,b,c
+	
+	            t.log('remove a')
+	            e.removeIfoff('a', a)
+	            e.on('a',a=function(){})
+	            e.on('b',b=function(){})
+	            e.on('c',c=function(){})
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	
+	            e.on('a',a)
+	            e.on('b',b)
+	            e.on('c',c)
+	
+	            t.log('remove bs')
+	            e.removeIfoff('b')
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	
+	            e.on('a',a)
+	            e.on('b',b)
+	            e.on('c',c)
+	
+	            t.log('remove ifoff-all callback')
+	            e.removeIfoff(all1)
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	
+	            e.on('a',a)
+	            e.on('b',b)
+	            e.on('c',c)
+	
+	            t.log('remove all')
+	            e.removeIfoff()
+	            e.removeListener('a',a)
+	            e.removeListener('b',b)
+	            e.removeListener('c',c)
+	        })
+	    })
+	
+	    this.test("proxy events", function() {
+	        this.test("proxy all", function(t){
+	            this.count(2)
+	
+	            var A = EventEmitterB()
+	            var B = EventEmitterB()
+	
+	            var testEvent = testUtils.seq(
+	              function(eventName) {
+	                t.eq(eventName, 'moose')
+	            },function(eventName) {
+	                t.eq(eventName, 'bark')
+	            })
+	
+	
+	            A.proxy(B)   // proxy all events
+	
+	            A.on('moose', function() {
+	                testEvent('moose')
+	            })
+	            A.on('bark', function() {
+	                testEvent('bark')
+	            })
+	
+	            B.emit('moose')
+	            B.emit('bark')
+	        })
+	
+	        this.test("proxy only", function(t){
+	            this.count(1)
+	
+	            var A = EventEmitterB()
+	            var B = EventEmitterB()
+	
+	            var testEvent = testUtils.seq(
+	              function(eventName) {
+	                t.eq(eventName, 'moose')
+	            })
+	
+	
+	            A.proxy(B, {only: ['moose']})   // proxy only the 'moose' event
+	
+	            A.on('moose', function() {
+	                testEvent('moose')
+	            })
+	            A.on('bark', function() {
+	                testEvent('bark')
+	            })
+	
+	            B.emit('moose')
+	            B.emit('bark')
+	        })
+	
+	        this.test("proxy except", function(t){
+	            this.count(1)
+	
+	            var A = EventEmitterB()
+	            var B = EventEmitterB()
+	
+	            var testEvent = testUtils.seq(
+	              function(eventName) {
+	                t.eq(eventName, 'bark')
+	            })
+	
+	
+	            A.proxy(B, {except: ['moose']})   // proxy only the 'moose' event
+	
+	            A.on('moose', function() {
+	                testEvent('moose')
+	            })
+	            A.on('bark', function() {
+	                testEvent('bark')
+	            })
+	
+	            B.emit('moose')
+	            B.emit('bark')
+	        })
+	
+	        this.test("proxy removeListener and removeAllListeners", function() {
+	            var A = EventEmitterB()
+	            var B = EventEmitterB()
+	
+	            this.eq(B.listeners('moose').length, 0)
+	
+	            A.proxy(B)
+	
+	            var handler;
+	            A.on('moose', handler=function() {
+	                testEvent('moose')
+	            })
+	
+	            this.eq(B.listeners('moose').length, 1)
+	
+	            A.removeListener('moose',handler)
+	            this.eq(B.listeners('moose').length, 0)
+	
+	            A.on('moose', handler)
+	            A.removeAllListeners('moose')
+	            this.eq(B.listeners('moose').length, 0)
+	
+	            A.on('moose', handler)
+	            A.removeAllListeners()
+	            this.eq(B.listeners('moose').length, 0)
+	        })
+	    })
+	    //*/
+	};
+
+/***/ },
+/* 144 */
+/*!***********************!*\
+  !*** ./Block.test.js ***!
+  \***********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 28)
+	var Future = __webpack_require__(/*! async-future */ 39)
+	
+	var syn = __webpack_require__(/*! fsyn */ 32)
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
+	var Block = blocks.Block
+	
+	var Text = blocks.Text
+	var Button = blocks.Button
+	
+	
+	
+	module.exports = function(t) {
+	
+	    // basic test block
+	    var TestThinger = proto(Block,function(superclass) {
+	        this.name = 'TestThinger'
+	    })
+	
+	
+	
+	
+	    //*
+	
+		this.test('testEvent',function(t) {
+	        this.count(2);
+	
+			var obj = new Button("some text");
+			obj.on("flick",function(data) {
+				t.ok(true);
+				t.ok(data.obj === "blah");
+			});
+	
+			obj.emit("flick",{obj:"blah"});
+		});
+	
+	    this.test('add, addAt, addBefore', function() {
+			this.count(5);
+	        var C = proto(Block, function(superclass) {
+	            this.name = 'addTest'
+	            this.init = function() {
+	                superclass.init.call(this) // set style with constructor
+	            }
+	        })
+	
+	        this.test('add', function() {
+	            var x = C()
+	
+	            x.add(Text('a'))
+	            this.eq(x.domNode.children.length, 1)
+	            this.eq(x.children.length, 1)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode.textContent , 'a')
+	
+	            x.add(Text('x', 'b'))
+	            this.eq(x.domNode.children.length, 2)
+	            this.eq(x.children.length, 2)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode , x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'b')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	
+	            x.add([Text('c'), Text('x', 'd')])
+	            this.eq(x.domNode.children.length, 4)
+	            this.eq(x.children.length, 4)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode , x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'b')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	
+	            this.eq(x.domNode.children[2].textContent , 'c')
+	            this.eq(x.children[2].domNode , x.domNode.children[2])
+	            this.eq(x.domNode.children[3].textContent , 'd')
+	            this.eq(x.children[3].domNode , x.domNode.children[3])
+	
+	        })
+	
+	        this.test('addAt', function() {
+	            var x = C()
+	
+	            x.addAt(0, Text('a'))
+	            this.eq(x.domNode.children.length, 1)
+	            this.eq(x.children.length, 1)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode.textContent , 'a')
+	
+	            x.addAt(0, Text('x', 'b'))
+	            this.eq(x.domNode.children.length, 2)
+	            this.eq(x.children.length, 2)
+	            this.eq(x.domNode.children[0].textContent , 'b')
+	            this.eq(x.children[0].domNode , x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'a')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	
+	            x.addAt(1, [Text('c'), Text('x', 'd')])
+	            this.eq(x.domNode.children.length, 4)
+	            this.eq(x.children.length, 4)
+	            this.eq(x.domNode.children[0].textContent , 'b')
+	            this.eq(x.children[0].domNode, x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'c')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	            this.eq(x.domNode.children[2].textContent , 'd')
+	            this.eq(x.children[2].domNode , x.domNode.children[2])
+	            this.eq(x.domNode.children[3].textContent , 'a')
+	            this.eq(x.children[3].domNode , x.domNode.children[3])
+	
+	            this.test('errors', function() {
+	                this.count(1)
+	
+	                var x = C()
+	                x.addAt(0, Text("moose"))
+	
+	                try {
+	                    x.addAt(0, x.children[0])
+	                } catch(e) {
+	                    this.eq(e.message, 'Node at index 0 already has a parent. Remove the node from its parent before adding it somewhere else.')
+	                }
+	            })
+	        })
+	
+	        this.test('addBefore', function() {
+	            var x = C()
+	
+	            var one = Text('a')
+	            x.addBefore(undefined, one)
+	            this.eq(x.domNode.children.length, 1)
+	            this.eq(x.children.length, 1)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode.textContent , 'a')
+	
+	            var two = Text('x', 'b')
+	            x.addBefore(one, two)
+	            this.eq(x.domNode.children.length, 2)
+	            this.eq(x.children.length, 2)
+	            this.eq(x.domNode.children[0].textContent , 'b')
+	            this.eq(x.children[0].domNode, x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'a')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	
+	            x.addBefore(one, [Text('c'), Text('x', 'd')])
+	            this.eq(x.domNode.children.length, 4)
+	            this.eq(x.children.length, 4)
+	            this.eq(x.domNode.children[0].textContent , 'b')
+	            this.eq(x.children[0].domNode, x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'c')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	            this.eq(x.domNode.children[2].textContent , 'd')
+	            this.eq(x.children[2].domNode , x.domNode.children[2])
+	            this.eq(x.domNode.children[3].textContent , 'a')
+	            this.eq(x.children[3].domNode , x.domNode.children[3])
+	
+	            x.addBefore(undefined, Text('e'))
+	            this.eq(x.domNode.children.length, 5)
+	            this.eq(x.children.length, 5)
+	            this.eq(x.domNode.children[4].textContent , 'e')
+	            this.eq(x.children[4].domNode , x.domNode.children[4])
+	        })
+	
+	        this.test('remove', function() {
+	            var C = proto(Block, function(superclass) {
+	                this.name = 'removeTest'
+	
+	                this.init = function() {
+	                    superclass.init.call(this) // set style with constructor
+	                }
+	            })
+	
+	            var x = C()
+	
+	            var zero = Text('a')
+	            var one = Text('b')
+	            var two = Text('c')
+	            var three = Text('d')
+	            var four = Text('e')
+	            x.add(zero,one,two,three,four)
+	
+	            this.eq(zero.parent, x)
+	            this.eq(one.parent, x)
+	            this.eq(two.parent, x)
+	            this.eq(three.parent, x)
+	            this.eq(four.parent, x)
+	
+	            x.remove(2)
+	            this.eq(two.parent, undefined)
+	            this.eq(x.domNode.children.length, 4)
+	            this.eq(x.children.length, 4)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode , x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'b')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	            this.eq(x.domNode.children[2].textContent , 'd')
+	            this.eq(x.children[2].domNode , x.domNode.children[2])
+	            this.eq(x.domNode.children[3].textContent , 'e')
+	            this.eq(x.children[3].domNode , x.domNode.children[3])
+	
+	            x.remove(one)
+	            this.eq(one.parent, undefined)
+	            this.eq(x.domNode.children.length, 3)
+	            this.eq(x.children.length, 3)
+	            this.eq(x.domNode.children[0].textContent , 'a')
+	            this.eq(x.children[0].domNode, x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'd')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	            this.eq(x.domNode.children[2].textContent , 'e')
+	            this.eq(x.children[2].domNode , x.domNode.children[2])
+	
+	            x.remove(zero)
+	            this.eq(zero.parent, undefined)
+	            this.eq(x.domNode.children.length, 2)
+	            this.eq(x.children.length, 2)
+	            this.eq(x.domNode.children[0].textContent , 'd')
+	            this.eq(x.children[0].domNode , x.domNode.children[0])
+	            this.eq(x.domNode.children[1].textContent , 'e')
+	            this.eq(x.children[1].domNode , x.domNode.children[1])
+	
+	            // what's left is three and four
+	            x.remove([0, four])
+	            this.eq(three.parent, undefined)
+	            this.eq(four.parent, undefined)
+	            this.eq(x.domNode.children.length, 0)
+	            this.eq(x.children.length, 0)
+	        })
+	
+			this.test('setting parent',function() {
+				this.count(2);
+				var C = proto(Block, function(superclass) {
+	                this.name = 'parent'
+	
+	                this.init = function() {
+	                    superclass.init.call(this)
+	                }
+	            })
+	
+				var C2 = proto(Block, function(superclass) {
+	                this.name = 'child'
+	
+	                this.init = function() {
+	                    superclass.init.call(this)
+	                }
+	            })
+	
+				var parent = C();
+				var child = C2();
+				this.eq(child.parent,undefined);
+				parent.add(child);
+				this.eq(child.parent,parent);
+				
+			})
+	    })
+	
+	    this.test('attr', function() {
+	        var thinger = TestThinger()
+	        thinger.attr("moose", '5')
+	        this.eq(thinger.domNode.getAttribute("moose"), '5')
+	        this.eq(thinger.attr('moose'), '5')
+	
+	        thinger.attr("moose", 'ha ha ha \'\"haaaaaaa <moose></moose>')
+	        this.eq(thinger.domNode.getAttribute("moose"), 'ha ha ha \'\"haaaaaaa <moose></moose>')
+	        this.eq(thinger.attr('moose'), 'ha ha ha \'\"haaaaaaa <moose></moose>')
+	
+	        thinger.attr('moose', undefined)
+	        this.eq(thinger.domNode.getAttribute("moose"), null)
+	        this.eq(thinger.attr('moose'), undefined)
+	
+	        thinger.attr({arg:1, blah:2})
+	        this.eq(thinger.attr('arg'), '1')
+	        this.eq(thinger.attr('blah'), '2')
+	    })
+	
+	    this.test('label property', function() {
+	        blocks.dev = false // turn off dev for a second
+	
+	        var thinger = TestThinger()
+	        this.eq(thinger.label, undefined)
+	        this.eq(thinger.attr('label'), undefined)
+	
+	        thinger.label = "moose"
+	        this.eq(thinger.label, 'moose')
+	        //this.eq(thinger.attr('label'), undefined) why not just do it for everything // only set in dev mode
+	
+	        var thinger2 = TestThinger()
+	        blocks.dev = true // turn back on
+	        thinger2.label = "moose2"
+	        this.eq(thinger2.label, "moose2")
+	        this.eq(thinger2.attr('label'), "moose2")
+	
+	        try {
+	            thinger.label = 'setagainfails'
+	        } catch(e) {
+	            this.eq(e.message, "A Block's label can only be set once (was already set to: moose)")
+	        }
+	    })
+	
+	    this.test('visible', function() {
+	        var container = blocks.Container()
+	        testUtils.demo("visible test", container)
+	
+	        var thinger = TestThinger()
+	        container.add(thinger)
+	        this.eq(thinger.visible, true)
+	        this.eq($(thinger.domNode).css('display'), "inline-block")
+	
+	        thinger.visible = true                       // does nothing if its already showing
+	        this.eq(thinger.visible, true)
+	        this.eq($(thinger.domNode).css('display'), "inline-block")
+	
+	        thinger.visible = false
+	        this.eq(thinger.visible, false)
+	//        this.eq(thinger.domNode.style.display, "none")
+	        this.eq($(thinger.domNode).css('display'), "none")
+	
+	        thinger.visible = false                      // does nothing if its already hiding
+	        this.eq(thinger.visible, false)
+	        this.eq($(thinger.domNode).css('display'), "none")
+	
+	        thinger.visible = true
+	        this.eq(thinger.visible, true)
+	        this.eq($(thinger.domNode).css('display'), "inline-block")
+	
+	        this.test("with styled css display", function() {
+	            var thinger = TestThinger()
+	            container.add(thinger)
+	            thinger.attached = true // pretend its attached so it'll render the style
+	            thinger.style = blocks.Style({display: 'inline'})
+	
+	            this.eq($(thinger.domNode).css('display'), "inline")
+	
+	            thinger.visible = false
+	            this.eq($(thinger.domNode).css('display'), "none")
+	            this.eq(thinger.visible, false)
+	
+	            thinger.visible = true
+	            this.eq(thinger.visible, true)
+	            this.eq($(thinger.domNode).css('display'), "inline")
+	        })
+	
+	        this.test("with inline css", function() {
+	            var thinger = TestThinger()
+	            container.add(thinger)
+	            thinger.domNode.style.display = 'block'
+	
+	            this.eq($(thinger.domNode).css('display'), "block")
+	
+	            thinger.visible = false
+	            this.eq($(thinger.domNode).css('display'), "none")
+	            this.eq(thinger.visible, false)
+	
+	            thinger.visible = true
+	            this.eq(thinger.visible, true)
+	            this.eq($(thinger.domNode).css('display'), "block")
+	        })
+	    })
+	
+	    this.test("focus", function() {
+	        var input = blocks.TextField()
+	        testUtils.demo("focus test", input)
+	
+	        this.ok(input.domNode !== document.activeElement)
+	
+	        input.focus = true
+	        this.ok(input.domNode === document.activeElement)
+	
+	        input.focus = false
+	        this.ok(input.domNode !== document.activeElement)
+	    })
+	
+	    this.test("setSelection and getCaratOffset", function() {
+	        var container = blocks.Container()
+	        testUtils.demo("setSelection and getCaratOffset", container)
+	
+	        this.test('input textfield', function() {
+	            var input = blocks.TextField()
+	            container.add(input)
+	            input.val = "whatever yo"
+	
+	            this.eq(input.selectionRange, undefined)
+	
+	            input.selectionRange = [1,1]
+	            this.eq(input.selectionRange[0], 1)
+	            this.eq(input.selectionRange[1], 1)
+	
+	            input.selectionRange = [2,5]
+	            this.eq(input.selectionRange[0], 2)
+	            this.eq(input.selectionRange[1], 5)
+	
+	            this.test("input textfields that are next to eachother", function() {
+	                var c = blocks.Container()
+	                container.add(c)
+	                var input = blocks.TextField(), input2 = blocks.TextField()
+	                c.add(input, input2)
+	                input.val = "whatever yo"
+	                input2.val = 'more whatever'
+	
+	                this.eq(input.selectionRange, undefined)
+	                this.eq(input2.selectionRange, undefined)
+	
+	                input.focus = true
+	
+	                // when its focused on after being set programatically, it should have the active caret (note that this is different from gaining focus by being tabbed to)
+	                // seems to start its caret at the end of the input
+	                this.eq(input.selectionRange[0], input.val.length)
+	                this.eq(input.selectionRange[1], input.val.length)
+	                this.eq(input2.selectionRange, undefined)
+	
+	                input.selectionRange = [2,4]
+	                this.eq(input.selectionRange[0], 2)
+	                this.eq(input.selectionRange[1], 4)
+	                this.eq(input2.selectionRange, undefined)
+	
+	                input2.selectionRange = [3,5]
+	                this.eq(input.selectionRange, undefined)
+	                this.eq(input2.selectionRange[0], 3)
+	                this.eq(input2.selectionRange[1], 5)
+	
+	            })
+	        })
+	
+	        this.test('textarea', function() {
+	            var input = blocks.TextArea()
+	            container.add(input)
+	            input.val = "whatever yo"
+	
+	            this.eq(input.selectionRange, undefined)
+	
+	            input.selectionRange = [1,1]
+	            this.eq(input.selectionRange[0], 1)
+	            this.eq(input.selectionRange[1], 1)
+	
+	            input.selectionRange = [2,5]
+	            this.eq(input.selectionRange[0], 2)
+	            this.eq(input.selectionRange[1], 5)
+	        })
+	
+	        this.test("regular div", function() {
+	            var div = blocks.Text("Whatever")
+	            div.attr("contenteditable", true)
+	            container.add(div)
+	
+	            this.eq(div.selectionRange, undefined)
+	
+	            div.selectionRange = [1,1]
+	            this.eq(div.selectionRange[0], 1)
+	            this.eq(div.selectionRange[1], 1)
+	
+	            div.selectionRange = [2,5]
+	            this.eq(div.selectionRange[0], 2)
+	            this.eq(div.selectionRange[1], 5)
+	        })
+	
+	        this.test("contenteditable div", function() {
+	            var input = blocks.Text("Whatever")
+	            input.attr("contenteditable", true)
+	            container.add(input)
+	
+	            this.eq(input.selectionRange, undefined)
+	
+	            input.selectionRange = [1,1]
+	            this.eq(input.selectionRange[0], 1)
+	            this.eq(input.selectionRange[1], 1)
+	
+	            input.selectionRange = [2,5]
+	            this.eq(input.selectionRange[0], 2)
+	            this.eq(input.selectionRange[1], 5)
+	
+	            input.domNode.innerHTML = "<span>hi</span><span>lo</span><span>mo<br>scrow</span>"
+	            this.eq(input.selectionRange[0], 0)
+	            this.eq(input.selectionRange[1], 11)           // is this right?
+	
+	            input.selectionRange = [4,11]
+	            this.eq(input.selectionRange[0], 4)
+	            this.eq(input.selectionRange[1], 11)
+	
+	        })
+	
+	        this.test("selectionRange across nodes", function() {
+	            var one = Text('one'), two = Text("two"), three = Text("three")
+	            var c = blocks.Container(one, two, three)
+	            container.add(c)
+	
+	            c.selectionRange = [2,8]
+	            this.eq(c.selectionRange[0], 2)
+	            this.eq(c.selectionRange[1], 8)
+	            this.eq(one.selectionRange[0], 2)
+	            this.eq(one.selectionRange[1], 3)
+	            this.eq(two.selectionRange[0], 0)
+	            this.eq(two.selectionRange[1], 3)
+	            this.eq(three.selectionRange[0], 0)
+	            this.eq(three.selectionRange[1], 2)
+	        })
+	    })
+	
+	    this.test("on, addListener, once, removeListener, removeAllListeners", function(t) {
+	        this.count(10)
+	
+	        var EventWhore = proto(Block,function(superclass) {
+	            this.name = 'EventWhore'
+	        })
+	
+	        var e = EventWhore()
+	
+	        var event = testUtils.seq(
+	          function(eventName, data) {
+	            t.eq(eventName, 'a')
+	            t.eq(data, 1)
+	        },function(eventName, data) {
+	            t.eq(eventName, 'a')
+	            t.eq(data, 2)
+	
+	        },function(eventName, data) {
+	            t.eq(eventName, 'b')
+	            t.eq(data, 3)
+	        },function(eventName, data) {
+	            t.eq(eventName, 'b')
+	            t.eq(data, 4)
+	
+	        },function(eventName, data) {
+	            t.eq(eventName, 'c')
+	            t.eq(data, 5)
+	        })
+	
+	        var acb, bcb, ccb;
+	        e.on('a', acb = function(data) {
+	            event('a', data)
+	        })
+	        e.addListener('b', bcb = function bcb(data) {
+	            event('b', data)
+	        })
+	        e.once('c', cbc = function(data) {
+	            event('c', data)
+	        })
+	
+	        e.emit('a', 1)
+	        e.emit('a', 2)
+	
+	        e.emit('b', 3)
+	        e.emit('b', 4)
+	
+	        e.emit('c', 5)
+	        e.emit('c', 6)
+	
+	        e.removeListener('a', acb)
+	        e.emit('a', 7)
+	
+	        e.removeAllListeners('b')
+	        e.emit('b', 8)
+	
+	        e.on('d', acb = function(data) {
+	            event('a', data)
+	        })
+	        e.removeAllListeners()
+	        e.emit('d', 9)
+	    })
+	
+	
+	    this.test('listening on standard browser events', function(t) {
+	        var container = blocks.Container()
+	        testUtils.demo('listening on standard browser events', container)
+	        this.test("basic browser events", function (t) {
+	            this.count(1)
+	
+	            var EventEmitter = __webpack_require__(/*! events */ 24).EventEmitter
+	
+	            var EventWhore = proto(Block,function(superclass) {
+	                this.name = 'EventWhore'
+	            })
+	
+	            var e = EventWhore()
+	            container.add(e)
+	
+	            var testEvent = testUtils.seq(function(eventName) {
+	                t.eq(eventName, 'click')
+	            })
+	
+	            // events shouldn't be emitted unless bound with the EventEmitterB/Block `on` method (the EventEmitter `on` method bypasses the critical dom event handling setup)
+	            var eventEmitterPrototypeHandler;
+	            EventEmitter.prototype.on.call(e, "click", eventEmitterPrototypeHandler=function() {
+	                testEvent('EventEmitter click')
+	            })
+	
+	            var handler;
+	            syn.click(e.domNode).then(function() {
+	                EventEmitter.prototype.removeListener.call(e, "click", eventEmitterPrototypeHandler) // get rid of the EventEmitter listener, cause otherwise it'll mess out stuff up
+	
+	                e.on('click', handler = function() {
+	                    testEvent('click')
+	                })
+	
+	                return syn.click(e.domNode)
+	            }).then(function() {
+	                e.removeListener('click', handler)
+	
+	                return syn.click(e.domNode)
+	            }).then(function() {
+	                e.on('click', handler = function() {
+	                    event('click')
+	                })
+	
+	                e.removeAllListeners('click')
+	
+	                return syn.click(e.domNode)
+	            }).then(function() {
+	                e.on('click', handler = function() {
+	                    event('click')
+	                })
+	
+	                e.removeAllListeners()
+	
+	                return syn.click(e.domNode)
+	            }).done()
+	        })
+	
+	        this.test("browser events with exclusion", function(t) {
+	            this.count(1)
+	
+	            var EventWhore = proto(Block,function(superclass) {
+	                this.name = 'EventWhore'
+	
+	                this.excludeDomEvents = {click: 1}
+	            })
+	
+	            var e = EventWhore()
+	            container.add(e)
+	
+	            var testEvent = testUtils.seq(function(eventName) {
+	                t.eq(eventName, 'mousedown')
+	            })
+	
+	            e.on('click', function() {
+	                testEvent('click')
+	            })
+	            e.on('mousedown', function() {
+	                testEvent('mousedown')
+	            })
+	
+	            syn.click(e.domNode).done()
+	        })
+	    })
+	
+	    this.test("attach and detach", function() {
+	        var a = blocks.Text("tach")
+	        a.attach()
+	        this.eq(a.domNode.parentNode, document.body)
+	
+	        var b = blocks.Text("tach2")
+	        b.attach(a.domNode)
+	        this.eq(b.domNode.parentNode, a.domNode)
+	
+	
+	        var c = blocks.Text("tach3")
+	        blocks.attach(c)
+	        this.eq(c.domNode.parentNode, document.body)
+	
+	        var d = blocks.Text("tach4")
+	        blocks.attach(c.domNode, d)
+	        this.eq(d.domNode.parentNode, c.domNode)
+	
+	
+	        var e = blocks.Text("tach5")
+	        blocks.attach([e])
+	        this.eq(e.domNode.parentNode, document.body)
+	
+	        var f = blocks.Text("tach6")
+	        blocks.attach(e.domNode, [f])
+	        this.eq(f.domNode.parentNode, e.domNode)
+	
+	
+	        blocks.detach(f)
+	        this.eq(f.domNode.parentNode, null)
+	        blocks.detach([e,d])
+	        this.eq(e.domNode.parentNode, null)
+	        this.eq(d.domNode.parentNode, null)
+	        c.detach()
+	        b.detach()
+	        this.eq(c.domNode.parentNode, null)
+	        this.eq(b.domNode.parentNode, null)
+	    })
+	
+	    this.test("former bugs", function() {
+	        // note, i thought this would have been a bug.. but apparently not? I'm unclear how to manifest the incorrect code i see.. but what the hell, i'll just fix the code without a test
+	        this.test("dom events handlers not being unbound correctly when more than one type of event is bound", function(t) {
+	            this.count(1)
+	
+	            var EventWhore = proto(Block,function(superclass) {
+	                this.name = 'EventWhore'
+	            })
+	
+	            var e = EventWhore()
+	
+	            var clickHandler
+	            e.on('click', clickHandler=function() {
+	                t.ok(false)
+	            })
+	            e.on('mousedown', function() {
+	                t.ok(true)
+	            })
+	
+	            e.off('click', clickHandler)
+	
+	            syn.click(e.domNode)
+	        })
+	    })
+	
+	    //*/
+	}
+	
+
+
+/***/ },
+/* 145 */
+/*!***************************************!*\
+  !*** ./ComponentTests/Button.test.js ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var syn = __webpack_require__(/*! fsyn */ 32)
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	
+	var Button = __webpack_require__(/*! Components/Button */ 6)
+	
+	module.exports = function(t) {
+	    t.count(5)
+	
+	    var obj = new Button("Text");
+	    obj.on("click",function() {
+	        t.ok(true);
+	    })
+	
+	    testUtils.demo("Button", obj)
+	
+	    this.eq(obj.text, "Text")
+	    this.eq(obj.domNode.value, "Text")
+	    obj.text = "MOOOO"
+	    this.eq(obj.text, "MOOOO")
+	    this.eq(obj.domNode.value, "MOOOO")
+	
+	    syn.click(obj.domNode)
+	};
+
+
+/***/ },
+/* 146 */
+/*!***************************************!*\
+  !*** ./ComponentTests/Canvas.test.js ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	
+	var Canvas = __webpack_require__(/*! Components/Canvas */ 7);
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("Canvas", container)
+	
+		this.test('basic usage',function(t) {
+			var obj = Canvas(20,30)
+	        container.add(obj)
+	
+	        this.eq(obj.height, 20)
+	        this.eq(obj.domNode.height, 20)
+	        this.eq(obj.attr('height'), '20')
+	        this.eq(obj.width, 30)
+	        this.eq(obj.domNode.width, 30)
+	        this.eq(obj.attr('width'), '30')
+	
+	        this.eq(obj.toDataURL(), obj.toImg())
+	        this.ok(obj.toImg() !== undefined)
+	
+	        this.ok(obj.context('2d') instanceof CanvasRenderingContext2D)
+	        this.ok(obj.context('webgl') === null || obj.context('webgl') instanceof WebGLRenderingContext)
+		});
+	
+	    this.test("label argument", function() {
+	        var obj = Canvas("label", 30, 40)
+	        this.eq(obj.label, "label")
+	        this.eq(obj.height, 30)
+	        this.eq(obj.domNode.height, 30)
+	        this.eq(obj.width, 40)
+	        this.eq(obj.domNode.width, 40)
+	    })
+	};
+
+
+/***/ },
+/* 147 */
+/*!*****************************************!*\
+  !*** ./ComponentTests/CheckBox.test.js ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var syn = __webpack_require__(/*! fsyn */ 32)
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	
+	var CheckBox = __webpack_require__(/*! Components/CheckBox */ 8)
+	
+	module.exports = function(t) {
+	    t.count(14)
+	
+	    var obj = new CheckBox()
+	    this.test("clicks", function(t) {
+	        this.count(2)
+	        obj.on("click",function() {
+	            t.ok(true)
+	        })
+	    })
+	    this.test("clicks", function(t) {
+	        this.count(4)
+	        obj.on("change",function() {
+	            t.ok(true)
+	        })
+	    })
+	
+	    testUtils.demo("Checkbox", obj)
+	
+	    this.eq(obj.selected, false)
+	    this.eq(obj.domNode.checked, false)
+	
+	    obj.selected = true          // causes a change event (but no click)
+	    this.eq(obj.selected, true)
+	    this.eq(obj.domNode.checked, true)
+	
+	    obj.selected = true          // nothing should happen since its already selected
+	    this.eq(obj.selected, true)
+	    this.eq(obj.domNode.checked, true)
+	
+	    obj.selected = false         // causes a change event (but no click)
+	    this.eq(obj.selected, false)
+	    this.eq(obj.domNode.checked, false)
+	
+	    syn.click(obj.domNode).then(function() {     // causes a change event and a click event
+	        t.eq(obj.selected, true)
+	        t.eq(obj.domNode.checked, true)
+	
+	        return syn.click(obj.domNode)            // causes a change event and a click event
+	    }).then(function(){
+	        t.eq(obj.selected, false)
+	        t.eq(obj.domNode.checked, false)
+	    }).done()
+	};
+
+
+/***/ },
+/* 148 */
+/*!******************************************!*\
+  !*** ./ComponentTests/Container.test.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var syn = __webpack_require__(/*! fsyn */ 32)
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	var Text = __webpack_require__(/*! Components/Text */ 17)
+	
+	module.exports = function() {
+	
+	    this.test('basic usage', function(t) {
+	        t.count(18)
+	
+	        var demoContainer = Container()
+	        testUtils.demo("Container", demoContainer)
+	
+	
+	        var text1 = Text('a')
+	        var c1 = Container(text1)
+	        demoContainer.add(c1)
+	
+	        this.eq(c1.children.length, 1)
+	        this.eq(c1.domNode.childNodes.length, 1)
+	        this.eq(c1.children[0], text1)
+	        this.eq(c1.domNode.childNodes[0], text1.domNode)
+	
+	        c1.on("click",function(e) {
+	            t.ok(e !== undefined)
+	        })
+	
+	        syn.click(text1.domNode)  // produces a click event
+	        syn.click(c1.domNode)     // produces another click event
+	
+	
+	        var text2 = Text('b'), text3 = Text('c')
+	        var c2 = Container(text2, text3)
+	        demoContainer.add(c2)
+	
+	        this.eq(c2.children.length, 2)
+	        this.eq(c2.children[0], text2)
+	        this.eq(c2.children[1], text3)
+	
+	
+	        var text4 = Text('d'), text5 = Text('e')
+	        var c3 = Container([text4, text5])
+	        demoContainer.add(c3)
+	
+	        this.eq(c3.children.length, 2)
+	        this.eq(c3.children[0], text4)
+	        this.eq(c3.children[1], text5)
+	
+	
+	        // test to make sure label arguments work
+	
+	        var c4 = Container('aLabel1', Text('e'))
+	        this.eq(c4.children.length, 1)
+	        this.eq(c4.attr('label', 'aLabel1'))
+	
+	        var c5 = Container('aLabel2', Text('f'), Text('g'))
+	        this.eq(c5.children.length, 2)
+	        this.eq(c5.attr('label', 'aLabel2'))
+	
+	        var c6 = Container('aLabel3', [Text('h')])
+	        this.eq(c6.children.length, 1)
+	        this.eq(c6.attr('label', 'aLabel3'))
+	
+	    })
+	
+	    this.test('label arguments', function() {
+	        var c1 = Container("label1")
+	        var c2 = Container("label2", [])
+	        var c3 = Container("label3", Text("a"), Text("b"))
+	
+	        this.eq(c1.label, "label1")
+	        this.eq(c2.label, "label2")
+	        this.eq(c3.label, "label3")
+	
+	        this.eq(c1.children.length, 0)
+	        this.eq(c2.children.length, 0)
+	        this.eq(c3.children.length, 2)
+	    })
+	};
+
+
+/***/ },
+/* 149 */
+/*!**************************************!*\
+  !*** ./ComponentTests/Image.test.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	
+	var Image = __webpack_require__(/*! Components/Image */ 10);
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("Image", container)
+	
+		this.test('basic usage',function(t) {
+			var obj = new Image("https://avatars1.githubusercontent.com/u/149531")
+	        container.add(obj)
+	
+	        t.eq(obj.domNode.nodeName, "IMG")
+	
+	        t.eq(obj.src, "https://avatars1.githubusercontent.com/u/149531")
+	        t.eq(obj.domNode.src, "https://avatars1.githubusercontent.com/u/149531")
+	
+	        obj.src = "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg"
+	        t.eq(obj.src, "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg")
+	        t.eq(obj.domNode.src, "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg")
+		});
+	
+	    this.test("label argument", function() {
+	        var img = Image("label", "https://avatars1.githubusercontent.com/u/149531")
+	
+	        this.eq(img.label, "label")
+	        this.eq(img.src, "https://avatars1.githubusercontent.com/u/149531")
+	        this.eq(img.domNode.src, "https://avatars1.githubusercontent.com/u/149531")
+	    })
+	};
+
+
+/***/ },
+/* 150 */
+/*!*************************************!*\
+  !*** ./ComponentTests/List.test.js ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	var domUtils = __webpack_require__(/*! domUtils */ 19)
+	
+	var Text = __webpack_require__(/*! Components/Text */ 17)
+	var List = __webpack_require__(/*! Components/List */ 9)
+	
+	module.exports = function(t) {
+	
+	
+	    var container = Container()
+	    testUtils.demo("List", container)
+	
+	    this.test("simple creation - unordered", function() {
+	        var list = List([Text('a'), Text('b'), Text('c')])
+	
+	        container.add(Text("list1"), list)
+	
+	        this.eq(list.children.length, 3)
+	        this.ok(list.children[0] instanceof List.Item)
+	        this.ok(list.children[1] instanceof List.Item)
+	        this.ok(list.children[2] instanceof List.Item)
+	        this.eq(list.domNode.nodeName, 'UL') // default is unordered list
+	
+	        var firstItem = $($(list.domNode).find("li")[0])[0]
+	        this.eq(firstItem[domUtils.textProperty], 'a')
+	
+	        this.test("list constructed with raw strings instead of elements", function() {
+	            var list = List(['a', 'b'])
+	
+	            container.add(Text("list2"), list)
+	
+	            this.eq(list.children.length, 2)
+	            this.eq(list.children[0].domNode[domUtils.textProperty], 'a')
+	        })
+	    })
+	
+	    this.test("simple creation - ordered", function() {
+	        var list = List(true, [Text('a'), Text('b'), Text('c')])
+	        this.eq(list.domNode.nodeName, 'OL')    // the true argument means ordered list
+	        container.add(Text("olist"), list)
+	
+	        var list = List(false, [Text('a'), Text('b'), Text('c')])
+	        this.eq(list.domNode.nodeName, 'UL')    // false means unordered
+	    })
+	
+	    this.test("individual item creation", function() {
+	        var list = List()
+	
+	        this.eq(list.domNode.nodeName, 'UL') // default is unordered list
+	
+	        var item1 = list.item(Text('a'))
+	        this.eq(list.children.length, 1)
+	
+	        var item2 = list.item(Text('B'))
+	
+	        this.eq(list.children.length, 2)
+	        this.ok(list.children[0] instanceof List.Item)
+	        this.ok(list.children[1] instanceof List.Item)
+	        this.ok(list.children[0] === item1)
+	        this.ok(list.children[1] === item2)
+	
+	        this.eq(list.children[0].children[0].text, 'a')
+	        var firstItem = $($(list.domNode).find("li")[0])[0]
+	        this.eq(firstItem[domUtils.textProperty], 'a')
+	
+	        this.test("items constructed with raw strings instead of elements", function() {
+	            var list = List()
+	
+	            var item1 = list.item('a')
+	
+	            this.eq(list.children.length, 1)
+	            this.eq(list.children[0].domNode[domUtils.textProperty], 'a')
+	        })
+	
+	        this.test("ordering argument alone", function() {
+	            var list = List(true)
+	            this.eq(list.domNode.nodeName, 'OL')
+	
+	            var list2 = List(false)
+	            this.eq(list2.domNode.nodeName, 'UL')
+	        })
+	    })
+	
+	    this.test("label arguments", function() {
+	        var list1 = List('aLabel')
+	        var list2 = List('aLabel2', ['a', 'b', 'c'])
+	        this.eq(list1.label, 'aLabel')
+	        this.eq(list2.label, 'aLabel2')
+	        this.eq(list1.domNode.nodeName, 'UL')
+	        this.eq(list2.domNode.nodeName, 'UL')
+	        this.eq(list1.children.length, 0)
+	        this.eq(list2.children.length, 3)
+	
+	        var item1 = list1.item('aLabel4', 'e')
+	        this.eq(list1.children.length, 1)
+	        this.eq(item1.label, 'aLabel4')
+	        this.eq(item1.domNode[domUtils.textProperty], 'e')
+	
+	        var list3 = List('aLabel5', true)
+	        this.eq(list3.label, 'aLabel5')
+	        this.eq(list3.domNode.nodeName, 'OL')
+	        this.eq(list3.children.length, 0)
+	
+	        var list4 = List('aLabel6', false)
+	        this.eq(list4.label, 'aLabel6')
+	        this.eq(list4.domNode.nodeName, 'UL')
+	        this.eq(list4.children.length, 0)
+	
+	        var list5 = List('aLabel7', true, ['x'])
+	        this.eq(list5.label, 'aLabel7')
+	        this.eq(list5.domNode.nodeName, 'OL')
+	        this.eq(list5.children.length, 1)
+	
+	        var list6 = List('aLabel8', false, ['y'])
+	        this.eq(list6.label, 'aLabel8')
+	        this.eq(list6.domNode.nodeName, 'UL')
+	        this.eq(list6.children.length, 1)
+	
+	    })
+	};
+
+
+/***/ },
+/* 151 */
+/*!********************************************!*\
+  !*** ./ComponentTests/MultiSelect.test.js ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var syn = __webpack_require__(/*! fsyn */ 32)
+	
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	var Text = __webpack_require__(/*! Components/Text */ 17)
+	
+	var MultiSelect = __webpack_require__(/*! Components/MultiSelect */ 158)
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("MultiSelect", container)
+	
+	    this.test("basic usage", function(t) {
+	        this.count(49)
+	
+	        var s1 = MultiSelect({4: 'Option 4', 5: "Option 5"})
+	        container.add(Text("Group 1: "), s1)
+	
+	        this.eq(Object.keys(s1.options).length, 2)
+	        this.eq(s1.options[4].val, "4")
+	        this.eq(s1.options[5].val, "5")
+	        this.eq(s1.val.length, 0)
+	
+	        var option6 = s1.option(6, "Option 6")
+	
+	        this.eq(Object.keys(s1.options).length, 3)
+	        this.eq(s1.options[6], option6)
+	
+	
+	        this.test("events", function(t) {
+	            this.count(43)
+	
+	            s1.on('change', function() {
+	                event('change','s1')
+	            })
+	
+	            s1.options[4].on('click', function() {
+	                event('click', 'option4')
+	            })
+	            s1.options[4].on('change', function() {
+	                event('change', 'option4')
+	            })
+	            s1.options[5].on('click', function() {
+	                event('click', 'option57')
+	            })
+	            s1.options[5].on('change', function() {
+	                event('change', 'option57')
+	            })
+	            option6.on('click', function() {
+	                event('click', 'option6')
+	            })
+	            option6.on('change', function() {
+	                event('change', 'option6')
+	            })
+	
+	            var event = testUtils.seq(
+	
+	            // change 1
+	              function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 1)
+	
+	            // change 2
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 2)
+	
+	            // change 3
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 1)
+	
+	            // change 4
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	                t.eq(s1.options[4].selected, true)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option6')
+	                t.eq(s1.options[6].selected, true)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	                t.eq(s1.options[7].selected, false)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 2)
+	
+	            // change 5
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 1)
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'option6')
+	
+	            // change 6
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option6')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val.length, 1)
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'option57')
+	            })
+	
+	        })
+	
+	
+	
+	        this.ok(s1.val instanceof Array, s1.val)
+	        this.eq(s1.val.length, 0)
+	
+	        // change 1
+	        s1.options[4].selected = true
+	        this.eq(s1.val.length, 1)
+	        this.eq(s1.val[0], "4")
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[5].selected, false)
+	        this.eq(s1.options[6].selected, false)
+	
+	        // change 2
+	        s1.options[5].selected = true
+	        this.eq(s1.val.length, 2)
+	        this.eq(s1.val[0], "4")
+	        this.eq(s1.val[1], "5")
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[5].selected, true)
+	        this.eq(s1.options[6].selected, false)
+	
+	        // change option value
+	
+	        s1.options[5].val = 7
+	        this.eq(s1.options[7].val, '7')
+	        this.eq(s1.val[1], '7')
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[5], undefined)     // moved to value 7
+	        this.eq(s1.options[6].selected, false)
+	        this.eq(s1.options[7].selected, true)
+	
+	        // change option text
+	        s1.options[7].text = 'Option 7<select></select>'
+	        this.eq(s1.options[7].domNode.textContent, 'Option 7<select></select>')
+	        this.eq(s1.options[7].text, 'Option 7<select></select>')
+	
+	        // change 3
+	        s1.options[4].selected = false
+	        this.eq(s1.val.length, 1)
+	        this.eq(s1.val[0], "7")
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[6].selected, false)
+	        this.eq(s1.options[7].selected, true)
+	
+	        // change 4
+	        // change the value of the select object directly
+	        s1.val = [4,6]
+	        this.eq(s1.val.length, 2)
+	        this.eq(s1.val[0], "4")
+	        this.eq(s1.val[1], "6")
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[6].selected, true)
+	        this.eq(s1.options[7].selected, false)
+	
+	
+	        // select just one of the already selected options with a click
+	        // change 5
+	        syn.click(option6.domNode).then(function() {
+	            t.eq(s1.val.length, 1)
+	            t.eq(s1.val[0], "6")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, true)
+	            t.eq(s1.options[7].selected, false)
+	
+	            // change 6
+	            // click one that wasn't already selected
+	            return syn.click(s1.options[7].domNode)
+	        }).then(function(){
+	            t.eq(s1.val.length, 1)
+	            t.eq(s1.val[0], "7")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, false)
+	            t.eq(s1.options[7].selected, true)
+	        }).done()
+	
+	        /* todo: test selecting multiple items with shift-clicking once syn supports that
+	        syn.type(option6.domNode, "[shift]").click(option6.domNode).type(option6.domNode, "[shift-up]").then(function() {
+	            t.eq(s1.val.length, 2)
+	            t.eq(s1.val[0], "6")
+	            t.eq(s1.val[1], "7")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, true)
+	            t.eq(s1.options[7].selected, true)
+	
+	            return syn.click(s1.options[7].domNode)
+	        }).then(function(){
+	            t.eq(s1.val.length, 2)
+	            t.eq(s1.val[0], "6")
+	            t.eq(s1.val[1], "7")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, true)
+	            t.eq(s1.options[7].selected, false)
+	        }).done()
+	        */
+	    })
+	
+	
+	    // todo:
+	    /*
+	    this.test("test keyboard events", function() {
+	
+	        this.test("basic changing selected options with the keyboard", function(t) {
+	            var select1 = MultiSelect({1: 'one', 2: 'two', 3: 'three'})
+	
+	            container.add(Text("Another Group: "), select1)
+	
+	            select1.focus()
+	            syn.key(option1A.domNode, "[down]").then(function() {
+	                t.eq(document.activeElement, option1B)
+	                t.eq(select1.val, "2")
+	
+	                return syn.key(option1A.domNode, "[down]")
+	            })/*.then(function() {
+	                t.eq(document.activeElement, option1C)
+	                t.eq(select1.val, "3")
+	
+	                return key(option1A.domNode, "[left]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1B)
+	                t.eq(select1.val, "2")
+	
+	                return key(option1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1A)
+	                t.eq(select1.val, "1")
+	
+	                // test looping
+	                return key(option1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1C)
+	                t.eq(select1.val, "3")
+	
+	                // test looping
+	                return key(option1A.domNode, "[down]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1A)
+	                t.eq(select1.val, "1")
+	            }).done()
+	        })
+	
+	    })
+	    */
+	
+	
+	    this.test("labels", function(t) {
+	        var s1 = MultiSelect("myLabel")
+	        this.eq(s1.label, "myLabel")
+	        this.eq(Object.keys(s1.options).length, 0)
+	
+	        var s2 = MultiSelect("myLabel2", {1: "one"})
+	        this.eq(s2.label, "myLabel2")
+	        this.eq(Object.keys(s2.options).length, 1)
+	
+	        var option = s1.option("myLabel3", "value", "text")
+	        this.eq(option.label, "myLabel3")
+	        this.eq(option.val, "value")
+	        this.eq(option.text, "text")
+	    })
+	
+	
+	    this.test("remove", function(t) {
+	        this.count(13)
+	
+	        var select = MultiSelect()
+	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
+	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
+	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
+	
+	        option0.selected = true
+	
+	        select.on('change', function() {
+	            event(select.val)
+	        })
+	
+	        var event = testUtils.seq(function(values) {
+	            t.eq(values.length, 0)
+	        })
+	
+	
+	        this.eq(option1.parent, select)
+	
+	        select.remove(1)
+	        this.eq(select.val.length, 1)
+	        this.eq(option1.parent, undefined)
+	        this.eq(Object.keys(select.options).length, 5)
+	
+	        try {
+	            select.val = ["option1"]
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option1'")
+	        }
+	
+	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
+	        this.eq(select.val.length, 0)
+	        this.eq(option0.parent, undefined)
+	        this.eq(Object.keys(select.options).length, 4)
+	
+	        try {
+	            select.val = "option0"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option0'")
+	        }
+	
+	        select.remove([2, 3]) // these are option4 and option5
+	
+	
+	        try {
+	            select.val = "option4"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option4'")
+	        }
+	
+	        this.eq(Object.keys(select.options).length, 2)
+	
+	        select.remove([option2])
+	
+	        this.eq(Object.keys(select.options).length, 1)
+	    })
+	
+	    // todo:
+	    /*
+	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
+	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
+	    })
+	     */
+	
+	    this.test("errors", function() {
+	        this.count(9)
+	
+	        var select = MultiSelect({1: "text", 3: 'moretext', 4: "seriously"})
+	
+	        try {
+	            select.option("1", 'text')
+	        } catch(e) {
+	            this.eq(e.message, "Can't give an Option the same value as another in the MultiSelect (value: '1')")
+	        }
+	
+	        var optionB = select.option("2", 'text')
+	        try {
+	            optionB.val = "1"
+	        } catch(e) {
+	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
+	        }
+	
+	        select.options[1].selected = true
+	
+	        // verify the values beforehand (these values should remain the same after the error below)
+	        this.eq(select.val.length, 1)
+	        this.eq(select.val[0], '1')
+	
+	        try {
+	            select.val = "nonexistent"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'nonexistent'")
+	        }
+	
+	        // make sure this didn't change any values (since an exception was thrown, nothing should have been changed)
+	        this.eq(select.val.length, 1)
+	        this.eq(select.val[0], '1')
+	
+	        try {
+	            select.remove(300)
+	        } catch(e) {
+	            this.eq(e.message, "There is no child at index 300")
+	        }
+	
+	        var select2 = MultiSelect({x: 'x', 'y':'y', z:'z'})
+	        try {
+	            select2.remove(optionB)
+	        } catch(e) {
+	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
+	        }
+	    })
+	};
+
+
+/***/ },
+/* 152 */
+/*!**************************************!*\
+  !*** ./ComponentTests/Radio.test.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var syn = __webpack_require__(/*! fsyn */ 32)
+	
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	var Text = __webpack_require__(/*! Components/Text */ 17)
+	
+	var Radio = __webpack_require__(/*! Components/Radio */ 4)
+	
+	
+	module.exports = function(t) {
+	
+	    var container = Container()
+	    testUtils.demo("Radio", container)
+	
+	    this.test('required',function(t) {
+	        this.test("basic usage", function(t) {
+	            this.count(23)
+	
+	            var radio = Radio() // default is required
+	            var button1 = radio.button("1"), button2 = radio.button("2")
+	            container.add(Text("Required: "),button1, button2)
+	
+	            radio.on('change', function() {
+	                event('change','radio')
+	            })
+	
+	            button1.on('click', function() {
+	                event('click', 'button1')
+	            })
+	            button1.on('change', function() {
+	                event('change', 'button1')
+	            })
+	            button2.on('click', function() {
+	                event('click', 'button2')
+	            })
+	            button2.on('change', function() {
+	                event('change', 'button2')
+	            })
+	
+	            var event = testUtils.seq(function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'button1')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'button1')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'button2')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'radio')
+	
+	                t.eq(radio.val, '2')
+	                t.eq(radio.selected, button2)
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'button2')
+	            })
+	
+	            // for a required one, the first button created will be selected by default
+	            t.eq(button1.domNode.checked, true)
+	            t.eq(button2.domNode.checked, false)
+	            t.eq(radio.selected, button1)
+	            t.eq(radio.val, "1")
+	
+	            // nothing should happen if you click the selected one (for required)
+	            syn.click(button1.domNode).then(function() {
+	                t.eq(button1.domNode.checked, true)
+	                t.eq(button2.domNode.checked, false)
+	                t.eq(radio.selected, button1)
+	                t.eq(radio.val, "1")
+	
+	                // select the other one
+	                return syn.click(button2.domNode)
+	            }).then(function() {
+	                t.eq(button1.domNode.checked, false)
+	                t.eq(button2.domNode.checked, true)
+	                t.eq(radio.val, "2")
+	            }).done()
+	        })
+	
+	        this.test("remove", function(t) {
+	            this.count(14)
+	
+	            var radio = Radio()
+	            var button0 = radio.button("0"), button1 = radio.button("1"), button2 = radio.button("2"), button3 = radio.button("3")
+	            var button4 = radio.button("4"), button5 = radio.button("5")
+	
+	            radio.on('change', function() {
+	                event(radio.val)
+	            })
+	
+	            var event = testUtils.seq(function(value) {
+	                t.eq(value, '2')
+	            },function(value) {
+	                t.eq(value, '4')
+	            },function(value) {
+	                t.eq(value, '5')
+	            })
+	
+	
+	            this.eq(button1.group, radio)
+	
+	            radio.remove(button1)
+	            this.eq(radio.val, "0")
+	            this.eq(button1.group, undefined)
+	            this.eq(Object.keys(radio.buttons).length, 5)
+	
+	            try {
+	                radio.val = "1"
+	            } catch(e) {
+	                this.eq(e.message, "There is no RadioButton in the group with the value: '1'")
+	            }
+	
+	            radio.remove(button0)
+	            this.eq(radio.val, "2")  // for required, another RadioButton is selected
+	            this.eq(button0.group, undefined)
+	            this.eq(Object.keys(radio.buttons).length, 4)
+	
+	            try {
+	                radio.val = "0"
+	            } catch(e) {
+	                this.eq(e.message, "There is no RadioButton in the group with the value: '0'")
+	            }
+	
+	            radio.remove([button2, button3])
+	
+	            this.eq(Object.keys(radio.buttons).length, 2)
+	
+	            radio.remove([button4])
+	
+	            this.eq(Object.keys(radio.buttons).length, 1)
+	        })
+	
+	        // todo: when syn support keyboard events on radio buttons
+	        /*
+	        this.test("changing selected radio buttons with the keyboard", function(t) {
+	            var radio1 = Radio(true)
+	            var button1A = radio1.button("1"), button1B = radio1.button("2"), button1C = radio1.button("3")
+	
+	            container.add(button1A, button1B, button1C)
+	
+	            // todo: add events testing to this too
+	
+	            button1A.focus()
+	            key(button1A.domNode, "[right]").then(function() {
+	                t.eq(document.activeElement, button1B)
+	                t.eq(radio1.val, "2")
+	
+	                return key(button1A.domNode, "[down]")
+	            }).then(function() {
+	                t.eq(document.activeElement, button1C)
+	                t.eq(radio1.val, "3")
+	
+	                return key(button1A.domNode, "[left]")
+	            }).then(function() {
+	                t.eq(document.activeElement, button1B)
+	                t.eq(radio1.val, "2")
+	
+	                return key(button1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, button1A)
+	                t.eq(radio1.val, "1")
+	
+	                // test looping
+	                return key(button1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, button1C)
+	                t.eq(radio1.val, "3")
+	
+	                // test looping
+	                return key(button1A.domNode, "[down]")
+	            }).then(function() {
+	                t.eq(document.activeElement, button1A)
+	                t.eq(radio1.val, "1")
+	            }).done()
+	        })
+	
+	        this.test("tabbing", function() {
+	            var radio1 = Radio(true)
+	            var button1A = radio1.button("1"), button1B = radio1.button("2")
+	            var radio2 = Radio(true)
+	            var button2A = radio2.button("1"), button2B = radio2.button("2")
+	
+	            container.add(button1A, button1B, button2A, button2B)
+	        })*/
+	
+		})
+	
+	    this.test("notRequired", function(t) {
+	        var radio = Radio(false)
+	        var button1 = radio.button("1"), button2 = radio.button("2")
+	        container.add(Text("Not required: "), button1, button2)
+	
+	        // for a non-required Radio group, the group starts out without
+	        t.eq(button1.domNode.checked, false)
+	        t.eq(button2.domNode.checked, false)
+	        t.eq(radio.selected, undefined)
+	        t.eq(radio.val, undefined)
+	
+	        radio.val = "1"
+	        t.eq(radio.val, "1")
+	
+	        syn.click(button1.domNode).then(function() {
+	            t.eq(radio.val, undefined)
+	        }).done()
+	    })
+	
+	    this.test("labels", function(t) {
+	        var radio = Radio()
+	        var button1 = radio.button("myLabel", "1")
+	
+	        t.eq(button1.val, "1")
+	        t.eq(button1.label, "myLabel")
+	    })
+	
+	    this.test("edge cases", function() {
+	        this.test("changing a button's value", function() {
+	            var radio = Radio()
+	            var button1 = radio.button("1")
+	            var button2 = radio.button("2")
+	
+	            button2.val = "3"
+	            this.eq(button2.val, "3")
+	
+	            radio.val = "3"
+	            this.eq(radio.selected, button2)
+	            this.eq(radio.val, "3")
+	
+	            var button3 = radio.button("2")
+	            radio.val = "2"
+	            this.eq(radio.selected, button3)
+	            this.eq(radio.val, "2")
+	
+	        })
+	    })
+	
+	    this.test("errors", function() {
+	        this.count(5)
+	
+	        var radio = Radio()
+	        radio.button("1")
+	
+	        try {
+	            radio.button("1")
+	        } catch(e) {
+	            this.eq(e.message, "Can't give a RadioButton the same value as another in the group (value: '"+1+"')")
+	        }
+	
+	        var buttonB = radio.button("2")
+	        try {
+	            buttonB.val = "1"
+	        } catch(e) {
+	            this.eq(e.message, "Can't give a RadioButton the same value as another in the group (value: '"+1+"')")
+	        }
+	
+	        try {
+	            radio.val = "nonexistent"
+	        } catch(e) {
+	            this.eq(e.message, "There is no RadioButton in the group with the value: 'nonexistent'")
+	        }
+	
+	        try {
+	            radio.val = undefined
+	        } catch(e) {
+	            this.eq(e.message, "Can't unset this Radio set, a value is required.")
+	        }
+	
+	        var radio2 = Radio()
+	        try {
+	            radio2.remove(buttonB)
+	        } catch(e) {
+	            this.eq(e.message, "The button passed at index 0 is not part of the group.")
+	        }
+	    })
+	};
+	
+
+
+/***/ },
+/* 153 */
+/*!***************************************!*\
+  !*** ./ComponentTests/Select.test.js ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var syn = __webpack_require__(/*! fsyn */ 32)
+	var domUtils = __webpack_require__(/*! domUtils */ 19)
+	
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	var Text = __webpack_require__(/*! Components/Text */ 17)
+	
+	var Select = __webpack_require__(/*! Components/Select */ 5)
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("Select", container)
+	
+	    this.test("basic usage", function(t) {
+	        this.count(34)
+	
+	        var s1 = Select({4: 'Option 4', 5: "Option 5"})
+	        container.add(Text("Select 1: "), s1)
+	
+	        this.eq(Object.keys(s1.options).length, 2)
+	        this.eq(s1.options[4].val, "4")
+	        this.eq(s1.options[5].val, "5")
+	        this.eq(s1.val, "4") // selects first created option on creation
+	
+	        var option6 = s1.option(6, "Option 6")
+	
+	        this.eq(Object.keys(s1.options).length, 3)
+	        this.eq(s1.options[6], option6)
+	
+	
+	        this.test("events", function(t) {
+	            this.count(27)
+	
+	            s1.on('change', function() {
+	                event('change','s1')
+	            })
+	
+	            s1.options[4].on('click', function() {
+	                event('click', 'option4')
+	            })
+	            s1.options[4].on('change', function() {
+	                event('change', 'option4')
+	            })
+	            s1.options[5].on('click', function() {
+	                event('click', 'option57')
+	            })
+	            s1.options[5].on('change', function() {
+	                event('change', 'option57')
+	            })
+	            option6.on('click', function() {
+	                event('click', 'option6')
+	            })
+	            option6.on('change', function() {
+	                event('change', 'option6')
+	            })
+	
+	            var event = testUtils.seq(
+	            // change 2
+	              function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val, '5')
+	
+	            // change 3
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	                t.eq(s1.options[7].selected, false)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option6')
+	                t.eq(s1.options[6].selected, true)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val, '6')
+	
+	            // change 4
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'option6')
+	
+	            // change 5
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option6')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val, '7')
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'option57')
+	            })
+	
+	        })
+	
+	
+	
+	        // change 1 - really no change because option4 is already selected
+	        s1.options[4].selected = true
+	        this.eq(s1.val, "4")
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[5].selected, false)
+	        this.eq(s1.options[6].selected, false)
+	
+	        // change 2
+	        s1.options[5].selected = true
+	        this.eq(s1.val, "5")
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[5].selected, true)
+	        this.eq(s1.options[6].selected, false)
+	
+	        // change option value
+	        s1.options[5].val = 7
+	        this.eq(s1.options[7].val, '7')
+	        this.eq(s1.val, '7')
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[5], undefined)     // moved to value 7
+	        this.eq(s1.options[6].selected, false)
+	        this.eq(s1.options[7].selected, true)
+	
+	        // change option text
+	        s1.options[7].text = 'Option 7'
+	        this.eq(s1.options[7].domNode[domUtils.textProperty], 'Option 7')
+	
+	        // change 3
+	        // change the value of the select object directly
+	        s1.val = "6"
+	        this.eq(s1.val, "6")
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[6].selected, true)
+	        this.eq(s1.options[7].selected, false)
+	
+	
+	        // select just one of the already selected options with a click
+	        // change 4
+	        syn.click(option6.domNode).then(function() {
+	            t.eq(s1.val, "6")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, true)
+	            t.eq(s1.options[7].selected, false)
+	
+	            // change 5
+	            // click one that wasn't already selected
+	            return syn.click(s1.options[7].domNode)
+	        }).then(function(){
+	            t.eq(s1.val, "7")
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, false)
+	            t.eq(s1.options[7].selected, true)
+	        }).done()
+	    })
+	
+	
+	    // todo:
+	    /*
+	    this.test("test keyboard events", function() {
+	
+	        this.test("basic changing selected options with the keyboard", function(t) {
+	            var select1 = Select({1: 'one', 2: 'two', 3: 'three'})
+	
+	            container.add(Text("Another Group: "), select1)
+	
+	            select1.focus()
+	            syn.key(option1A.domNode, "[down]").then(function() {
+	                t.eq(document.activeElement, option1B)
+	                t.eq(select1.val, "2")
+	
+	                return syn.key(option1A.domNode, "[down]")
+	            })/*.then(function() {
+	                t.eq(document.activeElement, option1C)
+	                t.eq(select1.val, "3")
+	
+	                return key(option1A.domNode, "[left]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1B)
+	                t.eq(select1.val, "2")
+	
+	                return key(option1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1A)
+	                t.eq(select1.val, "1")
+	
+	                // test looping
+	                return key(option1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1C)
+	                t.eq(select1.val, "3")
+	
+	                // test looping
+	                return key(option1A.domNode, "[down]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1A)
+	                t.eq(select1.val, "1")
+	            }).done()
+	        })
+	
+	    })
+	    */
+	
+	
+	    this.test("labels", function(t) {
+	        var s1 = Select("myLabel")
+	        this.eq(s1.label, "myLabel")
+	        this.eq(Object.keys(s1.options).length, 0)
+	
+	        var s2 = Select("myLabel2", {1: "one"})
+	        this.eq(s2.label, "myLabel2")
+	        this.eq(Object.keys(s2.options).length, 1)
+	
+	        var option = s1.option("myLabel3", "value", "text")
+	        this.eq(option.label, "myLabel3")
+	        this.eq(option.val, "value")
+	        this.eq(option.text, "text")
+	    })
+	
+	
+	    this.test("remove", function(t) {
+	        this.count(14)
+	
+	        var select = Select()
+	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
+	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
+	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
+	
+	        option0.selected = true
+	
+	        select.on('change', function() {
+	            event(select.val)
+	        })
+	
+	        var event = testUtils.seq(function(value) {
+	            t.eq(value, 'option2')
+	        },function(value) {
+	            t.eq(value, 'option3')
+	        })
+	
+	
+	        this.eq(option1.parent, select)
+	
+	        select.remove(1)
+	        this.eq(select.val, 'option0')
+	        this.eq(option1.parent, undefined)
+	        this.eq(Object.keys(select.options).length, 5)
+	
+	        try {
+	            select.val = "option1"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'option1'")
+	        }
+	
+	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
+	        this.eq(select.val, 'option2')
+	        this.eq(option0.group, undefined)
+	        this.eq(Object.keys(select.options).length, 4)
+	
+	        try {
+	            select.val = "option0"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'option0'")
+	        }
+	
+	        select.remove([2, 3]) // these are option4 and option5
+	
+	
+	        try {
+	            select.val = "option4"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'option4'")
+	        }
+	
+	        this.eq(Object.keys(select.options).length, 2)
+	
+	        select.remove([option2]) // should generate another change event
+	
+	        this.eq(Object.keys(select.options).length, 1)
+	    })
+	
+	    // todo:
+	    /*
+	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
+	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
+	    })
+	     */
+	
+	    this.test("errors", function() {
+	        this.count(5)
+	
+	        var select = Select({1: "text"})
+	
+	        try {
+	            select.option("1", 'text')
+	        } catch(e) {
+	            this.eq(e.message, "Can't give an Option the same value as another in the Select (value: '1')")
+	        }
+	
+	        var optionB = select.option("2", 'text')
+	        try {
+	            optionB.val = "1"
+	        } catch(e) {
+	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
+	        }
+	
+	        try {
+	            select.val = "nonexistent"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'nonexistent'")
+	        }
+	
+	        try {
+	            select.remove(300)
+	        } catch(e) {
+	            this.eq(e.message, "There is no child at index 300")
+	        }
+	
+	        var select2 = Select()
+	        try {
+	            select2.remove(optionB)
+	        } catch(e) {
+	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
+	        }
+	    })
+	};
+
+
+/***/ },
+/* 154 */
+/*!**************************************!*\
+  !*** ./ComponentTests/Table.test.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	var domUtils = __webpack_require__(/*! domUtils */ 19)
+	
+	var Text = __webpack_require__(/*! Components/Text */ 17)
+	var Table = __webpack_require__(/*! Components/Table */ 15)
+	
+	module.exports = function(t) {
+	
+	
+	    var container = Container()
+	    testUtils.demo("Table", container)
+	
+	    this.test("simple creation", function() {
+	        var table = Table([
+	            [Text('a'), Text('b'), Text('c'), Text('d')],
+	            [Text('A'), Text('B'), Text('C'), Text('D'), Text("E")],
+	            [Text('AY'), Text('BEE'), Text('CEE'), Text('DEE'), Text("EEeeeeee")]
+	        ])
+	
+	        container.add(Text("table1"), table)
+	
+	        this.eq(table.children.length, 3)
+	        this.ok(table.children[0] instanceof Table.Row)
+	        this.ok(table.children[1] instanceof Table.Row)
+	        this.ok(table.children[2] instanceof Table.Row)
+	
+	        this.eq(table.children[0].children.length, 4)
+	        this.eq(table.children[1].children.length, 5)
+	        this.eq(table.children[2].children.length, 5)
+	
+	        this.ok(table.children[0].children[0] instanceof Table.Cell)
+	        this.eq(table.children[0].children[0].children[0].text, 'a')
+	        var firstRow = $($(table.domNode).find("tr")[0])
+	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
+	
+	        this.ok(table.children[2].children[3] instanceof Table.Cell)
+	        this.ok(table.children[2].children[3].children[0] instanceof Text)
+	        this.eq(table.children[2].children[3].children[0].text, 'DEE')
+	        this.eq(table.domNode.children[2].children[3].children[0][domUtils.textProperty], 'DEE')
+	        var lastRow = $($(table.domNode).find("tr")[2])
+	        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'DEE')
+	
+	        this.test("tables constructed with raw strings instead of elements", function() {
+	            var table = Table([
+	                ['a', 'b', 'c'],
+	                ['d', 'e', 'f']
+	            ])
+	
+	            container.add(Text("table2"), table)
+	
+	            this.eq(table.children.length, 2)
+	
+	            this.eq(table.children[0].children.length, 3)
+	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
+	
+	            this.eq(table.children[1].children.length, 3)
+	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
+	        })
+	    })
+	
+	    this.test("individual row creation", function() {
+	        var table = Table()
+	
+	        var row1 = table.row([Text('a'), Text('b'), Text('c'), Text('d')])
+	        this.eq(table.children.length, 1)
+	
+	        var row2 = table.row([Text('A'), Text('B'), Text('C'), Text('D'), Text("E")])
+	
+	        this.eq(table.children.length, 2)
+	        this.ok(table.children[0] instanceof Table.Row)
+	        this.ok(table.children[1] instanceof Table.Row)
+	        this.eq(table.children[0], row1)
+	        this.eq(table.children[1], row2)
+	
+	        this.eq(table.children[0].children.length, 4)
+	        this.eq(table.children[1].children.length, 5)
+	
+	        this.ok(table.children[0].children[0] instanceof Table.Cell)
+	        this.eq(table.children[0].children[0].children[0].text, 'a')
+	        var firstRow = $($(table.domNode).find("tr")[0])
+	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
+	
+	        this.ok(table.children[1].children[3] instanceof Table.Cell)
+	        this.eq(table.children[1].children[3].children[0].text, 'D')
+	        this.eq(table.domNode.children[1].children[3][domUtils.textProperty], 'D')
+	        var lastRow = $($(table.domNode).find("tr")[1])
+	        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'D')
+	
+	        this.test("rows constructed with raw strings instead of elements", function() {
+	            var table = Table()
+	
+	            table.row(['a', 'b', 'c'])
+	            table.row(['d', 'e', 'f'])
+	
+	            this.eq(table.children.length, 2)
+	
+	            this.eq(table.children[0].children.length, 3)
+	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
+	
+	            this.eq(table.children[1].children.length, 3)
+	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
+	        })
+	    })
+	
+	    // table headers are exactly the same as table rows, except...  apply directly to the forehead
+	    this.test("individual header creation", function() {
+	        var table = Table()
+	
+	        var row1 = table.header([Text('a'), Text('b'), Text('c'), Text('d')])
+	        this.eq(table.children.length, 1)
+	
+	        var row2 = table.header([Text('A'), Text('B'), Text('C'), Text('D'), Text("E")])
+	
+	        this.eq(table.children.length, 2)
+	        this.ok(table.children[0] instanceof Table.Header)
+	        this.ok(table.children[1] instanceof Table.Header)
+	        this.eq(table.children[0], row1)
+	        this.eq(table.children[1], row2)
+	
+	        this.eq(table.children[0].children.length, 4)
+	        this.eq(table.children[1].children.length, 5)
+	
+	        this.ok(table.children[0].children[0] instanceof Table.Cell)
+	        this.eq(table.children[0].children[0].children[0].text, 'a')
+	        var firstRow = $($(table.domNode).find("th")[0])
+	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
+	
+	        this.ok(table.children[1].children[3] instanceof Table.Cell)
+	        this.eq(table.children[1].children[3].children[0].text, 'D')
+	        this.eq(table.domNode.children[1].children[3][domUtils.textProperty], 'D')
+	        var lastRow = $($(table.domNode).find("th")[1])
+	        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'D')
+	
+	        this.test("rows constructed with raw strings instead of elements", function() {
+	            var table = Table()
+	
+	            table.header(['a', 'b', 'c'])
+	            table.header(['d', 'e', 'f'])
+	
+	            this.eq(table.children.length, 2)
+	
+	            this.eq(table.children[0].children.length, 3)
+	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
+	
+	            this.eq(table.children[1].children.length, 3)
+	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
+	        })
+	    })
+	
+	    this.test('individual cell creation', function() {
+	        var table = Table()
+	        container.add(Text("table3"), table)
+	
+	        var row1 = table.row()
+	        var row2 = table.row()
+	
+	        var cell1 = row1.cell(Text('a'))
+	
+	        var cell2 = row2.cell(Text('A'))
+	        var cell3 = row2.cell([Text('B')])
+	
+	        this.eq(table.children.length, 2)
+	        this.eq(table.children[0], row1)
+	        this.eq(table.children[1], row2)
+	
+	        this.eq(table.children[0].children.length, 1)
+	        this.eq(table.children[1].children.length, 2)
+	
+	        this.ok(table.children[0].children[0] instanceof Table.Cell)
+	        this.eq(table.children[0].children[0], cell1)
+	        this.eq(table.children[0].children[0].children[0].text, 'a')
+	        var firstRow = $($(table.domNode).find("tr")[0])
+	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
+	
+	        this.ok(table.children[1].children[1] instanceof Table.Cell)
+	        this.eq(table.children[1].children[0], cell2)
+	        this.eq(table.children[1].children[1], cell3)
+	        this.eq(table.children[1].children[1].children[0].text, 'B')
+	        this.eq(table.domNode.children[1].children[1][domUtils.textProperty], 'B')
+	        var lastRow = $($(table.domNode).find("tr")[1])
+	        this.eq(lastRow.find('td')[1][domUtils.textProperty], 'B')
+	
+	        this.test("colspan", function() {
+	            cell1.colspan(2)
+	            this.eq(cell1.attr('colspan'), '2')
+	        })
+	
+	        this.test("cells constructed with raw strings instead of elements", function() {
+	            var table = Table()
+	
+	            var row1 = table.row()
+	            var row2 = table.row()
+	
+	            row1.cell('a')
+	            row1.cell('b')
+	            row1.cell('c')
+	
+	            row2.cell('d')
+	            row2.cell('e')
+	            row2.cell('f')
+	
+	            this.eq(table.children.length, 2)
+	
+	            this.eq(table.children[0].children.length, 3)
+	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
+	
+	            this.eq(table.children[1].children.length, 3)
+	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
+	        })
+	    })
+	
+	    this.test("label arguments", function() {
+	        var table1 = Table('aLabel')
+	        var table2 = Table('aLabel2', [['a', 'b'],['c', 'd'],['e']])
+	        this.eq(table1.label, 'aLabel')
+	        this.eq(table2.label, 'aLabel2')
+	        this.eq(table2.children.length, 3)
+	
+	        var row1 = table1.row('aLabel3')
+	        var row2 = table1.row('aLabel4', ['f','g'])
+	        this.eq(row1.label, 'aLabel3')
+	        this.eq(row2.label, 'aLabel4')
+	        this.eq(table1.children.length, 2)
+	
+	        var cell1 = row1.cell('label5', 'value')
+	        var cell2 = row1.cell('label6', undefined)
+	        this.eq(cell1.label, 'label5')
+	        this.eq(cell1.domNode[domUtils.textProperty], 'value')
+	        this.eq(cell2.label, 'label6')
+	    })
+	};
+
+
+/***/ },
+/* 155 */
+/*!*************************************!*\
+  !*** ./ComponentTests/Text.test.js ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	var domUtils = __webpack_require__(/*! domUtils */ 19)
+	
+	var Text = __webpack_require__(/*! Components/Text */ 17);
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("Text", container)
+	
+		this.test('basic usage',function(t) {
+			var obj = new Text();
+	        container.add(obj)
+	        t.eq(obj.text,"");
+	
+	        obj.text = "   "
+			t.ok(obj.domNode.offsetWidth > 0); // make sure the spaces aren't collapsed (by default)
+	
+	        var obj2 = Text("<div>whatever</div>")
+	        container.add(obj2)
+	        t.eq(obj2.text,"<div>whatever</div>");
+	        t.eq(obj2.domNode[domUtils.textProperty], "<div>whatever</div>")
+	
+		});
+	
+	    this.test("label argument", function() {
+	        var t = Text("label", "text")
+	
+	        this.eq(t.label, "label")
+	        this.eq(t.domNode[domUtils.textProperty], "text")
+	    })
+	};
+
+
+/***/ },
+/* 156 */
+/*!*****************************************!*\
+  !*** ./ComponentTests/TextArea.test.js ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	var syn = __webpack_require__(/*! fsyn */ 32)
+	
+	var TextArea = __webpack_require__(/*! Components/TextArea */ 13)
+	
+	module.exports = function(t) {
+	
+	    var container = Container()
+	    testUtils.demo("TextArea", container)
+	
+		this.test('basic usage',function(t) {
+	        this.count(3)
+	
+			var obj = TextArea()
+	        container.add(obj)
+	
+	        this.test("events", function(t) {
+	            this.count(5)
+	
+	            obj.on("click",function() {
+	                event('click')
+	            })
+	            obj.on("change",function() {
+	                event('change')
+	            })
+	
+	            var event = testUtils.seq(function(name) {
+	                t.eq(name, 'change')
+	                t.eq(obj.val, "first!")
+	            },function(name) {
+	                t.eq(name, 'click')
+	            },function(name) {
+	                t.eq(name, 'change')
+	                t.eq(obj.val, "first!second")
+	            })
+	        })
+	
+	        obj.val = "first!"
+	        this.eq(obj.val, "first!")
+	
+	        syn.click(obj.domNode).then(function() {
+	            return syn.type(obj.domNode, "second")
+	        }).then(function() {
+	            t.eq(obj.val, "first!second")
+	            obj.domNode.blur()
+	        }).done()
+		});
+	
+	    this.test("label argument", function() {
+	        var t = TextArea("label")
+	        this.eq(t.label, "label")
+	    })
+	};
+
+
+/***/ },
+/* 157 */
+/*!******************************************!*\
+  !*** ./ComponentTests/TextField.test.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var testUtils = __webpack_require__(/*! testUtils */ 31)
+	var Container = __webpack_require__(/*! Components/Container */ 11)
+	var syn = __webpack_require__(/*! fsyn */ 32)
+	
+	var TextField = __webpack_require__(/*! Components/TextField */ 14)
+	
+	module.exports = function() {
+	
+	    var container = Container()
+	    testUtils.demo("TextArea", container)
+	
+		this.test('basic usage',function(t) {
+	        this.count(3)
+	
+			var obj = TextField()
+	        container.add(obj)
+	
+	        this.test("events", function(t) {
+	            this.count(5)
+	
+	            obj.on("click",function() {
+	                event('click')
+	            })
+	            obj.on("change",function() {
+	                event('change')
+	            })
+	
+	            var event = testUtils.seq(function(name) {
+	                t.eq(name, 'change')
+	                t.eq(obj.val, "first!")
+	            },function(name) {
+	                t.eq(name, 'click')
+	            },function(name) {
+	                t.eq(name, 'change')
+	                t.eq(obj.val, "first!second")
+	            })
+	        })
+	
+	        obj.val = "first!"
+	        this.eq(obj.val, "first!")
+	
+	        syn.click(obj.domNode).then(function() {
+	            return syn.type(obj.domNode, "second")
+	        }).then(function() {
+	            t.eq(obj.val, "first!second")
+	            obj.domNode.blur()
+	        }).done()
+		});
+	
+	    this.test("password (manually verify)", function() {
+	        var field = TextField(true)
+	        container.add(field)
+	        field.val = "something, but it should be like, astrisks"
+	    })
+	
+	    this.test("label argument", function() {
+	        var t = TextField("label", false)
+	        this.eq(t.label, "label")
+	    })
+	
+	    this.test("former bugs", function() {
+	        this.test("TextField was messing directly with the domNode's classname for god knows what reason", function() {
+	            var field = TextField(true)
+	            var inner = Container([field])
+	            container.add(inner)
+	
+	            this.eq($(field.domNode).css('box-sizing'), 'border-box')
+	        })
+	    })
+	};
+
+
+/***/ },
+/* 158 */
+/*!**************************************!*\
+  !*** ../~/Components/MultiSelect.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 3)
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	var Option = __webpack_require__(/*! Components/Option */ 20)
+	
+	// emits a 'change' event when its 'val' changes
+	module.exports = proto(Block, function(superclass) {
+	
+		// static variables
+	
+	    this.name = 'MultiSelect'
+	
+	    this.Option = Option
+	
+		this.init = function(/*[label,] options*/) {
+	        if(arguments[0] instanceof Object) {
+	            var options = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var options = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+			this.attr('multiple','multiple')
+	        this.label = label
+	
+	        this.options = {}
+	
+			for(var value in options) {
+				this.option(value, options[value])
+			}
+	
+	        /*
+			var that = this
+	        that.domNode.addEventListener('mousedown', function() {
+	            console.log("parent mousedown")
+	            var enterHandler, upHandler;
+	            that.children.forEach(function(child) {
+	                child.domNode.addEventListener('mouseover', enterHandler = function() {
+	                    console.log("child mouseover")
+	                    child.selected = true
+	                })
+	            })
+	
+	            that.domNode.addEventListener('mouseup', upHandler = function() {
+	                console.log("parent mouseup")
+	                that.children.forEach(function(child) {
+	                    child.domNode.removeEventListener('mouseover', enterHandler)
+	                })
+	
+	                that.domNode.removeEventListener('mouseup', upHandler)
+	            })
+	        })*/
+		}
+	
+	
+		// instance methods
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns a list of the values that are selected
+	        get: function() {
+	            var result = []
+	            for(var value in this.options) {
+	                if(this.options[value].selected) {
+	                    result.push(value)
+	                }
+	            }
+	
+	            return result
+	        },
+	
+	        // values can either be an array, or a single value to select
+	        set: function(values) {
+	            if(!(values instanceof Array))
+	                values = [values]
+	
+	            var that = this
+	            values.forEach(function(value) {
+	                if(that.options[value] === undefined) {
+	                    throw new Error("There is no Option in the MultiSelect with the value: '"+value+"'")
+	                }
+	            })
+	
+	            var stringifiedValues = values.map(function(v){return v.toString()})
+	
+	            var somethingChanged = false
+	            for(var value in this.options) {
+	                var selected = stringifiedValues.indexOf(value) !== -1
+	                var option = this.options[value]
+	
+	                if(option.selected !== selected) {  // selected state change
+	                    somethingChanged = true
+	                    option.setSelectedQuiet(selected)
+	                }
+	            }
+	
+	            if(somethingChanged) {
+	                this.emit('change')
+	            }
+	        }
+	    })
+		
+		this.option = function(/*[label,] value,text*/) {
+	        if(arguments.length === 2) {
+	            var value = arguments[0]
+	            var text = arguments[1]
+	        } else if(arguments.length === 3) {
+	            var label = arguments[0]
+	            var value = arguments[1]
+	            var text = arguments[2]
+	        } else {
+	            throw new Error("Invalid number of arguments")
+	        }
+	
+	        var newOption = Option(label, value,text)
+	        this.add(newOption)
+	
+	        return newOption
+	
+		}
+	
+	    // same interface as Block.addAt
+	    /*override*/ this.addAt = function(index/*, nodes...*/) {
+	        var that = this
+	
+	        var nodesToAdd = Block.normalizeAddAtArguments.apply(this, arguments)
+	
+	        // validation first
+	        nodesToAdd.forEach(function(option) {
+	            if(that.options[option.val] !== undefined) {
+	                throw new Error("Can't give an Option the same value as another in the MultiSelect (value: '"+option.val+"')")
+	            }
+	        })
+	
+	        superclass.addAt.call(this, index, nodesToAdd)
+	
+	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var anyWereSelected = false
+	        nodesToAdd.forEach(function(option) {
+	            if(option.selected) anyWereSelected = true
+	            that.options[option.val] = option
+	
+	
+	            // set up multi-select events
+	            // todo: remove events when the Option is removed
+	
+	            option.on("mousedown",function(event) {
+	                event.preventDefault()           // this needs to be here otherwise the options can't be deselected
+	
+	                option.parent.focus = true // without this, the parent doesn't gain focus
+	                option.focus = true
+	                if(event.shiftKey || event.ctrlKey) {
+	                    option.selected = !option.selected // toggle
+	                } else {
+	                    var parentVal = option.parent.val
+	                    var onlyThisIsSelected = parentVal.length === 1 && parentVal[0] === option.val
+	                    if(onlyThisIsSelected) {
+	                        option.selected = false
+	                    } else {
+	                        option.parent.val = [option.val] // select only this one
+	                    }
+	                }
+	            })
+	            /*option.domNode.addEventListener("click",function(event) {
+	                //event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
+	                option.emit('click', event)
+	            })*/
+	            option.on("mousemove",function(event) {
+	                event.preventDefault()         // this needs to be here otherwise the radio button is unset as soon as you move the mouse (when the mouse is down)
+	            })
+	            /*this.domNode.addEventListener("keydown",function(event) {
+	                if(event.keyCode === 40 || event.keyCode === 39) { // down or right
+	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                    option.selectNext()
+	                } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
+	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                    option.selectPrevious()
+	                }
+	            })*/
+	
+	            /*;['click', 'drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop', 'cancel',
+	                'mousedown', 'mouseenter', 'mousemove', 'mouseleave', 'mouseout', 'mouseover', 'mouseup'
+	            ].forEach(function(eventType) {
+	                option.domNode.addEventListener(eventType, function( event ) {
+	                    //event.preventDefault()
+	                    console.log(eventType)
+	                });
+	            })*/
+	
+	        })
+	
+	        if(anyWereSelected) {
+	            this.emit('change')
+	        }
+	    }
+	
+	    // same interface as Block.remove
+	    /*override*/ this.remove = function() {
+	        var that = this
+	
+	        var removalIndexes = Block.normalizeRemoveArguments.apply(this, arguments)
+	        var removals = removalIndexes.map(function(index) {
+	            return that.children[index]
+	        })
+	
+	        superclass.remove.call(this, removalIndexes)
+	
+	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var anyWereSelected = false
+	        removals.forEach(function(option) {
+	            if(option.selected) anyWereSelected = true
+	            delete that.options[option.val]
+	        })
+	
+	        if(anyWereSelected) {
+	            this.emit('change')
+	        }
+	    }
+	
+	
+	    // private
+	
+	    this.prepareForValueChange = function() {} // no-op
+	})
+	
+
+
+/***/ },
+/* 159 */
 /*!***********************************!*\
-  !*** template of 74 referencing  ***!
+  !*** template of 57 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__, __webpack_module_template_argument_1__) {
 
@@ -22712,13 +22802,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 118 */
+/* 160 */
 /*!*************************************!*\
-  !*** template of 80 referencing 36 ***!
+  !*** template of 68 referencing 24 ***!
   \*************************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__, __webpack_module_template_argument_1__) {
 
-	var EventEmitter = __webpack_require__(/*! events */ 36).EventEmitter
+	var EventEmitter = __webpack_require__(/*! events */ 24).EventEmitter
 	var proto = __webpack_require__(__webpack_module_template_argument_0__)
 	var utils = __webpack_require__(__webpack_module_template_argument_1__)
 	

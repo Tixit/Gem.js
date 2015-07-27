@@ -25,9 +25,6 @@ module.exports = function(t) {
 
 
 
-
-
-
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -2021,6 +2018,65 @@ module.exports = function(t) {
 
             t.eq($(thing.domNode).css('color'), 'rgb(0, 0, 0)')
             t.eq($(thing.domNode).css('display'), 'inline-block')
+        })
+
+        this.test("improper caching caused invalid styles to be returned - case 1", function() {
+
+            var text = Text("text")
+            var inner = Container([Container('wrapper', [text])])
+            inner.style = Style({
+                marginRight: 2,
+
+                Text: {
+                    minWidth: 22,
+                }
+            })
+
+            var component = Container(Container([inner]))
+            component.style = Style({
+                Container: {
+                    display: 'block'
+                }
+            })
+
+            testUtils.demo('improper caching caused invalid styles to be returned - case 1', component)
+
+            this.eq($(text.domNode).css('minWidth'), '22px')
+        })
+
+        this.test("improper caching caused invalid styles to be returned - case 2", function() {
+
+            var text = Text()
+            var inner = Container([Container('wrapper', [text])])
+            inner.style = Style({
+                marginRight: 2,
+
+                Text: {
+                    minWidth: 22,
+                    padding: '0 2px',
+                    textAlign: 'center',
+                    border: '1px solid black',
+                    minHeight: 18,
+                    lineHeight: '15px',
+                    cursor: 'pointer'
+                },
+
+                UserSelection: {
+                    $setup: function(){},
+                    Container: {}  /// ????? why does removing this make the style *not* work?
+                }
+            })
+
+            var component = Container(Container([inner]))
+            component.style = Style({
+                Container: {
+                    display: 'block'
+                }
+            })
+
+            testUtils.demo("improper caching caused invalid styles to be returned - case 2", component)
+
+            this.eq($(text.domNode).css('borderWidth'), '1px')
         })
 
     })
