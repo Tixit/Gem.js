@@ -78,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 12)
+	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 18)
 	
 	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
 	blocks.dev = true
@@ -87,46 +87,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	    var tests = Unit.test("Testing Blocks.js", function(t) {
-	        this.count(4)
+	        this.count(1)
 	        this.timeout(700*1000) // chrissake its taking a long time now
 	
 	
+	         return t.test('Select',__webpack_require__(/*! ./ComponentTests/Select.test */ 13)).complete
 	
-	
-	        //*
-	        t.test('EventEmitterB',__webpack_require__(/*! ./EventEmitterB.test */ 143)).complete.then(function(){
-	            return t.test('Block',__webpack_require__(/*! ./Block.test */ 144)).complete
+	        /*
+	        t.test('EventEmitterB',require('./EventEmitterB.test')).complete.then(function(){
+	            return t.test('Block',require('./Block.test')).complete
 	        }).then(function(){
-	            return t.test('Style',__webpack_require__(/*! ./Style.test */ 2)).complete
+	            return t.test('Style',require('./Style.test')).complete
 	        }).then(function() {
 	            return t.test("standard components", function(t) {
 	                t.count(13)
 	
 	                // it seems a bit faster when the tests are run sequentially
-	                t.test('Button',__webpack_require__(/*! ./ComponentTests/Button.test */ 145)).complete.then(function() {
-	                    return t.test('Canvas',__webpack_require__(/*! ./ComponentTests/Canvas.test */ 146)).complete
+	                t.test('Button',require('./ComponentTests/Button.test')).complete.then(function() {
+	                    return t.test('Canvas',require('./ComponentTests/Canvas.test')).complete
 	                }).then(function() {
-	                    return t.test('CheckBox',__webpack_require__(/*! ./ComponentTests/CheckBox.test */ 147)).complete
+	                    return t.test('CheckBox',require('./ComponentTests/CheckBox.test')).complete
 	                }).then(function() {
-	                    return t.test('Container',__webpack_require__(/*! ./ComponentTests/Container.test */ 148)).complete
+	                    return t.test('Container',require('./ComponentTests/Container.test')).complete
 	                }).then(function() {
-	                    return t.test('Image',__webpack_require__(/*! ./ComponentTests/Image.test */ 149)).complete
+	                    return t.test('Image',require('./ComponentTests/Image.test')).complete
 	                }).then(function() {
-	                    return t.test('List',__webpack_require__(/*! ./ComponentTests/List.test */ 150)).complete
+	                    return t.test('List',require('./ComponentTests/List.test')).complete
 	                }).then(function() {
-	                    return t.test('MultiSelect',__webpack_require__(/*! ./ComponentTests/MultiSelect.test */ 151)).complete
+	                    return t.test('MultiSelect',require('./ComponentTests/MultiSelect.test')).complete
 	                }).then(function() {
-	                    return t.test('Radio',__webpack_require__(/*! ./ComponentTests/Radio.test */ 152)).complete
+	                    return t.test('Radio',require('./ComponentTests/Radio.test')).complete
 	                }).then(function() {
-	                    return t.test('Select',__webpack_require__(/*! ./ComponentTests/Select.test */ 153)).complete
+	                    return t.test('Select',require('./ComponentTests/Select.test')).complete
 	                }).then(function() {
-	                    return t.test('table',__webpack_require__(/*! ./ComponentTests/Table.test */ 154)).complete
+	                    return t.test('table',require('./ComponentTests/Table.test')).complete
 	                }).then(function() {
-	                    return t.test('text',__webpack_require__(/*! ./ComponentTests/Text.test */ 155)).complete
+	                    return t.test('text',require('./ComponentTests/Text.test')).complete
 	                }).then(function() {
-	                    return t.test('textarea',__webpack_require__(/*! ./ComponentTests/TextArea.test */ 156)).complete
+	                    return t.test('textarea',require('./ComponentTests/TextArea.test')).complete
 	                }).then(function() {
-	                    return t.test('textfield',__webpack_require__(/*! ./ComponentTests/TextField.test */ 157)).complete
+	                    return t.test('textfield',require('./ComponentTests/TextField.test')).complete
 	                })
 	            }).complete
 	        }).done()
@@ -148,22 +148,22 @@ return /******/ (function(modules) { // webpackBootstrap
   \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.Block = __webpack_require__(/*! Block */ 3)
-	exports.Style = __webpack_require__(/*! Style */ 16)
+	exports.Block = __webpack_require__(/*! Block */ 21)
+	exports.Style = __webpack_require__(/*! Style */ 22)
 	
-	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 7)
-	exports.Container = __webpack_require__(/*! Components/Container */ 11)
-	exports.Button = __webpack_require__(/*! Components/Button */ 6)
-	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 8)
-	exports.Image = __webpack_require__(/*! Components/Image */ 10)
-	exports.List = __webpack_require__(/*! Components/List */ 9)
+	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 25)
+	exports.Container = __webpack_require__(/*! Components/Container */ 26)
+	exports.Button = __webpack_require__(/*! Components/Button */ 27)
+	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 28)
+	exports.Image = __webpack_require__(/*! Components/Image */ 29)
+	exports.List = __webpack_require__(/*! Components/List */ 30)
 	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
-	exports.Radio = __webpack_require__(/*! Components/Radio */ 4)
-	exports.Select = __webpack_require__(/*! Components/Select */ 5)
-	exports.Table = __webpack_require__(/*! Components/Table */ 15)
-	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 13)
-	exports.TextField = __webpack_require__(/*! Components/TextField */ 14)
-	exports.Text = __webpack_require__(/*! Components/Text */ 17)
+	exports.Radio = __webpack_require__(/*! Components/Radio */ 31)
+	exports.Select = __webpack_require__(/*! Components/Select */ 32)
+	exports.Table = __webpack_require__(/*! Components/Table */ 33)
+	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 34)
+	exports.TextField = __webpack_require__(/*! Components/TextField */ 35)
+	exports.Text = __webpack_require__(/*! Components/Text */ 36)
 	
 	
 	
@@ -187,3302 +187,365 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 2 */
-/*!***********************!*\
-  !*** ./Style.test.js ***!
-  \***********************/
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */
+/*!***************************************!*\
+  !*** ./ComponentTests/Select.test.js ***!
+  \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 28)
+	var testUtils = __webpack_require__(/*! testUtils */ 19)
+	var syn = __webpack_require__(/*! fsyn */ 23)
+	var domUtils = __webpack_require__(/*! domUtils */ 24)
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
-	var Block = blocks.Block
-	var domUtils = __webpack_require__(/*! domUtils */ 19)
-	var syn = __webpack_require__(/*! fsyn */ 32)
+	var Container = __webpack_require__(/*! Components/Container */ 26)
+	var Text = __webpack_require__(/*! Components/Text */ 36)
 	
-	var Style = blocks.Style
-	var Text = blocks.Text
-	var Button = blocks.Button
-	var CheckBox = blocks.CheckBox
-	var Container = blocks.Container
+	var Select = __webpack_require__(/*! Components/Select */ 32)
 	
-	var defaultBackgroundColor = 'rgba(0, 0, 0, 0)'; var defaultBgColor = defaultBackgroundColor
+	module.exports = function() {
 	
-	module.exports = function(t) {
+	    var container = Container()
+	    testUtils.demo("Select", container)
+	
+	    this.test("basic usage", function(t) {
+	        this.count(34)
+	
+	        var s1 = Select({4: 'Option 4', 5: "Option 5"})
+	        container.add(Text("Select 1: "), s1)
+	
+	        this.eq(Object.keys(s1.options).length, 2)
+	        this.eq(s1.options[4].val, "4")
+	        this.eq(s1.options[5].val, "5")
+	        this.eq(s1.val, "4") // selects first created option on creation
+	
+	        var option6 = s1.option(6, "Option 6")
+	
+	        this.eq(Object.keys(s1.options).length, 3)
+	        this.eq(s1.options[6], option6)
 	
 	
-	     // todo:
-	        // test mix and copy
+	        this.test("events", function(t) {
+	            this.count(27)
 	
-	
-	
-	
-	
-	
-	    //*
-	    this.test('simple styling',function(t) {
-	        this.count(2)
-	
-	        var S = Style({
-	            color: 'rgb(0, 128, 0)'
-	        })
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = S
-	
-	                this.domNode.textContent = "hi"
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo("simple styling", node) // node has to be apart of the page before css class styles are applied to it
-	
-	        var div = $(node.domNode)
-	        this.eq(div.css('color'), 'rgb(0, 128, 0)')
-	
-	        node.style = undefined // unset a style (should return to default)
-	        setTimeout(function() { // looks like when a css classname is changed, it doesn't take effect immediately (is this really true????)
-	            t.eq(div.css('color'), 'rgb(0, 0, 0)')
-	        },0)
-	
-	    })
-	
-	    this.test('styling a more complex component with inner components', function() {
-	        var S = Style({
-	            backgroundColor: 'rgb(0, 128, 0)',
-	            Text: {backgroundColor: 'rgb(128, 0, 0)'},
-	            CheckBox: {backgroundColor: 'rgb(0, 0, 128)'}
-	        })
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = S
-	
-	                this.add(Text('one'), CheckBox())
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo('styling a more complex component with inner components', node)
-	
-	        var color = $(node.domNode).css('backgroundColor')
-	        this.ok(color === 'rgb(0, 128, 0)', color)
-	
-	        var children = node.domNode.children
-	
-	        color = $(children[0]).css('backgroundColor')
-	        this.ok(color === 'rgb(128, 0, 0)', color)
-	
-	        color = $(children[1]).css('backgroundColor')
-	        this.ok(color === 'rgb(0, 0, 128)', color)
-	    })
-	
-	    this.test('styling a component via its class-parent', function() {
-	        var S = Style({
-	            Text: {backgroundColor: 'rgb(128, 0, 0)'}
-	        })
-	
-	        var NextText = proto(Text, function(superclass) {
-	            this.name = 'NextText'
-	        })
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = S
-	
-	                this.add(NextText('one'))
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo('styling a component via its class-parent', node)
-	
-	        var children = node.domNode.children
-	        var color = $(children[0]).css('backgroundColor')
-	        this.ok(color === 'rgb(128, 0, 0)', color)
-	    })
-	
-	    this.test("styling inner components with the 'components' initialization", function() {
-	
-	        var textStyle1 = Style({
-	            color: 'rgb(0, 128, 0)'
-	        })
-	        var S = Style({
-	            textAlign: 'center',
-	            Text: textStyle1
-	        })
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.add(Text('test'))
-	                this.style = S
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo("styling inner components with the 'components' initialization", node)
-	
-	        var textNode = $(node.domNode.children[0])
-	
-	        this.eq(textNode.css('color'), 'rgb(0, 128, 0)')
-	        this.eq($(node.domNode).css('textAlign'), 'center')
-	        this.eq(textNode.css('textAlign'), 'left') // certain inheritable properties shouldn't be inherited by inner components
-	
-	        node.style = undefined // unset style
-	        this.eq(textNode.css('color'), 'rgb(0, 0, 0)')
-	        this.eq(textNode.css('textAlign'), 'left')
-	        this.eq($(node.domNode).css('textAlign'), 'left')
-	
-	    })
-	
-	    this.test('default Block styles',function(t) {
-	        this.test('simple default styles', function(t) {
-	            this.count(10)
-	
-	            var S = Style({
-	                color: 'rgb(0, 0, 128)'
+	            s1.on('change', function() {
+	                event('change','s1')
 	            })
 	
-	            var C = proto(Text, function(superclass) {
-	                this.defaultStyle = Style({
-	                    color: 'rgb(0, 128, 0)',
-	                    backgroundColor: 'rgb(0, 100, 100)',
-	                    borderColor: 'rgb(120, 130, 140)'
-	                })
+	            s1.options[4].on('click', function() {
+	                event('click', 'option4')
 	            })
-	            var D = proto(C, function(superclass) {
-	                this.defaultStyle = Style({
-	                    backgroundColor: 'rgb(1, 2, 3)'
-	                })
+	            s1.options[4].on('change', function() {
+	                event('change', 'option4')
 	            })
-	
-	            var node = C("yeahhh")
-	            var node2 = D("NOOOOO")
-	            var container = Container(node, node2)
-	            testUtils.demo('default Block styles', container) // node has to be apart of the page before css class styles are applied to it
-	
-	            var div = $(node.domNode)
-	            this.eq(div.css('color'), 'rgb(0, 128, 0)')
-	            this.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')
-	
-	            var div2 = $(node2.domNode)
-	            this.eq(div2.css('color'), 'rgb(0, 128, 0)')
-	            this.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
-	            this.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
-	
-	            node.style = S
-	            node2.style = S
-	
-	            setTimeout(function() { // looks like when a css classname is changed, it doesn't take effect immediately (is this really true????)
-	                t.eq(div.css('color'), 'rgb(0, 0, 128)')
-	                t.eq(div.css('backgroundColor'), 'rgb(0, 100, 100)')   // the default backgroundColor bleeds through for default stylings (unlike normal stylings)
-	
-	                t.eq(div2.css('color'), 'rgb(0, 0, 128)')
-	                t.eq(div2.css('backgroundColor'), 'rgb(1, 2, 3)')
-	                t.eq(div2.css('borderColor'), 'rgb(120, 130, 140)')
-	            },0)
-	        })
-	
-	        this.test("complex default Block styles", function(t) {
-	            var C = proto(Text, function(superclass) {
-	                this.defaultStyle = Style({
-	                    color: 'rgb(0, 128, 0)',
-	                    Text: {
-	                        color: 'rgb(2, 20, 200)',
-	                        $setup: function(block) {
-	                            block.yes = true
-	                        }
-	                    }
-	                })
+	            s1.options[5].on('click', function() {
+	                event('click', 'option57')
+	            })
+	            s1.options[5].on('change', function() {
+	                event('change', 'option57')
+	            })
+	            option6.on('click', function() {
+	                event('click', 'option6')
+	            })
+	            option6.on('change', function() {
+	                event('change', 'option6')
 	            })
 	
-	            var c = C()
-	            c.add(Text("moooose"))
-	            testUtils.demo("complex default Block styles", c)
-	
-	            var node = $(c.domNode)
-	            var child = c.children[0]
-	            var childNode = $(child.domNode)
-	
-	            t.eq(node.css('color'), 'rgb(0, 128, 0)')
-	            t.eq(childNode.css('color'), 'rgb(2, 20, 200)')
-	            t.eq(child.yes, true)
-	        })
-	    })
-	
-	    this.test("inheritance of component styles", function() {
-	        //  (e.g. gramparent sets Label style, parent doesn't but has a Label component in it)
-	
-	
-	        var S = Style({
-	            Text: Style({
-	                color: 'rgb(0, 128, 0)'
-	            })
-	        })
-	
-	        var Parent = proto(Block, function(superclass) {
-	            this.name = 'Parent'
-	
-	            this.build = function() {
-	                this.add(Text('inParent'))
-	            }
-	        })
-	
-	        var Grandparent = proto(Block, function(superclass) {
-	            this.name = 'Grandparent'
-	
-	            this.build = function() {
-	                this.style = S    // setting the style before adding components should also work
-	                this.add(Parent())
-	                this.add(Text('inGrandparent'))
-	            }
-	        })
-	
-	        var node = Grandparent()
-	        testUtils.demo("inheritance of component styles", node)
-	
-	        var grandparentText = $(node.children[1].domNode)
-	        var parentText = $(node.children[0].children[0].domNode)
-	
-	        this.eq(grandparentText.css('color'), 'rgb(0, 128, 0)')
-	        this.eq(parentText.css('color'), 'rgb(0, 128, 0)')
-	
-	        node.style = undefined // unset style
-	        this.eq(grandparentText.css('color'), 'rgb(0, 0, 0)')
-	        this.eq(parentText.css('color'), 'rgb(0, 0, 0)')
-	    })
-	
-	    this.test("the 'setup' javascript initialization", function(t) {
-	        this.count(3)
-	
-	        var S = Style({
-	            $setup: function(component) {
-	                component.mahdiv = domUtils.div()
-	                    component.mahdiv.textContent = "It is set up"
-	
-	                component.domNode.appendChild(component.mahdiv)
-	
-	                return "some value to pass to kill"
-	            },
-	            $kill: function(component, state) {
-	                component.mahdiv.textContent = 'It has been killed'
-	                t.eq(state, "some value to pass to kill")
-	            }
-	        })
-	        var S2 = Style({}) // empty style
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = S
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo("the 'setup' javascript initialization", node)
-	
-	        var innerDiv = $($(node.domNode).children('div')[0])
-	        this.eq(innerDiv.html(), "It is set up")
-	
-	        node.style = S2
-	        this.eq(innerDiv.html(), 'It has been killed')
-	    })
-	
-	    this.test("changing styles on the fly", function() {
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function(style) {
-	                this.style = style
-	
-	                this.add(Text('testLabel'))
-	            }
-	        })
-	
-	        var TextStyle1 = Style({
-	                color:'rgb(0,128,0)'
-	            })
-	        var TextStyle2 = Style({
-	                color:'rgb(128,0,0)'
-	            })
-	
-	        var S1 = Style({
-	                color: 'rgb(0,0,128)',
-	
-	                Text: TextStyle1,
-	                $setup: function(component) {
-	                    component.mahdiv = domUtils.div()
-	                    component.mahdiv.textContent = "It is set up"
-	
-	                    component.domNode.appendChild(component.mahdiv)
-	                },
-	                $kill: function(component) {
-	                    component.domNode.removeChild(component.mahdiv)
-	                }
-	            })
-	
-	        var S2 = Style({
-	                color: 'rgb(0,128,128)',
-	                Text: TextStyle2,
-	                $setup: function(component) {
-	                    component.mahdiv = domUtils.div()
-	                    component.mahdiv.textContent = "Me is set up dood"
-	
-	                    component.domNode.appendChild(component.mahdiv)
-	                }
-	            })
-	
-	        var node = C(S1)
-	        testUtils.demo("changing styles on the fly", node)
-	        node.style = S2 // reset style
-	
-	        var mainComponent = $(node.domNode)
-	        var labelDiv = $(mainComponent.children('div')[0])
-	        var textDiv = $(mainComponent.children('div')[1])
-	
-	        this.eq(mainComponent.css('color'), 'rgb(0, 128, 128)')
-	        this.eq(labelDiv.css('color'), 'rgb(128, 0, 0)')
-	        this.eq(textDiv.html(), "Me is set up dood")
-	
-	
-	        this.test('errors', function() {
-	            this.count(1)
-	
-	            try {
-	                node.style = S1 // if a style that has a 'setup' but no 'kill' is changed, an exception should be thrown
-	            } catch(e) {
-	                this.eq(e.message, 'style has been unset but does not have a "kill" function to undo its "setup" function')
-	            }
-	        })
-	    })
-	
-	    this.test("reinheritance of parent styles", function() {
-	        //  (e.g. gramparent sets Text style, parent doesn't but has a Text component in it)
-	
-	
-	        var textStyle1 = Style({
-	                color: 'rgb(128, 0, 128)'
-	            })
-	        var textStyle2 = Style({
-	                color: 'rgb(128, 128, 0)'
-	            })
-	        var textStyle3 = Style({
-	                color: 'rgb(0, 128, 0)'
-	            })
-	        var S = Style({
-	                Text: textStyle1
-	            })
-	        var S2 = Style({
-	                Text: textStyle2
-	            })
-	
-	        var Parent = proto(Block, function(superclass) {
-	            this.name = 'Parent'
-	
-	            this.build = function() {
-	                this.style = S2
-	
-	                this.text = Text('inParent')
-	                this.text.style = textStyle3
-	                this.add(this.text)
-	            }
-	        })
-	
-	        var Grandparent = proto(Block, function(superclass) {
-	            this.name = 'Grandparent'
-	
-	            this.build = function() {
-	                this.style = S
-	
-	                this.parentComponent = Parent()
-	                this.add(this.parentComponent)
-	            }
-	        })
-	
-	        var node = Grandparent()
-	        testUtils.demo("reinheritance of parent styles", node)
-	
-	        var parentText = $(node.parentComponent.text.domNode)
-	
-	        this.eq(parentText.css('color'), 'rgb(0, 128, 0)')
-	
-	        node.parentComponent.text.style = undefined // reinherit from parent
-	        this.eq(parentText.css('color'), 'rgb(128, 128, 0)')
-	
-	        node.parentComponent.style = undefined // reinherit from grandparent
-	        this.eq(parentText.css('color'), 'rgb(128, 0, 128)')
-	    })
-	
-	    this.test('component label styling', function() {
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = style
-	                this.add(
-	                    Text('one'),
-	                    Text('inner', 'two'),
-	                    Container([Text('three')]),
-	                    Container('inner2', [Text('four')]),
-	                    Container('inner2', [Text('inner', 'five')])
-	                )
-	            }
-	        })
-	
-	        var style = Style({
-	            color: 'rgb(128, 0, 0)',
-	
-	            Text: {
-	                color: 'rgb(0, 128, 0)',
-	                backgroundColor: 'rgb(1, 2, 3)'
-	            },
-	            $inner: {
-	                color: 'rgb(128, 128, 128)'
-	            },
-	            $inner2: {
-	                Text: {
-	                    color: 'rgb(0, 128, 128)'
-	                }
-	            },
-	
-	            Container: {
-	                backgroundColor: 'rgb(0, 120, 130)',
-	
-	                Text: {
-	                    color: 'rgb(0, 0, 128)'
-	                }
-	            }
-	        })
-	
-	        var component = C()
-	        testUtils.demo('component label styling', component)
-	
-	        var children = $(component.domNode).children()
-	        this.eq($(children[0]).css('color'), 'rgb(0, 128, 0)')
-	        this.eq($(children[0]).css('backgroundColor'), 'rgb(1, 2, 3)')
-	
-	        this.eq($(children[1]).css('color'), 'rgb(128, 128, 128)')
-	        this.eq($(children[1]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')   // the $inner style doesn't have a backgroundColor set and doesn't inherit from the Block style
-	
-	        this.eq($(children[2]).css('backgroundColor'), 'rgb(0, 120, 130)')
-	        this.eq($(children[2].children[0]).css('color'), 'rgb(0, 0, 128)')
-	
-	        this.eq($(children[3]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')  // uses the label style, not the Block style
-	        this.eq($(children[3].children[0]).css('color'), 'rgb(0, 128, 128)')
-	
-	        this.eq($(children[4]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')  // uses the label style, not the Block style
-	        this.eq($(children[4].children[0]).css('color'), 'rgb(128, 128, 128)')         // comes from the $inner style rather than the component style (this behavior is a little weird, but is how it works for now)
-	        this.eq($(children[4].children[0]).css('backgroundColor'), 'rgba(0, 0, 0, 0)') // nothing should be inherited from the non-label style
-	
-	        // just here to make sure there's no error:
-	        Style({
-	            Anything: {
-	                $someLabel: {
-	                    $someInnerLabel: {} // nested labels used to not be legal - now they mean something different and so are valid
-	                }
-	            }
-	        })
-	    })
-	
-	    this.test('pseudoclass styling', function() {
-	
-	        this.test("Style.addPseudoClass", function(t) {
-	            var applies = false, changeState;
-	
-	            this.test("events", function(t) {
-	                this.count(40)
-	
-	                var event = testUtils.seq(function(type, element) {
-	                    t.eq(type, 'setup')
-	                    t.eq(element, 'x')
-	                },function(type, element, applies) {
-	                    t.eq(type, 'check')
-	                    t.eq(element, 'x')
-	                    t.eq(applies, false)
-	                },function(type, element, startArg) {
-	                    t.eq(type, 'changeState')
-	                    t.eq(element, 'x')
-	                    t.eq(startArg, false)
-	                },function(type, element, startArg) {
-	                    t.eq(type, 'changeState')
-	                    t.eq(element, 'x')
-	                    t.eq(startArg, true)
-	                },function(type, element, startArg) {
-	                    t.eq(type, 'changeState')
-	                    t.eq(element, 'x')
-	                    t.eq(startArg, true)
-	                },function(type, element, startArg) {
-	                    t.eq(type, 'changeState')
-	                    t.eq(element, 'x')
-	                    t.eq(startArg, false)
-	                },function(type, element, state) {
-	                    t.eq(type, 'kill')
-	                    t.eq(element, 'x')
-	                    t.eq(state, 'whoHA')
-	
-	                },function(type, element) {
-	                    t.eq(type, 'setup')
-	                    t.eq(element, 'y')
-	                },function(type, element, applies) {
-	                    t.eq(type, 'check')
-	                    t.eq(element, 'y')
-	                    t.eq(applies, true)
-	                },function(type, element, startArg) {
-	                    t.eq(type, 'changeState')
-	                    t.eq(element, 'y')
-	                    t.eq(startArg, true)
-	                },function(type, element, startArg) {
-	                    t.eq(type, 'changeState')
-	                    t.eq(element, 'y')
-	                    t.eq(startArg, false)
-	                },function(type, element, startArg) {
-	                    t.eq(type, 'changeState')
-	                    t.eq(element, 'y')
-	                    t.eq(startArg, false)
-	                },function(type, element, startArg) {
-	                    t.eq(type, 'changeState')
-	                    t.eq(element, 'y')
-	                    t.eq(startArg, true)
-	                },function(type, element, state) {
-	                    t.eq(type, 'kill')
-	                    t.eq(element, 'y')
-	                    t.eq(state, 'whoHA')
-	                })
-	
-	                Style.addPseudoClass("test-pseudoclass", {
-	                    check: function(block) {
-	                        event('check', block.domNode.textContent, applies)
-	                        return applies
-	                    },
-	                    setup: function(block, start, end) {
-	                        event('setup', block.domNode.textContent)
-	                        changeState = function(startArg) {
-	                            event('changeState', block.domNode.textContent, startArg)
-	                            if(startArg === true) {
-	                                start()
-	                            } else {
-	                                end()
-	                            }
-	                        }
-	
-	                        return "whoHA"
-	                    },
-	                    kill: function(block, state) {
-	                        event('kill', block.domNode.textContent, state)
-	                        changeState = undefined
-	                    }
-	                })
-	            })
-	
-	            var style = Style({
-	                $$testPseudoclass: {
-	                    color: 'rgb(10, 30, 50)'
-	                }
-	            })
-	
-	            var x = Text('x')
-	            x.attached = true // pretend its attached so it'll render the style
-	            x.style = style
-	
-	            t.eq($(x.domNode).css('rgb(0, 0, 0)')) // starts out not applying
-	            changeState(false) // no change
-	            t.eq($(x.domNode).css('rgb(0, 0, 0)'))
-	            changeState(true)
-	            t.eq($(x.domNode).css('rgb(10, 30, 50)'))
-	            changeState(true)  // no change
-	            t.eq($(x.domNode).css('rgb(10, 30, 50)'))
-	            changeState(false)
-	            t.eq($(x.domNode).css('rgb(0, 0, 0)'))
-	
-	            x.style = undefined
-	
-	            applies = true
-	            var y = Text('y')
-	            y.attached = true // pretend its attached so it'll render the style
-	            y.style = style // note that changeState should now be a different function that won't affect x
-	
-	            t.eq($(x.domNode).css('rgb(10, 30, 50)')) // starts out applying thing time
-	            changeState(true) // no change
-	            t.eq($(y.domNode).css('rgb(10, 30, 50)'))
-	            changeState(false)
-	            t.eq($(y.domNode).css('rgb(0, 0, 0)'))
-	            changeState(false) // no change
-	            t.eq($(y.domNode).css('rgb(0, 0, 0)'))
-	            changeState(true)
-	            t.eq($(y.domNode).css('rgb(10, 30, 50)'))
-	
-	            y.style = Style({
-	                color: 'blue'
+	            var event = testUtils.seq(
+	            // change 2
+	              function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option4')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val, '5')
+	
+	            // change 3
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	                t.eq(s1.options[7].selected, false)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option6')
+	                t.eq(s1.options[6].selected, true)
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val,6)
+	
+	            // change 4
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'option6')
+	
+	            // change 5
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option6')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 'option57')
+	            },function(type, element) {
+	                t.eq(type, 'change')
+	                t.eq(element, 's1')
+	                t.eq(s1.val, 7)
+	            },function(type, element) {
+	                t.eq(type, 'click')
+	                t.eq(element, 'option57')
 	            })
 	
 	        })
 	
 	
-	        //*
-	        this.test("native-only psuedoclass styling", function() {
-	            this.count(30)
 	
-	            var style = Style({
-	                color: 'rgb(128, 0, 0)',
-	
-	                CheckBox: {
-	                    color: 'rgb(0, 128, 0)',
-	
-	                    $$disabled: {
-	                        color: 'rgb(123, 130, 130)',
-	                        outline: '1px solid rgb(60, 60, 200)'
-	                    },
-	
-	                    $$checked: {
-	                        color: 'rgb(128, 128, 128)',
-	                        outline: '4px solid rgb(80, 90, 100)',
-	                        $$required: {
-	                            color: 'rgb(130, 0, 130)',
-	                            backgroundColor: 'rgb(1, 2, 3)'
-	                        }
-	                    }
-	                },
-	
-	                Container: {
-	                    CheckBox: {
-	                        color: 'rgb(0, 128, 0)',
-	                        width: 100 // make sure this doesn't bleed through to the readWrite CheckBox style
-	                    },
-	                    $$readWrite: {
-	                        CheckBox: {
-	                            color: 'rgb(128, 128, 128)',
-	
-	                            $$checked: {
-	                                color: 'rgb(12, 19, 50)'
-	                            }
-	                        }
-	                    }
-	                }
-	            })
-	
-	            var block = Container([
-	                CheckBox(),
-	                Container([CheckBox()])
-	            ])
-	            block.style = style
-	
-	            testUtils.demo("native-only psuedoclass styling", block)
-	
-	            var children = block.children
-	
-	            var firstCheckBoxComponent = children[0]
-	            var firstCheckBox = $(firstCheckBoxComponent.domNode)
-	            this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)')
-	
-	            this.log('just disabled')
-	            firstCheckBoxComponent.attr('disabled', true)
-	            setTimeout(function() {    // need to use a timeout every time an attribute changes because the MutationObserver that listens for attribute changes is asynchornous and won't fire until the scheduler is reached
-	            this.eq(firstCheckBox.css('color'), 'rgb(123, 130, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(60, 60, 200)')
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            firstCheckBoxComponent.attr('disabled', undefined)
-	            setTimeout(function() {
-	
-	            this.log("just checked")
-	            firstCheckBoxComponent.selected = true
-	            this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.ok(firstCheckBox.css('outlineColor') !== 'rgb(0, 0, 0)', firstCheckBox.css('outlineColor'))
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBox.css('outlineWidth'), '4px')
-	            firstCheckBoxComponent.selected = false
-	
-	            this.log("just required")
-	            firstCheckBoxComponent.attr('required', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)') // the required pseudoclass doesn't apply because its within the checked psudeoclass (and the box isn't checked)
-	            this.ok(firstCheckBox.css('outlineColor') !== 'rgb(60, 60, 200)', firstCheckBox.css('outlineColor'))
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	
-	            this.log("required and disabled")
-	            firstCheckBoxComponent.attr('disabled', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(123, 130, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(60, 60, 200)')
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            firstCheckBoxComponent.attr('required', undefined)
-	            setTimeout(function() {
-	
-	            this.log("disabled and checked")
-	            firstCheckBoxComponent.selected = true
-	            this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            firstCheckBoxComponent.attr('disabled', undefined)
-	
-	            this.log("checked and required")
-	            firstCheckBoxComponent.attr('required', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(130, 0, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
-	            this.eq(firstCheckBox.css('backgroundColor'), 'rgb(1, 2, 3)')
-	            this.eq(firstCheckBox.css('outlineWidth'), '4px')
-	
-	            this.log("all 3: checked, required, and disabled")
-	            firstCheckBoxComponent.attr('disabled', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(130, 0, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
-	            this.eq(firstCheckBox.css('backgroundColor'), 'rgb(1, 2, 3)')
-	
-	            this.log("just required (again)")
-	            firstCheckBoxComponent.attr('disabled', false)
-	            firstCheckBoxComponent.selected = false
-	            setTimeout(function() {
-	
-	            var secondCheckBoxComponent = children[1].children[0]
-	            var secondCheckBox = $(secondCheckBoxComponent.domNode)
-	            this.eq(secondCheckBox.css('color'), 'rgb(0, 128, 0)')
-	
-	            this.log("just readWrite (2nd)")
-	            children[1].attr('contenteditable', true)
-	            setTimeout(function() {
-	            this.eq(secondCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.eq(secondCheckBox.css('width'), '13px')   // completely separate styles from outside the pseudoclass style shouldn't bleed through (unless the style explicitly inherits)
-	            children[1].attr('contenteditable', undefined)
-	            setTimeout(function() {
-	
-	            this.log("just checked (2nd)")
-	            secondCheckBoxComponent.selected = true
-	            this.eq(secondCheckBox.css('color'), 'rgb(0, 128, 0)')
-	
-	            this.log("checked and readWrite (2nd)")
-	            children[1].attr('contenteditable', true)
-	            setTimeout(function() {
-	            this.eq(secondCheckBox.css('color'), 'rgb(12, 19, 50)')
-	            this.eq(secondCheckBox.css('width'), '13px') // i guess 13px is the default for checkboxes? whatever..
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	        })
-	
-	
-	        this.test("native pseudoclass styling broken by a sibling pseudoclass", function() {
-	            this.count(12)
-	
-	            var setupCalled= 0, killCalled=0
-	            var style = Style({
-	                CheckBox: {
-	                    $setup: function() { // this makes CheckBox unable to be rendered with pure css
-	                       setupCalled++
-	                    },
-	                    $kill: function() {
-	                       killCalled++
-	                    }
-	                },
-	                '$$nthChild(2)': {
-	                    backgroundColor: 'rgb(1, 9, 56)',
-	                    CheckBox: {
-	                        color: 'rgb(128, 129, 230)'
-	                    }
-	                }
-	            })
-	
-	            var checkbox = CheckBox()
-	            var inner = Container([checkbox])
-	            var block = Container([inner])
-	            inner.style = style
-	
-	            testUtils.demo("native psuedoclass styling broken by a block's computedStyleMap", block)
-	
-	            this.log("not second child")
-	            setTimeout(function() {
-	
-	            var checkboxNode = $(checkbox.domNode)
-	            var innerNode = $(inner.domNode)
-	            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
-	            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
-	            this.eq(setupCalled, 1)
-	            this.eq(killCalled, 0)
-	
-	            this.log("second child")
-	            block.addAt(0, Text("nope"))
-	            setTimeout(function() {
-	            this.eq(checkboxNode.css('color'), 'rgb(128, 129, 230)')
-	            this.eq(innerNode.css('backgroundColor'), 'rgb(1, 9, 56)')
-	            this.eq(setupCalled, 1)
-	            this.eq(killCalled, 1)
-	
-	            this.log("not second child (again)")
-	            block.remove(0)
-	            setTimeout(function() {
-	
-	            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
-	            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
-	            this.eq(setupCalled, 2)
-	            this.eq(killCalled, 1)
-	
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	        })
-	
-	
-	        this.test("native pseudoclass styling broken by a block's computedStyleMap", function() {
-	            this.count(12)
-	
-	            var setupCalled= 0, killCalled=0
-	            var style = Style({
-	                CheckBox: {
-	                    $setup: function() { // this makes CheckBox unable to be rendered with pure css
-	                       setupCalled++
-	                    },
-	                    $kill: function() {
-	                       killCalled++
-	                    }
-	                },
-	                '$$nthChild(2)': {
-	                    Container:{
-	                        backgroundColor: 'rgb(1, 10, 57)',
-	                        CheckBox: {
-	                            color: 'rgb(128, 129, 230)'
-	                        }
-	                    },
-	                }
-	            })
-	
-	            var checkbox, inner, evenInner
-	            var block = Container([
-	                inner = Container([
-	                     evenInner = Container([
-	                         checkbox = CheckBox()
-	                     ])
-	                ])
-	            ])
-	            inner.style = style
-	
-	            testUtils.demo("native psuedoclass styling broken by a block's computedStyleMap", block)
-	
-	            this.log("not second child")
-	            setTimeout(function() {
-	
-	            var checkboxNode = $(checkbox.domNode)
-	            var innerNode = $(evenInner.domNode)
-	            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
-	            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
-	            this.eq(setupCalled, 1)
-	            this.eq(killCalled, 0)
-	
-	            this.log("second child")
-	            block.addAt(0, Text("nope"))
-	            setTimeout(function() {
-	            this.eq(checkboxNode.css('color'), 'rgb(128, 129, 230)')
-	            this.eq(innerNode.css('backgroundColor'), 'rgb(1, 10, 57)')
-	            this.eq(setupCalled, 1)
-	            this.eq(killCalled, 1)
-	
-	            this.log("not second child (again)")
-	            block.remove(0)
-	            setTimeout(function() {
-	
-	            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
-	            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
-	            this.eq(setupCalled, 2)
-	            this.eq(killCalled, 1)
-	
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	        })
-	
-	        this.test("native pseudoclass styling broken by a block's computedStyleMap (2)", function() {
-	            this.count(12)
-	
-	            var setupCalled= 0, killCalled=0
-	            var style = Style({
-	                CheckBox: {
-	                    $setup: function() { // this makes CheckBox unable to be rendered with pure css
-	                       setupCalled++
-	                    },
-	                    $kill: function() {
-	                       killCalled++
-	                    }
-	                }
-	            })
-	
-	            var checkbox = CheckBox()
-	            var inner = Container([checkbox])
-	            var block = Container([inner])
-	            block.style = style
-	            inner.style = Style({
-	                '$$nthChild(2)': {
-	                    backgroundColor: 'rgb(1, 11, 57)',
-	                    CheckBox: {
-	                        color: 'rgb(128, 129, 230)'
-	                    }
-	                }
-	            })
-	
-	            testUtils.demo("native psuedoclass styling broken by a block's computedStyleMap", block)
-	
-	            this.log("not second child")
-	            setTimeout(function() {
-	
-	            var checkboxNode = $(checkbox.domNode)
-	            var innerNode = $(inner.domNode)
-	            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
-	            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
-	            this.eq(setupCalled, 1)
-	            this.eq(killCalled, 0)
-	
-	            this.log("second child")
-	            block.addAt(0, Text("nope"))
-	            setTimeout(function() {
-	            this.eq(checkboxNode.css('color'), 'rgb(128, 129, 230)')
-	            this.eq(innerNode.css('backgroundColor'), 'rgb(1, 11, 57)')
-	            this.eq(setupCalled, 1)
-	            this.eq(killCalled, 1)
-	
-	            this.log("not second child (again)")
-	            block.remove(0)
-	            setTimeout(function() {
-	
-	            this.eq(checkboxNode.css('color'), 'rgb(0, 0, 0)')
-	            this.eq(innerNode.css('backgroundColor'), defaultBgColor)
-	            this.eq(setupCalled, 2)
-	            this.eq(killCalled, 1)
-	
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	        })
-	
-	        this.test("basic psuedoclass styling (some emulated some not)", function() {
-	            this.count(40)
-	
-	            var C = proto(Block, function(superclass) {
-	                this.name = 'C'
-	
-	                this.build = function() {
-	                    this.style = style
-	
-	                    var container = Container([CheckBox()])
-	
-	                    this.add(
-	                        CheckBox(),
-	                        container
-	                    )
-	                }
-	            })
-	
-	            var style = Style({
-	                color: 'rgb(128, 0, 0)',
-	
-	                CheckBox: {
-	                    color: 'rgb(0, 128, 0)',
-	
-	                    $$disabled: {
-	                        color: 'rgb(123, 130, 130)',
-	                        outline: '1px solid rgb(60, 60, 200)'
-	                    },
-	
-	                    $$checked: {
-	                        color: 'rgb(128, 128, 128)',
-	                        outline: '4px solid rgb(80, 90, 100)',
-	                        $$required: {
-	                            color: 'rgb(130, 0, 130)',
-	                            backgroundColor: 'rgb(1, 2, 3)',
-	
-	                            $setup: function(c) {
-	                                c.someProperty = 'required'
-	                            },
-	                            $kill: function(c) {
-	                                c.someProperty = 'optional'
-	                            }
-	                        }
-	                    }
-	                },
-	
-	                Container: {
-	                    CheckBox: {color: 'rgb(0, 128, 0)'},
-	                    $$required: {
-	                        CheckBox: {
-	                            color: 'rgb(128, 128, 128)',
-	
-	                            $$checked: {
-	                                $setup: function(c) {
-	                                    c.someProperty = 'required'
-	                                },
-	                                $kill: function(c) {
-	                                    c.someProperty = 'optional'
-	                                }
-	                            }
-	                        }
-	                    }
-	                }
-	            })
-	
-	            var component = C()
-	            testUtils.demo("basic psuedo-class styling", component)
-	
-	            var children = component.children
-	
-	            var firstCheckBoxComponent = children[0]
-	            var firstCheckBox = $(firstCheckBoxComponent.domNode)
-	            this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)')
-	
-	            this.log('just disabled')
-	            firstCheckBoxComponent.attr('disabled', true)
-	            setTimeout(function() {    // need to use a timeout every time an attribute changes because the MutationObserver that listens for attribute changes is asynchornous and won't fire until the scheduler is reached
-	            this.eq(firstCheckBox.css('color'), 'rgb(123, 130, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(60, 60, 200)')
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBoxComponent.someProperty, undefined)
-	            firstCheckBoxComponent.attr('disabled', undefined)
-	            setTimeout(function() {
-	
-	            this.log("just checked")
-	            firstCheckBoxComponent.selected = true
-	            this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.eq(firstCheckBox.css('outlineColor') , 'rgb(80, 90, 100)')
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBox.css('outlineWidth'), '4px')
-	            this.eq(firstCheckBoxComponent.someProperty, undefined)
-	            firstCheckBoxComponent.selected = false
-	
-	            this.log("just required")
-	            firstCheckBoxComponent.attr('required', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(0, 128, 0)') // the required pseudoclass doesn't apply because its within the checked psudeoclass (and the box isn't checked)
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(0, 128, 0)') // default outline color is whatever the 'color' property is
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBoxComponent.someProperty, undefined)
-	
-	            this.log("required and disabled")
-	            firstCheckBoxComponent.attr('disabled', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(123, 130, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(60, 60, 200)')
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBoxComponent.someProperty, undefined)
-	            firstCheckBoxComponent.attr('required', undefined)
-	            setTimeout(function() {
-	
-	            this.log("disabled and checked")
-	            firstCheckBoxComponent.selected = true
-	            this.eq(firstCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
-	            this.eq(firstCheckBox.css('backgroundColor'), defaultBackgroundColor)
-	            this.eq(firstCheckBoxComponent.someProperty, undefined)
-	            firstCheckBoxComponent.attr('disabled', undefined)
-	
-	            this.log("checked and required")
-	            firstCheckBoxComponent.attr('required', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(130, 0, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
-	            this.eq(firstCheckBox.css('backgroundColor'), 'rgb(1, 2, 3)')
-	            this.eq(firstCheckBox.css('outlineWidth'), '4px')
-	            this.eq(firstCheckBoxComponent.someProperty, 'required')
-	
-	            this.log("all 3: checked, required, and disabled")
-	            firstCheckBoxComponent.attr('disabled', true)
-	            setTimeout(function() {
-	            this.eq(firstCheckBox.css('color'), 'rgb(130, 0, 130)')
-	            this.eq(firstCheckBox.css('outlineColor'), 'rgb(80, 90, 100)')
-	            this.eq(firstCheckBox.css('backgroundColor'), 'rgb(1, 2, 3)')
-	            this.eq(firstCheckBoxComponent.someProperty, 'required')
-	
-	            this.log("just required (again)")
-	            firstCheckBoxComponent.attr('disabled', false)
-	            firstCheckBoxComponent.selected = false
-	            setTimeout(function() {
-	            this.eq(firstCheckBoxComponent.someProperty, 'optional')
-	
-	            var secondCheckBoxComponent = children[1].children[0]
-	            var secondCheckBox = $(secondCheckBoxComponent.domNode)
-	            this.eq(secondCheckBox.css('color'), 'rgb(0, 128, 0)')
-	            this.eq(secondCheckBoxComponent.someProperty, undefined)
-	
-	            this.log("just required")
-	            children[1].attr('required', true)
-	            setTimeout(function() {
-	            this.eq(secondCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.eq(secondCheckBoxComponent.someProperty, undefined)
-	            children[1].attr('required', undefined)
-	            setTimeout(function() {
-	
-	            this.log("just checked")
-	            secondCheckBoxComponent.selected = true
-	            this.eq(secondCheckBox.css('color'), 'rgb(0, 128, 0)')
-	            this.eq(secondCheckBoxComponent.someProperty, undefined)
-	
-	            this.log("checked and required")
-	            children[1].attr('required', true)
-	            setTimeout(function() {
-	            this.eq(secondCheckBox.css('color'), 'rgb(128, 128, 128)')
-	            this.eq(secondCheckBoxComponent.someProperty, 'required')
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	            }.bind(this),0)
-	        })
-	
-	        this.test('combination of side-by-side emulated psuedoclasses', function(t) {
-	            var red = 'rgb(128, 0, 0)'
-	            var style = Style({
-	                '$$nthChild(1)': {
-	                    textDecoration: 'underline'
-	                },
-	
-	                '$$nthChild(2n+1)': {
-	                    color: red
-	                }
-	            })
-	
-	            var x,y;
-	            var c = Container([
-	                x = Text('a'),
-	                y = Text('b')
-	            ])
-	            testUtils.demo('combination of side-by-side emulated psuedoclasses', c)
-	            x.style = style
-	            y.style = style
-	
-	            t.eq($(x.domNode).css('color'), red)
-	            t.ok($(x.domNode).css('textDecoration').indexOf('underline') !== -1)
-	            t.ok($(y.domNode).css('color') !== red)
-	            t.eq($(y.domNode).css('textDecoration').indexOf('underline'), -1)
-	        })
-	
-	        this.test('validate manually', function() {
-	            this.test("pseudo elements (native)", function() {
-	                var red = 'rgb(128, 0, 0)'
-	                var style = Style({
-	                    $$selection: {
-	                        color: red
-	                    }
-	                })
-	
-	                var c = Text('When you select this, it should turn red')
-	                testUtils.manualDemo("pseudo elements (native)", c)
-	                c.style = style
-	            })
-	            this.test('visited', function() {
-	                var C = proto(Block, function(superclass) {
-	                    this.name = 'C'
-	
-	                    this.build = function(text, link) {
-	                        this.domNode = domUtils.node('a')
-	
-	                        this.attr('href', link)
-	                        this.attr('style', "display:block;")
-	                        this.domNode.textContent = text
-	                        this.on('click', function(e) {
-	                            e.preventDefault() // prevents you from going to the link location on-click
-	                        })
-	
-	                        this.style = style
-	                    }
-	                })
-	
-	                var style = Style({
-	                    color: 'rgb(150, 0, 0)',
-	                    $$visited: {
-	                        color: 'rgb(0, 128, 0)',
-	
-	                        $$focus: {
-	                            color: 'rgb(0, 70, 200)'
-	                        }
-	                    }
-	                })
-	
-	                var component1 = C("This should be green when not in focus, and blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
-	                    component1.attr('tabindex', 1) // to make it focusable
-	                var component3 = C("This should be red (even when clicked on)", "http://www.thisdoesntexistatall.com/notatall")
-	                    component3.attr('tabindex', 1) // to make it focusable
-	
-	                // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
-	                testUtils.manualDemo('Manually verify these: component :visited pseudo-class styling', Container([component1, component3]))
-	
-	                component1.focus = true
-	
-	                this.test('errors', function() {
-	                    this.count(1)
-	
-	                    try {
-	                        Style({
-	                            Anything: {
-	                                $$visited: {
-	                                    CheckBox: {
-	                                        $setup: function() {
-	                                        }
-	                                    }
-	                                }
-	                            }
-	                        })
-	                    } catch(e) {
-	                        this.eq(e.message, "Pseudoclass visited isn\'t emulated, but has a style that can\'t be rendered in pure css")
-	                    }
-	                })
-	            })
-	        })
-	
-	        this.test('not', function(t) {
-	            var red = 'rgb(128, 0, 0)'
-	            var teal = 'rgb(0, 128, 128)'
-	            var style = Style({
-	                Text: {
-	                    '$$not(:nthChild(1))': {
-	                        color: red
-	                    }
-	                },
-	                Container:{
-	                    '$$not(:nthChild(3))': {
-	                        Text: {
-	                            color: teal
-	                        }
-	                    }
-	                }
-	            })
-	
-	            var c = Container([
-	                Text('a'),
-	                Text('b'),
-	                Container([Text('c')]),
-	                Container([Text('d')])
-	            ])
-	            testUtils.demo('not', c)
-	            c.style = style
-	
-	            t.eq($(c.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-	            t.eq($(c.children[1].domNode).css('color'), red)
-	            t.eq($(c.children[2].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-	            t.eq($(c.children[3].children[0].domNode).css('color'), teal)
-	
-	        })
-	
-	        this.test('js-rendered pseudoclasses', function() {
-	
-	            this.test('last-child', function(t) {
-	                this.count(7)
-	
-	                var C = proto(Block, function(superclass) {
-	                    this.name = 'C'
-	
-	                    this.build = function() {
-	                        this.add(Text("a"))
-	                        this.add(Text("b"))
-	                        this.add(Text("c"))
-	                        this.add(Text("d"))
-	
-	                        this.style = style
-	                    }
-	                })
-	
-	                var style = Style({
-	                    Text:{
-	                        $$lastChild: {
-	                            color: 'rgb(128, 0, 0)',
-	                            $setup: function() {}, // forces it to render in javascript
-	                            $kill: function() {}
-	                        }
-	                    }
-	                })
-	
-	                var component1 = C()
-	                testUtils.demo('last-child', component1)
-	
-	                var children = component1.domNode.children
-	                this.eq($(children[0]).css('color'), 'rgb(0, 0, 0)')
-	                this.eq($(children[1]).css('color'), 'rgb(0, 0, 0)')
-	                this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
-	                this.eq($(children[3]).css('color'), 'rgb(128, 0, 0)')
-	                var classes = children[3].classList
-	                this.eq(classes.length, 2)  // one is the main default, and the other is the set active styling
-	
-	                // dynamically adding elements
-	
-	                component1.add(Text('e'))
-	
-	                setTimeout(function() {  // the styles won't actually be applied until the thread runs back to the scheduler
-	                    t.eq($(children[3]).css('color'), 'rgb(0, 0, 0)')
-	                    t.eq($(children[4]).css('color'), 'rgb(128, 0, 0)')
-	                },0)
-	            })
-	
-	            this.test('nth-child', function() {
-	                var C = proto(Block, function(superclass) {
-	                    this.name = 'C'
-	
-	                    this.build = function() {
-	                        this.add(Text("a"))
-	                        this.add(Text("b"))
-	                        this.add(Text("c"))
-	                        this.add(Text("d"))
-	
-	                        this.style = style
-	                    }
-	                })
-	
-	                var style = Style({
-	                    Text:{
-	                        '$$nthChild(1)': {
-	                            color: 'rgb(128, 0, 0)',
-	                            $setup: function() {}, // forces it to render in javascript
-	                            $kill: function() {}
-	                        },
-	                        '$$nthChild(2n)': {
-	                            color: 'rgb(0, 128, 128)',
-	                            $setup: function() {}, // forces it to render in javascript
-	                            $kill: function() {}
-	                        }
-	                    }
-	                })
-	
-	                var component1 = C()
-	                testUtils.demo('nth-child', component1)
-	
-	                var children = component1.domNode.children
-	                this.eq($(children[0]).css('color'), 'rgb(128, 0, 0)')
-	                this.eq($(children[1]).css('color'), 'rgb(0, 128, 128)')
-	                this.eq($(children[2]).css('color'), 'rgb(0, 0, 0)')
-	                this.eq($(children[3]).css('color'), 'rgb(0, 128, 128)')
-	
-	                this.test('more nth-child?', function(t) {
-	                    this.count(5)
-	
-	                    var red = 'rgb(128, 0, 0)'
-	                    var teal = 'rgb(0, 128, 128)'
-	
-	                    var style = Style({
-	                        Container:{
-	                            '$$nthChild(2)': {
-	                                Text: {
-	                                    color: red,
-	                                    $setup: function() {}, // forces it to render in javascript
-	                                    $kill: function() {}
-	                                }
-	                            },
-	                            '$$nthChild(2n+1)': {
-	                                Text: {
-	                                    color: teal,
-	                                    $setup: function() {}, // forces it to render in javascript
-	                                    $kill: function() {}
-	                                }
-	                            }
-	                        }
-	                    })
-	
-	                    var c = Container([])
-	                    testUtils.demo('nth-child emulation', c)
-	                    c.style = style
-	
-	                    c.add(Container([Text('a')]))
-	                    c.add(Container([Text('b')]))
-	                    c.add(Container([Text('c')]))
-	                    c.add(Container([Text('d')]))
-	                    c.add(Container([Text('e')]))
-	
-	                    setTimeout(function() {
-	                        t.eq($(c.children[0].children[0].domNode).css('color'), teal)
-	                        t.eq($(c.children[1].children[0].domNode).css('color'), red)
-	                        t.eq($(c.children[2].children[0].domNode).css('color'), teal)
-	                        t.eq($(c.children[3].children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-	                        t.eq($(c.children[4].children[0].domNode).css('color'), teal)
-	                    },0)
-	                })
-	
-	                this.test("nth-child without parent", function(t) {
-	                    this.count(3)
-	
-	
-	                    var black = 'rgb(0, 0, 0)'
-	                    var red = 'rgb(128, 0, 0)'
-	                    var style = Style({
-	                        '$$nthChild( 1 + 1 n )': {
-	                            color: red,
-	                            $setup: function() {}, // forces it to render in javascript
-	                            $kill: function() {}
-	                        }
-	                    })
-	
-	                    var box = Container([])
-	                    var c = Container([])
-	                    c.style = style
-	
-	                    c.add(Text("moo"))
-	                    c.add(Text("moo2"))
-	
-	                    box.add(c)
-	                    testUtils.demo("nth-child without parent", box)
-	
-	                    setTimeout(function() {                              // allow the changes to propagate
-	                        t.eq($(c.children[0].domNode).css('color'), red)
-	                        t.eq($(c.children[1].domNode).css('color'), red)
-	
-	                        var one = c.children[1]
-	                        c.remove(one)
-	                        setTimeout(function() {                          // allow the changes to propagate
-	                            box.add(one)
-	                            t.eq($(one.domNode).css('color'), black)
-	                        },0)
-	                    },0)
-	                })
-	            })
-	
-	//            todo: do this when you can figure out how syn.move works
-	//            this.test("hover", function(t) {
-	//                this.count(3)
-	//
-	//                var style = Style({
-	//                    $$hover: {
-	//                        color: 'rgb(200, 0, 0)'
-	//                    }
-	//                })
-	//
-	//                var text = Text("a")
-	//                text.style = style
-	//
-	//                testUtils.demo('hover', text)
-	//
-	//                this.eq($(text.domNode).css('color'), 'rgb(0, 0, 0)')
-	//
-	//                syn.move({pageX: 100, pageY:100}, text.domNode).then(function() {
-	//                    t.eq($(text.domNode).css('color'), 'rgb(200, 0, 0)')
-	//
-	//                    return syn.move(text.domNode, {pageX: 100, pageY:100})
-	//                }).then(function() {
-	//                    t.eq($(text.domNode).css('color'), 'rgb(0, 0, 0)')
-	//                }).done()
-	//            })
-	        })
-	
-	    })
-	
-	    this.test("test styling objects that inherit from a component", function() {
-	
-	        var S = Style({
-	            Text: Style({
-	                color: 'rgb(128, 0, 0)'
-	            })
-	        })
-	
-	        var inheritsFromText = proto(Text, function() {})
-	
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'C'
-	
-	            this.build = function() {
-	                this.style = S
-	                this.add(inheritsFromText('inParent'))
-	            }
-	        })
-	
-	        var node = C()
-	        testUtils.demo("test styling objects that inherit from a component", node)
-	
-	        var text = $($(node.domNode).children('div')[0])
-	
-	        this.eq(text.css('color'), 'rgb(128, 0, 0)')
-	    })
-	
-	    this.test("component state", function(t) {
-	        var setupCalled = 0
-	        var S = Style({
-	            color: 'rgb(0, 100, 0)',
-	            backgroundColor: 'rgb(23, 45, 99)',
-	            $state: function(state) {
-	                if(state.boggled) {
-	                    var color = 'rgb(100, 0, 0)'
-	                } else {
-	                    var color = 'rgb(0, 0, 100)'
-	                }
-	
-	                // note: do not create styles like this within the $state function if at all possible
-	                // a new Style object is created every run, and probably won't get garbage collected, also obviously creating a new style is much slower than just referencing an already-created one
-	                return Style({
-	                    color: color,
-	                    $setup: function() {
-	                        setupCalled++
-	                    },
-	                    $kill: function() {
-	                        // requisite
-	                    }
-	                })
-	            }
-	        })
-	
-	        var c = Text("hi")
-	        c.style = S
-	
-	        testUtils.demo("component state", c)
-	
-	        var text = $(c.domNode)
-	        this.eq(text.css('color'), 'rgb(0, 0, 100)')
-	        this.eq(text.css('backgroundColor'), 'rgb(23, 45, 99)')
-	        this.eq(setupCalled, 1)
-	
-	        c.state.set('boggled', true)
-	        this.eq(text.css('color'), 'rgb(100, 0, 0)')
-	        this.eq(text.css('backgroundColor'), 'rgb(23, 45, 99)')
-	        this.eq(setupCalled, 2)
-	
-	        c.style = undefined
-	        this.eq(text.css('color'), 'rgb(0, 0, 0)')
-	        this.eq(text.css('backgroundColor'), defaultBackgroundColor)
-	        this.eq(setupCalled, 2)
-	    })
-	
-	    this.test("$inherit", function() {
-	        this.test("$inherit from component style map", function() {
-	            var style = Style({
-	                Container: {
-	                    backgroundColor: 'rgb(12, 14, 19)',
-	                    Container: {
-	                        $inherit: true,
-	                        color: 'rgb(15, 25, 35)'
-	                    }
-	                }
-	            })
-	
-	            var inner;
-	            var thing = Container([Container([inner = Container([Text("hi")])])])
-	            thing.style = style
-	            testUtils.demo("$inherit from component style map", thing)
-	
-	            var innerNode = $(inner.domNode)
-	            this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
-	            this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
-	        })
-	
-	        this.test("label style inheriting from from sibling", function() {
-	            var style = Style({
-	                Text: {
-	                    backgroundColor: 'rgb(12, 14, 19)'
-	                },
-	                $textLabel: {
-	                    $inherit: true,
-	                    color: 'rgb(15, 25, 35)'
-	                }
-	            })
-	
-	            var text;
-	            var thing = Container([text=Text('textLabel', "hi")])
-	            thing.style = style
-	            testUtils.demo("label style inheriting from from sibling", thing)
-	
-	            var textNode = $(text.domNode)
-	            this.eq(textNode.css('color'), 'rgb(15, 25, 35)')
-	            this.eq(textNode.css('backgroundColor'), 'rgb(12, 14, 19)')
-	        })
-	        this.test("explicit styling inheriting from component style map", function() {
-	            var style = Style({
-	                Text: {
-	                    backgroundColor: 'rgb(12, 14, 19)'
-	                }
-	            })
-	
-	            var text;
-	            var thing = Container([text=Text('textLabel', "hi")])
-	            thing.style = style
-	            text.style = Style({
-	                $inherit: true,
-	                color: 'rgb(15, 25, 35)'
-	            })
-	            testUtils.demo("label style inheriting from from sibling", thing)
-	
-	            var textNode = $(text.domNode)
-	            this.eq(textNode.css('color'), 'rgb(15, 25, 35)')
-	            this.eq(textNode.css('backgroundColor'), 'rgb(12, 14, 19)')
-	        })
-	
-	        this.test("inheriting from multiple levels of componentStyleMap", function() {
-	            var style = Style({
-	                Text: {
-	                    backgroundColor: 'rgb(12, 14, 19)'
-	                },
-	                Container: {
-	                    Text: {
-	                        $inherit: true,
-	                        color: 'rgb(15, 25, 35)'
-	                    },
-	                    Container: {
-	                        Text: {
-	                            $inherit: true,
-	                            width: 30
-	                        }
-	                    }
-	                }
-	            })
-	
-	            var inner;
-	            var thing = Container([Container([Container([inner = Text("hi")])])])
-	            thing.style = style
-	            testUtils.demo("$inherit from component style map", thing)
-	
-	            var innerNode = $(inner.domNode)
-	            this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
-	            this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
-	            this.eq(innerNode.css('width'), '30px')
-	        })
-	
-	        this.test("inheriting from multiple names of the same component", function() {
-	            var Text2 = proto(Text, function(superclass) {
-	                this.name = 'Text2'
-	            })
-	            var Text3 = proto(Text2, function(superclass) {
-	                this.name = 'Text3'
-	            })
-	
-	            var style = Style({
-	                Text: {
-	                    backgroundColor: 'rgb(12, 14, 19)'
-	                },
-	                Text2: {
-	                    $inherit: true,
-	                    color: 'rgb(15, 25, 35)'
-	                },
-	                Text3: {
-	                    $inherit: true,
-	                    width: 30
-	                },
-	                $label: {
-	                    $inherit: true,
-	                    height: 30
-	                }
-	            })
-	
-	            var inner;
-	            var thing = Container([
-	                inner=Text3('label', "hi")
-	            ])
-	            thing.style = style
-	            testUtils.demo("$inherit from component style map", thing)
-	
-	            var innerNode = $(inner.domNode)
-	            this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
-	            this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
-	            this.eq(innerNode.css('width'), '30px')
-	            this.eq(innerNode.css('height'), '30px')
-	        })
-	
-	//        this one is very confusing unless order is preserved between labels and block styles
-	//        this.test("inheriting from multiple levels of componentStyleMap", function() {
-	//            var style = Style({
-	//                Text: {
-	//                    backgroundColor: 'rgb(12, 14, 19)'
-	//                },
-	//                Container: {
-	//                    $textLabel: {
-	//                        $inherit: true,
-	//                        color: 'rgb(15, 25, 35)'
-	//                    },
-	//                    Container: {
-	//                        Text: {
-	//                            $inherit: true,
-	//                            width: 30
-	//                        }
-	//                    }
-	//                }
-	//            })
-	//
-	//            var inner;
-	//            var thing = Container([Container([inner = Container([Text("hi")])])])
-	//            thing.style = style
-	//            testUtils.demo("$inherit from component style map", thing)
-	//
-	//            var innerNode = $(inner.domNode)
-	//            this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
-	//            this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
-	//        })
-	    })
-	
-	    this.test('former bugs', function() {
-	        this.test('propogating inner style wasnt working', function() {
-	            var S = Style({
-	                    Container: {
-	                        Button: {
-	                            color: 'rgb(1,2,3)'
-	                        }
-	                    }
-	                })
-	
-	            var C = Text('X')
-	                C.style = S
-	                var A = Container()
-	                    var B = Button('b')
-	                A.add(B)
-	            C.add(A)
-	
-	            testUtils.demo('propogating inner style wasnt working', C)
-	
-	            this.eq($(B.domNode).css('color'), 'rgb(1, 2, 3)')
-	        })
-	
-	        this.test('inner styles inside labels werent working right', function() {
-	            var S = Style({
-	                $label: {
-	                    Text: {
-	                        color: 'rgb(1,2,3)'
-	                    }
-	                }
-	            })
-	
-	            var c = Container([
-	                Container('label', [Text('hi')])
-	            ])
-	            c.style = S
-	
-	            testUtils.demo('inner styles inside labels werent working right', c)
-	
-	            this.eq($(c.children[0].children[0].domNode).css('color'), 'rgb(1, 2, 3)')
-	        })
-	
-	        this.test('inner styles inside labels werent working right when there was a style outside the label', function() {
-	            var S = Style({
-	                $label: {
-	                    Text: {
-	                        color: 'rgb(1,2,3)'
-	                    }
-	                },
-	                Text: {
-	                    color: 'rgb(20,50,90)'
-	                }
-	            })
-	
-	            var c = Container([
-	                Container('label', [Text('hi')])
-	            ])
-	            c.style = S
-	
-	            var superContainer = Container([c]) // the component has to be added to a parent for the bug to manifest
-	
-	            testUtils.demo('inner styles inside labels werent working right when there was a style outside the label', superContainer)
-	
-	            this.eq($(c.children[0].children[0].domNode).css('color'), 'rgb(1, 2, 3)')
-	        })
-	
-	        this.test('removing the last child component failed', function() {
-	            var c = Container([Text('a')])
-	            c.remove(0)
-	        })
-	
-	        this.test("loading blocks.js twice caused weird behavior - defaulting overriding main styling", function(t) {
-	            this.count(6)
-	
-	            var container = Container()
-	            testUtils.demo("loading blocks.js twice caused weird behavior - defaulting overriding main styling", container)
-	
-	            var c = Text('a')
-	            c.defaultStyle =  Style({
-	                display: 'block'
-	            })
-	            c.style = Style({
-	                position: 'absolute'
-	            })
-	
-	            container.add(c)
-	
-	            t.eq($(c.domNode).css('position'), 'absolute')
-	            t.eq($(c.domNode).css('display'), 'block')
-	
-	            // because of webpack's shaddowing (i'm guessing) this will cause window.blocks to get populated instead of being passed back to require.js (thus the "undefinedResult")
-	            requirejs(["/dist/blocks.umd.js"], function(undefinedResult) {
-	                t.eq($(c.domNode).css('position'), 'absolute')
-	                t.eq($(c.domNode).css('display'), 'block')
-	
-	                var d = window.blocks.Text("d")
-	                d.defaultStyle =  Style({
-	                    display: 'block'
-	                })
-	                d.style = Style({
-	                    position: 'absolute'
-	                })
-	
-	                container.add(d)
-	                t.eq($(d.domNode).css('position'), 'absolute')
-	                t.eq($(d.domNode).css('display'), 'block')
-	            })
-	        })
-	
-	        this.test("exception for Style with undefined value", function() {
-	            return Style({
-	                backgroundColor: undefined
-	            })
-	        })
-	
-	        this.test('last-child not working when more children are added asynchronously', function(t) {
-	            this.count(10)
-	
-	            var C = proto(Block, function(superclass) {
-	                this.name = 'C'
-	
-	                this.build = function() {
-	                    this.add(Text("a"))
-	                    this.style = style
-	                }
-	            })
-	
-	            var style = Style({
-	                Text:{
-	                    $$lastChild: {
-	                        color: 'rgb(128, 0, 0)'
-	                    }
-	                }
-	            })
-	
-	            var component1 = C()
-	            testUtils.demo('last-child', component1)
-	
-	            t.eq($(component1.children[0].domNode).css('color'), 'rgb(128, 0, 0)')
-	
-	            setTimeout(function() {
-	                component1.add(Text('b'))
-	                t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-	                t.eq($(component1.children[1].domNode).css('color'), 'rgb(128, 0, 0)')
-	
-	                setTimeout(function() {
-	                    component1.add(Text('c'))
-	                    t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-	                    t.eq($(component1.children[1].domNode).css('color'), 'rgb(0, 0, 0)')
-	                    t.eq($(component1.children[2].domNode).css('color'), 'rgb(128, 0, 0)')
-	
-	                    setTimeout(function() {
-	                        component1.add(Text('d'))
-	                        t.eq($(component1.children[0].domNode).css('color'), 'rgb(0, 0, 0)')
-	                        t.eq($(component1.children[1].domNode).css('color'), 'rgb(0, 0, 0)')
-	                        t.eq($(component1.children[2].domNode).css('color'), 'rgb(0, 0, 0)')
-	                        t.eq($(component1.children[3].domNode).css('color'), 'rgb(128, 0, 0)')
-	                    },0)
-	                },0)
-	            },0)
-	        })
-	
-	        this.test('native pseudoclass style overriding block default styles when they must override a StyleMap style with "initial"', function(t) {
-	
-	            var C = proto(Text, function(superclass) {
-	                this.name = 'blah'
-	
-	                this.defaultStyle = Style({
-	                    color: 'rgb(100, 200, 250)'
-	                })
-	            })
-	
-	            var text = C("a'llo")
-	            var c = Container([
-	                Container('a', [text])
-	            ])
-	            c.style = Style({
-	                Text: {
-	                    color: 'rgb(12, 25, 36)',
-	                    display: "block"
-	                },
-	                $a: {
-	                    '$$nthChild(1)': {
-	                        Text: {
-	                            // color left as default (which should override the 'red' above)
-	                        }
-	                    }
-	                }
-	            })
-	
-	            testUtils.demo('native pseudoclass style overriding block default styles when they must override a StyleMap style with "initial"', c)
-	
-	            t.eq($(text.domNode).css('color'), 'rgb(100, 200, 250)')
-	            t.eq($(text.domNode).css('display'), 'inline-block') // should be the base default value
-	        })
-	
-	        this.test('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', function(t) {
-	
-	            var C = proto(Container, function(superclass) {
-	                this.name = 'blah'
-	            })
-	
-	            var text = C(Text("a'llo"))
-	            var c = Container([
-	                Container('a', [text])
-	            ])
-	            c.style = Style({
-	                Container: {
-	                    display: "block"
-	                },
-	                $a: {
-	                    '$$nthChild(1)': {
-	                        Container: {
-	                            // color left as default (which should override the 'red' above)
-	                        }
-	                    }
-	                }
-	            })
-	
-	            testUtils.demo('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', c)
-	
-	            t.eq($(text.domNode).css('display'), 'inline-block') // should be the base default value
-	        })
-	
-	        this.test('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', function(t) {
-	
-	            var C = proto(Container, function(superclass) {
-	                this.name = 'TicketView'
-	            })
-	
-	            var thing = C(Text("a'llo"))
-	            var c = Container([
-	                C([thing])
-	            ])
-	            c.style = Style({
-	                TicketView: {
-	                    display: 'block',
-	
-	                    TicketView: {
-	                        display: 'block',
-	                        minHeight: 22,
-	
-	                        borderBottom: "1px solid red",
-	
-	                        $$lastChild: {
-	                            borderBottom: 'none'
-	                        },
-	                        $componentContainer: {
-	                            display: 'flex',
-	                            alignItems: 'center',
-	                        }
-	                    }
-	                }
-	            })
-	
-	            testUtils.demo('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', c)
-	
-	            t.eq($(thing.domNode).css('display'), 'block') // should be the set value
-	            t.eq($(thing.domNode).css('minHeight'), '22px')
-	            t.eq($(thing.domNode).css('borderBottom'), '0px none rgb(0, 0, 0)')   // this is what you get back for "none"
-	        })
-	
-	        this.test('native pseudoclass style not overriding competing psuedoclass styles', function(t) {
-	
-	            var C = proto(Container, function(superclass) {
-	                this.name = 'Whatever'
-	            })
-	
-	            var thing = C(Text("a'llo"))
-	            var c = Container([
-	                Container([thing])
-	            ])
-	            c.style = Style({
-	                Container: {
-	                    Whatever: {
-	                        display: 'table-cell',
-	
-	                        $$firstChild: {
-	                            color: 'rgb(45, 46, 49)'
-	                        }
-	                    },
-	
-	                    $$firstChild: {
-	                        Whatever: {
-	
-	                        }
-	                    }
-	                },
-	            })
-	
-	            testUtils.demo('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', c)
-	
-	            t.eq($(thing.domNode).css('color'), 'rgb(0, 0, 0)')
-	            t.eq($(thing.domNode).css('display'), 'inline-block')
-	        })
-	
-	        this.test("improper caching caused invalid styles to be returned - case 1", function() {
-	
-	            var text = Text("text")
-	            var inner = Container([Container('wrapper', [text])])
-	            inner.style = Style({
-	                marginRight: 2,
-	
-	                Text: {
-	                    minWidth: 22,
-	                }
-	            })
-	
-	            var component = Container(Container([inner]))
-	            component.style = Style({
-	                Container: {
-	                    display: 'block'
-	                }
-	            })
-	
-	            testUtils.demo('improper caching caused invalid styles to be returned - case 1', component)
-	
-	            this.eq($(text.domNode).css('minWidth'), '22px')
-	        })
-	
-	        this.test("improper caching caused invalid styles to be returned - case 2", function() {
-	
-	            var text = Text()
-	            var inner = Container([Container('wrapper', [text])])
-	            inner.style = Style({
-	                marginRight: 2,
-	
-	                Text: {
-	                    minWidth: 22,
-	                    padding: '0 2px',
-	                    textAlign: 'center',
-	                    border: '1px solid black',
-	                    minHeight: 18,
-	                    lineHeight: '15px',
-	                    cursor: 'pointer'
-	                },
-	
-	                UserSelection: {
-	                    $setup: function(){},
-	                    Container: {}  /// ????? why does removing this make the style *not* work?
-	                }
-	            })
-	
-	            var component = Container(Container([inner]))
-	            component.style = Style({
-	                Container: {
-	                    display: 'block'
-	                }
-	            })
-	
-	            testUtils.demo("improper caching caused invalid styles to be returned - case 2", component)
-	
-	            this.eq($(text.domNode).css('borderWidth'), '1px')
-	        })
-	
-	    })
-	    //*/
-	}
-
-/***/ },
-/* 3 */
-/*!*********************!*\
-  !*** ../~/Block.js ***!
-  \*********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 18)
-	var proto = __webpack_require__(/*! proto */ 28);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 30)
-	var observe = __webpack_require__(/*! observe */ 36)
-	
-	var utils = __webpack_require__(/*! ./utils */ 22)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 19)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 21)
-	
-	var Style = __webpack_require__(/*! ./Style */ 16)
-	Style.isDev = function() {return module.exports.dev}
-	
-	var components = {};
-	
-	var setOfBrowserEvents = utils.arrayToMap([
-	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
-	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
-	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
-	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
-	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
-	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
-	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
-	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
-	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
-	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
-	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
-	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
-	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
-	])
-	
-	// events:
-	    // newParent - emits this when a component gets a new parent
-	    // parentRemoved - emits this when a component is detached from its parent
-	var Block = module.exports = proto(EventEmitterB,function(superclass) {
-	
-	    // static properties
-	
-	    // constructor
-		this.init = function() {
-	        var that = this
-	
-	        if(this.name === undefined) {
-	            throw new Error("The 'name' property is required for Blocks")
-	        }
-	
-	        superclass.init.call(this)
-	
-	        this.attached = false
-	        this.children = []
-	        this.state = observe({})
-	        this.parent = undefined;
-	        this._styleSetupInfo = []
-	        this._nativePseudoclassMap = {}
-	
-			if (this.id !== undefined) {
-				components[this.id] = this;
-			}
-	
-	        if(this.domNode === undefined) {
-	            this.domNode = domUtils.div()
-	        }
-	
-	        this.build.apply(this, arguments)
-	
-	        //if(module.exports.dev) {
-	            this.attr('blkName', this.name)
-	        //}
-	
-	
-	        this.domNode.className += ' '+Style.defaultClassName // add the default class
-	        /*if(this._style === undefined) { // if a style wasn't set by this.build
-	            this.style = undefined // initialize style to its block or inherited default
-	        }*/
-	
-	        // set up dom event handlers
-	        var ifonHandlers={}
-	        that.ifon(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        that.ifoff(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.removeEventListener(event,ifonHandlers[event])
-	            }
-	        })
-		}
-	
-	    // sub-constructor - called by the constructor
-	    // parameters:
-	        // label - (Optional) A label that can be used to style a component differently.
-	                   // Intended to be some string describing what the component is being used for.
-	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
-	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
-	    this.build = function(/*[label,] domNode*/) {
-	        if(arguments.length === 1) {
-	            this.domNode = arguments[0]
-	        } else if(arguments.length >= 2) {
-	            this.label = arguments[0]
-	            this.domNode = arguments[1]
-	        }
-	    }
-	
-	
-		// instance properties
-	
-	
-		this.domNode;
-	    this.label;        // a static label that can be used for styling
-	    this.excludeDomEvents;
-	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
-	
-	
-	    Object.defineProperty(this, 'label', {
-	        get: function() {
-	            return this._label
-	        }, set: function(v) {
-	            if(this._label === undefined) {
-	                this._label = v
-	
-	                //if(module.exports.dev) {
-	                    this.attr('label', this._label)
-	                //}
-	            } else {
-	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
-	            }
-	        }
-	    })
-	
-	    // adds elements to the components main domNode
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.add = function() {
-	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
-		}
-	
-	    // adds nodes at a particular index
-	    // nodes can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    // todo: look into using document fragments to speed this up when multiple nodes are being added
-	    this.addAt = function(index/*, nodes...*/) {
-	        var nodes = normalizeAddAtArguments.apply(this, arguments)
-	
-	        for (var i=0;i<nodes.length;i++) {
-				var node = nodes[i];
-	
-	            // remove the node from its current parent if necessary
-	            if(node.parent !== undefined) {
-	                throw new Error('Node at index '+i+' already has a parent. Remove the node from its parent before adding it somewhere else.')
-	            }
-	
-	            this.children.splice(index+i, 0, node)
-	
-	            if(!isBlock(node)) {
-	                throw new Error("node is not a Block")
-	            }
-	
-	            var beforeChild = this.children[1+i+index]
-	            if(beforeChild === undefined) {
-	                this.domNode.appendChild(node.domNode)
-	            } else {
-	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
-	            }
-	
-	            node.parent = this;
-	            node.emit('newParent')
-			}
-	
-	        if(this.attached) {
-	            for (var i=0;i<nodes.length;i++) {
-	                var node = nodes[i]
-	                node.attached = true
-	                node.style = node._style // rerender its style
-	            }
-	        }
-	    }
-	
-		// add a list of nodes before a particular node
-	    // if beforeChild is undefined, this will append the given nodes
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addBefore = this.addBeforeNode = function(beforeChild) {
-	        var nodes = trimArguments(arguments).slice(1)
-	        if(beforeChild === undefined) {
-	            this.add.apply(this, nodes)
-	        } else {
-	            var index = this.children.indexOf(beforeChild)
-	            this.addAt.apply(this, [index].concat(nodes))
-	        }
-	    }
-	
-	
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // index, index, index, ... - each index is the numerical index to remove
-	        // arrayOfComponents
-	        // arrayOfIndexes
-	    this.remove = function() {
-	        var removals = normalizeRemoveArguments.apply(this, arguments)
-	        removals = removals.sort(function(a,b) {
-	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
-	        })
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	            var c = this.children[r]
-	
-	            if(c === undefined) {
-	                throw new Error("There is no child at index "+r)
-	            }
-	
-	            c.parent = undefined
-	            this.children.splice(r, 1)
-	            this.domNode.removeChild(this.domNode.childNodes[r])
-	
-	            c.emit('parentRemoved')
-	        }
-	    }
-	
-	    // sets or gets an attribute on the components domNode
-	    // parameter sets:
-	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
-	    // if there are two arguments passed, the attribute is set
-	        // if 'value' is undefined, the attribute is removed
-	    this.attr = function(/*attribute, value OR attributeObject*/) {
-	        if(arguments.length === 1) {
-	            if(arguments[0] instanceof Object) {
-	                var attributes = arguments[0]
-	                for(var attribute in attributes) {
-	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
-	                }
-	            } else {
-	                var attribute = this.domNode.getAttribute(arguments[0])
-	                if(attribute === null) {
-	                    return undefined // screw null
-	                } else {
-	                    return attribute
-	                }
-	            }
-	        } else {
-	            var attribute = arguments[0]
-	            if(arguments[1] !== undefined) {
-	                var value = arguments[1]
-	                domUtils.setAttribute(this.domNode, arguments[0], value)
-	            } else {
-	                this.domNode.removeAttribute(attribute)
-	            }
-	        }
-	    }
-	
-	    Object.defineProperty(this, 'visible', {
-	        // returns true if the element is visible
-	        get: function() {
-	            return this.domNode.style.display !== 'none';
-	
-	        // sets whether or not the element is visible
-	        }, set: function(setToVisible) {
-	            if(setToVisible) {
-	                if (this._displayStyle !== undefined) {
-	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
-	                    this._displayStyle = undefined
-	                } else {
-	                    this.domNode.style.display = ''
-	                }
-	            } else {
-	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
-	                    this._displayStyle = this.domNode.style.display
-	                }
-	
-	                this.domNode.style.display = 'none'
-	            }
-	        }
+	        // change 1 - really no change because option4 is already selected
+	        s1.options[4].selected = true
+	        this.eq(s1.val, "4")
+	        this.eq(s1.options[4].selected, true)
+	        this.eq(s1.options[5].selected, false)
+	        this.eq(s1.options[6].selected, false)
+	
+	        // change 2
+	        s1.options[5].selected = true
+	        this.eq(s1.val, "5")
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[5].selected, true)
+	        this.eq(s1.options[6].selected, false)
+	
+	        // change option value
+	        s1.options[5].val = 7
+	        this.eq(s1.options[7].val, 7)
+	        this.eq(s1.val, 7)
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[5], undefined)     // moved to value 7
+	        this.eq(s1.options[6].selected, false)
+	        this.eq(s1.options[7].selected, true)
+	
+	        // change option text
+	        s1.options[7].text = 'Option 7'
+	        this.eq(s1.options[7].domNode[domUtils.textProperty], 'Option 7')
+	
+	        // change 3
+	        // change the value of the select object directly
+	        s1.val = 6
+	        this.eq(s1.val, 6)
+	        this.eq(s1.options[4].selected, false)
+	        this.eq(s1.options[6].selected, true)
+	        this.eq(s1.options[7].selected, false)
+	
+	
+	        // select just one of the already selected options with a click
+	        // change 4
+	        syn.click(option6.domNode).then(function() {
+	            t.eq(s1.val, 6)
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, true)
+	            t.eq(s1.options[7].selected, false)
+	
+	            // change 5
+	            // click one that wasn't already selected
+	            return syn.click(s1.options[7].domNode)
+	        }).then(function(){
+	            t.eq(s1.val, 7)
+	            t.eq(s1.options[4].selected, false)
+	            t.eq(s1.options[6].selected, false)
+	            t.eq(s1.options[7].selected, true)
+	        }).done()
 	    })
 	
 	
-	    Object.defineProperty(this, 'focus', {
-	        // returns true if the element is in focus
-	        get: function() {
-	            return document.activeElement === this.domNode
-	
-	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
-	        }, set: function(setToInFocus) {
-	            if(setToInFocus) {
-	                this.domNode.focus()
-	            } else {
-	                this.domNode.blur()
-	            }
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'style', {
-	        get: function() {
-	            return this._style
-	
-	        // sets the style, replacing one if one already exists
-	        }, set: function(styleObject) {
-	            // get active style
-	                // mix the block-default style with ..
-	                // .. the current style
-	                // .. style returned by the $state of current style
-	                // .. $$pseudoclasses of current + $state styles
-	
-	            this._style = styleObject
-	            if(this.attached) {
-	                var newStyle = getStyle(this)  // must be called after setting _style
-	                var defaultStyle = this.getDefaultStyle()
-	
-	                var newCurrentStyle = blockStyleUtils.mixStyles(defaultStyle, newStyle)
-	                blockStyleUtils.setCurrentStyle(this, newCurrentStyle, defaultStyle)
-	            }
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'selectionRange', {
-	        // returns the visible character selection range inside the element
-	        // returns an array like [offsetStart, offsetEnd]
-	        get: function() {
-	            return domUtils.getSelectionRange(this.domNode)
-	
-	        // sets the visible character selection range
-	        }, set: function(selection) {
-	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
-	        }
-	    })
-	
-	    this.attach = function(domNode) {
-	        if(domNode !== undefined)
-	            attach(domNode, this)
-	        else
-	            attach(this)
-	    }
-	    this.detach = function(domNode) {
-	        if(domNode !== undefined)
-	            detach(domNode, this)
-	        else
-	            detach(this)
-	    }
-	
-	
-		// private instance variables/functions
-	
-	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
-	    this._nativePseudoclassMap; // a map of Block names to a set of native pseudoclass styles and their css selector base (eg: {BlockA: {'.style1:required .style2': styleObject}}
-	
-		this._style;             // the object's explicit Style object (undefined if it inherits a style)
-	    this._currentStyle;      // the object's current Style that will only change if its parent's activeStyle changes, or if a style is explicitly reset on the block
-	    this._activeStyle;       // the active style depending on pseudoclasses, $state, and defaultStyle
-	
-	    this._displayStyle;      // temporarily stores an inline display style while the element is hidden (for use when 'show' is called)
-	    this._styleSetupInfo   // place to put states for setup functions (used for css pseudoclass emulation)
-	    this._stateChangeHandler // the handler being used for $state style changes
-	
-	    this.attached           // set to true if the block has been attached to the document (or if one of its ancestors has been)
-	
-	
-	    // returns the default style of the current Block based on the 'defaultStyle' property set on its constructor (this.constructor)
-	    // if there is more than one default style, they are merged in order
-	    // if there is no default style, undefined is returned
-	    this.getDefaultStyle = function() {
-	        return blockStyleUtils.getDefaultStyle(this)
-	    }
-	
-	    // gets the high-level style of the block, either from the block's explicit style, or inherits from its parent's style map
-	    function getStyle(block) {
-	        if(block._style !== undefined) {            // use the block's explicit style if possible
-	            if(block._style.inherit) {
-	                var styleToInerit = blockStyleUtils.getInheritingStyle(block, block.parent)
-	                if(styleToInerit !== undefined)
-	                    return styleToInerit.mix(block._style)
-	            }
-	            // else
-	            return block._style
-	
-	        } else {     // otherwise use the parent's computedStyleMap
-	            return blockStyleUtils.getInheritingStyle(block, block.parent)
-	        }
-	    }
-	});
-	
-	
-	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
-	
-	
-	// appends components to the passed domNode (default: body)
-	var attach = module.exports.attach = function(/*[domNode,] component or components*/) {
-	    if(arguments.length > 1) {
-	        var domNode = arguments[0]
-	        var components = arguments[1]
-	    } else {
-	        if(document.body === null) throw new Error("Your document does not have a body.")
-	        var domNode = document.body
-	        var components = arguments[0]
-	    }
-	
-	    if(!(components instanceof Array)) {
-	        var components = [components]
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        domNode.appendChild(components[n].domNode)
-	
-	
-	        components[n].attached = true
-	        components[n].style = components[n]._style
-	    }
-	
-	
-	}
-	// removes components from their parents
-	var detach = module.exports.detach = function(components) {
-	    if(!(components instanceof Array)) {
-	        components = [components]
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        var block = components[n]
-	        block.domNode.parentNode.removeChild(block.domNode)
-	
-	        markDetached(block)
-	    }
-	}
-	
-	// creates a body tag (only call this if document.body is null)
-	
-	module.exports.createBody = function(callback) {
-	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-	    var body = dom.createElement("body")
-	    dom.documentElement.appendChild(body)
-	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
-	        callback()
-	    },0)
-	}
-	
-	
-	
-	
-	// returns a list of indexes to remove from Block.remove's arguments
-	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
-	    var that = this
-	
-	    if(arguments[0] instanceof Array) {
-	        var removals = arguments[0]
-	    } else {
-	        var removals = Array.prototype.slice.call(arguments)
-	    }
-	
-	    return removals.map(function(removal, parameterIndex) {
-	        if(isBlock(removal)) {
-	            var index = that.children.indexOf(removal)
-	            if(index === -1) {
-	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
-	            }
-	            return index
-	        } else {
-	            return removal
-	        }
-	
-	    })
-	}
-	
-	// returns a list of nodes to add
-	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
-	    if(arguments.length === 2) {
-	        if(arguments[1] instanceof Array) {
-	            return arguments[1]
-	        } else {
-	            return [arguments[1]]
-	        }
-	    } else { // > 2
-	        return trimArguments(arguments).slice(1)
-	    }
-	}
-	
-	function isBlock(c) {
-	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
-	}
-	function isDomNode(node) {
-	    return node.nodeName !== undefined
-	}
-	
-	function markDetached(node) {
-	    node.attached = false
-	    for(var n=0; n<node.children.length; n++) {
-	        markDetached(node.children[n])
-	    }
-	}
-
-/***/ },
-/* 4 */
-/*!********************************!*\
-  !*** ../~/Components/Radio.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 28)
-	var EventEmitter = __webpack_require__(/*! events */ 24).EventEmitter
-	
-	var Block = __webpack_require__(/*! ../Block */ 3)
-	
-	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
-	
-	// A group of radio buttons
-	module.exports = proto(EventEmitter, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Radio'
-	
-		// instance properties
-	
-	
-	    // required - If true, a radio button must always be selected. Otherwise, radio buttons can be deselected by clicking on them.
-		this.init = function(required) {
-	        //this.selected
-	        this.required = required === true || required === undefined
-	        this.buttons = {} // maps values to the buttons that have each value
-	        this.randomStart = randomStart++
-		}
-	
-	    // returns a new radio button
-	    this.button = function(/*[label,] value*/) {
-	        if(arguments.length >= 2) {
-	            var label = arguments[0]
-	            var value = arguments[1]
-	        } else {
-	            var value = arguments[0]
-	        }
-	
-	        if(this.buttons[value] !== undefined) {
-	            throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
-	        }
-	
-	        var button = RadioButton(this, label, value, "_radioblock"+this.randomStart)
-	        this.buttons[value] = button
-	
-	        if(this.required && this._selected === undefined) {
-	            button.selected = true
-	        }
-	
-	        return button
-	    }
-	
-	    // returns the RadioButton in the group that's selected (or undefined if none are selected)
-	    Object.defineProperty(this, 'selected', {
-	        get: function() {
-	            return this._selected
-	        },
-	        set: function() {
-	            throw new Error("Can't set selected on a Radio object")
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the selected radio button in the group (undefined if none are selected)
-	        get: function() {
-	            var selected = this._selected
-	            if(selected === undefined) return undefined
-	            // else
-	            return selected.attr('value')
-	        },
-	
-	        // sets the value of the checkbox to the passed value (true for checked)
-	        // throws an exception if none of the radio buttons have that value
-	        // throws an exception if an unset is attempted for a required Radio set
-	        set: function(value) {
-	            if(value === undefined) {
-	                var selected = this._selected
-	                if(selected !== undefined) {
-	                    selected.selected = false
-	                }
-	            } else {
-	                var button = this.buttons[value]
-	                if(button === undefined) throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
-	
-	                button.selected = true
-	            }
-	        }
-	    })
-	
-	
-	    // arguments can be one of the following:
-	        // RadioButton, RadioButton, RadioButton, ...
-	        // value, value, value, ... - each value is the value of the RadioButton to remove
-	        // arrayOfRadioButtons
-	        // arrayOfValues
-	    this.remove = function() {
-	        if(arguments[0] instanceof Array) {
-	            var removals = arguments[0]
-	        } else {
-	            var removals = arguments
-	        }
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	
-	            if(r instanceof RadioButton) {
-	                var button = r
-	                var value = r.val
-	
-	                if(this.buttons[value] !== r) {
-	                    throw new Error("The button passed at index "+n+" is not part of the group.")
-	                }
-	            } else {
-	                var button = this.buttons[r]
-	                var value = r
-	
-	                if(button === undefined) {
-	                    throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
-	                }
-	            }
-	
-	            var originalSelected = this.selected
-	            if(this.selected === button) {
-	                this._selected = undefined
-	            }
-	
-	            this.buttons[value].group = undefined // fully remove it from the group
-	            delete this.buttons[value]
-	        }
-	
-	        if(this.required && this.selected === undefined) {
-	            for(var v in this.buttons) {
-	                this.buttons[v].selected = true // just select the first one
-	                break; // yes this doesn't loop
-	            }
-	        } else if(originalSelected !== this.selected) {
-	            this.emit('change')
-	        }
-	    }
-	
-	})
-	
-	var RadioButton = proto(Block, function(superclass) {
-	    this.name = 'RadioButton'
-	
-	    this.init = function(radioGroup, label, value, name) {
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	        this.group = radioGroup
-	
-	        this.attr('type', 'radio')
-	        this.attr('name', name) // the name is needed so that using tab to move through page elements can tab between different radio groups
-	        this.val = value
-	
-	        var that = this
-			this.on("mousedown",function(event) {
-	            event.preventDefault()           // this needs to be here otherwise the radio button can't be changed
-	
-				if(that.group.required) {
-	                if(that.selected === false) {
-	                    that.selected = true
-	                }
-	            } else {
-	                that.selected = !that.selected // toggle
-	            }
-			})
-	        this.on("click",function(event) {
-	            event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
-	        })
-	        this.on("keydown",function(event) {
-	            if(event.keyCode === 40 || event.keyCode === 39) { // down or right
-	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                that.selectNext()
-	            } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
-	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                that.selectPrevious()
-	            }
-	        })
-	    }
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value attribute of the checkbox
-	        get: function() {
-	            return this.attr('value')
-	        },
-	
-	        // sets the value attribute of the checkbox
-	        set: function(value) {
-	            if(this.group.buttons[value] !== undefined) {
-	                throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
-	            }
-	
-	            var oldValue = this.val
-	            this.attr('value', value)
-	            if(oldValue !== undefined) delete this.group.buttons[oldValue]
-	            this.group.buttons[value] = this
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the checkbox is checked
-	        get: function() {
-	            return this.domNode.checked
-	        },
-	
-	        // sets the selected state of the checkbox to the passed value (true for checked)
-	        set: function(value) {
-	            var booleanValue = value === true
-	            if(this.selected === value) return; // ignore if there's no change
-	
-	            if(booleanValue) {
-	                var previouslySelected = this.group.selected
-	                setButtonInGroup(this.group, this)
-	                if(previouslySelected !== undefined)
-	                    previouslySelected.emit('change')
-	            } else {
-	                if(this.group.required) throw new Error("Can't unset this Radio set, a value is required.")
-	                this.domNode.checked = false
-	                this.group._selected = undefined
-	            }
-	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	            this.group.emit('change')
-	        }
-	    })
-	
-	    this.selectNext = function() {
-	        selectSibling(this,1)
-	    }
-	    this.selectPrevious = function() {
-	        selectSibling(this,-1)
-	    }
-	
-	})
-	
-	// direction can be +1 or -1
-	function selectSibling(button, direction) {
-	    var buttons = button.group.buttons
-	    var values = Object.keys(buttons)
-	    var index = values.indexOf(button.attr('value'))
-	    if(direction === 1 && index === values.length-1) {
-	        var buttonToSelect = buttons[values[0]]
-	    } else if(direction === -1 && index === 0) {
-	        var buttonToSelect = buttons[values[values.length-1]]
-	
-	    } else {
-	        var buttonToSelect = buttons[values[index+direction]]
-	    }
-	
-	    buttonToSelect.selected = true
-	    buttonToSelect.focus()
-	}
-	
-	function setButtonInGroup(group, button) {
-	    var selected = group._selected
-	    if(selected !== undefined) selected.domNode.checked = false
-	    button.domNode.checked = true
-	    group._selected = button
-	}
-	
-	function getRandomInt(min, max) {
-	  return Math.floor(Math.random() * (max - min)) + min;
-	}
-
-/***/ },
-/* 5 */
-/*!*********************************!*\
-  !*** ../~/Components/Select.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! ../Block */ 3)
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	var Option = __webpack_require__(/*! Components/Option */ 20)
-	
-	// emits a 'change' event when its 'val' changes
-	module.exports = proto(Block, function(superclass) {
-	
-		// static variables
-	
-	    this.name = 'Select'
-	
-	    this.Option = Option
-	
-		this.init = function(/*[label,] options*/) {
-	        if(arguments[0] instanceof Object) {
-	            var options = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var options = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	        this.label = label
-	
-	        this.options = {}
-	
-			for(var value in options) {
-				this.option(value, options[value])
-			}
-		}
-	
-	
-		// instance methods
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value that is selected
-	        get: function() {
-	            for(var value in this.options) {
-	                if(this.options[value].selected) {
-	                    return value
-	                }
-	            }
-	        },
-	
-	        set: function(value) {
-	            var option = this.options[value]
-	            if(option === undefined) throw new Error("There is no Option in the Select with the value: '"+value+"'")
-	            option.selected = true
-	        }
-	    })
-		
-		this.option = function(/*[label,] value,text*/) {
-	        if(arguments.length === 2) {
-	            var value = arguments[0]
-	            var text = arguments[1]
-	        } else if(arguments.length === 3) {
-	            var label = arguments[0]
-	            var value = arguments[1]
-	            var text = arguments[2]
-	        } else {
-	            throw new Error("Invalid number of arguments")
-	        }
-	
-	        var newOption = Option(label, value,text)
-	        this.add(newOption)
-	
-	        return newOption
-	
-		}
-	
-	    // same interface as Block.addAt
-	    /*override*/ this.addAt = function(index/*, nodes...*/) {
-	        var that = this
-	
-	        var nodesToAdd = Block.normalizeAddAtArguments.apply(this, arguments)
-	
-	        // validation first
-	        nodesToAdd.forEach(function(option) {
-	            if(that.options[option.val] !== undefined) {
-	                throw new Error("Can't give an Option the same value as another in the Select (value: '"+option.val+"')")
-	            }
+	    // todo:
+	    /*
+	    this.test("test keyboard events", function() {
+	
+	        this.test("basic changing selected options with the keyboard", function(t) {
+	            var select1 = Select({1: 'one', 2: 'two', 3: 'three'})
+	
+	            container.add(Text("Another Group: "), select1)
+	
+	            select1.focus()
+	            syn.key(option1A.domNode, "[down]").then(function() {
+	                t.eq(document.activeElement, option1B)
+	                t.eq(select1.val, "2")
+	
+	                return syn.key(option1A.domNode, "[down]")
+	            })/*.then(function() {
+	                t.eq(document.activeElement, option1C)
+	                t.eq(select1.val, "3")
+	
+	                return key(option1A.domNode, "[left]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1B)
+	                t.eq(select1.val, "2")
+	
+	                return key(option1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1A)
+	                t.eq(select1.val, "1")
+	
+	                // test looping
+	                return key(option1A.domNode, "[up]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1C)
+	                t.eq(select1.val, "3")
+	
+	                // test looping
+	                return key(option1A.domNode, "[down]")
+	            }).then(function() {
+	                t.eq(document.activeElement, option1A)
+	                t.eq(select1.val, "1")
+	            }).done()
 	        })
 	
-	        superclass.addAt.call(this, index, nodesToAdd)
+	    })
+	    */
 	
-	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var anyWereSelected = false
-	        nodesToAdd.forEach(function(option) {
-	            if(option.selected) anyWereSelected = true
-	            that.options[option.val] = option
 	
-	            // set up Select events
-	            // todo: remove events when the Option is removed
+	    this.test("labels", function(t) {
+	        var s1 = Select("myLabel")
+	        this.eq(s1.label, "myLabel")
+	        this.eq(Object.keys(s1.options).length, 0)
 	
-	            option.on("mousedown",function(event) {
-	                option.parent.val = option.val      // select this one
-	            })
+	        var s2 = Select("myLabel2", {1: "one"})
+	        this.eq(s2.label, "myLabel2")
+	        this.eq(Object.keys(s2.options).length, 1)
+	
+	        var option = s1.option("myLabel3", "value", "text")
+	        this.eq(option.label, "myLabel3")
+	        this.eq(option.val, "value")
+	        this.eq(option.text, "text")
+	    })
+	
+	
+	    this.test("remove", function(t) {
+	        this.count(14)
+	
+	        var select = Select()
+	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
+	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
+	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
+	
+	        option0.selected = true
+	
+	        select.on('change', function() {
+	            event(select.val)
 	        })
 	
-	        if(anyWereSelected) {
-	            this.emit('change')
-	        }
-	    }
-	
-	    // same interface as Block.remove
-	    /*override*/ this.remove = function() {
-	        var that = this
-	
-	        var removalIndexes = Block.normalizeRemoveArguments.apply(this, arguments)
-	        var removals = removalIndexes.map(function(index) {
-	            return that.children[index]
+	        var event = testUtils.seq(function(value) {
+	            t.eq(value, 'option2')
+	        },function(value) {
+	            t.eq(value, 'option3')
 	        })
 	
-	        superclass.remove.call(this, removalIndexes)
 	
-	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var theSelectedWasRemoved = false
-	        removals.forEach(function(option) {
-	            if(option.selected) theSelectedWasRemoved = true
-	            delete that.options[option.val]
-	        })
+	        this.eq(option1.parent, select)
 	
-	        if(theSelectedWasRemoved) {
-	            //this.children[0].selected = true // I think the browser does this automatically??
-	            this.emit('change')
+	        select.remove(1)
+	        this.eq(select.val, 'option0')
+	        this.eq(option1.parent, undefined)
+	        this.eq(Object.keys(select.options).length, 5)
+	
+	        try {
+	            select.val = "option1"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'option1'")
 	        }
-	    }
 	
+	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
+	        this.eq(select.val, 'option2')
+	        this.eq(option0.group, undefined)
+	        this.eq(Object.keys(select.options).length, 4)
 	
-	    // private
-	
-	    this.prepareForValueChange = function(values) {
-	        var value = values[0]
-	
-	        for(var optionValue in this.options) {
-	            if(optionValue !== value) {
-	                var option = this.options[optionValue]
-	                if(option.selected === true) {
-	                    option.setSelectedQuiet(false)
-	                }
-	            }
+	        try {
+	            select.val = "option0"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'option0'")
 	        }
-	    }
-	})
 	
+	        select.remove([2, 3]) // these are option4 and option5
+	
+	
+	        try {
+	            select.val = "option4"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'option4'")
+	        }
+	
+	        this.eq(Object.keys(select.options).length, 2)
+	
+	        select.remove([option2]) // should generate another change event
+	
+	        this.eq(Object.keys(select.options).length, 1)
+	    })
+	
+	    // todo:
+	    /*
+	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
+	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
+	    })
+	     */
+	
+	    this.test("errors", function() {
+	        this.count(5)
+	
+	        var select = Select({1: "text"})
+	
+	        try {
+	            select.option("1", 'text')
+	        } catch(e) {
+	            this.eq(e.message, "Can't give an Option the same value as another in the Select (value: '1')")
+	        }
+	
+	        var optionB = select.option("2", 'text')
+	        try {
+	            optionB.val = "1"
+	        } catch(e) {
+	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: \"1\")")
+	        }
+	
+	        try {
+	            select.val = "nonexistent"
+	        } catch(e) {
+	            this.eq(e.message, "There is no Option in the Select with the value: 'nonexistent'")
+	        }
+	
+	        try {
+	            select.remove(300)
+	        } catch(e) {
+	            this.eq(e.message, "There is no child at index 300")
+	        }
+	
+	        var select2 = Select()
+	        try {
+	            select2.remove(optionB)
+	        } catch(e) {
+	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
+	        }
+	    })
+	};
 
 
 /***/ },
-/* 6 */
-/*!*********************************!*\
-  !*** ../~/Components/Button.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! Block */ 3)
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-	    // static variables
-	
-	    this.name = 'Button'
-	
-	
-	    // instance properties
-	
-		this.init = function(/*[label,] text*/) {
-	        if(arguments.length >= 2) {
-	            var label = arguments[0]
-	            var text = arguments[1]
-	        } else {
-	            var text = arguments[0]
-	        }
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-			this.attr('type','button');
-			this.text = text
-		}
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.attr('value')
-	        },
-	        set: function(text) {
-	            this.attr('value', text)
-	        }
-	    })
-	
-	})
-
-
-/***/ },
-/* 7 */
-/*!*********************************!*\
-  !*** ../~/Components/Canvas.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! Block */ 3)
-	var proto = __webpack_require__(/*! proto */ 28)
-	var Style = __webpack_require__(/*! Style */ 16)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-	    //static properties
-	
-	    this.name = 'Canvas'
-	
-	    this.init = function(/*[label,] height, width*/) {
-	        if(arguments.length === 2) {
-	            var height = arguments[0]
-	            var width = arguments[1]
-	        } else {
-	            var label = arguments[0]
-	            var height = arguments[1]
-	            var width = arguments[2]
-	        }
-	
-	        this.domNode = document.createElement('canvas') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	        this.height = height
-	        this.width = width
-	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'width', {
-	        get: function() {
-	            return this.domNode.width
-	        }, set: function(v) {
-	            this.domNode.width = v
-	        }
-	    })
-	    Object.defineProperty(this, 'height', {
-	        get: function() {
-	            return this.domNode.height
-	        }, set: function(v) {
-	            this.domNode.height = v
-	        }
-	    })
-	
-	    this.context = function() {
-	        return this.domNode.getContext.apply(this.domNode, arguments)
-	    }
-	
-	    this.toImg = this.toDataURL = function() {
-	        return this.domNode.toDataURL()
-	    }
-	});
-
-
-/***/ },
-/* 8 */
-/*!***********************************!*\
-  !*** ../~/Components/CheckBox.js ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! Block */ 3)
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	module.exports = proto(Block, function(superclass) {
-		// static variables
-	    this.name = 'CheckBox'
-	
-		// instance methods
-		this.init = function(label) {
-	        var that = this
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-			this.attr('type','checkbox')
-		}
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the checkbox is checked
-	        get: function() {
-	            return this.domNode.checked
-	        },
-	        // sets the value of the checkbox to the passed value (true for checked)
-	        set: function(checked) {
-	            var newValue = checked === true
-	            var curValue = this.domNode.checked
-	            if(curValue === newValue) return;  // do nothing if nothing's changing
-	
-	            this.domNode.checked = newValue
-	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	        }
-	    })
-	})
-
-
-/***/ },
-/* 9 */
-/*!*******************************!*\
-  !*** ../~/Components/List.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	var Block = __webpack_require__(/*! Block */ 3)
-	var Style = __webpack_require__(/*! Style */ 16)
-	
-	var Item = __webpack_require__(/*! ./Item */ 23);
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-		this.Item = Item
-	
-	    this.name = 'List'
-	
-		// instance properties
-	
-		this.init = function(/*[label,] [ordered,] listInit*/) {
-			if(arguments[0] instanceof Array) {
-	            var listInit = arguments[0]
-	        } else {
-	            if(arguments[1] instanceof Array) {
-	                var listInit = arguments[1]
-	            } else if(arguments[2] instanceof Array) {
-	                var listInit = arguments[2]
-	            }
-	
-	            if(typeof(arguments[0]) === 'boolean') {
-	                var ordered = arguments[0]
-	            } else {
-	                if(typeof(arguments[1]) === 'boolean') {
-	                    var ordered = arguments[1]
-	                } else {
-	                    var ordered = false // default
-	                }
-	
-	                if(typeof(arguments[0]) === 'string') {
-	                    var label = arguments[0]
-	                }
-	            }
-	        }
-	
-	        if(ordered) {
-	            var type = 'ol'
-	        } else {
-	            var type = 'ul'
-	            this.defaultStyle = Style({
-	                listStyleType: 'decimal'
-	            })
-	        }
-	
-	
-	        this.domNode = document.createElement(type) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	        this.label = label
-	
-	        if(listInit !== undefined) {
-	            for(var n=0; n<listInit.length; n++) {
-	                this.item(listInit[n])
-	            }
-	        }
-		}
-	
-		this.item = function() {
-			var item = Item.apply(this, arguments)
-	        this.add(item)
-	        return item
-		}
-	});
-
-/***/ },
-/* 10 */
-/*!********************************!*\
-  !*** ../~/Components/Image.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! Block */ 3)
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-	    //static properties
-	
-	    this.name = 'Image'
-	
-	    this.init = function(/*[label,] imageSource*/) {
-	        if(arguments.length === 1) {
-	            var imageSource = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var imageSource = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement('img') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        var that = this
-	
-	        this.label = label
-	        if(imageSource !==  undefined) this.src = imageSource
-	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'src', {
-	        get: function() {
-	            return this.domNode.src
-	        }, set: function(v) {
-	            this.domNode.src = v
-	        }
-	    })
-	});
-
-
-/***/ },
-/* 11 */
-/*!************************************!*\
-  !*** ../~/Components/Container.js ***!
-  \************************************/
-[159, 3, 28],
-/* 12 */
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */
 /*!**************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/deadunit.browser.js ***!
   \**************************************************************************************/
@@ -3491,22 +554,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var Future = __webpack_require__(/*! async-future */ 44)
-	var proto = __webpack_require__(/*! proto */ 42)
-	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 33)
+	var Future = __webpack_require__(/*! async-future */ 56)
+	var proto = __webpack_require__(/*! proto */ 57)
+	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 39)
 	
-	var Container = __webpack_require__(/*! blocks.js/Container */ 51)
-	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 52)
-	var Block = __webpack_require__(/*! blocks.js/Block */ 53)
+	var Container = __webpack_require__(/*! blocks.js/Container */ 52)
+	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 53)
+	var Block = __webpack_require__(/*! blocks.js/Block */ 54)
 	Block.dev = true
-	var Style = __webpack_require__(/*! blocks.js/Style */ 50)
+	var Style = __webpack_require__(/*! blocks.js/Style */ 55)
 	
-	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 34)
-	var utils = __webpack_require__(/*! ./utils */ 35)
+	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 40)
+	var utils = __webpack_require__(/*! ./utils */ 41)
 	
 	
 	module.exports = deadunitInternal({
-	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 40),
+	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 58),
 	
 	    environmentSpecificMethods: function() {
 	        var red = 'rgb(200,30,30)'
@@ -4167,183 +1230,731 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
-/*!***********************************!*\
-  !*** ../~/Components/TextArea.js ***!
-  \***********************************/
+/* 19 */
+/*!************************!*\
+  !*** ./~/testUtils.js ***!
+  \************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 3)
-	var proto = __webpack_require__(/*! proto */ 28)
+	var Future = __webpack_require__(/*! async-future */ 43)
+	var Style = __webpack_require__(/*! Style */ 22)
+	var Container = __webpack_require__(/*! Components/Container */ 26)
 	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static variables
-	
-	    this.name = 'TextArea'
-	
-		this.init = function(label) {
-	        this.domNode = document.createElement("textarea") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-			this.label = label
-		}
-	
-	
-		// instance properties
-	
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.domNode.value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.val === value) return; // do nothing if there's no change
-	
-	            this.domNode.value = value
-	            this.emit('change')
-	        }
-	    })
-	});
-
-
-/***/ },
-/* 14 */
-/*!************************************!*\
-  !*** ../~/Components/TextField.js ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! ../Block */ 3)
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	var domUtils = __webpack_require__(/*! ../domUtils */ 19)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'TextField'
-	
-		this.init = function(/*[label,] password*/) {
-	        if(arguments.length === 1) {
-	            var password = arguments[0]
-	        } else if(arguments.length > 1) {
-	            var label = arguments[0]
-	            var password = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-			this.label = label
-			domUtils.setAttribute(this.domNode,'type','text');
-	        if(password)
-	            domUtils.setAttribute(this.domNode, 'type', 'password')
-		}
-	
-	
-		// instance properties
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.domNode.value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.val === value) return; // do nothing if there's no change
-	
-	            this.domNode.value = value
-	            this.emit('change')
-	        }
-	    })
-	
-	});
-
-
-/***/ },
-/* 15 */
-/*!********************************!*\
-  !*** ../~/Components/Table.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	var Block = __webpack_require__(/*! ../Block */ 3)
-	var Style = __webpack_require__(/*! Style */ 16)
-	
-	var Header = __webpack_require__(/*! ./Header */ 25);
-	var Row = __webpack_require__(/*! ./Row */ 26);
-	var Cell = __webpack_require__(/*! ./Cell */ 27);
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Table'
-	
-	    this.defaultStyle = Style({
-	        borderSpacing: 0
-	    })
-	
-	    this.Row = Row
-		this.Header = Header
-	    this.Cell = Cell
-	
-	
-		// instance properties
-	
-		this.init = function(/*[label,] tableInit*/) {
-			if(arguments[0] instanceof Array) {
-	            var tableInit = arguments[0]
+	// compares arrays and objects for value equality (all elements and members must match)
+	exports.equal = function(a,b) {
+	    if(a instanceof Array) {
+	        if(!(b instanceof Array))
+	            return false
+	        if(a.length !== b.length) {
+	            return false
 	        } else {
-	            var label = arguments[0]
-	            var tableInit = arguments[1]
+	            return a.reduce(function(previousValue, currentValue, index) {
+	                return previousValue && exports.equal(currentValue,b[index])
+	            }, true)
 	        }
+	    } else if(a instanceof Object) {
+	        if(!(b instanceof Object))
+	            return false
 	
-	        this.domNode = document.createElement("table") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	        this.label = label
+	        var aKeys = Object.keys(a)
+	        var bKeys = Object.keys(b)
 	
-	        if(tableInit !== undefined) {
-	            for(var n=0; n<tableInit.length; n++) {
-	                this.row(tableInit[n])
+	        if(aKeys.length !== bKeys.length) {
+	            return false
+	        } else {
+	            for(var n=0; n<aKeys.length; n++) {
+	                var key = aKeys[n]
+	                var aVal = a[key]
+	                var bVal = b[key]
+	
+	                if(!exports.equal(aVal,bVal)) {
+	                    return false
+	                }
 	            }
+	            // else
+	            return true
 	        }
-		}
-		
-		this.header = function(/*[]label,] listOfBlocksOrText*/) {
-	        return headerOrRegularRow(this, Header, arguments)
-		}
+	    } else {
+	        return a===b
+	    }
+	}
 	
-		this.row = function() {
-			return headerOrRegularRow(this, Row, arguments)
-		}
-	});
 	
-	function headerOrRegularRow(that, Prototype, args) {
-	    var row = Prototype.apply(undefined, args)
-	    that.add(row)
-	    return row
+	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
+	// returns a function that, each time its called, calls the next function in the list with the passed argument
+	// example:
+	/*
+	var sequenceX = testUtils.seq(
+	 function(x) {
+	     t.ok(x === 'a')
+	 },
+	 function(x) {
+	     t.ok(x === 'b')
+	 },
+	 function(x) {
+	     t.ok(x === 'c')
+	})
+	
+	 var obj = {a:1,b:2,c:3}
+	 for(var x in obj) {
+	     sequenceX(x)
+	 }
+	 */
+	exports.seq = function (/*functions*/) {
+	    var n=-1
+	    var fns = arguments
+	    return function() {
+	        n++
+	        if(n>=fns.length)
+	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
+	        // else
+	        fns[n].apply(this,arguments)
+	    }
+	}
+	
+	
+	exports.demo = function(name, component) {
+	    var header = document.createElement("h1")
+	        header.textContent = name
+	
+	    $("#demos").append(header);
+	    component.attach($("#demos")[0])
+	
+	    return [header, component]
+	}
+	exports.cleanupDemo = function(nodes) {
+	    $(nodes[0]).remove()
+	    nodes[1].detach()
+	}
+	exports.manualDemo = function(name, component) {
+	    var header = document.createElement("h1")
+	        header.textContent = name
+	
+	    $("#manualDemos").append(header);
+	    component.attach($("#manualDemos")[0])
+	}
+	exports.textOutput = function(name, textContent) {
+	    var header = document.createElement("h1")
+	        header.textContent = name
+	
+	    var text = document.createElement("div")
+	        text.textContent = textContent
+	
+	    $("#results").append([header, text]);
+	}
+	
+	// future wraps a function like: function(result) {}
+	exports.wrapSingleParameter = function() {
+	    if(arguments.length === 1) {
+	        var fn = arguments[0]
+	    } else {
+	        var object = arguments[0]
+	        var method = arguments[1]
+	        var fn = object[method]
+	    }
+	
+	    return function() {
+	        var args = Array.prototype.slice.call(arguments)
+			var future = new Future
+			args.push(function(result) {
+			    future.return(result)
+			})
+			var me = this
+	        if(object) me = object
+	        fn.apply(me, args)
+			return future
+	    }
+	}
+	
+	exports.performanceTest = function(name, testDefinition) {
+	    setTimeout(function() {
+	        var times = []
+	        var totalTime = 0
+	        while(totalTime < 2000) {
+	            var time = oneIteration()
+	            times.push(time)
+	            totalTime += time
+	        }
+	
+	        var averageTime = totalTime/times.length
+	        var stdDeviationPercentage = standardDeviation(times)/averageTime
+	
+	        //console.log(mean(times)+ ' vs '+averageTime) // these should be equal and looks like they are
+	        exports.textOutput(name, Math.round(averageTime)+'ms (averaged over '+times.length+" iterations) - standard deviation: "+Math.round(stdDeviationPercentage*100)/100+'%')
+	
+	
+	        function oneIteration() {
+	            var time;
+	            testDefinition.call({
+	                time: function(testFn) {
+	                    var start = performance.now()
+	                    testFn()
+	                    time = performance.now() - start // ms
+	                }
+	            })
+	
+	            return time
+	        }
+	    },0)
+	}
+	
+	function standardDeviation(numberSet) {
+	    return Math.sqrt(variance(numberSet))
+	}
+	
+	function variance(numberSet) {
+	    var theMean = mean(numberSet)
+	    var sumOfDifferenceSquares = numberSet.reduce(function(acc,x) {
+	        var difference = x-theMean
+	        return acc + difference*difference
+	    },0)
+	
+	    return sumOfDifferenceSquares / (numberSet.length-1)
+	}
+	
+	function mean(numberSet) {
+	    var sum = numberSet.reduce(function(acc,x) {
+	        return acc+x
+	    },0)
+	
+	    return sum/numberSet.length
+	}
+	
+	
+	exports.buildNestedStructure = function (nestings) {
+	    var innerMost = Container()
+	    var cur = innerMost
+	    for(var n=0; n<nestings; n++) {
+	        cur = Container('moose', [cur])
+	    }
+	    return {innerMost:innerMost, top: cur}
+	}
+	
+	exports.buildNestedStyle = function(nestings) {
+	    var styleObject = {};
+	    for(var n=0; n<nestings; n++) {
+	        styleObject = {color: 'red', Container: styleObject}
+	    }
+	
+	    return Style(styleObject)
 	}
 
 /***/ },
-/* 16 */
+/* 20 */
+/*!*****************************!*\
+  !*** ../~/EventEmitterB.js ***!
+  \*****************************/
+[156, 42, 44],
+/* 21 */
+/*!*********************!*\
+  !*** ../~/Block.js ***!
+  \*********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 20)
+	var proto = __webpack_require__(/*! proto */ 42);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 61)
+	var observe = __webpack_require__(/*! observe */ 62)
+	
+	var utils = __webpack_require__(/*! ./utils */ 44)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 24)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 45)
+	
+	var Style = __webpack_require__(/*! ./Style */ 22)
+	Style.isDev = function() {return module.exports.dev}
+	
+	var components = {};
+	
+	var setOfBrowserEvents = utils.arrayToMap([
+	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
+	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
+	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
+	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
+	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
+	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
+	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
+	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
+	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
+	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
+	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
+	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
+	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
+	])
+	
+	// events:
+	    // newParent - emits this when a component gets a new parent
+	    // parentRemoved - emits this when a component is detached from its parent
+	var Block = module.exports = proto(EventEmitterB,function(superclass) {
+	
+	    // static properties
+	
+	    // constructor
+		this.init = function() {
+	        var that = this
+	
+	        if(this.name === undefined) {
+	            throw new Error("The 'name' property is required for Blocks")
+	        }
+	
+	        superclass.init.call(this)
+	
+	        this.attached = false
+	        this.children = []
+	        this.state = observe({})
+	        this.parent = undefined;
+	        this._styleSetupInfo = []
+	        this._nativePseudoclassMap = {}
+	
+			if (this.id !== undefined) {
+				components[this.id] = this;
+			}
+	
+	        if(this.domNode === undefined) {
+	            this.domNode = domUtils.div()
+	        }
+	
+	        this.build.apply(this, arguments)
+	
+	        //if(module.exports.dev) {
+	            this.attr('block', this.name)
+	        //}
+	
+	
+	        this.domNode.className += ' '+Style.defaultClassName // add the default class
+	        /*if(this._style === undefined) { // if a style wasn't set by this.build
+	            this.style = undefined // initialize style to its block or inherited default
+	        }*/
+	
+	        // set up dom event handlers
+	        var ifonHandlers={}
+	        that.ifon(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        that.ifoff(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.removeEventListener(event,ifonHandlers[event])
+	            }
+	        })
+		}
+	
+	    // sub-constructor - called by the constructor
+	    // parameters:
+	        // label - (Optional) A label that can be used to style a component differently.
+	                   // Intended to be some string describing what the component is being used for.
+	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
+	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
+	    this.build = function(/*[label,] domNode*/) {
+	        if(arguments.length === 1) {
+	            this.domNode = arguments[0]
+	        } else if(arguments.length >= 2) {
+	            this.label = arguments[0]
+	            this.domNode = arguments[1]
+	        }
+	    }
+	
+	
+		// instance properties
+	
+	
+		this.domNode;
+	    this.label;        // a static label that can be used for styling
+	    this.excludeDomEvents;
+	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
+	
+	
+	    Object.defineProperty(this, 'label', {
+	        get: function() {
+	            return this._label
+	        }, set: function(v) {
+	            if(this._label === undefined) {
+	                this._label = v
+	
+	                //if(module.exports.dev) {
+	                    this.attr('label', this._label)
+	                //}
+	            } else {
+	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
+	            }
+	        }
+	    })
+	
+	    // adds elements to the components main domNode
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.add = function() {
+	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
+		}
+	
+	    // adds nodes at a particular index
+	    // nodes can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    // todo: look into using document fragments to speed this up when multiple nodes are being added
+	    this.addAt = function(index/*, nodes...*/) {
+	        var nodes = normalizeAddAtArguments.apply(this, arguments)
+	
+	        for (var i=0;i<nodes.length;i++) {
+				var node = nodes[i];
+	
+	            // remove the node from its current parent if necessary
+	            if(node.parent !== undefined) {
+	                throw new Error('Node at index '+i+' already has a parent. Remove the node from its parent before adding it somewhere else.')
+	            }
+	
+	            this.children.splice(index+i, 0, node)
+	
+	            if(!isBlock(node)) {
+	                throw new Error("node is not a Block")
+	            }
+	
+	            var beforeChild = this.children[1+i+index]
+	            if(beforeChild === undefined) {
+	                this.domNode.appendChild(node.domNode)
+	            } else {
+	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
+	            }
+	
+	            node.parent = this;
+	            node.emit('newParent')
+			}
+	
+	        if(this.attached) {
+	            for (var i=0;i<nodes.length;i++) {
+	                var node = nodes[i]
+	                node.attached = true
+	                node.style = node._style // rerender its style
+	            }
+	        }
+	    }
+	
+		// add a list of nodes before a particular node
+	    // if beforeChild is undefined, this will append the given nodes
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addBefore = this.addBeforeNode = function(beforeChild) {
+	        var nodes = trimArguments(arguments).slice(1)
+	        if(beforeChild === undefined) {
+	            this.add.apply(this, nodes)
+	        } else {
+	            var index = this.children.indexOf(beforeChild)
+	            this.addAt.apply(this, [index].concat(nodes))
+	        }
+	    }
+	
+	
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // index, index, index, ... - each index is the numerical index to remove
+	        // arrayOfComponents
+	        // arrayOfIndexes
+	    this.remove = function() {
+	        var removals = normalizeRemoveArguments.apply(this, arguments)
+	        removals = removals.sort(function(a,b) {
+	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
+	        })
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	            var c = this.children[r]
+	
+	            if(c === undefined) {
+	                throw new Error("There is no child at index "+r)
+	            }
+	
+	            c.parent = undefined
+	            this.children.splice(r, 1)
+	            this.domNode.removeChild(this.domNode.childNodes[r])
+	
+	            c.emit('parentRemoved')
+	        }
+	    }
+	
+	    // sets or gets an attribute on the components domNode
+	    // parameter sets:
+	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
+	    // if there are two arguments passed, the attribute is set
+	        // if 'value' is undefined, the attribute is removed
+	    this.attr = function(/*attribute, value OR attributeObject*/) {
+	        if(arguments.length === 1) {
+	            if(arguments[0] instanceof Object) {
+	                var attributes = arguments[0]
+	                for(var attribute in attributes) {
+	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
+	                }
+	            } else {
+	                var attribute = this.domNode.getAttribute(arguments[0])
+	                if(attribute === null) {
+	                    return undefined // screw null
+	                } else {
+	                    return attribute
+	                }
+	            }
+	        } else {
+	            var attribute = arguments[0]
+	            if(arguments[1] !== undefined) {
+	                var value = arguments[1]
+	                domUtils.setAttribute(this.domNode, arguments[0], value)
+	            } else {
+	                this.domNode.removeAttribute(attribute)
+	            }
+	        }
+	    }
+	
+	    Object.defineProperty(this, 'visible', {
+	        // returns true if the element is visible
+	        get: function() {
+	            return this.domNode.style.display !== 'none';
+	
+	        // sets whether or not the element is visible
+	        }, set: function(setToVisible) {
+	            if(setToVisible) {
+	                if (this._displayStyle !== undefined) {
+	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
+	                    this._displayStyle = undefined
+	                } else {
+	                    this.domNode.style.display = ''
+	                }
+	            } else {
+	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
+	                    this._displayStyle = this.domNode.style.display
+	                }
+	
+	                this.domNode.style.display = 'none'
+	            }
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'focus', {
+	        // returns true if the element is in focus
+	        get: function() {
+	            return document.activeElement === this.domNode
+	
+	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
+	        }, set: function(setToInFocus) {
+	            if(setToInFocus) {
+	                this.domNode.focus()
+	            } else {
+	                this.domNode.blur()
+	            }
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'style', {
+	        get: function() {
+	            return this._style
+	
+	        // sets the style, replacing one if one already exists
+	        }, set: function(styleObject) {
+	            // get active style
+	                // mix the block-default style with ..
+	                // .. the current style
+	                // .. style returned by the $state of current style
+	                // .. $$pseudoclasses of current + $state styles
+	
+	            this._style = styleObject
+	            if(this.attached) {
+	                var newStyle = getStyle(this)  // must be called after setting _style
+	                var defaultStyle = this.getDefaultStyle()
+	
+	                var newCurrentStyle = blockStyleUtils.mixStyles(defaultStyle, newStyle)
+	                blockStyleUtils.setCurrentStyle(this, newCurrentStyle, defaultStyle)
+	            }
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'selectionRange', {
+	        // returns the visible character selection range inside the element
+	        // returns an array like [offsetStart, offsetEnd]
+	        get: function() {
+	            return domUtils.getSelectionRange(this.domNode)
+	
+	        // sets the visible character selection range
+	        }, set: function(selection) {
+	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
+	        }
+	    })
+	
+	    this.attach = function(domNode) {
+	        if(domNode !== undefined)
+	            attach(domNode, this)
+	        else
+	            attach(this)
+	    }
+	    this.detach = function(domNode) {
+	        if(domNode !== undefined)
+	            detach(domNode, this)
+	        else
+	            detach(this)
+	    }
+	
+	
+		// private instance variables/functions
+	
+	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
+	    this._nativePseudoclassMap; // a map of Block names to a set of native pseudoclass styles and their css selector base (eg: {BlockA: {'.style1:required .style2': styleObject}}
+	
+		this._style;             // the object's explicit Style object (undefined if it inherits a style)
+	    this._currentStyle;      // the object's current Style that will only change if its parent's activeStyle changes, or if a style is explicitly reset on the block
+	    this._activeStyle;       // the active style depending on pseudoclasses, $state, and defaultStyle
+	
+	    this._displayStyle;      // temporarily stores an inline display style while the element is hidden (for use when 'show' is called)
+	    this._styleSetupInfo   // place to put states for setup functions (used for css pseudoclass emulation)
+	    this._stateChangeHandler // the handler being used for $state style changes
+	
+	    this.attached           // set to true if the block has been attached to the document (or if one of its ancestors has been)
+	
+	
+	    // returns the default style of the current Block based on the 'defaultStyle' property set on its constructor (this.constructor)
+	    // if there is more than one default style, they are merged in order
+	    // if there is no default style, undefined is returned
+	    this.getDefaultStyle = function() {
+	        return blockStyleUtils.getDefaultStyle(this)
+	    }
+	
+	    // gets the high-level style of the block, either from the block's explicit style, or inherits from its parent's style map
+	    function getStyle(block) {
+	        if(block._style !== undefined) {            // use the block's explicit style if possible
+	            if(block._style.inherit) {
+	                var styleToInerit = blockStyleUtils.getInheritingStyle(block, block.parent)
+	                if(styleToInerit !== undefined)
+	                    return styleToInerit.mix(block._style)
+	            }
+	            // else
+	            return block._style
+	
+	        } else {     // otherwise use the parent's computedStyleMap
+	            return blockStyleUtils.getInheritingStyle(block, block.parent)
+	        }
+	    }
+	});
+	
+	
+	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
+	
+	
+	// appends components to the passed domNode (default: body)
+	var attach = module.exports.attach = function(/*[domNode,] component or components*/) {
+	    if(arguments.length > 1) {
+	        var domNode = arguments[0]
+	        var components = arguments[1]
+	    } else {
+	        if(document.body === null) throw new Error("Your document does not have a body.")
+	        var domNode = document.body
+	        var components = arguments[0]
+	    }
+	
+	    if(!(components instanceof Array)) {
+	        var components = [components]
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        domNode.appendChild(components[n].domNode)
+	
+	
+	        components[n].attached = true
+	        components[n].style = components[n]._style
+	    }
+	
+	
+	}
+	// removes components from their parents
+	var detach = module.exports.detach = function(components) {
+	    if(!(components instanceof Array)) {
+	        components = [components]
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        var block = components[n]
+	        block.domNode.parentNode.removeChild(block.domNode)
+	
+	        markDetached(block)
+	    }
+	}
+	
+	// creates a body tag (only call this if document.body is null)
+	
+	module.exports.createBody = function(callback) {
+	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+	    var body = dom.createElement("body")
+	    dom.documentElement.appendChild(body)
+	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
+	        callback()
+	    },0)
+	}
+	
+	
+	
+	
+	// returns a list of indexes to remove from Block.remove's arguments
+	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
+	    var that = this
+	
+	    if(arguments[0] instanceof Array) {
+	        var removals = arguments[0]
+	    } else {
+	        var removals = Array.prototype.slice.call(arguments)
+	    }
+	
+	    return removals.map(function(removal, parameterIndex) {
+	        if(isBlock(removal)) {
+	            var index = that.children.indexOf(removal)
+	            if(index === -1) {
+	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
+	            }
+	            return index
+	        } else {
+	            return removal
+	        }
+	
+	    })
+	}
+	
+	// returns a list of nodes to add
+	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
+	    if(arguments.length === 2) {
+	        if(arguments[1] instanceof Array) {
+	            return arguments[1]
+	        } else {
+	            return [arguments[1]]
+	        }
+	    } else { // > 2
+	        return trimArguments(arguments).slice(1)
+	    }
+	}
+	
+	function isBlock(c) {
+	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
+	}
+	function isDomNode(node) {
+	    return node.nodeName !== undefined
+	}
+	
+	function markDetached(node) {
+	    node.attached = false
+	    for(var n=0; n<node.children.length; n++) {
+	        markDetached(node.children[n])
+	    }
+	}
+
+/***/ },
+/* 22 */
 /*!*********************!*\
   !*** ../~/Style.js ***!
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 29)
-	var proto = __webpack_require__(/*! proto */ 28)
-	var HashMap = __webpack_require__(/*! hashmap */ 38)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 46)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var HashMap = __webpack_require__(/*! hashmap */ 63)
 	
-	var utils = __webpack_require__(/*! ./utils */ 22)
+	var utils = __webpack_require__(/*! ./utils */ 44)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -5593,68 +3204,58 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
-/*!*******************************!*\
-  !*** ../~/Components/Text.js ***!
-  \*******************************/
+/* 23 */
+/*!*******************!*\
+  !*** ./~/fsyn.js ***!
+  \*******************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 28)
+	// requires: syn (loaded as a global variable from an html script tag)
 	
-	var Block = __webpack_require__(/*! Block */ 3)
-	var Style = __webpack_require__(/*! Style */ 16)
+	var Future = __webpack_require__(/*! async-future */ 43)
 	
-	var domUtils = __webpack_require__(/*! domUtils */ 19)
+	exports.click = wrap(syn.click)
+	exports.rightClick = wrap(syn.rightClick)
+	exports.dblClick = wrap(syn.dblClick)
+	exports.move = wrap(syn.move)
+	exports.type = wrap(syn.type)
+	exports.key = wrap(syn.key)
 	
 	
 	
-	module.exports = proto(Block, function(superclass) {
+	function wrap(fn) {
+	    return function() {
+	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
 	
-	    //static properties
-	
-	    this.name = 'Text'
-	
-	    this.defaultStyle = Style({
-	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
-	    })
-	
-	    this.init = function(/*[label,] text*/) {
-	        if(arguments.length === 1) {
-	            var text = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var text = arguments[1]
+	        // for chaining
+	        var target = arguments[0]
+	        resultFuture.click = function() {
+	            exports.click.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.rightClick = function() {
+	            exports.rightClick.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.dblClick = function() {
+	            exports.dblClick.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.move = function() {
+	            exports.move.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.type = function() {
+	            exports.type.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.key = function() {
+	            exports.key.apply(this, [target].concat(arguments))
 	        }
 	
-	        if (text === undefined) text = '';
-	
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	        this.text = text
+	        return resultFuture
 	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode[domUtils.textProperty]
-	        }, set: function(v) {
-	             this.domNode[domUtils.textProperty] = v
-	        }
-	    })
-	});
-	
+	}
 	
 
 
 /***/ },
-/* 18 */
-/*!*****************************!*\
-  !*** ../~/EventEmitterB.js ***!
-  \*****************************/
-[160, 28, 22],
-/* 19 */
+/* 24 */
 /*!************************!*\
   !*** ../~/domUtils.js ***!
   \************************/
@@ -5854,690 +3455,934 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 20 */
+/* 25 */
 /*!*********************************!*\
-  !*** ../~/Components/Option.js ***!
+  !*** ../~/Components/Canvas.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// note: this is  not intended to be used directly - only through Select and MultiSelect
+	var Block = __webpack_require__(/*! Block */ 21)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var Style = __webpack_require__(/*! Style */ 22)
 	
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	var Block = __webpack_require__(/*! Block */ 3)
-	var Style = __webpack_require__(/*! Style */ 16)
-	var domUtils = __webpack_require__(/*! domUtils */ 19)
-	
-	// emits a 'change' event when its 'selected' value changes
 	module.exports = proto(Block, function(superclass) {
 	
-	    // staic members
+	    //static properties
 	
-	    this.name = 'Option'
+	    this.name = 'Canvas'
 	
-	    this.defaultStyle = Style({
-	        display: 'block'
-	    })
+	    this.init = function(/*[label,] height, width*/) {
+	        if(arguments.length === 2) {
+	            var height = arguments[0]
+	            var width = arguments[1]
+	        } else {
+	            var label = arguments[0]
+	            var height = arguments[1]
+	            var width = arguments[2]
+	        }
 	
-	
-	    // instance members
-	
-	    this.init = function(label, value, text) {
-	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        this.domNode = document.createElement('canvas') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        superclass.init.call(this) // superclass constructor
 	
 	        this.label = label
-	
-	        this.text = text
-	        this.val = value
+	        this.height = height
+	        this.width = width
 	    }
 	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
+	    // instance properties
+	
+	    Object.defineProperty(this, 'width', {
 	        get: function() {
-	            return this.attr('value')
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.parent !== undefined) {
-	                if(this.parent.options[value] !== undefined) {
-	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: '"+value+"')")
-	                }
-	
-	                if(this.val !== null) {
-	                    delete this.parent.options[this.val]
-	                }
-	
-	                this.parent.options[value] = this
-	            }
-	
-	            this.attr('value', value)
-	
+	            return this.domNode.width
+	        }, set: function(v) {
+	            this.domNode.width = v
+	        }
+	    })
+	    Object.defineProperty(this, 'height', {
+	        get: function() {
+	            return this.domNode.height
+	        }, set: function(v) {
+	            this.domNode.height = v
 	        }
 	    })
 	
+	    this.context = function() {
+	        return this.domNode.getContext.apply(this.domNode, arguments)
+	    }
 	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the option is selected
-	        get: function() {
-	            return this.domNode.selected
-	        },
+	    this.toImg = this.toDataURL = function() {
+	        return this.domNode.toDataURL()
+	    }
+	});
+
+
+/***/ },
+/* 26 */
+/*!************************************!*\
+  !*** ../~/Components/Container.js ***!
+  \************************************/
+[155, 21, 42],
+/* 27 */
+/*!*********************************!*\
+  !*** ../~/Components/Button.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! Block */ 21)
+	var proto = __webpack_require__(/*! proto */ 42)
 	
-	        // sets the selected state of the option to the passed value (true for selected)
-	        set: function(value) {
-	            var booleanValue = value === true
-	            if(this.selected === booleanValue) return false; // ignore if there's no change
+	module.exports = proto(Block, function(superclass) {
 	
-	            if(this.parent !== undefined)
-	                this.parent.prepareForValueChange([this.val])
+	    // static variables
 	
-	            this.setSelectedQuiet(booleanValue)
+	    this.name = 'Button'
 	
-	            if(this.parent !== undefined)
-	                this.parent.emit('change')
+	
+	    // instance properties
+	
+		this.init = function(/*[label,] text*/) {
+	        if(arguments.length >= 2) {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        } else {
+	            var text = arguments[0]
 	        }
-	    })
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+			this.attr('type','button');
+			this.text = text
+		}
 	
 	    Object.defineProperty(this, 'text', {
 	        get: function() {
-	            return this.domNode[domUtils.textProperty]
+	            return this.attr('value')
 	        },
-	
 	        set: function(text) {
-	            this.domNode[domUtils.textProperty] = text
+	            this.attr('value', text)
 	        }
 	    })
 	
-	
-	    // private
-	
-	    // does everything for setting the selected state except emit the parent's change event
-	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
-	        if(this.selected === booleanValue) return; // ignore if there's no change
-	
-	        this.domNode.selected = booleanValue
-	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	    }
 	})
 
+
 /***/ },
-/* 21 */
+/* 28 */
+/*!***********************************!*\
+  !*** ../~/Components/CheckBox.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! Block */ 21)
+	var proto = __webpack_require__(/*! proto */ 42)
+	
+	module.exports = proto(Block, function(superclass) {
+		// static variables
+	    this.name = 'CheckBox'
+	
+		// instance methods
+		this.init = function(label) {
+	        var that = this
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+			this.attr('type','checkbox')
+		}
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the checkbox is checked
+	        get: function() {
+	            return this.domNode.checked
+	        },
+	        // sets the value of the checkbox to the passed value (true for checked)
+	        set: function(checked) {
+	            var newValue = checked === true
+	            var curValue = this.domNode.checked
+	            if(curValue === newValue) return;  // do nothing if nothing's changing
+	
+	            this.domNode.checked = newValue
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	        }
+	    })
+	})
+
+
+/***/ },
+/* 29 */
+/*!********************************!*\
+  !*** ../~/Components/Image.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! Block */ 21)
+	var proto = __webpack_require__(/*! proto */ 42)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Image'
+	
+	    this.init = function(/*[label,] imageSource*/) {
+	        if(arguments.length === 1) {
+	            var imageSource = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var imageSource = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement('img') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        var that = this
+	
+	        this.label = label
+	        if(imageSource !==  undefined) this.src = imageSource
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'src', {
+	        get: function() {
+	            return this.domNode.src
+	        }, set: function(v) {
+	            this.domNode.src = v
+	        }
+	    })
+	});
+
+
+/***/ },
+/* 30 */
 /*!*******************************!*\
-  !*** ../~/blockStyleUtils.js ***!
+  !*** ../~/Components/List.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
+	var proto = __webpack_require__(/*! proto */ 42)
 	
-	var HashMap = __webpack_require__(/*! hashmap */ 38)
+	var Block = __webpack_require__(/*! Block */ 21)
+	var Style = __webpack_require__(/*! Style */ 22)
 	
-	var Style = __webpack_require__(/*! ./Style */ 16)
-	var utils = __webpack_require__(/*! ./utils */ 22)
-	
-	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
-	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
-	
-	
-	// gets the right style from the styleMap, depending on the block's `name` and `label` (`label` styles take precedence)
-	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
-	var getStyleMapEntryForBlock = exports.getStyleForComponent = function (styleMap, block) {
-	    if(styleMap === undefined)
-	        return undefined
-	
-	    return getStyleForLabel(styleMap, block) || getStyleForBlockName(styleMap, block)
-	}
-	
-	var getStyleForLabel = exports.getStyleForLabel = function(styleMap, block) {
-	    if(block.label !== undefined && '$'+block.label in styleMap) {
-	        return styleMap['$'+block.label]
-	    }
-	}
-	var getStyleForBlockName = exports.getStyleForBlockName = function(styleMap, block) {
-	    var constructor = block.constructor
-	    while(constructor !== undefined) {
-	        var style = styleMap[constructor.name]
-	        if(style !== undefined) {
-	            return style
-	        } else {
-	            constructor = constructor.parent
-	        }
-	    }
-	}
-	
-	// gets the possibly inheriting style from the styleMap for `block`
-	// block - the block to get the style for
-	// ancestor - the block to get the computedStyleMap from
-	var getInheritingStyle = exports.getInheritingStyle = function(block, ancestor) {
-	    if(ancestor === undefined || ancestor.computedStyleMap === undefined) return undefined
-	
-	    var labelStyle = getStyleForLabel(ancestor.computedStyleMap, block)
-	    if(labelStyle !== undefined) {
-	        if(labelStyle.inherit) {
-	            var inheritingBlockStyle = getInheritingBlockStyle(block, ancestor)
-	            return mixStyles(inheritingBlockStyle, labelStyle)
-	        } else {
-	            return labelStyle
-	        }
-	    } else {
-	        return getInheritingBlockStyle(block, ancestor)
-	    }
-	
-	
-	    // gets the inheriting style ignoring the first label style
-	    function getInheritingBlockStyle(block, ancestor) {
-	        var blockStyle = getStyleForBlockNameWithInheritance(ancestor.computedStyleMap, block)
-	        if(blockStyle !== undefined) {
-	            if(blockStyle.inherit) {
-	                return mixStyles(
-	                    getInheritingStyle(block, ancestor.parent),
-	                    blockStyle
-	                )
-	            } else {
-	                return blockStyle
-	            }
-	        } else {
-	            return undefined
-	        }
-	    }
-	
-	    // like getStyleForBlockName, but mixes together styles in the styleMap as they inherit based on the block's ancestral names
-	    function getStyleForBlockNameWithInheritance(styleMap, block) {
-	        var styles = [];
-	
-	        var constructor = block.constructor
-	        while(constructor !== undefined) {
-	            var style = styleMap[constructor.name]
-	            if(style !== undefined) {
-	                styles.push(style)
-	                if(!style.inherit) {
-	                    break;
-	                }
-	            }
-	
-	            constructor = constructor.parent
-	        }
-	
-	        var reversedStyles = styles.reverse() // reverse so later styles override earlier styles
-	        var styleToReturn = reversedStyles[0]
-	        for(var n=1; n<reversedStyles.length; n++) {
-	            styleToReturn = styleToReturn.mix(reversedStyles[n])
-	        }
-	
-	        return styleToReturn
-	    }
-	
-	}
-	
-	// returns the conjunction of two style maps
-	// gets it from the computedStyles cache if its already in there
-	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
-	    var cachedStyleMap = computedStyles.get([secondaryStyleMap, primaryStyleMap])
-	    if(cachedStyleMap === undefined) {
-	        if(secondaryStyleMap  === undefined) {
-	            cachedStyleMap = primaryStyleMap
-	        } else if(primaryStyleMap === undefined) {
-	            cachedStyleMap = secondaryStyleMap
-	        } else {
-	            var overridingProperties = {}, atLeastOne = false
-	            for(var key in primaryStyleMap) {
-	                if(secondaryStyleMap[key] !== primaryStyleMap[key]) {
-	                    overridingProperties[key] = primaryStyleMap[key]
-	                    atLeastOne = true
-	                }
-	            }
-	
-	            if(atLeastOne) {
-	                cachedStyleMap = utils.objectConjunction(secondaryStyleMap, overridingProperties)
-	            } else { // the styleMaps are different objects, but contain the same thing
-	                cachedStyleMap = secondaryStyleMap
-	            }
-	        }
-	
-	        if(cachedStyleMap === undefined) cachedStyleMap = false // switch it out with false so it can be recognized
-	        computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
-	    }
-	
-	    if(cachedStyleMap === false) {
-	        return undefined
-	    }
-	    return cachedStyleMap
-	}
-	
-	
-	
-	exports.getDefaultStyle = function(block)  {
-	    // attempt to get from the cache
-	    var defaultBlockStyle = defaultStyleMap.get(block.constructor)
-	    if(defaultBlockStyle === undefined) {
-	        defaultBlockStyle = createDefaultBlockStyle(block)
-	        if(defaultBlockStyle === undefined) defaultBlockStyle = false
-	        defaultStyleMap.set(block.constructor, defaultBlockStyle)
-	    }
-	
-	    if(defaultBlockStyle === false) {
-	        return undefined
-	    }
-	    return defaultBlockStyle
-	}
-	
-	// returns a new style with style b mixed into style a (works even if they're both undefined)
-	var mixStyles = exports.mixStyles = function(a,b) {
-	    if(a === undefined)
-	        return b
-	    else
-	        return a.mix(b)
-	}
-	
-	
-	
-	
-	
-	// sets the currentStyle of a block and makes all the appropriate changes to render a new active style for the block and its children
-	exports.setCurrentStyle = function(block, newCurrentStyle, defaultStyle) {
-	
-	    var current$state = block._currentStyle === undefined? undefined: block._currentStyle.stateHandler
-	    var newCurrentStyle$state = newCurrentStyle === undefined? undefined: newCurrentStyle.stateHandler
-	    if(current$state !== newCurrentStyle$state) {     // if the $state function remains the same, we don't gotta do nothin (about switching state functions at least)
-	        if(block._stateChangeHandler !== undefined) {  // remove the old handler if necessary
-	            block.state.removeListener('change', block._stateChangeHandler)
-	            block._stateChangeHandler = undefined
-	        }
-	
-	        if(newCurrentStyle$state !== undefined) {     // add a new handler if necessary
-	            block.state.on('change', block._stateChangeHandler = function() {
-	                var rawStateStyle = getStateStyle(block._currentStyle, block.state.subject)
-	                setMixedStateStyle(block, mixStyles(block._currentStyle, rawStateStyle))
-	            })
-	        }
-	    }
-	
-	    block._currentStyle = newCurrentStyle
-	    var rawStateStyle = getStateStyle(newCurrentStyle, block.state.subject)
-	
-	    var newMixedStateStyle = mixStyles(newCurrentStyle, rawStateStyle)
-	    setMixedStateStyle(block, newMixedStateStyle, defaultStyle)
-	}
-	
-	
-	// handles reseting a block's active style when its state style changes
-	// renders the pseudoclass style
-	function setMixedStateStyle(block, mixedStateStyle, defaultStyle) {
-	    var psuedoclassState = {}
-	
-	    // if a pseudoclass can no longer apply, undo its setup
-	    for(var pseudoClass in block._styleSetupInfo) {
-	        if(mixedStateStyle === undefined || !(pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo)) {
-	            var setupInfo = block._styleSetupInfo[pseudoClass]
-	            setupInfo.kill(block, setupInfo.state)
-	            delete block._styleSetupInfo[pseudoClass]
-	        }
-	    }
-	
-	    // setup new pseudoclasses
-	    if(mixedStateStyle !== undefined) {
-	        for(var pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo) {
-	            if(!(pseudoClass in block._styleSetupInfo)) {                     // if this exact pseudoclass is already setup, no need to do anything
-	                ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
-	                    var setupState = emulationInfo.fns.setup(block, function() { // start
-	                        var changed = psuedoclassState[pseudoClass] !== true
-	                        if(changed) {
-	                            psuedoclassState[pseudoClass] = true
-	                            changeStyleIfNecessary()
-	                        }
-	                    }, function() { // end
-	                        var changed = psuedoclassState[pseudoClass] !== false
-	                        if(changed) {
-	                            psuedoclassState[pseudoClass] = false
-	                            changeStyleIfNecessary()
-	                        }
-	                    }, emulationInfo.parameter)
-	
-	                    block._styleSetupInfo[pseudoClass] = {state: setupState, kill: emulationInfo.fns.kill}
-	
-	                })(pseudoClass, mixedStateStyle.pseudoclasses.emulatedInfo[pseudoClass])
-	            }
-	        }
-	    }
-	
-	    // build up the pseudoclass state - depending on what pseudoclasses might become applicable
-	    if(mixedStateStyle !== undefined) {
-	        for(var pseudoclassKey in mixedStateStyle.pseudoclasses.emulatedInfo) {
-	            var info = mixedStateStyle.pseudoclasses.emulatedInfo[pseudoclassKey]
-	            psuedoclassState[pseudoclassKey] = info.fns.check(block, info.parameter)
-	        }
-	    }
-	
-	    // set current pseudoclass style
-	    changeStyleIfNecessary()
-	
-	
-	    function changeStyleIfNecessary() {
-	        var pseudoclassStyleInfo = getPseudoclassStyleFor(mixedStateStyle, psuedoclassState)
-	        var newPreStyleMapStyle = mixStyles(mixedStateStyle, pseudoclassStyleInfo.style)
-	        setPreStyleMapStyle(block, newPreStyleMapStyle, pseudoclassStyleInfo.index, defaultStyle)
-	    }
-	}
-	
-	// sets the style before being modified by the block's parent's computedStyleMap
-	// handles removing the state listener and calling $kill on the old activeStyle
-	function setPreStyleMapStyle(block, newPreStyleMapStyle, jsRenderedPseudoclassIndex, defaultStyle) {
-	    if(block.parent !== undefined && newPreStyleMapStyle !== undefined)
-	        var newComputedStyleMap = styleMapConjunction(block.parent.computedStyleMap, newPreStyleMapStyle.componentStyleMap)
-	    else if(block.parent !== undefined)
-	        var newComputedStyleMap = block.parent.computedStyleMap
-	    else if(newPreStyleMapStyle !== undefined)
-	        var newComputedStyleMap = newPreStyleMapStyle.componentStyleMap
-	    else
-	        var newComputedStyleMap = undefined
-	
-	    var newActiveStyle = undefined // can be changed below
-	    var cancel = false
-	    if(newPreStyleMapStyle !== undefined) {
-	        if(block.parent !== undefined) var nativePseudoclassMap = block.parent._nativePseudoclassMap
-	        else                           var nativePseudoclassMap = {}
-	
-	        var nativePseudoclassSelectorMap = getStyleMapEntryForBlock(nativePseudoclassMap, block)
-	        var nativeCssInfo = newPreStyleMapStyle.createNativeCssInfo(newComputedStyleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
-	
-	        if(nativeCssInfo.cancel) {
-	            cancel = true
-	            setMixedStateStyle(block, nativeCssInfo.retryStyle)
-	
-	        } else {
-	            newActiveStyle = nativeCssInfo.style
-	            newComputedStyleMap = nativeCssInfo.styleMap // even newer!
-	            block._nativePseudoclassMap = nativeCssInfo.nativePseudoclassMap
-	        }
-	    }
-	
-	    if(!cancel) {
-	        setActiveStyle(block, newActiveStyle, newComputedStyleMap)
-	    }
-	}
-	
-	// sets the active style on the block and on the block's children
-	// also sets the block's new computedStyleMap
-	function setActiveStyle(block, newActiveStyle, newComputedStyleMap) {
-	    var activeStyleChanged = newActiveStyle !== block._activeStyle
-	    var computedStyleMapChanged = block.computedStyleMap !== newComputedStyleMap
-	
-	    if(activeStyleChanged) {
-	        setStyleClass(block, newActiveStyle)
-	
-	        var curActiveStyle$setup = block._activeStyle === undefined? undefined: block._activeStyle.setup
-	        var newActiveStyle$setup = newActiveStyle === undefined? undefined: newActiveStyle.setup
-	        if(curActiveStyle$setup !== newActiveStyle$setup) {
-	            applyStyleKillFunction(block)
-	            applyStyleSetupFunction(block, newActiveStyle)
-	        }
-	
-	        block._activeStyle = newActiveStyle
-	    }
-	
-	
-	    block.computedStyleMap = newComputedStyleMap
-	
-	    // propogate styles to children
-	    block.children.forEach(function(child) {
-	        if(computedStyleMapChanged || !child.attached) {
-	            child.attached = true
-	            child.style = child.style  // force a re-render on each child
-	        }
-	    })
-	}
-	
-	
-	
-	// given a style and an object representing some state, returns the state given by the style's $state function
-	// returns undefined if it doesn't have a state function
-	// handles caching state styles (an optimization)
-	function getStateStyle(currentStyle, stateParameter) {
-	    if(currentStyle === undefined || currentStyle.stateHandler === undefined) return undefined
-	
-	    var returnedStyle = currentStyle.stateHandler(stateParameter)
-	
-	    // todo: figure out if this style has been returned before, and if so, use the already-generated style (mostly so that that style can take advantage of other cached combinations)
-	
-	    return returnedStyle
-	}
-	
-	// returns an object with the properties:
-	    // style - the jsRendered pseudoclass style for the block's relevant pseudoclass state
-	    // index - the index of the pseudoclass (jsRenderedPseudoclassIndex)
-	// returns undefined if no emulated pseudoclass style applies or if only native pseudoclass stylings apply
-	// state - an object that will be mutated with the current state for each pseudoclass
-	function getPseudoclassStyleFor(style, state) {
-	    if(style === undefined) return {index:0}
-	
-	    var index = 0, result={index:0}
-	    style.pseudoclasses.classes.forEach(function(psuedoclassStyle, compoundKey) {
-	        if(!psuedoclassStyle.pureNative) {
-	            for(var j=0; j<compoundKey.length; j++) {
-	                var pseudoclass = compoundKey[j]
-	                if(!state[pseudoclass]) {
-	                    break;
-	                }
-	            }
-	
-	            if(j === compoundKey.length) {
-	                result = {index: index, style: psuedoclassStyle}
-	            }
-	        }
-	
-	        index++
-	    })
-	
-	    return result
-	}
-	
-	
-	
-	// finds the default style for a block, mixes it with the appropriate ancestor styles, and returns the result
-	function createDefaultBlockStyle(that) {
-	    if(that.defaultStyle !== undefined) {
-	        validateDefaultStyle(that.defaultStyle)
-	    }
-	
-	    // get list of default styles
-	    var defaultStyles = []
-	    var nextConstructor = that.constructor
-	    while(nextConstructor !== undefined) {
-	        if(nextConstructor.defaultStyle !== undefined) {
-	            defaultStyles.push(nextConstructor.defaultStyle)
-	        }
-	        nextConstructor = nextConstructor.parent
-	    }
-	
-	    // generate merged default style
-	    var reversedDefaults = defaultStyles.reverse()
-	    var mergedDefaultStyle = reversedDefaults[0]
-	    for(var n=1; n<reversedDefaults.length; n++) {
-	        mergedDefaultStyle = mergedDefaultStyle.mix(reversedDefaults[n])
-	    }
-	
-	    return mergedDefaultStyle
-	}
-	
-	
-	// applies setup appropriately
-	function applyStyleSetupFunction(component, style) {
-	    if(style !== undefined && style.setup !== undefined) {
-	        component._styleSetupObject = style.setup(component) // call setup on the component
-	    } else {
-	        component._styleSetupObject = undefined
-	    }
-	}
-	// applies kill appropriately
-	function applyStyleKillFunction(component) {
-	    var activeStyle = component._activeStyle
-	    if(activeStyle !== undefined && activeStyle.setup !== undefined) {
-	        if(activeStyle.kill === undefined)
-	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
-	
-	        activeStyle.kill(component, component._styleSetupObject)
-	    }
-	}
-	
-	
-	// sets the style, replacing one if one already exists
-	function setStyleClass(component, style) {
-	    var activeStyle = component._activeStyle
-	
-	    var newStyle = component.domNode.className
-	    if(activeStyle !== undefined) {
-	        newStyle = newStyle.replace(new RegExp(" ?\\b"+activeStyle.className+"\\b"),'') // remove the previous css class
-	    }
-	    if(style !== undefined) {
-	        newStyle = style.className+' '+newStyle.trim() // note that the order of classes doesn't matter
-	    }
-	
-	    component.domNode.className = newStyle
-	}
-	
-	function validateDefaultStyle(defaultStyle) {
-	    if(!isStyleObject(defaultStyle)) {
-	        throw new Error("defaultStyle property must be a Style object")
-	    }
-	}
-	
-	// if you load two different instances of blocks, its necessary to do a bit of duck typing
-	function isStyleObject(x) {
-	    return x.className !== undefined && x.componentStyleMap !== undefined && x.mix !== undefined
-	}
-
-/***/ },
-/* 22 */
-/*!*********************!*\
-  !*** ../~/utils.js ***!
-  \*********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	//require('hashmap') // here to mark hashmapMerge's dependency on this module
-	var path = __webpack_require__(/*! path */ 37)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	// merges two hashmaps together just like merge does for regular objects
-	// non-deep merge
-	exports.hashmapMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    obj2.forEach(function(value, key) {
-	        obj1.set(key, obj2.get(key))
-	    })
-	
-	    if(arguments.length > 2) {
-	        var newObjects = [obj1].concat(Array.prototype.slice.call(arguments, 2))
-	        return exports.hashmapMerge.apply(this, newObjects)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
-	exports.objectConjunction = function(a, b) {
-	    var objectCopy = {}
-	    merge(objectCopy, a)
-	    merge(objectCopy, b)
-	    return objectCopy
-	}
-	
-	// turns an array of values into a an object where those values are all keys that point to 'true'
-	exports.arrayToMap = function(array) {
-	    var result = {}
-	    array.forEach(function(v) {
-	        result[v] = true
-	    })
-	    return result
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       //if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       //}
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 23 */
-/*!*******************************!*\
-  !*** ../~/Components/Item.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! Block */ 3)
-	var proto = __webpack_require__(/*! proto */ 28)
-	var Style = __webpack_require__(/*! Style */ 16)
+	var Item = __webpack_require__(/*! ./Item */ 47);
 	
 	module.exports = proto(Block, function(superclass) {
 	
 		// static properties
 	
-		this.name = 'ListItem'
+		this.Item = Item
 	
-	    this.defaultStyle = Style({
-	        display: 'list-item'
-	    })
+	    this.name = 'List'
 	
 		// instance properties
 	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
+		this.init = function(/*[label,] [ordered,] listInit*/) {
+			if(arguments[0] instanceof Array) {
+	            var listInit = arguments[0]
 	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
+	            if(arguments[1] instanceof Array) {
+	                var listInit = arguments[1]
+	            } else if(arguments[2] instanceof Array) {
+	                var listInit = arguments[2]
+	            }
+	
+	            if(typeof(arguments[0]) === 'boolean') {
+	                var ordered = arguments[0]
+	            } else {
+	                if(typeof(arguments[1]) === 'boolean') {
+	                    var ordered = arguments[1]
+	                } else {
+	                    var ordered = false // default
+	                }
+	
+	                if(typeof(arguments[0]) === 'string') {
+	                    var label = arguments[0]
+	                }
+	            }
 	        }
 	
-	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
+	        if(ordered) {
+	            var type = 'ol'
+	        } else {
+	            var type = 'ul'
+	            this.defaultStyle = Style({
+	                listStyleType: 'decimal'
+	            })
+	        }
 	
-	        if(contents instanceof Block) {
-				this.add(contents)
-			} else if(contents !== undefined) {
-	            this.domNode.textContent = contents
+	
+	        this.domNode = document.createElement(type) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	        this.label = label
+	
+	        if(listInit !== undefined) {
+	            for(var n=0; n<listInit.length; n++) {
+	                this.item(listInit[n])
+	            }
 	        }
 		}
+	
+		this.item = function() {
+			var item = Item.apply(this, arguments)
+	        this.add(item)
+	        return item
+		}
+	});
+
+/***/ },
+/* 31 */
+/*!********************************!*\
+  !*** ../~/Components/Radio.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 42)
+	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
+	
+	var Block = __webpack_require__(/*! ../Block */ 21)
+	
+	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
+	
+	// A group of radio buttons
+	module.exports = proto(EventEmitter, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'Radio'
+	
+		// instance properties
+	
+	
+	    // required - If true, a radio button must always be selected. Otherwise, radio buttons can be deselected by clicking on them.
+		this.init = function(required) {
+	        //this.selected
+	        this.required = required === true || required === undefined
+	        this.buttons = {} // maps values to the buttons that have each value
+	        this.randomStart = randomStart++
+		}
+	
+	    // returns a new radio button
+	    this.button = function(/*[label,] value*/) {
+	        if(arguments.length >= 2) {
+	            var label = arguments[0]
+	            var value = arguments[1]
+	        } else {
+	            var value = arguments[0]
+	        }
+	
+	        if(this.buttons[value] !== undefined) {
+	            throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
+	        }
+	
+	        var button = RadioButton(this, label, value, "_radioblock"+this.randomStart)
+	        this.buttons[value] = button
+	
+	        if(this.required && this._selected === undefined) {
+	            button.selected = true
+	        }
+	
+	        return button
+	    }
+	
+	    // returns the RadioButton in the group that's selected (or undefined if none are selected)
+	    Object.defineProperty(this, 'selected', {
+	        get: function() {
+	            return this._selected
+	        },
+	        set: function() {
+	            throw new Error("Can't set selected on a Radio object")
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the selected radio button in the group (undefined if none are selected)
+	        get: function() {
+	            var selected = this._selected
+	            if(selected === undefined) return undefined
+	            // else
+	            return selected.attr('value')
+	        },
+	
+	        // sets the value of the checkbox to the passed value (true for checked)
+	        // throws an exception if none of the radio buttons have that value
+	        // throws an exception if an unset is attempted for a required Radio set
+	        set: function(value) {
+	            if(value === undefined) {
+	                var selected = this._selected
+	                if(selected !== undefined) {
+	                    selected.selected = false
+	                }
+	            } else {
+	                var button = this.buttons[value]
+	                if(button === undefined) throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
+	
+	                button.selected = true
+	            }
+	        }
+	    })
+	
+	
+	    // arguments can be one of the following:
+	        // RadioButton, RadioButton, RadioButton, ...
+	        // value, value, value, ... - each value is the value of the RadioButton to remove
+	        // arrayOfRadioButtons
+	        // arrayOfValues
+	    this.remove = function() {
+	        if(arguments[0] instanceof Array) {
+	            var removals = arguments[0]
+	        } else {
+	            var removals = arguments
+	        }
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	
+	            if(r instanceof RadioButton) {
+	                var button = r
+	                var value = r.val
+	
+	                if(this.buttons[value] !== r) {
+	                    throw new Error("The button passed at index "+n+" is not part of the group.")
+	                }
+	            } else {
+	                var button = this.buttons[r]
+	                var value = r
+	
+	                if(button === undefined) {
+	                    throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
+	                }
+	            }
+	
+	            var originalSelected = this.selected
+	            if(this.selected === button) {
+	                this._selected = undefined
+	            }
+	
+	            this.buttons[value].group = undefined // fully remove it from the group
+	            delete this.buttons[value]
+	        }
+	
+	        if(this.required && this.selected === undefined) {
+	            for(var v in this.buttons) {
+	                this.buttons[v].selected = true // just select the first one
+	                break; // yes this doesn't loop
+	            }
+	        } else if(originalSelected !== this.selected) {
+	            this.emit('change')
+	        }
+	    }
+	
+	})
+	
+	var RadioButton = proto(Block, function(superclass) {
+	    this.name = 'RadioButton'
+	
+	    this.init = function(radioGroup, label, value, name) {
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	        this.group = radioGroup
+	
+	        this.attr('type', 'radio')
+	        this.attr('name', name) // the name is needed so that using tab to move through page elements can tab between different radio groups
+	        this.val = value
+	
+	        var that = this
+			this.on("mousedown",function(event) {
+	            event.preventDefault()           // this needs to be here otherwise the radio button can't be changed
+	
+				if(that.group.required) {
+	                if(that.selected === false) {
+	                    that.selected = true
+	                }
+	            } else {
+	                that.selected = !that.selected // toggle
+	            }
+			})
+	        this.on("click",function(event) {
+	            event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
+	        })
+	        this.on("keydown",function(event) {
+	            if(event.keyCode === 40 || event.keyCode === 39) { // down or right
+	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                that.selectNext()
+	            } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
+	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                that.selectPrevious()
+	            }
+	        })
+	    }
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value attribute of the checkbox
+	        get: function() {
+	            return this.attr('value')
+	        },
+	
+	        // sets the value attribute of the checkbox
+	        set: function(value) {
+	            if(this.group.buttons[value] !== undefined) {
+	                throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
+	            }
+	
+	            var oldValue = this.val
+	            this.attr('value', value)
+	            if(oldValue !== undefined) delete this.group.buttons[oldValue]
+	            this.group.buttons[value] = this
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the checkbox is checked
+	        get: function() {
+	            return this.domNode.checked
+	        },
+	
+	        // sets the selected state of the checkbox to the passed value (true for checked)
+	        set: function(value) {
+	            var booleanValue = value === true
+	            if(this.selected === value) return; // ignore if there's no change
+	
+	            if(booleanValue) {
+	                var previouslySelected = this.group.selected
+	                setButtonInGroup(this.group, this)
+	                if(previouslySelected !== undefined)
+	                    previouslySelected.emit('change')
+	            } else {
+	                if(this.group.required) throw new Error("Can't unset this Radio set, a value is required.")
+	                this.domNode.checked = false
+	                this.group._selected = undefined
+	            }
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	            this.group.emit('change')
+	        }
+	    })
+	
+	    this.selectNext = function() {
+	        selectSibling(this,1)
+	    }
+	    this.selectPrevious = function() {
+	        selectSibling(this,-1)
+	    }
+	
+	})
+	
+	// direction can be +1 or -1
+	function selectSibling(button, direction) {
+	    var buttons = button.group.buttons
+	    var values = Object.keys(buttons)
+	    var index = values.indexOf(button.attr('value'))
+	    if(direction === 1 && index === values.length-1) {
+	        var buttonToSelect = buttons[values[0]]
+	    } else if(direction === -1 && index === 0) {
+	        var buttonToSelect = buttons[values[values.length-1]]
+	
+	    } else {
+	        var buttonToSelect = buttons[values[index+direction]]
+	    }
+	
+	    buttonToSelect.selected = true
+	    buttonToSelect.focus()
+	}
+	
+	function setButtonInGroup(group, button) {
+	    var selected = group._selected
+	    if(selected !== undefined) selected.domNode.checked = false
+	    button.domNode.checked = true
+	    group._selected = button
+	}
+	
+	function getRandomInt(min, max) {
+	  return Math.floor(Math.random() * (max - min)) + min;
+	}
+
+/***/ },
+/* 32 */
+/*!*********************************!*\
+  !*** ../~/Components/Select.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 21)
+	var proto = __webpack_require__(/*! proto */ 42)
+	
+	var Option = __webpack_require__(/*! Components/Option */ 51)
+	
+	// emits a 'change' event when its 'val' changes
+	module.exports = proto(Block, function(superclass) {
+	
+		// static variables
+	
+	    this.name = 'Select'
+	
+	    this.Option = Option
+	
+		this.init = function(/*[label,] options*/) {
+	        if(arguments[0] instanceof Object) {
+	            var options = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var options = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	        this.label = label
+	
+	        this.options = {}
+	
+			for(var value in options) {
+				this.option(value, options[value])
+			}
+		}
+	
+	
+		// instance methods
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value that is selected
+	        get: function() {
+	            for(var value in this.options) {
+	                if(this.options[value].selected) {
+	                    return this.options[value].val
+	                }
+	            }
+	        },
+	
+	        set: function(value) {
+	            var option = this.options[value]
+	            if(option === undefined || option.val !== value) throw new Error("There is no Option in the Select with the value: '"+value+"'")
+	            option.selected = true
+	        }
+	    })
+		
+		this.option = function(/*[label,] value,text*/) {
+	        if(arguments.length === 2) {
+	            var value = arguments[0]
+	            var text = arguments[1]
+	        } else if(arguments.length === 3) {
+	            var label = arguments[0]
+	            var value = arguments[1]
+	            var text = arguments[2]
+	        } else {
+	            throw new Error("Invalid number of arguments")
+	        }
+	
+	        var newOption = Option(label, value,text)
+	        this.add(newOption)
+	
+	        return newOption
+	
+		}
+	
+	    // same interface as Block.addAt
+	    /*override*/ this.addAt = function(index/*, nodes...*/) {
+	        var that = this
+	
+	        var nodesToAdd = Block.normalizeAddAtArguments.apply(this, arguments)
+	
+	        // validation first
+	        nodesToAdd.forEach(function(option) {
+	            if(that.options[option.val] !== undefined) {
+	                throw new Error("Can't give an Option the same value as another in the Select (value: '"+option.val+"')")
+	            }
+	        })
+	
+	        superclass.addAt.call(this, index, nodesToAdd)
+	
+	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var anyWereSelected = false
+	        nodesToAdd.forEach(function(option) {
+	            if(option.selected) anyWereSelected = true
+	            that.options[option.val] = option
+	
+	            // set up Select events
+	            // todo: remove events when the Option is removed
+	
+	            option.on("mousedown",function(event) {
+	                option.parent.val = option.val      // select this one
+	            })
+	        })
+	
+	        if(anyWereSelected) {
+	            this.emit('change')
+	        }
+	    }
+	
+	    // same interface as Block.remove
+	    /*override*/ this.remove = function() {
+	        var that = this
+	
+	        var removalIndexes = Block.normalizeRemoveArguments.apply(this, arguments)
+	        var removals = removalIndexes.map(function(index) {
+	            return that.children[index]
+	        })
+	
+	        superclass.remove.call(this, removalIndexes)
+	
+	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var theSelectedWasRemoved = false
+	        removals.forEach(function(option) {
+	            if(option.selected) theSelectedWasRemoved = true
+	            delete that.options[option.val]
+	        })
+	
+	        if(theSelectedWasRemoved) {
+	            //this.children[0].selected = true // I think the browser does this automatically??
+	            this.emit('change')
+	        }
+	    }
+	
+	
+	    // private
+	
+	    this.prepareForValueChange = function(values) {
+	        var value = values[0]
+	
+	        for(var optionValue in this.options) {
+	            if(optionValue !== value) {
+	                var option = this.options[optionValue]
+	                if(option.selected === true) {
+	                    option.setSelectedQuiet(false)
+	                }
+	            }
+	        }
+	    }
+	})
+	
+
+
+/***/ },
+/* 33 */
+/*!********************************!*\
+  !*** ../~/Components/Table.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 42)
+	
+	var Block = __webpack_require__(/*! ../Block */ 21)
+	var Style = __webpack_require__(/*! Style */ 22)
+	
+	var Header = __webpack_require__(/*! ./Header */ 48);
+	var Row = __webpack_require__(/*! ./Row */ 49);
+	var Cell = __webpack_require__(/*! ./Cell */ 50);
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'Table'
+	
+	    this.defaultStyle = Style({
+	        borderSpacing: 0
+	    })
+	
+	    this.Row = Row
+		this.Header = Header
+	    this.Cell = Cell
+	
+	
+		// instance properties
+	
+		this.init = function(/*[label,] tableInit*/) {
+			if(arguments[0] instanceof Array) {
+	            var tableInit = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var tableInit = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("table") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	        this.label = label
+	
+	        if(tableInit !== undefined) {
+	            for(var n=0; n<tableInit.length; n++) {
+	                this.row(tableInit[n])
+	            }
+	        }
+		}
+		
+		this.header = function(/*[]label,] listOfBlocksOrText*/) {
+	        return headerOrRegularRow(this, Header, arguments)
+		}
+	
+		this.row = function() {
+			return headerOrRegularRow(this, Row, arguments)
+		}
+	});
+	
+	function headerOrRegularRow(that, Prototype, args) {
+	    var row = Prototype.apply(undefined, args)
+	    that.add(row)
+	    return row
+	}
+
+/***/ },
+/* 34 */
+/*!***********************************!*\
+  !*** ../~/Components/TextArea.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 21)
+	var proto = __webpack_require__(/*! proto */ 42)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static variables
+	
+	    this.name = 'TextArea'
+	
+		this.init = function(label) {
+	        this.domNode = document.createElement("textarea") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+			this.label = label
+		}
+	
+	
+		// instance properties
+	
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.domNode.value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.val === value) return; // do nothing if there's no change
+	
+	            this.domNode.value = value
+	            this.emit('change')
+	        }
+	    })
 	});
 
 
 /***/ },
-/* 24 */
+/* 35 */
+/*!************************************!*\
+  !*** ../~/Components/TextField.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 21)
+	var proto = __webpack_require__(/*! proto */ 42)
+	
+	var domUtils = __webpack_require__(/*! ../domUtils */ 24)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'TextField'
+	
+		this.init = function(/*[label,] password*/) {
+	        if(arguments.length === 1) {
+	            var password = arguments[0]
+	        } else if(arguments.length > 1) {
+	            var label = arguments[0]
+	            var password = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+			this.label = label
+			domUtils.setAttribute(this.domNode,'type','text');
+	        if(password)
+	            domUtils.setAttribute(this.domNode, 'type', 'password')
+		}
+	
+	
+		// instance properties
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.domNode.value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.val === value) return; // do nothing if there's no change
+	
+	            this.domNode.value = value
+	            this.emit('change')
+	        }
+	    })
+	
+	});
+
+
+/***/ },
+/* 36 */
+/*!*******************************!*\
+  !*** ../~/Components/Text.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 42)
+	
+	var Block = __webpack_require__(/*! Block */ 21)
+	var Style = __webpack_require__(/*! Style */ 22)
+	
+	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	
+	
+	
+	module.exports = proto(Block, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Text'
+	
+	    this.defaultStyle = Style({
+	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
+	    })
+	
+	    this.init = function(/*[label,] text*/) {
+	        if(arguments.length === 1) {
+	            var text = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        }
+	
+	        if (text === undefined) text = '';
+	
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	        this.text = text
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode[domUtils.textProperty]
+	        }, set: function(v) {
+	             this.domNode[domUtils.textProperty] = v
+	        }
+	    })
+	});
+	
+	
+
+
+/***/ },
+/* 37 */,
+/* 38 */
 /*!********************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/events/events.js ***!
   \********************************************************/
@@ -6847,813 +4692,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
-/*!*********************************!*\
-  !*** ../~/Components/Header.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 41);
-	
-	module.exports = RowlikeGenerator('th', "TableHeader")
-
-/***/ },
-/* 26 */
-/*!******************************!*\
-  !*** ../~/Components/Row.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 41);
-	
-	module.exports = RowlikeGenerator('tr', "TableRow")
-
-
-/***/ },
-/* 27 */
-/*!*******************************!*\
-  !*** ../~/Components/Cell.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! ../Block */ 3)
-	var proto = __webpack_require__(/*! proto */ 28)
-	var Style = __webpack_require__(/*! Style */ 16)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-		this.name = 'TableCell'
-	
-	    this.defaultStyle = Style({
-	        display: 'table-cell'
-	    })
-		
-	
-		// instance properties
-	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
-	
-	        if(contents instanceof Block || typeof(contents) !== 'string') {
-	            this.add(contents)
-	        } else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
-		}
-	
-		this.colspan = function(cols) {
-			this.attr('colspan',cols);
-		}
-	});
-
-
-/***/ },
-/* 28 */
-/*!************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/proto/proto.js ***!
-  \************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                }
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
-/* 29 */
-/*!**************************!*\
-  !*** ../external/jss.js ***!
-  \**************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * JSS v0.6 - JavaScript Stylesheets
-	 * https://github.com/Box9/jss
-	 *
-	 * Copyright (c) 2011, David Tang
-	 * MIT Licensed (http://www.opensource.org/licenses/mit-license.php)
-	 */
-	var jss = (function() {
-	    var adjSelAttrRegex = /((?:\.|#)[^\.\s#]+)((?:\.|#)[^\.\s#]+)/g;
-	    var doubleColonPseudoElRegex = /(::)(before|after|first-line|first-letter|selection)/;
-	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
-	    var singleColonForPseudoElements; // flag for older browsers
-	
-	    function getSelectorsAndRules(sheet) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var results = {};
-	        for (var i = 0; i < rules.length; i++) {
-	            // Older browsers and FF report pseudo element selectors in an outdated format
-	            var selectorText = toDoubleColonPseudoElements(rules[i].selectorText);
-	            if (!results[selectorText]) {
-	                results[selectorText] = [];
-	            }
-	            results[selectorText].push({
-	                sheet: sheet,
-	                index: i,
-	                style: rules[i].style
-	            });
-	        }
-	        return results;
-	    }
-	
-	    function getRules(sheet, selector) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var results = [];
-	        // Browsers report selectors in lowercase
-	        selector = selector.toLowerCase();
-	        for (var i = 0; i < rules.length; i++) {
-	            var selectorText = rules[i].selectorText;
-	            // Note - certain rules (e.g. @rules) don't have selectorText
-	            if (selectorText && (selectorText == selector || selectorText == swapAdjSelAttr(selector) || selectorText == swapPseudoElSyntax(selector))) {
-	                results.push({
-	                    sheet: sheet,
-	                    index: i,
-	                    style: rules[i].style
-	                });
-	            }
-	        }
-	        return results;
-	    }
-	
-	    function addRule(sheet, selector) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var index = rules.length;
-	        var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
-	
-	        if (!pseudoElementRule) {
-	            addRuleToSheet(sheet, selector, index);
-	        }
-	
-	        return {
-	            sheet: sheet,
-	            index: index,
-	            style: rules[index].style
-	        };
-	    };
-	
-	    function addRuleToSheet(sheet, selector, index) {
-	        if (sheet.insertRule) {
-	            sheet.insertRule(selector + ' { }', index);
-	        } else {
-	            sheet.addRule(selector, null, index);
-	        }
-	    }
-	
-	    // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
-	    function addPseudoElementRule(sheet, selector, rules, index) {
-	        var doubleColonSelector;
-	        var singleColonSelector;
-	
-	        if (doubleColonPseudoElRegex.exec(selector)) {
-	            doubleColonSelector = selector;
-	            singleColonSelector = toSingleColonPseudoElements(selector);
-	        } else if (singleColonPseudoElRegex.exec(selector)) {
-	            doubleColonSelector = toDoubleColonPseudoElements(selector);
-	            singleColonSelector = selector;
-	        } else {
-	            return false; // Not dealing with a pseudo element
-	        }
-	
-	        if (!singleColonForPseudoElements) {
-	            // Assume modern browser and then check if successful
-	            addRuleToSheet(sheet, doubleColonSelector, index);
-	            if (rules.length <= index) {
-	                singleColonForPseudoElements = true;
-	            }
-	        }
-	        if (singleColonForPseudoElements) {
-	            addRuleToSheet(sheet, singleColonSelector, index);
-	        }
-	
-	        return true;
-	    }
-	
-	    function toDoubleColonPseudoElements(selector) {
-	        return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
-	            return submatch1 + '::' + submatch3;
-	        });
-	    }
-	
-	    function toSingleColonPseudoElements(selector) {
-	        return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
-	            return ':' + submatch2;
-	        })
-	    }
-	
-	    function removeRule(rule) {
-	        var sheet = rule.sheet;
-	        if (sheet.deleteRule) {
-	            sheet.deleteRule(rule.index);
-	        } else if (sheet.removeRule) {
-	            sheet.removeRule(rule.index);
-	        }
-	    }
-	
-	    function extend(dest, src) {
-	        for (var key in src) {
-	            if (!src.hasOwnProperty(key))
-	                continue;
-	            dest[key] = src[key];
-	        }
-	        return dest;
-	    }
-	
-	    function aggregateStyles(rules) {
-	        var aggregate = {};
-	        for (var i = 0; i < rules.length; i++) {
-	            extend(aggregate, declaredProperties(rules[i].style));
-	        }
-	        return aggregate;
-	    }
-	
-	    function declaredProperties(style) {
-	        var declared = {};
-	        for (var i = 0; i < style.length; i++) {
-	            declared[style[i]] = style[toCamelCase(style[i])];
-	        }
-	        return declared;
-	    }
-	
-	    // IE9 stores rules with attributes (classes or ID's) adjacent in the opposite order as defined
-	    // causing them to not be found, so this method swaps [#|.]sel1[#|.]sel2 to become [#|.]sel2[#|.]sel1
-	    function swapAdjSelAttr(selector) {
-	        var swap = '';
-	        var lastIndex = 0;
-	
-	        while ((match = adjSelAttrRegex.exec(selector)) != null) {
-	            if (match[0] === '')
-	                break;
-	            swap += selector.substring(lastIndex, match.index);
-	            swap += selector.substr(match.index + match[1].length, match[2].length);
-	            swap += selector.substr(match.index, match[1].length);
-	            lastIndex = match.index + match[0].length;
-	        }
-	        swap += selector.substr(lastIndex);
-	
-	        return swap;
-	    };
-	
-	    // FF and older browsers store rules with pseudo elements using single-colon syntax
-	    function swapPseudoElSyntax(selector) {
-	        if (doubleColonPseudoElRegex.exec(selector)) {
-	            return toSingleColonPseudoElements(selector);
-	        }
-	        return selector;
-	    }
-	
-	    function setStyleProperties(rule, properties) {
-	        for (var key in properties) {
-	            var value = properties[key];
-	            var importantIndex = value.indexOf(' !important');
-	
-	            // Modern browsers seem to handle overrides fine, but IE9 doesn't
-	            rule.style.removeProperty(key);
-	            if (importantIndex > 0) {
-	                rule.style.setProperty(key, value.substr(0, importantIndex), 'important');
-	            } else {
-	                rule.style.setProperty(key, value);
-	            }
-	        }
-	    }
-	
-	    function toCamelCase(str) {
-	        return str.replace(/-([a-z])/g, function (match, submatch) {
-	            return submatch.toUpperCase();
-	        });
-	    }
-	
-	    function transformCamelCasedPropertyNames(oldProps) {
-	        var newProps = {};
-	        for (var key in oldProps) {
-	            newProps[unCamelCase(key)] = oldProps[key];
-	        }
-	        return newProps;
-	    }
-	
-	    function unCamelCase(str) {
-	        return str.replace(/([A-Z])/g, function(match, submatch) {
-	            return '-' + submatch.toLowerCase();
-	        });
-	    }
-	
-	    var Jss = function(doc) {
-	        this.doc = doc;
-	        this.head = this.doc.head || this.doc.getElementsByTagName('head')[0];
-	        this.sheets = this.doc.styleSheets || [];
-	    };
-	
-	    Jss.prototype = {
-	        // Returns JSS rules (selector is optional)
-	        get: function(selector) {
-	            if (!this.defaultSheet) {
-	                return {};
-	            }
-	            if (selector) {
-	                return aggregateStyles(getRules(this.defaultSheet, selector));
-	            }
-	            var rules = getSelectorsAndRules(this.defaultSheet);
-	            for (selector in rules) {
-	                rules[selector] = aggregateStyles(rules[selector]);
-	            }
-	            return rules;
-	        },
-	        // Returns all rules (selector is required)
-	        getAll: function(selector) {
-	            var properties = {};
-	            for (var i = 0; i < this.sheets.length; i++) {
-	                extend(properties, aggregateStyles(getRules(this.sheets[i], selector)));
-	            }
-	            return properties;
-	        },
-	        // Adds JSS rules for the selector based on the given properties
-	        set: function(selector, properties) {
-	            if (!this.defaultSheet) {
-	                this.defaultSheet = this._createSheet();
-	            }
-	            properties = transformCamelCasedPropertyNames(properties);
-	            var rules = getRules(this.defaultSheet, selector);
-	            if (!rules.length) {
-	                rules = [addRule(this.defaultSheet, selector)];
-	            }
-	            for (var i = 0; i < rules.length; i++) {
-	                setStyleProperties(rules[i], properties);
-	            }
-	        },
-	        // Removes JSS rules (selector is optional)
-	        remove: function(selector) {
-	            if (!this.defaultSheet)
-	                return;
-	            if (!selector) {
-	                this._removeSheet(this.defaultSheet);
-	                delete this.defaultSheet;
-	                return;
-	            }
-	            var rules = getRules(this.defaultSheet, selector);
-	            for (var i = 0; i < rules.length; i++) {
-	                removeRule(rules[i]);
-	            }
-	            return rules.length;
-	        },
-	        _createSheet: function() {
-	            var styleNode = this.doc.createElement('style');
-	            styleNode.type = 'text/css';
-	            styleNode.rel = 'stylesheet';
-	            this.head.appendChild(styleNode);
-	            return styleNode.sheet;
-	        },
-	        _removeSheet: function(sheet) {
-	            var node = sheet.ownerNode;
-	            node.parentNode.removeChild(node);
-	        }
-	    };
-	
-	    var exports = new Jss(document);
-	    exports.forDocument = function(doc) {
-	        return new Jss(doc);
-	    };
-	    return exports;
-	})();
-	
-	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
-
-/***/ },
-/* 30 */
-/*!****************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/trimArguments/trimArguments.js ***!
-  \****************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	        else
-	            break
-	    }
-	    args.splice(args.length-count, count)
-	    return args
-	}
-
-/***/ },
-/* 31 */
-/*!************************!*\
-  !*** ./~/testUtils.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Future = __webpack_require__(/*! async-future */ 39)
-	var Style = __webpack_require__(/*! Style */ 16)
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	
-	// compares arrays and objects for value equality (all elements and members must match)
-	exports.equal = function(a,b) {
-	    if(a instanceof Array) {
-	        if(!(b instanceof Array))
-	            return false
-	        if(a.length !== b.length) {
-	            return false
-	        } else {
-	            return a.reduce(function(previousValue, currentValue, index) {
-	                return previousValue && exports.equal(currentValue,b[index])
-	            }, true)
-	        }
-	    } else if(a instanceof Object) {
-	        if(!(b instanceof Object))
-	            return false
-	
-	        var aKeys = Object.keys(a)
-	        var bKeys = Object.keys(b)
-	
-	        if(aKeys.length !== bKeys.length) {
-	            return false
-	        } else {
-	            for(var n=0; n<aKeys.length; n++) {
-	                var key = aKeys[n]
-	                var aVal = a[key]
-	                var bVal = b[key]
-	
-	                if(!exports.equal(aVal,bVal)) {
-	                    return false
-	                }
-	            }
-	            // else
-	            return true
-	        }
-	    } else {
-	        return a===b
-	    }
-	}
-	
-	
-	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
-	// returns a function that, each time its called, calls the next function in the list with the passed argument
-	// example:
-	/*
-	var sequenceX = testUtils.seq(
-	 function(x) {
-	     t.ok(x === 'a')
-	 },
-	 function(x) {
-	     t.ok(x === 'b')
-	 },
-	 function(x) {
-	     t.ok(x === 'c')
-	})
-	
-	 var obj = {a:1,b:2,c:3}
-	 for(var x in obj) {
-	     sequenceX(x)
-	 }
-	 */
-	exports.seq = function (/*functions*/) {
-	    var n=-1
-	    var fns = arguments
-	    return function() {
-	        n++
-	        if(n>=fns.length)
-	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
-	        // else
-	        fns[n].apply(this,arguments)
-	    }
-	}
-	
-	
-	exports.demo = function(name, component) {
-	    var header = document.createElement("h1")
-	        header.textContent = name
-	
-	    $("#demos").append(header);
-	    component.attach($("#demos")[0])
-	
-	    return [header, component]
-	}
-	exports.cleanupDemo = function(nodes) {
-	    $(nodes[0]).remove()
-	    nodes[1].detach()
-	}
-	exports.manualDemo = function(name, component) {
-	    var header = document.createElement("h1")
-	        header.textContent = name
-	
-	    $("#manualDemos").append(header);
-	    component.attach($("#manualDemos")[0])
-	}
-	exports.textOutput = function(name, textContent) {
-	    var header = document.createElement("h1")
-	        header.textContent = name
-	
-	    var text = document.createElement("div")
-	        text.textContent = textContent
-	
-	    $("#results").append([header, text]);
-	}
-	
-	// future wraps a function like: function(result) {}
-	exports.wrapSingleParameter = function() {
-	    if(arguments.length === 1) {
-	        var fn = arguments[0]
-	    } else {
-	        var object = arguments[0]
-	        var method = arguments[1]
-	        var fn = object[method]
-	    }
-	
-	    return function() {
-	        var args = Array.prototype.slice.call(arguments)
-			var future = new Future
-			args.push(function(result) {
-			    future.return(result)
-			})
-			var me = this
-	        if(object) me = object
-	        fn.apply(me, args)
-			return future
-	    }
-	}
-	
-	exports.performanceTest = function(name, testDefinition) {
-	    setTimeout(function() {
-	        var times = []
-	        var totalTime = 0
-	        while(totalTime < 2000) {
-	            var time = oneIteration()
-	            times.push(time)
-	            totalTime += time
-	        }
-	
-	        var averageTime = totalTime/times.length
-	        var stdDeviationPercentage = standardDeviation(times)/averageTime
-	
-	        //console.log(mean(times)+ ' vs '+averageTime) // these should be equal and looks like they are
-	        exports.textOutput(name, Math.round(averageTime)+'ms (averaged over '+times.length+" iterations) - standard deviation: "+Math.round(stdDeviationPercentage*100)/100+'%')
-	
-	
-	        function oneIteration() {
-	            var time;
-	            testDefinition.call({
-	                time: function(testFn) {
-	                    var start = performance.now()
-	                    testFn()
-	                    time = performance.now() - start // ms
-	                }
-	            })
-	
-	            return time
-	        }
-	    },0)
-	}
-	
-	function standardDeviation(numberSet) {
-	    return Math.sqrt(variance(numberSet))
-	}
-	
-	function variance(numberSet) {
-	    var theMean = mean(numberSet)
-	    var sumOfDifferenceSquares = numberSet.reduce(function(acc,x) {
-	        var difference = x-theMean
-	        return acc + difference*difference
-	    },0)
-	
-	    return sumOfDifferenceSquares / (numberSet.length-1)
-	}
-	
-	function mean(numberSet) {
-	    var sum = numberSet.reduce(function(acc,x) {
-	        return acc+x
-	    },0)
-	
-	    return sum/numberSet.length
-	}
-	
-	
-	exports.buildNestedStructure = function (nestings) {
-	    var innerMost = Container()
-	    var cur = innerMost
-	    for(var n=0; n<nestings; n++) {
-	        cur = Container('moose', [cur])
-	    }
-	    return {innerMost:innerMost, top: cur}
-	}
-	
-	exports.buildNestedStyle = function(nestings) {
-	    var styleObject = {};
-	    for(var n=0; n<nestings; n++) {
-	        styleObject = {color: 'red', Container: styleObject}
-	    }
-	
-	    return Style(styleObject)
-	}
-
-/***/ },
-/* 32 */
-/*!*******************!*\
-  !*** ./~/fsyn.js ***!
-  \*******************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// requires: syn (loaded as a global variable from an html script tag)
-	
-	var Future = __webpack_require__(/*! async-future */ 39)
-	
-	exports.click = wrap(syn.click)
-	exports.rightClick = wrap(syn.rightClick)
-	exports.dblClick = wrap(syn.dblClick)
-	exports.move = wrap(syn.move)
-	exports.type = wrap(syn.type)
-	exports.key = wrap(syn.key)
-	
-	
-	
-	function wrap(fn) {
-	    return function() {
-	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
-	
-	        // for chaining
-	        var target = arguments[0]
-	        resultFuture.click = function() {
-	            exports.click.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.rightClick = function() {
-	            exports.rightClick.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.dblClick = function() {
-	            exports.dblClick.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.move = function() {
-	            exports.move.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.type = function() {
-	            exports.type.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.key = function() {
-	            exports.key.apply(this, [target].concat(arguments))
-	        }
-	
-	        return resultFuture
-	    }
-	}
-	
-
-
-/***/ },
-/* 33 */
+/* 39 */
 /*!************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/defaultFormats.js ***!
   \************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 44)
+	var Future = __webpack_require__(/*! async-future */ 56)
 	
-	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 43)
-	var indent = __webpack_require__(/*! ./indent */ 45)
-	var utils = __webpack_require__(/*! ./utils */ 35)
+	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 59)
+	var indent = __webpack_require__(/*! ./indent */ 60)
+	var utils = __webpack_require__(/*! ./utils */ 41)
 	
 	// unitTest is a deadunit-core UnitTest object
 	// if consoleColoring is true, the string will contain console color annotations
@@ -8087,7 +5136,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 34 */
+/* 40 */
 /*!***************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/deadunit.internal.js ***!
   \***************************************************************************************/
@@ -8100,10 +5149,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var exports = {}
 	
 	    var deadunitCore = options.deadunitCore
-	    var proto = __webpack_require__(/*! proto */ 42)
+	    var proto = __webpack_require__(/*! proto */ 57)
 	
-	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 33)
-	    exports.format = __webpack_require__(/*! ./basicFormatter */ 43)
+	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 39)
+	    exports.format = __webpack_require__(/*! ./basicFormatter */ 59)
 	
 	    exports.error = deadunitCore.error
 	
@@ -8130,14 +5179,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 35 */
+/* 41 */
 /*!***************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/utils.js ***!
   \***************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var util = __webpack_require__(/*! util */ 49)
+	var util = __webpack_require__(/*! util */ 65)
 	
 	exports.plural = function (num, plural, singular) {
 		var plur = num!==1;
@@ -8234,15 +5283,1982 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 36 */
+/* 42 */
+/*!************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/proto/proto.js ***!
+  \************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                }
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 43 */
+/*!*************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/async-future/asyncFuture.js ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var trimArgs = __webpack_require__(/*! trimArguments */ 74)
+	
+	
+	module.exports = Future
+	
+	Future.debug = false // switch this to true if you want ids and long stack traces
+	
+	var curId = 0         // for ids\
+	function Future(value) {
+		if(arguments.length > 0) {
+			var f = new Future()
+	        f.return(value)
+	        return f
+		} else {
+	        this.isResolved = false
+	        this.queue = []
+	        this.n = 1 // future depth (for preventing "too much recursion" RangeErrors)
+	        if(Future.debug) {
+	            curId++
+	            this.id = curId
+	        }
+	    }
+	}
+	
+	// static methods
+	
+	// has one parameter: either a bunch of futures, or a single array of futures
+	// returns a promise that resolves when one of them errors, or when all of them succeeds
+	Future.all = function() {
+	    if(arguments[0] instanceof Array) {
+	        var futures = arguments[0]
+	    } else {
+	        var futures = trimArgs(arguments)
+	    }
+	
+	    var f = new Future()
+	    var results = []
+	
+	    if(futures.length > 0) {
+	        var current = futures[0]
+	        futures.forEach(function(future, index) {
+	            current = current.then(function(v) {
+	                results[index] = v
+	                return futures[index+1]
+	            })
+	        })
+	
+	        //if
+	        current.catch(function(e) {
+	            f.throw(e)
+	        })
+	        // else
+	        current.then(function() {
+	            f.return(results)
+	        })
+	
+	
+	    } else {
+	        f.return(results)
+	    }
+	
+	    return f
+	}
+	
+	// either used like futureWrap(function(){ ... })(arg1,arg2,etc) or
+	//  futureWrap(object, 'methodName')(arg1,arg2,etc)
+	Future.wrap = function() {
+	    // function
+	    if(arguments.length === 1) {
+	        var fn = arguments[0]
+	        var object = undefined
+	
+	
+	    // object, function
+	    } else {
+	        var object = arguments[0]
+	        var fn = object[arguments[1]]
+	    }
+	
+	    return function() {
+	        var args = Array.prototype.slice.call(arguments)
+	        var future = new Future
+	        args.push(future.resolver())
+	        var me = this
+	        if(object) me = object
+	        fn.apply(me, args)
+	        return future
+	    }
+	}
+	
+	// future wraps a function who's callback only takes one parameter - the return value (no error is available)
+	// eg: function(result) {}
+	Future.wrapSingleParameter = function() {
+	    if(arguments.length === 1) {
+	        var fn = arguments[0]
+	    } else {
+	        var object = arguments[0]
+	        var method = arguments[1]
+	        var fn = object[method]
+	    }
+	
+	    return function() {
+	        var args = Array.prototype.slice.call(arguments)
+			var future = new Future
+			args.push(function(result) {
+			    future.return(result)
+			})
+			var me = this
+	        if(object) me = object
+	        fn.apply(me, args)
+			return future
+	    }
+	}
+	
+	
+	// default
+	var unhandledErrorHandler = function(e) {
+	    setTimeout(function() {
+	        throw e
+	    },0)
+	}
+	
+	// setup unhandled error handler
+	// unhandled errors happen when done is called, and  then an exception is thrown from the future
+	Future.error = function(handler) {
+	    unhandledErrorHandler = handler
+	}
+	
+	// instance methods
+	
+	// returns a value for the future (can only be executed once)
+	// if there are callbacks waiting on this value, they are run in the next tick
+	    // (ie they aren't run immediately, allowing the current thread of execution to complete)
+	Future.prototype.return = function(v) {
+	    resolve(this, 'return', v)
+	}
+	Future.prototype.throw = function(e) {
+	    if(this.location !== undefined) {
+	        e.stack += '\n    ---------------------------\n'+this.location.stack.split('\n').slice(4).join('\n')
+	    }
+	    resolve(this, 'error', e)
+	}
+	
+	function setNext(that, future) {
+	    resolve(that, 'next', future)
+	}
+	
+	function wait(that, cb) {
+	    if(that.isResolved) {
+	        executeCallbacks(that, [cb])
+	    } else {
+	        that.queue.push(cb)
+	    }
+	}
+	
+	// duck typing to determine if something is or isn't a future
+	var isLikeAFuture = Future.isLikeAFuture = function(x) {
+	    return x.isResolved !== undefined && x.queue !== undefined && x.then !== undefined
+	}
+	
+	function waitOnResult(f, result, cb) {
+	    wait(result, function() {
+	        if(this.hasError) {
+	            f.throw(this.error)
+	        } else if(this.hasNext) {
+	            waitOnResult(f, this.next, cb)
+	        } else {
+	            try {
+	                setNext(f, executeCallback(cb,this.result))
+	            } catch(e) {
+	                f.throw(e)
+	            }
+	        }
+	    })
+	}
+	
+	
+	// cb takes one parameter - the value returned
+	// cb can return a Future, in which case the result of that Future is passed to next-in-chain
+	Future.prototype.then = function(cb) {
+	    var f = createChainFuture(this)
+	    wait(this, function() {
+	        if(this.hasError)
+	            f.throw(this.error)
+	        else if(this.hasNext)
+	            waitOnResult(f, this.next, cb)
+	        else {
+	            try {
+	                setNext(f, executeCallback(cb,this.result))
+	            } catch(e) {
+	                f.throw(e)
+	            }
+	        }
+	    })
+	    return f
+	}
+	// cb takes one parameter - the error caught
+	// cb can return a Future, in which case the result of that Future is passed to next-in-chain
+	Future.prototype.catch = function(cb) {
+	    var f = createChainFuture(this)
+	    wait(this, function() {
+	        if(this.hasError) {
+	            try {
+	                setNext(f, executeCallback(cb,this.error))
+	            } catch(e) {
+	                f.throw(e)
+	            }
+	        } else if(this.hasNext) {
+	            this.next.then(function(v) {
+	                f.return(v)
+	            }).catch(function(e) {
+	                try {
+	                    setNext(f, executeCallback(cb,e))
+	                } catch(e) {
+	                    f.throw(e)
+	                }
+	            })
+	        } else {
+	            f.return(this.result)
+	        }
+	    })
+	    return f
+	}
+	// cb takes no parameters
+	// callback's return value is ignored, but thrown exceptions propogate normally
+	Future.prototype.finally = function(cb) {
+	    var f = createChainFuture(this)
+	    wait(this, function() {
+	        try {
+	            var that = this
+	            if(this.hasNext) {
+	                this.next.then(function(v) {
+	                    var x = executeCallback(cb)
+	                    f.return(v)
+	                    return x
+	                }).catch(function(e) {
+	                    var x = executeCallback(cb)
+	                    f.throw(e)
+	                    return x
+	                }).done()
+	            } else if(this.hasError) {
+	                Future(true).then(function() {
+	                    return executeCallback(cb)
+	                }).then(function() {
+	                    f.throw(that.error)
+	                }).catch(function(e) {
+	                    f.throw(e)
+	                }).done()
+	
+	            } else  {
+	                Future(true).then(function() {
+	                    return executeCallback(cb)
+	                }).then(function() {
+	                    f.return(that.result)
+	                }).catch(function(e) {
+	                    f.throw(e)
+	                }).done()
+	            }
+	        } catch(e) {
+	            f.throw(e)
+	        }
+	    })
+	    return f
+	}
+	
+	// a future created for the chain functions (then, catch, and finally)
+	function createChainFuture(that) {
+	    var f = new Future
+	    f.n = that.n + 1
+	    if(Future.debug) {
+	        f.location = createException()  // used for long traces
+	    }
+	    return f
+	}
+	
+	// all unused futures should end with this (e.g. most then-chains)
+	// detatches the future so any propogated exception is thrown (so the exception isn't silently lost)
+	Future.prototype.done = function() {
+	    wait(this, function() {
+	        if(this.hasError) {
+	            unhandledErrorHandler(this.error)
+	        } else if(this.hasNext) {
+	            this.next.catch(function(e) {
+	                unhandledErrorHandler(e)
+	            })
+	        }
+	    })
+	}
+	
+	
+	
+	Future.prototype.resolver = function() {
+	    var me = this
+	
+	    return function(e,v) {
+	        if(e) { // error argument
+	            me.throw(e)
+	        } else {
+	            me.return(v)
+	        }
+	    }
+	}
+	
+	Future.prototype.resolved = function() {
+	    return this.isResolved
+	}
+	
+	
+	function resolve(that, type, value) {
+	    if(that.isResolved)
+	        throw Error("Future resolved more than once! Resolution: "+value)
+	
+	    that.isResolved = true
+	    that.hasError = type === 'error'
+	    that.hasNext = type === 'next' && value !== undefined
+	
+	    if(that.hasError)
+	        that.error = value
+	    else if(that.hasNext)
+	        that.next = value
+	    else
+	        that.result = value
+	
+	    // 100 is a pretty arbitrary number - it should be set significantly lower than common maximum stack depths, and high enough to make sure performance isn't significantly affected
+	    // in using this for deadunit, firefox was getting a recursion error at 150, but not at 100. This doesn't mean that it can't happen at 100 too, but it'll certainly make it less likely
+	    // if you're getting recursion errors even with this mechanism, you probably need to figure that out in your own code
+	    if(that.n % 100 !== 0) {
+	        executeCallbacks(that, that.queue)
+	    } else {
+	        setTimeout(function() { // this prevents too much recursion errors
+	            executeCallbacks(that, that.queue)
+	        }, 0)
+	    }
+	}
+	
+	function executeCallbacks(that, callbacks) {
+	    if(callbacks.length > 0) {
+	        try {
+	            callbacks.forEach(function(cb) {
+	                cb.apply(that)
+	            })
+	        } catch(e) {
+	            unhandledErrorHandler(e)
+	        }
+	    }
+	}
+	
+	// executes a callback and ensures that it returns a future
+	function executeCallback(cb, arg) {
+	    var r = cb(arg)
+	    if(r !== undefined && !isLikeAFuture(r) )
+	        throw Error("Value returned from then or catch ("+r+") is *not* a Future. Callback: "+cb.toString())
+	
+	    return r
+	}
+	
+	function createException() {
+	    try {
+	        throw new Error()
+	    } catch(e) {
+	        return e
+	    }
+	}
+
+/***/ },
+/* 44 */
+/*!*********************!*\
+  !*** ../~/utils.js ***!
+  \*********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	//require('hashmap') // here to mark hashmapMerge's dependency on this module
+	var path = __webpack_require__(/*! path */ 66)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	// merges two hashmaps together just like merge does for regular objects
+	// non-deep merge
+	exports.hashmapMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    obj2.forEach(function(value, key) {
+	        obj1.set(key, obj2.get(key))
+	    })
+	
+	    if(arguments.length > 2) {
+	        var newObjects = [obj1].concat(Array.prototype.slice.call(arguments, 2))
+	        return exports.hashmapMerge.apply(this, newObjects)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
+	exports.objectConjunction = function(a, b) {
+	    var objectCopy = {}
+	    merge(objectCopy, a)
+	    merge(objectCopy, b)
+	    return objectCopy
+	}
+	
+	// turns an array of values into a an object where those values are all keys that point to 'true'
+	exports.arrayToMap = function(array) {
+	    var result = {}
+	    array.forEach(function(v) {
+	        result[v] = true
+	    })
+	    return result
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       //if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       //}
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 45 */
+/*!*******************************!*\
+  !*** ../~/blockStyleUtils.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
+	
+	var HashMap = __webpack_require__(/*! hashmap */ 63)
+	
+	var Style = __webpack_require__(/*! ./Style */ 22)
+	var utils = __webpack_require__(/*! ./utils */ 44)
+	
+	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
+	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
+	
+	
+	// gets the right style from the styleMap, depending on the block's `name` and `label` (`label` styles take precedence)
+	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
+	var getStyleMapEntryForBlock = exports.getStyleForComponent = function (styleMap, block) {
+	    if(styleMap === undefined)
+	        return undefined
+	
+	    return getStyleForLabel(styleMap, block) || getStyleForBlockName(styleMap, block)
+	}
+	
+	var getStyleForLabel = exports.getStyleForLabel = function(styleMap, block) {
+	    if(block.label !== undefined && '$'+block.label in styleMap) {
+	        return styleMap['$'+block.label]
+	    }
+	}
+	var getStyleForBlockName = exports.getStyleForBlockName = function(styleMap, block) {
+	    var constructor = block.constructor
+	    while(constructor !== undefined) {
+	        var style = styleMap[constructor.name]
+	        if(style !== undefined) {
+	            return style
+	        } else {
+	            constructor = constructor.parent
+	        }
+	    }
+	}
+	
+	// gets the possibly inheriting style from the styleMap for `block`
+	// block - the block to get the style for
+	// ancestor - the block to get the computedStyleMap from
+	var getInheritingStyle = exports.getInheritingStyle = function(block, ancestor) {
+	    if(ancestor === undefined || ancestor.computedStyleMap === undefined) return undefined
+	
+	    var labelStyle = getStyleForLabel(ancestor.computedStyleMap, block)
+	    if(labelStyle !== undefined) {
+	        if(labelStyle.inherit) {
+	            var inheritingBlockStyle = getInheritingBlockStyle(block, ancestor)
+	            return mixStyles(inheritingBlockStyle, labelStyle)
+	        } else {
+	            return labelStyle
+	        }
+	    } else {
+	        return getInheritingBlockStyle(block, ancestor)
+	    }
+	
+	
+	    // gets the inheriting style ignoring the first label style
+	    function getInheritingBlockStyle(block, ancestor) {
+	        var blockStyle = getStyleForBlockNameWithInheritance(ancestor.computedStyleMap, block)
+	        if(blockStyle !== undefined) {
+	            if(blockStyle.inherit) {
+	                return mixStyles(
+	                    getInheritingStyle(block, ancestor.parent),
+	                    blockStyle
+	                )
+	            } else {
+	                return blockStyle
+	            }
+	        } else {
+	            return undefined
+	        }
+	    }
+	
+	    // like getStyleForBlockName, but mixes together styles in the styleMap as they inherit based on the block's ancestral names
+	    function getStyleForBlockNameWithInheritance(styleMap, block) {
+	        var styles = [];
+	
+	        var constructor = block.constructor
+	        while(constructor !== undefined) {
+	            var style = styleMap[constructor.name]
+	            if(style !== undefined) {
+	                styles.push(style)
+	                if(!style.inherit) {
+	                    break;
+	                }
+	            }
+	
+	            constructor = constructor.parent
+	        }
+	
+	        var reversedStyles = styles.reverse() // reverse so later styles override earlier styles
+	        var styleToReturn = reversedStyles[0]
+	        for(var n=1; n<reversedStyles.length; n++) {
+	            styleToReturn = styleToReturn.mix(reversedStyles[n])
+	        }
+	
+	        return styleToReturn
+	    }
+	
+	}
+	
+	// returns the conjunction of two style maps
+	// gets it from the computedStyles cache if its already in there
+	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
+	    var cachedStyleMap = computedStyles.get([secondaryStyleMap, primaryStyleMap])
+	    if(cachedStyleMap === undefined) {
+	        if(secondaryStyleMap  === undefined) {
+	            cachedStyleMap = primaryStyleMap
+	        } else if(primaryStyleMap === undefined) {
+	            cachedStyleMap = secondaryStyleMap
+	        } else {
+	            var overridingProperties = {}, atLeastOne = false
+	            for(var key in primaryStyleMap) {
+	                if(secondaryStyleMap[key] !== primaryStyleMap[key]) {
+	                    overridingProperties[key] = primaryStyleMap[key]
+	                    atLeastOne = true
+	                }
+	            }
+	
+	            if(atLeastOne) {
+	                cachedStyleMap = utils.objectConjunction(secondaryStyleMap, overridingProperties)
+	            } else { // the styleMaps are different objects, but contain the same thing
+	                cachedStyleMap = secondaryStyleMap
+	            }
+	        }
+	
+	        if(cachedStyleMap === undefined) cachedStyleMap = false // switch it out with false so it can be recognized
+	        computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
+	    }
+	
+	    if(cachedStyleMap === false) {
+	        return undefined
+	    }
+	    return cachedStyleMap
+	}
+	
+	
+	
+	exports.getDefaultStyle = function(block)  {
+	    // attempt to get from the cache
+	    var defaultBlockStyle = defaultStyleMap.get(block.constructor)
+	    if(defaultBlockStyle === undefined) {
+	        defaultBlockStyle = createDefaultBlockStyle(block)
+	        if(defaultBlockStyle === undefined) defaultBlockStyle = false
+	        defaultStyleMap.set(block.constructor, defaultBlockStyle)
+	    }
+	
+	    if(defaultBlockStyle === false) {
+	        return undefined
+	    }
+	    return defaultBlockStyle
+	}
+	
+	// returns a new style with style b mixed into style a (works even if they're both undefined)
+	var mixStyles = exports.mixStyles = function(a,b) {
+	    if(a === undefined)
+	        return b
+	    else
+	        return a.mix(b)
+	}
+	
+	
+	
+	
+	
+	// sets the currentStyle of a block and makes all the appropriate changes to render a new active style for the block and its children
+	exports.setCurrentStyle = function(block, newCurrentStyle, defaultStyle) {
+	
+	    var current$state = block._currentStyle === undefined? undefined: block._currentStyle.stateHandler
+	    var newCurrentStyle$state = newCurrentStyle === undefined? undefined: newCurrentStyle.stateHandler
+	    if(current$state !== newCurrentStyle$state) {     // if the $state function remains the same, we don't gotta do nothin (about switching state functions at least)
+	        if(block._stateChangeHandler !== undefined) {  // remove the old handler if necessary
+	            block.state.removeListener('change', block._stateChangeHandler)
+	            block._stateChangeHandler = undefined
+	        }
+	
+	        if(newCurrentStyle$state !== undefined) {     // add a new handler if necessary
+	            block.state.on('change', block._stateChangeHandler = function() {
+	                var rawStateStyle = getStateStyle(block._currentStyle, block.state.subject)
+	                setMixedStateStyle(block, mixStyles(block._currentStyle, rawStateStyle))
+	            })
+	        }
+	    }
+	
+	    block._currentStyle = newCurrentStyle
+	    var rawStateStyle = getStateStyle(newCurrentStyle, block.state.subject)
+	
+	    var newMixedStateStyle = mixStyles(newCurrentStyle, rawStateStyle)
+	    setMixedStateStyle(block, newMixedStateStyle, defaultStyle)
+	}
+	
+	
+	// handles reseting a block's active style when its state style changes
+	// renders the pseudoclass style
+	function setMixedStateStyle(block, mixedStateStyle, defaultStyle) {
+	    var psuedoclassState = {}
+	
+	    // if a pseudoclass can no longer apply, undo its setup
+	    for(var pseudoClass in block._styleSetupInfo) {
+	        if(mixedStateStyle === undefined || !(pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo)) {
+	            var setupInfo = block._styleSetupInfo[pseudoClass]
+	            setupInfo.kill(block, setupInfo.state)
+	            delete block._styleSetupInfo[pseudoClass]
+	        }
+	    }
+	
+	    // setup new pseudoclasses
+	    if(mixedStateStyle !== undefined) {
+	        for(var pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo) {
+	            if(!(pseudoClass in block._styleSetupInfo)) {                     // if this exact pseudoclass is already setup, no need to do anything
+	                ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
+	                    var setupState = emulationInfo.fns.setup(block, function() { // start
+	                        var changed = psuedoclassState[pseudoClass] !== true
+	                        if(changed) {
+	                            psuedoclassState[pseudoClass] = true
+	                            changeStyleIfNecessary()
+	                        }
+	                    }, function() { // end
+	                        var changed = psuedoclassState[pseudoClass] !== false
+	                        if(changed) {
+	                            psuedoclassState[pseudoClass] = false
+	                            changeStyleIfNecessary()
+	                        }
+	                    }, emulationInfo.parameter)
+	
+	                    block._styleSetupInfo[pseudoClass] = {state: setupState, kill: emulationInfo.fns.kill}
+	
+	                })(pseudoClass, mixedStateStyle.pseudoclasses.emulatedInfo[pseudoClass])
+	            }
+	        }
+	    }
+	
+	    // build up the pseudoclass state - depending on what pseudoclasses might become applicable
+	    if(mixedStateStyle !== undefined) {
+	        for(var pseudoclassKey in mixedStateStyle.pseudoclasses.emulatedInfo) {
+	            var info = mixedStateStyle.pseudoclasses.emulatedInfo[pseudoclassKey]
+	            psuedoclassState[pseudoclassKey] = info.fns.check(block, info.parameter)
+	        }
+	    }
+	
+	    // set current pseudoclass style
+	    changeStyleIfNecessary()
+	
+	
+	    function changeStyleIfNecessary() {
+	        var pseudoclassStyleInfo = getPseudoclassStyleFor(mixedStateStyle, psuedoclassState)
+	        var newPreStyleMapStyle = mixStyles(mixedStateStyle, pseudoclassStyleInfo.style)
+	        setPreStyleMapStyle(block, newPreStyleMapStyle, pseudoclassStyleInfo.index, defaultStyle)
+	    }
+	}
+	
+	// sets the style before being modified by the block's parent's computedStyleMap
+	// handles removing the state listener and calling $kill on the old activeStyle
+	function setPreStyleMapStyle(block, newPreStyleMapStyle, jsRenderedPseudoclassIndex, defaultStyle) {
+	    if(block.parent !== undefined && newPreStyleMapStyle !== undefined)
+	        var newComputedStyleMap = styleMapConjunction(block.parent.computedStyleMap, newPreStyleMapStyle.componentStyleMap)
+	    else if(block.parent !== undefined)
+	        var newComputedStyleMap = block.parent.computedStyleMap
+	    else if(newPreStyleMapStyle !== undefined)
+	        var newComputedStyleMap = newPreStyleMapStyle.componentStyleMap
+	    else
+	        var newComputedStyleMap = undefined
+	
+	    var newActiveStyle = undefined // can be changed below
+	    var cancel = false
+	    if(newPreStyleMapStyle !== undefined) {
+	        if(block.parent !== undefined) var nativePseudoclassMap = block.parent._nativePseudoclassMap
+	        else                           var nativePseudoclassMap = {}
+	
+	        var nativePseudoclassSelectorMap = getStyleMapEntryForBlock(nativePseudoclassMap, block)
+	        var nativeCssInfo = newPreStyleMapStyle.createNativeCssInfo(newComputedStyleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
+	
+	        if(nativeCssInfo.cancel) {
+	            cancel = true
+	            setMixedStateStyle(block, nativeCssInfo.retryStyle)
+	
+	        } else {
+	            newActiveStyle = nativeCssInfo.style
+	            newComputedStyleMap = nativeCssInfo.styleMap // even newer!
+	            block._nativePseudoclassMap = nativeCssInfo.nativePseudoclassMap
+	        }
+	    }
+	
+	    if(!cancel) {
+	        setActiveStyle(block, newActiveStyle, newComputedStyleMap)
+	    }
+	}
+	
+	// sets the active style on the block and on the block's children
+	// also sets the block's new computedStyleMap
+	function setActiveStyle(block, newActiveStyle, newComputedStyleMap) {
+	    var activeStyleChanged = newActiveStyle !== block._activeStyle
+	    var computedStyleMapChanged = block.computedStyleMap !== newComputedStyleMap
+	
+	    if(activeStyleChanged) {
+	        setStyleClass(block, newActiveStyle)
+	
+	        var curActiveStyle$setup = block._activeStyle === undefined? undefined: block._activeStyle.setup
+	        var newActiveStyle$setup = newActiveStyle === undefined? undefined: newActiveStyle.setup
+	        if(curActiveStyle$setup !== newActiveStyle$setup) {
+	            applyStyleKillFunction(block)
+	            applyStyleSetupFunction(block, newActiveStyle)
+	        }
+	
+	        block._activeStyle = newActiveStyle
+	    }
+	
+	
+	    block.computedStyleMap = newComputedStyleMap
+	
+	    // propogate styles to children
+	    block.children.forEach(function(child) {
+	        if(computedStyleMapChanged || !child.attached) {
+	            child.attached = true
+	            child.style = child.style  // force a re-render on each child
+	        }
+	    })
+	}
+	
+	
+	
+	// given a style and an object representing some state, returns the state given by the style's $state function
+	// returns undefined if it doesn't have a state function
+	// handles caching state styles (an optimization)
+	function getStateStyle(currentStyle, stateParameter) {
+	    if(currentStyle === undefined || currentStyle.stateHandler === undefined) return undefined
+	
+	    var returnedStyle = currentStyle.stateHandler(stateParameter)
+	
+	    // todo: figure out if this style has been returned before, and if so, use the already-generated style (mostly so that that style can take advantage of other cached combinations)
+	
+	    return returnedStyle
+	}
+	
+	// returns an object with the properties:
+	    // style - the jsRendered pseudoclass style for the block's relevant pseudoclass state
+	    // index - the index of the pseudoclass (jsRenderedPseudoclassIndex)
+	// returns undefined if no emulated pseudoclass style applies or if only native pseudoclass stylings apply
+	// state - an object that will be mutated with the current state for each pseudoclass
+	function getPseudoclassStyleFor(style, state) {
+	    if(style === undefined) return {index:0}
+	
+	    var index = 0, result={index:0}
+	    style.pseudoclasses.classes.forEach(function(psuedoclassStyle, compoundKey) {
+	        if(!psuedoclassStyle.pureNative) {
+	            for(var j=0; j<compoundKey.length; j++) {
+	                var pseudoclass = compoundKey[j]
+	                if(!state[pseudoclass]) {
+	                    break;
+	                }
+	            }
+	
+	            if(j === compoundKey.length) {
+	                result = {index: index, style: psuedoclassStyle}
+	            }
+	        }
+	
+	        index++
+	    })
+	
+	    return result
+	}
+	
+	
+	
+	// finds the default style for a block, mixes it with the appropriate ancestor styles, and returns the result
+	function createDefaultBlockStyle(that) {
+	    if(that.defaultStyle !== undefined) {
+	        validateDefaultStyle(that.defaultStyle)
+	    }
+	
+	    // get list of default styles
+	    var defaultStyles = []
+	    var nextConstructor = that.constructor
+	    while(nextConstructor !== undefined) {
+	        if(nextConstructor.defaultStyle !== undefined) {
+	            defaultStyles.push(nextConstructor.defaultStyle)
+	        }
+	        nextConstructor = nextConstructor.parent
+	    }
+	
+	    // generate merged default style
+	    var reversedDefaults = defaultStyles.reverse()
+	    var mergedDefaultStyle = reversedDefaults[0]
+	    for(var n=1; n<reversedDefaults.length; n++) {
+	        mergedDefaultStyle = mergedDefaultStyle.mix(reversedDefaults[n])
+	    }
+	
+	    return mergedDefaultStyle
+	}
+	
+	
+	// applies setup appropriately
+	function applyStyleSetupFunction(component, style) {
+	    if(style !== undefined && style.setup !== undefined) {
+	        component._styleSetupObject = style.setup(component) // call setup on the component
+	    } else {
+	        component._styleSetupObject = undefined
+	    }
+	}
+	// applies kill appropriately
+	function applyStyleKillFunction(component) {
+	    var activeStyle = component._activeStyle
+	    if(activeStyle !== undefined && activeStyle.setup !== undefined) {
+	        if(activeStyle.kill === undefined)
+	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
+	
+	        activeStyle.kill(component, component._styleSetupObject)
+	    }
+	}
+	
+	
+	// sets the style, replacing one if one already exists
+	function setStyleClass(component, style) {
+	    var activeStyle = component._activeStyle
+	
+	    var newStyle = component.domNode.className
+	    if(activeStyle !== undefined) {
+	        newStyle = newStyle.replace(new RegExp(" ?\\b"+activeStyle.className+"\\b"),'') // remove the previous css class
+	    }
+	    if(style !== undefined) {
+	        newStyle = style.className+' '+newStyle.trim() // note that the order of classes doesn't matter
+	    }
+	
+	    component.domNode.className = newStyle
+	}
+	
+	function validateDefaultStyle(defaultStyle) {
+	    if(!isStyleObject(defaultStyle)) {
+	        throw new Error("defaultStyle property must be a Style object")
+	    }
+	}
+	
+	// if you load two different instances of blocks, its necessary to do a bit of duck typing
+	function isStyleObject(x) {
+	    return x.className !== undefined && x.componentStyleMap !== undefined && x.mix !== undefined
+	}
+
+/***/ },
+/* 46 */
+/*!**************************!*\
+  !*** ../external/jss.js ***!
+  \**************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	 * JSS v0.6 - JavaScript Stylesheets
+	 * https://github.com/Box9/jss
+	 *
+	 * Copyright (c) 2011, David Tang
+	 * MIT Licensed (http://www.opensource.org/licenses/mit-license.php)
+	 */
+	var jss = (function() {
+	    var adjSelAttrRegex = /((?:\.|#)[^\.\s#]+)((?:\.|#)[^\.\s#]+)/g;
+	    var doubleColonPseudoElRegex = /(::)(before|after|first-line|first-letter|selection)/;
+	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
+	    var singleColonForPseudoElements; // flag for older browsers
+	
+	    function getSelectorsAndRules(sheet) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var results = {};
+	        for (var i = 0; i < rules.length; i++) {
+	            // Older browsers and FF report pseudo element selectors in an outdated format
+	            var selectorText = toDoubleColonPseudoElements(rules[i].selectorText);
+	            if (!results[selectorText]) {
+	                results[selectorText] = [];
+	            }
+	            results[selectorText].push({
+	                sheet: sheet,
+	                index: i,
+	                style: rules[i].style
+	            });
+	        }
+	        return results;
+	    }
+	
+	    function getRules(sheet, selector) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var results = [];
+	        // Browsers report selectors in lowercase
+	        selector = selector.toLowerCase();
+	        for (var i = 0; i < rules.length; i++) {
+	            var selectorText = rules[i].selectorText;
+	            // Note - certain rules (e.g. @rules) don't have selectorText
+	            if (selectorText && (selectorText == selector || selectorText == swapAdjSelAttr(selector) || selectorText == swapPseudoElSyntax(selector))) {
+	                results.push({
+	                    sheet: sheet,
+	                    index: i,
+	                    style: rules[i].style
+	                });
+	            }
+	        }
+	        return results;
+	    }
+	
+	    function addRule(sheet, selector) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var index = rules.length;
+	        var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
+	
+	        if (!pseudoElementRule) {
+	            addRuleToSheet(sheet, selector, index);
+	        }
+	
+	        return {
+	            sheet: sheet,
+	            index: index,
+	            style: rules[index].style
+	        };
+	    };
+	
+	    function addRuleToSheet(sheet, selector, index) {
+	        if (sheet.insertRule) {
+	            sheet.insertRule(selector + ' { }', index);
+	        } else {
+	            sheet.addRule(selector, null, index);
+	        }
+	    }
+	
+	    // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
+	    function addPseudoElementRule(sheet, selector, rules, index) {
+	        var doubleColonSelector;
+	        var singleColonSelector;
+	
+	        if (doubleColonPseudoElRegex.exec(selector)) {
+	            doubleColonSelector = selector;
+	            singleColonSelector = toSingleColonPseudoElements(selector);
+	        } else if (singleColonPseudoElRegex.exec(selector)) {
+	            doubleColonSelector = toDoubleColonPseudoElements(selector);
+	            singleColonSelector = selector;
+	        } else {
+	            return false; // Not dealing with a pseudo element
+	        }
+	
+	        if (!singleColonForPseudoElements) {
+	            // Assume modern browser and then check if successful
+	            addRuleToSheet(sheet, doubleColonSelector, index);
+	            if (rules.length <= index) {
+	                singleColonForPseudoElements = true;
+	            }
+	        }
+	        if (singleColonForPseudoElements) {
+	            addRuleToSheet(sheet, singleColonSelector, index);
+	        }
+	
+	        return true;
+	    }
+	
+	    function toDoubleColonPseudoElements(selector) {
+	        return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
+	            return submatch1 + '::' + submatch3;
+	        });
+	    }
+	
+	    function toSingleColonPseudoElements(selector) {
+	        return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
+	            return ':' + submatch2;
+	        })
+	    }
+	
+	    function removeRule(rule) {
+	        var sheet = rule.sheet;
+	        if (sheet.deleteRule) {
+	            sheet.deleteRule(rule.index);
+	        } else if (sheet.removeRule) {
+	            sheet.removeRule(rule.index);
+	        }
+	    }
+	
+	    function extend(dest, src) {
+	        for (var key in src) {
+	            if (!src.hasOwnProperty(key))
+	                continue;
+	            dest[key] = src[key];
+	        }
+	        return dest;
+	    }
+	
+	    function aggregateStyles(rules) {
+	        var aggregate = {};
+	        for (var i = 0; i < rules.length; i++) {
+	            extend(aggregate, declaredProperties(rules[i].style));
+	        }
+	        return aggregate;
+	    }
+	
+	    function declaredProperties(style) {
+	        var declared = {};
+	        for (var i = 0; i < style.length; i++) {
+	            declared[style[i]] = style[toCamelCase(style[i])];
+	        }
+	        return declared;
+	    }
+	
+	    // IE9 stores rules with attributes (classes or ID's) adjacent in the opposite order as defined
+	    // causing them to not be found, so this method swaps [#|.]sel1[#|.]sel2 to become [#|.]sel2[#|.]sel1
+	    function swapAdjSelAttr(selector) {
+	        var swap = '';
+	        var lastIndex = 0;
+	
+	        while ((match = adjSelAttrRegex.exec(selector)) != null) {
+	            if (match[0] === '')
+	                break;
+	            swap += selector.substring(lastIndex, match.index);
+	            swap += selector.substr(match.index + match[1].length, match[2].length);
+	            swap += selector.substr(match.index, match[1].length);
+	            lastIndex = match.index + match[0].length;
+	        }
+	        swap += selector.substr(lastIndex);
+	
+	        return swap;
+	    };
+	
+	    // FF and older browsers store rules with pseudo elements using single-colon syntax
+	    function swapPseudoElSyntax(selector) {
+	        if (doubleColonPseudoElRegex.exec(selector)) {
+	            return toSingleColonPseudoElements(selector);
+	        }
+	        return selector;
+	    }
+	
+	    function setStyleProperties(rule, properties) {
+	        for (var key in properties) {
+	            var value = properties[key];
+	            var importantIndex = value.indexOf(' !important');
+	
+	            // Modern browsers seem to handle overrides fine, but IE9 doesn't
+	            rule.style.removeProperty(key);
+	            if (importantIndex > 0) {
+	                rule.style.setProperty(key, value.substr(0, importantIndex), 'important');
+	            } else {
+	                rule.style.setProperty(key, value);
+	            }
+	        }
+	    }
+	
+	    function toCamelCase(str) {
+	        return str.replace(/-([a-z])/g, function (match, submatch) {
+	            return submatch.toUpperCase();
+	        });
+	    }
+	
+	    function transformCamelCasedPropertyNames(oldProps) {
+	        var newProps = {};
+	        for (var key in oldProps) {
+	            newProps[unCamelCase(key)] = oldProps[key];
+	        }
+	        return newProps;
+	    }
+	
+	    function unCamelCase(str) {
+	        return str.replace(/([A-Z])/g, function(match, submatch) {
+	            return '-' + submatch.toLowerCase();
+	        });
+	    }
+	
+	    var Jss = function(doc) {
+	        this.doc = doc;
+	        this.head = this.doc.head || this.doc.getElementsByTagName('head')[0];
+	        this.sheets = this.doc.styleSheets || [];
+	    };
+	
+	    Jss.prototype = {
+	        // Returns JSS rules (selector is optional)
+	        get: function(selector) {
+	            if (!this.defaultSheet) {
+	                return {};
+	            }
+	            if (selector) {
+	                return aggregateStyles(getRules(this.defaultSheet, selector));
+	            }
+	            var rules = getSelectorsAndRules(this.defaultSheet);
+	            for (selector in rules) {
+	                rules[selector] = aggregateStyles(rules[selector]);
+	            }
+	            return rules;
+	        },
+	        // Returns all rules (selector is required)
+	        getAll: function(selector) {
+	            var properties = {};
+	            for (var i = 0; i < this.sheets.length; i++) {
+	                extend(properties, aggregateStyles(getRules(this.sheets[i], selector)));
+	            }
+	            return properties;
+	        },
+	        // Adds JSS rules for the selector based on the given properties
+	        set: function(selector, properties) {
+	            if (!this.defaultSheet) {
+	                this.defaultSheet = this._createSheet();
+	            }
+	            properties = transformCamelCasedPropertyNames(properties);
+	            var rules = getRules(this.defaultSheet, selector);
+	            if (!rules.length) {
+	                rules = [addRule(this.defaultSheet, selector)];
+	            }
+	            for (var i = 0; i < rules.length; i++) {
+	                setStyleProperties(rules[i], properties);
+	            }
+	        },
+	        // Removes JSS rules (selector is optional)
+	        remove: function(selector) {
+	            if (!this.defaultSheet)
+	                return;
+	            if (!selector) {
+	                this._removeSheet(this.defaultSheet);
+	                delete this.defaultSheet;
+	                return;
+	            }
+	            var rules = getRules(this.defaultSheet, selector);
+	            for (var i = 0; i < rules.length; i++) {
+	                removeRule(rules[i]);
+	            }
+	            return rules.length;
+	        },
+	        _createSheet: function() {
+	            var styleNode = this.doc.createElement('style');
+	            styleNode.type = 'text/css';
+	            styleNode.rel = 'stylesheet';
+	            this.head.appendChild(styleNode);
+	            return styleNode.sheet;
+	        },
+	        _removeSheet: function(sheet) {
+	            var node = sheet.ownerNode;
+	            node.parentNode.removeChild(node);
+	        }
+	    };
+	
+	    var exports = new Jss(document);
+	    exports.forDocument = function(doc) {
+	        return new Jss(doc);
+	    };
+	    return exports;
+	})();
+	
+	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
+
+/***/ },
+/* 47 */
+/*!*******************************!*\
+  !*** ../~/Components/Item.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! Block */ 21)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var Style = __webpack_require__(/*! Style */ 22)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'ListItem'
+	
+	    this.defaultStyle = Style({
+	        display: 'list-item'
+	    })
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Block) {
+				this.add(contents)
+			} else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	});
+
+
+/***/ },
+/* 48 */
+/*!*********************************!*\
+  !*** ../~/Components/Header.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 64);
+	
+	module.exports = RowlikeGenerator('th', "TableHeader")
+
+/***/ },
+/* 49 */
+/*!******************************!*\
+  !*** ../~/Components/Row.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 64);
+	
+	module.exports = RowlikeGenerator('tr', "TableRow")
+
+
+/***/ },
+/* 50 */
+/*!*******************************!*\
+  !*** ../~/Components/Cell.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 21)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var Style = __webpack_require__(/*! Style */ 22)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'TableCell'
+	
+	    this.defaultStyle = Style({
+	        display: 'table-cell'
+	    })
+		
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Block || typeof(contents) !== 'string') {
+	            this.add(contents)
+	        } else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	
+		this.colspan = function(cols) {
+			this.attr('colspan',cols);
+		}
+	});
+
+
+/***/ },
+/* 51 */
+/*!*********************************!*\
+  !*** ../~/Components/Option.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// note: this is  not intended to be used directly - only through Select and MultiSelect
+	
+	var proto = __webpack_require__(/*! proto */ 42)
+	
+	var Block = __webpack_require__(/*! Block */ 21)
+	var Style = __webpack_require__(/*! Style */ 22)
+	var domUtils = __webpack_require__(/*! domUtils */ 24)
+	
+	// emits a 'change' event when its 'selected' value changes
+	module.exports = proto(Block, function(superclass) {
+	
+	    // staic members
+	
+	    this.name = 'Option'
+	
+	    this.defaultStyle = Style({
+	        display: 'block'
+	    })
+	
+	
+	    // instance members
+	
+	    this.init = function(label, value, text) {
+	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	
+	        this.text = text
+	        this.val = value
+	    }
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this._value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.parent !== undefined) {
+	                if(this.parent.options[value] !== undefined) {
+	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: "+JSON.stringify(value)+")")
+	                }
+	
+	                if(this.val !== null) {
+	                    delete this.parent.options[this.val]
+	                }
+	
+	                this.parent.options[value] = this
+	            }
+	
+	            this._value = value
+	
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the option is selected
+	        get: function() {
+	            return this.domNode.selected
+	        },
+	
+	        // sets the selected state of the option to the passed value (true for selected)
+	        set: function(value) {
+	            var booleanValue = value === true
+	            if(this.selected === booleanValue) return false; // ignore if there's no change
+	
+	            if(this.parent !== undefined)
+	                this.parent.prepareForValueChange([this.val])
+	
+	            this.setSelectedQuiet(booleanValue)
+	
+	            if(this.parent !== undefined)
+	                this.parent.emit('change')
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode[domUtils.textProperty]
+	        },
+	
+	        set: function(text) {
+	            this.domNode[domUtils.textProperty] = text
+	        }
+	    })
+	
+	
+	    // private
+	
+	    // does everything for setting the selected state except emit the parent's change event
+	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
+	        if(this.selected === booleanValue) return; // ignore if there's no change
+	
+	        this.domNode.selected = booleanValue
+	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	    }
+	})
+
+/***/ },
+/* 52 */
+/*!*******************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Container.js ***!
+  \*******************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Container')
+	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 69)
+
+/***/ },
+/* 53 */
+/*!**************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Text.js ***!
+  \**************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Text')
+	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 70)
+
+/***/ },
+/* 54 */
+/*!***************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Block.js ***!
+  \***************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
+	module.exports = __webpack_require__(/*! ./src/~/Block */ 68)
+
+/***/ },
+/* 55 */
+/*!***************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Style.js ***!
+  \***************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
+	module.exports = __webpack_require__(/*! ./src/~/Style */ 67)
+
+/***/ },
+/* 56 */
+/*!************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/asyncFuture.js ***!
+  \************************************************************************************************/
+[154, 77],
+/* 57 */
+/*!***********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/proto/proto.js ***!
+  \***********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                },
+	                configurable: true // so you can change it if you want
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 58 */
+/*!**************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
+  \**************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 71)
+	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 72)
+	
+	module.exports = deadunitCore(browserConfig())
+
+/***/ },
+/* 59 */
+/*!************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/basicFormatter.js ***!
+  \************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 56)
+	
+	// built in test formatting helper
+	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
+	    if(arguments.length === 3) {
+	        var format = arguments[2]
+	    } else /* if(arguments.length > 3) */{
+	        var color = arguments[2]
+	        var format = arguments[3]
+	    }
+	
+	    var dotText = '.'
+	    if(color !== undefined) {
+	        dotText = color.green('.')
+	    }
+	
+	    var result = new Future
+	
+	    var lastPrintWasDot = false
+	    var printDot = function(dot) {
+	        if(dot) {
+	            process.stdout.write(dotText)
+	        } else if(lastPrintWasDot) {
+	            process.stdout.write('\n')
+	        }
+	
+	        lastPrintWasDot = dot
+	    }
+	
+	    var ended = false
+	    var events = {
+	        end: function(e) {
+	            ended = true
+	            if(printOnTheFly) printDot(false)
+	
+	            var results = unitTest.results()
+	            result.return(formatGroup(results, format, 0).result)
+	
+	            if(format.end !== undefined)
+	                format.end()
+	        }
+	    }
+	
+	    if(printOnTheFly) {
+	        var groups = {}
+	        events.assert = function(e) {
+	            printDot(e.success && !ended)
+	            if(e.success) {
+	                groups[e.parent].testSuccesses++
+	                groups[e.parent].assertSuccesses++
+	            } else {
+	                groups[e.parent].testFailures++
+	                groups[e.parent].assertFailures++
+	            }
+	
+	            if(!e.success || ended) {
+	                console.log(format.assert(e, undefined, true))
+	            }
+	        }
+	        events.exception = function(e) {
+	            printDot(false)
+	            groups[e.parent].exceptions++
+	
+	            console.log(format.exception(e.error, true))
+	        }
+	        events.log = function(e) {
+	            printDot(false)
+	            console.log(format.log(e.values, true))
+	        }
+	        events.group = function(g) {
+	            groups[g.id] = {parent: g.parent, name: g.name, testSuccesses: 0, testFailures: 0, assertSuccesses: 0, assertFailures: 0, exceptions: 0}
+	        }
+	        events.groupEnd = function(g) {
+	            var parent = groups[g.id].parent
+	            if(parent !== undefined) {
+	                printDot(false)
+	                if(groups[g.id].testFailures === 0 && groups[g.id].assertFailures === 0 && groups[g.id].exceptions === 0) {
+	                    groups[parent].testSuccesses++
+	                } else {
+	                    groups[parent].testFailures++
+	                }
+	
+	                console.log(format.group(groups[g.id].name, undefined, groups[g.id].testSuccesses,groups[g.id].testFailures,groups[g.id].assertSuccesses,groups[g.id].assertFailures,
+	                                        groups[g.id].exceptions, [], [], 1, false, true))
+	            }
+	        }
+	    }
+	
+	    unitTest.events(events)
+	
+	    return result
+	}
+	
+	function formatGroup(testResults, format, nestingLevel) {
+	    var assertSuccesses = 0
+	    var assertFailures = 0
+	    var exceptions = 0
+	
+	    var testCaseSuccesses= 0, testCaseFailures=0;
+	
+	    var results = []
+	    testResults.results.forEach(function(result) {
+	        if(result.type === 'assert') {
+	            if(result.success) {
+	                testCaseSuccesses++
+	                assertSuccesses ++
+	            } else {
+	                testCaseFailures++
+	                assertFailures++
+	            }
+	
+	            results.push(format.assert(result, testResults.name, false))
+	
+	        } else if(result.type === 'group') {
+	            var group = formatGroup(result, format, nestingLevel+1)
+	            exceptions+= group.exceptions
+	
+	            if(group.failures === 0 && group.exceptions === 0)
+	                testCaseSuccesses++
+	            else
+	                testCaseFailures++
+	
+	            results.push(group.result)
+	            assertSuccesses+= group.assertSuccesses
+	            assertFailures+= group.assertFailures
+	
+	        } else if(result.type === 'log') {
+	            results.push(format.log(result.values, false))
+	        } else {
+	            throw new Error("Unknown result type: "+result.type)
+	        }
+	    })
+	
+	    var exceptionResults = []
+	    testResults.exceptions.forEach(function(e) {
+	        exceptionResults.push(format.exception(e, false))
+	    })
+	
+	    exceptions+= testResults.exceptions.length
+	
+	    var formattedGroup = format.group(testResults.name, testResults.duration,
+	                                      testCaseSuccesses, testCaseFailures,
+	                                      assertSuccesses, assertFailures, exceptions,
+	                                      results, exceptionResults, nestingLevel, testResults.timeout, false)
+	    return {result: formattedGroup,
+	            successes: testCaseSuccesses,
+	            failures: testCaseFailures,
+	            assertSuccesses: assertSuccesses,
+	            assertFailures: assertFailures,
+	            exceptions: exceptions
+	    }
+	}
+	
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 75)))
+
+/***/ },
+/* 60 */
+/*!****************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/indent.js ***!
+  \****************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = function(i, str) {
+	    return i+str.split("\n")       // get all lines
+	              .join("\n"+i)      // join all lines with an indent
+	}
+
+/***/ },
+/* 61 */
+/*!****************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/trimArguments/trimArguments.js ***!
+  \****************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
+	
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	        else
+	            break
+	    }
+	    args.splice(args.length-count, count)
+	    return args
+	}
+
+/***/ },
+/* 62 */
 /*!****************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/observe.js ***!
   \****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 28)
-	var EventEmitter = __webpack_require__(/*! events */ 24).EventEmitter
-	var utils = __webpack_require__(/*! ./utils */ 48)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
+	var utils = __webpack_require__(/*! ./utils */ 73)
 	
 	
 	// emits the event:
@@ -8658,7 +7674,856 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 37 */
+/* 63 */
+/*!****************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/hashmap/hashmap.js ***!
+  \****************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * HashMap - HashMap Class for JavaScript
+	 * @author Ariel Flesler <aflesler@gmail.com>
+	 * @version 2.0.1
+	 * Homepage: https://github.com/flesler/hashmap
+	 */
+	
+	(function(factory) {
+		if (true) {
+			// AMD. Register as an anonymous module.
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module === 'object') {
+			// Node js environment
+			var HashMap = module.exports = factory();
+			// Keep it backwards compatible
+			HashMap.HashMap = HashMap;
+		} else {
+			// Browser globals (this is window)
+			this.HashMap = factory();
+		}
+	}(function() {
+	
+		function HashMap(other) {
+			this.clear();
+			switch (arguments.length) {
+				case 0: break;
+				case 1: this.copy(other); break;
+				default: multi(this, arguments); break;
+			}
+		}
+	
+		var proto = HashMap.prototype = {
+			constructor:HashMap,
+	
+			get:function(key) {
+				var data = this._data[this.hash(key)];
+				return data && data[1];
+			},
+	
+			set:function(key, value) {
+				// Store original key as well (for iteration)
+				this._data[this.hash(key)] = [key, value];
+			},
+	
+			multi:function() {
+				multi(this, arguments);
+			},
+	
+			copy:function(other) {
+				for (var key in other._data) {
+					this._data[key] = other._data[key];
+				}
+			},
+	
+			has:function(key) {
+				return this.hash(key) in this._data;
+			},
+	
+			search:function(value) {
+				for (var key in this._data) {
+					if (this._data[key][1] === value) {
+						return this._data[key][0];
+					}
+				}
+	
+				return null;
+			},
+	
+			remove:function(key) {
+				delete this._data[this.hash(key)];
+			},
+	
+			type:function(key) {
+				var str = Object.prototype.toString.call(key);
+				var type = str.slice(8, -1).toLowerCase();
+				// Some browsers yield DOMWindow for null and undefined, works fine on Node
+				if (type === 'domwindow' && !key) {
+					return key + '';
+				}
+				return type;
+			},
+	
+			keys:function() {
+				var keys = [];
+				this.forEach(function(value, key) { keys.push(key); });
+				return keys;
+			},
+	
+			values:function() {
+				var values = [];
+				this.forEach(function(value) { values.push(value); });
+				return values;
+			},
+	
+			count:function() {
+				return this.keys().length;
+			},
+	
+			clear:function() {
+				// TODO: Would Object.create(null) make any difference
+				this._data = {};
+			},
+	
+			clone:function() {
+				return new HashMap(this);
+			},
+	
+			hash:function(key) {
+				switch (this.type(key)) {
+					case 'undefined':
+					case 'null':
+					case 'boolean':
+					case 'number':
+					case 'regexp':
+						return key + '';
+	
+					case 'date':
+						return ':' + key.getTime();
+	
+					case 'string':
+						return '"' + key;
+	
+					case 'array':
+						var hashes = [];
+						for (var i = 0; i < key.length; i++) {
+							hashes[i] = this.hash(key[i]);
+						}
+						return '[' + hashes.join('|');
+	
+					default:
+						// TODO: Don't use expandos when Object.defineProperty is not available?
+						if (!key._hmuid_) {
+							key._hmuid_ = ++HashMap.uid;
+							hide(key, '_hmuid_');
+						}
+	
+						return '{' + key._hmuid_;
+				}
+			},
+	
+			forEach:function(func) {
+				for (var key in this._data) {
+					var data = this._data[key];
+					func.call(this, data[1], data[0]);
+				}
+			}
+		};
+	
+		HashMap.uid = 0;
+	
+		//- Automatically add chaining to some methods
+	
+		for (var method in proto) {
+			// Skip constructor, valueOf, toString and any other built-in method
+			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
+				continue;
+			}
+			var fn = proto[method];
+			if (fn.toString().indexOf('return ') === -1) {
+				proto[method] = chain(fn);
+			}
+		}
+	
+		//- Utils
+	
+		function multi(map, args) {
+			for (var i = 0; i < args.length; i += 2) {
+				map.set(args[i], args[i+1]);
+			}
+		}
+	
+		function chain(fn) {
+			return function() {
+				fn.apply(this, arguments);
+				return this;
+			};
+		}
+	
+		function hide(obj, prop) {
+			// Make non iterable if supported
+			if (Object.defineProperty) {
+				Object.defineProperty(obj, prop, {enumerable:false});
+			}
+		}
+	
+		return HashMap;
+	}));
+
+
+/***/ },
+/* 64 */
+/*!*******************************************!*\
+  !*** ../~/Components/RowlikeGenerator.js ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 42)
+	
+	var Block = __webpack_require__(/*! Block */ 21)
+	var Style = __webpack_require__(/*! Style */ 22)
+	var Cell = __webpack_require__(/*! ./Cell */ 50);
+	
+	// generates either a Header or a Row, depending on what you pass in
+	// elementType should either be "tr" or "th
+	// name should either be "Header" or "Row
+	module.exports = function(elementType, name) {
+	    return proto(Block, function(superclass) {
+	
+	        // static properties
+	
+	        this.name = name
+	
+	        this.defaultStyle = Style({
+	            display: 'table-row'
+	        })
+	
+	
+	        // instance properties
+	
+	        this.init = function(/*[label,] rowInit*/) {
+	            if(arguments[0] instanceof Array) {
+	                var rowInit = arguments[0]
+	            } else {
+	                var label = arguments[0]
+	                var rowInit = arguments[1]
+	            }
+	
+	            this.domNode = document.createElement(elementType) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	            superclass.init.call(this) // superclass constructor
+	            this.label = label
+	
+	            if(rowInit !== undefined) {
+	                for(var n=0; n<rowInit.length; n++) {
+	                    this.cell(rowInit[n])
+	                }
+	            }
+	        }
+	
+	        this.cell = function(/*[label,] contents*/) {
+	            var cell = Cell.apply(undefined, arguments);
+	            this.add(cell);
+	            return cell;
+	        }
+	    })
+	}
+
+/***/ },
+/* 65 */
+/*!****************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/util.js ***!
+  \****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	var formatRegExp = /%[sdj%]/g;
+	exports.format = function(f) {
+	  if (!isString(f)) {
+	    var objects = [];
+	    for (var i = 0; i < arguments.length; i++) {
+	      objects.push(inspect(arguments[i]));
+	    }
+	    return objects.join(' ');
+	  }
+	
+	  var i = 1;
+	  var args = arguments;
+	  var len = args.length;
+	  var str = String(f).replace(formatRegExp, function(x) {
+	    if (x === '%%') return '%';
+	    if (i >= len) return x;
+	    switch (x) {
+	      case '%s': return String(args[i++]);
+	      case '%d': return Number(args[i++]);
+	      case '%j':
+	        try {
+	          return JSON.stringify(args[i++]);
+	        } catch (_) {
+	          return '[Circular]';
+	        }
+	      default:
+	        return x;
+	    }
+	  });
+	  for (var x = args[i]; i < len; x = args[++i]) {
+	    if (isNull(x) || !isObject(x)) {
+	      str += ' ' + x;
+	    } else {
+	      str += ' ' + inspect(x);
+	    }
+	  }
+	  return str;
+	};
+	
+	
+	// Mark that a method should not be used.
+	// Returns a modified function which warns once by default.
+	// If --no-deprecation is set, then it is a no-op.
+	exports.deprecate = function(fn, msg) {
+	  // Allow for deprecating things in the process of starting up.
+	  if (isUndefined(global.process)) {
+	    return function() {
+	      return exports.deprecate(fn, msg).apply(this, arguments);
+	    };
+	  }
+	
+	  if (process.noDeprecation === true) {
+	    return fn;
+	  }
+	
+	  var warned = false;
+	  function deprecated() {
+	    if (!warned) {
+	      if (process.throwDeprecation) {
+	        throw new Error(msg);
+	      } else if (process.traceDeprecation) {
+	        console.trace(msg);
+	      } else {
+	        console.error(msg);
+	      }
+	      warned = true;
+	    }
+	    return fn.apply(this, arguments);
+	  }
+	
+	  return deprecated;
+	};
+	
+	
+	var debugs = {};
+	var debugEnviron;
+	exports.debuglog = function(set) {
+	  if (isUndefined(debugEnviron))
+	    debugEnviron = process.env.NODE_DEBUG || '';
+	  set = set.toUpperCase();
+	  if (!debugs[set]) {
+	    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+	      var pid = process.pid;
+	      debugs[set] = function() {
+	        var msg = exports.format.apply(exports, arguments);
+	        console.error('%s %d: %s', set, pid, msg);
+	      };
+	    } else {
+	      debugs[set] = function() {};
+	    }
+	  }
+	  return debugs[set];
+	};
+	
+	
+	/**
+	 * Echos the value of a value. Trys to print the value out
+	 * in the best way possible given the different types.
+	 *
+	 * @param {Object} obj The object to print out.
+	 * @param {Object} opts Optional options object that alters the output.
+	 */
+	/* legacy: obj, showHidden, depth, colors*/
+	function inspect(obj, opts) {
+	  // default options
+	  var ctx = {
+	    seen: [],
+	    stylize: stylizeNoColor
+	  };
+	  // legacy...
+	  if (arguments.length >= 3) ctx.depth = arguments[2];
+	  if (arguments.length >= 4) ctx.colors = arguments[3];
+	  if (isBoolean(opts)) {
+	    // legacy...
+	    ctx.showHidden = opts;
+	  } else if (opts) {
+	    // got an "options" object
+	    exports._extend(ctx, opts);
+	  }
+	  // set default options
+	  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+	  if (isUndefined(ctx.depth)) ctx.depth = 2;
+	  if (isUndefined(ctx.colors)) ctx.colors = false;
+	  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+	  if (ctx.colors) ctx.stylize = stylizeWithColor;
+	  return formatValue(ctx, obj, ctx.depth);
+	}
+	exports.inspect = inspect;
+	
+	
+	// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+	inspect.colors = {
+	  'bold' : [1, 22],
+	  'italic' : [3, 23],
+	  'underline' : [4, 24],
+	  'inverse' : [7, 27],
+	  'white' : [37, 39],
+	  'grey' : [90, 39],
+	  'black' : [30, 39],
+	  'blue' : [34, 39],
+	  'cyan' : [36, 39],
+	  'green' : [32, 39],
+	  'magenta' : [35, 39],
+	  'red' : [31, 39],
+	  'yellow' : [33, 39]
+	};
+	
+	// Don't use 'blue' not visible on cmd.exe
+	inspect.styles = {
+	  'special': 'cyan',
+	  'number': 'yellow',
+	  'boolean': 'yellow',
+	  'undefined': 'grey',
+	  'null': 'bold',
+	  'string': 'green',
+	  'date': 'magenta',
+	  // "name": intentionally not styling
+	  'regexp': 'red'
+	};
+	
+	
+	function stylizeWithColor(str, styleType) {
+	  var style = inspect.styles[styleType];
+	
+	  if (style) {
+	    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+	           '\u001b[' + inspect.colors[style][1] + 'm';
+	  } else {
+	    return str;
+	  }
+	}
+	
+	
+	function stylizeNoColor(str, styleType) {
+	  return str;
+	}
+	
+	
+	function arrayToHash(array) {
+	  var hash = {};
+	
+	  array.forEach(function(val, idx) {
+	    hash[val] = true;
+	  });
+	
+	  return hash;
+	}
+	
+	
+	function formatValue(ctx, value, recurseTimes) {
+	  // Provide a hook for user-specified inspect functions.
+	  // Check that value is an object with an inspect function on it
+	  if (ctx.customInspect &&
+	      value &&
+	      isFunction(value.inspect) &&
+	      // Filter out the util module, it's inspect function is special
+	      value.inspect !== exports.inspect &&
+	      // Also filter out any prototype objects using the circular check.
+	      !(value.constructor && value.constructor.prototype === value)) {
+	    var ret = value.inspect(recurseTimes, ctx);
+	    if (!isString(ret)) {
+	      ret = formatValue(ctx, ret, recurseTimes);
+	    }
+	    return ret;
+	  }
+	
+	  // Primitive types cannot have properties
+	  var primitive = formatPrimitive(ctx, value);
+	  if (primitive) {
+	    return primitive;
+	  }
+	
+	  // Look up the keys of the object.
+	  var keys = Object.keys(value);
+	  var visibleKeys = arrayToHash(keys);
+	
+	  if (ctx.showHidden) {
+	    keys = Object.getOwnPropertyNames(value);
+	  }
+	
+	  // IE doesn't make error fields non-enumerable
+	  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+	  if (isError(value)
+	      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+	    return formatError(value);
+	  }
+	
+	  // Some type of object without properties can be shortcutted.
+	  if (keys.length === 0) {
+	    if (isFunction(value)) {
+	      var name = value.name ? ': ' + value.name : '';
+	      return ctx.stylize('[Function' + name + ']', 'special');
+	    }
+	    if (isRegExp(value)) {
+	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+	    }
+	    if (isDate(value)) {
+	      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+	    }
+	    if (isError(value)) {
+	      return formatError(value);
+	    }
+	  }
+	
+	  var base = '', array = false, braces = ['{', '}'];
+	
+	  // Make Array say that they are Array
+	  if (isArray(value)) {
+	    array = true;
+	    braces = ['[', ']'];
+	  }
+	
+	  // Make functions say that they are functions
+	  if (isFunction(value)) {
+	    var n = value.name ? ': ' + value.name : '';
+	    base = ' [Function' + n + ']';
+	  }
+	
+	  // Make RegExps say that they are RegExps
+	  if (isRegExp(value)) {
+	    base = ' ' + RegExp.prototype.toString.call(value);
+	  }
+	
+	  // Make dates with properties first say the date
+	  if (isDate(value)) {
+	    base = ' ' + Date.prototype.toUTCString.call(value);
+	  }
+	
+	  // Make error with message first say the error
+	  if (isError(value)) {
+	    base = ' ' + formatError(value);
+	  }
+	
+	  if (keys.length === 0 && (!array || value.length == 0)) {
+	    return braces[0] + base + braces[1];
+	  }
+	
+	  if (recurseTimes < 0) {
+	    if (isRegExp(value)) {
+	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+	    } else {
+	      return ctx.stylize('[Object]', 'special');
+	    }
+	  }
+	
+	  ctx.seen.push(value);
+	
+	  var output;
+	  if (array) {
+	    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+	  } else {
+	    output = keys.map(function(key) {
+	      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+	    });
+	  }
+	
+	  ctx.seen.pop();
+	
+	  return reduceToSingleString(output, base, braces);
+	}
+	
+	
+	function formatPrimitive(ctx, value) {
+	  if (isUndefined(value))
+	    return ctx.stylize('undefined', 'undefined');
+	  if (isString(value)) {
+	    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+	                                             .replace(/'/g, "\\'")
+	                                             .replace(/\\"/g, '"') + '\'';
+	    return ctx.stylize(simple, 'string');
+	  }
+	  if (isNumber(value))
+	    return ctx.stylize('' + value, 'number');
+	  if (isBoolean(value))
+	    return ctx.stylize('' + value, 'boolean');
+	  // For some reason typeof null is "object", so special case here.
+	  if (isNull(value))
+	    return ctx.stylize('null', 'null');
+	}
+	
+	
+	function formatError(value) {
+	  return '[' + Error.prototype.toString.call(value) + ']';
+	}
+	
+	
+	function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+	  var output = [];
+	  for (var i = 0, l = value.length; i < l; ++i) {
+	    if (hasOwnProperty(value, String(i))) {
+	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+	          String(i), true));
+	    } else {
+	      output.push('');
+	    }
+	  }
+	  keys.forEach(function(key) {
+	    if (!key.match(/^\d+$/)) {
+	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+	          key, true));
+	    }
+	  });
+	  return output;
+	}
+	
+	
+	function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+	  var name, str, desc;
+	  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+	  if (desc.get) {
+	    if (desc.set) {
+	      str = ctx.stylize('[Getter/Setter]', 'special');
+	    } else {
+	      str = ctx.stylize('[Getter]', 'special');
+	    }
+	  } else {
+	    if (desc.set) {
+	      str = ctx.stylize('[Setter]', 'special');
+	    }
+	  }
+	  if (!hasOwnProperty(visibleKeys, key)) {
+	    name = '[' + key + ']';
+	  }
+	  if (!str) {
+	    if (ctx.seen.indexOf(desc.value) < 0) {
+	      if (isNull(recurseTimes)) {
+	        str = formatValue(ctx, desc.value, null);
+	      } else {
+	        str = formatValue(ctx, desc.value, recurseTimes - 1);
+	      }
+	      if (str.indexOf('\n') > -1) {
+	        if (array) {
+	          str = str.split('\n').map(function(line) {
+	            return '  ' + line;
+	          }).join('\n').substr(2);
+	        } else {
+	          str = '\n' + str.split('\n').map(function(line) {
+	            return '   ' + line;
+	          }).join('\n');
+	        }
+	      }
+	    } else {
+	      str = ctx.stylize('[Circular]', 'special');
+	    }
+	  }
+	  if (isUndefined(name)) {
+	    if (array && key.match(/^\d+$/)) {
+	      return str;
+	    }
+	    name = JSON.stringify('' + key);
+	    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+	      name = name.substr(1, name.length - 2);
+	      name = ctx.stylize(name, 'name');
+	    } else {
+	      name = name.replace(/'/g, "\\'")
+	                 .replace(/\\"/g, '"')
+	                 .replace(/(^"|"$)/g, "'");
+	      name = ctx.stylize(name, 'string');
+	    }
+	  }
+	
+	  return name + ': ' + str;
+	}
+	
+	
+	function reduceToSingleString(output, base, braces) {
+	  var numLinesEst = 0;
+	  var length = output.reduce(function(prev, cur) {
+	    numLinesEst++;
+	    if (cur.indexOf('\n') >= 0) numLinesEst++;
+	    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+	  }, 0);
+	
+	  if (length > 60) {
+	    return braces[0] +
+	           (base === '' ? '' : base + '\n ') +
+	           ' ' +
+	           output.join(',\n  ') +
+	           ' ' +
+	           braces[1];
+	  }
+	
+	  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+	}
+	
+	
+	// NOTE: These type checking functions intentionally don't use `instanceof`
+	// because it is fragile and can be easily faked with `Object.create()`.
+	function isArray(ar) {
+	  return Array.isArray(ar);
+	}
+	exports.isArray = isArray;
+	
+	function isBoolean(arg) {
+	  return typeof arg === 'boolean';
+	}
+	exports.isBoolean = isBoolean;
+	
+	function isNull(arg) {
+	  return arg === null;
+	}
+	exports.isNull = isNull;
+	
+	function isNullOrUndefined(arg) {
+	  return arg == null;
+	}
+	exports.isNullOrUndefined = isNullOrUndefined;
+	
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+	exports.isNumber = isNumber;
+	
+	function isString(arg) {
+	  return typeof arg === 'string';
+	}
+	exports.isString = isString;
+	
+	function isSymbol(arg) {
+	  return typeof arg === 'symbol';
+	}
+	exports.isSymbol = isSymbol;
+	
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+	exports.isUndefined = isUndefined;
+	
+	function isRegExp(re) {
+	  return isObject(re) && objectToString(re) === '[object RegExp]';
+	}
+	exports.isRegExp = isRegExp;
+	
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+	exports.isObject = isObject;
+	
+	function isDate(d) {
+	  return isObject(d) && objectToString(d) === '[object Date]';
+	}
+	exports.isDate = isDate;
+	
+	function isError(e) {
+	  return isObject(e) &&
+	      (objectToString(e) === '[object Error]' || e instanceof Error);
+	}
+	exports.isError = isError;
+	
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+	exports.isFunction = isFunction;
+	
+	function isPrimitive(arg) {
+	  return arg === null ||
+	         typeof arg === 'boolean' ||
+	         typeof arg === 'number' ||
+	         typeof arg === 'string' ||
+	         typeof arg === 'symbol' ||  // ES6 symbol
+	         typeof arg === 'undefined';
+	}
+	exports.isPrimitive = isPrimitive;
+	
+	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 76);
+	
+	function objectToString(o) {
+	  return Object.prototype.toString.call(o);
+	}
+	
+	
+	function pad(n) {
+	  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+	}
+	
+	
+	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+	              'Oct', 'Nov', 'Dec'];
+	
+	// 26 Feb 16:19:34
+	function timestamp() {
+	  var d = new Date();
+	  var time = [pad(d.getHours()),
+	              pad(d.getMinutes()),
+	              pad(d.getSeconds())].join(':');
+	  return [d.getDate(), months[d.getMonth()], time].join(' ');
+	}
+	
+	
+	// log is just a thin wrapper to console.log that prepends a timestamp
+	exports.log = function() {
+	  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+	};
+	
+	
+	/**
+	 * Inherit the prototype methods from one constructor into another.
+	 *
+	 * The Function.prototype.inherits from lang.js rewritten as a standalone
+	 * function (not on Function.prototype). NOTE: If this file is to be loaded
+	 * during bootstrapping this function needs to be rewritten using some native
+	 * functions as prototype setup using normal JavaScript does not work as
+	 * expected during bootstrapping (see mirror.js in r114903).
+	 *
+	 * @param {function} ctor Constructor function which needs to inherit the
+	 *     prototype.
+	 * @param {function} superCtor Constructor function to inherit prototype from.
+	 */
+	exports.inherits = __webpack_require__(/*! inherits */ 86);
+	
+	exports._extend = function(origin, add) {
+	  // Don't do anything if add isn't an object
+	  if (!add || !isObject(add)) return origin;
+	
+	  var keys = Object.keys(add);
+	  var i = keys.length;
+	  while (i--) {
+	    origin[keys[i]] = add[keys[i]];
+	  }
+	  return origin;
+	};
+	
+	function hasOwnProperty(obj, prop) {
+	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	}
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 75)))
+
+/***/ },
+/* 66 */
 /*!****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/path-browserify/index.js ***!
   \****************************************************************/
@@ -8889,972 +8754,1389 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 54)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 75)))
 
 /***/ },
-/* 38 */
-/*!****************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/hashmap/hashmap.js ***!
-  \****************************************************************************/
+/* 67 */
+/*!*********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Style.js ***!
+  \*********************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
-	 * HashMap - HashMap Class for JavaScript
-	 * @author Ariel Flesler <aflesler@gmail.com>
-	 * @version 2.0.1
-	 * Homepage: https://github.com/flesler/hashmap
-	 */
+	var jssModule = __webpack_require__(/*! ../external/jss */ 78)
+	var proto = __webpack_require__(/*! proto */ 57)
+	var HashMap = __webpack_require__(/*! hashmap */ 63)
 	
-	(function(factory) {
-		if (true) {
-			// AMD. Register as an anonymous module.
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else if (typeof module === 'object') {
-			// Node js environment
-			var HashMap = module.exports = factory();
-			// Keep it backwards compatible
-			HashMap.HashMap = HashMap;
-		} else {
-			// Browser globals (this is window)
-			this.HashMap = factory();
-		}
-	}(function() {
+	var utils = __webpack_require__(/*! ./utils */ 79)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 80)
 	
-		function HashMap(other) {
-			this.clear();
-			switch (arguments.length) {
-				case 0: break;
-				case 1: this.copy(other); break;
-				default: multi(this, arguments); break;
-			}
-		}
+	var baseClassName = '_ComponentStyle_' // the base name for generated class names
+	var nextClassNumber = 0
 	
-		var proto = HashMap.prototype = {
-			constructor:HashMap,
+	// creates a style object
+	var Style = module.exports = proto(function() {
 	
-			get:function(key) {
-				var data = this._data[this.hash(key)];
-				return data && data[1];
-			},
+	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
 	
-			set:function(key, value) {
-				// Store original key as well (for iteration)
-				this._data[this.hash(key)] = [key, value];
-			},
+	    // styleDefinition is an object where key-value pairs can be any of the following:
+	    // <cssPropertyName>: the value should be a valid css value for that style attribute
+	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
+	    // $setup: the value is a function to be run on a component when the style is applied to it
+	    // $kill: the value is a function to be run on a component when a style is removed from it
+	    // $state: the value should be a state handler function
+	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
+	    this.init = function(styleDefinition, privateOptions) {
+	        if(privateOptions === undefined) privateOptions = {}
+	        if(privateOptions.inLabel===undefined) inLabel = false
 	
-			multi:function() {
-				multi(this, arguments);
-			},
+	        this.className = baseClassName+nextClassNumber
+	        nextClassNumber++
 	
-			copy:function(other) {
-				for (var key in other._data) {
-					this._data[key] = other._data[key];
-				}
-			},
+	        this.componentStyleMap = {}
+	        this.labelStyleMap = {}
 	
-			has:function(key) {
-				return this.hash(key) in this._data;
-			},
+	        var labelStyles = {}
+	        var pseudoClassStyles = {}
+	        var cssProperties = {}
+	        for(var key in styleDefinition) {
+	            var value = styleDefinition[key]
 	
-			search:function(value) {
-				for (var key in this._data) {
-					if (this._data[key][1] === value) {
-						return this._data[key][0];
-					}
-				}
+	            if(key === '$setup') {
+	                if(!(value instanceof Function)) throw new Error("$setup key must be a function ('setup' can't be used as a label)")
+	                this.setup = value
 	
-				return null;
-			},
+	            } else if(key === '$kill') {
+	                if(!(value instanceof Function)) throw new Error("$kill key must be a function ('kill' can't be used as a label)")
+	                this.kill = value
 	
-			remove:function(key) {
-				delete this._data[this.hash(key)];
-			},
+	            } else if(key === '$state') {
+	                if(!(value instanceof Function)) throw new Error("$state key must be a function ('$state' can't be used as a label)")
+	                this.stateHandler = value
 	
-			type:function(key) {
-				var str = Object.prototype.toString.call(key);
-				var type = str.slice(8, -1).toLowerCase();
-				// Some browsers yield DOMWindow for null and undefined, works fine on Node
-				if (type === 'domwindow' && !key) {
-					return key + '';
-				}
-				return type;
-			},
-	
-			keys:function() {
-				var keys = [];
-				this.forEach(function(value, key) { keys.push(key); });
-				return keys;
-			},
-	
-			values:function() {
-				var values = [];
-				this.forEach(function(value) { values.push(value); });
-				return values;
-			},
-	
-			count:function() {
-				return this.keys().length;
-			},
-	
-			clear:function() {
-				// TODO: Would Object.create(null) make any difference
-				this._data = {};
-			},
-	
-			clone:function() {
-				return new HashMap(this);
-			},
-	
-			hash:function(key) {
-				switch (this.type(key)) {
-					case 'undefined':
-					case 'null':
-					case 'boolean':
-					case 'number':
-					case 'regexp':
-						return key + '';
-	
-					case 'date':
-						return ':' + key.getTime();
-	
-					case 'string':
-						return '"' + key;
-	
-					case 'array':
-						var hashes = [];
-						for (var i = 0; i < key.length; i++) {
-							hashes[i] = this.hash(key[i]);
-						}
-						return '[' + hashes.join('|');
-	
-					default:
-						// TODO: Don't use expandos when Object.defineProperty is not available?
-						if (!key._hmuid_) {
-							key._hmuid_ = ++HashMap.uid;
-							hide(key, '_hmuid_');
-						}
-	
-						return '{' + key._hmuid_;
-				}
-			},
-	
-			forEach:function(func) {
-				for (var key in this._data) {
-					var data = this._data[key];
-					func.call(this, data[1], data[0]);
-				}
-			}
-		};
-	
-		HashMap.uid = 0;
-	
-		//- Automatically add chaining to some methods
-	
-		for (var method in proto) {
-			// Skip constructor, valueOf, toString and any other built-in method
-			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
-				continue;
-			}
-			var fn = proto[method];
-			if (fn.toString().indexOf('return ') === -1) {
-				proto[method] = chain(fn);
-			}
-		}
-	
-		//- Utils
-	
-		function multi(map, args) {
-			for (var i = 0; i < args.length; i += 2) {
-				map.set(args[i], args[i+1]);
-			}
-		}
-	
-		function chain(fn) {
-			return function() {
-				fn.apply(this, arguments);
-				return this;
-			};
-		}
-	
-		function hide(obj, prop) {
-			// Make non iterable if supported
-			if (Object.defineProperty) {
-				Object.defineProperty(obj, prop, {enumerable:false});
-			}
-		}
-	
-		return HashMap;
-	}));
-
-
-/***/ },
-/* 39 */
-/*!*************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/async-future/asyncFuture.js ***!
-  \*************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var trimArgs = __webpack_require__(/*! trimArguments */ 60)
-	
-	
-	module.exports = Future
-	
-	Future.debug = false // switch this to true if you want ids and long stack traces
-	
-	var curId = 0         // for ids\
-	function Future(value) {
-		if(arguments.length > 0) {
-			var f = new Future()
-	        f.return(value)
-	        return f
-		} else {
-	        this.isResolved = false
-	        this.queue = []
-	        this.n = 1 // future depth (for preventing "too much recursion" RangeErrors)
-	        if(Future.debug) {
-	            curId++
-	            this.id = curId
-	        }
-	    }
-	}
-	
-	// static methods
-	
-	// has one parameter: either a bunch of futures, or a single array of futures
-	// returns a promise that resolves when one of them errors, or when all of them succeeds
-	Future.all = function() {
-	    if(arguments[0] instanceof Array) {
-	        var futures = arguments[0]
-	    } else {
-	        var futures = trimArgs(arguments)
-	    }
-	
-	    var f = new Future()
-	    var results = []
-	
-	    if(futures.length > 0) {
-	        var current = futures[0]
-	        futures.forEach(function(future, index) {
-	            current = current.then(function(v) {
-	                results[index] = v
-	                return futures[index+1]
-	            })
-	        })
-	
-	        //if
-	        current.catch(function(e) {
-	            f.throw(e)
-	        })
-	        // else
-	        current.then(function() {
-	            f.return(results)
-	        })
-	
-	
-	    } else {
-	        f.return(results)
-	    }
-	
-	    return f
-	}
-	
-	// either used like futureWrap(function(){ ... })(arg1,arg2,etc) or
-	//  futureWrap(object, 'methodName')(arg1,arg2,etc)
-	Future.wrap = function() {
-	    // function
-	    if(arguments.length === 1) {
-	        var fn = arguments[0]
-	        var object = undefined
-	
-	
-	    // object, function
-	    } else {
-	        var object = arguments[0]
-	        var fn = object[arguments[1]]
-	    }
-	
-	    return function() {
-	        var args = Array.prototype.slice.call(arguments)
-	        var future = new Future
-	        args.push(future.resolver())
-	        var me = this
-	        if(object) me = object
-	        fn.apply(me, args)
-	        return future
-	    }
-	}
-	
-	// future wraps a function who's callback only takes one parameter - the return value (no error is available)
-	// eg: function(result) {}
-	Future.wrapSingleParameter = function() {
-	    if(arguments.length === 1) {
-	        var fn = arguments[0]
-	    } else {
-	        var object = arguments[0]
-	        var method = arguments[1]
-	        var fn = object[method]
-	    }
-	
-	    return function() {
-	        var args = Array.prototype.slice.call(arguments)
-			var future = new Future
-			args.push(function(result) {
-			    future.return(result)
-			})
-			var me = this
-	        if(object) me = object
-	        fn.apply(me, args)
-			return future
-	    }
-	}
-	
-	
-	// default
-	var unhandledErrorHandler = function(e) {
-	    setTimeout(function() {
-	        throw e
-	    },0)
-	}
-	
-	// setup unhandled error handler
-	// unhandled errors happen when done is called, and  then an exception is thrown from the future
-	Future.error = function(handler) {
-	    unhandledErrorHandler = handler
-	}
-	
-	// instance methods
-	
-	// returns a value for the future (can only be executed once)
-	// if there are callbacks waiting on this value, they are run in the next tick
-	    // (ie they aren't run immediately, allowing the current thread of execution to complete)
-	Future.prototype.return = function(v) {
-	    resolve(this, 'return', v)
-	}
-	Future.prototype.throw = function(e) {
-	    if(this.location !== undefined) {
-	        e.stack += '\n    ---------------------------\n'+this.location.stack.split('\n').slice(4).join('\n')
-	    }
-	    resolve(this, 'error', e)
-	}
-	
-	function setNext(that, future) {
-	    resolve(that, 'next', future)
-	}
-	
-	function wait(that, cb) {
-	    if(that.isResolved) {
-	        executeCallbacks(that, [cb])
-	    } else {
-	        that.queue.push(cb)
-	    }
-	}
-	
-	// duck typing to determine if something is or isn't a future
-	var isLikeAFuture = Future.isLikeAFuture = function(x) {
-	    return x.isResolved !== undefined && x.queue !== undefined && x.then !== undefined
-	}
-	
-	function waitOnResult(f, result, cb) {
-	    wait(result, function() {
-	        if(this.hasError) {
-	            f.throw(this.error)
-	        } else if(this.hasNext) {
-	            waitOnResult(f, this.next, cb)
-	        } else {
-	            try {
-	                setNext(f, executeCallback(cb,this.result))
-	            } catch(e) {
-	                f.throw(e)
-	            }
-	        }
-	    })
-	}
-	
-	
-	// cb takes one parameter - the value returned
-	// cb can return a Future, in which case the result of that Future is passed to next-in-chain
-	Future.prototype.then = function(cb) {
-	    var f = createChainFuture(this)
-	    wait(this, function() {
-	        if(this.hasError)
-	            f.throw(this.error)
-	        else if(this.hasNext)
-	            waitOnResult(f, this.next, cb)
-	        else {
-	            try {
-	                setNext(f, executeCallback(cb,this.result))
-	            } catch(e) {
-	                f.throw(e)
-	            }
-	        }
-	    })
-	    return f
-	}
-	// cb takes one parameter - the error caught
-	// cb can return a Future, in which case the result of that Future is passed to next-in-chain
-	Future.prototype.catch = function(cb) {
-	    var f = createChainFuture(this)
-	    wait(this, function() {
-	        if(this.hasError) {
-	            try {
-	                setNext(f, executeCallback(cb,this.error))
-	            } catch(e) {
-	                f.throw(e)
-	            }
-	        } else if(this.hasNext) {
-	            this.next.then(function(v) {
-	                f.return(v)
-	            }).catch(function(e) {
-	                try {
-	                    setNext(f, executeCallback(cb,e))
-	                } catch(e) {
-	                    f.throw(e)
+	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
+	                var pseudoClass = mapCamelCase(key.substr(2))
+	                if(pseudoClass === '') {
+	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
 	                }
-	            })
-	        } else {
-	            f.return(this.result)
-	        }
-	    })
-	    return f
-	}
-	// cb takes no parameters
-	// callback's return value is ignored, but thrown exceptions propogate normally
-	Future.prototype.finally = function(cb) {
-	    var f = createChainFuture(this)
-	    wait(this, function() {
-	        try {
-	            var that = this
-	            if(this.hasNext) {
-	                this.next.then(function(v) {
-	                    var x = executeCallback(cb)
-	                    f.return(v)
-	                    return x
-	                }).catch(function(e) {
-	                    var x = executeCallback(cb)
-	                    f.throw(e)
-	                    return x
-	                }).done()
-	            } else if(this.hasError) {
-	                Future(true).then(function() {
-	                    return executeCallback(cb)
-	                }).then(function() {
-	                    f.throw(that.error)
-	                }).catch(function(e) {
-	                    f.throw(e)
-	                }).done()
 	
-	            } else  {
-	                Future(true).then(function() {
-	                    return executeCallback(cb)
-	                }).then(function() {
-	                    f.return(that.result)
-	                }).catch(function(e) {
-	                    f.throw(e)
-	                }).done()
-	            }
-	        } catch(e) {
-	            f.throw(e)
-	        }
-	    })
-	    return f
-	}
+	                utils.merge(pseudoClassStyles, flattenPseudoClassStyles(pseudoClass, value))
 	
-	// a future created for the chain functions (then, catch, and finally)
-	function createChainFuture(that) {
-	    var f = new Future
-	    f.n = that.n + 1
-	    if(Future.debug) {
-	        f.location = createException()  // used for long traces
-	    }
-	    return f
-	}
+	            } else if(key.indexOf('$') === 0) {   // label style
+	                if(privateOptions.inLabel)
+	                    throw new Error("Can't create nested label style "+key+" because components can only have one label")
 	
-	// all unused futures should end with this (e.g. most then-chains)
-	// detatches the future so any propogated exception is thrown (so the exception isn't silently lost)
-	Future.prototype.done = function() {
-	    wait(this, function() {
-	        if(this.hasError) {
-	            unhandledErrorHandler(this.error)
-	        } else if(this.hasNext) {
-	            this.next.catch(function(e) {
-	                unhandledErrorHandler(e)
-	            })
-	        }
-	    })
-	}
+	                var label = key.substr(1)
+	                if(label === '') {
+	                    throw new Error("Empty label name not valid (style key '$')")
+	                }
 	
+	                labelStyles[label] = value
 	
+	            } else if(isStyleObject(value)) {
+	                this.componentStyleMap[key] = value
 	
-	Future.prototype.resolver = function() {
-	    var me = this
-	
-	    return function(e,v) {
-	        if(e) { // error argument
-	            me.throw(e)
-	        } else {
-	            me.return(v)
-	        }
-	    }
-	}
-	
-	Future.prototype.resolved = function() {
-	    return this.isResolved
-	}
-	
-	
-	function resolve(that, type, value) {
-	    if(that.isResolved)
-	        throw Error("Future resolved more than once! Resolution: "+value)
-	
-	    that.isResolved = true
-	    that.hasError = type === 'error'
-	    that.hasNext = type === 'next' && value !== undefined
-	
-	    if(that.hasError)
-	        that.error = value
-	    else if(that.hasNext)
-	        that.next = value
-	    else
-	        that.result = value
-	
-	    // 100 is a pretty arbitrary number - it should be set significantly lower than common maximum stack depths, and high enough to make sure performance isn't significantly affected
-	    // in using this for deadunit, firefox was getting a recursion error at 150, but not at 100. This doesn't mean that it can't happen at 100 too, but it'll certainly make it less likely
-	    // if you're getting recursion errors even with this mechanism, you probably need to figure that out in your own code
-	    if(that.n % 100 !== 0) {
-	        executeCallbacks(that, that.queue)
-	    } else {
-	        setTimeout(function() { // this prevents too much recursion errors
-	            executeCallbacks(that, that.queue)
-	        }, 0)
-	    }
-	}
-	
-	function executeCallbacks(that, callbacks) {
-	    if(callbacks.length > 0) {
-	        try {
-	            callbacks.forEach(function(cb) {
-	                cb.apply(that)
-	            })
-	        } catch(e) {
-	            unhandledErrorHandler(e)
-	        }
-	    }
-	}
-	
-	// executes a callback and ensures that it returns a future
-	function executeCallback(cb, arg) {
-	    var r = cb(arg)
-	    if(r !== undefined && !isLikeAFuture(r) )
-	        throw Error("Value returned from then or catch ("+r+") is *not* a Future. Callback: "+cb.toString())
-	
-	    return r
-	}
-	
-	function createException() {
-	    try {
-	        throw new Error()
-	    } catch(e) {
-	        return e
-	    }
-	}
-
-/***/ },
-/* 40 */
-/*!**************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
-  \**************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 46)
-	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 47)
-	
-	module.exports = deadunitCore(browserConfig())
-
-/***/ },
-/* 41 */
-/*!*******************************************!*\
-  !*** ../~/Components/RowlikeGenerator.js ***!
-  \*******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	var Block = __webpack_require__(/*! Block */ 3)
-	var Style = __webpack_require__(/*! Style */ 16)
-	var Cell = __webpack_require__(/*! ./Cell */ 27);
-	
-	// generates either a Header or a Row, depending on what you pass in
-	// elementType should either be "tr" or "th
-	// name should either be "Header" or "Row
-	module.exports = function(elementType, name) {
-	    return proto(Block, function(superclass) {
-	
-	        // static properties
-	
-	        this.name = name
-	
-	        this.defaultStyle = Style({
-	            display: 'table-row'
-	        })
-	
-	
-	        // instance properties
-	
-	        this.init = function(/*[label,] rowInit*/) {
-	            if(arguments[0] instanceof Array) {
-	                var rowInit = arguments[0]
+	            } else if(value instanceof Object) {
+	                this.componentStyleMap[key] = Style(value)  // turn the object description into a full fledged style object
 	            } else {
-	                var label = arguments[0]
-	                var rowInit = arguments[1]
+	                var cssStyle = key
+	                var cssStyleName = mapCamelCase(cssStyle)
+	                cssProperties[cssStyleName] = cssValue(cssStyleName, value)
 	            }
+	        }
 	
-	            this.domNode = document.createElement(elementType) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	            superclass.init.call(this) // superclass constructor
-	            this.label = label
+	        // create the css class
+	        if(privateOptions.default) {
+	            var jssSheet = defaultJss
+	        } else {
+	            var jssSheet = jss
+	        }
 	
-	            if(rowInit !== undefined) {
-	                for(var n=0; n<rowInit.length; n++) {
-	                    this.cell(rowInit[n])
+	        jssSheet.set('.'+this.className, cssProperties)
+	
+	        //if(module.exports.isDev) {
+	            this.styleDefinitions = {}
+	            this.styleDefinitions['.'+this.className] = cssProperties
+	        //}
+	
+	        // create label styles
+	        if(Object.keys(labelStyles).length > 0) {
+	            var baseStyle = utils.merge({}, cssProperties, this.componentStyleMap)
+	
+	            for(var label in labelStyles) {
+	                if(isStyleObject(labelStyles[label])) {
+	                    this.labelStyleMap[label] = labelStyles[label]
+	                } else {
+	                    var mergedStyle = utils.merge({}, baseStyle, labelStyles[label])
+	                    this.labelStyleMap[label] = Style(mergedStyle, {inLabel:true})
 	                }
 	            }
 	        }
 	
-	        this.cell = function(/*[label,] contents*/) {
-	            var cell = Cell.apply(undefined, arguments);
-	            this.add(cell);
-	            return cell;
+	        // create pseudoclass styles
+	        if(Object.keys(pseudoClassStyles).length > 0) {
+	
+	            var tieredPseudoClasses = createTieredPseudoClasses(this, pseudoClassStyles)
+	            pseudoclassCombinations(tieredPseudoClasses) // mutates tieredPseudoClasses
+	
+	            // turn the emulatable pseudo classes into Style objects
+	            // also build up the set of psuedoclasses that will be emulated
+	            // also build up a map of pseudoclasses-to-emulate to the emulation functions for those pseudoclasses
+	            var pseudoClasesToEmulate = []
+	            var preSplitPseudoClasses = [] // a list where each element looks like: [pseudoClassList, styleObject]  (this is primarily for performance - so we don't have to split the key every time we check for state changes)
+	            var pseudoClassesToEmulationInfo = {}
+	            for(var key in tieredPseudoClasses) {
+	                if(isStyleObject(tieredPseudoClasses[key])) {
+	                    tieredPseudoClasses[key] = tieredPseudoClasses[key]
+	                } else {
+	                    var newStyle = Style(utils.merge({}, cssProperties, tieredPseudoClasses[key])) // pseudoClassStyles merged with parent css styles
+	
+	                    // merge in componentStyleMap and labelStyleMap
+	                    for(var k in this.componentStyleMap) {
+	                        if(newStyle.componentStyleMap[k] === undefined)
+	                            newStyle.componentStyleMap[k] = this.componentStyleMap[k]
+	                    }
+	                    for(var k in this.labelStyleMap) {
+	                        if(newStyle.labelStyleMap[k] === undefined)
+	                            newStyle.labelStyleMap[k] = this.labelStyleMap[k]
+	                    }
+	
+	                    tieredPseudoClasses[key] = newStyle
+	                }
+	
+	
+	                var pseudoClassList = key.split(":")
+	                for(var n=0; n<pseudoClassList.length; n++) {
+	                    var pseudoClass = pseudoClassList[n]
+	                    if(pseudoClasesToEmulate.indexOf(pseudoClass) === -1) {
+	                        pseudoClasesToEmulate.push(pseudoClass)
+	
+	                        var pseudoClassParts = getPseudoClassParts(pseudoClass)
+	                        var fns = emulatedPseudoClasses[pseudoClassParts.class]
+	                        var info = {fns: fns}
+	                        if(fns.processParameter !== undefined) {
+	                            info.parameter = fns.processParameter(pseudoClassParts.parameter)
+	                        }
+	                        pseudoClassesToEmulationInfo[pseudoClass] = info
+	                    }
+	                }
+	
+	                preSplitPseudoClasses.push([pseudoClassList, tieredPseudoClasses[key]])
+	            }
+	
+	            // create functions that initialize and keep track of state
+	            var initializeState = function(component) {
+	                var state = {}
+	                for(var n=0; n<pseudoClasesToEmulate.length; n++) {
+	                    var pseudoClass = pseudoClasesToEmulate[n]
+	                    var pseudoClassEmulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
+	                    state[pseudoClass] = pseudoClassEmulationInfo.fns.check(component, pseudoClassEmulationInfo.parameter)
+	                }
+	
+	                return state
+	            }
+	
+	            var that = this
+	            var changeStyleIfNecessary = function(currentStyle, component, state) {
+	                var longestMatchingLength = 0;
+	                var mostSpecificMatchingStyle = that; // if nothing else matches, change back to the base style object
+	                for(var n=0; n<preSplitPseudoClasses.length; n++) {
+	                    var pseudoClassList = preSplitPseudoClasses[n][0]
+	                    for(var j=0; j<pseudoClassList.length; j++) {
+	                        if(!state[pseudoClassList[j]]) {
+	                            break;
+	                        }
+	                    }
+	
+	                    if(j === pseudoClassList.length && j > longestMatchingLength) {
+	                        longestMatchingLength = j
+	                        mostSpecificMatchingStyle = preSplitPseudoClasses[n][1]
+	                    }
+	                }
+	
+	                if(mostSpecificMatchingStyle !== currentStyle) {
+	                    component.style = mostSpecificMatchingStyle
+	
+	                    //blockStyleUtils.setCurrentStyle(component, mostSpecificMatchingStyle)
+	                    //blockStyleUtils.propogateStyleSet(component.children, component.computedStyleMap) // propogate styles to children
+	                }
+	            }
+	
+	            // setup pseudoclass emulation with $setup and $kill handlers
+	
+	            var wrapSetupAndKill = function(style) {
+	                var originalSetup = style.setup
+	                style.setup = function(component) {
+	                    var that = this
+	
+	                    this._styleSetupStates = {} // maps pseudoClass to setupState
+	                    var state = initializeState(component)
+	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
+	                        ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
+	                            that._styleSetupStates[pseudoClass] = emulationInfo.fns.setup(component, function() { // start
+	                                state[pseudoClass] = true
+	                                changeStyleIfNecessary(that, component, state)
+	                            }, function() { // end
+	                                state[pseudoClass] = false
+	                                changeStyleIfNecessary(that, component, state)
+	                            }, emulationInfo.parameter)
+	
+	                        })(pseudoClass, pseudoClassesToEmulationInfo[pseudoClass])
+	                    }
+	
+	                    changeStyleIfNecessary(that, component, state)
+	
+	                    if(originalSetup !== undefined) {
+	                        originalSetup.apply(this, arguments)
+	                    }
+	                }
+	
+	                var originalKill = style.kill
+	                style.kill = function(component) {
+	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
+	                        var emulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
+	                        emulationInfo.fns.kill(component, this._styleSetupStates[pseudoClass])
+	                    }
+	
+	                    if(originalKill !== undefined) {
+	                        originalKill.apply(this, arguments)
+	                    }
+	                }
+	            }
+	
+	            // wrap all the setup and kill functions
+	
+	            for(var key in tieredPseudoClasses) {
+	                var style = tieredPseudoClasses[key]
+	                wrapSetupAndKill(style)
+	            }
+	
+	            wrapSetupAndKill(this)
 	        }
-	    })
-	}
-
-/***/ },
-/* 42 */
-/*!***********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/proto/proto.js ***!
-  \***********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
 	    }
 	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
+	    // instance properties
 	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
+	    this.className          // the css classname for this style
+	    this.componentStyleMap; // maps a Component name to a Style object for that component
+	    this.labelStyleMap;     // maps a label name to a Style object for that label
+	    this.setup;             // run some javascript on any element this class is applied to
+	    this.kill;              // a function to run on removal of the style (should reverse setup)
 	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
+	    // gets the style object for a component based on the current style object (takes into account whether the component has a label
+	    this.get = function(component) {
+	        if(component.label !== undefined) {
+	            var labelStyle = this.labelStyleMap[component.label]
+	            if(labelStyle !==  undefined) {
+	                return labelStyle
+	            }
 	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                },
-	                configurable: true // so you can change it if you want
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
+	        // else
 	        return this
 	    }
+	})
 	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
 	
-	    return NormalizedError
-	}
+	// private
 	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
-/* 43 */
-/*!************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/basicFormatter.js ***!
-  \************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 44)
 	
-	// built in test formatting helper
-	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
-	    if(arguments.length === 3) {
-	        var format = arguments[2]
-	    } else /* if(arguments.length > 3) */{
-	        var color = arguments[2]
-	        var format = arguments[3]
-	    }
+	// returns a two-level map where the top-level keys are emulatable psuedo classes, and non-emulatable pseudo classes are at the second level
+	// the classes will also be sorted and deduped
+	// Example return value: {"hover:lastChild": {color:'red', "$$visited:disabled": {fontWeight: 'bold'}}, }
+	// parameters:
+	    // style - the style object being created
+	    // pseudoClassStyles - a flat object where each key is a list of pseudoclasses separated by colons (e.g. "hover" or "hover:focus") and the value is an object of styles that don't contain pseudoclasses
+	function createTieredPseudoClasses(style, pseudoClassStyles) {
+	    var tieredPseudoClasses = {} // the two-level map
+	    for(var key in pseudoClassStyles) {
+	        var value = pseudoClassStyles[key]
 	
-	    var dotText = '.'
-	    if(color !== undefined) {
-	        dotText = color.green('.')
-	    }
-	
-	    var result = new Future
-	
-	    var lastPrintWasDot = false
-	    var printDot = function(dot) {
-	        if(dot) {
-	            process.stdout.write(dotText)
-	        } else if(lastPrintWasDot) {
-	            process.stdout.write('\n')
-	        }
-	
-	        lastPrintWasDot = dot
-	    }
-	
-	    var ended = false
-	    var events = {
-	        end: function(e) {
-	            ended = true
-	            if(printOnTheFly) printDot(false)
-	
-	            var results = unitTest.results()
-	            result.return(formatGroup(results, format, 0).result)
-	
-	            if(format.end !== undefined)
-	                format.end()
-	        }
-	    }
-	
-	    if(printOnTheFly) {
-	        var groups = {}
-	        events.assert = function(e) {
-	            printDot(e.success && !ended)
-	            if(e.success) {
-	                groups[e.parent].testSuccesses++
-	                groups[e.parent].assertSuccesses++
+	        // split key into pseudoclass list
+	        var pseudoClassList = key.split(":")
+	        var emulatablePseudoClasses = []
+	        var nonEmulatablePseudoClasses = []
+	        for(var n in pseudoClassList) {
+	            var pseudoClass = pseudoClassList[n]
+	            var pseudoClassParts = getPseudoClassParts(pseudoClass)
+	            if(pseudoClassParts.class in emulatedPseudoClasses) {
+	                emulatablePseudoClasses.push(pseudoClass)
 	            } else {
-	                groups[e.parent].testFailures++
-	                groups[e.parent].assertFailures++
-	            }
-	
-	            if(!e.success || ended) {
-	                console.log(format.assert(e, undefined, true))
+	                nonEmulatablePseudoClasses.push(pseudoClass)
 	            }
 	        }
-	        events.exception = function(e) {
-	            printDot(false)
-	            groups[e.parent].exceptions++
 	
-	            console.log(format.exception(e.error, true))
-	        }
-	        events.log = function(e) {
-	            printDot(false)
-	            console.log(format.log(e.values, true))
-	        }
-	        events.group = function(g) {
-	            groups[g.id] = {parent: g.parent, name: g.name, testSuccesses: 0, testFailures: 0, assertSuccesses: 0, assertFailures: 0, exceptions: 0}
-	        }
-	        events.groupEnd = function(g) {
-	            var parent = groups[g.id].parent
-	            if(parent !== undefined) {
-	                printDot(false)
-	                if(groups[g.id].testFailures === 0 && groups[g.id].assertFailures === 0 && groups[g.id].exceptions === 0) {
-	                    groups[parent].testSuccesses++
-	                } else {
-	                    groups[parent].testFailures++
-	                }
+	        // todo: add a third branch as an optimization: if the Style can be rendered without emulation - do that
+	        if(emulatablePseudoClasses.length === 0) { // if none of the pseudoclasses can be emulated using javascript
+	            validatePurePseudoClassStyles(key, value)                        // then validate the value and
+	            createPseudoClassRules(style, key, '.'+style.className+":"+key, value)   // create pseudoClassRules
 	
-	                console.log(format.group(groups[g.id].name, undefined, groups[g.id].testSuccesses,groups[g.id].testFailures,groups[g.id].assertSuccesses,groups[g.id].assertFailures,
-	                                        groups[g.id].exceptions, [], [], 1, false, true))
+	        } else { // if some of the pseudoclasses can be emulated using javascript
+	
+	            emulatablePseudoClasses.sort()
+	            var emulatablePseudoClassKey = emulatablePseudoClasses.join(':')
+	            if(tieredPseudoClasses[emulatablePseudoClassKey] === undefined)
+	                tieredPseudoClasses[emulatablePseudoClassKey] = {}
+	
+	            if(nonEmulatablePseudoClasses.length === 0) {
+	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], value)
+	            } else {
+	                nonEmulatablePseudoClasses.sort()
+	                var nonEmulatablePsuedoClassKey = nonEmulatablePseudoClasses.join(':')
+	
+	                var secondTier = {}
+	                secondTier['$$'+nonEmulatablePsuedoClassKey] = value
+	
+	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], secondTier)
 	            }
 	        }
 	    }
 	
-	    unitTest.events(events)
+	    return tieredPseudoClasses
+	}
 	
+	
+	
+	// make combinations of the emulatable pseudoclasses, so that they combine like the non-emulated ones do
+	// info about mathematical combination: https://en.wikipedia.org/wiki/Combination
+	// mutates tieredPseudoClasses
+	function pseudoclassCombinations(tieredPseudoClasses) {
+	    var tieredPseudoClassesKeys = Object.keys(tieredPseudoClasses).reverse().map(function(v) {    // reverse first so that more specific pseudoclasses go first
+	        return {key: v, parts: v.split(':')} // so it doesn't have to split every time
+	    })
+	
+	    for(var n=0; n<tieredPseudoClassesKeys.length; n++) {
+	        var keyA = tieredPseudoClassesKeys[n]
+	        for(var k=2; k <= tieredPseudoClassesKeys.length; k++) { // k is the number of psuedoclasses to combine
+	            for(var j=n+1; j<tieredPseudoClassesKeys.length-(k-2); j++) {
+	                var result = combinePseudoclasses(tieredPseudoClasses, [keyA].concat(tieredPseudoClassesKeys.slice(j, k)))
+	                if(result.key in tieredPseudoClasses) {
+	                    utils.merge(tieredPseudoClasses[result.key], result.value)
+	                } else { // new key
+	                    tieredPseudoClasses[result.key] = result.value
+	                }
+	            }
+	        }
+	    }
+	}
+	
+	
+	
+	// keys is a list of objects where each object has the members:
+	    // key - the original string key
+	    // parts - the key split by ":"
+	// returns an object with the following members:
+	    // key - the new combined key
+	    // value - the new merged value
+	var combinePseudoclasses = function(pseudoclasses, keys) {
+	    var resultKeyParts = keys[0].parts
+	    var resultValue = utils.merge({}, pseudoclasses[keys[0].key]) // make a copy
+	    for(var n=1; n<keys.length; n++) {
+	        var key = keys[n]
+	        // merge all psuedoclasses that don't already exist into the resultKey
+	        for(var j=0; j<key.parts.length; j++) {
+	            var part = key.parts[j]
+	            if(resultKeyParts.indexOf(part) === -1) {
+	                resultKeyParts.push(part)
+	            }
+	        }
+	
+	        // merge the value into resultValue
+	        utils.merge(resultValue, pseudoclasses[key.key])
+	    }
+	
+	    return {key: resultKeyParts.join(':'), value: resultValue}
+	}
+	
+	// a map of pseudoclass names and how they are emulated with javascript
+	// each pseudoclass sets up the following functions:
+	    // check - a function that checks if that pseudoclass currently applies to the component when its called
+	    // setup - calls a callback when the pseudoClass starts and stops applying
+	        // should return an object that will be passed to the kill function (as its 'state' parameter)
+	    // kill - cleans up anything set up in the 'setup' function
+	    // processParameter - takes the pseudoclass parameter and returns some object representing it that will be used by the setup and check functions
+	var emulatedPseudoClasses = {
+	    hover: {
+	        check: function(component) {
+	            var nodes = document.querySelectorAll( ":hover" )
+	            for(var n=0; n<nodes.length; n++) {
+	                if(nodes[n] === component.domNode) {
+	                    return true
+	                }
+	            }
+	            return false
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            component.on("mouseover", function() {
+	                startCallback()
+	            })
+	            component.on("mouseout", endCallback)
+	
+	            return {start: startCallback, end: endCallback}
+	        },
+	        kill: function(component, state) {
+	            component.off("mouseover", state.start)
+	            component.off("mouseout", state.end)
+	        }
+	    },
+	    checked: {
+	        check: function(component) {
+	            return component.selected
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var setupState = {}
+	            component.on("change", setupState.listener = function() {
+	                if(component.selected) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            return setupState
+	        },
+	        kill: function(component, state) {
+	            component.removeListener("change", state.listener)
+	        }
+	    },
+	    required: {
+	        check: function(component) {
+	            return component.attr('required') !== undefined
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var observer = new MutationObserver(function() {
+	                if(component.attr('required') !== undefined) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            observer.observe(component.domNode, {attributes: true})
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        }
+	    },
+	    'last-child': {
+	        check: function(component) {
+	            return nthLastChildCheck(component, '1')
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var observer = new MutationObserver(function() {
+	                if(nthLastChildCheck(component, '1')) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            var setupObserver = function() {
+	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
+	                observer.observe(component.parent.domNode, {childList: true})
+	            }
+	
+	            if(component.parent !== undefined) {
+	                setupObserver()
+	            }
+	
+	            component.on('newParent', function() {
+	                setupObserver()
+	            })
+	            component.on('parentRemoved', function() {
+	                observer.disconnect()
+	            })
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        }
+	    },
+	    'nth-child': {
+	        // todo: support full an+b parameters for nth-child https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
+	        check: function(component, parameterCheck) {
+	            return nthChildCheck(component, parameterCheck)
+	        },
+	        setup: function(component, startCallback, endCallback, parameterCheck) {
+	
+	            var checkAndCallCallbacks = function() {
+	                if(nthChildCheck(component, parameterCheck)) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            }
+	
+	            var observer = new MutationObserver(function() {
+	                checkAndCallCallbacks()
+	            })
+	
+	            var setupObserver = function() {
+	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
+	                observer.observe(component.parent.domNode, {childList: true})
+	            }
+	
+	            if(component.parent !== undefined) {
+	                setupObserver()
+	            }
+	
+	            component.on('newParent', function() {
+	                setupObserver()
+	                checkAndCallCallbacks()
+	            })
+	            component.on('parentRemoved', function() {
+	                observer.disconnect()
+	                checkAndCallCallbacks()
+	            })
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        },
+	        processParameter: function(parameter) {
+	            return nthChildParameterFn(parameter)
+	        }
+	    },
+	
+	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
+	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
+	    /*not: {
+	        check: function() {
+	
+	        },
+	    }*/
+	}
+	
+	// name is the name of the new pseudoclass
+	// fns is an object with the members:
+	    // check(component) - returns true if the pseudoclass applies to the component
+	    // setup(component, startCallback, endCallback, parameter) - a function that should call startCallback when the pseudoclass starts applying, and endCallback when it stops applying
+	        // parameter - the parameter passed to the pseudoclass (e.g. in :not(:first-child), ":first-child" is the parameter)
+	    // kill - a function that cleans up any event listeners or anything else set up in the 'setup' function
+	module.exports.addPseudoClass = function(name, fns) {
+	    if(emulatedPseudoClasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
+	    // else
+	    emulatedPseudoClasses[name] = fns
+	}
+	
+	
+	function nthChildCheck(component, testFn) {
+	    if(component.domNode.parentNode === null)
+	        return false
+	
+	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
+	    var index = Array.prototype.indexOf.call(children, component.domNode)
+	    return testFn(index)
+	}
+	
+	function nthLastChildCheck(component, parameter) {
+	    if(component.domNode.parentNode === null)
+	        return false
+	
+	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
+	    var index = children.length - parseInt(parameter)
+	    return children[index] === component.domNode
+	}
+	
+	// returns a function that takes an index and tell you if that index applies to the nthChildParameter
+	var nthChildParameter = /^(((-?\d*)(([+-]\d*)n?)?)|((-?\d)*n?([+-]\d*)?))$/
+	function nthChildParameterFn(parameter) {
+	    var parts = parameter.match(nthChildParameter)
+	    if(parts === null)
+	        throw new Error("nth-child parameter '"+parameter+"' isn't valid")
+	
+	    if(parts[2] !== undefined) {
+	        var constant = parts[3]
+	        var variable = parts[5]
+	    } else {
+	        var constant = parts[8]
+	        var variable = parts[7]
+	    }
+	
+	    if(constant === undefined) constant = 0
+	    else                       constant = parseInt(constant)
+	    if(variable === undefined) variable = 0
+	    else                       variable = parseInt(variable)
+	
+	    if(variable === 0) {
+	        return function(index) {
+	            return index+1 === constant
+	        }
+	    } else {
+	        return function(index) {
+	            return ((index+1-constant)/variable) % 1 === 0
+	        }
+	    }
+	
+	}
+	
+	// maps a style value to a css value
+	// style values that are numbers are mapped to strings, usually with px postfix
+	function cssValue(cssStyleName, value) {
+	    // If a number was passed in, add 'px' to the (except for certain CSS properties) [also taken from jquery's code]
+	    if(typeof(value) === "number" && cssNumber[cssStyleName] === undefined) {
+	        return value+"px"
+	    } else {
+	        return value.toString()
+	    }
+	}
+	
+	function createPseudoClassRules(that, pseudoClass, selector, pseudoClassStyle) {
+	
+	    var pseudoClassCss = {}
+	    for(var key in pseudoClassStyle) {
+	        var value = pseudoClassStyle[key]
+	
+	        if(!(value instanceof Object)) {
+	            var cssStyle = key
+	            var cssStyleName = mapCamelCase(cssStyle)
+	            pseudoClassCss[cssStyleName] = cssValue(cssStyleName, value)
+	        } else {
+	            throw new Error("All properties within the pseudoclasses '"+pseudoClass+"' must be css styles")
+	        }
+	    }
+	
+	    // create immediate pseudo class style
+	    defaultJss.set(selector, pseudoClassCss) // create the css class with the pseudoClass
+	
+	    //if(module.exports.isDev) {
+	        that.styleDefinitions = {}
+	        that.styleDefinitions[selector] = pseudoClassCss
+	    //}
+	}
+	
+	// throws exceptions for various style configurations that are unsupported by pure pseudo classes (ones that can't be emulated usuing javascript)
+	function validatePurePseudoClassStyles(pseudoClass, pseudoClassStyles) {
+	    for(var key in pseudoClassStyles) {
+	        var value = pseudoClassStyles[key]
+	
+	        if(isStyleObject(value)) {
+	            throw new Error("Can't set the pseudoclasses '"+pseudoClass+"' to a Style object")
+	        } else if(key === '$setup') {
+	            throw new Error("$setup can't be used within the pseudoclasses '"+pseudoClass+"'")
+	        } else if(key === '$kill') {
+	            throw new Error("$kill can't be used within the pseudoclasses '"+pseudoClass+"'")
+	        } else if(key.indexOf('$') === 0) {   // label style
+	            throw new Error("Block labels can't be used within the pseudoclasses '"+pseudoClass+"'")
+	        }
+	    }
+	}
+	
+	// e.g. pulls out 'nth-child' and '2+3n' from 'nth-child(2+3n)'
+	var pseudoClassRegex = /^([^(]*)(\((.*)\))?$/
+	function getPseudoClassParts(fullPsuedoClass) {
+	    var x = fullPsuedoClass.match(pseudoClassRegex)
+	    if(x === null) throw new Error("Pseudoclass '"+fullPsuedoClass+"' is invalid")
+	    return {class: x[1], parameter: x[3]}
+	}
+	
+	
+	// takes in a list of pseudoClassRules and changes any nesting like {hover: {focus: {}}} into something like {hover: {}, "hover:focus": {}}
+	// also does some validation
+	function flattenPseudoClassStyles(pseudoClass, pseudoClassStyle) {
+	    var nonPseudoClassStyles = {}
+	    var subpseudoClasses = {}
+	    for(var key in pseudoClassStyle) {
+	        var value = pseudoClassStyle[key]
+	
+	        if(key.indexOf('$$') === 0) { // pseudo-class style
+	            var subPseudoClass = key.substr(2)
+	            if(subPseudoClass === '') {
+	                throw new Error("Empty pseudo-class name not valid (style key '$$')")
+	            }
+	
+	            subpseudoClasses[subPseudoClass] = value
+	        } else {
+	            nonPseudoClassStyles[key] = value
+	        }
+	    }
+	
+	    // create flattened styles (with merged in styles from its parent pseudoclass
+	    var flattenedStyles = {}
+	    for(var subPseudoClass in subpseudoClasses) {
+	        var value = subpseudoClasses[subPseudoClass]
+	
+	        if(isStyleObject(value)) {
+	            flattenedStyles[pseudoClass+":"+subPseudoClass] =  value
+	        } else {
+	            utils.merge(flattenedStyles, flattenPseudoClassStyles(pseudoClass+":"+subPseudoClass, utils.merge({}, nonPseudoClassStyles, value)))
+	        }
+	    }
+	
+	    // write the top-level pseudoClass
+	    flattenedStyles[pseudoClass] = nonPseudoClassStyles
+	
+	    return flattenedStyles
+	}
+	
+	
+	// taken from jquery's code
+	var cssNumber = {
+	    "column-count": 1,
+	    "fill-opacity": 1,
+	    "flex-grow": 1,
+	    "flex-shrink": 1,
+	    "font-weight": 1,
+	    "line-height": 1,
+	    "opacity": 1,
+	    "order": 1,
+	    "orphans": 1,
+	    "widows": 1,
+	    "z-index": 1,
+	    "zoom": 1
+	}
+	
+	function isStyleObject(o) {
+	    return o.componentStyleMap !== undefined
+	}
+	
+	
+	var asciiA = 'A'.charCodeAt(0), asciiZ = 'Z'.charCodeAt(0), difference = 'a'.charCodeAt(0) - asciiA
+	function mapCamelCase(cssStyleName) {
+	    for(var n=0; n<cssStyleName.length; n++) {
+	        var ascii = cssStyleName.charCodeAt(n)
+	        if(asciiA <= ascii && ascii <= asciiZ) { // found capital letter
+	            cssStyleName = cssStyleName.slice(0, n) + '-'+String.fromCharCode(ascii+difference) + cssStyleName.slice(n+1)
+	            n++ // increment a second time for the dash
+	        }
+	    }
+	
+	    return cssStyleName
+	}
+	
+	// maps all the styles that are inherited by descendant nodes to their default values
+	// source: http://stackoverflow.com/questions/5612302/which-css-styles-are-inherited
+	var defaultStyleValues = {
+	    'azimuth': 'center',
+	    'border-collapse': 'separate',
+	    'border-spacing': '0',
+	    'caption-side': 'top',
+	    //'color': 'black',         // let this inherit
+	    //'cursor': 'auto',         // let this one inherit - its weird otherwise
+	    'direction': 'ltr',
+	     display: 'inline-block', // changes the default display to inline-block
+	    'elevation': '',
+	    'empty-cells': 'show',
+	    // 'font-family': '',       // let this inherit
+	    // 'font-size': 'medium',   // let this inherit
+	    //'font-style': 'normal',   // let this inherit
+	    //'font-variant': 'normal', // let this inherit
+	    //'font-weight': 'normal',  // let this inherit
+	    'letter-spacing': 'normal',
+	    'line-height': 'normal',
+	    'list-style-image': 'none',
+	    'list-style-position': 'outside',
+	    'list-style-type': 'disc',
+	    'orphans': '2',
+	    'pitch-range': '',
+	    'pitch': '',
+	     position: 'relative', // changes the default positioning so that absolute is relative to its parent by default
+	    'quotes': '',
+	    'richness': '',
+	    'speak-header': '',
+	    'speak-numeral': '',
+	    'speak-punctuation': '',
+	    'speak': '',
+	    'speak-rate': '',
+	    'stress': '',
+	    'text-align': 'left',
+	    'text-indent': '0',
+	    'text-transform': 'none',
+	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
+	    'voice-family': '',
+	    'volume': '',
+	    'white-space': 'normal',
+	    'widows': '2',
+	    'word-spacing': 'normal'
+	}
+	
+	
+	
+	// returns index of the passed css classname, or undefined if sheet containing that class isn't found
+	function cssClassSheetIndex(classname) {
+	    var result = undefined
+	
+	    var styleNodes = document.querySelectorAll("style")
+	    for(var n=0; n<styleNodes.length; n++) {
+	        var sheet = styleNodes[n].sheet
+	        jssModule.defaultSheet = sheet
+	
+	        var defaultStyleMaybe = jssModule.get(classname)
+	        if(Object.keys(defaultStyleMaybe).length > 0) {
+	            result = n
+	            break
+	        }
+	    }
+	
+	    jssModule.defaultSheet = undefined
 	    return result
 	}
 	
-	function formatGroup(testResults, format, nestingLevel) {
-	    var assertSuccesses = 0
-	    var assertFailures = 0
-	    var exceptions = 0
 	
-	    var testCaseSuccesses= 0, testCaseFailures=0;
+	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
+	var jss = jssModule.forDocument(document)
 	
-	    var results = []
-	    testResults.results.forEach(function(result) {
-	        if(result.type === 'assert') {
-	            if(result.success) {
-	                testCaseSuccesses++
-	                assertSuccesses ++
-	            } else {
-	                testCaseFailures++
-	                assertFailures++
-	            }
+	var defaultClassSheetIndex = cssClassSheetIndex('.'+Style.defaultClassName)
+	if(defaultClassSheetIndex === undefined) {
+	    defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
 	
-	            results.push(format.assert(result, testResults.name, false))
+	    jss.defaultSheet = jss._createSheet()
 	
-	        } else if(result.type === 'group') {
-	            var group = formatGroup(result, format, nestingLevel+1)
-	            exceptions+= group.exceptions
+	    defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
 	
-	            if(group.failures === 0 && group.exceptions === 0)
-	                testCaseSuccesses++
-	            else
-	                testCaseFailures++
+	    defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
+	        cursor: 'inherit'
+	    })
+	} else {
+	    // if the default styleclass *already* exists, it probably means that blocks.js is being loaded twice
+	    console.log("Warning: the default-styles class name for blocks.js looks like its already in use. This probably means you have two versions of blocks.js loaded. If so, Blocks.js will continue to work, but your app will be a bit bloated. If something other than block.js created that class, blocks.js may break that style.")
 	
-	            results.push(group.result)
-	            assertSuccesses+= group.assertSuccesses
-	            assertFailures+= group.assertFailures
+	    var styleNodes = document.querySelectorAll("style")
+	    defaultJss.defaultSheet = styleNodes[defaultClassSheetIndex].sheet
+	    jss.defaultSheet = styleNodes[defaultClassSheetIndex+1].sheet
 	
-	        } else if(result.type === 'log') {
-	            results.push(format.log(result.values, false))
+	    // make sure the baseClassName isn't already taken
+	    var dedupNumber = 0
+	    while(true) {
+	        var testBaseClassName = baseClassName+dedupNumber
+	        if(cssClassSheetIndex('.'+testBaseClassName+dedupNumber+0) !== undefined) {
+	            dedupNumber++
 	        } else {
-	            throw new Error("Unknown result type: "+result.type)
+	            break;
+	        }
+	    }
+	
+	    baseClassName = testBaseClassName+dedupNumber
+	}
+	
+	
+	/*private*/ module.exports.isDev; // should be set by Block
+	
+	var computedStyles = module.exports.computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
+	
+
+
+/***/ },
+/* 68 */
+/*!*********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
+  \*********************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 84)
+	var proto = __webpack_require__(/*! proto */ 57);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 61)
+	var observe = __webpack_require__(/*! observe */ 62)
+	
+	var utils = __webpack_require__(/*! ./utils */ 79)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 83)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 80)
+	
+	var Style = __webpack_require__(/*! ./Style */ 67)
+	Style.isDev = function() {return module.exports.dev}
+	
+	var components = {};
+	
+	var setOfBrowserEvents = utils.arrayToMap([
+	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
+	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
+	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
+	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
+	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
+	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
+	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
+	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
+	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
+	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
+	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
+	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
+	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
+	])
+	
+	// events:
+	    // newParent - emits this when a component gets a new parent
+	    // parentRemoved - emits this when a component is detached from its parent
+	var Block = module.exports = proto(EventEmitterB,function(superclass) {
+	
+	    // static properties
+	
+	    // constructor
+		this.init = function() {
+	        var that = this
+	
+	        if(this.name === undefined) {
+	            throw new Error("The 'name' property is required for Blocks")
+	        }
+	
+	        var defaultBlockStyle = blockStyleUtils.defaultStyleMap.get(this.constructor)
+	        if(defaultBlockStyle === undefined) {
+	            defaultBlockStyle = blockStyleUtils.createDefaultBlockStyle(this)
+	        }
+	
+	        superclass.init.call(this)
+	
+	        this.children = []
+	        this.state = observe({})
+	        this.parent = undefined;
+	
+			if (this.id !== undefined) {
+				components[this.id] = this;
+			}
+	
+	        if(this.domNode === undefined) {
+	            this.domNode = domUtils.div()
+	        }
+	
+	        this.build.apply(this, arguments)
+	
+	        //if(module.exports.dev) {
+	            this.attr('blkName', this.name)
+	        //}
+	
+	        var classList = [this.domNode.className]
+	        if(defaultBlockStyle !== false) classList.push(defaultBlockStyle.className)
+	        classList.push(Style.defaultClassName)
+	        this.domNode.className = classList.join(' ') // note that the order of classes doesn't matter
+	
+	        // set up dom event handlers
+	        var ifonHandlers={}
+	        that.ifon(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        that.ifoff(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.removeEventListener(event,ifonHandlers[event])
+	            }
+	        })
+		}
+	
+	    // sub-constructor - called by the constructor
+	    // parameters:
+	        // label - (Optional) A label that can be used to style a component differently.
+	                   // Intended to be some string describing what the component is being used for.
+	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
+	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
+	    this.build = function(/*[label,] domNode*/) {
+	        if(arguments.length === 1) {
+	            this.domNode = arguments[0]
+	        } else if(arguments.length >= 2) {
+	            this.label = arguments[0]
+	            this.domNode = arguments[1]
+	        }
+	    }
+		
+	
+		// instance properties
+	
+		
+		this.domNode;
+	    this.label;
+	    this.excludeDomEvents;
+	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
+	
+	
+	    Object.defineProperty(this, 'label', {
+	        get: function() {
+	            return this._label
+	        }, set: function(v) {
+	            if(this._label === undefined) {
+	                this._label = v
+	
+	                if(module.exports.dev) {
+	                    this.attr('label', this._label)
+	                }
+	            } else {
+	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
+	            }
 	        }
 	    })
 	
-	    var exceptionResults = []
-	    testResults.exceptions.forEach(function(e) {
-	        exceptionResults.push(format.exception(e, false))
+	    // adds elements to the components main domNode
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.add = function() {
+	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
+		}
+	
+	    // adds nodes at a particular index
+	    // nodes can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addAt = function(index/*, nodes...*/) {
+	        var nodes = normalizeAddAtArguments.apply(this, arguments)
+	
+	        for (var i=0;i<nodes.length;i++) {
+				var node = nodes[i];
+	            this.children.splice(index+i, 0, node)
+	
+	            if(!isBlock(node)) {
+	                throw new Error("node is not a Block")
+	            }
+	
+	            node.parent = undefined
+	            node.emit('parentRemoved')
+	
+	            var beforeChild = this.children[1+i+index]
+	            if(beforeChild === undefined) {
+	                this.domNode.appendChild(node.domNode)
+	            } else {
+	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
+	            }
+	
+	            node.parent = this;
+	            node.emit('newParent')
+	
+	            // apply styles
+	            //if(itsaBlock) { // its always a component now
+	                var that = this
+	                node.getParentStyleMap = function() {return that.computedStyleMap}
+	                blockStyleUtils.propogateStyleSet([node], this.computedStyleMap)
+	            //}
+			}
+	    }
+	
+		// add a list of nodes before a particular node
+	    // if beforeChild is undefined, this will append the given nodes
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addBefore = this.addBeforeNode = function(beforeChild) {
+	        var nodes = trimArguments(arguments).slice(1)
+	        if(beforeChild === undefined) {
+	            this.add.apply(this, nodes)
+	        } else {
+	            var index = this.children.indexOf(beforeChild)
+	            this.addAt.apply(this, [index].concat(nodes))
+	        }
+	    }
+	
+	
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // index, index, index, ... - each index is the numerical index to remove
+	        // arrayOfComponents
+	        // arrayOfIndexes
+	    this.remove = function() {
+	        var removals = normalizeRemoveArguments.apply(this, arguments)
+	        removals = removals.sort(function(a,b) {
+	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
+	        })
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	            var c = this.children[r]
+	
+	            if(c === undefined) {
+	                throw new Error("There is no child at index "+r)
+	            }
+	
+	            c.parent = undefined
+	            this.children.splice(r, 1)
+	            this.domNode.removeChild(this.domNode.childNodes[r])
+	
+	            c.emit('parentRemoved')
+	        }
+	    }
+	
+	    // sets or gets an attribute on the components domNode
+	    // parameter sets:
+	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
+	    // if there are two arguments passed, the attribute is set
+	        // if 'value' is undefined, the attribute is removed
+	    this.attr = function(/*attribute, value OR attributeObject*/) {
+	        if(arguments.length === 1) {
+	            if(arguments[0] instanceof Object) {
+	                var attributes = arguments[0]
+	                for(var attribute in attributes) {
+	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
+	                }
+	            } else {
+	                var attribute = this.domNode.getAttribute(arguments[0])
+	                if(attribute === null) {
+	                    return undefined // screw null
+	                } else {
+	                    return attribute
+	                }
+	            }
+	        } else {
+	            var attribute = arguments[0]
+	            if(arguments[1] !== undefined) {
+	                var value = arguments[1]
+	                domUtils.setAttribute(this.domNode, arguments[0], value)
+	            } else {
+	                this.domNode.removeAttribute(attribute)
+	            }
+	        }
+	    }
+	
+	    Object.defineProperty(this, 'visible', {
+	        // returns true if the element is visible
+	        get: function() {
+	            return this.domNode.style.display !== 'none';
+	
+	        // sets whether or not the element is visible
+	        }, set: function(setToVisible) {
+	            if(setToVisible) {
+	                if (this._displayStyle !== undefined) {
+	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
+	                    this._displayStyle = undefined
+	                } else {
+	                    this.domNode.style.display = ''
+	                }
+	            } else {
+	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
+	                    this._displayStyle = this.domNode.style.display
+	                }
+	
+	                this.domNode.style.display = 'none'
+	            }
+	        }
 	    })
 	
-	    exceptions+= testResults.exceptions.length
 	
-	    var formattedGroup = format.group(testResults.name, testResults.duration,
-	                                      testCaseSuccesses, testCaseFailures,
-	                                      assertSuccesses, assertFailures, exceptions,
-	                                      results, exceptionResults, nestingLevel, testResults.timeout, false)
-	    return {result: formattedGroup,
-	            successes: testCaseSuccesses,
-	            failures: testCaseFailures,
-	            assertSuccesses: assertSuccesses,
-	            assertFailures: assertFailures,
-	            exceptions: exceptions
+	    Object.defineProperty(this, 'focus', {
+	        // returns true if the element is in focus
+	        get: function() {
+	            return document.activeElement === this.domNode
+	
+	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
+	        }, set: function(setToInFocus) {
+	            if(setToInFocus) {
+	                this.domNode.focus()
+	            } else {
+	                this.domNode.blur()
+	            }
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'style', {
+	        get: function() {
+	            return this._style
+	
+	        // sets the style, replacing one if one already exists
+	        }, set: function(styleObject) {
+	            if(styleObject === undefined) {
+	                var styleMap = this.getParentStyleMap()
+	                if(styleMap !== undefined) {
+	                    blockStyleUtils.setCurrentStyle(this, blockStyleUtils.getStyleForComponent(styleMap, this))
+	                } else {
+	                    blockStyleUtils.setCurrentStyle(this, undefined)
+	                }
+	
+	                this.computedStyleMap = styleMap
+	
+	            } else {
+	                blockStyleUtils.setCurrentStyle(this, styleObject)
+	                var specificStyle = styleObject.get(this)
+	                if(this.getParentStyleMap() !== undefined) {
+	                    this.computedStyleMap = blockStyleUtils.styleMapConjunction(this.getParentStyleMap(), specificStyle.componentStyleMap)
+	                } else {
+	                    this.computedStyleMap = specificStyle.componentStyleMap
+	                }
+	            }
+	
+	            this._style = styleObject
+	            blockStyleUtils.propogateStyleSet(this.children, this.computedStyleMap) // propogate styles to children
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'selectionRange', {
+	        // returns the visible character selection range inside the element
+	        // returns an array like [offsetStart, offsetEnd]
+	        get: function() {
+	            return domUtils.getSelectionRange(this.domNode)
+	
+	        // sets the visible character selection range
+	        }, set: function(selection) {
+	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
+	        }
+	    })
+	
+	    this.attach = function() {
+	        attach(this)
+	    }
+	    this.detach = function() {
+	        detach(this)
+	    }
+	
+	
+		// private instance variables/functions
+	
+	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
+	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
+	
+		this._style;              // the object's explicit Style object (undefined if it inherits a style)
+	    this.currentStyle;       // the object's current Style (inherited or explicit)
+	    this._displayStyle;      // temporariliy stores an inline display style while the element is hidden (for use when 'show' is called)
+	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
+	});
+	
+	
+	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
+	
+	
+	// appends components to the body
+	var attach = module.exports.attach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
+	    }
+	
+	    if(document.body === null) throw new Error("Your document does not have a body.")
+	
+	    for(var n=0; n<components.length; n++) {
+	        document.body.appendChild(components[n].domNode)
+	    }
+	}
+	// removes components from the body
+	var detach = module.exports.detach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        document.body.removeChild(components[n].domNode)
 	    }
 	}
 	
+	// creates a body tag (only call this if document.body is null)
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 54)))
-
-/***/ },
-/* 44 */
-/*!************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/asyncFuture.js ***!
-  \************************************************************************************************/
-[142, 69],
-/* 45 */
-/*!****************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/indent.js ***!
-  \****************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
+	module.exports.createBody = function(callback) {
+	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+	    var body = dom.createElement("body")
+	    dom.documentElement.appendChild(body)
+	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
+	        callback()
+	    },0)
+	}
 	
-	module.exports = function(i, str) {
-	    return i+str.split("\n")       // get all lines
-	              .join("\n"+i)      // join all lines with an indent
+	
+	
+	
+	// returns a list of indexes to remove from Block.remove's arguments
+	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
+	    var that = this
+	
+	    if(arguments[0] instanceof Array) {
+	        var removals = arguments[0]
+	    } else {
+	        var removals = Array.prototype.slice.call(arguments)
+	    }
+	
+	    return removals.map(function(removal, parameterIndex) {
+	        if(isBlock(removal)) {
+	            var index = that.children.indexOf(removal)
+	            if(index === -1) {
+	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
+	            }
+	            return index
+	        } else {
+	            return removal
+	        }
+	
+	    })
+	}
+	
+	// returns a list of nodes to add
+	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
+	    if(arguments.length === 2) {
+	        if(arguments[1] instanceof Array) {
+	            return arguments[1]
+	        } else {
+	            return [arguments[1]]
+	        }
+	    } else { // > 2
+	        return trimArguments(arguments).slice(1)
+	    }
+	}
+	
+	function isBlock(c) {
+	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
+	}
+	function isDomNode(node) {
+	    return node.nodeName !== undefined
 	}
 
 /***/ },
-/* 46 */
+/* 69 */
+/*!************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Container.js ***!
+  \************************************************************************************************************/
+[155, 68, 57],
+/* 70 */
+/*!*******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Text.js ***!
+  \*******************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 68)
+	var proto = __webpack_require__(/*! proto */ 57)
+	var Style = __webpack_require__(/*! Style */ 67)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Text'
+	
+	    this.defaultStyle = Style({
+	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
+	    })
+	
+	    this.init = function(/*[label,] text*/) {
+	        if(arguments.length === 1) {
+	            var text = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        }
+	
+	        if (text === undefined) text = '';
+	
+	        superclass.init.call(this) // superclass constructor
+	
+	        var that = this
+	
+	        this.label = label
+	        this.text = text
+	
+	        this.on("input",function(data) {
+	            var eventData = {newText:data.srcElement.textContent,oldText:that.oldText};
+	            that.oldText = eventData.newText;
+	            //that.emit("input",eventData);
+	        });
+	
+	        this.on("blur",function(data) {
+	            var eventData = {newText:data.srcElement.textContent,oldText:that.lastFocus};
+	            that.lastFocus = eventData.newText;
+	            //that.emit("blur",eventData);
+	        });
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode.textContent
+	        }, set: function(v) {
+	            this.domNode.innerText = v   // apparently textContent can't be set or something
+	        }
+	    })
+	});
+
+
+/***/ },
+/* 71 */
 /*!******************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.js ***!
   \******************************************************************************************************/
@@ -9863,15 +10145,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(/*! path */ 37)
-	var Url = __webpack_require__(/*! url */ 65)
+	var path = __webpack_require__(/*! path */ 66)
+	var Url = __webpack_require__(/*! url */ 85)
 	
-	var proto = __webpack_require__(/*! proto */ 74)
-	var Future = __webpack_require__(/*! async-future */ 71)
-	var SourceMapConsumer = __webpack_require__(/*! source-map */ 72).SourceMapConsumer
+	var proto = __webpack_require__(/*! proto */ 87)
+	var Future = __webpack_require__(/*! async-future */ 90)
+	var SourceMapConsumer = __webpack_require__(/*! source-map */ 88).SourceMapConsumer
 	
-	var processResults = __webpack_require__(/*! ./processResults */ 61)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 59)
+	var processResults = __webpack_require__(/*! ./processResults */ 81)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 82)
 	
 	// returns a module intended for a specific environment (that environment being described by the options)
 	// options can contain:
@@ -10772,7 +11054,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 47 */
+/* 72 */
 /*!********************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/deadunitCore.browserConfig.js ***!
   \********************************************************************************************************************/
@@ -10781,16 +11063,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(/*! path */ 37);
+	var path = __webpack_require__(/*! path */ 66);
 	
-	var Future = __webpack_require__(/*! async-future */ 71)
-	var proto = __webpack_require__(/*! proto */ 74)
-	var stackinfo = __webpack_require__(/*! stackinfo */ 75)
-	var ajax = __webpack_require__(/*! ajax */ 73)
-	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 76).resolveSourceMap)
+	var Future = __webpack_require__(/*! async-future */ 90)
+	var proto = __webpack_require__(/*! proto */ 87)
+	var stackinfo = __webpack_require__(/*! stackinfo */ 89)
+	var ajax = __webpack_require__(/*! ajax */ 92)
+	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 91).resolveSourceMap)
 	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 46)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 59)
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 71)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 82)
 	
 	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
 	
@@ -10949,7 +11231,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 48 */
+/* 73 */
 /*!**************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/observe/utils.js ***!
   \**************************************************************************/
@@ -10957,7 +11239,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var path = __webpack_require__(/*! path */ 37)
+	var path = __webpack_require__(/*! path */ 66)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -11001,643 +11283,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 49 */
-/*!****************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/util/util.js ***!
-  \****************************************************/
+/* 74 */
+/*!*******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/async-future/~/trimArguments/trimArguments.js ***!
+  \*******************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
 	
-	var formatRegExp = /%[sdj%]/g;
-	exports.format = function(f) {
-	  if (!isString(f)) {
-	    var objects = [];
-	    for (var i = 0; i < arguments.length; i++) {
-	      objects.push(inspect(arguments[i]));
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
 	    }
-	    return objects.join(' ');
-	  }
-	
-	  var i = 1;
-	  var args = arguments;
-	  var len = args.length;
-	  var str = String(f).replace(formatRegExp, function(x) {
-	    if (x === '%%') return '%';
-	    if (i >= len) return x;
-	    switch (x) {
-	      case '%s': return String(args[i++]);
-	      case '%d': return Number(args[i++]);
-	      case '%j':
-	        try {
-	          return JSON.stringify(args[i++]);
-	        } catch (_) {
-	          return '[Circular]';
-	        }
-	      default:
-	        return x;
-	    }
-	  });
-	  for (var x = args[i]; i < len; x = args[++i]) {
-	    if (isNull(x) || !isObject(x)) {
-	      str += ' ' + x;
-	    } else {
-	      str += ' ' + inspect(x);
-	    }
-	  }
-	  return str;
-	};
-	
-	
-	// Mark that a method should not be used.
-	// Returns a modified function which warns once by default.
-	// If --no-deprecation is set, then it is a no-op.
-	exports.deprecate = function(fn, msg) {
-	  // Allow for deprecating things in the process of starting up.
-	  if (isUndefined(global.process)) {
-	    return function() {
-	      return exports.deprecate(fn, msg).apply(this, arguments);
-	    };
-	  }
-	
-	  if (process.noDeprecation === true) {
-	    return fn;
-	  }
-	
-	  var warned = false;
-	  function deprecated() {
-	    if (!warned) {
-	      if (process.throwDeprecation) {
-	        throw new Error(msg);
-	      } else if (process.traceDeprecation) {
-	        console.trace(msg);
-	      } else {
-	        console.error(msg);
-	      }
-	      warned = true;
-	    }
-	    return fn.apply(this, arguments);
-	  }
-	
-	  return deprecated;
-	};
-	
-	
-	var debugs = {};
-	var debugEnviron;
-	exports.debuglog = function(set) {
-	  if (isUndefined(debugEnviron))
-	    debugEnviron = process.env.NODE_DEBUG || '';
-	  set = set.toUpperCase();
-	  if (!debugs[set]) {
-	    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-	      var pid = process.pid;
-	      debugs[set] = function() {
-	        var msg = exports.format.apply(exports, arguments);
-	        console.error('%s %d: %s', set, pid, msg);
-	      };
-	    } else {
-	      debugs[set] = function() {};
-	    }
-	  }
-	  return debugs[set];
-	};
-	
-	
-	/**
-	 * Echos the value of a value. Trys to print the value out
-	 * in the best way possible given the different types.
-	 *
-	 * @param {Object} obj The object to print out.
-	 * @param {Object} opts Optional options object that alters the output.
-	 */
-	/* legacy: obj, showHidden, depth, colors*/
-	function inspect(obj, opts) {
-	  // default options
-	  var ctx = {
-	    seen: [],
-	    stylize: stylizeNoColor
-	  };
-	  // legacy...
-	  if (arguments.length >= 3) ctx.depth = arguments[2];
-	  if (arguments.length >= 4) ctx.colors = arguments[3];
-	  if (isBoolean(opts)) {
-	    // legacy...
-	    ctx.showHidden = opts;
-	  } else if (opts) {
-	    // got an "options" object
-	    exports._extend(ctx, opts);
-	  }
-	  // set default options
-	  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-	  if (isUndefined(ctx.depth)) ctx.depth = 2;
-	  if (isUndefined(ctx.colors)) ctx.colors = false;
-	  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-	  if (ctx.colors) ctx.stylize = stylizeWithColor;
-	  return formatValue(ctx, obj, ctx.depth);
+	    args.splice(-0, count)
+	    return args
 	}
-	exports.inspect = inspect;
-	
-	
-	// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-	inspect.colors = {
-	  'bold' : [1, 22],
-	  'italic' : [3, 23],
-	  'underline' : [4, 24],
-	  'inverse' : [7, 27],
-	  'white' : [37, 39],
-	  'grey' : [90, 39],
-	  'black' : [30, 39],
-	  'blue' : [34, 39],
-	  'cyan' : [36, 39],
-	  'green' : [32, 39],
-	  'magenta' : [35, 39],
-	  'red' : [31, 39],
-	  'yellow' : [33, 39]
-	};
-	
-	// Don't use 'blue' not visible on cmd.exe
-	inspect.styles = {
-	  'special': 'cyan',
-	  'number': 'yellow',
-	  'boolean': 'yellow',
-	  'undefined': 'grey',
-	  'null': 'bold',
-	  'string': 'green',
-	  'date': 'magenta',
-	  // "name": intentionally not styling
-	  'regexp': 'red'
-	};
-	
-	
-	function stylizeWithColor(str, styleType) {
-	  var style = inspect.styles[styleType];
-	
-	  if (style) {
-	    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
-	           '\u001b[' + inspect.colors[style][1] + 'm';
-	  } else {
-	    return str;
-	  }
-	}
-	
-	
-	function stylizeNoColor(str, styleType) {
-	  return str;
-	}
-	
-	
-	function arrayToHash(array) {
-	  var hash = {};
-	
-	  array.forEach(function(val, idx) {
-	    hash[val] = true;
-	  });
-	
-	  return hash;
-	}
-	
-	
-	function formatValue(ctx, value, recurseTimes) {
-	  // Provide a hook for user-specified inspect functions.
-	  // Check that value is an object with an inspect function on it
-	  if (ctx.customInspect &&
-	      value &&
-	      isFunction(value.inspect) &&
-	      // Filter out the util module, it's inspect function is special
-	      value.inspect !== exports.inspect &&
-	      // Also filter out any prototype objects using the circular check.
-	      !(value.constructor && value.constructor.prototype === value)) {
-	    var ret = value.inspect(recurseTimes, ctx);
-	    if (!isString(ret)) {
-	      ret = formatValue(ctx, ret, recurseTimes);
-	    }
-	    return ret;
-	  }
-	
-	  // Primitive types cannot have properties
-	  var primitive = formatPrimitive(ctx, value);
-	  if (primitive) {
-	    return primitive;
-	  }
-	
-	  // Look up the keys of the object.
-	  var keys = Object.keys(value);
-	  var visibleKeys = arrayToHash(keys);
-	
-	  if (ctx.showHidden) {
-	    keys = Object.getOwnPropertyNames(value);
-	  }
-	
-	  // IE doesn't make error fields non-enumerable
-	  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-	  if (isError(value)
-	      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-	    return formatError(value);
-	  }
-	
-	  // Some type of object without properties can be shortcutted.
-	  if (keys.length === 0) {
-	    if (isFunction(value)) {
-	      var name = value.name ? ': ' + value.name : '';
-	      return ctx.stylize('[Function' + name + ']', 'special');
-	    }
-	    if (isRegExp(value)) {
-	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-	    }
-	    if (isDate(value)) {
-	      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-	    }
-	    if (isError(value)) {
-	      return formatError(value);
-	    }
-	  }
-	
-	  var base = '', array = false, braces = ['{', '}'];
-	
-	  // Make Array say that they are Array
-	  if (isArray(value)) {
-	    array = true;
-	    braces = ['[', ']'];
-	  }
-	
-	  // Make functions say that they are functions
-	  if (isFunction(value)) {
-	    var n = value.name ? ': ' + value.name : '';
-	    base = ' [Function' + n + ']';
-	  }
-	
-	  // Make RegExps say that they are RegExps
-	  if (isRegExp(value)) {
-	    base = ' ' + RegExp.prototype.toString.call(value);
-	  }
-	
-	  // Make dates with properties first say the date
-	  if (isDate(value)) {
-	    base = ' ' + Date.prototype.toUTCString.call(value);
-	  }
-	
-	  // Make error with message first say the error
-	  if (isError(value)) {
-	    base = ' ' + formatError(value);
-	  }
-	
-	  if (keys.length === 0 && (!array || value.length == 0)) {
-	    return braces[0] + base + braces[1];
-	  }
-	
-	  if (recurseTimes < 0) {
-	    if (isRegExp(value)) {
-	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-	    } else {
-	      return ctx.stylize('[Object]', 'special');
-	    }
-	  }
-	
-	  ctx.seen.push(value);
-	
-	  var output;
-	  if (array) {
-	    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-	  } else {
-	    output = keys.map(function(key) {
-	      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-	    });
-	  }
-	
-	  ctx.seen.pop();
-	
-	  return reduceToSingleString(output, base, braces);
-	}
-	
-	
-	function formatPrimitive(ctx, value) {
-	  if (isUndefined(value))
-	    return ctx.stylize('undefined', 'undefined');
-	  if (isString(value)) {
-	    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
-	                                             .replace(/'/g, "\\'")
-	                                             .replace(/\\"/g, '"') + '\'';
-	    return ctx.stylize(simple, 'string');
-	  }
-	  if (isNumber(value))
-	    return ctx.stylize('' + value, 'number');
-	  if (isBoolean(value))
-	    return ctx.stylize('' + value, 'boolean');
-	  // For some reason typeof null is "object", so special case here.
-	  if (isNull(value))
-	    return ctx.stylize('null', 'null');
-	}
-	
-	
-	function formatError(value) {
-	  return '[' + Error.prototype.toString.call(value) + ']';
-	}
-	
-	
-	function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-	  var output = [];
-	  for (var i = 0, l = value.length; i < l; ++i) {
-	    if (hasOwnProperty(value, String(i))) {
-	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-	          String(i), true));
-	    } else {
-	      output.push('');
-	    }
-	  }
-	  keys.forEach(function(key) {
-	    if (!key.match(/^\d+$/)) {
-	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-	          key, true));
-	    }
-	  });
-	  return output;
-	}
-	
-	
-	function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-	  var name, str, desc;
-	  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-	  if (desc.get) {
-	    if (desc.set) {
-	      str = ctx.stylize('[Getter/Setter]', 'special');
-	    } else {
-	      str = ctx.stylize('[Getter]', 'special');
-	    }
-	  } else {
-	    if (desc.set) {
-	      str = ctx.stylize('[Setter]', 'special');
-	    }
-	  }
-	  if (!hasOwnProperty(visibleKeys, key)) {
-	    name = '[' + key + ']';
-	  }
-	  if (!str) {
-	    if (ctx.seen.indexOf(desc.value) < 0) {
-	      if (isNull(recurseTimes)) {
-	        str = formatValue(ctx, desc.value, null);
-	      } else {
-	        str = formatValue(ctx, desc.value, recurseTimes - 1);
-	      }
-	      if (str.indexOf('\n') > -1) {
-	        if (array) {
-	          str = str.split('\n').map(function(line) {
-	            return '  ' + line;
-	          }).join('\n').substr(2);
-	        } else {
-	          str = '\n' + str.split('\n').map(function(line) {
-	            return '   ' + line;
-	          }).join('\n');
-	        }
-	      }
-	    } else {
-	      str = ctx.stylize('[Circular]', 'special');
-	    }
-	  }
-	  if (isUndefined(name)) {
-	    if (array && key.match(/^\d+$/)) {
-	      return str;
-	    }
-	    name = JSON.stringify('' + key);
-	    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-	      name = name.substr(1, name.length - 2);
-	      name = ctx.stylize(name, 'name');
-	    } else {
-	      name = name.replace(/'/g, "\\'")
-	                 .replace(/\\"/g, '"')
-	                 .replace(/(^"|"$)/g, "'");
-	      name = ctx.stylize(name, 'string');
-	    }
-	  }
-	
-	  return name + ': ' + str;
-	}
-	
-	
-	function reduceToSingleString(output, base, braces) {
-	  var numLinesEst = 0;
-	  var length = output.reduce(function(prev, cur) {
-	    numLinesEst++;
-	    if (cur.indexOf('\n') >= 0) numLinesEst++;
-	    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-	  }, 0);
-	
-	  if (length > 60) {
-	    return braces[0] +
-	           (base === '' ? '' : base + '\n ') +
-	           ' ' +
-	           output.join(',\n  ') +
-	           ' ' +
-	           braces[1];
-	  }
-	
-	  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-	}
-	
-	
-	// NOTE: These type checking functions intentionally don't use `instanceof`
-	// because it is fragile and can be easily faked with `Object.create()`.
-	function isArray(ar) {
-	  return Array.isArray(ar);
-	}
-	exports.isArray = isArray;
-	
-	function isBoolean(arg) {
-	  return typeof arg === 'boolean';
-	}
-	exports.isBoolean = isBoolean;
-	
-	function isNull(arg) {
-	  return arg === null;
-	}
-	exports.isNull = isNull;
-	
-	function isNullOrUndefined(arg) {
-	  return arg == null;
-	}
-	exports.isNullOrUndefined = isNullOrUndefined;
-	
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-	exports.isNumber = isNumber;
-	
-	function isString(arg) {
-	  return typeof arg === 'string';
-	}
-	exports.isString = isString;
-	
-	function isSymbol(arg) {
-	  return typeof arg === 'symbol';
-	}
-	exports.isSymbol = isSymbol;
-	
-	function isUndefined(arg) {
-	  return arg === void 0;
-	}
-	exports.isUndefined = isUndefined;
-	
-	function isRegExp(re) {
-	  return isObject(re) && objectToString(re) === '[object RegExp]';
-	}
-	exports.isRegExp = isRegExp;
-	
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-	exports.isObject = isObject;
-	
-	function isDate(d) {
-	  return isObject(d) && objectToString(d) === '[object Date]';
-	}
-	exports.isDate = isDate;
-	
-	function isError(e) {
-	  return isObject(e) &&
-	      (objectToString(e) === '[object Error]' || e instanceof Error);
-	}
-	exports.isError = isError;
-	
-	function isFunction(arg) {
-	  return typeof arg === 'function';
-	}
-	exports.isFunction = isFunction;
-	
-	function isPrimitive(arg) {
-	  return arg === null ||
-	         typeof arg === 'boolean' ||
-	         typeof arg === 'number' ||
-	         typeof arg === 'string' ||
-	         typeof arg === 'symbol' ||  // ES6 symbol
-	         typeof arg === 'undefined';
-	}
-	exports.isPrimitive = isPrimitive;
-	
-	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 66);
-	
-	function objectToString(o) {
-	  return Object.prototype.toString.call(o);
-	}
-	
-	
-	function pad(n) {
-	  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-	}
-	
-	
-	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-	              'Oct', 'Nov', 'Dec'];
-	
-	// 26 Feb 16:19:34
-	function timestamp() {
-	  var d = new Date();
-	  var time = [pad(d.getHours()),
-	              pad(d.getMinutes()),
-	              pad(d.getSeconds())].join(':');
-	  return [d.getDate(), months[d.getMonth()], time].join(' ');
-	}
-	
-	
-	// log is just a thin wrapper to console.log that prepends a timestamp
-	exports.log = function() {
-	  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-	};
-	
-	
-	/**
-	 * Inherit the prototype methods from one constructor into another.
-	 *
-	 * The Function.prototype.inherits from lang.js rewritten as a standalone
-	 * function (not on Function.prototype). NOTE: If this file is to be loaded
-	 * during bootstrapping this function needs to be rewritten using some native
-	 * functions as prototype setup using normal JavaScript does not work as
-	 * expected during bootstrapping (see mirror.js in r114903).
-	 *
-	 * @param {function} ctor Constructor function which needs to inherit the
-	 *     prototype.
-	 * @param {function} superCtor Constructor function to inherit prototype from.
-	 */
-	exports.inherits = __webpack_require__(/*! inherits */ 70);
-	
-	exports._extend = function(origin, add) {
-	  // Don't do anything if add isn't an object
-	  if (!add || !isObject(add)) return origin;
-	
-	  var keys = Object.keys(add);
-	  var i = keys.length;
-	  while (i--) {
-	    origin[keys[i]] = add[keys[i]];
-	  }
-	  return origin;
-	};
-	
-	function hasOwnProperty(obj, prop) {
-	  return Object.prototype.hasOwnProperty.call(obj, prop);
-	}
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 54)))
 
 /***/ },
-/* 50 */
-/*!***************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Style.js ***!
-  \***************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Style */ 56)
-
-/***/ },
-/* 51 */
-/*!*******************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Container.js ***!
-  \*******************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Container')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 57)
-
-/***/ },
-/* 52 */
-/*!**************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Text.js ***!
-  \**************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Text')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 58)
-
-/***/ },
-/* 53 */
-/*!***************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/Block.js ***!
-  \***************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Block */ 55)
-
-/***/ },
-/* 54 */
+/* 75 */
 /*!**********************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/process/browser.js ***!
   \**********************************************************/
@@ -11732,1423 +11400,290 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 55 */
-/*!*********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
-  \*********************************************************************************************/
+/* 76 */
+/*!***********************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
+  \***********************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 68)
-	var proto = __webpack_require__(/*! proto */ 42);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 30)
-	var observe = __webpack_require__(/*! observe */ 36)
-	
-	var utils = __webpack_require__(/*! ./utils */ 62)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 63)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 64)
-	
-	var Style = __webpack_require__(/*! ./Style */ 56)
-	Style.isDev = function() {return module.exports.dev}
-	
-	var components = {};
-	
-	var setOfBrowserEvents = utils.arrayToMap([
-	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
-	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
-	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
-	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
-	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
-	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
-	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
-	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
-	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
-	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
-	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
-	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
-	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
-	])
-	
-	// events:
-	    // newParent - emits this when a component gets a new parent
-	    // parentRemoved - emits this when a component is detached from its parent
-	var Block = module.exports = proto(EventEmitterB,function(superclass) {
-	
-	    // static properties
-	
-	    // constructor
-		this.init = function() {
-	        var that = this
-	
-	        if(this.name === undefined) {
-	            throw new Error("The 'name' property is required for Blocks")
-	        }
-	
-	        var defaultBlockStyle = blockStyleUtils.defaultStyleMap.get(this.constructor)
-	        if(defaultBlockStyle === undefined) {
-	            defaultBlockStyle = blockStyleUtils.createDefaultBlockStyle(this)
-	        }
-	
-	        superclass.init.call(this)
-	
-	        this.children = []
-	        this.state = observe({})
-	        this.parent = undefined;
-	
-			if (this.id !== undefined) {
-				components[this.id] = this;
-			}
-	
-	        if(this.domNode === undefined) {
-	            this.domNode = domUtils.div()
-	        }
-	
-	        this.build.apply(this, arguments)
-	
-	        //if(module.exports.dev) {
-	            this.attr('blkName', this.name)
-	        //}
-	
-	        var classList = [this.domNode.className]
-	        if(defaultBlockStyle !== false) classList.push(defaultBlockStyle.className)
-	        classList.push(Style.defaultClassName)
-	        this.domNode.className = classList.join(' ') // note that the order of classes doesn't matter
-	
-	        // set up dom event handlers
-	        var ifonHandlers={}
-	        that.ifon(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        that.ifoff(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.removeEventListener(event,ifonHandlers[event])
-	            }
-	        })
-		}
-	
-	    // sub-constructor - called by the constructor
-	    // parameters:
-	        // label - (Optional) A label that can be used to style a component differently.
-	                   // Intended to be some string describing what the component is being used for.
-	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
-	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
-	    this.build = function(/*[label,] domNode*/) {
-	        if(arguments.length === 1) {
-	            this.domNode = arguments[0]
-	        } else if(arguments.length >= 2) {
-	            this.label = arguments[0]
-	            this.domNode = arguments[1]
-	        }
-	    }
-		
-	
-		// instance properties
-	
-		
-		this.domNode;
-	    this.label;
-	    this.excludeDomEvents;
-	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
-	
-	
-	    Object.defineProperty(this, 'label', {
-	        get: function() {
-	            return this._label
-	        }, set: function(v) {
-	            if(this._label === undefined) {
-	                this._label = v
-	
-	                if(module.exports.dev) {
-	                    this.attr('label', this._label)
-	                }
-	            } else {
-	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
-	            }
-	        }
-	    })
-	
-	    // adds elements to the components main domNode
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.add = function() {
-	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
-		}
-	
-	    // adds nodes at a particular index
-	    // nodes can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addAt = function(index/*, nodes...*/) {
-	        var nodes = normalizeAddAtArguments.apply(this, arguments)
-	
-	        for (var i=0;i<nodes.length;i++) {
-				var node = nodes[i];
-	            this.children.splice(index+i, 0, node)
-	
-	            if(!isBlock(node)) {
-	                throw new Error("node is not a Block")
-	            }
-	
-	            node.parent = undefined
-	            node.emit('parentRemoved')
-	
-	            var beforeChild = this.children[1+i+index]
-	            if(beforeChild === undefined) {
-	                this.domNode.appendChild(node.domNode)
-	            } else {
-	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
-	            }
-	
-	            node.parent = this;
-	            node.emit('newParent')
-	
-	            // apply styles
-	            //if(itsaBlock) { // its always a component now
-	                var that = this
-	                node.getParentStyleMap = function() {return that.computedStyleMap}
-	                blockStyleUtils.propogateStyleSet([node], this.computedStyleMap)
-	            //}
-			}
-	    }
-	
-		// add a list of nodes before a particular node
-	    // if beforeChild is undefined, this will append the given nodes
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addBefore = this.addBeforeNode = function(beforeChild) {
-	        var nodes = trimArguments(arguments).slice(1)
-	        if(beforeChild === undefined) {
-	            this.add.apply(this, nodes)
-	        } else {
-	            var index = this.children.indexOf(beforeChild)
-	            this.addAt.apply(this, [index].concat(nodes))
-	        }
-	    }
-	
-	
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // index, index, index, ... - each index is the numerical index to remove
-	        // arrayOfComponents
-	        // arrayOfIndexes
-	    this.remove = function() {
-	        var removals = normalizeRemoveArguments.apply(this, arguments)
-	        removals = removals.sort(function(a,b) {
-	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
-	        })
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	            var c = this.children[r]
-	
-	            if(c === undefined) {
-	                throw new Error("There is no child at index "+r)
-	            }
-	
-	            c.parent = undefined
-	            this.children.splice(r, 1)
-	            this.domNode.removeChild(this.domNode.childNodes[r])
-	
-	            c.emit('parentRemoved')
-	        }
-	    }
-	
-	    // sets or gets an attribute on the components domNode
-	    // parameter sets:
-	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
-	    // if there are two arguments passed, the attribute is set
-	        // if 'value' is undefined, the attribute is removed
-	    this.attr = function(/*attribute, value OR attributeObject*/) {
-	        if(arguments.length === 1) {
-	            if(arguments[0] instanceof Object) {
-	                var attributes = arguments[0]
-	                for(var attribute in attributes) {
-	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
-	                }
-	            } else {
-	                var attribute = this.domNode.getAttribute(arguments[0])
-	                if(attribute === null) {
-	                    return undefined // screw null
-	                } else {
-	                    return attribute
-	                }
-	            }
-	        } else {
-	            var attribute = arguments[0]
-	            if(arguments[1] !== undefined) {
-	                var value = arguments[1]
-	                domUtils.setAttribute(this.domNode, arguments[0], value)
-	            } else {
-	                this.domNode.removeAttribute(attribute)
-	            }
-	        }
-	    }
-	
-	    Object.defineProperty(this, 'visible', {
-	        // returns true if the element is visible
-	        get: function() {
-	            return this.domNode.style.display !== 'none';
-	
-	        // sets whether or not the element is visible
-	        }, set: function(setToVisible) {
-	            if(setToVisible) {
-	                if (this._displayStyle !== undefined) {
-	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
-	                    this._displayStyle = undefined
-	                } else {
-	                    this.domNode.style.display = ''
-	                }
-	            } else {
-	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
-	                    this._displayStyle = this.domNode.style.display
-	                }
-	
-	                this.domNode.style.display = 'none'
-	            }
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'focus', {
-	        // returns true if the element is in focus
-	        get: function() {
-	            return document.activeElement === this.domNode
-	
-	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
-	        }, set: function(setToInFocus) {
-	            if(setToInFocus) {
-	                this.domNode.focus()
-	            } else {
-	                this.domNode.blur()
-	            }
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'style', {
-	        get: function() {
-	            return this._style
-	
-	        // sets the style, replacing one if one already exists
-	        }, set: function(styleObject) {
-	            if(styleObject === undefined) {
-	                var styleMap = this.getParentStyleMap()
-	                if(styleMap !== undefined) {
-	                    blockStyleUtils.setCurrentStyle(this, blockStyleUtils.getStyleForComponent(styleMap, this))
-	                } else {
-	                    blockStyleUtils.setCurrentStyle(this, undefined)
-	                }
-	
-	                this.computedStyleMap = styleMap
-	
-	            } else {
-	                blockStyleUtils.setCurrentStyle(this, styleObject)
-	                var specificStyle = styleObject.get(this)
-	                if(this.getParentStyleMap() !== undefined) {
-	                    this.computedStyleMap = blockStyleUtils.styleMapConjunction(this.getParentStyleMap(), specificStyle.componentStyleMap)
-	                } else {
-	                    this.computedStyleMap = specificStyle.componentStyleMap
-	                }
-	            }
-	
-	            this._style = styleObject
-	            blockStyleUtils.propogateStyleSet(this.children, this.computedStyleMap) // propogate styles to children
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'selectionRange', {
-	        // returns the visible character selection range inside the element
-	        // returns an array like [offsetStart, offsetEnd]
-	        get: function() {
-	            return domUtils.getSelectionRange(this.domNode)
-	
-	        // sets the visible character selection range
-	        }, set: function(selection) {
-	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
-	        }
-	    })
-	
-	    this.attach = function() {
-	        attach(this)
-	    }
-	    this.detach = function() {
-	        detach(this)
-	    }
-	
-	
-		// private instance variables/functions
-	
-	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
-	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
-	
-		this._style;              // the object's explicit Style object (undefined if it inherits a style)
-	    this.currentStyle;       // the object's current Style (inherited or explicit)
-	    this._displayStyle;      // temporariliy stores an inline display style while the element is hidden (for use when 'show' is called)
-	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
-	});
-	
-	
-	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
-	
-	
-	// appends components to the body
-	var attach = module.exports.attach = function(/*component,component,.. or components*/) {
-	    if(arguments[0] instanceof Array) {
-	        var components = arguments[0]
-	    } else {
-	        var components = arguments
-	    }
-	
-	    if(document.body === null) throw new Error("Your document does not have a body.")
-	
-	    for(var n=0; n<components.length; n++) {
-	        document.body.appendChild(components[n].domNode)
-	    }
-	}
-	// removes components from the body
-	var detach = module.exports.detach = function(/*component,component,.. or components*/) {
-	    if(arguments[0] instanceof Array) {
-	        var components = arguments[0]
-	    } else {
-	        var components = arguments
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        document.body.removeChild(components[n].domNode)
-	    }
-	}
-	
-	// creates a body tag (only call this if document.body is null)
-	
-	module.exports.createBody = function(callback) {
-	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-	    var body = dom.createElement("body")
-	    dom.documentElement.appendChild(body)
-	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
-	        callback()
-	    },0)
-	}
-	
-	
-	
-	
-	// returns a list of indexes to remove from Block.remove's arguments
-	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
-	    var that = this
-	
-	    if(arguments[0] instanceof Array) {
-	        var removals = arguments[0]
-	    } else {
-	        var removals = Array.prototype.slice.call(arguments)
-	    }
-	
-	    return removals.map(function(removal, parameterIndex) {
-	        if(isBlock(removal)) {
-	            var index = that.children.indexOf(removal)
-	            if(index === -1) {
-	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
-	            }
-	            return index
-	        } else {
-	            return removal
-	        }
-	
-	    })
-	}
-	
-	// returns a list of nodes to add
-	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
-	    if(arguments.length === 2) {
-	        if(arguments[1] instanceof Array) {
-	            return arguments[1]
-	        } else {
-	            return [arguments[1]]
-	        }
-	    } else { // > 2
-	        return trimArguments(arguments).slice(1)
-	    }
-	}
-	
-	function isBlock(c) {
-	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
-	}
-	function isDomNode(node) {
-	    return node.nodeName !== undefined
+	module.exports = function isBuffer(arg) {
+	  return arg && typeof arg === 'object'
+	    && typeof arg.copy === 'function'
+	    && typeof arg.fill === 'function'
+	    && typeof arg.readUInt8 === 'function';
 	}
 
 /***/ },
-/* 56 */
+/* 77 */
+/*!******************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
+  \******************************************************************************************************************/
+74,
+/* 78 */
+/*!**************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
+  \**************************************************************************************************/
+46,
+/* 79 */
 /*!*********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Style.js ***!
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/utils.js ***!
   \*********************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 67)
-	var proto = __webpack_require__(/*! proto */ 42)
-	var HashMap = __webpack_require__(/*! hashmap */ 38)
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var utils = __webpack_require__(/*! ./utils */ 62)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 64)
+	var path = __webpack_require__(/*! path */ 66)
 	
-	var baseClassName = '_ComponentStyle_' // the base name for generated class names
-	var nextClassNumber = 0
 	
-	// creates a style object
-	var Style = module.exports = proto(function() {
-	
-	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
-	
-	    // styleDefinition is an object where key-value pairs can be any of the following:
-	    // <cssPropertyName>: the value should be a valid css value for that style attribute
-	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
-	    // $setup: the value is a function to be run on a component when the style is applied to it
-	    // $kill: the value is a function to be run on a component when a style is removed from it
-	    // $state: the value should be a state handler function
-	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
-	    this.init = function(styleDefinition, privateOptions) {
-	        if(privateOptions === undefined) privateOptions = {}
-	        if(privateOptions.inLabel===undefined) inLabel = false
-	
-	        this.className = baseClassName+nextClassNumber
-	        nextClassNumber++
-	
-	        this.componentStyleMap = {}
-	        this.labelStyleMap = {}
-	
-	        var labelStyles = {}
-	        var pseudoClassStyles = {}
-	        var cssProperties = {}
-	        for(var key in styleDefinition) {
-	            var value = styleDefinition[key]
-	
-	            if(key === '$setup') {
-	                if(!(value instanceof Function)) throw new Error("$setup key must be a function ('setup' can't be used as a label)")
-	                this.setup = value
-	
-	            } else if(key === '$kill') {
-	                if(!(value instanceof Function)) throw new Error("$kill key must be a function ('kill' can't be used as a label)")
-	                this.kill = value
-	
-	            } else if(key === '$state') {
-	                if(!(value instanceof Function)) throw new Error("$state key must be a function ('$state' can't be used as a label)")
-	                this.stateHandler = value
-	
-	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
-	                var pseudoClass = mapCamelCase(key.substr(2))
-	                if(pseudoClass === '') {
-	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
-	                }
-	
-	                utils.merge(pseudoClassStyles, flattenPseudoClassStyles(pseudoClass, value))
-	
-	            } else if(key.indexOf('$') === 0) {   // label style
-	                if(privateOptions.inLabel)
-	                    throw new Error("Can't create nested label style "+key+" because components can only have one label")
-	
-	                var label = key.substr(1)
-	                if(label === '') {
-	                    throw new Error("Empty label name not valid (style key '$')")
-	                }
-	
-	                labelStyles[label] = value
-	
-	            } else if(isStyleObject(value)) {
-	                this.componentStyleMap[key] = value
-	
-	            } else if(value instanceof Object) {
-	                this.componentStyleMap[key] = Style(value)  // turn the object description into a full fledged style object
-	            } else {
-	                var cssStyle = key
-	                var cssStyleName = mapCamelCase(cssStyle)
-	                cssProperties[cssStyleName] = cssValue(cssStyleName, value)
-	            }
-	        }
-	
-	        // create the css class
-	        if(privateOptions.default) {
-	            var jssSheet = defaultJss
-	        } else {
-	            var jssSheet = jss
-	        }
-	
-	        jssSheet.set('.'+this.className, cssProperties)
-	
-	        //if(module.exports.isDev) {
-	            this.styleDefinitions = {}
-	            this.styleDefinitions['.'+this.className] = cssProperties
-	        //}
-	
-	        // create label styles
-	        if(Object.keys(labelStyles).length > 0) {
-	            var baseStyle = utils.merge({}, cssProperties, this.componentStyleMap)
-	
-	            for(var label in labelStyles) {
-	                if(isStyleObject(labelStyles[label])) {
-	                    this.labelStyleMap[label] = labelStyles[label]
-	                } else {
-	                    var mergedStyle = utils.merge({}, baseStyle, labelStyles[label])
-	                    this.labelStyleMap[label] = Style(mergedStyle, {inLabel:true})
-	                }
-	            }
-	        }
-	
-	        // create pseudoclass styles
-	        if(Object.keys(pseudoClassStyles).length > 0) {
-	
-	            var tieredPseudoClasses = createTieredPseudoClasses(this, pseudoClassStyles)
-	            pseudoclassCombinations(tieredPseudoClasses) // mutates tieredPseudoClasses
-	
-	            // turn the emulatable pseudo classes into Style objects
-	            // also build up the set of psuedoclasses that will be emulated
-	            // also build up a map of pseudoclasses-to-emulate to the emulation functions for those pseudoclasses
-	            var pseudoClasesToEmulate = []
-	            var preSplitPseudoClasses = [] // a list where each element looks like: [pseudoClassList, styleObject]  (this is primarily for performance - so we don't have to split the key every time we check for state changes)
-	            var pseudoClassesToEmulationInfo = {}
-	            for(var key in tieredPseudoClasses) {
-	                if(isStyleObject(tieredPseudoClasses[key])) {
-	                    tieredPseudoClasses[key] = tieredPseudoClasses[key]
-	                } else {
-	                    var newStyle = Style(utils.merge({}, cssProperties, tieredPseudoClasses[key])) // pseudoClassStyles merged with parent css styles
-	
-	                    // merge in componentStyleMap and labelStyleMap
-	                    for(var k in this.componentStyleMap) {
-	                        if(newStyle.componentStyleMap[k] === undefined)
-	                            newStyle.componentStyleMap[k] = this.componentStyleMap[k]
-	                    }
-	                    for(var k in this.labelStyleMap) {
-	                        if(newStyle.labelStyleMap[k] === undefined)
-	                            newStyle.labelStyleMap[k] = this.labelStyleMap[k]
-	                    }
-	
-	                    tieredPseudoClasses[key] = newStyle
-	                }
-	
-	
-	                var pseudoClassList = key.split(":")
-	                for(var n=0; n<pseudoClassList.length; n++) {
-	                    var pseudoClass = pseudoClassList[n]
-	                    if(pseudoClasesToEmulate.indexOf(pseudoClass) === -1) {
-	                        pseudoClasesToEmulate.push(pseudoClass)
-	
-	                        var pseudoClassParts = getPseudoClassParts(pseudoClass)
-	                        var fns = emulatedPseudoClasses[pseudoClassParts.class]
-	                        var info = {fns: fns}
-	                        if(fns.processParameter !== undefined) {
-	                            info.parameter = fns.processParameter(pseudoClassParts.parameter)
-	                        }
-	                        pseudoClassesToEmulationInfo[pseudoClass] = info
-	                    }
-	                }
-	
-	                preSplitPseudoClasses.push([pseudoClassList, tieredPseudoClasses[key]])
-	            }
-	
-	            // create functions that initialize and keep track of state
-	            var initializeState = function(component) {
-	                var state = {}
-	                for(var n=0; n<pseudoClasesToEmulate.length; n++) {
-	                    var pseudoClass = pseudoClasesToEmulate[n]
-	                    var pseudoClassEmulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
-	                    state[pseudoClass] = pseudoClassEmulationInfo.fns.check(component, pseudoClassEmulationInfo.parameter)
-	                }
-	
-	                return state
-	            }
-	
-	            var that = this
-	            var changeStyleIfNecessary = function(currentStyle, component, state) {
-	                var longestMatchingLength = 0;
-	                var mostSpecificMatchingStyle = that; // if nothing else matches, change back to the base style object
-	                for(var n=0; n<preSplitPseudoClasses.length; n++) {
-	                    var pseudoClassList = preSplitPseudoClasses[n][0]
-	                    for(var j=0; j<pseudoClassList.length; j++) {
-	                        if(!state[pseudoClassList[j]]) {
-	                            break;
-	                        }
-	                    }
-	
-	                    if(j === pseudoClassList.length && j > longestMatchingLength) {
-	                        longestMatchingLength = j
-	                        mostSpecificMatchingStyle = preSplitPseudoClasses[n][1]
-	                    }
-	                }
-	
-	                if(mostSpecificMatchingStyle !== currentStyle) {
-	                    component.style = mostSpecificMatchingStyle
-	
-	                    //blockStyleUtils.setCurrentStyle(component, mostSpecificMatchingStyle)
-	                    //blockStyleUtils.propogateStyleSet(component.children, component.computedStyleMap) // propogate styles to children
-	                }
-	            }
-	
-	            // setup pseudoclass emulation with $setup and $kill handlers
-	
-	            var wrapSetupAndKill = function(style) {
-	                var originalSetup = style.setup
-	                style.setup = function(component) {
-	                    var that = this
-	
-	                    this._styleSetupStates = {} // maps pseudoClass to setupState
-	                    var state = initializeState(component)
-	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
-	                        ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
-	                            that._styleSetupStates[pseudoClass] = emulationInfo.fns.setup(component, function() { // start
-	                                state[pseudoClass] = true
-	                                changeStyleIfNecessary(that, component, state)
-	                            }, function() { // end
-	                                state[pseudoClass] = false
-	                                changeStyleIfNecessary(that, component, state)
-	                            }, emulationInfo.parameter)
-	
-	                        })(pseudoClass, pseudoClassesToEmulationInfo[pseudoClass])
-	                    }
-	
-	                    changeStyleIfNecessary(that, component, state)
-	
-	                    if(originalSetup !== undefined) {
-	                        originalSetup.apply(this, arguments)
-	                    }
-	                }
-	
-	                var originalKill = style.kill
-	                style.kill = function(component) {
-	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
-	                        var emulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
-	                        emulationInfo.fns.kill(component, this._styleSetupStates[pseudoClass])
-	                    }
-	
-	                    if(originalKill !== undefined) {
-	                        originalKill.apply(this, arguments)
-	                    }
-	                }
-	            }
-	
-	            // wrap all the setup and kill functions
-	
-	            for(var key in tieredPseudoClasses) {
-	                var style = tieredPseudoClasses[key]
-	                wrapSetupAndKill(style)
-	            }
-	
-	            wrapSetupAndKill(this)
-	        }
-	    }
-	
-	    // instance properties
-	
-	    this.className          // the css classname for this style
-	    this.componentStyleMap; // maps a Component name to a Style object for that component
-	    this.labelStyleMap;     // maps a label name to a Style object for that label
-	    this.setup;             // run some javascript on any element this class is applied to
-	    this.kill;              // a function to run on removal of the style (should reverse setup)
-	
-	    // gets the style object for a component based on the current style object (takes into account whether the component has a label
-	    this.get = function(component) {
-	        if(component.label !== undefined) {
-	            var labelStyle = this.labelStyleMap[component.label]
-	            if(labelStyle !==  undefined) {
-	                return labelStyle
-	            }
-	        }
-	        // else
-	        return this
-	    }
-	})
-	
-	
-	// private
-	
-	
-	// returns a two-level map where the top-level keys are emulatable psuedo classes, and non-emulatable pseudo classes are at the second level
-	// the classes will also be sorted and deduped
-	// Example return value: {"hover:lastChild": {color:'red', "$$visited:disabled": {fontWeight: 'bold'}}, }
-	// parameters:
-	    // style - the style object being created
-	    // pseudoClassStyles - a flat object where each key is a list of pseudoclasses separated by colons (e.g. "hover" or "hover:focus") and the value is an object of styles that don't contain pseudoclasses
-	function createTieredPseudoClasses(style, pseudoClassStyles) {
-	    var tieredPseudoClasses = {} // the two-level map
-	    for(var key in pseudoClassStyles) {
-	        var value = pseudoClassStyles[key]
-	
-	        // split key into pseudoclass list
-	        var pseudoClassList = key.split(":")
-	        var emulatablePseudoClasses = []
-	        var nonEmulatablePseudoClasses = []
-	        for(var n in pseudoClassList) {
-	            var pseudoClass = pseudoClassList[n]
-	            var pseudoClassParts = getPseudoClassParts(pseudoClass)
-	            if(pseudoClassParts.class in emulatedPseudoClasses) {
-	                emulatablePseudoClasses.push(pseudoClass)
-	            } else {
-	                nonEmulatablePseudoClasses.push(pseudoClass)
-	            }
-	        }
-	
-	        // todo: add a third branch as an optimization: if the Style can be rendered without emulation - do that
-	        if(emulatablePseudoClasses.length === 0) { // if none of the pseudoclasses can be emulated using javascript
-	            validatePurePseudoClassStyles(key, value)                        // then validate the value and
-	            createPseudoClassRules(style, key, '.'+style.className+":"+key, value)   // create pseudoClassRules
-	
-	        } else { // if some of the pseudoclasses can be emulated using javascript
-	
-	            emulatablePseudoClasses.sort()
-	            var emulatablePseudoClassKey = emulatablePseudoClasses.join(':')
-	            if(tieredPseudoClasses[emulatablePseudoClassKey] === undefined)
-	                tieredPseudoClasses[emulatablePseudoClassKey] = {}
-	
-	            if(nonEmulatablePseudoClasses.length === 0) {
-	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], value)
-	            } else {
-	                nonEmulatablePseudoClasses.sort()
-	                var nonEmulatablePsuedoClassKey = nonEmulatablePseudoClasses.join(':')
-	
-	                var secondTier = {}
-	                secondTier['$$'+nonEmulatablePsuedoClassKey] = value
-	
-	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], secondTier)
-	            }
-	        }
-	    }
-	
-	    return tieredPseudoClasses
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
 	}
 	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
 	
+	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
+	exports.objectConjunction = function(a, b) {
+	    var objectCopy = {}
+	    merge(objectCopy, a)
+	    merge(objectCopy, b)
+	    return objectCopy
+	}
 	
-	// make combinations of the emulatable pseudoclasses, so that they combine like the non-emulated ones do
-	// info about mathematical combination: https://en.wikipedia.org/wiki/Combination
-	// mutates tieredPseudoClasses
-	function pseudoclassCombinations(tieredPseudoClasses) {
-	    var tieredPseudoClassesKeys = Object.keys(tieredPseudoClasses).reverse().map(function(v) {    // reverse first so that more specific pseudoclasses go first
-	        return {key: v, parts: v.split(':')} // so it doesn't have to split every time
+	// turns an array of values into a an object where those values are all keys that point to 'true'
+	exports.arrayToMap = function(array) {
+	    var result = {}
+	    array.forEach(function(v) {
+	        result[v] = true
 	    })
-	
-	    for(var n=0; n<tieredPseudoClassesKeys.length; n++) {
-	        var keyA = tieredPseudoClassesKeys[n]
-	        for(var k=2; k <= tieredPseudoClassesKeys.length; k++) { // k is the number of psuedoclasses to combine
-	            for(var j=n+1; j<tieredPseudoClassesKeys.length-(k-2); j++) {
-	                var result = combinePseudoclasses(tieredPseudoClasses, [keyA].concat(tieredPseudoClassesKeys.slice(j, k)))
-	                if(result.key in tieredPseudoClasses) {
-	                    utils.merge(tieredPseudoClasses[result.key], result.value)
-	                } else { // new key
-	                    tieredPseudoClasses[result.key] = result.value
-	                }
-	            }
-	        }
-	    }
-	}
-	
-	
-	
-	// keys is a list of objects where each object has the members:
-	    // key - the original string key
-	    // parts - the key split by ":"
-	// returns an object with the following members:
-	    // key - the new combined key
-	    // value - the new merged value
-	var combinePseudoclasses = function(pseudoclasses, keys) {
-	    var resultKeyParts = keys[0].parts
-	    var resultValue = utils.merge({}, pseudoclasses[keys[0].key]) // make a copy
-	    for(var n=1; n<keys.length; n++) {
-	        var key = keys[n]
-	        // merge all psuedoclasses that don't already exist into the resultKey
-	        for(var j=0; j<key.parts.length; j++) {
-	            var part = key.parts[j]
-	            if(resultKeyParts.indexOf(part) === -1) {
-	                resultKeyParts.push(part)
-	            }
-	        }
-	
-	        // merge the value into resultValue
-	        utils.merge(resultValue, pseudoclasses[key.key])
-	    }
-	
-	    return {key: resultKeyParts.join(':'), value: resultValue}
-	}
-	
-	// a map of pseudoclass names and how they are emulated with javascript
-	// each pseudoclass sets up the following functions:
-	    // check - a function that checks if that pseudoclass currently applies to the component when its called
-	    // setup - calls a callback when the pseudoClass starts and stops applying
-	        // should return an object that will be passed to the kill function (as its 'state' parameter)
-	    // kill - cleans up anything set up in the 'setup' function
-	    // processParameter - takes the pseudoclass parameter and returns some object representing it that will be used by the setup and check functions
-	var emulatedPseudoClasses = {
-	    hover: {
-	        check: function(component) {
-	            var nodes = document.querySelectorAll( ":hover" )
-	            for(var n=0; n<nodes.length; n++) {
-	                if(nodes[n] === component.domNode) {
-	                    return true
-	                }
-	            }
-	            return false
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            component.on("mouseover", function() {
-	                startCallback()
-	            })
-	            component.on("mouseout", endCallback)
-	
-	            return {start: startCallback, end: endCallback}
-	        },
-	        kill: function(component, state) {
-	            component.off("mouseover", state.start)
-	            component.off("mouseout", state.end)
-	        }
-	    },
-	    checked: {
-	        check: function(component) {
-	            return component.selected
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var setupState = {}
-	            component.on("change", setupState.listener = function() {
-	                if(component.selected) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            return setupState
-	        },
-	        kill: function(component, state) {
-	            component.removeListener("change", state.listener)
-	        }
-	    },
-	    required: {
-	        check: function(component) {
-	            return component.attr('required') !== undefined
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var observer = new MutationObserver(function() {
-	                if(component.attr('required') !== undefined) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            observer.observe(component.domNode, {attributes: true})
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        }
-	    },
-	    'last-child': {
-	        check: function(component) {
-	            return nthLastChildCheck(component, '1')
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var observer = new MutationObserver(function() {
-	                if(nthLastChildCheck(component, '1')) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            var setupObserver = function() {
-	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
-	                observer.observe(component.parent.domNode, {childList: true})
-	            }
-	
-	            if(component.parent !== undefined) {
-	                setupObserver()
-	            }
-	
-	            component.on('newParent', function() {
-	                setupObserver()
-	            })
-	            component.on('parentRemoved', function() {
-	                observer.disconnect()
-	            })
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        }
-	    },
-	    'nth-child': {
-	        // todo: support full an+b parameters for nth-child https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
-	        check: function(component, parameterCheck) {
-	            return nthChildCheck(component, parameterCheck)
-	        },
-	        setup: function(component, startCallback, endCallback, parameterCheck) {
-	
-	            var checkAndCallCallbacks = function() {
-	                if(nthChildCheck(component, parameterCheck)) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            }
-	
-	            var observer = new MutationObserver(function() {
-	                checkAndCallCallbacks()
-	            })
-	
-	            var setupObserver = function() {
-	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
-	                observer.observe(component.parent.domNode, {childList: true})
-	            }
-	
-	            if(component.parent !== undefined) {
-	                setupObserver()
-	            }
-	
-	            component.on('newParent', function() {
-	                setupObserver()
-	                checkAndCallCallbacks()
-	            })
-	            component.on('parentRemoved', function() {
-	                observer.disconnect()
-	                checkAndCallCallbacks()
-	            })
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        },
-	        processParameter: function(parameter) {
-	            return nthChildParameterFn(parameter)
-	        }
-	    },
-	
-	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
-	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
-	    /*not: {
-	        check: function() {
-	
-	        },
-	    }*/
-	}
-	
-	// name is the name of the new pseudoclass
-	// fns is an object with the members:
-	    // check(component) - returns true if the pseudoclass applies to the component
-	    // setup(component, startCallback, endCallback, parameter) - a function that should call startCallback when the pseudoclass starts applying, and endCallback when it stops applying
-	        // parameter - the parameter passed to the pseudoclass (e.g. in :not(:first-child), ":first-child" is the parameter)
-	    // kill - a function that cleans up any event listeners or anything else set up in the 'setup' function
-	module.exports.addPseudoClass = function(name, fns) {
-	    if(emulatedPseudoClasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
-	    // else
-	    emulatedPseudoClasses[name] = fns
-	}
-	
-	
-	function nthChildCheck(component, testFn) {
-	    if(component.domNode.parentNode === null)
-	        return false
-	
-	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
-	    var index = Array.prototype.indexOf.call(children, component.domNode)
-	    return testFn(index)
-	}
-	
-	function nthLastChildCheck(component, parameter) {
-	    if(component.domNode.parentNode === null)
-	        return false
-	
-	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
-	    var index = children.length - parseInt(parameter)
-	    return children[index] === component.domNode
-	}
-	
-	// returns a function that takes an index and tell you if that index applies to the nthChildParameter
-	var nthChildParameter = /^(((-?\d*)(([+-]\d*)n?)?)|((-?\d)*n?([+-]\d*)?))$/
-	function nthChildParameterFn(parameter) {
-	    var parts = parameter.match(nthChildParameter)
-	    if(parts === null)
-	        throw new Error("nth-child parameter '"+parameter+"' isn't valid")
-	
-	    if(parts[2] !== undefined) {
-	        var constant = parts[3]
-	        var variable = parts[5]
-	    } else {
-	        var constant = parts[8]
-	        var variable = parts[7]
-	    }
-	
-	    if(constant === undefined) constant = 0
-	    else                       constant = parseInt(constant)
-	    if(variable === undefined) variable = 0
-	    else                       variable = parseInt(variable)
-	
-	    if(variable === 0) {
-	        return function(index) {
-	            return index+1 === constant
-	        }
-	    } else {
-	        return function(index) {
-	            return ((index+1-constant)/variable) % 1 === 0
-	        }
-	    }
-	
-	}
-	
-	// maps a style value to a css value
-	// style values that are numbers are mapped to strings, usually with px postfix
-	function cssValue(cssStyleName, value) {
-	    // If a number was passed in, add 'px' to the (except for certain CSS properties) [also taken from jquery's code]
-	    if(typeof(value) === "number" && cssNumber[cssStyleName] === undefined) {
-	        return value+"px"
-	    } else {
-	        return value.toString()
-	    }
-	}
-	
-	function createPseudoClassRules(that, pseudoClass, selector, pseudoClassStyle) {
-	
-	    var pseudoClassCss = {}
-	    for(var key in pseudoClassStyle) {
-	        var value = pseudoClassStyle[key]
-	
-	        if(!(value instanceof Object)) {
-	            var cssStyle = key
-	            var cssStyleName = mapCamelCase(cssStyle)
-	            pseudoClassCss[cssStyleName] = cssValue(cssStyleName, value)
-	        } else {
-	            throw new Error("All properties within the pseudoclasses '"+pseudoClass+"' must be css styles")
-	        }
-	    }
-	
-	    // create immediate pseudo class style
-	    defaultJss.set(selector, pseudoClassCss) // create the css class with the pseudoClass
-	
-	    //if(module.exports.isDev) {
-	        that.styleDefinitions = {}
-	        that.styleDefinitions[selector] = pseudoClassCss
-	    //}
-	}
-	
-	// throws exceptions for various style configurations that are unsupported by pure pseudo classes (ones that can't be emulated usuing javascript)
-	function validatePurePseudoClassStyles(pseudoClass, pseudoClassStyles) {
-	    for(var key in pseudoClassStyles) {
-	        var value = pseudoClassStyles[key]
-	
-	        if(isStyleObject(value)) {
-	            throw new Error("Can't set the pseudoclasses '"+pseudoClass+"' to a Style object")
-	        } else if(key === '$setup') {
-	            throw new Error("$setup can't be used within the pseudoclasses '"+pseudoClass+"'")
-	        } else if(key === '$kill') {
-	            throw new Error("$kill can't be used within the pseudoclasses '"+pseudoClass+"'")
-	        } else if(key.indexOf('$') === 0) {   // label style
-	            throw new Error("Block labels can't be used within the pseudoclasses '"+pseudoClass+"'")
-	        }
-	    }
-	}
-	
-	// e.g. pulls out 'nth-child' and '2+3n' from 'nth-child(2+3n)'
-	var pseudoClassRegex = /^([^(]*)(\((.*)\))?$/
-	function getPseudoClassParts(fullPsuedoClass) {
-	    var x = fullPsuedoClass.match(pseudoClassRegex)
-	    if(x === null) throw new Error("Pseudoclass '"+fullPsuedoClass+"' is invalid")
-	    return {class: x[1], parameter: x[3]}
-	}
-	
-	
-	// takes in a list of pseudoClassRules and changes any nesting like {hover: {focus: {}}} into something like {hover: {}, "hover:focus": {}}
-	// also does some validation
-	function flattenPseudoClassStyles(pseudoClass, pseudoClassStyle) {
-	    var nonPseudoClassStyles = {}
-	    var subpseudoClasses = {}
-	    for(var key in pseudoClassStyle) {
-	        var value = pseudoClassStyle[key]
-	
-	        if(key.indexOf('$$') === 0) { // pseudo-class style
-	            var subPseudoClass = key.substr(2)
-	            if(subPseudoClass === '') {
-	                throw new Error("Empty pseudo-class name not valid (style key '$$')")
-	            }
-	
-	            subpseudoClasses[subPseudoClass] = value
-	        } else {
-	            nonPseudoClassStyles[key] = value
-	        }
-	    }
-	
-	    // create flattened styles (with merged in styles from its parent pseudoclass
-	    var flattenedStyles = {}
-	    for(var subPseudoClass in subpseudoClasses) {
-	        var value = subpseudoClasses[subPseudoClass]
-	
-	        if(isStyleObject(value)) {
-	            flattenedStyles[pseudoClass+":"+subPseudoClass] =  value
-	        } else {
-	            utils.merge(flattenedStyles, flattenPseudoClassStyles(pseudoClass+":"+subPseudoClass, utils.merge({}, nonPseudoClassStyles, value)))
-	        }
-	    }
-	
-	    // write the top-level pseudoClass
-	    flattenedStyles[pseudoClass] = nonPseudoClassStyles
-	
-	    return flattenedStyles
-	}
-	
-	
-	// taken from jquery's code
-	var cssNumber = {
-	    "column-count": 1,
-	    "fill-opacity": 1,
-	    "flex-grow": 1,
-	    "flex-shrink": 1,
-	    "font-weight": 1,
-	    "line-height": 1,
-	    "opacity": 1,
-	    "order": 1,
-	    "orphans": 1,
-	    "widows": 1,
-	    "z-index": 1,
-	    "zoom": 1
-	}
-	
-	function isStyleObject(o) {
-	    return o.componentStyleMap !== undefined
-	}
-	
-	
-	var asciiA = 'A'.charCodeAt(0), asciiZ = 'Z'.charCodeAt(0), difference = 'a'.charCodeAt(0) - asciiA
-	function mapCamelCase(cssStyleName) {
-	    for(var n=0; n<cssStyleName.length; n++) {
-	        var ascii = cssStyleName.charCodeAt(n)
-	        if(asciiA <= ascii && ascii <= asciiZ) { // found capital letter
-	            cssStyleName = cssStyleName.slice(0, n) + '-'+String.fromCharCode(ascii+difference) + cssStyleName.slice(n+1)
-	            n++ // increment a second time for the dash
-	        }
-	    }
-	
-	    return cssStyleName
-	}
-	
-	// maps all the styles that are inherited by descendant nodes to their default values
-	// source: http://stackoverflow.com/questions/5612302/which-css-styles-are-inherited
-	var defaultStyleValues = {
-	    'azimuth': 'center',
-	    'border-collapse': 'separate',
-	    'border-spacing': '0',
-	    'caption-side': 'top',
-	    //'color': 'black',         // let this inherit
-	    //'cursor': 'auto',         // let this one inherit - its weird otherwise
-	    'direction': 'ltr',
-	     display: 'inline-block', // changes the default display to inline-block
-	    'elevation': '',
-	    'empty-cells': 'show',
-	    // 'font-family': '',       // let this inherit
-	    // 'font-size': 'medium',   // let this inherit
-	    //'font-style': 'normal',   // let this inherit
-	    //'font-variant': 'normal', // let this inherit
-	    //'font-weight': 'normal',  // let this inherit
-	    'letter-spacing': 'normal',
-	    'line-height': 'normal',
-	    'list-style-image': 'none',
-	    'list-style-position': 'outside',
-	    'list-style-type': 'disc',
-	    'orphans': '2',
-	    'pitch-range': '',
-	    'pitch': '',
-	     position: 'relative', // changes the default positioning so that absolute is relative to its parent by default
-	    'quotes': '',
-	    'richness': '',
-	    'speak-header': '',
-	    'speak-numeral': '',
-	    'speak-punctuation': '',
-	    'speak': '',
-	    'speak-rate': '',
-	    'stress': '',
-	    'text-align': 'left',
-	    'text-indent': '0',
-	    'text-transform': 'none',
-	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
-	    'voice-family': '',
-	    'volume': '',
-	    'white-space': 'normal',
-	    'widows': '2',
-	    'word-spacing': 'normal'
-	}
-	
-	
-	
-	// returns index of the passed css classname, or undefined if sheet containing that class isn't found
-	function cssClassSheetIndex(classname) {
-	    var result = undefined
-	
-	    var styleNodes = document.querySelectorAll("style")
-	    for(var n=0; n<styleNodes.length; n++) {
-	        var sheet = styleNodes[n].sheet
-	        jssModule.defaultSheet = sheet
-	
-	        var defaultStyleMaybe = jssModule.get(classname)
-	        if(Object.keys(defaultStyleMaybe).length > 0) {
-	            result = n
-	            break
-	        }
-	    }
-	
-	    jssModule.defaultSheet = undefined
 	    return result
 	}
 	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
 	
-	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
-	var jss = jssModule.forDocument(document)
-	
-	var defaultClassSheetIndex = cssClassSheetIndex('.'+Style.defaultClassName)
-	if(defaultClassSheetIndex === undefined) {
-	    defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
-	
-	    jss.defaultSheet = jss._createSheet()
-	
-	    defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
-	
-	    defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
-	        cursor: 'inherit'
-	    })
-	} else {
-	    // if the default styleclass *already* exists, it probably means that blocks.js is being loaded twice
-	    console.log("Warning: the default-styles class name for blocks.js looks like its already in use. This probably means you have two versions of blocks.js loaded. If so, Blocks.js will continue to work, but your app will be a bit bloated. If something other than block.js created that class, blocks.js may break that style.")
-	
-	    var styleNodes = document.querySelectorAll("style")
-	    defaultJss.defaultSheet = styleNodes[defaultClassSheetIndex].sheet
-	    jss.defaultSheet = styleNodes[defaultClassSheetIndex+1].sheet
-	
-	    // make sure the baseClassName isn't already taken
-	    var dedupNumber = 0
-	    while(true) {
-	        var testBaseClassName = baseClassName+dedupNumber
-	        if(cssClassSheetIndex('.'+testBaseClassName+dedupNumber+0) !== undefined) {
-	            dedupNumber++
-	        } else {
-	            break;
-	        }
+	    for(var key in obj2){
+	       if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       }
 	    }
 	
-	    baseClassName = testBaseClassName+dedupNumber
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
 	}
 	
-	
-	/*private*/ module.exports.isDev; // should be set by Block
-	
-	var computedStyles = module.exports.computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
-	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
 
 
 /***/ },
-/* 57 */
-/*!************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Container.js ***!
-  \************************************************************************************************************/
-[159, 55, 42],
-/* 58 */
+/* 80 */
 /*!*******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/Components/Text.js ***!
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
   \*******************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 55)
-	var proto = __webpack_require__(/*! proto */ 42)
-	var Style = __webpack_require__(/*! Style */ 56)
+	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
 	
-	module.exports = proto(Block, function(superclass) {
+	var HashMap = __webpack_require__(/*! hashmap */ 63)
 	
-	    //static properties
+	var Style = __webpack_require__(/*! ./Style */ 67)
+	var utils = __webpack_require__(/*! ./utils */ 79)
 	
-	    this.name = 'Text'
+	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
 	
-	    this.defaultStyle = Style({
-	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
-	    })
+	// propogates a style-set change to a set of components
+	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
+	var propogateStyleSet = exports.propogateStyleSet = function (components, styleMap) {
+	    for(var n=0; n<components.length; n++) {
+	        var c = components[n]
 	
-	    this.init = function(/*[label,] text*/) {
-	        if(arguments.length === 1) {
-	            var text = arguments[0]
+	        // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
+	        if(c._style === undefined) {
+	            if(styleMap === undefined) {
+	                setCurrentStyle(c, undefined)
+	            } else {
+	                var styleFromMap = getStyleForComponent(styleMap, c)
+	                if(styleFromMap !== undefined) {
+	                    setCurrentStyle(c, styleFromMap)
+	                }
+	            }
+	        }
+	
+	        // set the computed style set
+	        var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
+	        if(c._style !== undefined) {
+	            mainStyle = c._style.get(c)
+	        } else if(styleMap !== undefined) {
+	            mainStyle = getStyleForComponent(styleMap, c)
+	            if(mainStyle !== undefined) {
+	                mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
+	            }
+	        }
+	
+	        if(mainStyle !== undefined) {
+	            if(styleMap !== undefined) {
+	                c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
+	            } else {
+	                c.computedStyleMap = mainStyle.componentStyleMap
+	            }
 	        } else {
-	            var label = arguments[0]
-	            var text = arguments[1]
+	            c.computedStyleMap = styleMap
 	        }
 	
-	        if (text === undefined) text = '';
+	        propogateStyleSet(c.children, c.computedStyleMap)
+	    }
+	}
 	
-	        superclass.init.call(this) // superclass constructor
+	// gets the right style from the styleMap
+	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
+	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
+	    var constructor = block.constructor
+	    while(constructor !== undefined) {
+	        var style = styleMap[constructor.name]
+	        if(style !== undefined) {
+	            return style
+	        } else {
+	            constructor = constructor.parent
+	        }
+	    }
+	}
 	
-	        var that = this
-	
-	        this.label = label
-	        this.text = text
-	
-	        this.on("input",function(data) {
-	            var eventData = {newText:data.srcElement.textContent,oldText:that.oldText};
-	            that.oldText = eventData.newText;
-	            //that.emit("input",eventData);
-	        });
-	
-	        this.on("blur",function(data) {
-	            var eventData = {newText:data.srcElement.textContent,oldText:that.lastFocus};
-	            that.lastFocus = eventData.newText;
-	            //that.emit("blur",eventData);
-	        });
+	// returns the conjunction of two style maps
+	// gets it from the computedStyles cache if its already in there
+	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
+	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
+	    if(cachedStyleMap === undefined) {
+	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
+	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
 	    }
 	
-	    // instance properties
+	    return cachedStyleMap
+	}
 	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode.textContent
-	        }, set: function(v) {
-	            this.domNode.innerText = v   // apparently textContent can't be set or something
+	// takes labels into account
+	var setCurrentStyle = exports.setCurrentStyle = function (component, style) {
+	    if(style === component.currentStyle) return; // do nothing
+	
+	    if(style !== undefined)
+	        var specificStyle = style.get(component)
+	    else
+	        var specificStyle = style
+	
+	    setStyleClass(component, specificStyle)
+	    applyStyleKillFunction(component)
+	    component.currentStyle = specificStyle
+	    applyStyleSetupFunction(component, specificStyle)
+	    applyStateHandler(component, specificStyle)
+	}
+	
+	
+	exports.createDefaultBlockStyle = function (that) {
+	    if(that.defaultStyle !== undefined) {
+	        validateDefaultStyle(that.defaultStyle)
+	    }
+	
+	    // get list of default styles
+	    var defaultStyles = []
+	    var nextConstructor = that.constructor
+	    while(nextConstructor !== undefined) {
+	        if(nextConstructor.defaultStyle !== undefined) {
+	            defaultStyles.push(nextConstructor.defaultStyle)
 	        }
+	        nextConstructor = nextConstructor.parent
+	    }
+	
+	    // generate merged default style
+	    var defaultStyleSet = {}
+	    defaultStyles.reverse().forEach(function(style) {
+	        for(var k in style.styleDefinitions) {
+	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
+	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
+	        }
+	
 	    })
-	});
-
-
-/***/ },
-/* 59 */
-/*!****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
-  \****************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var path = __webpack_require__(/*! path */ 37)
 	
-	module.exports = function isRelative(p) {
-	    var normal = path.normalize(p)
-	    var absolute = path.resolve(p)
-	    return normal != absolute && p.indexOf('://') === -1// second part for urls
+	    if(Object.keys(defaultStyleSet).length > 0)
+	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
+	    else
+	        var defaultBlockStyle = false // no special default
+	
+	    exports.defaultStyleMap.set(that.constructor, defaultBlockStyle)
+	    return defaultBlockStyle
 	}
-
-/***/ },
-/* 60 */
-/*!*******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/async-future/~/trimArguments/trimArguments.js ***!
-  \*******************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
 	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
+	
+	// applies setup appropriately
+	function applyStyleSetupFunction(component, style) {
+	    if(style !== undefined && style.setup !== undefined) {
+	        component._styleSetupObject = style.setup(component) // call setup on the component
+	    } else {
+	        component._styleSetupObject = undefined
 	    }
-	    args.splice(-0, count)
-	    return args
+	}
+	// applies kill appropriately
+	function applyStyleKillFunction(component) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
+	        if(currentStyle.kill === undefined)
+	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
+	
+	        currentStyle.kill(component, component._styleSetupObject)
+	    }
+	}
+	
+	// initializes and sets up state-change handler
+	function applyStateHandler(component, style) {
+	    if(style !== undefined && style.stateHandler !== undefined) {
+	        // todo: using setCurrentStyle is a stopgap until I can implement better style application for $state and pseudoclasses (which probably will require a rewrite of much of the style logic)
+	        setCurrentStyle(component, style.stateHandler(component.state.subject))
+	        component.state.on('change', function() {
+	            setCurrentStyle(component, style.stateHandler(component.state.subject))
+	        })
+	    }
+	}
+	
+	// sets the style, replacing one if one already exists
+	function setStyleClass(component, style) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined) {
+	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
+	    }
+	    if(style !== undefined) {
+	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
+	    }
+	}
+	
+	function validateDefaultStyle(defaultStyle) {
+	    if(!(defaultStyle instanceof Style)) {
+	        throw new Error("defaultStyle property must be a Style object")
+	    } else if(
+	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
+	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
+	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
+	    ) {
+	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+	    }
 	}
 
 /***/ },
-/* 61 */
+/* 81 */
 /*!********************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/processResults.js ***!
   \********************************************************************************************************/
@@ -13285,76 +11820,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 62 */
-/*!*********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/utils.js ***!
-  \*********************************************************************************************/
+/* 82 */
+/*!****************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
+  \****************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	var path = __webpack_require__(/*! path */ 66)
 	
-	var path = __webpack_require__(/*! path */ 37)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
+	module.exports = function isRelative(p) {
+	    var normal = path.normalize(p)
+	    var absolute = path.resolve(p)
+	    return normal != absolute && p.indexOf('://') === -1// second part for urls
 	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
-	exports.objectConjunction = function(a, b) {
-	    var objectCopy = {}
-	    merge(objectCopy, a)
-	    merge(objectCopy, b)
-	    return objectCopy
-	}
-	
-	// turns an array of values into a an object where those values are all keys that point to 'true'
-	exports.arrayToMap = function(array) {
-	    var result = {}
-	    array.forEach(function(v) {
-	        result[v] = true
-	    })
-	    return result
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       }
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
 
 /***/ },
-/* 63 */
+/* 83 */
 /*!************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/domUtils.js ***!
   \************************************************************************************************/
@@ -13551,197 +12032,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 64 */
-/*!*******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
-  \*******************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
-	
-	var HashMap = __webpack_require__(/*! hashmap */ 38)
-	
-	var Style = __webpack_require__(/*! ./Style */ 56)
-	var utils = __webpack_require__(/*! ./utils */ 62)
-	
-	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
-	
-	// propogates a style-set change to a set of components
-	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
-	var propogateStyleSet = exports.propogateStyleSet = function (components, styleMap) {
-	    for(var n=0; n<components.length; n++) {
-	        var c = components[n]
-	
-	        // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
-	        if(c._style === undefined) {
-	            if(styleMap === undefined) {
-	                setCurrentStyle(c, undefined)
-	            } else {
-	                var styleFromMap = getStyleForComponent(styleMap, c)
-	                if(styleFromMap !== undefined) {
-	                    setCurrentStyle(c, styleFromMap)
-	                }
-	            }
-	        }
-	
-	        // set the computed style set
-	        var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
-	        if(c._style !== undefined) {
-	            mainStyle = c._style.get(c)
-	        } else if(styleMap !== undefined) {
-	            mainStyle = getStyleForComponent(styleMap, c)
-	            if(mainStyle !== undefined) {
-	                mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
-	            }
-	        }
-	
-	        if(mainStyle !== undefined) {
-	            if(styleMap !== undefined) {
-	                c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
-	            } else {
-	                c.computedStyleMap = mainStyle.componentStyleMap
-	            }
-	        } else {
-	            c.computedStyleMap = styleMap
-	        }
-	
-	        propogateStyleSet(c.children, c.computedStyleMap)
-	    }
-	}
-	
-	// gets the right style from the styleMap
-	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
-	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
-	    var constructor = block.constructor
-	    while(constructor !== undefined) {
-	        var style = styleMap[constructor.name]
-	        if(style !== undefined) {
-	            return style
-	        } else {
-	            constructor = constructor.parent
-	        }
-	    }
-	}
-	
-	// returns the conjunction of two style maps
-	// gets it from the computedStyles cache if its already in there
-	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
-	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
-	    if(cachedStyleMap === undefined) {
-	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
-	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
-	    }
-	
-	    return cachedStyleMap
-	}
-	
-	// takes labels into account
-	var setCurrentStyle = exports.setCurrentStyle = function (component, style) {
-	    if(style === component.currentStyle) return; // do nothing
-	
-	    if(style !== undefined)
-	        var specificStyle = style.get(component)
-	    else
-	        var specificStyle = style
-	
-	    setStyleClass(component, specificStyle)
-	    applyStyleKillFunction(component)
-	    component.currentStyle = specificStyle
-	    applyStyleSetupFunction(component, specificStyle)
-	    applyStateHandler(component, specificStyle)
-	}
-	
-	
-	exports.createDefaultBlockStyle = function (that) {
-	    if(that.defaultStyle !== undefined) {
-	        validateDefaultStyle(that.defaultStyle)
-	    }
-	
-	    // get list of default styles
-	    var defaultStyles = []
-	    var nextConstructor = that.constructor
-	    while(nextConstructor !== undefined) {
-	        if(nextConstructor.defaultStyle !== undefined) {
-	            defaultStyles.push(nextConstructor.defaultStyle)
-	        }
-	        nextConstructor = nextConstructor.parent
-	    }
-	
-	    // generate merged default style
-	    var defaultStyleSet = {}
-	    defaultStyles.reverse().forEach(function(style) {
-	        for(var k in style.styleDefinitions) {
-	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
-	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
-	        }
-	
-	    })
-	
-	    if(Object.keys(defaultStyleSet).length > 0)
-	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
-	    else
-	        var defaultBlockStyle = false // no special default
-	
-	    exports.defaultStyleMap.set(that.constructor, defaultBlockStyle)
-	    return defaultBlockStyle
-	}
-	
-	
-	// applies setup appropriately
-	function applyStyleSetupFunction(component, style) {
-	    if(style !== undefined && style.setup !== undefined) {
-	        component._styleSetupObject = style.setup(component) // call setup on the component
-	    } else {
-	        component._styleSetupObject = undefined
-	    }
-	}
-	// applies kill appropriately
-	function applyStyleKillFunction(component) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
-	        if(currentStyle.kill === undefined)
-	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
-	
-	        currentStyle.kill(component, component._styleSetupObject)
-	    }
-	}
-	
-	// initializes and sets up state-change handler
-	function applyStateHandler(component, style) {
-	    if(style !== undefined && style.stateHandler !== undefined) {
-	        // todo: using setCurrentStyle is a stopgap until I can implement better style application for $state and pseudoclasses (which probably will require a rewrite of much of the style logic)
-	        setCurrentStyle(component, style.stateHandler(component.state.subject))
-	        component.state.on('change', function() {
-	            setCurrentStyle(component, style.stateHandler(component.state.subject))
-	        })
-	    }
-	}
-	
-	// sets the style, replacing one if one already exists
-	function setStyleClass(component, style) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined) {
-	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
-	    }
-	    if(style !== undefined) {
-	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
-	    }
-	}
-	
-	function validateDefaultStyle(defaultStyle) {
-	    if(!(defaultStyle instanceof Style)) {
-	        throw new Error("defaultStyle property must be a Style object")
-	    } else if(
-	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
-	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
-	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
-	    ) {
-	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-	    }
-	}
-
-/***/ },
-/* 65 */
+/* 84 */
+/*!*****************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/EventEmitterB.js ***!
+  \*****************************************************************************************************/
+[156, 57, 79],
+/* 85 */
 /*!**************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
   \**************************************************/
@@ -13768,7 +12064,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var punycode = __webpack_require__(/*! punycode */ 78);
+	var punycode = __webpack_require__(/*! punycode */ 98);
 	
 	exports.parse = urlParse;
 	exports.resolve = urlResolve;
@@ -13840,7 +12136,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'gopher:': true,
 	      'file:': true
 	    },
-	    querystring = __webpack_require__(/*! querystring */ 77);
+	    querystring = __webpack_require__(/*! querystring */ 99);
 	
 	function urlParse(url, parseQueryString, slashesDenoteHost) {
 	  if (url && isObject(url) && url instanceof Url) return url;
@@ -14457,36 +12753,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 66 */
-/*!***********************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
-  \***********************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function isBuffer(arg) {
-	  return arg && typeof arg === 'object'
-	    && typeof arg.copy === 'function'
-	    && typeof arg.fill === 'function'
-	    && typeof arg.readUInt8 === 'function';
-	}
-
-/***/ },
-/* 67 */
-/*!**************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
-  \**************************************************************************************************/
-29,
-/* 68 */
-/*!*****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/blocks.js/src/~/EventEmitterB.js ***!
-  \*****************************************************************************************************/
-[160, 42, 62],
-/* 69 */
-/*!******************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
-  \******************************************************************************************************************/
-60,
-/* 70 */
+/* 86 */
 /*!***************************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/util/~/inherits/inherits_browser.js ***!
   \***************************************************************************/
@@ -14518,7 +12785,108 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 71 */
+/* 87 */
+/*!***************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
+  \***************************************************************************************************/
+57,
+/* 88 */
+/*!*****************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
+  \*****************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	 * Copyright 2009-2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE.txt or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 93).SourceMapGenerator;
+	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 94).SourceMapConsumer;
+	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 95).SourceNode;
+
+
+/***/ },
+/* 89 */
+/*!***********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
+  \***********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 106)
+	var parsers = __webpack_require__(/*! ./tracelineParser */ 96)
+	var mode = __webpack_require__(/*! ./exceptionMode */ 97)
+	
+	module.exports = function(ex) {
+	    if(parsers[mode] === undefined)
+	        throw new Error("browser "+mode+" not supported")
+	
+	    var options = undefined
+	    if(ex !== undefined) {
+	        if(mode === 'ie' && ex.number === undefined)
+	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
+	        options = {e:ex, guess: true}
+	    }
+	    var trace = printStackTrace(options)
+	
+	    if(ex === undefined) {
+	        trace.splice(0,4) // strip stacktrace-js internals
+	    }
+	
+	    return parseStacktrace(trace)
+	}
+	
+	function TraceInfo(traceline) {
+	    this.traceline = traceline
+	}
+	TraceInfo.prototype = {
+	    get file() {
+	        return getInfo(this).file
+	    },
+	    get function() {
+	        return getInfo(this).function
+	    },
+	    get line() {
+	        return getInfo(this).line
+	    },
+	    get column() {
+	        return getInfo(this).column
+	    },
+	    get info() {
+	        return getInfo(this)
+	    }
+	}
+	
+	function getInfo(traceInfo) {
+	    if(traceInfo.cache === undefined) {
+	        var info = parsers[mode](traceInfo.traceline)
+	        if(info.line !== undefined)
+	            info.line = parseInt(info.line, 10)
+	        if(info.column !== undefined)
+	            info.column = parseInt(info.column, 10)
+	
+	        traceInfo.cache = info
+	    }
+	
+	    return traceInfo.cache
+	}
+	
+	function parseStacktrace(trace) {
+	    var results = []
+	    for(var n = 0; n<trace.length; n++) {
+	        results.push(new TraceInfo(trace[n]))
+	    }
+	    return results
+	}
+	
+	// here because i'm lazy, they're here for testing only
+	module.exports.parsers = parsers
+	module.exports.mode = mode
+	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
+
+
+/***/ },
+/* 90 */
 /*!****************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
   \****************************************************************************************************************/
@@ -14526,7 +12894,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var trimArgs = __webpack_require__(/*! trimArguments */ 87)
+	var trimArgs = __webpack_require__(/*! trimArguments */ 105)
 	
 	
 	module.exports = Future
@@ -14892,225 +13260,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 72 */
-/*!*****************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
-  \*****************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * Copyright 2009-2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE.txt or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 79).SourceMapGenerator;
-	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 80).SourceMapConsumer;
-	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 81).SourceNode;
-
-
-/***/ },
-/* 73 */
-/*!*************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
-  \*************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Future = __webpack_require__(/*! async-future */ 92)
-	
-	// returns the XHR function or equivalent for use with ajax
-	// memoizes the function for faster repeated use
-	var createXMLHTTPObject = function() {
-	    var versions = ["Msxml2.XMLHTTP",
-	                    "Msxml3.XMLHTTP",
-	                    "Microsoft.XMLHTTP",
-	                    "MSXML2.XmlHttp.6.0",
-	                    "MSXML2.XmlHttp.5.0",
-	                    "MSXML2.XmlHttp.4.0",
-	                    "MSXML2.XmlHttp.3.0",
-	                    "MSXML2.XmlHttp.2.0"
-	    ]
-	
-	    if(XMLHttpRequest !== undefined) {  // For non-IE browsers
-	        createXMLHTTPObject = function() {  // Use memoization to cache the factory
-	            return new XMLHttpRequest()
-	        }
-	        return createXMLHTTPObject()
-	
-	    } else { // IE
-	        for(var i=0, n=versions.length; i<n; i++) {
-	            try {
-	                var version = versions[i]
-	                var fn = function() {
-	                    return new ActiveXObject(version)
-	                }
-	                createXMLHTTPObject = fn   // Use memoization to cache the factory
-	                return createXMLHTTPObject()
-	
-	            } catch(e) {   }
-	        }
-	    }
-	
-	    throw new Error('Cant get XmlHttpRequest object')
-	}
-	
-	
-	
-	var HEADER = "([^\\s]+): (.*)"
-	
-	// returns the contents and headers from a given URL
-	exports = module.exports = function(url) {
-	    if(getFromCache(url))
-	        return getFromCache(url)
-	
-	    var futureResult = new Future
-	    setOnCache(url, futureResult)
-	
-	    var req = createXMLHTTPObject()
-	    req.onreadystatechange = function() {
-	        if( req.readyState === 4 ) {
-	            if( req.status === 200 ) {
-	                var headers = {}
-	                req.getAllResponseHeaders().split('\n').forEach(function(line) {
-	                    var match = line.match(HEADER)
-	                    if(match !== null) {
-	                        var name = match[1]
-	                        var value = match[2]
-	
-	                        headers[name] = value
-	                    }
-	                })
-	
-	                futureResult.return({text: req.responseText, headers: headers})
-	
-	            } else {
-	                var error = new Error('Error in request: Status '+req.status)
-	                error.status = req.status
-	                futureResult.throw(error)
-	            }
-	        }
-	    }
-	
-	    req.onerror = function(e) {
-	        futureResult.throw(e)
-	    }
-	
-	
-	    req.open('GET', url, asynchronous)
-	    try {
-	        req.send()
-	    } catch(e) {
-	        futureResult.throw(e)
-	    }
-	
-	    return futureResult
-	}
-	
-	var cache = {}
-	var getFromCache = function(url) {
-	    return cache[url]
-	}
-	var setOnCache = function(url, futureResponse) {
-	    cache[url] = futureResponse
-	}
-	
-	var asynchronous = true
-	exports.setSynchronous = function(synchronous) { // this is here so I can work around this bug in chrome: https://code.google.com/p/chromium/issues/detail?id=368444
-	    asynchronous = !synchronous
-	}
-	
-	exports.cacheGet = function(fn) {
-	    getFromCache = fn
-	}
-	exports.cacheSet = function(fn) {
-	    setOnCache = fn
-	}
-
-/***/ },
-/* 74 */
-/*!***************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
-  \***************************************************************************************************/
-42,
-/* 75 */
-/*!***********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
-  \***********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 95)
-	var parsers = __webpack_require__(/*! ./tracelineParser */ 82)
-	var mode = __webpack_require__(/*! ./exceptionMode */ 83)
-	
-	module.exports = function(ex) {
-	    if(parsers[mode] === undefined)
-	        throw new Error("browser "+mode+" not supported")
-	
-	    var options = undefined
-	    if(ex !== undefined) {
-	        if(mode === 'ie' && ex.number === undefined)
-	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
-	        options = {e:ex, guess: true}
-	    }
-	    var trace = printStackTrace(options)
-	
-	    if(ex === undefined) {
-	        trace.splice(0,4) // strip stacktrace-js internals
-	    }
-	
-	    return parseStacktrace(trace)
-	}
-	
-	function TraceInfo(traceline) {
-	    this.traceline = traceline
-	}
-	TraceInfo.prototype = {
-	    get file() {
-	        return getInfo(this).file
-	    },
-	    get function() {
-	        return getInfo(this).function
-	    },
-	    get line() {
-	        return getInfo(this).line
-	    },
-	    get column() {
-	        return getInfo(this).column
-	    },
-	    get info() {
-	        return getInfo(this)
-	    }
-	}
-	
-	function getInfo(traceInfo) {
-	    if(traceInfo.cache === undefined) {
-	        var info = parsers[mode](traceInfo.traceline)
-	        if(info.line !== undefined)
-	            info.line = parseInt(info.line, 10)
-	        if(info.column !== undefined)
-	            info.column = parseInt(info.column, 10)
-	
-	        traceInfo.cache = info
-	    }
-	
-	    return traceInfo.cache
-	}
-	
-	function parseStacktrace(trace) {
-	    var results = []
-	    for(var n = 0; n<trace.length; n++) {
-	        results.push(new TraceInfo(trace[n]))
-	    }
-	    return results
-	}
-	
-	// here because i'm lazy, they're here for testing only
-	module.exports.parsers = parsers
-	module.exports.mode = mode
-	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
-
-
-/***/ },
-/* 76 */
+/* 91 */
 /*!*****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/source-map-resolve.js ***!
   \*****************************************************************************************************************************/
@@ -15125,7 +13275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	void (function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 93), __webpack_require__(/*! resolve-url */ 94)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 108), __webpack_require__(/*! resolve-url */ 107)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
 	  } else if (typeof exports === "object") {
 	    var sourceMappingURL = require("source-map-url")
 	    var resolveUrl = require("resolve-url")
@@ -15353,23 +13503,1579 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 86).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 100).setImmediate))
 
 /***/ },
-/* 77 */
-/*!****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/index.js ***!
-  \****************************************************************/
+/* 92 */
+/*!*************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
+  \*************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	var Future = __webpack_require__(/*! async-future */ 109)
 	
-	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 84);
-	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 85);
+	// returns the XHR function or equivalent for use with ajax
+	// memoizes the function for faster repeated use
+	var createXMLHTTPObject = function() {
+	    var versions = ["Msxml2.XMLHTTP",
+	                    "Msxml3.XMLHTTP",
+	                    "Microsoft.XMLHTTP",
+	                    "MSXML2.XmlHttp.6.0",
+	                    "MSXML2.XmlHttp.5.0",
+	                    "MSXML2.XmlHttp.4.0",
+	                    "MSXML2.XmlHttp.3.0",
+	                    "MSXML2.XmlHttp.2.0"
+	    ]
+	
+	    if(XMLHttpRequest !== undefined) {  // For non-IE browsers
+	        createXMLHTTPObject = function() {  // Use memoization to cache the factory
+	            return new XMLHttpRequest()
+	        }
+	        return createXMLHTTPObject()
+	
+	    } else { // IE
+	        for(var i=0, n=versions.length; i<n; i++) {
+	            try {
+	                var version = versions[i]
+	                var fn = function() {
+	                    return new ActiveXObject(version)
+	                }
+	                createXMLHTTPObject = fn   // Use memoization to cache the factory
+	                return createXMLHTTPObject()
+	
+	            } catch(e) {   }
+	        }
+	    }
+	
+	    throw new Error('Cant get XmlHttpRequest object')
+	}
+	
+	
+	
+	var HEADER = "([^\\s]+): (.*)"
+	
+	// returns the contents and headers from a given URL
+	exports = module.exports = function(url) {
+	    if(getFromCache(url))
+	        return getFromCache(url)
+	
+	    var futureResult = new Future
+	    setOnCache(url, futureResult)
+	
+	    var req = createXMLHTTPObject()
+	    req.onreadystatechange = function() {
+	        if( req.readyState === 4 ) {
+	            if( req.status === 200 ) {
+	                var headers = {}
+	                req.getAllResponseHeaders().split('\n').forEach(function(line) {
+	                    var match = line.match(HEADER)
+	                    if(match !== null) {
+	                        var name = match[1]
+	                        var value = match[2]
+	
+	                        headers[name] = value
+	                    }
+	                })
+	
+	                futureResult.return({text: req.responseText, headers: headers})
+	
+	            } else {
+	                var error = new Error('Error in request: Status '+req.status)
+	                error.status = req.status
+	                futureResult.throw(error)
+	            }
+	        }
+	    }
+	
+	    req.onerror = function(e) {
+	        futureResult.throw(e)
+	    }
+	
+	
+	    req.open('GET', url, asynchronous)
+	    try {
+	        req.send()
+	    } catch(e) {
+	        futureResult.throw(e)
+	    }
+	
+	    return futureResult
+	}
+	
+	var cache = {}
+	var getFromCache = function(url) {
+	    return cache[url]
+	}
+	var setOnCache = function(url, futureResponse) {
+	    cache[url] = futureResponse
+	}
+	
+	var asynchronous = true
+	exports.setSynchronous = function(synchronous) { // this is here so I can work around this bug in chrome: https://code.google.com/p/chromium/issues/detail?id=368444
+	    asynchronous = !synchronous
+	}
+	
+	exports.cacheGet = function(fn) {
+	    getFromCache = fn
+	}
+	exports.cacheSet = function(fn) {
+	    setOnCache = fn
+	}
+
+/***/ },
+/* 93 */
+/*!**************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-generator.js ***!
+  \**************************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 101);
+	  var util = __webpack_require__(/*! ./util */ 102);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 103).ArraySet;
+	
+	  /**
+	   * An instance of the SourceMapGenerator represents a source map which is
+	   * being built incrementally. You may pass an object with the following
+	   * properties:
+	   *
+	   *   - file: The filename of the generated source.
+	   *   - sourceRoot: A root for all relative URLs in this source map.
+	   */
+	  function SourceMapGenerator(aArgs) {
+	    if (!aArgs) {
+	      aArgs = {};
+	    }
+	    this._file = util.getArg(aArgs, 'file', null);
+	    this._sourceRoot = util.getArg(aArgs, 'sourceRoot', null);
+	    this._sources = new ArraySet();
+	    this._names = new ArraySet();
+	    this._mappings = [];
+	    this._sourcesContents = null;
+	  }
+	
+	  SourceMapGenerator.prototype._version = 3;
+	
+	  /**
+	   * Creates a new SourceMapGenerator based on a SourceMapConsumer
+	   *
+	   * @param aSourceMapConsumer The SourceMap.
+	   */
+	  SourceMapGenerator.fromSourceMap =
+	    function SourceMapGenerator_fromSourceMap(aSourceMapConsumer) {
+	      var sourceRoot = aSourceMapConsumer.sourceRoot;
+	      var generator = new SourceMapGenerator({
+	        file: aSourceMapConsumer.file,
+	        sourceRoot: sourceRoot
+	      });
+	      aSourceMapConsumer.eachMapping(function (mapping) {
+	        var newMapping = {
+	          generated: {
+	            line: mapping.generatedLine,
+	            column: mapping.generatedColumn
+	          }
+	        };
+	
+	        if (mapping.source) {
+	          newMapping.source = mapping.source;
+	          if (sourceRoot) {
+	            newMapping.source = util.relative(sourceRoot, newMapping.source);
+	          }
+	
+	          newMapping.original = {
+	            line: mapping.originalLine,
+	            column: mapping.originalColumn
+	          };
+	
+	          if (mapping.name) {
+	            newMapping.name = mapping.name;
+	          }
+	        }
+	
+	        generator.addMapping(newMapping);
+	      });
+	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
+	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+	        if (content) {
+	          generator.setSourceContent(sourceFile, content);
+	        }
+	      });
+	      return generator;
+	    };
+	
+	  /**
+	   * Add a single mapping from original source line and column to the generated
+	   * source's line and column for this source map being created. The mapping
+	   * object should have the following properties:
+	   *
+	   *   - generated: An object with the generated line and column positions.
+	   *   - original: An object with the original line and column positions.
+	   *   - source: The original source file (relative to the sourceRoot).
+	   *   - name: An optional original token name for this mapping.
+	   */
+	  SourceMapGenerator.prototype.addMapping =
+	    function SourceMapGenerator_addMapping(aArgs) {
+	      var generated = util.getArg(aArgs, 'generated');
+	      var original = util.getArg(aArgs, 'original', null);
+	      var source = util.getArg(aArgs, 'source', null);
+	      var name = util.getArg(aArgs, 'name', null);
+	
+	      this._validateMapping(generated, original, source, name);
+	
+	      if (source && !this._sources.has(source)) {
+	        this._sources.add(source);
+	      }
+	
+	      if (name && !this._names.has(name)) {
+	        this._names.add(name);
+	      }
+	
+	      this._mappings.push({
+	        generatedLine: generated.line,
+	        generatedColumn: generated.column,
+	        originalLine: original != null && original.line,
+	        originalColumn: original != null && original.column,
+	        source: source,
+	        name: name
+	      });
+	    };
+	
+	  /**
+	   * Set the source content for a source file.
+	   */
+	  SourceMapGenerator.prototype.setSourceContent =
+	    function SourceMapGenerator_setSourceContent(aSourceFile, aSourceContent) {
+	      var source = aSourceFile;
+	      if (this._sourceRoot) {
+	        source = util.relative(this._sourceRoot, source);
+	      }
+	
+	      if (aSourceContent !== null) {
+	        // Add the source content to the _sourcesContents map.
+	        // Create a new _sourcesContents map if the property is null.
+	        if (!this._sourcesContents) {
+	          this._sourcesContents = {};
+	        }
+	        this._sourcesContents[util.toSetString(source)] = aSourceContent;
+	      } else {
+	        // Remove the source file from the _sourcesContents map.
+	        // If the _sourcesContents map is empty, set the property to null.
+	        delete this._sourcesContents[util.toSetString(source)];
+	        if (Object.keys(this._sourcesContents).length === 0) {
+	          this._sourcesContents = null;
+	        }
+	      }
+	    };
+	
+	  /**
+	   * Applies the mappings of a sub-source-map for a specific source file to the
+	   * source map being generated. Each mapping to the supplied source file is
+	   * rewritten using the supplied source map. Note: The resolution for the
+	   * resulting mappings is the minimium of this map and the supplied map.
+	   *
+	   * @param aSourceMapConsumer The source map to be applied.
+	   * @param aSourceFile Optional. The filename of the source file.
+	   *        If omitted, SourceMapConsumer's file property will be used.
+	   * @param aSourceMapPath Optional. The dirname of the path to the source map
+	   *        to be applied. If relative, it is relative to the SourceMapConsumer.
+	   *        This parameter is needed when the two source maps aren't in the same
+	   *        directory, and the source map to be applied contains relative source
+	   *        paths. If so, those relative source paths need to be rewritten
+	   *        relative to the SourceMapGenerator.
+	   */
+	  SourceMapGenerator.prototype.applySourceMap =
+	    function SourceMapGenerator_applySourceMap(aSourceMapConsumer, aSourceFile, aSourceMapPath) {
+	      // If aSourceFile is omitted, we will use the file property of the SourceMap
+	      if (!aSourceFile) {
+	        if (!aSourceMapConsumer.file) {
+	          throw new Error(
+	            'SourceMapGenerator.prototype.applySourceMap requires either an explicit source file, ' +
+	            'or the source map\'s "file" property. Both were omitted.'
+	          );
+	        }
+	        aSourceFile = aSourceMapConsumer.file;
+	      }
+	      var sourceRoot = this._sourceRoot;
+	      // Make "aSourceFile" relative if an absolute Url is passed.
+	      if (sourceRoot) {
+	        aSourceFile = util.relative(sourceRoot, aSourceFile);
+	      }
+	      // Applying the SourceMap can add and remove items from the sources and
+	      // the names array.
+	      var newSources = new ArraySet();
+	      var newNames = new ArraySet();
+	
+	      // Find mappings for the "aSourceFile"
+	      this._mappings.forEach(function (mapping) {
+	        if (mapping.source === aSourceFile && mapping.originalLine) {
+	          // Check if it can be mapped by the source map, then update the mapping.
+	          var original = aSourceMapConsumer.originalPositionFor({
+	            line: mapping.originalLine,
+	            column: mapping.originalColumn
+	          });
+	          if (original.source !== null) {
+	            // Copy mapping
+	            mapping.source = original.source;
+	            if (aSourceMapPath) {
+	              mapping.source = util.join(aSourceMapPath, mapping.source)
+	            }
+	            if (sourceRoot) {
+	              mapping.source = util.relative(sourceRoot, mapping.source);
+	            }
+	            mapping.originalLine = original.line;
+	            mapping.originalColumn = original.column;
+	            if (original.name !== null && mapping.name !== null) {
+	              // Only use the identifier name if it's an identifier
+	              // in both SourceMaps
+	              mapping.name = original.name;
+	            }
+	          }
+	        }
+	
+	        var source = mapping.source;
+	        if (source && !newSources.has(source)) {
+	          newSources.add(source);
+	        }
+	
+	        var name = mapping.name;
+	        if (name && !newNames.has(name)) {
+	          newNames.add(name);
+	        }
+	
+	      }, this);
+	      this._sources = newSources;
+	      this._names = newNames;
+	
+	      // Copy sourcesContents of applied map.
+	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
+	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+	        if (content) {
+	          if (sourceRoot) {
+	            sourceFile = util.relative(sourceRoot, sourceFile);
+	          }
+	          this.setSourceContent(sourceFile, content);
+	        }
+	      }, this);
+	    };
+	
+	  /**
+	   * A mapping can have one of the three levels of data:
+	   *
+	   *   1. Just the generated position.
+	   *   2. The Generated position, original position, and original source.
+	   *   3. Generated and original position, original source, as well as a name
+	   *      token.
+	   *
+	   * To maintain consistency, we validate that any new mapping being added falls
+	   * in to one of these categories.
+	   */
+	  SourceMapGenerator.prototype._validateMapping =
+	    function SourceMapGenerator_validateMapping(aGenerated, aOriginal, aSource,
+	                                                aName) {
+	      if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
+	          && aGenerated.line > 0 && aGenerated.column >= 0
+	          && !aOriginal && !aSource && !aName) {
+	        // Case 1.
+	        return;
+	      }
+	      else if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
+	               && aOriginal && 'line' in aOriginal && 'column' in aOriginal
+	               && aGenerated.line > 0 && aGenerated.column >= 0
+	               && aOriginal.line > 0 && aOriginal.column >= 0
+	               && aSource) {
+	        // Cases 2 and 3.
+	        return;
+	      }
+	      else {
+	        throw new Error('Invalid mapping: ' + JSON.stringify({
+	          generated: aGenerated,
+	          source: aSource,
+	          original: aOriginal,
+	          name: aName
+	        }));
+	      }
+	    };
+	
+	  /**
+	   * Serialize the accumulated mappings in to the stream of base 64 VLQs
+	   * specified by the source map format.
+	   */
+	  SourceMapGenerator.prototype._serializeMappings =
+	    function SourceMapGenerator_serializeMappings() {
+	      var previousGeneratedColumn = 0;
+	      var previousGeneratedLine = 1;
+	      var previousOriginalColumn = 0;
+	      var previousOriginalLine = 0;
+	      var previousName = 0;
+	      var previousSource = 0;
+	      var result = '';
+	      var mapping;
+	
+	      // The mappings must be guaranteed to be in sorted order before we start
+	      // serializing them or else the generated line numbers (which are defined
+	      // via the ';' separators) will be all messed up. Note: it might be more
+	      // performant to maintain the sorting as we insert them, rather than as we
+	      // serialize them, but the big O is the same either way.
+	      this._mappings.sort(util.compareByGeneratedPositions);
+	
+	      for (var i = 0, len = this._mappings.length; i < len; i++) {
+	        mapping = this._mappings[i];
+	
+	        if (mapping.generatedLine !== previousGeneratedLine) {
+	          previousGeneratedColumn = 0;
+	          while (mapping.generatedLine !== previousGeneratedLine) {
+	            result += ';';
+	            previousGeneratedLine++;
+	          }
+	        }
+	        else {
+	          if (i > 0) {
+	            if (!util.compareByGeneratedPositions(mapping, this._mappings[i - 1])) {
+	              continue;
+	            }
+	            result += ',';
+	          }
+	        }
+	
+	        result += base64VLQ.encode(mapping.generatedColumn
+	                                   - previousGeneratedColumn);
+	        previousGeneratedColumn = mapping.generatedColumn;
+	
+	        if (mapping.source) {
+	          result += base64VLQ.encode(this._sources.indexOf(mapping.source)
+	                                     - previousSource);
+	          previousSource = this._sources.indexOf(mapping.source);
+	
+	          // lines are stored 0-based in SourceMap spec version 3
+	          result += base64VLQ.encode(mapping.originalLine - 1
+	                                     - previousOriginalLine);
+	          previousOriginalLine = mapping.originalLine - 1;
+	
+	          result += base64VLQ.encode(mapping.originalColumn
+	                                     - previousOriginalColumn);
+	          previousOriginalColumn = mapping.originalColumn;
+	
+	          if (mapping.name) {
+	            result += base64VLQ.encode(this._names.indexOf(mapping.name)
+	                                       - previousName);
+	            previousName = this._names.indexOf(mapping.name);
+	          }
+	        }
+	      }
+	
+	      return result;
+	    };
+	
+	  SourceMapGenerator.prototype._generateSourcesContent =
+	    function SourceMapGenerator_generateSourcesContent(aSources, aSourceRoot) {
+	      return aSources.map(function (source) {
+	        if (!this._sourcesContents) {
+	          return null;
+	        }
+	        if (aSourceRoot) {
+	          source = util.relative(aSourceRoot, source);
+	        }
+	        var key = util.toSetString(source);
+	        return Object.prototype.hasOwnProperty.call(this._sourcesContents,
+	                                                    key)
+	          ? this._sourcesContents[key]
+	          : null;
+	      }, this);
+	    };
+	
+	  /**
+	   * Externalize the source map.
+	   */
+	  SourceMapGenerator.prototype.toJSON =
+	    function SourceMapGenerator_toJSON() {
+	      var map = {
+	        version: this._version,
+	        file: this._file,
+	        sources: this._sources.toArray(),
+	        names: this._names.toArray(),
+	        mappings: this._serializeMappings()
+	      };
+	      if (this._sourceRoot) {
+	        map.sourceRoot = this._sourceRoot;
+	      }
+	      if (this._sourcesContents) {
+	        map.sourcesContent = this._generateSourcesContent(map.sources, map.sourceRoot);
+	      }
+	
+	      return map;
+	    };
+	
+	  /**
+	   * Render the source map being generated to a string.
+	   */
+	  SourceMapGenerator.prototype.toString =
+	    function SourceMapGenerator_toString() {
+	      return JSON.stringify(this);
+	    };
+	
+	  exports.SourceMapGenerator = SourceMapGenerator;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
 /***/ },
-/* 78 */
+/* 94 */
+/*!*************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-consumer.js ***!
+  \*************************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var util = __webpack_require__(/*! ./util */ 102);
+	  var binarySearch = __webpack_require__(/*! ./binary-search */ 104);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 103).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 101);
+	
+	  /**
+	   * A SourceMapConsumer instance represents a parsed source map which we can
+	   * query for information about the original file positions by giving it a file
+	   * position in the generated source.
+	   *
+	   * The only parameter is the raw source map (either as a JSON string, or
+	   * already parsed to an object). According to the spec, source maps have the
+	   * following attributes:
+	   *
+	   *   - version: Which version of the source map spec this map is following.
+	   *   - sources: An array of URLs to the original source files.
+	   *   - names: An array of identifiers which can be referrenced by individual mappings.
+	   *   - sourceRoot: Optional. The URL root from which all sources are relative.
+	   *   - sourcesContent: Optional. An array of contents of the original source files.
+	   *   - mappings: A string of base64 VLQs which contain the actual mappings.
+	   *   - file: Optional. The generated file this source map is associated with.
+	   *
+	   * Here is an example source map, taken from the source map spec[0]:
+	   *
+	   *     {
+	   *       version : 3,
+	   *       file: "out.js",
+	   *       sourceRoot : "",
+	   *       sources: ["foo.js", "bar.js"],
+	   *       names: ["src", "maps", "are", "fun"],
+	   *       mappings: "AA,AB;;ABCDE;"
+	   *     }
+	   *
+	   * [0]: https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit?pli=1#
+	   */
+	  function SourceMapConsumer(aSourceMap) {
+	    var sourceMap = aSourceMap;
+	    if (typeof aSourceMap === 'string') {
+	      sourceMap = JSON.parse(aSourceMap.replace(/^\)\]\}'/, ''));
+	    }
+	
+	    var version = util.getArg(sourceMap, 'version');
+	    var sources = util.getArg(sourceMap, 'sources');
+	    // Sass 3.3 leaves out the 'names' array, so we deviate from the spec (which
+	    // requires the array) to play nice here.
+	    var names = util.getArg(sourceMap, 'names', []);
+	    var sourceRoot = util.getArg(sourceMap, 'sourceRoot', null);
+	    var sourcesContent = util.getArg(sourceMap, 'sourcesContent', null);
+	    var mappings = util.getArg(sourceMap, 'mappings');
+	    var file = util.getArg(sourceMap, 'file', null);
+	
+	    // Once again, Sass deviates from the spec and supplies the version as a
+	    // string rather than a number, so we use loose equality checking here.
+	    if (version != this._version) {
+	      throw new Error('Unsupported version: ' + version);
+	    }
+	
+	    // Pass `true` below to allow duplicate names and sources. While source maps
+	    // are intended to be compressed and deduplicated, the TypeScript compiler
+	    // sometimes generates source maps with duplicates in them. See Github issue
+	    // #72 and bugzil.la/889492.
+	    this._names = ArraySet.fromArray(names, true);
+	    this._sources = ArraySet.fromArray(sources, true);
+	
+	    this.sourceRoot = sourceRoot;
+	    this.sourcesContent = sourcesContent;
+	    this._mappings = mappings;
+	    this.file = file;
+	  }
+	
+	  /**
+	   * Create a SourceMapConsumer from a SourceMapGenerator.
+	   *
+	   * @param SourceMapGenerator aSourceMap
+	   *        The source map that will be consumed.
+	   * @returns SourceMapConsumer
+	   */
+	  SourceMapConsumer.fromSourceMap =
+	    function SourceMapConsumer_fromSourceMap(aSourceMap) {
+	      var smc = Object.create(SourceMapConsumer.prototype);
+	
+	      smc._names = ArraySet.fromArray(aSourceMap._names.toArray(), true);
+	      smc._sources = ArraySet.fromArray(aSourceMap._sources.toArray(), true);
+	      smc.sourceRoot = aSourceMap._sourceRoot;
+	      smc.sourcesContent = aSourceMap._generateSourcesContent(smc._sources.toArray(),
+	                                                              smc.sourceRoot);
+	      smc.file = aSourceMap._file;
+	
+	      smc.__generatedMappings = aSourceMap._mappings.slice()
+	        .sort(util.compareByGeneratedPositions);
+	      smc.__originalMappings = aSourceMap._mappings.slice()
+	        .sort(util.compareByOriginalPositions);
+	
+	      return smc;
+	    };
+	
+	  /**
+	   * The version of the source mapping spec that we are consuming.
+	   */
+	  SourceMapConsumer.prototype._version = 3;
+	
+	  /**
+	   * The list of original sources.
+	   */
+	  Object.defineProperty(SourceMapConsumer.prototype, 'sources', {
+	    get: function () {
+	      return this._sources.toArray().map(function (s) {
+	        return this.sourceRoot ? util.join(this.sourceRoot, s) : s;
+	      }, this);
+	    }
+	  });
+	
+	  // `__generatedMappings` and `__originalMappings` are arrays that hold the
+	  // parsed mapping coordinates from the source map's "mappings" attribute. They
+	  // are lazily instantiated, accessed via the `_generatedMappings` and
+	  // `_originalMappings` getters respectively, and we only parse the mappings
+	  // and create these arrays once queried for a source location. We jump through
+	  // these hoops because there can be many thousands of mappings, and parsing
+	  // them is expensive, so we only want to do it if we must.
+	  //
+	  // Each object in the arrays is of the form:
+	  //
+	  //     {
+	  //       generatedLine: The line number in the generated code,
+	  //       generatedColumn: The column number in the generated code,
+	  //       source: The path to the original source file that generated this
+	  //               chunk of code,
+	  //       originalLine: The line number in the original source that
+	  //                     corresponds to this chunk of generated code,
+	  //       originalColumn: The column number in the original source that
+	  //                       corresponds to this chunk of generated code,
+	  //       name: The name of the original symbol which generated this chunk of
+	  //             code.
+	  //     }
+	  //
+	  // All properties except for `generatedLine` and `generatedColumn` can be
+	  // `null`.
+	  //
+	  // `_generatedMappings` is ordered by the generated positions.
+	  //
+	  // `_originalMappings` is ordered by the original positions.
+	
+	  SourceMapConsumer.prototype.__generatedMappings = null;
+	  Object.defineProperty(SourceMapConsumer.prototype, '_generatedMappings', {
+	    get: function () {
+	      if (!this.__generatedMappings) {
+	        this.__generatedMappings = [];
+	        this.__originalMappings = [];
+	        this._parseMappings(this._mappings, this.sourceRoot);
+	      }
+	
+	      return this.__generatedMappings;
+	    }
+	  });
+	
+	  SourceMapConsumer.prototype.__originalMappings = null;
+	  Object.defineProperty(SourceMapConsumer.prototype, '_originalMappings', {
+	    get: function () {
+	      if (!this.__originalMappings) {
+	        this.__generatedMappings = [];
+	        this.__originalMappings = [];
+	        this._parseMappings(this._mappings, this.sourceRoot);
+	      }
+	
+	      return this.__originalMappings;
+	    }
+	  });
+	
+	  /**
+	   * Parse the mappings in a string in to a data structure which we can easily
+	   * query (the ordered arrays in the `this.__generatedMappings` and
+	   * `this.__originalMappings` properties).
+	   */
+	  SourceMapConsumer.prototype._parseMappings =
+	    function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
+	      var generatedLine = 1;
+	      var previousGeneratedColumn = 0;
+	      var previousOriginalLine = 0;
+	      var previousOriginalColumn = 0;
+	      var previousSource = 0;
+	      var previousName = 0;
+	      var mappingSeparator = /^[,;]/;
+	      var str = aStr;
+	      var mapping;
+	      var temp;
+	
+	      while (str.length > 0) {
+	        if (str.charAt(0) === ';') {
+	          generatedLine++;
+	          str = str.slice(1);
+	          previousGeneratedColumn = 0;
+	        }
+	        else if (str.charAt(0) === ',') {
+	          str = str.slice(1);
+	        }
+	        else {
+	          mapping = {};
+	          mapping.generatedLine = generatedLine;
+	
+	          // Generated column.
+	          temp = base64VLQ.decode(str);
+	          mapping.generatedColumn = previousGeneratedColumn + temp.value;
+	          previousGeneratedColumn = mapping.generatedColumn;
+	          str = temp.rest;
+	
+	          if (str.length > 0 && !mappingSeparator.test(str.charAt(0))) {
+	            // Original source.
+	            temp = base64VLQ.decode(str);
+	            mapping.source = this._sources.at(previousSource + temp.value);
+	            previousSource += temp.value;
+	            str = temp.rest;
+	            if (str.length === 0 || mappingSeparator.test(str.charAt(0))) {
+	              throw new Error('Found a source, but no line and column');
+	            }
+	
+	            // Original line.
+	            temp = base64VLQ.decode(str);
+	            mapping.originalLine = previousOriginalLine + temp.value;
+	            previousOriginalLine = mapping.originalLine;
+	            // Lines are stored 0-based
+	            mapping.originalLine += 1;
+	            str = temp.rest;
+	            if (str.length === 0 || mappingSeparator.test(str.charAt(0))) {
+	              throw new Error('Found a source and line, but no column');
+	            }
+	
+	            // Original column.
+	            temp = base64VLQ.decode(str);
+	            mapping.originalColumn = previousOriginalColumn + temp.value;
+	            previousOriginalColumn = mapping.originalColumn;
+	            str = temp.rest;
+	
+	            if (str.length > 0 && !mappingSeparator.test(str.charAt(0))) {
+	              // Original name.
+	              temp = base64VLQ.decode(str);
+	              mapping.name = this._names.at(previousName + temp.value);
+	              previousName += temp.value;
+	              str = temp.rest;
+	            }
+	          }
+	
+	          this.__generatedMappings.push(mapping);
+	          if (typeof mapping.originalLine === 'number') {
+	            this.__originalMappings.push(mapping);
+	          }
+	        }
+	      }
+	
+	      this.__generatedMappings.sort(util.compareByGeneratedPositions);
+	      this.__originalMappings.sort(util.compareByOriginalPositions);
+	    };
+	
+	  /**
+	   * Find the mapping that best matches the hypothetical "needle" mapping that
+	   * we are searching for in the given "haystack" of mappings.
+	   */
+	  SourceMapConsumer.prototype._findMapping =
+	    function SourceMapConsumer_findMapping(aNeedle, aMappings, aLineName,
+	                                           aColumnName, aComparator) {
+	      // To return the position we are searching for, we must first find the
+	      // mapping for the given position and then return the opposite position it
+	      // points to. Because the mappings are sorted, we can use binary search to
+	      // find the best mapping.
+	
+	      if (aNeedle[aLineName] <= 0) {
+	        throw new TypeError('Line must be greater than or equal to 1, got '
+	                            + aNeedle[aLineName]);
+	      }
+	      if (aNeedle[aColumnName] < 0) {
+	        throw new TypeError('Column must be greater than or equal to 0, got '
+	                            + aNeedle[aColumnName]);
+	      }
+	
+	      return binarySearch.search(aNeedle, aMappings, aComparator);
+	    };
+	
+	  /**
+	   * Returns the original source, line, and column information for the generated
+	   * source's line and column positions provided. The only argument is an object
+	   * with the following properties:
+	   *
+	   *   - line: The line number in the generated source.
+	   *   - column: The column number in the generated source.
+	   *
+	   * and an object is returned with the following properties:
+	   *
+	   *   - source: The original source file, or null.
+	   *   - line: The line number in the original source, or null.
+	   *   - column: The column number in the original source, or null.
+	   *   - name: The original identifier, or null.
+	   */
+	  SourceMapConsumer.prototype.originalPositionFor =
+	    function SourceMapConsumer_originalPositionFor(aArgs) {
+	      var needle = {
+	        generatedLine: util.getArg(aArgs, 'line'),
+	        generatedColumn: util.getArg(aArgs, 'column')
+	      };
+	
+	      var mapping = this._findMapping(needle,
+	                                      this._generatedMappings,
+	                                      "generatedLine",
+	                                      "generatedColumn",
+	                                      util.compareByGeneratedPositions);
+	
+	      if (mapping && mapping.generatedLine === needle.generatedLine) {
+	        var source = util.getArg(mapping, 'source', null);
+	        if (source && this.sourceRoot) {
+	          source = util.join(this.sourceRoot, source);
+	        }
+	        return {
+	          source: source,
+	          line: util.getArg(mapping, 'originalLine', null),
+	          column: util.getArg(mapping, 'originalColumn', null),
+	          name: util.getArg(mapping, 'name', null)
+	        };
+	      }
+	
+	      return {
+	        source: null,
+	        line: null,
+	        column: null,
+	        name: null
+	      };
+	    };
+	
+	  /**
+	   * Returns the original source content. The only argument is the url of the
+	   * original source file. Returns null if no original source content is
+	   * availible.
+	   */
+	  SourceMapConsumer.prototype.sourceContentFor =
+	    function SourceMapConsumer_sourceContentFor(aSource) {
+	      if (!this.sourcesContent) {
+	        return null;
+	      }
+	
+	      if (this.sourceRoot) {
+	        aSource = util.relative(this.sourceRoot, aSource);
+	      }
+	
+	      if (this._sources.has(aSource)) {
+	        return this.sourcesContent[this._sources.indexOf(aSource)];
+	      }
+	
+	      var url;
+	      if (this.sourceRoot
+	          && (url = util.urlParse(this.sourceRoot))) {
+	        // XXX: file:// URIs and absolute paths lead to unexpected behavior for
+	        // many users. We can help them out when they expect file:// URIs to
+	        // behave like it would if they were running a local HTTP server. See
+	        // https://bugzilla.mozilla.org/show_bug.cgi?id=885597.
+	        var fileUriAbsPath = aSource.replace(/^file:\/\//, "");
+	        if (url.scheme == "file"
+	            && this._sources.has(fileUriAbsPath)) {
+	          return this.sourcesContent[this._sources.indexOf(fileUriAbsPath)]
+	        }
+	
+	        if ((!url.path || url.path == "/")
+	            && this._sources.has("/" + aSource)) {
+	          return this.sourcesContent[this._sources.indexOf("/" + aSource)];
+	        }
+	      }
+	
+	      throw new Error('"' + aSource + '" is not in the SourceMap.');
+	    };
+	
+	  /**
+	   * Returns the generated line and column information for the original source,
+	   * line, and column positions provided. The only argument is an object with
+	   * the following properties:
+	   *
+	   *   - source: The filename of the original source.
+	   *   - line: The line number in the original source.
+	   *   - column: The column number in the original source.
+	   *
+	   * and an object is returned with the following properties:
+	   *
+	   *   - line: The line number in the generated source, or null.
+	   *   - column: The column number in the generated source, or null.
+	   */
+	  SourceMapConsumer.prototype.generatedPositionFor =
+	    function SourceMapConsumer_generatedPositionFor(aArgs) {
+	      var needle = {
+	        source: util.getArg(aArgs, 'source'),
+	        originalLine: util.getArg(aArgs, 'line'),
+	        originalColumn: util.getArg(aArgs, 'column')
+	      };
+	
+	      if (this.sourceRoot) {
+	        needle.source = util.relative(this.sourceRoot, needle.source);
+	      }
+	
+	      var mapping = this._findMapping(needle,
+	                                      this._originalMappings,
+	                                      "originalLine",
+	                                      "originalColumn",
+	                                      util.compareByOriginalPositions);
+	
+	      if (mapping) {
+	        return {
+	          line: util.getArg(mapping, 'generatedLine', null),
+	          column: util.getArg(mapping, 'generatedColumn', null)
+	        };
+	      }
+	
+	      return {
+	        line: null,
+	        column: null
+	      };
+	    };
+	
+	  SourceMapConsumer.GENERATED_ORDER = 1;
+	  SourceMapConsumer.ORIGINAL_ORDER = 2;
+	
+	  /**
+	   * Iterate over each mapping between an original source/line/column and a
+	   * generated line/column in this source map.
+	   *
+	   * @param Function aCallback
+	   *        The function that is called with each mapping.
+	   * @param Object aContext
+	   *        Optional. If specified, this object will be the value of `this` every
+	   *        time that `aCallback` is called.
+	   * @param aOrder
+	   *        Either `SourceMapConsumer.GENERATED_ORDER` or
+	   *        `SourceMapConsumer.ORIGINAL_ORDER`. Specifies whether you want to
+	   *        iterate over the mappings sorted by the generated file's line/column
+	   *        order or the original's source/line/column order, respectively. Defaults to
+	   *        `SourceMapConsumer.GENERATED_ORDER`.
+	   */
+	  SourceMapConsumer.prototype.eachMapping =
+	    function SourceMapConsumer_eachMapping(aCallback, aContext, aOrder) {
+	      var context = aContext || null;
+	      var order = aOrder || SourceMapConsumer.GENERATED_ORDER;
+	
+	      var mappings;
+	      switch (order) {
+	      case SourceMapConsumer.GENERATED_ORDER:
+	        mappings = this._generatedMappings;
+	        break;
+	      case SourceMapConsumer.ORIGINAL_ORDER:
+	        mappings = this._originalMappings;
+	        break;
+	      default:
+	        throw new Error("Unknown order of iteration.");
+	      }
+	
+	      var sourceRoot = this.sourceRoot;
+	      mappings.map(function (mapping) {
+	        var source = mapping.source;
+	        if (source && sourceRoot) {
+	          source = util.join(sourceRoot, source);
+	        }
+	        return {
+	          source: source,
+	          generatedLine: mapping.generatedLine,
+	          generatedColumn: mapping.generatedColumn,
+	          originalLine: mapping.originalLine,
+	          originalColumn: mapping.originalColumn,
+	          name: mapping.name
+	        };
+	      }).forEach(aCallback, context);
+	    };
+	
+	  exports.SourceMapConsumer = SourceMapConsumer;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 95 */
+/*!*****************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
+  \*****************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 93).SourceMapGenerator;
+	  var util = __webpack_require__(/*! ./util */ 102);
+	
+	  /**
+	   * SourceNodes provide a way to abstract over interpolating/concatenating
+	   * snippets of generated JavaScript source code while maintaining the line and
+	   * column information associated with the original source code.
+	   *
+	   * @param aLine The original line number.
+	   * @param aColumn The original column number.
+	   * @param aSource The original source's filename.
+	   * @param aChunks Optional. An array of strings which are snippets of
+	   *        generated JS, or other SourceNodes.
+	   * @param aName The original identifier.
+	   */
+	  function SourceNode(aLine, aColumn, aSource, aChunks, aName) {
+	    this.children = [];
+	    this.sourceContents = {};
+	    this.line = aLine === undefined ? null : aLine;
+	    this.column = aColumn === undefined ? null : aColumn;
+	    this.source = aSource === undefined ? null : aSource;
+	    this.name = aName === undefined ? null : aName;
+	    if (aChunks != null) this.add(aChunks);
+	  }
+	
+	  /**
+	   * Creates a SourceNode from generated code and a SourceMapConsumer.
+	   *
+	   * @param aGeneratedCode The generated code
+	   * @param aSourceMapConsumer The SourceMap for the generated code
+	   */
+	  SourceNode.fromStringWithSourceMap =
+	    function SourceNode_fromStringWithSourceMap(aGeneratedCode, aSourceMapConsumer) {
+	      // The SourceNode we want to fill with the generated code
+	      // and the SourceMap
+	      var node = new SourceNode();
+	
+	      // The generated code
+	      // Processed fragments are removed from this array.
+	      var remainingLines = aGeneratedCode.split('\n');
+	
+	      // We need to remember the position of "remainingLines"
+	      var lastGeneratedLine = 1, lastGeneratedColumn = 0;
+	
+	      // The generate SourceNodes we need a code range.
+	      // To extract it current and last mapping is used.
+	      // Here we store the last mapping.
+	      var lastMapping = null;
+	
+	      aSourceMapConsumer.eachMapping(function (mapping) {
+	        if (lastMapping !== null) {
+	          // We add the code from "lastMapping" to "mapping":
+	          // First check if there is a new line in between.
+	          if (lastGeneratedLine < mapping.generatedLine) {
+	            var code = "";
+	            // Associate first line with "lastMapping"
+	            addMappingWithCode(lastMapping, remainingLines.shift() + "\n");
+	            lastGeneratedLine++;
+	            lastGeneratedColumn = 0;
+	            // The remaining code is added without mapping
+	          } else {
+	            // There is no new line in between.
+	            // Associate the code between "lastGeneratedColumn" and
+	            // "mapping.generatedColumn" with "lastMapping"
+	            var nextLine = remainingLines[0];
+	            var code = nextLine.substr(0, mapping.generatedColumn -
+	                                          lastGeneratedColumn);
+	            remainingLines[0] = nextLine.substr(mapping.generatedColumn -
+	                                                lastGeneratedColumn);
+	            lastGeneratedColumn = mapping.generatedColumn;
+	            addMappingWithCode(lastMapping, code);
+	            // No more remaining code, continue
+	            lastMapping = mapping;
+	            return;
+	          }
+	        }
+	        // We add the generated code until the first mapping
+	        // to the SourceNode without any mapping.
+	        // Each line is added as separate string.
+	        while (lastGeneratedLine < mapping.generatedLine) {
+	          node.add(remainingLines.shift() + "\n");
+	          lastGeneratedLine++;
+	        }
+	        if (lastGeneratedColumn < mapping.generatedColumn) {
+	          var nextLine = remainingLines[0];
+	          node.add(nextLine.substr(0, mapping.generatedColumn));
+	          remainingLines[0] = nextLine.substr(mapping.generatedColumn);
+	          lastGeneratedColumn = mapping.generatedColumn;
+	        }
+	        lastMapping = mapping;
+	      }, this);
+	      // We have processed all mappings.
+	      if (remainingLines.length > 0) {
+	        if (lastMapping) {
+	          // Associate the remaining code in the current line with "lastMapping"
+	          var lastLine = remainingLines.shift();
+	          if (remainingLines.length > 0) lastLine += "\n";
+	          addMappingWithCode(lastMapping, lastLine);
+	        }
+	        // and add the remaining lines without any mapping
+	        node.add(remainingLines.join("\n"));
+	      }
+	
+	      // Copy sourcesContent into SourceNode
+	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
+	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+	        if (content) {
+	          node.setSourceContent(sourceFile, content);
+	        }
+	      });
+	
+	      return node;
+	
+	      function addMappingWithCode(mapping, code) {
+	        if (mapping === null || mapping.source === undefined) {
+	          node.add(code);
+	        } else {
+	          node.add(new SourceNode(mapping.originalLine,
+	                                  mapping.originalColumn,
+	                                  mapping.source,
+	                                  code,
+	                                  mapping.name));
+	        }
+	      }
+	    };
+	
+	  /**
+	   * Add a chunk of generated JS to this source node.
+	   *
+	   * @param aChunk A string snippet of generated JS code, another instance of
+	   *        SourceNode, or an array where each member is one of those things.
+	   */
+	  SourceNode.prototype.add = function SourceNode_add(aChunk) {
+	    if (Array.isArray(aChunk)) {
+	      aChunk.forEach(function (chunk) {
+	        this.add(chunk);
+	      }, this);
+	    }
+	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
+	      if (aChunk) {
+	        this.children.push(aChunk);
+	      }
+	    }
+	    else {
+	      throw new TypeError(
+	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
+	      );
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Add a chunk of generated JS to the beginning of this source node.
+	   *
+	   * @param aChunk A string snippet of generated JS code, another instance of
+	   *        SourceNode, or an array where each member is one of those things.
+	   */
+	  SourceNode.prototype.prepend = function SourceNode_prepend(aChunk) {
+	    if (Array.isArray(aChunk)) {
+	      for (var i = aChunk.length-1; i >= 0; i--) {
+	        this.prepend(aChunk[i]);
+	      }
+	    }
+	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
+	      this.children.unshift(aChunk);
+	    }
+	    else {
+	      throw new TypeError(
+	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
+	      );
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Walk over the tree of JS snippets in this node and its children. The
+	   * walking function is called once for each snippet of JS and is passed that
+	   * snippet and the its original associated source's line/column location.
+	   *
+	   * @param aFn The traversal function.
+	   */
+	  SourceNode.prototype.walk = function SourceNode_walk(aFn) {
+	    var chunk;
+	    for (var i = 0, len = this.children.length; i < len; i++) {
+	      chunk = this.children[i];
+	      if (chunk instanceof SourceNode) {
+	        chunk.walk(aFn);
+	      }
+	      else {
+	        if (chunk !== '') {
+	          aFn(chunk, { source: this.source,
+	                       line: this.line,
+	                       column: this.column,
+	                       name: this.name });
+	        }
+	      }
+	    }
+	  };
+	
+	  /**
+	   * Like `String.prototype.join` except for SourceNodes. Inserts `aStr` between
+	   * each of `this.children`.
+	   *
+	   * @param aSep The separator.
+	   */
+	  SourceNode.prototype.join = function SourceNode_join(aSep) {
+	    var newChildren;
+	    var i;
+	    var len = this.children.length;
+	    if (len > 0) {
+	      newChildren = [];
+	      for (i = 0; i < len-1; i++) {
+	        newChildren.push(this.children[i]);
+	        newChildren.push(aSep);
+	      }
+	      newChildren.push(this.children[i]);
+	      this.children = newChildren;
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Call String.prototype.replace on the very right-most source snippet. Useful
+	   * for trimming whitespace from the end of a source node, etc.
+	   *
+	   * @param aPattern The pattern to replace.
+	   * @param aReplacement The thing to replace the pattern with.
+	   */
+	  SourceNode.prototype.replaceRight = function SourceNode_replaceRight(aPattern, aReplacement) {
+	    var lastChild = this.children[this.children.length - 1];
+	    if (lastChild instanceof SourceNode) {
+	      lastChild.replaceRight(aPattern, aReplacement);
+	    }
+	    else if (typeof lastChild === 'string') {
+	      this.children[this.children.length - 1] = lastChild.replace(aPattern, aReplacement);
+	    }
+	    else {
+	      this.children.push(''.replace(aPattern, aReplacement));
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Set the source content for a source file. This will be added to the SourceMapGenerator
+	   * in the sourcesContent field.
+	   *
+	   * @param aSourceFile The filename of the source file
+	   * @param aSourceContent The content of the source file
+	   */
+	  SourceNode.prototype.setSourceContent =
+	    function SourceNode_setSourceContent(aSourceFile, aSourceContent) {
+	      this.sourceContents[util.toSetString(aSourceFile)] = aSourceContent;
+	    };
+	
+	  /**
+	   * Walk over the tree of SourceNodes. The walking function is called for each
+	   * source file content and is passed the filename and source content.
+	   *
+	   * @param aFn The traversal function.
+	   */
+	  SourceNode.prototype.walkSourceContents =
+	    function SourceNode_walkSourceContents(aFn) {
+	      for (var i = 0, len = this.children.length; i < len; i++) {
+	        if (this.children[i] instanceof SourceNode) {
+	          this.children[i].walkSourceContents(aFn);
+	        }
+	      }
+	
+	      var sources = Object.keys(this.sourceContents);
+	      for (var i = 0, len = sources.length; i < len; i++) {
+	        aFn(util.fromSetString(sources[i]), this.sourceContents[sources[i]]);
+	      }
+	    };
+	
+	  /**
+	   * Return the string representation of this source node. Walks over the tree
+	   * and concatenates all the various snippets together to one string.
+	   */
+	  SourceNode.prototype.toString = function SourceNode_toString() {
+	    var str = "";
+	    this.walk(function (chunk) {
+	      str += chunk;
+	    });
+	    return str;
+	  };
+	
+	  /**
+	   * Returns the string representation of this source node along with a source
+	   * map.
+	   */
+	  SourceNode.prototype.toStringWithSourceMap = function SourceNode_toStringWithSourceMap(aArgs) {
+	    var generated = {
+	      code: "",
+	      line: 1,
+	      column: 0
+	    };
+	    var map = new SourceMapGenerator(aArgs);
+	    var sourceMappingActive = false;
+	    var lastOriginalSource = null;
+	    var lastOriginalLine = null;
+	    var lastOriginalColumn = null;
+	    var lastOriginalName = null;
+	    this.walk(function (chunk, original) {
+	      generated.code += chunk;
+	      if (original.source !== null
+	          && original.line !== null
+	          && original.column !== null) {
+	        if(lastOriginalSource !== original.source
+	           || lastOriginalLine !== original.line
+	           || lastOriginalColumn !== original.column
+	           || lastOriginalName !== original.name) {
+	          map.addMapping({
+	            source: original.source,
+	            original: {
+	              line: original.line,
+	              column: original.column
+	            },
+	            generated: {
+	              line: generated.line,
+	              column: generated.column
+	            },
+	            name: original.name
+	          });
+	        }
+	        lastOriginalSource = original.source;
+	        lastOriginalLine = original.line;
+	        lastOriginalColumn = original.column;
+	        lastOriginalName = original.name;
+	        sourceMappingActive = true;
+	      } else if (sourceMappingActive) {
+	        map.addMapping({
+	          generated: {
+	            line: generated.line,
+	            column: generated.column
+	          }
+	        });
+	        lastOriginalSource = null;
+	        sourceMappingActive = false;
+	      }
+	      chunk.split('').forEach(function (ch, idx, array) {
+	        if (ch === '\n') {
+	          generated.line++;
+	          generated.column = 0;
+	          // Mappings end at eol
+	          if (idx + 1 === array.length) {
+	            lastOriginalSource = null;
+	            sourceMappingActive = false;
+	          } else if (sourceMappingActive) {
+	            map.addMapping({
+	              source: original.source,
+	              original: {
+	                line: original.line,
+	                column: original.column
+	              },
+	              generated: {
+	                line: generated.line,
+	                column: generated.column
+	              },
+	              name: original.name
+	            });
+	          }
+	        } else {
+	          generated.column++;
+	        }
+	      });
+	    });
+	    this.walkSourceContents(function (sourceFile, sourceContent) {
+	      map.setSourceContent(sourceFile, sourceContent);
+	    });
+	
+	    return { code: generated.code, map: map };
+	  };
+	
+	  exports.SourceNode = SourceNode;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 96 */
+/*!*****************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
+  \*****************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = {
+	    chrome: function(line) {
+	        var m = line.match(CHROME_STACK_LINE);
+	        if (m) {
+	            var file = m[9] || m[18] || m[26]
+	            var fn = m[4] || m[7] || m[14] || m[23]
+	            var lineNumber = m[11] || m[20]
+	            var column = m[13] || m[22]
+	        } else {
+	            //throw new Error("Couldn't parse exception line: "+line)
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    firefox: function(line) {
+	        var m = line.match(FIREFOX_STACK_LINE);
+	        if (m) {
+	            var file = m[8]
+	            var fn = m[1]
+	            var lineNumber = m[10]
+	            var column = m[12]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    ie: function(line) {
+	        var m = line.match(IE_STACK_LINE);
+	        if (m) {
+	            var file = m[3] || m[10]
+	            var fn = m[2] || m[9]
+	            var lineNumber = m[5] || m[12]
+	            var column = m[7] || m[14]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    }
+	}
+	
+	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
+	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
+	var IDENTIFIER_PATTERN_ = '[\\w$]*';
+	// RegExp pattern for an URL + position inside the file.
+	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
+	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
+	
+	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
+	
+	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
+	
+	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
+	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
+	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
+	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
+	
+	// output from stacktrace.js is: "name()@..." instead of "name (...)"
+	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
+	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
+	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
+	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
+	
+	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
+	
+	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
+	
+	
+	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
+	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
+	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
+	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
+	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
+	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
+	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
+	
+	var IE_WHITESPACE = '[\\w \\t]'
+	var IE_FILE_AND_LINE = FILE_AND_LINE
+	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
+	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
+	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
+	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
+
+/***/ },
+/* 97 */
+/*!***************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
+  \***************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	module.exports = exceptionMode(createException()) // basically what browser this is
+	
+	// verbatim from `mode` in stacktrace.js as of 2014-01-23
+	function exceptionMode(e) {
+	    if (e['arguments'] && e.stack) {
+	        return 'chrome';
+	    } else if (e.stack && e.sourceURL) {
+	        return 'safari';
+	    } else if (e.stack && e.number) {
+	        return 'ie';
+	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
+	        // e.message.indexOf("Backtrace:") > -1 -> opera
+	        // !e.stacktrace -> opera
+	        if (!e.stacktrace) {
+	            return 'opera9'; // use e.message
+	        }
+	        // 'opera#sourceloc' in e -> opera9, opera10a
+	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
+	            return 'opera9'; // use e.message
+	        }
+	        // e.stacktrace && !e.stack -> opera10a
+	        if (!e.stack) {
+	            return 'opera10a'; // use e.stacktrace
+	        }
+	        // e.stacktrace && e.stack -> opera10b
+	        if (e.stacktrace.indexOf("called from line") < 0) {
+	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
+	        }
+	        // e.stacktrace && e.stack -> opera11
+	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
+	    } else if (e.stack && !e.fileName) {
+	        // Chrome 27 does not have e.arguments as earlier versions,
+	        // but still does not have e.fileName as Firefox
+	        return 'chrome';
+	    } else if (e.stack) {
+	        return 'firefox';
+	    }
+	    return 'other';
+	}
+	
+	function createException() {
+	    try {
+	        this.undef();
+	    } catch (e) {
+	        return e;
+	    }
+	}
+
+
+/***/ },
+/* 98 */
 /*!************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
   \************************************************************/
@@ -15904,1655 +15610,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/buildin/module.js */ 96)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/buildin/module.js */ 112)(module), (function() { return this; }())))
 
 /***/ },
-/* 79 */
-/*!**************************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-generator.js ***!
-  \**************************************************************************************************************************************/
+/* 99 */
+/*!****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/index.js ***!
+  \****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 91);
-	  var util = __webpack_require__(/*! ./util */ 88);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 90).ArraySet;
-	
-	  /**
-	   * An instance of the SourceMapGenerator represents a source map which is
-	   * being built incrementally. You may pass an object with the following
-	   * properties:
-	   *
-	   *   - file: The filename of the generated source.
-	   *   - sourceRoot: A root for all relative URLs in this source map.
-	   */
-	  function SourceMapGenerator(aArgs) {
-	    if (!aArgs) {
-	      aArgs = {};
-	    }
-	    this._file = util.getArg(aArgs, 'file', null);
-	    this._sourceRoot = util.getArg(aArgs, 'sourceRoot', null);
-	    this._sources = new ArraySet();
-	    this._names = new ArraySet();
-	    this._mappings = [];
-	    this._sourcesContents = null;
-	  }
-	
-	  SourceMapGenerator.prototype._version = 3;
-	
-	  /**
-	   * Creates a new SourceMapGenerator based on a SourceMapConsumer
-	   *
-	   * @param aSourceMapConsumer The SourceMap.
-	   */
-	  SourceMapGenerator.fromSourceMap =
-	    function SourceMapGenerator_fromSourceMap(aSourceMapConsumer) {
-	      var sourceRoot = aSourceMapConsumer.sourceRoot;
-	      var generator = new SourceMapGenerator({
-	        file: aSourceMapConsumer.file,
-	        sourceRoot: sourceRoot
-	      });
-	      aSourceMapConsumer.eachMapping(function (mapping) {
-	        var newMapping = {
-	          generated: {
-	            line: mapping.generatedLine,
-	            column: mapping.generatedColumn
-	          }
-	        };
-	
-	        if (mapping.source) {
-	          newMapping.source = mapping.source;
-	          if (sourceRoot) {
-	            newMapping.source = util.relative(sourceRoot, newMapping.source);
-	          }
-	
-	          newMapping.original = {
-	            line: mapping.originalLine,
-	            column: mapping.originalColumn
-	          };
-	
-	          if (mapping.name) {
-	            newMapping.name = mapping.name;
-	          }
-	        }
-	
-	        generator.addMapping(newMapping);
-	      });
-	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
-	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-	        if (content) {
-	          generator.setSourceContent(sourceFile, content);
-	        }
-	      });
-	      return generator;
-	    };
-	
-	  /**
-	   * Add a single mapping from original source line and column to the generated
-	   * source's line and column for this source map being created. The mapping
-	   * object should have the following properties:
-	   *
-	   *   - generated: An object with the generated line and column positions.
-	   *   - original: An object with the original line and column positions.
-	   *   - source: The original source file (relative to the sourceRoot).
-	   *   - name: An optional original token name for this mapping.
-	   */
-	  SourceMapGenerator.prototype.addMapping =
-	    function SourceMapGenerator_addMapping(aArgs) {
-	      var generated = util.getArg(aArgs, 'generated');
-	      var original = util.getArg(aArgs, 'original', null);
-	      var source = util.getArg(aArgs, 'source', null);
-	      var name = util.getArg(aArgs, 'name', null);
-	
-	      this._validateMapping(generated, original, source, name);
-	
-	      if (source && !this._sources.has(source)) {
-	        this._sources.add(source);
-	      }
-	
-	      if (name && !this._names.has(name)) {
-	        this._names.add(name);
-	      }
-	
-	      this._mappings.push({
-	        generatedLine: generated.line,
-	        generatedColumn: generated.column,
-	        originalLine: original != null && original.line,
-	        originalColumn: original != null && original.column,
-	        source: source,
-	        name: name
-	      });
-	    };
-	
-	  /**
-	   * Set the source content for a source file.
-	   */
-	  SourceMapGenerator.prototype.setSourceContent =
-	    function SourceMapGenerator_setSourceContent(aSourceFile, aSourceContent) {
-	      var source = aSourceFile;
-	      if (this._sourceRoot) {
-	        source = util.relative(this._sourceRoot, source);
-	      }
-	
-	      if (aSourceContent !== null) {
-	        // Add the source content to the _sourcesContents map.
-	        // Create a new _sourcesContents map if the property is null.
-	        if (!this._sourcesContents) {
-	          this._sourcesContents = {};
-	        }
-	        this._sourcesContents[util.toSetString(source)] = aSourceContent;
-	      } else {
-	        // Remove the source file from the _sourcesContents map.
-	        // If the _sourcesContents map is empty, set the property to null.
-	        delete this._sourcesContents[util.toSetString(source)];
-	        if (Object.keys(this._sourcesContents).length === 0) {
-	          this._sourcesContents = null;
-	        }
-	      }
-	    };
-	
-	  /**
-	   * Applies the mappings of a sub-source-map for a specific source file to the
-	   * source map being generated. Each mapping to the supplied source file is
-	   * rewritten using the supplied source map. Note: The resolution for the
-	   * resulting mappings is the minimium of this map and the supplied map.
-	   *
-	   * @param aSourceMapConsumer The source map to be applied.
-	   * @param aSourceFile Optional. The filename of the source file.
-	   *        If omitted, SourceMapConsumer's file property will be used.
-	   * @param aSourceMapPath Optional. The dirname of the path to the source map
-	   *        to be applied. If relative, it is relative to the SourceMapConsumer.
-	   *        This parameter is needed when the two source maps aren't in the same
-	   *        directory, and the source map to be applied contains relative source
-	   *        paths. If so, those relative source paths need to be rewritten
-	   *        relative to the SourceMapGenerator.
-	   */
-	  SourceMapGenerator.prototype.applySourceMap =
-	    function SourceMapGenerator_applySourceMap(aSourceMapConsumer, aSourceFile, aSourceMapPath) {
-	      // If aSourceFile is omitted, we will use the file property of the SourceMap
-	      if (!aSourceFile) {
-	        if (!aSourceMapConsumer.file) {
-	          throw new Error(
-	            'SourceMapGenerator.prototype.applySourceMap requires either an explicit source file, ' +
-	            'or the source map\'s "file" property. Both were omitted.'
-	          );
-	        }
-	        aSourceFile = aSourceMapConsumer.file;
-	      }
-	      var sourceRoot = this._sourceRoot;
-	      // Make "aSourceFile" relative if an absolute Url is passed.
-	      if (sourceRoot) {
-	        aSourceFile = util.relative(sourceRoot, aSourceFile);
-	      }
-	      // Applying the SourceMap can add and remove items from the sources and
-	      // the names array.
-	      var newSources = new ArraySet();
-	      var newNames = new ArraySet();
-	
-	      // Find mappings for the "aSourceFile"
-	      this._mappings.forEach(function (mapping) {
-	        if (mapping.source === aSourceFile && mapping.originalLine) {
-	          // Check if it can be mapped by the source map, then update the mapping.
-	          var original = aSourceMapConsumer.originalPositionFor({
-	            line: mapping.originalLine,
-	            column: mapping.originalColumn
-	          });
-	          if (original.source !== null) {
-	            // Copy mapping
-	            mapping.source = original.source;
-	            if (aSourceMapPath) {
-	              mapping.source = util.join(aSourceMapPath, mapping.source)
-	            }
-	            if (sourceRoot) {
-	              mapping.source = util.relative(sourceRoot, mapping.source);
-	            }
-	            mapping.originalLine = original.line;
-	            mapping.originalColumn = original.column;
-	            if (original.name !== null && mapping.name !== null) {
-	              // Only use the identifier name if it's an identifier
-	              // in both SourceMaps
-	              mapping.name = original.name;
-	            }
-	          }
-	        }
-	
-	        var source = mapping.source;
-	        if (source && !newSources.has(source)) {
-	          newSources.add(source);
-	        }
-	
-	        var name = mapping.name;
-	        if (name && !newNames.has(name)) {
-	          newNames.add(name);
-	        }
-	
-	      }, this);
-	      this._sources = newSources;
-	      this._names = newNames;
-	
-	      // Copy sourcesContents of applied map.
-	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
-	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-	        if (content) {
-	          if (sourceRoot) {
-	            sourceFile = util.relative(sourceRoot, sourceFile);
-	          }
-	          this.setSourceContent(sourceFile, content);
-	        }
-	      }, this);
-	    };
-	
-	  /**
-	   * A mapping can have one of the three levels of data:
-	   *
-	   *   1. Just the generated position.
-	   *   2. The Generated position, original position, and original source.
-	   *   3. Generated and original position, original source, as well as a name
-	   *      token.
-	   *
-	   * To maintain consistency, we validate that any new mapping being added falls
-	   * in to one of these categories.
-	   */
-	  SourceMapGenerator.prototype._validateMapping =
-	    function SourceMapGenerator_validateMapping(aGenerated, aOriginal, aSource,
-	                                                aName) {
-	      if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
-	          && aGenerated.line > 0 && aGenerated.column >= 0
-	          && !aOriginal && !aSource && !aName) {
-	        // Case 1.
-	        return;
-	      }
-	      else if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
-	               && aOriginal && 'line' in aOriginal && 'column' in aOriginal
-	               && aGenerated.line > 0 && aGenerated.column >= 0
-	               && aOriginal.line > 0 && aOriginal.column >= 0
-	               && aSource) {
-	        // Cases 2 and 3.
-	        return;
-	      }
-	      else {
-	        throw new Error('Invalid mapping: ' + JSON.stringify({
-	          generated: aGenerated,
-	          source: aSource,
-	          original: aOriginal,
-	          name: aName
-	        }));
-	      }
-	    };
-	
-	  /**
-	   * Serialize the accumulated mappings in to the stream of base 64 VLQs
-	   * specified by the source map format.
-	   */
-	  SourceMapGenerator.prototype._serializeMappings =
-	    function SourceMapGenerator_serializeMappings() {
-	      var previousGeneratedColumn = 0;
-	      var previousGeneratedLine = 1;
-	      var previousOriginalColumn = 0;
-	      var previousOriginalLine = 0;
-	      var previousName = 0;
-	      var previousSource = 0;
-	      var result = '';
-	      var mapping;
-	
-	      // The mappings must be guaranteed to be in sorted order before we start
-	      // serializing them or else the generated line numbers (which are defined
-	      // via the ';' separators) will be all messed up. Note: it might be more
-	      // performant to maintain the sorting as we insert them, rather than as we
-	      // serialize them, but the big O is the same either way.
-	      this._mappings.sort(util.compareByGeneratedPositions);
-	
-	      for (var i = 0, len = this._mappings.length; i < len; i++) {
-	        mapping = this._mappings[i];
-	
-	        if (mapping.generatedLine !== previousGeneratedLine) {
-	          previousGeneratedColumn = 0;
-	          while (mapping.generatedLine !== previousGeneratedLine) {
-	            result += ';';
-	            previousGeneratedLine++;
-	          }
-	        }
-	        else {
-	          if (i > 0) {
-	            if (!util.compareByGeneratedPositions(mapping, this._mappings[i - 1])) {
-	              continue;
-	            }
-	            result += ',';
-	          }
-	        }
-	
-	        result += base64VLQ.encode(mapping.generatedColumn
-	                                   - previousGeneratedColumn);
-	        previousGeneratedColumn = mapping.generatedColumn;
-	
-	        if (mapping.source) {
-	          result += base64VLQ.encode(this._sources.indexOf(mapping.source)
-	                                     - previousSource);
-	          previousSource = this._sources.indexOf(mapping.source);
-	
-	          // lines are stored 0-based in SourceMap spec version 3
-	          result += base64VLQ.encode(mapping.originalLine - 1
-	                                     - previousOriginalLine);
-	          previousOriginalLine = mapping.originalLine - 1;
-	
-	          result += base64VLQ.encode(mapping.originalColumn
-	                                     - previousOriginalColumn);
-	          previousOriginalColumn = mapping.originalColumn;
-	
-	          if (mapping.name) {
-	            result += base64VLQ.encode(this._names.indexOf(mapping.name)
-	                                       - previousName);
-	            previousName = this._names.indexOf(mapping.name);
-	          }
-	        }
-	      }
-	
-	      return result;
-	    };
-	
-	  SourceMapGenerator.prototype._generateSourcesContent =
-	    function SourceMapGenerator_generateSourcesContent(aSources, aSourceRoot) {
-	      return aSources.map(function (source) {
-	        if (!this._sourcesContents) {
-	          return null;
-	        }
-	        if (aSourceRoot) {
-	          source = util.relative(aSourceRoot, source);
-	        }
-	        var key = util.toSetString(source);
-	        return Object.prototype.hasOwnProperty.call(this._sourcesContents,
-	                                                    key)
-	          ? this._sourcesContents[key]
-	          : null;
-	      }, this);
-	    };
-	
-	  /**
-	   * Externalize the source map.
-	   */
-	  SourceMapGenerator.prototype.toJSON =
-	    function SourceMapGenerator_toJSON() {
-	      var map = {
-	        version: this._version,
-	        file: this._file,
-	        sources: this._sources.toArray(),
-	        names: this._names.toArray(),
-	        mappings: this._serializeMappings()
-	      };
-	      if (this._sourceRoot) {
-	        map.sourceRoot = this._sourceRoot;
-	      }
-	      if (this._sourcesContents) {
-	        map.sourcesContent = this._generateSourcesContent(map.sources, map.sourceRoot);
-	      }
-	
-	      return map;
-	    };
-	
-	  /**
-	   * Render the source map being generated to a string.
-	   */
-	  SourceMapGenerator.prototype.toString =
-	    function SourceMapGenerator_toString() {
-	      return JSON.stringify(this);
-	    };
-	
-	  exports.SourceMapGenerator = SourceMapGenerator;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 80 */
-/*!*************************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-consumer.js ***!
-  \*************************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var util = __webpack_require__(/*! ./util */ 88);
-	  var binarySearch = __webpack_require__(/*! ./binary-search */ 89);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 90).ArraySet;
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 91);
-	
-	  /**
-	   * A SourceMapConsumer instance represents a parsed source map which we can
-	   * query for information about the original file positions by giving it a file
-	   * position in the generated source.
-	   *
-	   * The only parameter is the raw source map (either as a JSON string, or
-	   * already parsed to an object). According to the spec, source maps have the
-	   * following attributes:
-	   *
-	   *   - version: Which version of the source map spec this map is following.
-	   *   - sources: An array of URLs to the original source files.
-	   *   - names: An array of identifiers which can be referrenced by individual mappings.
-	   *   - sourceRoot: Optional. The URL root from which all sources are relative.
-	   *   - sourcesContent: Optional. An array of contents of the original source files.
-	   *   - mappings: A string of base64 VLQs which contain the actual mappings.
-	   *   - file: Optional. The generated file this source map is associated with.
-	   *
-	   * Here is an example source map, taken from the source map spec[0]:
-	   *
-	   *     {
-	   *       version : 3,
-	   *       file: "out.js",
-	   *       sourceRoot : "",
-	   *       sources: ["foo.js", "bar.js"],
-	   *       names: ["src", "maps", "are", "fun"],
-	   *       mappings: "AA,AB;;ABCDE;"
-	   *     }
-	   *
-	   * [0]: https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit?pli=1#
-	   */
-	  function SourceMapConsumer(aSourceMap) {
-	    var sourceMap = aSourceMap;
-	    if (typeof aSourceMap === 'string') {
-	      sourceMap = JSON.parse(aSourceMap.replace(/^\)\]\}'/, ''));
-	    }
-	
-	    var version = util.getArg(sourceMap, 'version');
-	    var sources = util.getArg(sourceMap, 'sources');
-	    // Sass 3.3 leaves out the 'names' array, so we deviate from the spec (which
-	    // requires the array) to play nice here.
-	    var names = util.getArg(sourceMap, 'names', []);
-	    var sourceRoot = util.getArg(sourceMap, 'sourceRoot', null);
-	    var sourcesContent = util.getArg(sourceMap, 'sourcesContent', null);
-	    var mappings = util.getArg(sourceMap, 'mappings');
-	    var file = util.getArg(sourceMap, 'file', null);
-	
-	    // Once again, Sass deviates from the spec and supplies the version as a
-	    // string rather than a number, so we use loose equality checking here.
-	    if (version != this._version) {
-	      throw new Error('Unsupported version: ' + version);
-	    }
-	
-	    // Pass `true` below to allow duplicate names and sources. While source maps
-	    // are intended to be compressed and deduplicated, the TypeScript compiler
-	    // sometimes generates source maps with duplicates in them. See Github issue
-	    // #72 and bugzil.la/889492.
-	    this._names = ArraySet.fromArray(names, true);
-	    this._sources = ArraySet.fromArray(sources, true);
-	
-	    this.sourceRoot = sourceRoot;
-	    this.sourcesContent = sourcesContent;
-	    this._mappings = mappings;
-	    this.file = file;
-	  }
-	
-	  /**
-	   * Create a SourceMapConsumer from a SourceMapGenerator.
-	   *
-	   * @param SourceMapGenerator aSourceMap
-	   *        The source map that will be consumed.
-	   * @returns SourceMapConsumer
-	   */
-	  SourceMapConsumer.fromSourceMap =
-	    function SourceMapConsumer_fromSourceMap(aSourceMap) {
-	      var smc = Object.create(SourceMapConsumer.prototype);
-	
-	      smc._names = ArraySet.fromArray(aSourceMap._names.toArray(), true);
-	      smc._sources = ArraySet.fromArray(aSourceMap._sources.toArray(), true);
-	      smc.sourceRoot = aSourceMap._sourceRoot;
-	      smc.sourcesContent = aSourceMap._generateSourcesContent(smc._sources.toArray(),
-	                                                              smc.sourceRoot);
-	      smc.file = aSourceMap._file;
-	
-	      smc.__generatedMappings = aSourceMap._mappings.slice()
-	        .sort(util.compareByGeneratedPositions);
-	      smc.__originalMappings = aSourceMap._mappings.slice()
-	        .sort(util.compareByOriginalPositions);
-	
-	      return smc;
-	    };
-	
-	  /**
-	   * The version of the source mapping spec that we are consuming.
-	   */
-	  SourceMapConsumer.prototype._version = 3;
-	
-	  /**
-	   * The list of original sources.
-	   */
-	  Object.defineProperty(SourceMapConsumer.prototype, 'sources', {
-	    get: function () {
-	      return this._sources.toArray().map(function (s) {
-	        return this.sourceRoot ? util.join(this.sourceRoot, s) : s;
-	      }, this);
-	    }
-	  });
-	
-	  // `__generatedMappings` and `__originalMappings` are arrays that hold the
-	  // parsed mapping coordinates from the source map's "mappings" attribute. They
-	  // are lazily instantiated, accessed via the `_generatedMappings` and
-	  // `_originalMappings` getters respectively, and we only parse the mappings
-	  // and create these arrays once queried for a source location. We jump through
-	  // these hoops because there can be many thousands of mappings, and parsing
-	  // them is expensive, so we only want to do it if we must.
-	  //
-	  // Each object in the arrays is of the form:
-	  //
-	  //     {
-	  //       generatedLine: The line number in the generated code,
-	  //       generatedColumn: The column number in the generated code,
-	  //       source: The path to the original source file that generated this
-	  //               chunk of code,
-	  //       originalLine: The line number in the original source that
-	  //                     corresponds to this chunk of generated code,
-	  //       originalColumn: The column number in the original source that
-	  //                       corresponds to this chunk of generated code,
-	  //       name: The name of the original symbol which generated this chunk of
-	  //             code.
-	  //     }
-	  //
-	  // All properties except for `generatedLine` and `generatedColumn` can be
-	  // `null`.
-	  //
-	  // `_generatedMappings` is ordered by the generated positions.
-	  //
-	  // `_originalMappings` is ordered by the original positions.
-	
-	  SourceMapConsumer.prototype.__generatedMappings = null;
-	  Object.defineProperty(SourceMapConsumer.prototype, '_generatedMappings', {
-	    get: function () {
-	      if (!this.__generatedMappings) {
-	        this.__generatedMappings = [];
-	        this.__originalMappings = [];
-	        this._parseMappings(this._mappings, this.sourceRoot);
-	      }
-	
-	      return this.__generatedMappings;
-	    }
-	  });
-	
-	  SourceMapConsumer.prototype.__originalMappings = null;
-	  Object.defineProperty(SourceMapConsumer.prototype, '_originalMappings', {
-	    get: function () {
-	      if (!this.__originalMappings) {
-	        this.__generatedMappings = [];
-	        this.__originalMappings = [];
-	        this._parseMappings(this._mappings, this.sourceRoot);
-	      }
-	
-	      return this.__originalMappings;
-	    }
-	  });
-	
-	  /**
-	   * Parse the mappings in a string in to a data structure which we can easily
-	   * query (the ordered arrays in the `this.__generatedMappings` and
-	   * `this.__originalMappings` properties).
-	   */
-	  SourceMapConsumer.prototype._parseMappings =
-	    function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
-	      var generatedLine = 1;
-	      var previousGeneratedColumn = 0;
-	      var previousOriginalLine = 0;
-	      var previousOriginalColumn = 0;
-	      var previousSource = 0;
-	      var previousName = 0;
-	      var mappingSeparator = /^[,;]/;
-	      var str = aStr;
-	      var mapping;
-	      var temp;
-	
-	      while (str.length > 0) {
-	        if (str.charAt(0) === ';') {
-	          generatedLine++;
-	          str = str.slice(1);
-	          previousGeneratedColumn = 0;
-	        }
-	        else if (str.charAt(0) === ',') {
-	          str = str.slice(1);
-	        }
-	        else {
-	          mapping = {};
-	          mapping.generatedLine = generatedLine;
-	
-	          // Generated column.
-	          temp = base64VLQ.decode(str);
-	          mapping.generatedColumn = previousGeneratedColumn + temp.value;
-	          previousGeneratedColumn = mapping.generatedColumn;
-	          str = temp.rest;
-	
-	          if (str.length > 0 && !mappingSeparator.test(str.charAt(0))) {
-	            // Original source.
-	            temp = base64VLQ.decode(str);
-	            mapping.source = this._sources.at(previousSource + temp.value);
-	            previousSource += temp.value;
-	            str = temp.rest;
-	            if (str.length === 0 || mappingSeparator.test(str.charAt(0))) {
-	              throw new Error('Found a source, but no line and column');
-	            }
-	
-	            // Original line.
-	            temp = base64VLQ.decode(str);
-	            mapping.originalLine = previousOriginalLine + temp.value;
-	            previousOriginalLine = mapping.originalLine;
-	            // Lines are stored 0-based
-	            mapping.originalLine += 1;
-	            str = temp.rest;
-	            if (str.length === 0 || mappingSeparator.test(str.charAt(0))) {
-	              throw new Error('Found a source and line, but no column');
-	            }
-	
-	            // Original column.
-	            temp = base64VLQ.decode(str);
-	            mapping.originalColumn = previousOriginalColumn + temp.value;
-	            previousOriginalColumn = mapping.originalColumn;
-	            str = temp.rest;
-	
-	            if (str.length > 0 && !mappingSeparator.test(str.charAt(0))) {
-	              // Original name.
-	              temp = base64VLQ.decode(str);
-	              mapping.name = this._names.at(previousName + temp.value);
-	              previousName += temp.value;
-	              str = temp.rest;
-	            }
-	          }
-	
-	          this.__generatedMappings.push(mapping);
-	          if (typeof mapping.originalLine === 'number') {
-	            this.__originalMappings.push(mapping);
-	          }
-	        }
-	      }
-	
-	      this.__generatedMappings.sort(util.compareByGeneratedPositions);
-	      this.__originalMappings.sort(util.compareByOriginalPositions);
-	    };
-	
-	  /**
-	   * Find the mapping that best matches the hypothetical "needle" mapping that
-	   * we are searching for in the given "haystack" of mappings.
-	   */
-	  SourceMapConsumer.prototype._findMapping =
-	    function SourceMapConsumer_findMapping(aNeedle, aMappings, aLineName,
-	                                           aColumnName, aComparator) {
-	      // To return the position we are searching for, we must first find the
-	      // mapping for the given position and then return the opposite position it
-	      // points to. Because the mappings are sorted, we can use binary search to
-	      // find the best mapping.
-	
-	      if (aNeedle[aLineName] <= 0) {
-	        throw new TypeError('Line must be greater than or equal to 1, got '
-	                            + aNeedle[aLineName]);
-	      }
-	      if (aNeedle[aColumnName] < 0) {
-	        throw new TypeError('Column must be greater than or equal to 0, got '
-	                            + aNeedle[aColumnName]);
-	      }
-	
-	      return binarySearch.search(aNeedle, aMappings, aComparator);
-	    };
-	
-	  /**
-	   * Returns the original source, line, and column information for the generated
-	   * source's line and column positions provided. The only argument is an object
-	   * with the following properties:
-	   *
-	   *   - line: The line number in the generated source.
-	   *   - column: The column number in the generated source.
-	   *
-	   * and an object is returned with the following properties:
-	   *
-	   *   - source: The original source file, or null.
-	   *   - line: The line number in the original source, or null.
-	   *   - column: The column number in the original source, or null.
-	   *   - name: The original identifier, or null.
-	   */
-	  SourceMapConsumer.prototype.originalPositionFor =
-	    function SourceMapConsumer_originalPositionFor(aArgs) {
-	      var needle = {
-	        generatedLine: util.getArg(aArgs, 'line'),
-	        generatedColumn: util.getArg(aArgs, 'column')
-	      };
-	
-	      var mapping = this._findMapping(needle,
-	                                      this._generatedMappings,
-	                                      "generatedLine",
-	                                      "generatedColumn",
-	                                      util.compareByGeneratedPositions);
-	
-	      if (mapping && mapping.generatedLine === needle.generatedLine) {
-	        var source = util.getArg(mapping, 'source', null);
-	        if (source && this.sourceRoot) {
-	          source = util.join(this.sourceRoot, source);
-	        }
-	        return {
-	          source: source,
-	          line: util.getArg(mapping, 'originalLine', null),
-	          column: util.getArg(mapping, 'originalColumn', null),
-	          name: util.getArg(mapping, 'name', null)
-	        };
-	      }
-	
-	      return {
-	        source: null,
-	        line: null,
-	        column: null,
-	        name: null
-	      };
-	    };
-	
-	  /**
-	   * Returns the original source content. The only argument is the url of the
-	   * original source file. Returns null if no original source content is
-	   * availible.
-	   */
-	  SourceMapConsumer.prototype.sourceContentFor =
-	    function SourceMapConsumer_sourceContentFor(aSource) {
-	      if (!this.sourcesContent) {
-	        return null;
-	      }
-	
-	      if (this.sourceRoot) {
-	        aSource = util.relative(this.sourceRoot, aSource);
-	      }
-	
-	      if (this._sources.has(aSource)) {
-	        return this.sourcesContent[this._sources.indexOf(aSource)];
-	      }
-	
-	      var url;
-	      if (this.sourceRoot
-	          && (url = util.urlParse(this.sourceRoot))) {
-	        // XXX: file:// URIs and absolute paths lead to unexpected behavior for
-	        // many users. We can help them out when they expect file:// URIs to
-	        // behave like it would if they were running a local HTTP server. See
-	        // https://bugzilla.mozilla.org/show_bug.cgi?id=885597.
-	        var fileUriAbsPath = aSource.replace(/^file:\/\//, "");
-	        if (url.scheme == "file"
-	            && this._sources.has(fileUriAbsPath)) {
-	          return this.sourcesContent[this._sources.indexOf(fileUriAbsPath)]
-	        }
-	
-	        if ((!url.path || url.path == "/")
-	            && this._sources.has("/" + aSource)) {
-	          return this.sourcesContent[this._sources.indexOf("/" + aSource)];
-	        }
-	      }
-	
-	      throw new Error('"' + aSource + '" is not in the SourceMap.');
-	    };
-	
-	  /**
-	   * Returns the generated line and column information for the original source,
-	   * line, and column positions provided. The only argument is an object with
-	   * the following properties:
-	   *
-	   *   - source: The filename of the original source.
-	   *   - line: The line number in the original source.
-	   *   - column: The column number in the original source.
-	   *
-	   * and an object is returned with the following properties:
-	   *
-	   *   - line: The line number in the generated source, or null.
-	   *   - column: The column number in the generated source, or null.
-	   */
-	  SourceMapConsumer.prototype.generatedPositionFor =
-	    function SourceMapConsumer_generatedPositionFor(aArgs) {
-	      var needle = {
-	        source: util.getArg(aArgs, 'source'),
-	        originalLine: util.getArg(aArgs, 'line'),
-	        originalColumn: util.getArg(aArgs, 'column')
-	      };
-	
-	      if (this.sourceRoot) {
-	        needle.source = util.relative(this.sourceRoot, needle.source);
-	      }
-	
-	      var mapping = this._findMapping(needle,
-	                                      this._originalMappings,
-	                                      "originalLine",
-	                                      "originalColumn",
-	                                      util.compareByOriginalPositions);
-	
-	      if (mapping) {
-	        return {
-	          line: util.getArg(mapping, 'generatedLine', null),
-	          column: util.getArg(mapping, 'generatedColumn', null)
-	        };
-	      }
-	
-	      return {
-	        line: null,
-	        column: null
-	      };
-	    };
-	
-	  SourceMapConsumer.GENERATED_ORDER = 1;
-	  SourceMapConsumer.ORIGINAL_ORDER = 2;
-	
-	  /**
-	   * Iterate over each mapping between an original source/line/column and a
-	   * generated line/column in this source map.
-	   *
-	   * @param Function aCallback
-	   *        The function that is called with each mapping.
-	   * @param Object aContext
-	   *        Optional. If specified, this object will be the value of `this` every
-	   *        time that `aCallback` is called.
-	   * @param aOrder
-	   *        Either `SourceMapConsumer.GENERATED_ORDER` or
-	   *        `SourceMapConsumer.ORIGINAL_ORDER`. Specifies whether you want to
-	   *        iterate over the mappings sorted by the generated file's line/column
-	   *        order or the original's source/line/column order, respectively. Defaults to
-	   *        `SourceMapConsumer.GENERATED_ORDER`.
-	   */
-	  SourceMapConsumer.prototype.eachMapping =
-	    function SourceMapConsumer_eachMapping(aCallback, aContext, aOrder) {
-	      var context = aContext || null;
-	      var order = aOrder || SourceMapConsumer.GENERATED_ORDER;
-	
-	      var mappings;
-	      switch (order) {
-	      case SourceMapConsumer.GENERATED_ORDER:
-	        mappings = this._generatedMappings;
-	        break;
-	      case SourceMapConsumer.ORIGINAL_ORDER:
-	        mappings = this._originalMappings;
-	        break;
-	      default:
-	        throw new Error("Unknown order of iteration.");
-	      }
-	
-	      var sourceRoot = this.sourceRoot;
-	      mappings.map(function (mapping) {
-	        var source = mapping.source;
-	        if (source && sourceRoot) {
-	          source = util.join(sourceRoot, source);
-	        }
-	        return {
-	          source: source,
-	          generatedLine: mapping.generatedLine,
-	          generatedColumn: mapping.generatedColumn,
-	          originalLine: mapping.originalLine,
-	          originalColumn: mapping.originalColumn,
-	          name: mapping.name
-	        };
-	      }).forEach(aCallback, context);
-	    };
-	
-	  exports.SourceMapConsumer = SourceMapConsumer;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 81 */
-/*!*****************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
-  \*****************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 79).SourceMapGenerator;
-	  var util = __webpack_require__(/*! ./util */ 88);
-	
-	  /**
-	   * SourceNodes provide a way to abstract over interpolating/concatenating
-	   * snippets of generated JavaScript source code while maintaining the line and
-	   * column information associated with the original source code.
-	   *
-	   * @param aLine The original line number.
-	   * @param aColumn The original column number.
-	   * @param aSource The original source's filename.
-	   * @param aChunks Optional. An array of strings which are snippets of
-	   *        generated JS, or other SourceNodes.
-	   * @param aName The original identifier.
-	   */
-	  function SourceNode(aLine, aColumn, aSource, aChunks, aName) {
-	    this.children = [];
-	    this.sourceContents = {};
-	    this.line = aLine === undefined ? null : aLine;
-	    this.column = aColumn === undefined ? null : aColumn;
-	    this.source = aSource === undefined ? null : aSource;
-	    this.name = aName === undefined ? null : aName;
-	    if (aChunks != null) this.add(aChunks);
-	  }
-	
-	  /**
-	   * Creates a SourceNode from generated code and a SourceMapConsumer.
-	   *
-	   * @param aGeneratedCode The generated code
-	   * @param aSourceMapConsumer The SourceMap for the generated code
-	   */
-	  SourceNode.fromStringWithSourceMap =
-	    function SourceNode_fromStringWithSourceMap(aGeneratedCode, aSourceMapConsumer) {
-	      // The SourceNode we want to fill with the generated code
-	      // and the SourceMap
-	      var node = new SourceNode();
-	
-	      // The generated code
-	      // Processed fragments are removed from this array.
-	      var remainingLines = aGeneratedCode.split('\n');
-	
-	      // We need to remember the position of "remainingLines"
-	      var lastGeneratedLine = 1, lastGeneratedColumn = 0;
-	
-	      // The generate SourceNodes we need a code range.
-	      // To extract it current and last mapping is used.
-	      // Here we store the last mapping.
-	      var lastMapping = null;
-	
-	      aSourceMapConsumer.eachMapping(function (mapping) {
-	        if (lastMapping !== null) {
-	          // We add the code from "lastMapping" to "mapping":
-	          // First check if there is a new line in between.
-	          if (lastGeneratedLine < mapping.generatedLine) {
-	            var code = "";
-	            // Associate first line with "lastMapping"
-	            addMappingWithCode(lastMapping, remainingLines.shift() + "\n");
-	            lastGeneratedLine++;
-	            lastGeneratedColumn = 0;
-	            // The remaining code is added without mapping
-	          } else {
-	            // There is no new line in between.
-	            // Associate the code between "lastGeneratedColumn" and
-	            // "mapping.generatedColumn" with "lastMapping"
-	            var nextLine = remainingLines[0];
-	            var code = nextLine.substr(0, mapping.generatedColumn -
-	                                          lastGeneratedColumn);
-	            remainingLines[0] = nextLine.substr(mapping.generatedColumn -
-	                                                lastGeneratedColumn);
-	            lastGeneratedColumn = mapping.generatedColumn;
-	            addMappingWithCode(lastMapping, code);
-	            // No more remaining code, continue
-	            lastMapping = mapping;
-	            return;
-	          }
-	        }
-	        // We add the generated code until the first mapping
-	        // to the SourceNode without any mapping.
-	        // Each line is added as separate string.
-	        while (lastGeneratedLine < mapping.generatedLine) {
-	          node.add(remainingLines.shift() + "\n");
-	          lastGeneratedLine++;
-	        }
-	        if (lastGeneratedColumn < mapping.generatedColumn) {
-	          var nextLine = remainingLines[0];
-	          node.add(nextLine.substr(0, mapping.generatedColumn));
-	          remainingLines[0] = nextLine.substr(mapping.generatedColumn);
-	          lastGeneratedColumn = mapping.generatedColumn;
-	        }
-	        lastMapping = mapping;
-	      }, this);
-	      // We have processed all mappings.
-	      if (remainingLines.length > 0) {
-	        if (lastMapping) {
-	          // Associate the remaining code in the current line with "lastMapping"
-	          var lastLine = remainingLines.shift();
-	          if (remainingLines.length > 0) lastLine += "\n";
-	          addMappingWithCode(lastMapping, lastLine);
-	        }
-	        // and add the remaining lines without any mapping
-	        node.add(remainingLines.join("\n"));
-	      }
-	
-	      // Copy sourcesContent into SourceNode
-	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
-	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-	        if (content) {
-	          node.setSourceContent(sourceFile, content);
-	        }
-	      });
-	
-	      return node;
-	
-	      function addMappingWithCode(mapping, code) {
-	        if (mapping === null || mapping.source === undefined) {
-	          node.add(code);
-	        } else {
-	          node.add(new SourceNode(mapping.originalLine,
-	                                  mapping.originalColumn,
-	                                  mapping.source,
-	                                  code,
-	                                  mapping.name));
-	        }
-	      }
-	    };
-	
-	  /**
-	   * Add a chunk of generated JS to this source node.
-	   *
-	   * @param aChunk A string snippet of generated JS code, another instance of
-	   *        SourceNode, or an array where each member is one of those things.
-	   */
-	  SourceNode.prototype.add = function SourceNode_add(aChunk) {
-	    if (Array.isArray(aChunk)) {
-	      aChunk.forEach(function (chunk) {
-	        this.add(chunk);
-	      }, this);
-	    }
-	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
-	      if (aChunk) {
-	        this.children.push(aChunk);
-	      }
-	    }
-	    else {
-	      throw new TypeError(
-	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
-	      );
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Add a chunk of generated JS to the beginning of this source node.
-	   *
-	   * @param aChunk A string snippet of generated JS code, another instance of
-	   *        SourceNode, or an array where each member is one of those things.
-	   */
-	  SourceNode.prototype.prepend = function SourceNode_prepend(aChunk) {
-	    if (Array.isArray(aChunk)) {
-	      for (var i = aChunk.length-1; i >= 0; i--) {
-	        this.prepend(aChunk[i]);
-	      }
-	    }
-	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
-	      this.children.unshift(aChunk);
-	    }
-	    else {
-	      throw new TypeError(
-	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
-	      );
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Walk over the tree of JS snippets in this node and its children. The
-	   * walking function is called once for each snippet of JS and is passed that
-	   * snippet and the its original associated source's line/column location.
-	   *
-	   * @param aFn The traversal function.
-	   */
-	  SourceNode.prototype.walk = function SourceNode_walk(aFn) {
-	    var chunk;
-	    for (var i = 0, len = this.children.length; i < len; i++) {
-	      chunk = this.children[i];
-	      if (chunk instanceof SourceNode) {
-	        chunk.walk(aFn);
-	      }
-	      else {
-	        if (chunk !== '') {
-	          aFn(chunk, { source: this.source,
-	                       line: this.line,
-	                       column: this.column,
-	                       name: this.name });
-	        }
-	      }
-	    }
-	  };
-	
-	  /**
-	   * Like `String.prototype.join` except for SourceNodes. Inserts `aStr` between
-	   * each of `this.children`.
-	   *
-	   * @param aSep The separator.
-	   */
-	  SourceNode.prototype.join = function SourceNode_join(aSep) {
-	    var newChildren;
-	    var i;
-	    var len = this.children.length;
-	    if (len > 0) {
-	      newChildren = [];
-	      for (i = 0; i < len-1; i++) {
-	        newChildren.push(this.children[i]);
-	        newChildren.push(aSep);
-	      }
-	      newChildren.push(this.children[i]);
-	      this.children = newChildren;
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Call String.prototype.replace on the very right-most source snippet. Useful
-	   * for trimming whitespace from the end of a source node, etc.
-	   *
-	   * @param aPattern The pattern to replace.
-	   * @param aReplacement The thing to replace the pattern with.
-	   */
-	  SourceNode.prototype.replaceRight = function SourceNode_replaceRight(aPattern, aReplacement) {
-	    var lastChild = this.children[this.children.length - 1];
-	    if (lastChild instanceof SourceNode) {
-	      lastChild.replaceRight(aPattern, aReplacement);
-	    }
-	    else if (typeof lastChild === 'string') {
-	      this.children[this.children.length - 1] = lastChild.replace(aPattern, aReplacement);
-	    }
-	    else {
-	      this.children.push(''.replace(aPattern, aReplacement));
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Set the source content for a source file. This will be added to the SourceMapGenerator
-	   * in the sourcesContent field.
-	   *
-	   * @param aSourceFile The filename of the source file
-	   * @param aSourceContent The content of the source file
-	   */
-	  SourceNode.prototype.setSourceContent =
-	    function SourceNode_setSourceContent(aSourceFile, aSourceContent) {
-	      this.sourceContents[util.toSetString(aSourceFile)] = aSourceContent;
-	    };
-	
-	  /**
-	   * Walk over the tree of SourceNodes. The walking function is called for each
-	   * source file content and is passed the filename and source content.
-	   *
-	   * @param aFn The traversal function.
-	   */
-	  SourceNode.prototype.walkSourceContents =
-	    function SourceNode_walkSourceContents(aFn) {
-	      for (var i = 0, len = this.children.length; i < len; i++) {
-	        if (this.children[i] instanceof SourceNode) {
-	          this.children[i].walkSourceContents(aFn);
-	        }
-	      }
-	
-	      var sources = Object.keys(this.sourceContents);
-	      for (var i = 0, len = sources.length; i < len; i++) {
-	        aFn(util.fromSetString(sources[i]), this.sourceContents[sources[i]]);
-	      }
-	    };
-	
-	  /**
-	   * Return the string representation of this source node. Walks over the tree
-	   * and concatenates all the various snippets together to one string.
-	   */
-	  SourceNode.prototype.toString = function SourceNode_toString() {
-	    var str = "";
-	    this.walk(function (chunk) {
-	      str += chunk;
-	    });
-	    return str;
-	  };
-	
-	  /**
-	   * Returns the string representation of this source node along with a source
-	   * map.
-	   */
-	  SourceNode.prototype.toStringWithSourceMap = function SourceNode_toStringWithSourceMap(aArgs) {
-	    var generated = {
-	      code: "",
-	      line: 1,
-	      column: 0
-	    };
-	    var map = new SourceMapGenerator(aArgs);
-	    var sourceMappingActive = false;
-	    var lastOriginalSource = null;
-	    var lastOriginalLine = null;
-	    var lastOriginalColumn = null;
-	    var lastOriginalName = null;
-	    this.walk(function (chunk, original) {
-	      generated.code += chunk;
-	      if (original.source !== null
-	          && original.line !== null
-	          && original.column !== null) {
-	        if(lastOriginalSource !== original.source
-	           || lastOriginalLine !== original.line
-	           || lastOriginalColumn !== original.column
-	           || lastOriginalName !== original.name) {
-	          map.addMapping({
-	            source: original.source,
-	            original: {
-	              line: original.line,
-	              column: original.column
-	            },
-	            generated: {
-	              line: generated.line,
-	              column: generated.column
-	            },
-	            name: original.name
-	          });
-	        }
-	        lastOriginalSource = original.source;
-	        lastOriginalLine = original.line;
-	        lastOriginalColumn = original.column;
-	        lastOriginalName = original.name;
-	        sourceMappingActive = true;
-	      } else if (sourceMappingActive) {
-	        map.addMapping({
-	          generated: {
-	            line: generated.line,
-	            column: generated.column
-	          }
-	        });
-	        lastOriginalSource = null;
-	        sourceMappingActive = false;
-	      }
-	      chunk.split('').forEach(function (ch, idx, array) {
-	        if (ch === '\n') {
-	          generated.line++;
-	          generated.column = 0;
-	          // Mappings end at eol
-	          if (idx + 1 === array.length) {
-	            lastOriginalSource = null;
-	            sourceMappingActive = false;
-	          } else if (sourceMappingActive) {
-	            map.addMapping({
-	              source: original.source,
-	              original: {
-	                line: original.line,
-	                column: original.column
-	              },
-	              generated: {
-	                line: generated.line,
-	                column: generated.column
-	              },
-	              name: original.name
-	            });
-	          }
-	        } else {
-	          generated.column++;
-	        }
-	      });
-	    });
-	    this.walkSourceContents(function (sourceFile, sourceContent) {
-	      map.setSourceContent(sourceFile, sourceContent);
-	    });
-	
-	    return { code: generated.code, map: map };
-	  };
-	
-	  exports.SourceNode = SourceNode;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 82 */
-/*!*****************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
-  \*****************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = {
-	    chrome: function(line) {
-	        var m = line.match(CHROME_STACK_LINE);
-	        if (m) {
-	            var file = m[9] || m[18] || m[26]
-	            var fn = m[4] || m[7] || m[14] || m[23]
-	            var lineNumber = m[11] || m[20]
-	            var column = m[13] || m[22]
-	        } else {
-	            //throw new Error("Couldn't parse exception line: "+line)
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    firefox: function(line) {
-	        var m = line.match(FIREFOX_STACK_LINE);
-	        if (m) {
-	            var file = m[8]
-	            var fn = m[1]
-	            var lineNumber = m[10]
-	            var column = m[12]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    ie: function(line) {
-	        var m = line.match(IE_STACK_LINE);
-	        if (m) {
-	            var file = m[3] || m[10]
-	            var fn = m[2] || m[9]
-	            var lineNumber = m[5] || m[12]
-	            var column = m[7] || m[14]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    }
-	}
-	
-	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
-	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
-	var IDENTIFIER_PATTERN_ = '[\\w$]*';
-	// RegExp pattern for an URL + position inside the file.
-	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
-	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
-	
-	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
-	
-	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
-	
-	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
-	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
-	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
-	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
-	
-	// output from stacktrace.js is: "name()@..." instead of "name (...)"
-	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
-	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
-	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
-	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
-	
-	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
-	
-	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
-	
-	
-	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
-	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
-	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
-	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
-	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
-	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
-	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
-	
-	var IE_WHITESPACE = '[\\w \\t]'
-	var IE_FILE_AND_LINE = FILE_AND_LINE
-	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
-	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
-	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
-	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
-
-/***/ },
-/* 83 */
-/*!***************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
-  \***************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	module.exports = exceptionMode(createException()) // basically what browser this is
-	
-	// verbatim from `mode` in stacktrace.js as of 2014-01-23
-	function exceptionMode(e) {
-	    if (e['arguments'] && e.stack) {
-	        return 'chrome';
-	    } else if (e.stack && e.sourceURL) {
-	        return 'safari';
-	    } else if (e.stack && e.number) {
-	        return 'ie';
-	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
-	        // e.message.indexOf("Backtrace:") > -1 -> opera
-	        // !e.stacktrace -> opera
-	        if (!e.stacktrace) {
-	            return 'opera9'; // use e.message
-	        }
-	        // 'opera#sourceloc' in e -> opera9, opera10a
-	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
-	            return 'opera9'; // use e.message
-	        }
-	        // e.stacktrace && !e.stack -> opera10a
-	        if (!e.stack) {
-	            return 'opera10a'; // use e.stacktrace
-	        }
-	        // e.stacktrace && e.stack -> opera10b
-	        if (e.stacktrace.indexOf("called from line") < 0) {
-	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
-	        }
-	        // e.stacktrace && e.stack -> opera11
-	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
-	    } else if (e.stack && !e.fileName) {
-	        // Chrome 27 does not have e.arguments as earlier versions,
-	        // but still does not have e.fileName as Firefox
-	        return 'chrome';
-	    } else if (e.stack) {
-	        return 'firefox';
-	    }
-	    return 'other';
-	}
-	
-	function createException() {
-	    try {
-	        this.undef();
-	    } catch (e) {
-	        return e;
-	    }
-	}
-
-
-/***/ },
-/* 84 */
-/*!*****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
-  \*****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
 	'use strict';
 	
-	// If obj.hasOwnProperty has been overridden, then calling
-	// obj.hasOwnProperty(prop) will break.
-	// See: https://github.com/joyent/node/issues/1707
-	function hasOwnProperty(obj, prop) {
-	  return Object.prototype.hasOwnProperty.call(obj, prop);
-	}
-	
-	module.exports = function(qs, sep, eq, options) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  var obj = {};
-	
-	  if (typeof qs !== 'string' || qs.length === 0) {
-	    return obj;
-	  }
-	
-	  var regexp = /\+/g;
-	  qs = qs.split(sep);
-	
-	  var maxKeys = 1000;
-	  if (options && typeof options.maxKeys === 'number') {
-	    maxKeys = options.maxKeys;
-	  }
-	
-	  var len = qs.length;
-	  // maxKeys <= 0 means that we should not limit keys count
-	  if (maxKeys > 0 && len > maxKeys) {
-	    len = maxKeys;
-	  }
-	
-	  for (var i = 0; i < len; ++i) {
-	    var x = qs[i].replace(regexp, '%20'),
-	        idx = x.indexOf(eq),
-	        kstr, vstr, k, v;
-	
-	    if (idx >= 0) {
-	      kstr = x.substr(0, idx);
-	      vstr = x.substr(idx + 1);
-	    } else {
-	      kstr = x;
-	      vstr = '';
-	    }
-	
-	    k = decodeURIComponent(kstr);
-	    v = decodeURIComponent(vstr);
-	
-	    if (!hasOwnProperty(obj, k)) {
-	      obj[k] = v;
-	    } else if (isArray(obj[k])) {
-	      obj[k].push(v);
-	    } else {
-	      obj[k] = [obj[k], v];
-	    }
-	  }
-	
-	  return obj;
-	};
-	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
+	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 110);
+	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 111);
 
 
 /***/ },
-/* 85 */
-/*!*****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
-  \*****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	'use strict';
-	
-	var stringifyPrimitive = function(v) {
-	  switch (typeof v) {
-	    case 'string':
-	      return v;
-	
-	    case 'boolean':
-	      return v ? 'true' : 'false';
-	
-	    case 'number':
-	      return isFinite(v) ? v : '';
-	
-	    default:
-	      return '';
-	  }
-	};
-	
-	module.exports = function(obj, sep, eq, name) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  if (obj === null) {
-	    obj = undefined;
-	  }
-	
-	  if (typeof obj === 'object') {
-	    return map(objectKeys(obj), function(k) {
-	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-	      if (isArray(obj[k])) {
-	        return map(obj[k], function(v) {
-	          return ks + encodeURIComponent(stringifyPrimitive(v));
-	        }).join(sep);
-	      } else {
-	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-	      }
-	    }).join(sep);
-	
-	  }
-	
-	  if (!name) return '';
-	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-	         encodeURIComponent(stringifyPrimitive(obj));
-	};
-	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
-	
-	function map (xs, f) {
-	  if (xs.map) return xs.map(f);
-	  var res = [];
-	  for (var i = 0; i < xs.length; i++) {
-	    res.push(f(xs[i], i));
-	  }
-	  return res;
-	}
-	
-	var objectKeys = Object.keys || function (obj) {
-	  var res = [];
-	  for (var key in obj) {
-	    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-	  }
-	  return res;
-	};
-
-
-/***/ },
-/* 86 */
+/* 100 */
 /*!*****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/timers-browserify/main.js ***!
   \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 98).nextTick;
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 114).nextTick;
 	var slice = Array.prototype.slice;
 	var immediateIds = {};
 	var nextImmediateId = 0;
@@ -17606,15 +15686,163 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 86).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 86).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 100).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 100).clearImmediate))
 
 /***/ },
-/* 87 */
-/*!**********************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
-  \**********************************************************************************************************************************/
-60,
-/* 88 */
+/* 101 */
+/*!****************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
+  \****************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 *
+	 * Based on the Base 64 VLQ implementation in Closure Compiler:
+	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
+	 *
+	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
+	 * Redistribution and use in source and binary forms, with or without
+	 * modification, are permitted provided that the following conditions are
+	 * met:
+	 *
+	 *  * Redistributions of source code must retain the above copyright
+	 *    notice, this list of conditions and the following disclaimer.
+	 *  * Redistributions in binary form must reproduce the above
+	 *    copyright notice, this list of conditions and the following
+	 *    disclaimer in the documentation and/or other materials provided
+	 *    with the distribution.
+	 *  * Neither the name of Google Inc. nor the names of its
+	 *    contributors may be used to endorse or promote products derived
+	 *    from this software without specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var base64 = __webpack_require__(/*! ./base64 */ 113);
+	
+	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
+	  // length quantities we use in the source map spec, the first bit is the sign,
+	  // the next four bits are the actual value, and the 6th bit is the
+	  // continuation bit. The continuation bit tells us whether there are more
+	  // digits in this value following this digit.
+	  //
+	  //   Continuation
+	  //   |    Sign
+	  //   |    |
+	  //   V    V
+	  //   101011
+	
+	  var VLQ_BASE_SHIFT = 5;
+	
+	  // binary: 100000
+	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
+	
+	  // binary: 011111
+	  var VLQ_BASE_MASK = VLQ_BASE - 1;
+	
+	  // binary: 100000
+	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
+	
+	  /**
+	   * Converts from a two-complement value to a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
+	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
+	   */
+	  function toVLQSigned(aValue) {
+	    return aValue < 0
+	      ? ((-aValue) << 1) + 1
+	      : (aValue << 1) + 0;
+	  }
+	
+	  /**
+	   * Converts to a two-complement value from a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
+	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
+	   */
+	  function fromVLQSigned(aValue) {
+	    var isNegative = (aValue & 1) === 1;
+	    var shifted = aValue >> 1;
+	    return isNegative
+	      ? -shifted
+	      : shifted;
+	  }
+	
+	  /**
+	   * Returns the base 64 VLQ encoded value.
+	   */
+	  exports.encode = function base64VLQ_encode(aValue) {
+	    var encoded = "";
+	    var digit;
+	
+	    var vlq = toVLQSigned(aValue);
+	
+	    do {
+	      digit = vlq & VLQ_BASE_MASK;
+	      vlq >>>= VLQ_BASE_SHIFT;
+	      if (vlq > 0) {
+	        // There are still more digits in this value, so we must make sure the
+	        // continuation bit is marked.
+	        digit |= VLQ_CONTINUATION_BIT;
+	      }
+	      encoded += base64.encode(digit);
+	    } while (vlq > 0);
+	
+	    return encoded;
+	  };
+	
+	  /**
+	   * Decodes the next base 64 VLQ value from the given string and returns the
+	   * value and the rest of the string.
+	   */
+	  exports.decode = function base64VLQ_decode(aStr) {
+	    var i = 0;
+	    var strLen = aStr.length;
+	    var result = 0;
+	    var shift = 0;
+	    var continuation, digit;
+	
+	    do {
+	      if (i >= strLen) {
+	        throw new Error("Expected more digits in base 64 VLQ value.");
+	      }
+	      digit = base64.decode(aStr.charAt(i++));
+	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
+	      digit &= VLQ_BASE_MASK;
+	      result = result + (digit << shift);
+	      shift += VLQ_BASE_SHIFT;
+	    } while (continuation);
+	
+	    return {
+	      value: fromVLQSigned(result),
+	      rest: aStr.slice(i)
+	    };
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 102 */
 /*!**********************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
   \**********************************************************************************************************************/
@@ -17925,7 +16153,113 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 89 */
+/* 103 */
+/*!***************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
+  \***************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var util = __webpack_require__(/*! ./util */ 102);
+	
+	  /**
+	   * A data structure which is a combination of an array and a set. Adding a new
+	   * member is O(1), testing for membership is O(1), and finding the index of an
+	   * element is O(1). Removing elements from the set is not supported. Only
+	   * strings are supported for membership.
+	   */
+	  function ArraySet() {
+	    this._array = [];
+	    this._set = {};
+	  }
+	
+	  /**
+	   * Static method for creating ArraySet instances from an existing array.
+	   */
+	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
+	    var set = new ArraySet();
+	    for (var i = 0, len = aArray.length; i < len; i++) {
+	      set.add(aArray[i], aAllowDuplicates);
+	    }
+	    return set;
+	  };
+	
+	  /**
+	   * Add the given string to this set.
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
+	    var isDuplicate = this.has(aStr);
+	    var idx = this._array.length;
+	    if (!isDuplicate || aAllowDuplicates) {
+	      this._array.push(aStr);
+	    }
+	    if (!isDuplicate) {
+	      this._set[util.toSetString(aStr)] = idx;
+	    }
+	  };
+	
+	  /**
+	   * Is the given string a member of this set?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.has = function ArraySet_has(aStr) {
+	    return Object.prototype.hasOwnProperty.call(this._set,
+	                                                util.toSetString(aStr));
+	  };
+	
+	  /**
+	   * What is the index of the given string in the array?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
+	    if (this.has(aStr)) {
+	      return this._set[util.toSetString(aStr)];
+	    }
+	    throw new Error('"' + aStr + '" is not in the set.');
+	  };
+	
+	  /**
+	   * What is the element at the given index?
+	   *
+	   * @param Number aIdx
+	   */
+	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
+	    if (aIdx >= 0 && aIdx < this._array.length) {
+	      return this._array[aIdx];
+	    }
+	    throw new Error('No element indexed by ' + aIdx);
+	  };
+	
+	  /**
+	   * Returns the array representation of this set (which has the proper indices
+	   * indicated by indexOf). Note that this is a copy of the internal array used
+	   * for storing the members so that no one can mess with internal state.
+	   */
+	  ArraySet.prototype.toArray = function ArraySet_toArray() {
+	    return this._array.slice();
+	  };
+	
+	  exports.ArraySet = ArraySet;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 104 */
 /*!*******************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
   \*******************************************************************************************************************************/
@@ -18015,414 +16349,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 90 */
-/*!***************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
-  \***************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var util = __webpack_require__(/*! ./util */ 88);
-	
-	  /**
-	   * A data structure which is a combination of an array and a set. Adding a new
-	   * member is O(1), testing for membership is O(1), and finding the index of an
-	   * element is O(1). Removing elements from the set is not supported. Only
-	   * strings are supported for membership.
-	   */
-	  function ArraySet() {
-	    this._array = [];
-	    this._set = {};
-	  }
-	
-	  /**
-	   * Static method for creating ArraySet instances from an existing array.
-	   */
-	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
-	    var set = new ArraySet();
-	    for (var i = 0, len = aArray.length; i < len; i++) {
-	      set.add(aArray[i], aAllowDuplicates);
-	    }
-	    return set;
-	  };
-	
-	  /**
-	   * Add the given string to this set.
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
-	    var isDuplicate = this.has(aStr);
-	    var idx = this._array.length;
-	    if (!isDuplicate || aAllowDuplicates) {
-	      this._array.push(aStr);
-	    }
-	    if (!isDuplicate) {
-	      this._set[util.toSetString(aStr)] = idx;
-	    }
-	  };
-	
-	  /**
-	   * Is the given string a member of this set?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.has = function ArraySet_has(aStr) {
-	    return Object.prototype.hasOwnProperty.call(this._set,
-	                                                util.toSetString(aStr));
-	  };
-	
-	  /**
-	   * What is the index of the given string in the array?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
-	    if (this.has(aStr)) {
-	      return this._set[util.toSetString(aStr)];
-	    }
-	    throw new Error('"' + aStr + '" is not in the set.');
-	  };
-	
-	  /**
-	   * What is the element at the given index?
-	   *
-	   * @param Number aIdx
-	   */
-	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
-	    if (aIdx >= 0 && aIdx < this._array.length) {
-	      return this._array[aIdx];
-	    }
-	    throw new Error('No element indexed by ' + aIdx);
-	  };
-	
-	  /**
-	   * Returns the array representation of this set (which has the proper indices
-	   * indicated by indexOf). Note that this is a copy of the internal array used
-	   * for storing the members so that no one can mess with internal state.
-	   */
-	  ArraySet.prototype.toArray = function ArraySet_toArray() {
-	    return this._array.slice();
-	  };
-	
-	  exports.ArraySet = ArraySet;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 91 */
-/*!****************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
-  \****************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 *
-	 * Based on the Base 64 VLQ implementation in Closure Compiler:
-	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
-	 *
-	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
-	 * Redistribution and use in source and binary forms, with or without
-	 * modification, are permitted provided that the following conditions are
-	 * met:
-	 *
-	 *  * Redistributions of source code must retain the above copyright
-	 *    notice, this list of conditions and the following disclaimer.
-	 *  * Redistributions in binary form must reproduce the above
-	 *    copyright notice, this list of conditions and the following
-	 *    disclaimer in the documentation and/or other materials provided
-	 *    with the distribution.
-	 *  * Neither the name of Google Inc. nor the names of its
-	 *    contributors may be used to endorse or promote products derived
-	 *    from this software without specific prior written permission.
-	 *
-	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var base64 = __webpack_require__(/*! ./base64 */ 97);
-	
-	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
-	  // length quantities we use in the source map spec, the first bit is the sign,
-	  // the next four bits are the actual value, and the 6th bit is the
-	  // continuation bit. The continuation bit tells us whether there are more
-	  // digits in this value following this digit.
-	  //
-	  //   Continuation
-	  //   |    Sign
-	  //   |    |
-	  //   V    V
-	  //   101011
-	
-	  var VLQ_BASE_SHIFT = 5;
-	
-	  // binary: 100000
-	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
-	
-	  // binary: 011111
-	  var VLQ_BASE_MASK = VLQ_BASE - 1;
-	
-	  // binary: 100000
-	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
-	
-	  /**
-	   * Converts from a two-complement value to a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
-	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
-	   */
-	  function toVLQSigned(aValue) {
-	    return aValue < 0
-	      ? ((-aValue) << 1) + 1
-	      : (aValue << 1) + 0;
-	  }
-	
-	  /**
-	   * Converts to a two-complement value from a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
-	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
-	   */
-	  function fromVLQSigned(aValue) {
-	    var isNegative = (aValue & 1) === 1;
-	    var shifted = aValue >> 1;
-	    return isNegative
-	      ? -shifted
-	      : shifted;
-	  }
-	
-	  /**
-	   * Returns the base 64 VLQ encoded value.
-	   */
-	  exports.encode = function base64VLQ_encode(aValue) {
-	    var encoded = "";
-	    var digit;
-	
-	    var vlq = toVLQSigned(aValue);
-	
-	    do {
-	      digit = vlq & VLQ_BASE_MASK;
-	      vlq >>>= VLQ_BASE_SHIFT;
-	      if (vlq > 0) {
-	        // There are still more digits in this value, so we must make sure the
-	        // continuation bit is marked.
-	        digit |= VLQ_CONTINUATION_BIT;
-	      }
-	      encoded += base64.encode(digit);
-	    } while (vlq > 0);
-	
-	    return encoded;
-	  };
-	
-	  /**
-	   * Decodes the next base 64 VLQ value from the given string and returns the
-	   * value and the rest of the string.
-	   */
-	  exports.decode = function base64VLQ_decode(aStr) {
-	    var i = 0;
-	    var strLen = aStr.length;
-	    var result = 0;
-	    var shift = 0;
-	    var continuation, digit;
-	
-	    do {
-	      if (i >= strLen) {
-	        throw new Error("Expected more digits in base 64 VLQ value.");
-	      }
-	      digit = base64.decode(aStr.charAt(i++));
-	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
-	      digit &= VLQ_BASE_MASK;
-	      result = result + (digit << shift);
-	      shift += VLQ_BASE_SHIFT;
-	    } while (continuation);
-	
-	    return {
-	      value: fromVLQSigned(result),
-	      rest: aStr.slice(i)
-	    };
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 92 */
-/*!***********************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
-  \***********************************************************************************************************************/
-[142, 99],
-/* 93 */
-/*!******************************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
-  \******************************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    module.exports = factory()
-	  } else {
-	    root.sourceMappingURL = factory()
-	  }
-	}(this, function(undefined) {
-	
-	  var innerRegex = /[#@] sourceMappingURL=([^\s'"]*)/
-	  var newlineRegex = /\r\n?|\n/
-	
-	  var regex = RegExp(
-	    "(^|(?:" + newlineRegex.source + "))" +
-	    "(?:" +
-	      "/\\*" +
-	      "(?:\\s*(?:" + newlineRegex.source + ")(?://)?)?" +
-	      "(?:" + innerRegex.source + ")" +
-	      "\\s*" +
-	      "\\*/" +
-	      "|" +
-	      "//(?:" + innerRegex.source + ")" +
-	    ")" +
-	    "\\s*$"
-	  )
-	
-	  function SourceMappingURL(commentSyntax) {
-	    this._commentSyntax = commentSyntax
-	  }
-	
-	  SourceMappingURL.prototype.regex = regex
-	  SourceMappingURL.prototype._innerRegex = innerRegex
-	  SourceMappingURL.prototype._newlineRegex = newlineRegex
-	
-	  SourceMappingURL.prototype.get = function(code) {
-	    var match = code.match(this.regex)
-	    if (!match) {
-	      return null
-	    }
-	    return match[2] || match[3] || ""
-	  }
-	
-	  SourceMappingURL.prototype.set = function(code, url, commentSyntax) {
-	    if (!commentSyntax) {
-	      commentSyntax = this._commentSyntax
-	    }
-	    // Use a newline present in the code, or fall back to '\n'.
-	    var newline = String(code.match(this._newlineRegex) || "\n")
-	    var open = commentSyntax[0], close = commentSyntax[1] || ""
-	    code = this.remove(code)
-	    return code + newline + open + "# sourceMappingURL=" + url + close
-	  }
-	
-	  SourceMappingURL.prototype.remove = function(code) {
-	    return code.replace(this.regex, "")
-	  }
-	
-	  SourceMappingURL.prototype.insertBefore = function(code, string) {
-	    var match = code.match(this.regex)
-	    if (match) {
-	      var hasNewline = Boolean(match[1])
-	      return code.slice(0, match.index) +
-	        string +
-	        (hasNewline ? "" : "\n") +
-	        code.slice(match.index)
-	    } else {
-	      return code + string
-	    }
-	  }
-	
-	  SourceMappingURL.prototype.SourceMappingURL = SourceMappingURL
-	
-	  return new SourceMappingURL(["/*", " */"])
-	
-	}));
-
-
-/***/ },
-/* 94 */
-/*!************************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
-  \************************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
-	// X11 (“MIT”) Licensed. (See LICENSE.)
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    module.exports = factory()
-	  } else {
-	    root.resolveUrl = factory()
-	  }
-	}(this, function() {
-	
-	  function resolveUrl(/* ...urls */) {
-	    var numUrls = arguments.length
-	
-	    if (numUrls === 0) {
-	      throw new Error("resolveUrl requires at least one argument; got none.")
-	    }
-	
-	    var base = document.createElement("base")
-	    base.href = arguments[0]
-	
-	    if (numUrls === 1) {
-	      return base.href
-	    }
-	
-	    var head = document.getElementsByTagName("head")[0]
-	    head.insertBefore(base, head.firstChild)
-	
-	    var a = document.createElement("a")
-	    var resolved
-	
-	    for (var index = 1; index < numUrls; index++) {
-	      a.href = arguments[index]
-	      resolved = a.href
-	      base.href = resolved
-	    }
-	
-	    head.removeChild(base)
-	
-	    return resolved
-	  }
-	
-	  return resolveUrl
-	
-	}));
-
-
-/***/ },
-/* 95 */
+/* 105 */
+/*!**********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
+  \**********************************************************************************************************************************/
+74,
+/* 106 */
 /*!****************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/stackinfo/~/stacktrace-js/stacktrace.js ***!
   \****************************************************************************************************************************/
@@ -18892,7 +16824,342 @@ return /******/ (function(modules) { // webpackBootstrap
 	}));
 
 /***/ },
-/* 96 */
+/* 107 */
+/*!************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
+  \************************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
+	// X11 (“MIT”) Licensed. (See LICENSE.)
+	
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    module.exports = factory()
+	  } else {
+	    root.resolveUrl = factory()
+	  }
+	}(this, function() {
+	
+	  function resolveUrl(/* ...urls */) {
+	    var numUrls = arguments.length
+	
+	    if (numUrls === 0) {
+	      throw new Error("resolveUrl requires at least one argument; got none.")
+	    }
+	
+	    var base = document.createElement("base")
+	    base.href = arguments[0]
+	
+	    if (numUrls === 1) {
+	      return base.href
+	    }
+	
+	    var head = document.getElementsByTagName("head")[0]
+	    head.insertBefore(base, head.firstChild)
+	
+	    var a = document.createElement("a")
+	    var resolved
+	
+	    for (var index = 1; index < numUrls; index++) {
+	      a.href = arguments[index]
+	      resolved = a.href
+	      base.href = resolved
+	    }
+	
+	    head.removeChild(base)
+	
+	    return resolved
+	  }
+	
+	  return resolveUrl
+	
+	}));
+
+
+/***/ },
+/* 108 */
+/*!******************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
+  \******************************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
+	
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    module.exports = factory()
+	  } else {
+	    root.sourceMappingURL = factory()
+	  }
+	}(this, function(undefined) {
+	
+	  var innerRegex = /[#@] sourceMappingURL=([^\s'"]*)/
+	  var newlineRegex = /\r\n?|\n/
+	
+	  var regex = RegExp(
+	    "(^|(?:" + newlineRegex.source + "))" +
+	    "(?:" +
+	      "/\\*" +
+	      "(?:\\s*(?:" + newlineRegex.source + ")(?://)?)?" +
+	      "(?:" + innerRegex.source + ")" +
+	      "\\s*" +
+	      "\\*/" +
+	      "|" +
+	      "//(?:" + innerRegex.source + ")" +
+	    ")" +
+	    "\\s*$"
+	  )
+	
+	  function SourceMappingURL(commentSyntax) {
+	    this._commentSyntax = commentSyntax
+	  }
+	
+	  SourceMappingURL.prototype.regex = regex
+	  SourceMappingURL.prototype._innerRegex = innerRegex
+	  SourceMappingURL.prototype._newlineRegex = newlineRegex
+	
+	  SourceMappingURL.prototype.get = function(code) {
+	    var match = code.match(this.regex)
+	    if (!match) {
+	      return null
+	    }
+	    return match[2] || match[3] || ""
+	  }
+	
+	  SourceMappingURL.prototype.set = function(code, url, commentSyntax) {
+	    if (!commentSyntax) {
+	      commentSyntax = this._commentSyntax
+	    }
+	    // Use a newline present in the code, or fall back to '\n'.
+	    var newline = String(code.match(this._newlineRegex) || "\n")
+	    var open = commentSyntax[0], close = commentSyntax[1] || ""
+	    code = this.remove(code)
+	    return code + newline + open + "# sourceMappingURL=" + url + close
+	  }
+	
+	  SourceMappingURL.prototype.remove = function(code) {
+	    return code.replace(this.regex, "")
+	  }
+	
+	  SourceMappingURL.prototype.insertBefore = function(code, string) {
+	    var match = code.match(this.regex)
+	    if (match) {
+	      var hasNewline = Boolean(match[1])
+	      return code.slice(0, match.index) +
+	        string +
+	        (hasNewline ? "" : "\n") +
+	        code.slice(match.index)
+	    } else {
+	      return code + string
+	    }
+	  }
+	
+	  SourceMappingURL.prototype.SourceMappingURL = SourceMappingURL
+	
+	  return new SourceMappingURL(["/*", " */"])
+	
+	}));
+
+
+/***/ },
+/* 109 */
+/*!***********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
+  \***********************************************************************************************************************/
+[154, 115],
+/* 110 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	// If obj.hasOwnProperty has been overridden, then calling
+	// obj.hasOwnProperty(prop) will break.
+	// See: https://github.com/joyent/node/issues/1707
+	function hasOwnProperty(obj, prop) {
+	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	}
+	
+	module.exports = function(qs, sep, eq, options) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  var obj = {};
+	
+	  if (typeof qs !== 'string' || qs.length === 0) {
+	    return obj;
+	  }
+	
+	  var regexp = /\+/g;
+	  qs = qs.split(sep);
+	
+	  var maxKeys = 1000;
+	  if (options && typeof options.maxKeys === 'number') {
+	    maxKeys = options.maxKeys;
+	  }
+	
+	  var len = qs.length;
+	  // maxKeys <= 0 means that we should not limit keys count
+	  if (maxKeys > 0 && len > maxKeys) {
+	    len = maxKeys;
+	  }
+	
+	  for (var i = 0; i < len; ++i) {
+	    var x = qs[i].replace(regexp, '%20'),
+	        idx = x.indexOf(eq),
+	        kstr, vstr, k, v;
+	
+	    if (idx >= 0) {
+	      kstr = x.substr(0, idx);
+	      vstr = x.substr(idx + 1);
+	    } else {
+	      kstr = x;
+	      vstr = '';
+	    }
+	
+	    k = decodeURIComponent(kstr);
+	    v = decodeURIComponent(vstr);
+	
+	    if (!hasOwnProperty(obj, k)) {
+	      obj[k] = v;
+	    } else if (isArray(obj[k])) {
+	      obj[k].push(v);
+	    } else {
+	      obj[k] = [obj[k], v];
+	    }
+	  }
+	
+	  return obj;
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+
+
+/***/ },
+/* 111 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	var stringifyPrimitive = function(v) {
+	  switch (typeof v) {
+	    case 'string':
+	      return v;
+	
+	    case 'boolean':
+	      return v ? 'true' : 'false';
+	
+	    case 'number':
+	      return isFinite(v) ? v : '';
+	
+	    default:
+	      return '';
+	  }
+	};
+	
+	module.exports = function(obj, sep, eq, name) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  if (obj === null) {
+	    obj = undefined;
+	  }
+	
+	  if (typeof obj === 'object') {
+	    return map(objectKeys(obj), function(k) {
+	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+	      if (isArray(obj[k])) {
+	        return map(obj[k], function(v) {
+	          return ks + encodeURIComponent(stringifyPrimitive(v));
+	        }).join(sep);
+	      } else {
+	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+	      }
+	    }).join(sep);
+	
+	  }
+	
+	  if (!name) return '';
+	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+	         encodeURIComponent(stringifyPrimitive(obj));
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+	
+	function map (xs, f) {
+	  if (xs.map) return xs.map(f);
+	  var res = [];
+	  for (var i = 0; i < xs.length; i++) {
+	    res.push(f(xs[i], i));
+	  }
+	  return res;
+	}
+	
+	var objectKeys = Object.keys || function (obj) {
+	  var res = [];
+	  for (var key in obj) {
+	    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+	  }
+	  return res;
+	};
+
+
+/***/ },
+/* 112 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
@@ -18911,7 +17178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 97 */
+/* 113 */
 /*!************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64.js ***!
   \************************************************************************************************************************/
@@ -18962,7 +17229,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 98 */
+/* 114 */
 /*!******************************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/timers-browserify/~/process/browser.js ***!
   \******************************************************************************/
@@ -19028,27 +17295,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 99 */
+/* 115 */
 /*!*****************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/blocks.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/~/trimArguments/trimArguments.js ***!
   \*****************************************************************************************************************************************/
-60,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
+74,
 /* 116 */,
 /* 117 */,
 /* 118 */,
@@ -19075,9 +17326,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 139 */,
 /* 140 */,
 /* 141 */,
-/* 142 */
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */
 /*!***********************************!*\
-  !*** template of 44 referencing  ***!
+  !*** template of 56 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
@@ -19382,3392 +17645,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 143 */
-/*!*******************************!*\
-  !*** ./EventEmitterB.test.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 28);
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 18);
-	
-	module.exports = function(t) {
-	
-	
-	
-	    //*
-	    this.test("ifon, ifoff", function() {
-	
-	        this.test("normal usage", function(t) {
-	            this.count(56)
-	
-	            var e = EventEmitterB()
-	
-	            var event = testUtils.seq(
-	            // e.on('a', cb1)
-	              function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.on('b', cb2)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.removeListener('b', cb2)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.removeListener('a', cb2)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.once('a', cb3)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.emit('a')
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.on('a', cb1)
-	            // e.on('b', cb1)
-	            // e.on('a', cb2)
-	            // e.on('b', cb2)
-	            // e.on('c', cb1)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'c')
-	                t.eq(type, 'on')
-	                t.eq(all, true)
-	
-	            // e.removeAllListeners('a')
-	            },function(eventName, type) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'a')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	
-	            // e.removeAllListeners()
-	            },function(eventName, type) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'b')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	            },function(eventName, type, all) {
-	                t.eq(eventName, 'c')
-	                t.eq(type, 'off')
-	                t.eq(all, true)
-	            })
-	
-	            e.ifon('a', function() {
-	                event('a', 'on')
-	            })
-	            e.ifoff('a', function() {
-	                event('a', 'off')
-	            })
-	            e.ifon('b', function() {
-	                event('b', 'on')
-	            })
-	            e.ifoff('b', function() {
-	                event('b', 'off')
-	            })
-	
-	            e.ifon(function(eventName) {
-	                event(eventName, 'on', true)
-	            })
-	            e.ifoff(function(eventName) {
-	                event(eventName, 'off', true)
-	            })
-	
-	            var cb1 = function(){}
-	            var cb2 = function(){}
-	            var cb3 = function(){}
-	
-	            e.on('a', cb1)
-	            e.on('b', cb2)
-	            e.on('a', cb2)
-	            e.removeListener('a', cb1)
-	            e.removeListener('b', cb2)
-	            e.removeListener('a', cb2)
-	
-	            e.once('a', cb3)
-	            e.emit('a')
-	
-	            e.on('a', cb1)
-	            e.on('b', cb1)
-	            e.on('a', cb2)
-	            e.on('b', cb2)
-	            e.on('c', cb1)
-	            e.removeAllListeners('a')
-	            e.removeAllListeners()
-	        })
-	
-	        this.test("ifon after events have been attachd", function(t) {
-	            this.count(4)
-	
-	            var e = EventEmitterB()
-	
-	            var sequenceEvent = testUtils.seq(
-	            // e.on('a', cb1)
-	              function(eventName) {
-	                t.eq(eventName, 'shmaotown')
-	            },function(eventName) {
-	                t.eq(eventName, 'you lazy plughole')
-	            },function(eventName) {
-	                t.eq(eventName, 'all shmaotown')
-	            },function(eventName) {
-	                t.eq(eventName, 'all you lazy plughole')
-	            })
-	
-	            e.on('shmaotown', function() {})
-	            e.on('you lazy plughole', function() {})
-	
-	
-	            e.ifon('shmaotown', function() {
-	                sequenceEvent('shmaotown')
-	            })
-	            e.ifon('you lazy plughole', function() {
-	                sequenceEvent('you lazy plughole')
-	            })
-	            e.ifon(function(eventName) {
-	                sequenceEvent('all '+eventName)
-	            })
-	        })
-	
-	        this.test("remove ifon", function(t) {
-	            this.count(26)
-	
-	            var e = EventEmitterB()
-	
-	            var event = testUtils.seq(
-	            // remove a
-	              function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'b')
-	            },function(eventName) {
-	                t.eq(eventName, 'b2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove bs
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove ifon-all callback
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            })
-	
-	            var a,a2, b,b2, c,c2, all1,all2
-	            e.ifon('a', a = function() {
-	                event('a')
-	            })
-	            e.ifon('a', a2=function() {
-	                event('a2')
-	            })
-	            e.ifon('b', b=function() {
-	                event('b')
-	            })
-	            e.ifon('b', b2=function() {
-	                event('b2')
-	            })
-	            e.ifon('c', c=function() {
-	                event('c')
-	            })
-	            e.ifon('c', c2=function() {
-	                event('c2')
-	            })
-	
-	            e.ifon(all1=function() {
-	                event('all1')
-	            })
-	            e.ifon(all2=function() {
-	                event('all2')
-	            })
-	
-	            t.log('remove a')
-	            e.removeIfon('a', a)
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	
-	            e.removeAllListeners()
-	
-	            t.log('remove bs')
-	            e.removeIfon('b')
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	
-	            e.removeAllListeners()
-	
-	            t.log('remove ifon-all callback')
-	            e.removeIfon(all1)
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	
-	            e.removeAllListeners()
-	
-	            t.log('remove all')
-	            e.removeIfon()
-	            e.on('a',function(){})
-	            e.on('b',function(){})
-	            e.on('c',function(){})
-	        })
-	
-	        this.test("remove ifoff", function(t) {
-	            this.count(26)
-	
-	            var e = EventEmitterB()
-	
-	            var event = testUtils.seq(
-	            // remove a
-	              function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'b')
-	            },function(eventName) {
-	                t.eq(eventName, 'b2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove bs
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all1')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	
-	            // remove ifoff-all callback
-	            },function(eventName) {
-	                t.eq(eventName, 'a2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            },function(eventName) {
-	                t.eq(eventName, 'c')
-	            },function(eventName) {
-	                t.eq(eventName, 'c2')
-	            },function(eventName) {
-	                t.eq(eventName, 'all2')
-	            })
-	
-	            var a,a2, b,b2, c,c2, all1, all2
-	            e.ifoff('a', a = function() {
-	                event('a')
-	            })
-	            e.ifoff('a', a2=function() {
-	                event('a2')
-	            })
-	            e.ifoff('b', b=function() {
-	                event('b')
-	            })
-	            e.ifoff('b', b2=function() {
-	                event('b2')
-	            })
-	            e.ifoff('c', c=function() {
-	                event('c')
-	            })
-	            e.ifoff('c', c2=function() {
-	                event('c2')
-	            })
-	
-	            e.ifoff(all1=function() {
-	                event('all1')
-	            })
-	            e.ifoff(all2=function() {
-	                event('all2')
-	            })
-	
-	            var a,b,c
-	
-	            t.log('remove a')
-	            e.removeIfoff('a', a)
-	            e.on('a',a=function(){})
-	            e.on('b',b=function(){})
-	            e.on('c',c=function(){})
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	
-	            e.on('a',a)
-	            e.on('b',b)
-	            e.on('c',c)
-	
-	            t.log('remove bs')
-	            e.removeIfoff('b')
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	
-	            e.on('a',a)
-	            e.on('b',b)
-	            e.on('c',c)
-	
-	            t.log('remove ifoff-all callback')
-	            e.removeIfoff(all1)
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	
-	            e.on('a',a)
-	            e.on('b',b)
-	            e.on('c',c)
-	
-	            t.log('remove all')
-	            e.removeIfoff()
-	            e.removeListener('a',a)
-	            e.removeListener('b',b)
-	            e.removeListener('c',c)
-	        })
-	    })
-	
-	    this.test("proxy events", function() {
-	        this.test("proxy all", function(t){
-	            this.count(2)
-	
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            var testEvent = testUtils.seq(
-	              function(eventName) {
-	                t.eq(eventName, 'moose')
-	            },function(eventName) {
-	                t.eq(eventName, 'bark')
-	            })
-	
-	
-	            A.proxy(B)   // proxy all events
-	
-	            A.on('moose', function() {
-	                testEvent('moose')
-	            })
-	            A.on('bark', function() {
-	                testEvent('bark')
-	            })
-	
-	            B.emit('moose')
-	            B.emit('bark')
-	        })
-	
-	        this.test("proxy only", function(t){
-	            this.count(1)
-	
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            var testEvent = testUtils.seq(
-	              function(eventName) {
-	                t.eq(eventName, 'moose')
-	            })
-	
-	
-	            A.proxy(B, {only: ['moose']})   // proxy only the 'moose' event
-	
-	            A.on('moose', function() {
-	                testEvent('moose')
-	            })
-	            A.on('bark', function() {
-	                testEvent('bark')
-	            })
-	
-	            B.emit('moose')
-	            B.emit('bark')
-	        })
-	
-	        this.test("proxy except", function(t){
-	            this.count(1)
-	
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            var testEvent = testUtils.seq(
-	              function(eventName) {
-	                t.eq(eventName, 'bark')
-	            })
-	
-	
-	            A.proxy(B, {except: ['moose']})   // proxy only the 'moose' event
-	
-	            A.on('moose', function() {
-	                testEvent('moose')
-	            })
-	            A.on('bark', function() {
-	                testEvent('bark')
-	            })
-	
-	            B.emit('moose')
-	            B.emit('bark')
-	        })
-	
-	        this.test("proxy removeListener and removeAllListeners", function() {
-	            var A = EventEmitterB()
-	            var B = EventEmitterB()
-	
-	            this.eq(B.listeners('moose').length, 0)
-	
-	            A.proxy(B)
-	
-	            var handler;
-	            A.on('moose', handler=function() {
-	                testEvent('moose')
-	            })
-	
-	            this.eq(B.listeners('moose').length, 1)
-	
-	            A.removeListener('moose',handler)
-	            this.eq(B.listeners('moose').length, 0)
-	
-	            A.on('moose', handler)
-	            A.removeAllListeners('moose')
-	            this.eq(B.listeners('moose').length, 0)
-	
-	            A.on('moose', handler)
-	            A.removeAllListeners()
-	            this.eq(B.listeners('moose').length, 0)
-	        })
-	    })
-	    //*/
-	};
-
-/***/ },
-/* 144 */
-/*!***********************!*\
-  !*** ./Block.test.js ***!
-  \***********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 28)
-	var Future = __webpack_require__(/*! async-future */ 39)
-	
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var blocks = __webpack_require__(/*! ../blocks.browser */ 1)
-	var Block = blocks.Block
-	
-	var Text = blocks.Text
-	var Button = blocks.Button
-	
-	
-	
-	module.exports = function(t) {
-	
-	    // basic test block
-	    var TestThinger = proto(Block,function(superclass) {
-	        this.name = 'TestThinger'
-	    })
-	
-	
-	
-	
-	    //*
-	
-		this.test('testEvent',function(t) {
-	        this.count(2);
-	
-			var obj = new Button("some text");
-			obj.on("flick",function(data) {
-				t.ok(true);
-				t.ok(data.obj === "blah");
-			});
-	
-			obj.emit("flick",{obj:"blah"});
-		});
-	
-	    this.test('add, addAt, addBefore', function() {
-			this.count(5);
-	        var C = proto(Block, function(superclass) {
-	            this.name = 'addTest'
-	            this.init = function() {
-	                superclass.init.call(this) // set style with constructor
-	            }
-	        })
-	
-	        this.test('add', function() {
-	            var x = C()
-	
-	            x.add(Text('a'))
-	            this.eq(x.domNode.children.length, 1)
-	            this.eq(x.children.length, 1)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode.textContent , 'a')
-	
-	            x.add(Text('x', 'b'))
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'b')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            x.add([Text('c'), Text('x', 'd')])
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'b')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            this.eq(x.domNode.children[2].textContent , 'c')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'd')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	        })
-	
-	        this.test('addAt', function() {
-	            var x = C()
-	
-	            x.addAt(0, Text('a'))
-	            this.eq(x.domNode.children.length, 1)
-	            this.eq(x.children.length, 1)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode.textContent , 'a')
-	
-	            x.addAt(0, Text('x', 'b'))
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'a')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            x.addAt(1, [Text('c'), Text('x', 'd')])
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'c')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'd')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'a')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	            this.test('errors', function() {
-	                this.count(1)
-	
-	                var x = C()
-	                x.addAt(0, Text("moose"))
-	
-	                try {
-	                    x.addAt(0, x.children[0])
-	                } catch(e) {
-	                    this.eq(e.message, 'Node at index 0 already has a parent. Remove the node from its parent before adding it somewhere else.')
-	                }
-	            })
-	        })
-	
-	        this.test('addBefore', function() {
-	            var x = C()
-	
-	            var one = Text('a')
-	            x.addBefore(undefined, one)
-	            this.eq(x.domNode.children.length, 1)
-	            this.eq(x.children.length, 1)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode.textContent , 'a')
-	
-	            var two = Text('x', 'b')
-	            x.addBefore(one, two)
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'a')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            x.addBefore(one, [Text('c'), Text('x', 'd')])
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'b')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'c')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'd')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'a')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	            x.addBefore(undefined, Text('e'))
-	            this.eq(x.domNode.children.length, 5)
-	            this.eq(x.children.length, 5)
-	            this.eq(x.domNode.children[4].textContent , 'e')
-	            this.eq(x.children[4].domNode , x.domNode.children[4])
-	        })
-	
-	        this.test('remove', function() {
-	            var C = proto(Block, function(superclass) {
-	                this.name = 'removeTest'
-	
-	                this.init = function() {
-	                    superclass.init.call(this) // set style with constructor
-	                }
-	            })
-	
-	            var x = C()
-	
-	            var zero = Text('a')
-	            var one = Text('b')
-	            var two = Text('c')
-	            var three = Text('d')
-	            var four = Text('e')
-	            x.add(zero,one,two,three,four)
-	
-	            this.eq(zero.parent, x)
-	            this.eq(one.parent, x)
-	            this.eq(two.parent, x)
-	            this.eq(three.parent, x)
-	            this.eq(four.parent, x)
-	
-	            x.remove(2)
-	            this.eq(two.parent, undefined)
-	            this.eq(x.domNode.children.length, 4)
-	            this.eq(x.children.length, 4)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'b')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'd')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	            this.eq(x.domNode.children[3].textContent , 'e')
-	            this.eq(x.children[3].domNode , x.domNode.children[3])
-	
-	            x.remove(one)
-	            this.eq(one.parent, undefined)
-	            this.eq(x.domNode.children.length, 3)
-	            this.eq(x.children.length, 3)
-	            this.eq(x.domNode.children[0].textContent , 'a')
-	            this.eq(x.children[0].domNode, x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'd')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	            this.eq(x.domNode.children[2].textContent , 'e')
-	            this.eq(x.children[2].domNode , x.domNode.children[2])
-	
-	            x.remove(zero)
-	            this.eq(zero.parent, undefined)
-	            this.eq(x.domNode.children.length, 2)
-	            this.eq(x.children.length, 2)
-	            this.eq(x.domNode.children[0].textContent , 'd')
-	            this.eq(x.children[0].domNode , x.domNode.children[0])
-	            this.eq(x.domNode.children[1].textContent , 'e')
-	            this.eq(x.children[1].domNode , x.domNode.children[1])
-	
-	            // what's left is three and four
-	            x.remove([0, four])
-	            this.eq(three.parent, undefined)
-	            this.eq(four.parent, undefined)
-	            this.eq(x.domNode.children.length, 0)
-	            this.eq(x.children.length, 0)
-	        })
-	
-			this.test('setting parent',function() {
-				this.count(2);
-				var C = proto(Block, function(superclass) {
-	                this.name = 'parent'
-	
-	                this.init = function() {
-	                    superclass.init.call(this)
-	                }
-	            })
-	
-				var C2 = proto(Block, function(superclass) {
-	                this.name = 'child'
-	
-	                this.init = function() {
-	                    superclass.init.call(this)
-	                }
-	            })
-	
-				var parent = C();
-				var child = C2();
-				this.eq(child.parent,undefined);
-				parent.add(child);
-				this.eq(child.parent,parent);
-				
-			})
-	    })
-	
-	    this.test('attr', function() {
-	        var thinger = TestThinger()
-	        thinger.attr("moose", '5')
-	        this.eq(thinger.domNode.getAttribute("moose"), '5')
-	        this.eq(thinger.attr('moose'), '5')
-	
-	        thinger.attr("moose", 'ha ha ha \'\"haaaaaaa <moose></moose>')
-	        this.eq(thinger.domNode.getAttribute("moose"), 'ha ha ha \'\"haaaaaaa <moose></moose>')
-	        this.eq(thinger.attr('moose'), 'ha ha ha \'\"haaaaaaa <moose></moose>')
-	
-	        thinger.attr('moose', undefined)
-	        this.eq(thinger.domNode.getAttribute("moose"), null)
-	        this.eq(thinger.attr('moose'), undefined)
-	
-	        thinger.attr({arg:1, blah:2})
-	        this.eq(thinger.attr('arg'), '1')
-	        this.eq(thinger.attr('blah'), '2')
-	    })
-	
-	    this.test('label property', function() {
-	        blocks.dev = false // turn off dev for a second
-	
-	        var thinger = TestThinger()
-	        this.eq(thinger.label, undefined)
-	        this.eq(thinger.attr('label'), undefined)
-	
-	        thinger.label = "moose"
-	        this.eq(thinger.label, 'moose')
-	        //this.eq(thinger.attr('label'), undefined) why not just do it for everything // only set in dev mode
-	
-	        var thinger2 = TestThinger()
-	        blocks.dev = true // turn back on
-	        thinger2.label = "moose2"
-	        this.eq(thinger2.label, "moose2")
-	        this.eq(thinger2.attr('label'), "moose2")
-	
-	        try {
-	            thinger.label = 'setagainfails'
-	        } catch(e) {
-	            this.eq(e.message, "A Block's label can only be set once (was already set to: moose)")
-	        }
-	    })
-	
-	    this.test('visible', function() {
-	        var container = blocks.Container()
-	        testUtils.demo("visible test", container)
-	
-	        var thinger = TestThinger()
-	        container.add(thinger)
-	        this.eq(thinger.visible, true)
-	        this.eq($(thinger.domNode).css('display'), "inline-block")
-	
-	        thinger.visible = true                       // does nothing if its already showing
-	        this.eq(thinger.visible, true)
-	        this.eq($(thinger.domNode).css('display'), "inline-block")
-	
-	        thinger.visible = false
-	        this.eq(thinger.visible, false)
-	//        this.eq(thinger.domNode.style.display, "none")
-	        this.eq($(thinger.domNode).css('display'), "none")
-	
-	        thinger.visible = false                      // does nothing if its already hiding
-	        this.eq(thinger.visible, false)
-	        this.eq($(thinger.domNode).css('display'), "none")
-	
-	        thinger.visible = true
-	        this.eq(thinger.visible, true)
-	        this.eq($(thinger.domNode).css('display'), "inline-block")
-	
-	        this.test("with styled css display", function() {
-	            var thinger = TestThinger()
-	            container.add(thinger)
-	            thinger.attached = true // pretend its attached so it'll render the style
-	            thinger.style = blocks.Style({display: 'inline'})
-	
-	            this.eq($(thinger.domNode).css('display'), "inline")
-	
-	            thinger.visible = false
-	            this.eq($(thinger.domNode).css('display'), "none")
-	            this.eq(thinger.visible, false)
-	
-	            thinger.visible = true
-	            this.eq(thinger.visible, true)
-	            this.eq($(thinger.domNode).css('display'), "inline")
-	        })
-	
-	        this.test("with inline css", function() {
-	            var thinger = TestThinger()
-	            container.add(thinger)
-	            thinger.domNode.style.display = 'block'
-	
-	            this.eq($(thinger.domNode).css('display'), "block")
-	
-	            thinger.visible = false
-	            this.eq($(thinger.domNode).css('display'), "none")
-	            this.eq(thinger.visible, false)
-	
-	            thinger.visible = true
-	            this.eq(thinger.visible, true)
-	            this.eq($(thinger.domNode).css('display'), "block")
-	        })
-	    })
-	
-	    this.test("focus", function() {
-	        var input = blocks.TextField()
-	        testUtils.demo("focus test", input)
-	
-	        this.ok(input.domNode !== document.activeElement)
-	
-	        input.focus = true
-	        this.ok(input.domNode === document.activeElement)
-	
-	        input.focus = false
-	        this.ok(input.domNode !== document.activeElement)
-	    })
-	
-	    this.test("setSelection and getCaratOffset", function() {
-	        var container = blocks.Container()
-	        testUtils.demo("setSelection and getCaratOffset", container)
-	
-	        this.test('input textfield', function() {
-	            var input = blocks.TextField()
-	            container.add(input)
-	            input.val = "whatever yo"
-	
-	            this.eq(input.selectionRange, undefined)
-	
-	            input.selectionRange = [1,1]
-	            this.eq(input.selectionRange[0], 1)
-	            this.eq(input.selectionRange[1], 1)
-	
-	            input.selectionRange = [2,5]
-	            this.eq(input.selectionRange[0], 2)
-	            this.eq(input.selectionRange[1], 5)
-	
-	            this.test("input textfields that are next to eachother", function() {
-	                var c = blocks.Container()
-	                container.add(c)
-	                var input = blocks.TextField(), input2 = blocks.TextField()
-	                c.add(input, input2)
-	                input.val = "whatever yo"
-	                input2.val = 'more whatever'
-	
-	                this.eq(input.selectionRange, undefined)
-	                this.eq(input2.selectionRange, undefined)
-	
-	                input.focus = true
-	
-	                // when its focused on after being set programatically, it should have the active caret (note that this is different from gaining focus by being tabbed to)
-	                // seems to start its caret at the end of the input
-	                this.eq(input.selectionRange[0], input.val.length)
-	                this.eq(input.selectionRange[1], input.val.length)
-	                this.eq(input2.selectionRange, undefined)
-	
-	                input.selectionRange = [2,4]
-	                this.eq(input.selectionRange[0], 2)
-	                this.eq(input.selectionRange[1], 4)
-	                this.eq(input2.selectionRange, undefined)
-	
-	                input2.selectionRange = [3,5]
-	                this.eq(input.selectionRange, undefined)
-	                this.eq(input2.selectionRange[0], 3)
-	                this.eq(input2.selectionRange[1], 5)
-	
-	            })
-	        })
-	
-	        this.test('textarea', function() {
-	            var input = blocks.TextArea()
-	            container.add(input)
-	            input.val = "whatever yo"
-	
-	            this.eq(input.selectionRange, undefined)
-	
-	            input.selectionRange = [1,1]
-	            this.eq(input.selectionRange[0], 1)
-	            this.eq(input.selectionRange[1], 1)
-	
-	            input.selectionRange = [2,5]
-	            this.eq(input.selectionRange[0], 2)
-	            this.eq(input.selectionRange[1], 5)
-	        })
-	
-	        this.test("regular div", function() {
-	            var div = blocks.Text("Whatever")
-	            div.attr("contenteditable", true)
-	            container.add(div)
-	
-	            this.eq(div.selectionRange, undefined)
-	
-	            div.selectionRange = [1,1]
-	            this.eq(div.selectionRange[0], 1)
-	            this.eq(div.selectionRange[1], 1)
-	
-	            div.selectionRange = [2,5]
-	            this.eq(div.selectionRange[0], 2)
-	            this.eq(div.selectionRange[1], 5)
-	        })
-	
-	        this.test("contenteditable div", function() {
-	            var input = blocks.Text("Whatever")
-	            input.attr("contenteditable", true)
-	            container.add(input)
-	
-	            this.eq(input.selectionRange, undefined)
-	
-	            input.selectionRange = [1,1]
-	            this.eq(input.selectionRange[0], 1)
-	            this.eq(input.selectionRange[1], 1)
-	
-	            input.selectionRange = [2,5]
-	            this.eq(input.selectionRange[0], 2)
-	            this.eq(input.selectionRange[1], 5)
-	
-	            input.domNode.innerHTML = "<span>hi</span><span>lo</span><span>mo<br>scrow</span>"
-	            this.eq(input.selectionRange[0], 0)
-	            this.eq(input.selectionRange[1], 11)           // is this right?
-	
-	            input.selectionRange = [4,11]
-	            this.eq(input.selectionRange[0], 4)
-	            this.eq(input.selectionRange[1], 11)
-	
-	        })
-	
-	        this.test("selectionRange across nodes", function() {
-	            var one = Text('one'), two = Text("two"), three = Text("three")
-	            var c = blocks.Container(one, two, three)
-	            container.add(c)
-	
-	            c.selectionRange = [2,8]
-	            this.eq(c.selectionRange[0], 2)
-	            this.eq(c.selectionRange[1], 8)
-	            this.eq(one.selectionRange[0], 2)
-	            this.eq(one.selectionRange[1], 3)
-	            this.eq(two.selectionRange[0], 0)
-	            this.eq(two.selectionRange[1], 3)
-	            this.eq(three.selectionRange[0], 0)
-	            this.eq(three.selectionRange[1], 2)
-	        })
-	    })
-	
-	    this.test("on, addListener, once, removeListener, removeAllListeners", function(t) {
-	        this.count(10)
-	
-	        var EventWhore = proto(Block,function(superclass) {
-	            this.name = 'EventWhore'
-	        })
-	
-	        var e = EventWhore()
-	
-	        var event = testUtils.seq(
-	          function(eventName, data) {
-	            t.eq(eventName, 'a')
-	            t.eq(data, 1)
-	        },function(eventName, data) {
-	            t.eq(eventName, 'a')
-	            t.eq(data, 2)
-	
-	        },function(eventName, data) {
-	            t.eq(eventName, 'b')
-	            t.eq(data, 3)
-	        },function(eventName, data) {
-	            t.eq(eventName, 'b')
-	            t.eq(data, 4)
-	
-	        },function(eventName, data) {
-	            t.eq(eventName, 'c')
-	            t.eq(data, 5)
-	        })
-	
-	        var acb, bcb, ccb;
-	        e.on('a', acb = function(data) {
-	            event('a', data)
-	        })
-	        e.addListener('b', bcb = function bcb(data) {
-	            event('b', data)
-	        })
-	        e.once('c', cbc = function(data) {
-	            event('c', data)
-	        })
-	
-	        e.emit('a', 1)
-	        e.emit('a', 2)
-	
-	        e.emit('b', 3)
-	        e.emit('b', 4)
-	
-	        e.emit('c', 5)
-	        e.emit('c', 6)
-	
-	        e.removeListener('a', acb)
-	        e.emit('a', 7)
-	
-	        e.removeAllListeners('b')
-	        e.emit('b', 8)
-	
-	        e.on('d', acb = function(data) {
-	            event('a', data)
-	        })
-	        e.removeAllListeners()
-	        e.emit('d', 9)
-	    })
-	
-	
-	    this.test('listening on standard browser events', function(t) {
-	        var container = blocks.Container()
-	        testUtils.demo('listening on standard browser events', container)
-	        this.test("basic browser events", function (t) {
-	            this.count(1)
-	
-	            var EventEmitter = __webpack_require__(/*! events */ 24).EventEmitter
-	
-	            var EventWhore = proto(Block,function(superclass) {
-	                this.name = 'EventWhore'
-	            })
-	
-	            var e = EventWhore()
-	            container.add(e)
-	
-	            var testEvent = testUtils.seq(function(eventName) {
-	                t.eq(eventName, 'click')
-	            })
-	
-	            // events shouldn't be emitted unless bound with the EventEmitterB/Block `on` method (the EventEmitter `on` method bypasses the critical dom event handling setup)
-	            var eventEmitterPrototypeHandler;
-	            EventEmitter.prototype.on.call(e, "click", eventEmitterPrototypeHandler=function() {
-	                testEvent('EventEmitter click')
-	            })
-	
-	            var handler;
-	            syn.click(e.domNode).then(function() {
-	                EventEmitter.prototype.removeListener.call(e, "click", eventEmitterPrototypeHandler) // get rid of the EventEmitter listener, cause otherwise it'll mess out stuff up
-	
-	                e.on('click', handler = function() {
-	                    testEvent('click')
-	                })
-	
-	                return syn.click(e.domNode)
-	            }).then(function() {
-	                e.removeListener('click', handler)
-	
-	                return syn.click(e.domNode)
-	            }).then(function() {
-	                e.on('click', handler = function() {
-	                    event('click')
-	                })
-	
-	                e.removeAllListeners('click')
-	
-	                return syn.click(e.domNode)
-	            }).then(function() {
-	                e.on('click', handler = function() {
-	                    event('click')
-	                })
-	
-	                e.removeAllListeners()
-	
-	                return syn.click(e.domNode)
-	            }).done()
-	        })
-	
-	        this.test("browser events with exclusion", function(t) {
-	            this.count(1)
-	
-	            var EventWhore = proto(Block,function(superclass) {
-	                this.name = 'EventWhore'
-	
-	                this.excludeDomEvents = {click: 1}
-	            })
-	
-	            var e = EventWhore()
-	            container.add(e)
-	
-	            var testEvent = testUtils.seq(function(eventName) {
-	                t.eq(eventName, 'mousedown')
-	            })
-	
-	            e.on('click', function() {
-	                testEvent('click')
-	            })
-	            e.on('mousedown', function() {
-	                testEvent('mousedown')
-	            })
-	
-	            syn.click(e.domNode).done()
-	        })
-	    })
-	
-	    this.test("attach and detach", function() {
-	        var a = blocks.Text("tach")
-	        a.attach()
-	        this.eq(a.domNode.parentNode, document.body)
-	
-	        var b = blocks.Text("tach2")
-	        b.attach(a.domNode)
-	        this.eq(b.domNode.parentNode, a.domNode)
-	
-	
-	        var c = blocks.Text("tach3")
-	        blocks.attach(c)
-	        this.eq(c.domNode.parentNode, document.body)
-	
-	        var d = blocks.Text("tach4")
-	        blocks.attach(c.domNode, d)
-	        this.eq(d.domNode.parentNode, c.domNode)
-	
-	
-	        var e = blocks.Text("tach5")
-	        blocks.attach([e])
-	        this.eq(e.domNode.parentNode, document.body)
-	
-	        var f = blocks.Text("tach6")
-	        blocks.attach(e.domNode, [f])
-	        this.eq(f.domNode.parentNode, e.domNode)
-	
-	
-	        blocks.detach(f)
-	        this.eq(f.domNode.parentNode, null)
-	        blocks.detach([e,d])
-	        this.eq(e.domNode.parentNode, null)
-	        this.eq(d.domNode.parentNode, null)
-	        c.detach()
-	        b.detach()
-	        this.eq(c.domNode.parentNode, null)
-	        this.eq(b.domNode.parentNode, null)
-	    })
-	
-	    this.test("former bugs", function() {
-	        // note, i thought this would have been a bug.. but apparently not? I'm unclear how to manifest the incorrect code i see.. but what the hell, i'll just fix the code without a test
-	        this.test("dom events handlers not being unbound correctly when more than one type of event is bound", function(t) {
-	            this.count(1)
-	
-	            var EventWhore = proto(Block,function(superclass) {
-	                this.name = 'EventWhore'
-	            })
-	
-	            var e = EventWhore()
-	
-	            var clickHandler
-	            e.on('click', clickHandler=function() {
-	                t.ok(false)
-	            })
-	            e.on('mousedown', function() {
-	                t.ok(true)
-	            })
-	
-	            e.off('click', clickHandler)
-	
-	            syn.click(e.domNode)
-	        })
-	    })
-	
-	    //*/
-	}
-	
-
-
-/***/ },
-/* 145 */
-/*!***************************************!*\
-  !*** ./ComponentTests/Button.test.js ***!
-  \***************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	
-	var Button = __webpack_require__(/*! Components/Button */ 6)
-	
-	module.exports = function(t) {
-	    t.count(5)
-	
-	    var obj = new Button("Text");
-	    obj.on("click",function() {
-	        t.ok(true);
-	    })
-	
-	    testUtils.demo("Button", obj)
-	
-	    this.eq(obj.text, "Text")
-	    this.eq(obj.domNode.value, "Text")
-	    obj.text = "MOOOO"
-	    this.eq(obj.text, "MOOOO")
-	    this.eq(obj.domNode.value, "MOOOO")
-	
-	    syn.click(obj.domNode)
-	};
-
-
-/***/ },
-/* 146 */
-/*!***************************************!*\
-  !*** ./ComponentTests/Canvas.test.js ***!
-  \***************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	
-	var Canvas = __webpack_require__(/*! Components/Canvas */ 7);
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Canvas", container)
-	
-		this.test('basic usage',function(t) {
-			var obj = Canvas(20,30)
-	        container.add(obj)
-	
-	        this.eq(obj.height, 20)
-	        this.eq(obj.domNode.height, 20)
-	        this.eq(obj.attr('height'), '20')
-	        this.eq(obj.width, 30)
-	        this.eq(obj.domNode.width, 30)
-	        this.eq(obj.attr('width'), '30')
-	
-	        this.eq(obj.toDataURL(), obj.toImg())
-	        this.ok(obj.toImg() !== undefined)
-	
-	        this.ok(obj.context('2d') instanceof CanvasRenderingContext2D)
-	        this.ok(obj.context('webgl') === null || obj.context('webgl') instanceof WebGLRenderingContext)
-		});
-	
-	    this.test("label argument", function() {
-	        var obj = Canvas("label", 30, 40)
-	        this.eq(obj.label, "label")
-	        this.eq(obj.height, 30)
-	        this.eq(obj.domNode.height, 30)
-	        this.eq(obj.width, 40)
-	        this.eq(obj.domNode.width, 40)
-	    })
-	};
-
-
-/***/ },
-/* 147 */
-/*!*****************************************!*\
-  !*** ./ComponentTests/CheckBox.test.js ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	
-	var CheckBox = __webpack_require__(/*! Components/CheckBox */ 8)
-	
-	module.exports = function(t) {
-	    t.count(14)
-	
-	    var obj = new CheckBox()
-	    this.test("clicks", function(t) {
-	        this.count(2)
-	        obj.on("click",function() {
-	            t.ok(true)
-	        })
-	    })
-	    this.test("clicks", function(t) {
-	        this.count(4)
-	        obj.on("change",function() {
-	            t.ok(true)
-	        })
-	    })
-	
-	    testUtils.demo("Checkbox", obj)
-	
-	    this.eq(obj.selected, false)
-	    this.eq(obj.domNode.checked, false)
-	
-	    obj.selected = true          // causes a change event (but no click)
-	    this.eq(obj.selected, true)
-	    this.eq(obj.domNode.checked, true)
-	
-	    obj.selected = true          // nothing should happen since its already selected
-	    this.eq(obj.selected, true)
-	    this.eq(obj.domNode.checked, true)
-	
-	    obj.selected = false         // causes a change event (but no click)
-	    this.eq(obj.selected, false)
-	    this.eq(obj.domNode.checked, false)
-	
-	    syn.click(obj.domNode).then(function() {     // causes a change event and a click event
-	        t.eq(obj.selected, true)
-	        t.eq(obj.domNode.checked, true)
-	
-	        return syn.click(obj.domNode)            // causes a change event and a click event
-	    }).then(function(){
-	        t.eq(obj.selected, false)
-	        t.eq(obj.domNode.checked, false)
-	    }).done()
-	};
-
-
-/***/ },
-/* 148 */
-/*!******************************************!*\
-  !*** ./ComponentTests/Container.test.js ***!
-  \******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	var Text = __webpack_require__(/*! Components/Text */ 17)
-	
-	module.exports = function() {
-	
-	    this.test('basic usage', function(t) {
-	        t.count(18)
-	
-	        var demoContainer = Container()
-	        testUtils.demo("Container", demoContainer)
-	
-	
-	        var text1 = Text('a')
-	        var c1 = Container(text1)
-	        demoContainer.add(c1)
-	
-	        this.eq(c1.children.length, 1)
-	        this.eq(c1.domNode.childNodes.length, 1)
-	        this.eq(c1.children[0], text1)
-	        this.eq(c1.domNode.childNodes[0], text1.domNode)
-	
-	        c1.on("click",function(e) {
-	            t.ok(e !== undefined)
-	        })
-	
-	        syn.click(text1.domNode)  // produces a click event
-	        syn.click(c1.domNode)     // produces another click event
-	
-	
-	        var text2 = Text('b'), text3 = Text('c')
-	        var c2 = Container(text2, text3)
-	        demoContainer.add(c2)
-	
-	        this.eq(c2.children.length, 2)
-	        this.eq(c2.children[0], text2)
-	        this.eq(c2.children[1], text3)
-	
-	
-	        var text4 = Text('d'), text5 = Text('e')
-	        var c3 = Container([text4, text5])
-	        demoContainer.add(c3)
-	
-	        this.eq(c3.children.length, 2)
-	        this.eq(c3.children[0], text4)
-	        this.eq(c3.children[1], text5)
-	
-	
-	        // test to make sure label arguments work
-	
-	        var c4 = Container('aLabel1', Text('e'))
-	        this.eq(c4.children.length, 1)
-	        this.eq(c4.attr('label', 'aLabel1'))
-	
-	        var c5 = Container('aLabel2', Text('f'), Text('g'))
-	        this.eq(c5.children.length, 2)
-	        this.eq(c5.attr('label', 'aLabel2'))
-	
-	        var c6 = Container('aLabel3', [Text('h')])
-	        this.eq(c6.children.length, 1)
-	        this.eq(c6.attr('label', 'aLabel3'))
-	
-	    })
-	
-	    this.test('label arguments', function() {
-	        var c1 = Container("label1")
-	        var c2 = Container("label2", [])
-	        var c3 = Container("label3", Text("a"), Text("b"))
-	
-	        this.eq(c1.label, "label1")
-	        this.eq(c2.label, "label2")
-	        this.eq(c3.label, "label3")
-	
-	        this.eq(c1.children.length, 0)
-	        this.eq(c2.children.length, 0)
-	        this.eq(c3.children.length, 2)
-	    })
-	};
-
-
-/***/ },
-/* 149 */
-/*!**************************************!*\
-  !*** ./ComponentTests/Image.test.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	
-	var Image = __webpack_require__(/*! Components/Image */ 10);
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Image", container)
-	
-		this.test('basic usage',function(t) {
-			var obj = new Image("https://avatars1.githubusercontent.com/u/149531")
-	        container.add(obj)
-	
-	        t.eq(obj.domNode.nodeName, "IMG")
-	
-	        t.eq(obj.src, "https://avatars1.githubusercontent.com/u/149531")
-	        t.eq(obj.domNode.src, "https://avatars1.githubusercontent.com/u/149531")
-	
-	        obj.src = "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg"
-	        t.eq(obj.src, "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg")
-	        t.eq(obj.domNode.src, "http://i2.kym-cdn.com/entries/icons/original/000/000/213/robocop-unicorn.jpg")
-		});
-	
-	    this.test("label argument", function() {
-	        var img = Image("label", "https://avatars1.githubusercontent.com/u/149531")
-	
-	        this.eq(img.label, "label")
-	        this.eq(img.src, "https://avatars1.githubusercontent.com/u/149531")
-	        this.eq(img.domNode.src, "https://avatars1.githubusercontent.com/u/149531")
-	    })
-	};
-
-
-/***/ },
-/* 150 */
-/*!*************************************!*\
-  !*** ./ComponentTests/List.test.js ***!
-  \*************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	var domUtils = __webpack_require__(/*! domUtils */ 19)
-	
-	var Text = __webpack_require__(/*! Components/Text */ 17)
-	var List = __webpack_require__(/*! Components/List */ 9)
-	
-	module.exports = function(t) {
-	
-	
-	    var container = Container()
-	    testUtils.demo("List", container)
-	
-	    this.test("simple creation - unordered", function() {
-	        var list = List([Text('a'), Text('b'), Text('c')])
-	
-	        container.add(Text("list1"), list)
-	
-	        this.eq(list.children.length, 3)
-	        this.ok(list.children[0] instanceof List.Item)
-	        this.ok(list.children[1] instanceof List.Item)
-	        this.ok(list.children[2] instanceof List.Item)
-	        this.eq(list.domNode.nodeName, 'UL') // default is unordered list
-	
-	        var firstItem = $($(list.domNode).find("li")[0])[0]
-	        this.eq(firstItem[domUtils.textProperty], 'a')
-	
-	        this.test("list constructed with raw strings instead of elements", function() {
-	            var list = List(['a', 'b'])
-	
-	            container.add(Text("list2"), list)
-	
-	            this.eq(list.children.length, 2)
-	            this.eq(list.children[0].domNode[domUtils.textProperty], 'a')
-	        })
-	    })
-	
-	    this.test("simple creation - ordered", function() {
-	        var list = List(true, [Text('a'), Text('b'), Text('c')])
-	        this.eq(list.domNode.nodeName, 'OL')    // the true argument means ordered list
-	        container.add(Text("olist"), list)
-	
-	        var list = List(false, [Text('a'), Text('b'), Text('c')])
-	        this.eq(list.domNode.nodeName, 'UL')    // false means unordered
-	    })
-	
-	    this.test("individual item creation", function() {
-	        var list = List()
-	
-	        this.eq(list.domNode.nodeName, 'UL') // default is unordered list
-	
-	        var item1 = list.item(Text('a'))
-	        this.eq(list.children.length, 1)
-	
-	        var item2 = list.item(Text('B'))
-	
-	        this.eq(list.children.length, 2)
-	        this.ok(list.children[0] instanceof List.Item)
-	        this.ok(list.children[1] instanceof List.Item)
-	        this.ok(list.children[0] === item1)
-	        this.ok(list.children[1] === item2)
-	
-	        this.eq(list.children[0].children[0].text, 'a')
-	        var firstItem = $($(list.domNode).find("li")[0])[0]
-	        this.eq(firstItem[domUtils.textProperty], 'a')
-	
-	        this.test("items constructed with raw strings instead of elements", function() {
-	            var list = List()
-	
-	            var item1 = list.item('a')
-	
-	            this.eq(list.children.length, 1)
-	            this.eq(list.children[0].domNode[domUtils.textProperty], 'a')
-	        })
-	
-	        this.test("ordering argument alone", function() {
-	            var list = List(true)
-	            this.eq(list.domNode.nodeName, 'OL')
-	
-	            var list2 = List(false)
-	            this.eq(list2.domNode.nodeName, 'UL')
-	        })
-	    })
-	
-	    this.test("label arguments", function() {
-	        var list1 = List('aLabel')
-	        var list2 = List('aLabel2', ['a', 'b', 'c'])
-	        this.eq(list1.label, 'aLabel')
-	        this.eq(list2.label, 'aLabel2')
-	        this.eq(list1.domNode.nodeName, 'UL')
-	        this.eq(list2.domNode.nodeName, 'UL')
-	        this.eq(list1.children.length, 0)
-	        this.eq(list2.children.length, 3)
-	
-	        var item1 = list1.item('aLabel4', 'e')
-	        this.eq(list1.children.length, 1)
-	        this.eq(item1.label, 'aLabel4')
-	        this.eq(item1.domNode[domUtils.textProperty], 'e')
-	
-	        var list3 = List('aLabel5', true)
-	        this.eq(list3.label, 'aLabel5')
-	        this.eq(list3.domNode.nodeName, 'OL')
-	        this.eq(list3.children.length, 0)
-	
-	        var list4 = List('aLabel6', false)
-	        this.eq(list4.label, 'aLabel6')
-	        this.eq(list4.domNode.nodeName, 'UL')
-	        this.eq(list4.children.length, 0)
-	
-	        var list5 = List('aLabel7', true, ['x'])
-	        this.eq(list5.label, 'aLabel7')
-	        this.eq(list5.domNode.nodeName, 'OL')
-	        this.eq(list5.children.length, 1)
-	
-	        var list6 = List('aLabel8', false, ['y'])
-	        this.eq(list6.label, 'aLabel8')
-	        this.eq(list6.domNode.nodeName, 'UL')
-	        this.eq(list6.children.length, 1)
-	
-	    })
-	};
-
-
-/***/ },
-/* 151 */
-/*!********************************************!*\
-  !*** ./ComponentTests/MultiSelect.test.js ***!
-  \********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	var Text = __webpack_require__(/*! Components/Text */ 17)
-	
-	var MultiSelect = __webpack_require__(/*! Components/MultiSelect */ 158)
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("MultiSelect", container)
-	
-	    this.test("basic usage", function(t) {
-	        this.count(49)
-	
-	        var s1 = MultiSelect({4: 'Option 4', 5: "Option 5"})
-	        container.add(Text("Group 1: "), s1)
-	
-	        this.eq(Object.keys(s1.options).length, 2)
-	        this.eq(s1.options[4].val, "4")
-	        this.eq(s1.options[5].val, "5")
-	        this.eq(s1.val.length, 0)
-	
-	        var option6 = s1.option(6, "Option 6")
-	
-	        this.eq(Object.keys(s1.options).length, 3)
-	        this.eq(s1.options[6], option6)
-	
-	
-	        this.test("events", function(t) {
-	            this.count(43)
-	
-	            s1.on('change', function() {
-	                event('change','s1')
-	            })
-	
-	            s1.options[4].on('click', function() {
-	                event('click', 'option4')
-	            })
-	            s1.options[4].on('change', function() {
-	                event('change', 'option4')
-	            })
-	            s1.options[5].on('click', function() {
-	                event('click', 'option57')
-	            })
-	            s1.options[5].on('change', function() {
-	                event('change', 'option57')
-	            })
-	            option6.on('click', function() {
-	                event('click', 'option6')
-	            })
-	            option6.on('change', function() {
-	                event('change', 'option6')
-	            })
-	
-	            var event = testUtils.seq(
-	
-	            // change 1
-	              function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	
-	            // change 2
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 2)
-	
-	            // change 3
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	
-	            // change 4
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	                t.eq(s1.options[4].selected, true)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	                t.eq(s1.options[6].selected, true)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	                t.eq(s1.options[7].selected, false)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 2)
-	
-	            // change 5
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option6')
-	
-	            // change 6
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val.length, 1)
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option57')
-	            })
-	
-	        })
-	
-	
-	
-	        this.ok(s1.val instanceof Array, s1.val)
-	        this.eq(s1.val.length, 0)
-	
-	        // change 1
-	        s1.options[4].selected = true
-	        this.eq(s1.val.length, 1)
-	        this.eq(s1.val[0], "4")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5].selected, false)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change 2
-	        s1.options[5].selected = true
-	        this.eq(s1.val.length, 2)
-	        this.eq(s1.val[0], "4")
-	        this.eq(s1.val[1], "5")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5].selected, true)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change option value
-	
-	        s1.options[5].val = 7
-	        this.eq(s1.options[7].val, '7')
-	        this.eq(s1.val[1], '7')
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5], undefined)     // moved to value 7
-	        this.eq(s1.options[6].selected, false)
-	        this.eq(s1.options[7].selected, true)
-	
-	        // change option text
-	        s1.options[7].text = 'Option 7<select></select>'
-	        this.eq(s1.options[7].domNode.textContent, 'Option 7<select></select>')
-	        this.eq(s1.options[7].text, 'Option 7<select></select>')
-	
-	        // change 3
-	        s1.options[4].selected = false
-	        this.eq(s1.val.length, 1)
-	        this.eq(s1.val[0], "7")
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[6].selected, false)
-	        this.eq(s1.options[7].selected, true)
-	
-	        // change 4
-	        // change the value of the select object directly
-	        s1.val = [4,6]
-	        this.eq(s1.val.length, 2)
-	        this.eq(s1.val[0], "4")
-	        this.eq(s1.val[1], "6")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[6].selected, true)
-	        this.eq(s1.options[7].selected, false)
-	
-	
-	        // select just one of the already selected options with a click
-	        // change 5
-	        syn.click(option6.domNode).then(function() {
-	            t.eq(s1.val.length, 1)
-	            t.eq(s1.val[0], "6")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, false)
-	
-	            // change 6
-	            // click one that wasn't already selected
-	            return syn.click(s1.options[7].domNode)
-	        }).then(function(){
-	            t.eq(s1.val.length, 1)
-	            t.eq(s1.val[0], "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, false)
-	            t.eq(s1.options[7].selected, true)
-	        }).done()
-	
-	        /* todo: test selecting multiple items with shift-clicking once syn supports that
-	        syn.type(option6.domNode, "[shift]").click(option6.domNode).type(option6.domNode, "[shift-up]").then(function() {
-	            t.eq(s1.val.length, 2)
-	            t.eq(s1.val[0], "6")
-	            t.eq(s1.val[1], "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, true)
-	
-	            return syn.click(s1.options[7].domNode)
-	        }).then(function(){
-	            t.eq(s1.val.length, 2)
-	            t.eq(s1.val[0], "6")
-	            t.eq(s1.val[1], "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, false)
-	        }).done()
-	        */
-	    })
-	
-	
-	    // todo:
-	    /*
-	    this.test("test keyboard events", function() {
-	
-	        this.test("basic changing selected options with the keyboard", function(t) {
-	            var select1 = MultiSelect({1: 'one', 2: 'two', 3: 'three'})
-	
-	            container.add(Text("Another Group: "), select1)
-	
-	            select1.focus()
-	            syn.key(option1A.domNode, "[down]").then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return syn.key(option1A.domNode, "[down]")
-	            })/*.then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                return key(option1A.domNode, "[left]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	
-	                // test looping
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                // test looping
-	                return key(option1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	            }).done()
-	        })
-	
-	    })
-	    */
-	
-	
-	    this.test("labels", function(t) {
-	        var s1 = MultiSelect("myLabel")
-	        this.eq(s1.label, "myLabel")
-	        this.eq(Object.keys(s1.options).length, 0)
-	
-	        var s2 = MultiSelect("myLabel2", {1: "one"})
-	        this.eq(s2.label, "myLabel2")
-	        this.eq(Object.keys(s2.options).length, 1)
-	
-	        var option = s1.option("myLabel3", "value", "text")
-	        this.eq(option.label, "myLabel3")
-	        this.eq(option.val, "value")
-	        this.eq(option.text, "text")
-	    })
-	
-	
-	    this.test("remove", function(t) {
-	        this.count(13)
-	
-	        var select = MultiSelect()
-	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
-	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
-	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
-	
-	        option0.selected = true
-	
-	        select.on('change', function() {
-	            event(select.val)
-	        })
-	
-	        var event = testUtils.seq(function(values) {
-	            t.eq(values.length, 0)
-	        })
-	
-	
-	        this.eq(option1.parent, select)
-	
-	        select.remove(1)
-	        this.eq(select.val.length, 1)
-	        this.eq(option1.parent, undefined)
-	        this.eq(Object.keys(select.options).length, 5)
-	
-	        try {
-	            select.val = ["option1"]
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option1'")
-	        }
-	
-	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
-	        this.eq(select.val.length, 0)
-	        this.eq(option0.parent, undefined)
-	        this.eq(Object.keys(select.options).length, 4)
-	
-	        try {
-	            select.val = "option0"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option0'")
-	        }
-	
-	        select.remove([2, 3]) // these are option4 and option5
-	
-	
-	        try {
-	            select.val = "option4"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'option4'")
-	        }
-	
-	        this.eq(Object.keys(select.options).length, 2)
-	
-	        select.remove([option2])
-	
-	        this.eq(Object.keys(select.options).length, 1)
-	    })
-	
-	    // todo:
-	    /*
-	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
-	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
-	    })
-	     */
-	
-	    this.test("errors", function() {
-	        this.count(9)
-	
-	        var select = MultiSelect({1: "text", 3: 'moretext', 4: "seriously"})
-	
-	        try {
-	            select.option("1", 'text')
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the MultiSelect (value: '1')")
-	        }
-	
-	        var optionB = select.option("2", 'text')
-	        try {
-	            optionB.val = "1"
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
-	        }
-	
-	        select.options[1].selected = true
-	
-	        // verify the values beforehand (these values should remain the same after the error below)
-	        this.eq(select.val.length, 1)
-	        this.eq(select.val[0], '1')
-	
-	        try {
-	            select.val = "nonexistent"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the MultiSelect with the value: 'nonexistent'")
-	        }
-	
-	        // make sure this didn't change any values (since an exception was thrown, nothing should have been changed)
-	        this.eq(select.val.length, 1)
-	        this.eq(select.val[0], '1')
-	
-	        try {
-	            select.remove(300)
-	        } catch(e) {
-	            this.eq(e.message, "There is no child at index 300")
-	        }
-	
-	        var select2 = MultiSelect({x: 'x', 'y':'y', z:'z'})
-	        try {
-	            select2.remove(optionB)
-	        } catch(e) {
-	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
-	        }
-	    })
-	};
-
-
-/***/ },
-/* 152 */
-/*!**************************************!*\
-  !*** ./ComponentTests/Radio.test.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	var Text = __webpack_require__(/*! Components/Text */ 17)
-	
-	var Radio = __webpack_require__(/*! Components/Radio */ 4)
-	
-	
-	module.exports = function(t) {
-	
-	    var container = Container()
-	    testUtils.demo("Radio", container)
-	
-	    this.test('required',function(t) {
-	        this.test("basic usage", function(t) {
-	            this.count(23)
-	
-	            var radio = Radio() // default is required
-	            var button1 = radio.button("1"), button2 = radio.button("2")
-	            container.add(Text("Required: "),button1, button2)
-	
-	            radio.on('change', function() {
-	                event('change','radio')
-	            })
-	
-	            button1.on('click', function() {
-	                event('click', 'button1')
-	            })
-	            button1.on('change', function() {
-	                event('change', 'button1')
-	            })
-	            button2.on('click', function() {
-	                event('click', 'button2')
-	            })
-	            button2.on('change', function() {
-	                event('change', 'button2')
-	            })
-	
-	            var event = testUtils.seq(function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'button1')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'button1')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'button2')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'radio')
-	
-	                t.eq(radio.val, '2')
-	                t.eq(radio.selected, button2)
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'button2')
-	            })
-	
-	            // for a required one, the first button created will be selected by default
-	            t.eq(button1.domNode.checked, true)
-	            t.eq(button2.domNode.checked, false)
-	            t.eq(radio.selected, button1)
-	            t.eq(radio.val, "1")
-	
-	            // nothing should happen if you click the selected one (for required)
-	            syn.click(button1.domNode).then(function() {
-	                t.eq(button1.domNode.checked, true)
-	                t.eq(button2.domNode.checked, false)
-	                t.eq(radio.selected, button1)
-	                t.eq(radio.val, "1")
-	
-	                // select the other one
-	                return syn.click(button2.domNode)
-	            }).then(function() {
-	                t.eq(button1.domNode.checked, false)
-	                t.eq(button2.domNode.checked, true)
-	                t.eq(radio.val, "2")
-	            }).done()
-	        })
-	
-	        this.test("remove", function(t) {
-	            this.count(14)
-	
-	            var radio = Radio()
-	            var button0 = radio.button("0"), button1 = radio.button("1"), button2 = radio.button("2"), button3 = radio.button("3")
-	            var button4 = radio.button("4"), button5 = radio.button("5")
-	
-	            radio.on('change', function() {
-	                event(radio.val)
-	            })
-	
-	            var event = testUtils.seq(function(value) {
-	                t.eq(value, '2')
-	            },function(value) {
-	                t.eq(value, '4')
-	            },function(value) {
-	                t.eq(value, '5')
-	            })
-	
-	
-	            this.eq(button1.group, radio)
-	
-	            radio.remove(button1)
-	            this.eq(radio.val, "0")
-	            this.eq(button1.group, undefined)
-	            this.eq(Object.keys(radio.buttons).length, 5)
-	
-	            try {
-	                radio.val = "1"
-	            } catch(e) {
-	                this.eq(e.message, "There is no RadioButton in the group with the value: '1'")
-	            }
-	
-	            radio.remove(button0)
-	            this.eq(radio.val, "2")  // for required, another RadioButton is selected
-	            this.eq(button0.group, undefined)
-	            this.eq(Object.keys(radio.buttons).length, 4)
-	
-	            try {
-	                radio.val = "0"
-	            } catch(e) {
-	                this.eq(e.message, "There is no RadioButton in the group with the value: '0'")
-	            }
-	
-	            radio.remove([button2, button3])
-	
-	            this.eq(Object.keys(radio.buttons).length, 2)
-	
-	            radio.remove([button4])
-	
-	            this.eq(Object.keys(radio.buttons).length, 1)
-	        })
-	
-	        // todo: when syn support keyboard events on radio buttons
-	        /*
-	        this.test("changing selected radio buttons with the keyboard", function(t) {
-	            var radio1 = Radio(true)
-	            var button1A = radio1.button("1"), button1B = radio1.button("2"), button1C = radio1.button("3")
-	
-	            container.add(button1A, button1B, button1C)
-	
-	            // todo: add events testing to this too
-	
-	            button1A.focus()
-	            key(button1A.domNode, "[right]").then(function() {
-	                t.eq(document.activeElement, button1B)
-	                t.eq(radio1.val, "2")
-	
-	                return key(button1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1C)
-	                t.eq(radio1.val, "3")
-	
-	                return key(button1A.domNode, "[left]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1B)
-	                t.eq(radio1.val, "2")
-	
-	                return key(button1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1A)
-	                t.eq(radio1.val, "1")
-	
-	                // test looping
-	                return key(button1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1C)
-	                t.eq(radio1.val, "3")
-	
-	                // test looping
-	                return key(button1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, button1A)
-	                t.eq(radio1.val, "1")
-	            }).done()
-	        })
-	
-	        this.test("tabbing", function() {
-	            var radio1 = Radio(true)
-	            var button1A = radio1.button("1"), button1B = radio1.button("2")
-	            var radio2 = Radio(true)
-	            var button2A = radio2.button("1"), button2B = radio2.button("2")
-	
-	            container.add(button1A, button1B, button2A, button2B)
-	        })*/
-	
-		})
-	
-	    this.test("notRequired", function(t) {
-	        var radio = Radio(false)
-	        var button1 = radio.button("1"), button2 = radio.button("2")
-	        container.add(Text("Not required: "), button1, button2)
-	
-	        // for a non-required Radio group, the group starts out without
-	        t.eq(button1.domNode.checked, false)
-	        t.eq(button2.domNode.checked, false)
-	        t.eq(radio.selected, undefined)
-	        t.eq(radio.val, undefined)
-	
-	        radio.val = "1"
-	        t.eq(radio.val, "1")
-	
-	        syn.click(button1.domNode).then(function() {
-	            t.eq(radio.val, undefined)
-	        }).done()
-	    })
-	
-	    this.test("labels", function(t) {
-	        var radio = Radio()
-	        var button1 = radio.button("myLabel", "1")
-	
-	        t.eq(button1.val, "1")
-	        t.eq(button1.label, "myLabel")
-	    })
-	
-	    this.test("edge cases", function() {
-	        this.test("changing a button's value", function() {
-	            var radio = Radio()
-	            var button1 = radio.button("1")
-	            var button2 = radio.button("2")
-	
-	            button2.val = "3"
-	            this.eq(button2.val, "3")
-	
-	            radio.val = "3"
-	            this.eq(radio.selected, button2)
-	            this.eq(radio.val, "3")
-	
-	            var button3 = radio.button("2")
-	            radio.val = "2"
-	            this.eq(radio.selected, button3)
-	            this.eq(radio.val, "2")
-	
-	        })
-	    })
-	
-	    this.test("errors", function() {
-	        this.count(5)
-	
-	        var radio = Radio()
-	        radio.button("1")
-	
-	        try {
-	            radio.button("1")
-	        } catch(e) {
-	            this.eq(e.message, "Can't give a RadioButton the same value as another in the group (value: '"+1+"')")
-	        }
-	
-	        var buttonB = radio.button("2")
-	        try {
-	            buttonB.val = "1"
-	        } catch(e) {
-	            this.eq(e.message, "Can't give a RadioButton the same value as another in the group (value: '"+1+"')")
-	        }
-	
-	        try {
-	            radio.val = "nonexistent"
-	        } catch(e) {
-	            this.eq(e.message, "There is no RadioButton in the group with the value: 'nonexistent'")
-	        }
-	
-	        try {
-	            radio.val = undefined
-	        } catch(e) {
-	            this.eq(e.message, "Can't unset this Radio set, a value is required.")
-	        }
-	
-	        var radio2 = Radio()
-	        try {
-	            radio2.remove(buttonB)
-	        } catch(e) {
-	            this.eq(e.message, "The button passed at index 0 is not part of the group.")
-	        }
-	    })
-	};
-	
-
-
-/***/ },
-/* 153 */
-/*!***************************************!*\
-  !*** ./ComponentTests/Select.test.js ***!
-  \***************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	var domUtils = __webpack_require__(/*! domUtils */ 19)
-	
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	var Text = __webpack_require__(/*! Components/Text */ 17)
-	
-	var Select = __webpack_require__(/*! Components/Select */ 5)
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Select", container)
-	
-	    this.test("basic usage", function(t) {
-	        this.count(34)
-	
-	        var s1 = Select({4: 'Option 4', 5: "Option 5"})
-	        container.add(Text("Select 1: "), s1)
-	
-	        this.eq(Object.keys(s1.options).length, 2)
-	        this.eq(s1.options[4].val, "4")
-	        this.eq(s1.options[5].val, "5")
-	        this.eq(s1.val, "4") // selects first created option on creation
-	
-	        var option6 = s1.option(6, "Option 6")
-	
-	        this.eq(Object.keys(s1.options).length, 3)
-	        this.eq(s1.options[6], option6)
-	
-	
-	        this.test("events", function(t) {
-	            this.count(27)
-	
-	            s1.on('change', function() {
-	                event('change','s1')
-	            })
-	
-	            s1.options[4].on('click', function() {
-	                event('click', 'option4')
-	            })
-	            s1.options[4].on('change', function() {
-	                event('change', 'option4')
-	            })
-	            s1.options[5].on('click', function() {
-	                event('click', 'option57')
-	            })
-	            s1.options[5].on('change', function() {
-	                event('change', 'option57')
-	            })
-	            option6.on('click', function() {
-	                event('click', 'option6')
-	            })
-	            option6.on('change', function() {
-	                event('change', 'option6')
-	            })
-	
-	            var event = testUtils.seq(
-	            // change 2
-	              function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option4')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val, '5')
-	
-	            // change 3
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	                t.eq(s1.options[7].selected, false)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	                t.eq(s1.options[6].selected, true)
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val, '6')
-	
-	            // change 4
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option6')
-	
-	            // change 5
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option6')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 'option57')
-	            },function(type, element) {
-	                t.eq(type, 'change')
-	                t.eq(element, 's1')
-	                t.eq(s1.val, '7')
-	            },function(type, element) {
-	                t.eq(type, 'click')
-	                t.eq(element, 'option57')
-	            })
-	
-	        })
-	
-	
-	
-	        // change 1 - really no change because option4 is already selected
-	        s1.options[4].selected = true
-	        this.eq(s1.val, "4")
-	        this.eq(s1.options[4].selected, true)
-	        this.eq(s1.options[5].selected, false)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change 2
-	        s1.options[5].selected = true
-	        this.eq(s1.val, "5")
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[5].selected, true)
-	        this.eq(s1.options[6].selected, false)
-	
-	        // change option value
-	        s1.options[5].val = 7
-	        this.eq(s1.options[7].val, '7')
-	        this.eq(s1.val, '7')
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[5], undefined)     // moved to value 7
-	        this.eq(s1.options[6].selected, false)
-	        this.eq(s1.options[7].selected, true)
-	
-	        // change option text
-	        s1.options[7].text = 'Option 7'
-	        this.eq(s1.options[7].domNode[domUtils.textProperty], 'Option 7')
-	
-	        // change 3
-	        // change the value of the select object directly
-	        s1.val = "6"
-	        this.eq(s1.val, "6")
-	        this.eq(s1.options[4].selected, false)
-	        this.eq(s1.options[6].selected, true)
-	        this.eq(s1.options[7].selected, false)
-	
-	
-	        // select just one of the already selected options with a click
-	        // change 4
-	        syn.click(option6.domNode).then(function() {
-	            t.eq(s1.val, "6")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, true)
-	            t.eq(s1.options[7].selected, false)
-	
-	            // change 5
-	            // click one that wasn't already selected
-	            return syn.click(s1.options[7].domNode)
-	        }).then(function(){
-	            t.eq(s1.val, "7")
-	            t.eq(s1.options[4].selected, false)
-	            t.eq(s1.options[6].selected, false)
-	            t.eq(s1.options[7].selected, true)
-	        }).done()
-	    })
-	
-	
-	    // todo:
-	    /*
-	    this.test("test keyboard events", function() {
-	
-	        this.test("basic changing selected options with the keyboard", function(t) {
-	            var select1 = Select({1: 'one', 2: 'two', 3: 'three'})
-	
-	            container.add(Text("Another Group: "), select1)
-	
-	            select1.focus()
-	            syn.key(option1A.domNode, "[down]").then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return syn.key(option1A.domNode, "[down]")
-	            })/*.then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                return key(option1A.domNode, "[left]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1B)
-	                t.eq(select1.val, "2")
-	
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	
-	                // test looping
-	                return key(option1A.domNode, "[up]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1C)
-	                t.eq(select1.val, "3")
-	
-	                // test looping
-	                return key(option1A.domNode, "[down]")
-	            }).then(function() {
-	                t.eq(document.activeElement, option1A)
-	                t.eq(select1.val, "1")
-	            }).done()
-	        })
-	
-	    })
-	    */
-	
-	
-	    this.test("labels", function(t) {
-	        var s1 = Select("myLabel")
-	        this.eq(s1.label, "myLabel")
-	        this.eq(Object.keys(s1.options).length, 0)
-	
-	        var s2 = Select("myLabel2", {1: "one"})
-	        this.eq(s2.label, "myLabel2")
-	        this.eq(Object.keys(s2.options).length, 1)
-	
-	        var option = s1.option("myLabel3", "value", "text")
-	        this.eq(option.label, "myLabel3")
-	        this.eq(option.val, "value")
-	        this.eq(option.text, "text")
-	    })
-	
-	
-	    this.test("remove", function(t) {
-	        this.count(14)
-	
-	        var select = Select()
-	        var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
-	        var option2 = select.option("option2", "two"), option3 = select.option("option3", 'three')
-	        var option4 = select.option("option4", 'four'), option5 = select.option("option5", 'five')
-	
-	        option0.selected = true
-	
-	        select.on('change', function() {
-	            event(select.val)
-	        })
-	
-	        var event = testUtils.seq(function(value) {
-	            t.eq(value, 'option2')
-	        },function(value) {
-	            t.eq(value, 'option3')
-	        })
-	
-	
-	        this.eq(option1.parent, select)
-	
-	        select.remove(1)
-	        this.eq(select.val, 'option0')
-	        this.eq(option1.parent, undefined)
-	        this.eq(Object.keys(select.options).length, 5)
-	
-	        try {
-	            select.val = "option1"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'option1'")
-	        }
-	
-	        select.remove(option0)          // a change event should be generated, since a selected value has been removed (and thus is no longer selected)
-	        this.eq(select.val, 'option2')
-	        this.eq(option0.group, undefined)
-	        this.eq(Object.keys(select.options).length, 4)
-	
-	        try {
-	            select.val = "option0"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'option0'")
-	        }
-	
-	        select.remove([2, 3]) // these are option4 and option5
-	
-	
-	        try {
-	            select.val = "option4"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'option4'")
-	        }
-	
-	        this.eq(Object.keys(select.options).length, 2)
-	
-	        select.remove([option2]) // should generate another change event
-	
-	        this.eq(Object.keys(select.options).length, 1)
-	    })
-	
-	    // todo:
-	    /*
-	    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
-	        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
-	    })
-	     */
-	
-	    this.test("errors", function() {
-	        this.count(5)
-	
-	        var select = Select({1: "text"})
-	
-	        try {
-	            select.option("1", 'text')
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the Select (value: '1')")
-	        }
-	
-	        var optionB = select.option("2", 'text')
-	        try {
-	            optionB.val = "1"
-	        } catch(e) {
-	            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
-	        }
-	
-	        try {
-	            select.val = "nonexistent"
-	        } catch(e) {
-	            this.eq(e.message, "There is no Option in the Select with the value: 'nonexistent'")
-	        }
-	
-	        try {
-	            select.remove(300)
-	        } catch(e) {
-	            this.eq(e.message, "There is no child at index 300")
-	        }
-	
-	        var select2 = Select()
-	        try {
-	            select2.remove(optionB)
-	        } catch(e) {
-	            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
-	        }
-	    })
-	};
-
-
-/***/ },
-/* 154 */
-/*!**************************************!*\
-  !*** ./ComponentTests/Table.test.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	var domUtils = __webpack_require__(/*! domUtils */ 19)
-	
-	var Text = __webpack_require__(/*! Components/Text */ 17)
-	var Table = __webpack_require__(/*! Components/Table */ 15)
-	
-	module.exports = function(t) {
-	
-	
-	    var container = Container()
-	    testUtils.demo("Table", container)
-	
-	    this.test("simple creation", function() {
-	        var table = Table([
-	            [Text('a'), Text('b'), Text('c'), Text('d')],
-	            [Text('A'), Text('B'), Text('C'), Text('D'), Text("E")],
-	            [Text('AY'), Text('BEE'), Text('CEE'), Text('DEE'), Text("EEeeeeee")]
-	        ])
-	
-	        container.add(Text("table1"), table)
-	
-	        this.eq(table.children.length, 3)
-	        this.ok(table.children[0] instanceof Table.Row)
-	        this.ok(table.children[1] instanceof Table.Row)
-	        this.ok(table.children[2] instanceof Table.Row)
-	
-	        this.eq(table.children[0].children.length, 4)
-	        this.eq(table.children[1].children.length, 5)
-	        this.eq(table.children[2].children.length, 5)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("tr")[0])
-	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
-	
-	        this.ok(table.children[2].children[3] instanceof Table.Cell)
-	        this.ok(table.children[2].children[3].children[0] instanceof Text)
-	        this.eq(table.children[2].children[3].children[0].text, 'DEE')
-	        this.eq(table.domNode.children[2].children[3].children[0][domUtils.textProperty], 'DEE')
-	        var lastRow = $($(table.domNode).find("tr")[2])
-	        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'DEE')
-	
-	        this.test("tables constructed with raw strings instead of elements", function() {
-	            var table = Table([
-	                ['a', 'b', 'c'],
-	                ['d', 'e', 'f']
-	            ])
-	
-	            container.add(Text("table2"), table)
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
-	        })
-	    })
-	
-	    this.test("individual row creation", function() {
-	        var table = Table()
-	
-	        var row1 = table.row([Text('a'), Text('b'), Text('c'), Text('d')])
-	        this.eq(table.children.length, 1)
-	
-	        var row2 = table.row([Text('A'), Text('B'), Text('C'), Text('D'), Text("E")])
-	
-	        this.eq(table.children.length, 2)
-	        this.ok(table.children[0] instanceof Table.Row)
-	        this.ok(table.children[1] instanceof Table.Row)
-	        this.eq(table.children[0], row1)
-	        this.eq(table.children[1], row2)
-	
-	        this.eq(table.children[0].children.length, 4)
-	        this.eq(table.children[1].children.length, 5)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("tr")[0])
-	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
-	
-	        this.ok(table.children[1].children[3] instanceof Table.Cell)
-	        this.eq(table.children[1].children[3].children[0].text, 'D')
-	        this.eq(table.domNode.children[1].children[3][domUtils.textProperty], 'D')
-	        var lastRow = $($(table.domNode).find("tr")[1])
-	        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'D')
-	
-	        this.test("rows constructed with raw strings instead of elements", function() {
-	            var table = Table()
-	
-	            table.row(['a', 'b', 'c'])
-	            table.row(['d', 'e', 'f'])
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
-	        })
-	    })
-	
-	    // table headers are exactly the same as table rows, except...  apply directly to the forehead
-	    this.test("individual header creation", function() {
-	        var table = Table()
-	
-	        var row1 = table.header([Text('a'), Text('b'), Text('c'), Text('d')])
-	        this.eq(table.children.length, 1)
-	
-	        var row2 = table.header([Text('A'), Text('B'), Text('C'), Text('D'), Text("E")])
-	
-	        this.eq(table.children.length, 2)
-	        this.ok(table.children[0] instanceof Table.Header)
-	        this.ok(table.children[1] instanceof Table.Header)
-	        this.eq(table.children[0], row1)
-	        this.eq(table.children[1], row2)
-	
-	        this.eq(table.children[0].children.length, 4)
-	        this.eq(table.children[1].children.length, 5)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("th")[0])
-	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
-	
-	        this.ok(table.children[1].children[3] instanceof Table.Cell)
-	        this.eq(table.children[1].children[3].children[0].text, 'D')
-	        this.eq(table.domNode.children[1].children[3][domUtils.textProperty], 'D')
-	        var lastRow = $($(table.domNode).find("th")[1])
-	        this.eq(lastRow.find('td')[3][domUtils.textProperty], 'D')
-	
-	        this.test("rows constructed with raw strings instead of elements", function() {
-	            var table = Table()
-	
-	            table.header(['a', 'b', 'c'])
-	            table.header(['d', 'e', 'f'])
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
-	        })
-	    })
-	
-	    this.test('individual cell creation', function() {
-	        var table = Table()
-	        container.add(Text("table3"), table)
-	
-	        var row1 = table.row()
-	        var row2 = table.row()
-	
-	        var cell1 = row1.cell(Text('a'))
-	
-	        var cell2 = row2.cell(Text('A'))
-	        var cell3 = row2.cell([Text('B')])
-	
-	        this.eq(table.children.length, 2)
-	        this.eq(table.children[0], row1)
-	        this.eq(table.children[1], row2)
-	
-	        this.eq(table.children[0].children.length, 1)
-	        this.eq(table.children[1].children.length, 2)
-	
-	        this.ok(table.children[0].children[0] instanceof Table.Cell)
-	        this.eq(table.children[0].children[0], cell1)
-	        this.eq(table.children[0].children[0].children[0].text, 'a')
-	        var firstRow = $($(table.domNode).find("tr")[0])
-	        this.eq(firstRow.find('td')[0][domUtils.textProperty], 'a')
-	
-	        this.ok(table.children[1].children[1] instanceof Table.Cell)
-	        this.eq(table.children[1].children[0], cell2)
-	        this.eq(table.children[1].children[1], cell3)
-	        this.eq(table.children[1].children[1].children[0].text, 'B')
-	        this.eq(table.domNode.children[1].children[1][domUtils.textProperty], 'B')
-	        var lastRow = $($(table.domNode).find("tr")[1])
-	        this.eq(lastRow.find('td')[1][domUtils.textProperty], 'B')
-	
-	        this.test("colspan", function() {
-	            cell1.colspan(2)
-	            this.eq(cell1.attr('colspan'), '2')
-	        })
-	
-	        this.test("cells constructed with raw strings instead of elements", function() {
-	            var table = Table()
-	
-	            var row1 = table.row()
-	            var row2 = table.row()
-	
-	            row1.cell('a')
-	            row1.cell('b')
-	            row1.cell('c')
-	
-	            row2.cell('d')
-	            row2.cell('e')
-	            row2.cell('f')
-	
-	            this.eq(table.children.length, 2)
-	
-	            this.eq(table.children[0].children.length, 3)
-	            this.eq(table.children[0].children[0].domNode[domUtils.textProperty], 'a')
-	
-	            this.eq(table.children[1].children.length, 3)
-	            this.eq(table.children[1].children[2].domNode[domUtils.textProperty], 'f')
-	        })
-	    })
-	
-	    this.test("label arguments", function() {
-	        var table1 = Table('aLabel')
-	        var table2 = Table('aLabel2', [['a', 'b'],['c', 'd'],['e']])
-	        this.eq(table1.label, 'aLabel')
-	        this.eq(table2.label, 'aLabel2')
-	        this.eq(table2.children.length, 3)
-	
-	        var row1 = table1.row('aLabel3')
-	        var row2 = table1.row('aLabel4', ['f','g'])
-	        this.eq(row1.label, 'aLabel3')
-	        this.eq(row2.label, 'aLabel4')
-	        this.eq(table1.children.length, 2)
-	
-	        var cell1 = row1.cell('label5', 'value')
-	        var cell2 = row1.cell('label6', undefined)
-	        this.eq(cell1.label, 'label5')
-	        this.eq(cell1.domNode[domUtils.textProperty], 'value')
-	        this.eq(cell2.label, 'label6')
-	    })
-	};
-
-
-/***/ },
 /* 155 */
-/*!*************************************!*\
-  !*** ./ComponentTests/Text.test.js ***!
-  \*************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	var domUtils = __webpack_require__(/*! domUtils */ 19)
-	
-	var Text = __webpack_require__(/*! Components/Text */ 17);
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("Text", container)
-	
-		this.test('basic usage',function(t) {
-			var obj = new Text();
-	        container.add(obj)
-	        t.eq(obj.text,"");
-	
-	        obj.text = "   "
-			t.ok(obj.domNode.offsetWidth > 0); // make sure the spaces aren't collapsed (by default)
-	
-	        var obj2 = Text("<div>whatever</div>")
-	        container.add(obj2)
-	        t.eq(obj2.text,"<div>whatever</div>");
-	        t.eq(obj2.domNode[domUtils.textProperty], "<div>whatever</div>")
-	
-		});
-	
-	    this.test("label argument", function() {
-	        var t = Text("label", "text")
-	
-	        this.eq(t.label, "label")
-	        this.eq(t.domNode[domUtils.textProperty], "text")
-	    })
-	};
-
-
-/***/ },
-/* 156 */
-/*!*****************************************!*\
-  !*** ./ComponentTests/TextArea.test.js ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	
-	var TextArea = __webpack_require__(/*! Components/TextArea */ 13)
-	
-	module.exports = function(t) {
-	
-	    var container = Container()
-	    testUtils.demo("TextArea", container)
-	
-		this.test('basic usage',function(t) {
-	        this.count(3)
-	
-			var obj = TextArea()
-	        container.add(obj)
-	
-	        this.test("events", function(t) {
-	            this.count(5)
-	
-	            obj.on("click",function() {
-	                event('click')
-	            })
-	            obj.on("change",function() {
-	                event('change')
-	            })
-	
-	            var event = testUtils.seq(function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!")
-	            },function(name) {
-	                t.eq(name, 'click')
-	            },function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!second")
-	            })
-	        })
-	
-	        obj.val = "first!"
-	        this.eq(obj.val, "first!")
-	
-	        syn.click(obj.domNode).then(function() {
-	            return syn.type(obj.domNode, "second")
-	        }).then(function() {
-	            t.eq(obj.val, "first!second")
-	            obj.domNode.blur()
-	        }).done()
-		});
-	
-	    this.test("label argument", function() {
-	        var t = TextArea("label")
-	        this.eq(t.label, "label")
-	    })
-	};
-
-
-/***/ },
-/* 157 */
-/*!******************************************!*\
-  !*** ./ComponentTests/TextField.test.js ***!
-  \******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var testUtils = __webpack_require__(/*! testUtils */ 31)
-	var Container = __webpack_require__(/*! Components/Container */ 11)
-	var syn = __webpack_require__(/*! fsyn */ 32)
-	
-	var TextField = __webpack_require__(/*! Components/TextField */ 14)
-	
-	module.exports = function() {
-	
-	    var container = Container()
-	    testUtils.demo("TextArea", container)
-	
-		this.test('basic usage',function(t) {
-	        this.count(3)
-	
-			var obj = TextField()
-	        container.add(obj)
-	
-	        this.test("events", function(t) {
-	            this.count(5)
-	
-	            obj.on("click",function() {
-	                event('click')
-	            })
-	            obj.on("change",function() {
-	                event('change')
-	            })
-	
-	            var event = testUtils.seq(function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!")
-	            },function(name) {
-	                t.eq(name, 'click')
-	            },function(name) {
-	                t.eq(name, 'change')
-	                t.eq(obj.val, "first!second")
-	            })
-	        })
-	
-	        obj.val = "first!"
-	        this.eq(obj.val, "first!")
-	
-	        syn.click(obj.domNode).then(function() {
-	            return syn.type(obj.domNode, "second")
-	        }).then(function() {
-	            t.eq(obj.val, "first!second")
-	            obj.domNode.blur()
-	        }).done()
-		});
-	
-	    this.test("password (manually verify)", function() {
-	        var field = TextField(true)
-	        container.add(field)
-	        field.val = "something, but it should be like, astrisks"
-	    })
-	
-	    this.test("label argument", function() {
-	        var t = TextField("label", false)
-	        this.eq(t.label, "label")
-	    })
-	
-	    this.test("former bugs", function() {
-	        this.test("TextField was messing directly with the domNode's classname for god knows what reason", function() {
-	            var field = TextField(true)
-	            var inner = Container([field])
-	            container.add(inner)
-	
-	            this.eq($(field.domNode).css('box-sizing'), 'border-box')
-	        })
-	    })
-	};
-
-
-/***/ },
-/* 158 */
-/*!**************************************!*\
-  !*** ../~/Components/MultiSelect.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! ../Block */ 3)
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	var Option = __webpack_require__(/*! Components/Option */ 20)
-	
-	// emits a 'change' event when its 'val' changes
-	module.exports = proto(Block, function(superclass) {
-	
-		// static variables
-	
-	    this.name = 'MultiSelect'
-	
-	    this.Option = Option
-	
-		this.init = function(/*[label,] options*/) {
-	        if(arguments[0] instanceof Object) {
-	            var options = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var options = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-			this.attr('multiple','multiple')
-	        this.label = label
-	
-	        this.options = {}
-	
-			for(var value in options) {
-				this.option(value, options[value])
-			}
-	
-	        /*
-			var that = this
-	        that.domNode.addEventListener('mousedown', function() {
-	            console.log("parent mousedown")
-	            var enterHandler, upHandler;
-	            that.children.forEach(function(child) {
-	                child.domNode.addEventListener('mouseover', enterHandler = function() {
-	                    console.log("child mouseover")
-	                    child.selected = true
-	                })
-	            })
-	
-	            that.domNode.addEventListener('mouseup', upHandler = function() {
-	                console.log("parent mouseup")
-	                that.children.forEach(function(child) {
-	                    child.domNode.removeEventListener('mouseover', enterHandler)
-	                })
-	
-	                that.domNode.removeEventListener('mouseup', upHandler)
-	            })
-	        })*/
-		}
-	
-	
-		// instance methods
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns a list of the values that are selected
-	        get: function() {
-	            var result = []
-	            for(var value in this.options) {
-	                if(this.options[value].selected) {
-	                    result.push(value)
-	                }
-	            }
-	
-	            return result
-	        },
-	
-	        // values can either be an array, or a single value to select
-	        set: function(values) {
-	            if(!(values instanceof Array))
-	                values = [values]
-	
-	            var that = this
-	            values.forEach(function(value) {
-	                if(that.options[value] === undefined) {
-	                    throw new Error("There is no Option in the MultiSelect with the value: '"+value+"'")
-	                }
-	            })
-	
-	            var stringifiedValues = values.map(function(v){return v.toString()})
-	
-	            var somethingChanged = false
-	            for(var value in this.options) {
-	                var selected = stringifiedValues.indexOf(value) !== -1
-	                var option = this.options[value]
-	
-	                if(option.selected !== selected) {  // selected state change
-	                    somethingChanged = true
-	                    option.setSelectedQuiet(selected)
-	                }
-	            }
-	
-	            if(somethingChanged) {
-	                this.emit('change')
-	            }
-	        }
-	    })
-		
-		this.option = function(/*[label,] value,text*/) {
-	        if(arguments.length === 2) {
-	            var value = arguments[0]
-	            var text = arguments[1]
-	        } else if(arguments.length === 3) {
-	            var label = arguments[0]
-	            var value = arguments[1]
-	            var text = arguments[2]
-	        } else {
-	            throw new Error("Invalid number of arguments")
-	        }
-	
-	        var newOption = Option(label, value,text)
-	        this.add(newOption)
-	
-	        return newOption
-	
-		}
-	
-	    // same interface as Block.addAt
-	    /*override*/ this.addAt = function(index/*, nodes...*/) {
-	        var that = this
-	
-	        var nodesToAdd = Block.normalizeAddAtArguments.apply(this, arguments)
-	
-	        // validation first
-	        nodesToAdd.forEach(function(option) {
-	            if(that.options[option.val] !== undefined) {
-	                throw new Error("Can't give an Option the same value as another in the MultiSelect (value: '"+option.val+"')")
-	            }
-	        })
-	
-	        superclass.addAt.call(this, index, nodesToAdd)
-	
-	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var anyWereSelected = false
-	        nodesToAdd.forEach(function(option) {
-	            if(option.selected) anyWereSelected = true
-	            that.options[option.val] = option
-	
-	
-	            // set up multi-select events
-	            // todo: remove events when the Option is removed
-	
-	            option.on("mousedown",function(event) {
-	                event.preventDefault()           // this needs to be here otherwise the options can't be deselected
-	
-	                option.parent.focus = true // without this, the parent doesn't gain focus
-	                option.focus = true
-	                if(event.shiftKey || event.ctrlKey) {
-	                    option.selected = !option.selected // toggle
-	                } else {
-	                    var parentVal = option.parent.val
-	                    var onlyThisIsSelected = parentVal.length === 1 && parentVal[0] === option.val
-	                    if(onlyThisIsSelected) {
-	                        option.selected = false
-	                    } else {
-	                        option.parent.val = [option.val] // select only this one
-	                    }
-	                }
-	            })
-	            /*option.domNode.addEventListener("click",function(event) {
-	                //event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
-	                option.emit('click', event)
-	            })*/
-	            option.on("mousemove",function(event) {
-	                event.preventDefault()         // this needs to be here otherwise the radio button is unset as soon as you move the mouse (when the mouse is down)
-	            })
-	            /*this.domNode.addEventListener("keydown",function(event) {
-	                if(event.keyCode === 40 || event.keyCode === 39) { // down or right
-	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                    option.selectNext()
-	                } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
-	                    event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                    option.selectPrevious()
-	                }
-	            })*/
-	
-	            /*;['click', 'drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop', 'cancel',
-	                'mousedown', 'mouseenter', 'mousemove', 'mouseleave', 'mouseout', 'mouseover', 'mouseup'
-	            ].forEach(function(eventType) {
-	                option.domNode.addEventListener(eventType, function( event ) {
-	                    //event.preventDefault()
-	                    console.log(eventType)
-	                });
-	            })*/
-	
-	        })
-	
-	        if(anyWereSelected) {
-	            this.emit('change')
-	        }
-	    }
-	
-	    // same interface as Block.remove
-	    /*override*/ this.remove = function() {
-	        var that = this
-	
-	        var removalIndexes = Block.normalizeRemoveArguments.apply(this, arguments)
-	        var removals = removalIndexes.map(function(index) {
-	            return that.children[index]
-	        })
-	
-	        superclass.remove.call(this, removalIndexes)
-	
-	        // MultiSelect specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var anyWereSelected = false
-	        removals.forEach(function(option) {
-	            if(option.selected) anyWereSelected = true
-	            delete that.options[option.val]
-	        })
-	
-	        if(anyWereSelected) {
-	            this.emit('change')
-	        }
-	    }
-	
-	
-	    // private
-	
-	    this.prepareForValueChange = function() {} // no-op
-	})
-	
-
-
-/***/ },
-/* 159 */
 /*!***********************************!*\
-  !*** template of 57 referencing  ***!
+  !*** template of 69 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__, __webpack_module_template_argument_1__) {
 
@@ -22802,13 +17682,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 160 */
+/* 156 */
 /*!*************************************!*\
-  !*** template of 68 referencing 24 ***!
+  !*** template of 84 referencing 38 ***!
   \*************************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__, __webpack_module_template_argument_1__) {
 
-	var EventEmitter = __webpack_require__(/*! events */ 24).EventEmitter
+	var EventEmitter = __webpack_require__(/*! events */ 38).EventEmitter
 	var proto = __webpack_require__(__webpack_module_template_argument_0__)
 	var utils = __webpack_require__(__webpack_module_template_argument_1__)
 	

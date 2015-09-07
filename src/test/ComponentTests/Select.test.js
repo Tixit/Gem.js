@@ -80,7 +80,7 @@ module.exports = function() {
             },function(type, element) {
                 t.eq(type, 'change')
                 t.eq(element, 's1')
-                t.eq(s1.val, '6')
+                t.eq(s1.val,6)
 
             // change 4
             },function(type, element) {
@@ -97,7 +97,7 @@ module.exports = function() {
             },function(type, element) {
                 t.eq(type, 'change')
                 t.eq(element, 's1')
-                t.eq(s1.val, '7')
+                t.eq(s1.val, 7)
             },function(type, element) {
                 t.eq(type, 'click')
                 t.eq(element, 'option57')
@@ -123,8 +123,8 @@ module.exports = function() {
 
         // change option value
         s1.options[5].val = 7
-        this.eq(s1.options[7].val, '7')
-        this.eq(s1.val, '7')
+        this.eq(s1.options[7].val, 7)
+        this.eq(s1.val, 7)
         this.eq(s1.options[4].selected, false)
         this.eq(s1.options[5], undefined)     // moved to value 7
         this.eq(s1.options[6].selected, false)
@@ -136,8 +136,8 @@ module.exports = function() {
 
         // change 3
         // change the value of the select object directly
-        s1.val = "6"
-        this.eq(s1.val, "6")
+        s1.val = 6
+        this.eq(s1.val, 6)
         this.eq(s1.options[4].selected, false)
         this.eq(s1.options[6].selected, true)
         this.eq(s1.options[7].selected, false)
@@ -146,7 +146,7 @@ module.exports = function() {
         // select just one of the already selected options with a click
         // change 4
         syn.click(option6.domNode).then(function() {
-            t.eq(s1.val, "6")
+            t.eq(s1.val, 6)
             t.eq(s1.options[4].selected, false)
             t.eq(s1.options[6].selected, true)
             t.eq(s1.options[7].selected, false)
@@ -155,7 +155,7 @@ module.exports = function() {
             // click one that wasn't already selected
             return syn.click(s1.options[7].domNode)
         }).then(function(){
-            t.eq(s1.val, "7")
+            t.eq(s1.val, 7)
             t.eq(s1.options[4].selected, false)
             t.eq(s1.options[6].selected, false)
             t.eq(s1.options[7].selected, true)
@@ -309,7 +309,7 @@ module.exports = function() {
         try {
             optionB.val = "1"
         } catch(e) {
-            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
+            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: \"1\")")
         }
 
         try {

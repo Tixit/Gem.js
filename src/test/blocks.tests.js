@@ -9,13 +9,13 @@ module.exports = function() {
 
 
     var tests = Unit.test("Testing Blocks.js", function(t) {
-        this.count(4)
+        this.count(1)
         this.timeout(700*1000) // chrissake its taking a long time now
 
 
+         return t.test('Select',require('./ComponentTests/Select.test')).complete
 
-
-        //*
+        /*
         t.test('EventEmitterB',require('./EventEmitterB.test')).complete.then(function(){
             return t.test('Block',require('./Block.test')).complete
         }).then(function(){

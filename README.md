@@ -1265,6 +1265,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 1.1.9 - Making Selects and Options able to have non-string values
 * 1.1.8 - fixing broken style caching (by removing a cache step)
 * 1.1.7
     * Attempting to fix a bug caused by a cache that wasn't specific enough, triggered by native pseudoclass interacting with non-native styles
