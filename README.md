@@ -1,7 +1,6 @@
 "*Modular, composable web components. Modular, composable styles.*"
 
-`Gem.js`
-============
+![gem](gem-title.png)
 
 Gem.js is a view library - a set of extensible web components for building visual user interfaces and styling web applications
 in pure-javascript.
@@ -61,11 +60,11 @@ Gem.js is here to change that. Finally, modern application development for the b
       - [`$$<pseudoclass>`](#pseudoclass)
       - [`$inherit`](#inherit)
       - [Combining them together](#combining-them-together)
-    - [`styleObject.mix(styleObject2)`](#styleobjectmixstyleobject2)
+    - [`styleObject.mix`](#styleobjectmix)
     - [`styleObject.copy()`](#styleobjectcopy)
     - [`Style.addPseudoClass`](#styleaddpseudoclass)
     - [Standard Pseudoclasses](#standard-pseudoclasses)
-    - [Built-in Pseudoclasses](#built-in-pseudoclasses)
+    - [Built-in Pseudoclasses](#built-in-js-rendered-pseudoclasses)
     - [Default style](#default-style)
 - [Decisions](#decisions)
 - [What `Gem.js` is ***not***](#what-gemjs-is-not)
