@@ -1,4 +1,6 @@
-`Gem.js` - "*Modular, composable web components. Modular, composable styles.*"
+"*Modular, composable web components. Modular, composable styles.*"
+
+`Gem.js`
 ============
 
 Gem.js is a view library - a set of extensible web components for building visual user interfaces and styling web applications
