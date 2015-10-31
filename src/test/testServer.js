@@ -17,7 +17,7 @@ var server = http.createServer(function (request, res) {
             console.log("got request for: "+requestPath)
 
             if(requestPath === '/') {
-                requestPath = '/src/test/blocks.tests.html'
+                requestPath = '/src/test/all.tests.html'
             } else if(requestPath === '/performance' || requestPath === '/p') {
                 requestPath = '/src/test/performance.tests.html'
             }

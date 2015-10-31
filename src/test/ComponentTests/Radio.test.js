@@ -1,7 +1,7 @@
 var testUtils = require('testUtils')
 var syn = require("fsyn")
 
-var Container = require("Components/Container")
+var Block = require("Components/Block")
 var Text = require("Components/Text")
 
 var Radio = require('Components/Radio')
@@ -9,7 +9,7 @@ var Radio = require('Components/Radio')
 
 module.exports = function(t) {
 
-    var container = Container()
+    var container = Block()
     testUtils.demo("Radio", container)
 
     this.test('required',function(t) {

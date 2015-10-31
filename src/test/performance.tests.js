@@ -2,8 +2,8 @@
 
 var Unit = require('deadunit/deadunit.browser')
 
-var blocks = require("../blocks.browser")
-blocks.dev = true
+var Gem = require("../Gem.browser")
+Gem.dev = true
 
 require('./performanceTests/add.performance')
 require('./performanceTests/style.performance')

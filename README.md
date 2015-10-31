@@ -1,8 +1,8 @@
-`blocks.js`
+`Gem.js` - "*Modular, composable web components. Modular, composable styles.*"
 ============
 
-Blocks.js is a view library - a set of extensible web components for building visual user interfaces and styling web applications
-in pure-javascript. Modular, composable web components. Modular, composable styles.
+Gem.js is a view library - a set of extensible web components for building visual user interfaces and styling web applications
+in pure-javascript.
 
 The power of functions and variables is unparalleled, and yet languages like HTML and CSS, which don't have any ability to compose
 structures together, are still the primary ways people build web applications. Framework after framework has come along to try and
@@ -10,18 +10,18 @@ solve the problem of making web pages dynamic. Angular, Backbone, Ember, jQuery,
 everything to everyone. But what they fail at providing is simplicity and modularity. They end up with bloated libraries filled with
 features you're not using.
 
-Blocks.js is here to change that. Finally, modern application development for the browser!
+Gem.js is here to change that. Finally, modern application development for the browser!
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Example](#example)
-- [Why use `blocks.js`?](#why-use-blocksjs)
+- [Why use `Gem.js`?](#why-use-gemsjs)
 - [Comparisons](#comparisons)
 - [Install](#install)
 - [Usage](#usage)
-  - [`Block`](#block)
+  - [`Gem`](#gem)
     - [Loading](#loading)
     - [Static properties and methods](#static-properties-and-methods)
     - [Instance properties and methods](#instance-properties-and-methods)
@@ -31,19 +31,19 @@ Blocks.js is here to change that. Finally, modern application development for th
         - [`proxy`](#proxy)
     - [Instance events](#instance-events)
       - [Dom Events](#dom-events)
-  - [Custom Blocks](#custom-blocks)
-    - [Releasing custom blocks as separate modules](#releasing-custom-blocks-as-separate-modules)
-    - [Inheriting from Blocks with a class library other than `proto`](#inheriting-from-blocks-with-a-class-library-other-than-proto)
-    - [Inheriting from Blocks without a class library](#inheriting-from-blocks-without-a-class-library)
-  - [Standard Blocks](#standard-blocks)
+  - [Custom Gems](#custom-gems)
+    - [Releasing custom gems as separate modules](#releasing-custom-gems-as-separate-modules)
+    - [Inheriting from Gems with a class library other than `proto`](#inheriting-from-gems-with-a-class-library-other-than-proto)
+    - [Inheriting from Gems without a class library](#inheriting-from-gems-without-a-class-library)
+  - [Standard Gems](#standard-gems)
     - [Conventions](#conventions)
     - [Button](#button)
     - [Canvas](#canvas)
     - [CheckBox](#checkbox)
-    - [Container](#container)
+    - [Block](#block)
     - [Image](#image)
     - [List](#list)
-    - [Radio](#radio---not-a-block)
+    - [Radio](#radio---not-a-gem)
     - [Select](#select)
     - [Table](#table)
     - [Text](#text)
@@ -54,7 +54,7 @@ Blocks.js is here to change that. Finally, modern application development for th
       - [`<cssPropertyName>`](#csspropertyname)
       - [`$setup` and `$kill`](#setup-and-kill)
       - [`$state`](#state)
-      - [`<BlockName>`](#blockname)
+      - [`<GemName>`](#gemname)
       - [`$<label>`](#label)
       - [`$$<pseudoclass>`](#pseudoclass)
       - [`$inherit`](#inherit)
@@ -66,7 +66,7 @@ Blocks.js is here to change that. Finally, modern application development for th
     - [Built-in Pseudoclasses](#built-in-pseudoclasses)
     - [Default style](#default-style)
 - [Decisions](#decisions)
-- [What `blocks.js` is ***not***](#what-blocksjs-is-not)
+- [What `Gem.js` is ***not***](#what-gemjs-is-not)
 - [Todo](#todo)
 - [Changelog](#changelog)
 - [How to Contribute!](#how-to-contribute)
@@ -78,11 +78,11 @@ Example
 =======
 
 ```javascript
-var Button = require("blocks.js/Button")
-var Style = require("blocks.js/Style")
-var Container = require("blocks.js/Container")
+var Button = require("gem.js/Button")
+var Style = require("gem.js/Style")
+var Block = require("gem.js/Block")
 
-var list = Container()
+var list = Block()
 ;[1,2,3].forEach(function(n) {
     var text = "Hi "+n
     var toggleButton = Button(text) // create a button
@@ -102,7 +102,7 @@ var list = Container()
     list.add(toggleButton)
 })
 
-var greet = Button("send", "Send your Greetings") // labels like 'send' can differentiate otherwise identical types of blocks
+var greet = Button("send", "Send your Greetings") // labels like 'send' can differentiate otherwise identical types of gems
 list.add(greet)
 
 // create styles with style objects ..
@@ -110,7 +110,7 @@ list.style = Style({
     border: '1px solid blue', // .. that use familiar css values,
     marginRight: 34,          // .. camelCase css properties and integers interpreted as "px" values when appropriate,
 
-    Button: {                 // .. sub-block styles,
+    Button: {                 // .. sub-gem styles,
         $$firstChild: {       // .. pseudo-class styles,
             color: 'rgb(0,100,240)',
         },
@@ -129,10 +129,10 @@ list.style = Style({
 list.attach()
 
 
-// custom blocks (use your favorite javascript class library - here proto is being used)
-var NameInput = proto(Block, function() { // inherit from Block
+// custom gems (use your favorite javascript class library - here proto is being used)
+var NameInput = proto(Gem, function() { // inherit from Gem
     this.name = 'NameInput'
-    this.build = function(LabelText) {              // the `build` method initializes the custom Block
+    this.build = function(LabelText) {              // the `build` method initializes the custom Gem
         this.nameField = TextField()
         this.add(Text(LabelText), this.nameField)
         this.nameField.on('change', function() {
@@ -150,116 +150,115 @@ greet.on('click', function() {
 nameInput.attach()
 ```
 
-[![example](blocksExample/exampleShot.png)](http://www.btetrud.com/blocksExample/example.html)
+[![example](example/exampleShot.png)](http://www.btetrud.com/example/example.html)
 
-If anything in the documentation is unclear, or you want to see more examples, [the unit tests](https://github.com/Tixit/blocks.js/tree/master/src/test) give a comprehensive and exhaustive set of examples to look at.
+If anything in the documentation is unclear, or you want to see more examples, [the unit tests](https://github.com/Tixit/Gem.js/tree/master/src/test) give a comprehensive and exhaustive set of examples to look at.
 
-Why use `blocks.js`?
+Why use `gem.js`?
 ====================
 
-* Makes your web application **easier to develop** with modular reusable structure objects (`Block` objects) *and* `Style` objects
-* **No HTML Needed**. With `blocks.js`, you write in 100% javascript. The only html requirement is a `document` `body`. You can still add plain old HTML into your blocks using `block.domNode.innerHTML` tho if you so choose.
-* **No CSS Needed**. While blocks.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
-* **Works with your HTML and CSS**. `Blocks` can be added as a child to any standard dom object and they can be styled with standard css stylesheets if you so choose.
-* **Works with your current javascript**. `Blocks` give you direct access to their `domNode` so you can use the dom manipulation libraries you're used to.
+* Makes your web application **easier to develop** with modular reusable structure objects (`Gem` objects) *and* `Style` objects
+* **No HTML Needed**. With `gem.js`, you write in 100% javascript. The only html requirement is a `document` `body`. You can still add plain old HTML into your gems using `gem.domNode.innerHTML` tho if you so choose.
+* **No CSS Needed**. While gem.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
+* **Works with your HTML and CSS**. `Gems` can be added as a child to any standard dom object and they can be styled with standard css stylesheets if you so choose.
+* **Works with your current javascript**. `Gems` give you direct access to their `domNode` so you can use the dom manipulation libraries you're used to.
 * **Fully separate style from structure**. By using [`$state`](#state), [`$setup`, and `$kill`](#setup-and-kill) javascript in your `Style` objects, you can include any javascript that is stylistic rather than structural.
-* Import `Block` modules with real APIs that anyone can release online. HTML snippets are so 1995.
-* Unlike [HTML web components](http://robdodson.me/why-web-components/), `blocks.js` **works in modern browsers without polyfills**.
+* Import `Gem` modules with real APIs that anyone can release online. HTML snippets are so 1995.
+* Unlike [HTML web components](http://robdodson.me/why-web-components/), `gem.js` **works in modern browsers without polyfills**.
 * Also unlike HTML web components, [element name collision](https://groups.google.com/forum/#!topic/polymer-dev/90Dq_2bk8CU) isn't a problem.
 * Has a small footprint: **16.5KB minified and gzipped in umd format**
 
 Comparisons
 ===========
-* See [the comparison to React](https://github.com/Tixit/blocks.js/wiki/Comparison-to-React)
+* See [the comparison to React](https://github.com/Tixit/Gem.js/wiki/Comparison-to-React)
 
 Install
 =======
 
 ```
-npm install blocks.js
+npm install gem.js
 ```
 
-or download the built package `blocks.umd.js` from the 'dist' folder in the repository
+or download the built package `Gem.umd.js` from the 'dist' folder in the repository
 
 Usage
 =====
 
 ```javascript
-var blocks = require('blocks.js')  // node.js and webpack
+var gem = require('gem.js')  // node.js and webpack
 
-define(['blocks.umd.js'], function(blocks) { ... } // amd
+define(['Gem.umd.js'], function(gem) { ... } // amd
 
-<script src="blocks.umd.js">&lt;/script>
+<script src="Gem.umd.js">&lt;/script>
 <script>
-  blocks; // global 'blocks' module object
+  gem; // global 'gem' module object
 </script>
 
 ```
 
-`Block`
+`Gem`
 ------
 
-All blocks inherit from `Block` - the basic building-block of the system. Blocks are [EventEmitters](http://nodejs.org/api/events.html), and emitting events is one of the primary ways blocks should communicate.
+All gems inherit from `Gem` - the basic building-block of the system. Gems are [EventEmitters](http://nodejs.org/api/events.html), and emitting events is one of the primary ways gems should communicate.
 
-`Block` is abstract and can't be instantiated on its own. See the section ''Custom Blocks'' for details on how to create objects that inherit from Block.
+`Gem` is abstract and can't be instantiated on its own. See the section ''Custom Gems'' for details on how to create objects that inherit from Gem.
 
 ### Loading
 
 ```javascript
-var Block = require("blocks.js") // or
-var Block = require("blocks.js/Block") // or
-blocks.Block // if you're using the umd package
+var Gem = require("gem.js") // or
+Gem // if you're using the umd package
 ```
 
 ### Static properties and methods
 
-**`Block.name`** - The name of the Block. Used both for naming dom elements for view in browser dev tools and for styling.
+**`Gem.name`** - The name of the Gem. Used both for naming dom elements for view in browser dev tools and for styling.
 
-**`Block.attach(listOfBlocks)`** - Appends the passed blocks to `document.body`. IMPORTANT: only attach a block to the dom via
-this `attach` function or a block's `attach` method. Without this, styles won't be rendered.
-**`Block.attach(domNode, listOfBlocks)`** - Appends the passed blocks to the passed `domNode`.
+**`Gem.attach(listOfGems)`** - Appends the passed gems to `document.body`. IMPORTANT: only attach a gem to the dom via
+this `attach` function or a gem's `attach` method. Without this, styles won't be rendered.
+**`Gem.attach(domNode, listOfGems)`** - Appends the passed gems to the passed `domNode`.
 
-**`Block.detach(listOfBlocks)`** - Removes the passed blocks from their respective dom parents.
+**`Gem.detach(listOfGems)`** - Removes the passed gems from their respective dom parents.
 
-**`Block.createBody(callback)`** - Dynamically creates the body tag. Calls `callback` when done.
+**`Gem.createBody(callback)`** - Dynamically creates the body tag. Calls `callback` when done.
 
 ### Instance properties and methods
 
-**`block.parent`** - The Block's parent (which will also be a Block)  
-**`block.children`** - An array of the Block's children (which will all be Blocks themselves).  
-**`block.domNode`** - The Block's standard dom node object.
-**`block.label`** - A string used for styling. Should be set once when the object is instantiated, and cannot change. *See the section on `Style` objects for details about how this is used*.  
-**`block.excludeDomEvents`** - A set of dom events to exclude from automatic registration. Will have the structure `{eventName1:1, eventName2:1, ...}`. See the documentation for `on` for more details.  
-**`block.state`** - An [observer](https://github.com/Tixit/observe) object that can be listened on for changes. Can be used for any purpose, but is intended for being used to create dynamically changing styles. *See the section on `Style` objects for an example*.
+**`gem.parent`** - The Gem's parent (which will also be a Gem)
+**`gem.children`** - An array of the Gem's children (which will all be Gems themselves).
+**`gem.domNode`** - The Gem's standard dom node object.
+**`gem.label`** - A string used for styling. Should be set once when the object is instantiated, and cannot change. *See the section on `Style` objects for details about how this is used*.
+**`gem.excludeDomEvents`** - A set of dom events to exclude from automatic registration. Will have the structure `{eventName1:1, eventName2:1, ...}`. See the documentation for `on` for more details.
+**`gem.state`** - An [observer](https://github.com/Tixit/observe) object that can be listened on for changes. Can be used for any purpose, but is intended for being used to create dynamically changing styles. *See the section on `Style` objects for an example*.
 
-**`block.add(block, block, ...)`** - Appends blocks as children to the calling block. This causes the domNodes of the passed blocks to be appended to the calling block's dom node.  
-**`block.add(listOfBlocks)`** - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
+**`gem.add(gem, gem, ...)`** - Appends gems as children to the calling gem. This causes the domNodes of the passed gems to be appended to the calling gem's dom node.
+**`gem.add(listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
 
-**`block.addAt(index, block, block, ...)`** - Adds blocks as children to the calling block at a particular index.  
-**`block.addAt(index, listOfBlocks)`** - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
+**`gem.addAt(index, gem, gem, ...)`** - Adds gems as children to the calling gem at a particular index.
+**`gem.addAt(index, listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
 
-**`block.addBefore(beforeChild, block, block, ...)`** - Adds blocks as children to the calling block before a particular child. If `beforeChild` is undefined, this will append the given nodes.  
-**`block.addBefore(beforeChild, listOfBlocks)`** - *Same as above, but `listOfBlocks` is an array of `Block` objects.*
+**`gem.addBefore(beforeChild, gem, gem, ...)`** - Adds gems as children to the calling gem before a particular child. If `beforeChild` is undefined, this will append the given nodes.
+**`gem.addBefore(beforeChild, listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
 
-**`block.remove(block, block, ...)`** - Removes the passed blocks as children.  
-**`block.remove(listOfBlocks)`** - *Same as above, but `listOfBlocks` is an array of `Block` objects.*  
-**`block.remove(index, index, ...)`** - Removes, as children, the blocks at the given `index`es in the `children` list.  
-**`block.remove(listOfIndexes)`** - *Same as above, but `listOfIndexes` is an array of indexes to remove.*
+**`gem.remove(gem, gem, ...)`** - Removes the passed gems as children.
+**`gem.remove(listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
+**`gem.remove(index, index, ...)`** - Removes, as children, the gems at the given `index`es in the `children` list.
+**`gem.remove(listOfIndexes)`** - *Same as above, but `listOfIndexes` is an array of indexes to remove.*
 
-**`block.attach(domNode=document.body)`** - Appends this `Block`'s domNode to the passed domNode (default `document.body`).
-IMPORTANT: only attach a block to the dom via this `attach` function or a block's `attach` method. Without this, styles won't be rendered.
-**`block.detach()`** - Removes this `Block`'s domNode from its dom parent.
+**`gem.attach(domNode=document.body)`** - Appends this `Gem`'s domNode to the passed domNode (default `document.body`).
+IMPORTANT: only attach a gem to the dom via this `attach` function or a gem's `attach` method. Without this, styles won't be rendered.
+**`gem.detach()`** - Removes this `Gem`'s domNode from its dom parent.
 
-**`block.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Block's domNode.  
-**`block.attr(attributeName, value)`** - Sets the attribute to the passed `value`.  
-**`block.attr(attributeObject)`** - Sets the attributes in the `attributeObject`, where `attributeObject` looks like: `{attribute1: value1, attribute2: value2, ...}`.
+**`gem.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Gem's domNode.
+**`gem.attr(attributeName, value)`** - Sets the attribute to the passed `value`.
+**`gem.attr(attributeObject)`** - Sets the attributes in the `attributeObject`, where `attributeObject` looks like: `{attribute1: value1, attribute2: value2, ...}`.
 
-**`block.style`** - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Block's children.  
-**`block.visible`** - Setting this variable to false hides the block using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state.  
-**`block.focus`** - Setting this variable to true gives the block focus on the page. Setting this variable to false `blur`s it. Accessing the variable returns whether or not the block is the focused element on the page.
+**`gem.style`** - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Gem's children.
+**`gem.visible`** - Setting this variable to false hides the gem using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state.
+**`gem.focus`** - Setting this variable to true gives the gem focus on the page. Setting this variable to false `blur`s it. Accessing the variable returns whether or not the gem is the focused element on the page.
 
-**`block.selectionRange`** - Returns an array representing the selection range in terms of visible character offsets. E.g. a value of `[2,4]` means that the current element has 2 visible entities (usually characters) selected within it at offset 2 and 4 from the start. Note that if there are hidden characters like multiple spaces in a row, or newlines, or other non-visible characters (mostly only applies to contenteditable nodes), they are ignored.  
-**`block.selectionRange = [offsetStart, offsetEnd]`** - Setting the `selectionRange` property sets the selection inside the Block's domNode based on the given offsets.
+**`gem.selectionRange`** - Returns an array representing the selection range in terms of visible character offsets. E.g. a value of `[2,4]` means that the current element has 2 visible entities (usually characters) selected within it at offset 2 and 4 from the start. Note that if there are hidden characters like multiple spaces in a row, or newlines, or other non-visible characters (mostly only applies to contenteditable nodes), they are ignored.
+**`gem.selectionRange = [offsetStart, offsetEnd]`** - Setting the `selectionRange` property sets the selection inside the Gem's domNode based on the given offsets.
 
 Example of `selectionRange`:
 
@@ -271,20 +270,20 @@ x.selectionRange = [0,6] // selects "You're"
 
 #### Instance properties inherited from [`EventEmitter`](http://nodejs.org/api/events.html)
 
-All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.html) are inherited by `Block`. The important ones:
+All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.html) are inherited by `Gem`. The important ones:
 
-**`block.emit(event, data, data2, ...)`** - Emits an event that triggers handlers setup via the Block's `on` methods.
+**`gem.emit(event, data, data2, ...)`** - Emits an event that triggers handlers setup via the Gem's `on` methods.
 
-**`block.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Block.
+**`gem.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Gem.
 * `event` - The string event name to listen for. If the passed event is one of the many standard dom events (e.g. 'click', 'mouseover', 'touchstart', etc), the passed handler will be registered as a dom event handler in one of three cases:
-    * the block's `excludeDomEvents` object is undefined
-    * the event is `in` the block's `excludeDomEvents` property
+    * the gem's `excludeDomEvents` object is undefined
+    * the event is `in` the gem's `excludeDomEvents` property
 * `callback(data, data2, ...)` - the callback gets any arguments passed to `emit` after the event name.
 
-**`block.once(event, callback)`** - Like `on` but the `callback` will only be called the first time the event happens.
+**`gem.once(event, callback)`** - Like `on` but the `callback` will only be called the first time the event happens.
 
-**`block.off(event, callback)`** - Removes a callback as an event handler (the `callback` won't be called for that event again).  
-**`block.removeListener(event,callback)`** - *Same as `off`.*
+**`gem.off(event, callback)`** - Removes a callback as an event handler (the `callback` won't be called for that event again).
+**`gem.removeListener(event,callback)`** - *Same as `off`.*
 
 **`this.removeAllListeners(event)`** - Removes all the callbacks for the passed `event`.  
 **`this.removeAllListeners()`** - Removes all callbacks.
@@ -297,7 +296,7 @@ The `ifon` and related methods are useful primarily for performance reasons. The
 
 ```javascript
 var text = Text("CLICK ME")
-var parent = Container(text)
+var parent = Block(text)
 
 var handler;
 parent.ifon('someoneClickedTheThing', function() {
@@ -310,29 +309,29 @@ parent.ifoff('someoneClickedTheThing', function() {
 })
 ```
 
-**`block.ifon(event, callback)`** - Registers a callback that will be called when a handler is registered for `event` if it had no handler registered previously. If there is already a listener attached to that event, `callback` is called immediately.
+**`gem.ifon(event, callback)`** - Registers a callback that will be called when a handler is registered for `event` if it had no handler registered previously. If there is already a listener attached to that event, `callback` is called immediately.
 * `callback(event)` - The callback gets the newly registered event type as its argument.
 
-**`block.ifoff(event, callback)`** - Registers a callback that will be called when the last handler for `event` is unregistered.  
-**`block.ifoff(callback)`** - Registers a callback that will be called when the last handler for any event is unregistered.
+**`gem.ifoff(event, callback)`** - Registers a callback that will be called when the last handler for `event` is unregistered.
+**`gem.ifoff(callback)`** - Registers a callback that will be called when the last handler for any event is unregistered.
 * `callback(event)` - The callback gets the unregistered event type as its argument.
 
-**`block.removeIfon()`** - Removes all `ifon` handlers.  
-**`block.removeIfon(event)`** - Removes all `ifon` handlers for the passed `event`.  
-**`block.removeIfon(callback)`** - Removes `callback` as an "all" `ifon` handler (a callback passed to `ifon` without an event).  
-**`block.removeIfon(event, callback)`** - Removes `callback` as an `ifon` handler for the passed `event`.
+**`gem.removeIfon()`** - Removes all `ifon` handlers.
+**`gem.removeIfon(event)`** - Removes all `ifon` handlers for the passed `event`.
+**`gem.removeIfon(callback)`** - Removes `callback` as an "all" `ifon` handler (a callback passed to `ifon` without an event).
+**`gem.removeIfon(event, callback)`** - Removes `callback` as an `ifon` handler for the passed `event`.
 
-**`block.removeIfoff()`** - Removes all `ifoff` handlers.  
-**`block.removeIfoff(event)`** - Removes all `ifoff` handlers for the passed `event`.  
-**`block.removeIfoff(callback)`** - Removes `callback` as an "all" `ifoff` handler (a callback passed to `ifoff` without an event).  
-**`block.removeIfoff(event, callback)`** - Removes `callback` as an `ifoff` handler for the passed `event`.
+**`gem.removeIfoff()`** - Removes all `ifoff` handlers.
+**`gem.removeIfoff(event)`** - Removes all `ifoff` handlers for the passed `event`.
+**`gem.removeIfoff(callback)`** - Removes `callback` as an "all" `ifoff` handler (a callback passed to `ifoff` without an event).
+**`gem.removeIfoff(event, callback)`** - Removes `callback` as an `ifoff` handler for the passed `event`.
 
 ##### `proxy`
 
 The `proxy` method uses `ifon` and `ifoff` to minmize the number of event listeners that need to be attached in the system.
 
-**`block.proxy(emitter, options)`** - Proxies event registration to `emitter`.
-* `emitter` - The emitter (usually a `Block`) to proxy handler binding to
+**`gem.proxy(emitter, options)`** - Proxies event registration to `emitter`.
+* `emitter` - The emitter (usually a `Gem`) to proxy handler binding to
 * `options` - An object that defines what events are proxied. If `undefined`, all events are proxied. The object can have one of the following properties:
   * `only` - An array of events to proxy.
   * `except` - An array of events to *not* proxy. All other events are proxied.
@@ -353,29 +352,29 @@ B.emit("click", "Ughh..") // console prints "hey hey heyyy! Ughh.."
 
 ### Instance events
 
-**`"newParent"`** - Emitted when a Block gets a new parent. *Note: this event is used by `Style` objects, so don't prevent these events.*  
-**`"parentRemoved"`** - Emitted when a Block is detached from its parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
+**`"newParent"`** - Emitted when a Gem gets a new parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
+**`"parentRemoved"`** - Emitted when a Gem is detached from its parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
 
 #### Dom Events
 
-`Block` object will emit any standard dom event (`"click"`, `"mousedown"`, `"keypress"`, etc) when listened on. Note that a `Block` doesn't add an event listener to the dom node until someone listens `on` that event on the block. This minimizes the number of event listeners that are registered on the page. To see the list of dom events this applies to (supposed to be all of them), see the top of [src/node_modules/Block.js](https://github.com/Tixit/blocks.js/blob/master/src/node_modules/Block.js)
+`Gem` object will emit any standard dom event (`"click"`, `"mousedown"`, `"keypress"`, etc) when listened on. Note that a `Gem` doesn't add an event listener to the dom node until someone listens `on` that event on the gem. This minimizes the number of event listeners that are registered on the page. To see the list of dom events this applies to (supposed to be all of them), see the top of [src/node_modules/Gem.js](https://github.com/Tixit/Gem.js/blob/master/src/node_modules/Gem.js)
 
-Custom Blocks
+Custom Gems
 -------------
 
-Blocks.js is all about custom blocks. That's the point: your application should be built as a composition of custom blocks on top of custom blocks so that, instead of a million divs, you have semantically appropriate javascript web components.
+Gem.js is all about custom components. That's the point: your application should be built as a composition of custom gems on top of custom gems so that, instead of a million divs, you have semantically appropriate javascript web components.
 
-In this documentation, we're going to be using the class library [proto](https://github.com/fresheneesz/proto). The descriptions here apply to both inheriting from `Block` and inheriting from any of the standard blocks. There are a couple special properties to create when making a custom `Block`:
+In this documentation, we're going to be using the class library [proto](https://github.com/fresheneesz/proto). The descriptions here apply to both inheriting from `Gem` and inheriting from any of the standard gems. There are a couple special properties to create when making a custom `Gem`:
 
 * `name` - The name is a required property, should be named whatever your class is named, and should be a somewhat unique name in your system (tho it isn't required to be unique).
 * `build()` - The "sub-constructor". The constructor calls this method, passing all arguments, to the `build` method. The return value of `build` is ignored.
-* `defaultStyle` - If set to a `Style` object, the style object will be the block's default style. Unlike explicitly set Styles and inherited Styles, css properties in `defaultStyle`  *do* cascade line-by-line. Also, if a block inherits from another `Block` class that also has a `defaultStyle`, the default styles mix together with the child `Block` class style properties overriding the parent `Block` class's default properties. So in the below example, if `block` is given a style that defines `color: green`, it's fontWeight will still be 'bold'.
+* `defaultStyle` - If set to a `Style` object, the style object will be the gem's default style. Unlike explicitly set Styles and inherited Styles, css properties in `defaultStyle`  *do* cascade line-by-line. Also, if a gem inherits from another `Gem` class that also has a `defaultStyle`, the default styles mix together with the child `Gem` class style properties overriding the parent `Gem` class's default properties. So in the below example, if `gem` is given a style that defines `color: green`, it's fontWeight will still be 'bold'.
 
 For example:
 
 ```javascript
-var CustomBlock = proto(Block, function() {
-	this.name = "CustomBlock"
+var CustomGem = proto(Gem, function() {
+	this.name = "CustomGem"
     this.defaultStyle = Style({
        color: 'red',
        fontWeight: 'bold'
@@ -386,78 +385,78 @@ var CustomBlock = proto(Block, function() {
     }
 })
 
-var block = CustomBlock(5) // block.x is 5
+var gem = CustomGem(5) // gem.x is 5
 ```
 
-### Releasing custom blocks as separate modules
+### Releasing custom gems as separate modules
 
-If you'd like to release a custom `Block` or set of `Block` objects, there are a couple of important things to remember to do:
-* If you're releasing on npm, do *not* add `blocks.js` as a normal "dependency". Instead, it should be added as a ["peerDependency"](http://blog.nodejs.org/2013/02/07/peer-dependencies/) or perhaps a "devDependency". It shouldn't be a normal "dependency" because otherwise bundlers may bundle multiple copies of blocks.js when using your custom block module (even though bundlers like webpack dedupe files, if the versions of webpack being used are slightly different, they would still package together both versions of blocks.js)
-* If you're releasing a module distribution intended to be loaded in a `<script>` tag, do *not* bundle blocks.js in your distribution bundle. It should assume the `blocks` global variable (e.g. `blocks.Block`) is available.
+If you'd like to release a custom `Gem` or set of `Gem` objects, there are a couple of important things to remember to do:
+* If you're releasing on npm, do *not* add `gem.js` as a normal "dependency". Instead, it should be added as a ["peerDependency"](http://blog.nodejs.org/2013/02/07/peer-dependencies/) or perhaps a "devDependency". It shouldn't be a normal "dependency" because otherwise bundlers may bundle multiple copies of gem.js when using your custom gem module (even though bundlers like webpack dedupe files, if the versions of webpack being used are slightly different, they would still package together both versions of gem.js)
+* If you're releasing a module distribution intended to be loaded in a `<script>` tag, do *not* bundle gem.js in your distribution bundle. It should assume the `gems` global variable (e.g. `gems.Gem`) is available.
 
-### Inheriting from Blocks with a class library other than `proto`
+### Inheriting from Gems with a class library other than `proto`
 
-If you're building Blocks with something other than `proto` (*or are using a version of proto older than 1.0.17*), note that blocks.js relies on the following properties:
-* **block.constructor** - must point to the Block prototype class (in the proto example, the object returned by the call to proto). This is a standard property that all good class libraries should set.
-* **block.constructor.parent** - must point either to the parent of the block's constructor, or undefined if there is no parent. Note that while `proto` sets this automatically, it is not a standard property and if you're using a different library from proto, you must set this manually.
-* **block.constructor.name** - the constructors must have the same name property that instances can access. Note that while `proto` sets this appropriately, most class libraries probably don't and it isn't simple to manually set. [See here for details](http://stackoverflow.com/a/28665860/122422).
+If you're building Gems with something other than `proto` (*or are using a version of proto older than 1.0.17*), note that gem.js relies on the following properties:
+* **gem.constructor** - must point to the Gem prototype class (in the proto example, the object returned by the call to proto). This is a standard property that all good class libraries should set.
+* **gem.constructor.parent** - must point either to the parent of the gem's constructor, or undefined if there is no parent. Note that while `proto` sets this automatically, it is not a standard property and if you're using a different library from proto, you must set this manually.
+* **gem.constructor.name** - the constructors must have the same name property that instances can access. Note that while `proto` sets this appropriately, most class libraries probably don't and it isn't simple to manually set. [See here for details](http://stackoverflow.com/a/28665860/122422).
 
-Also, make sure that `Block`'s constructor is called on new instances that inherit from `Block`.
+Also, make sure that `Gem`'s constructor is called on new instances that inherit from `Gem`.
 
-### Inheriting from Blocks without a class library
+### Inheriting from Gems without a class library
 
 Properly subclassing a prototype in javascript isn't the simplest thing to do, but if you want to do it, here's how:
 
 ```javascript
-var CustomBlock = function() {
-    Block.init.call(this) // Block's constructor must be called
+var CustomGem = function() {
+    Gem.init.call(this) // Gem's constructor must be called
 }
-CustomBlock.parent = Block // needed for correct Style rendering
+CustomGem.parent = Gem // needed for correct Style rendering
 
-var Intermediate = function(){}; Intermediate.prototype = Block.prototype
-CustomBlock.prototype = new Intermediate()
-CustomBlock.prototype.name = 'CustomBlock'       // the name is a required property
-CustomBlock.prototype.constructor = CustomBlock  // required for correct Style rendering, and is a standard javascript convention
-CustomBlock.prototype.build = function(constructorArgument1, constructorArgument2, ...) {
+var Intermediate = function(){}; Intermediate.prototype = Gem.prototype
+CustomGem.prototype = new Intermediate()
+CustomGem.prototype.name = 'CustomGem'       // the name is a required property
+CustomGem.prototype.constructor = CustomGem  // required for correct Style rendering, and is a standard javascript convention
+CustomGem.prototype.build = function(constructorArgument1, constructorArgument2, ...) {
     // .. custom constructor code
 }
-CustomBlock.prototype.customMethod = function() {
+CustomGem.prototype.customMethod = function() {
 	// ...
 }
 ```
 
-Standard Blocks
+Standard Gems
 ---------------
 
-The built-in standard blocks all inherit from `Block` and so have all the methods and properties in the above documentation. For each build-in block, its `name` property will be the same as the name the documentation uses for it. For example `Button` will have the name `"Button"`.
+The built-in standard gems all inherit from `Gem` and so have all the methods and properties in the above documentation. For each build-in gem, its `name` property will be the same as the name the documentation uses for it. For example `Button` will have the name `"Button"`.
 
-To use these built in blocks, access them via either `require("blocks.js/<BlockName>")` or ` blocks.<BlockName>`. For example:
+To use these built in gems, access them via either `require("gem.js/<GemName>")` or ` gems.<GemName>`. For example:
 
 ```javascript
-var Table = require("blocks.js/Table") // webpack or browserify
+var Table = require("gem.js/Table") // webpack or browserify
 // or
-var Table = blocks.Table // if loading the umd bundle in a <script> tag
+var Table = Gem.Table // if loading the umd bundle in a <script> tag
 ```
 
 ### Conventions
 
-There are some conventions that can help you learn to use standard Blocks, and help make custom Blocks you build more easily understood.
-These conventional properties, constructor parameters, and behavior are encouraged to be used in custom Blocks built by you, especially if you're planning on open-sourcing them.
+There are some conventions that can help you learn to use standard Gems, and help make custom Gems you build more easily understood.
+These conventional properties, constructor parameters, and behavior are encouraged to be used in custom Gems built by you, especially if you're planning on open-sourcing them.
 
-Every standard Block has an optional first parameter `label`.
-This makes it easy and non-intrusive to label parts of your custom Blocks for easy styling.
+Every standard Gem has an optional first parameter `label`.
+This makes it easy and non-intrusive to label parts of your custom Gems for easy styling.
 
-In as many cases as possible, Blocks will use properties defined with getters and setters rather than using methods. There are a few standard properties that some blocks have:
-* **`text`** - Gets and sets some visual text that a Block has. `Button`, `Text`, and `Select.Option` have this property.
-* **`selected`** - Gets and sets the selected-state of the Block. `CheckBox`, `Select.Option`, and `Radio.Button` have this property.
-* **`val`** - Gets and sets some value that a block has. This will never be the same as either `text` or `selected`. `Radio`, `Select`, `TextArea`, and `TextField` all have this property.
+In as many cases as possible, Gems will use properties defined with getters and setters rather than using methods. There are a few standard properties that some gems have:
+* **`text`** - Gets and sets some visual text that a Gem has. `Button`, `Text`, and `Select.Option` have this property.
+* **`selected`** - Gets and sets the selected-state of the Gem. `CheckBox`, `Select.Option`, and `Radio.Button` have this property.
+* **`val`** - Gets and sets some value that a gem has. This will never be the same as either `text` or `selected`. `Radio`, `Select`, `TextArea`, and `TextField` all have this property.
 
-This is a standard event that many blocks can emit:
-* **`change`** - Emitted when an important value of a block changes. This will always be either the block's `val` property or its `selected` property (but never both). Change events won't have any information passed with them - you can access the object itself if you need data from it.
+This is a standard event that many gems can emit:
+* **`change`** - Emitted when an important value of a gem changes. This will always be either the gem's `val` property or its `selected` property (but never both). Change events won't have any information passed with them - you can access the object itself if you need data from it.
 
-Some blocks have sub-blocks specifically related to them. For example, `Select` has `Option` blocks, and `Table` has `Row` and `Header` blocks, and `Row` and `Header` have `Cell` blocks respectively.
-* There will also be a property with the name of the sub-block, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has an `options` map.
-* For these types of blocks, there will be a method on the main block (examples of main blocks: `Select` or `Table`) to create a new sub-block (e.g. Option or Row), append it to the calling block, and returns that sub-block. The method will be named the same as the sub-block but in lower-case (e.g. selectBlock.option(...) will return an Option block).
+Some gems have sub-gems specifically related to them. For example, `Select` has `Option` gems, and `Table` has `Row` and `Header` gems, and `Row` and `Header` have `Cell` gems respectively.
+* There will also be a property with the name of the sub-gem, but lower-case and plural, that contains either a map or a list of the sub-objects. For example, `Select` has an `options` map.
+* For these types of gems, there will be a method on the main gem (examples of main gems: `Select` or `Table`) to create a new sub-gem (e.g. Option or Row), append it to the calling gem, and returns that sub-gem. The method will be named the same as the sub-gem but in lower-case (e.g. selectGem.option(...) will return an Option gem).
 
 ### Button
 
@@ -492,14 +491,14 @@ Your standard html `<input type="checkbox">`.
 
 **`checkbox.selected`** - Sets and gets the checkbox's selected state (true for selected, false for unselected).
 
-### Container
+### Block
 
-A `<div>` that contains other blocks.
+A `<div>` that contains other gems.
 
-**`Container(block, block, ...)`** - Returns a new container with all the passed blocks as children (in the passed order).  
-**`Container(listOfBlocks)`** - Same as above except `listOfBlocks` is an array of blocks.  
-**`Container(label, block, block, ...)`**  
-**`Container(label, listOfBlocks)`**
+**`Block(gem, gem, ...)`** - Returns a new container with all the passed gems as children (in the passed order).
+**`Block(listOfGems)`** - Same as above except `listOfGems` is an array of gems.
+**`Block(label, gem, gem, ...)`**
+**`Block(label, listOfGems)`**
 
 ### Image
 
@@ -517,14 +516,14 @@ An `<ol>` or `<ul>` element.
 
 **`List()`** - Returns a new empty list.  
 **`List(ordered)`** - Returns a new empty list. Is an ordered-list if `ordered` is true, and an unorderd-list otherwise.  
-**`List(listInit)`** - Returns a new populated list. `listInit` is an array containing either `Block` objects or strings to add as list items.
+**`List(listInit)`** - Returns a new populated list. `listInit` is an array containing either `Gem` objects or strings to add as list items.
 **`List(ordered, listInit)`**  
 **`List(label)`**  
 **`List(label, ordered)`**  
 **`List(label, listInit)`**  
 **`List(label, ordered, listInit)`**
 
-**`list.item(contents)`** - Creates a new `ListItem` with the passed `contents` and appends it to the list, which can either be a `Block` or a string.  
+**`list.item(contents)`** - Creates a new `ListItem` with the passed `contents` and appends it to the list, which can either be a `Gem` or a string.
 **`list.item(label, contents)`**
 
 **`List.Item`** - The `ListItem` class.
@@ -532,9 +531,9 @@ An `<ol>` or `<ul>` element.
 **`List.Item(contents)`** - same as `list.item` above, except doesn't append the item to any list.  
 **`List.Item(label, contents)`**
 
-### Radio - Not a `Block`
+### Radio - Not a `Gem`
 
-A set of radio buttons. `Radio` itself is not a `Block`, but rather contains a set of related `RadioButton`s (which are `Block` objects).
+A set of radio buttons. `Radio` itself is not a `Gem`, but rather contains a set of related `RadioButton`s (which are `Gem` objects).
 
 **`Radio()`** - Returns a new `Radio` object where a button is not required to be set (same as `Radio(false)`).  
 **`Radio(required)`** - Returns a new `Radio` object. If `required` is true, a radio button will always be selected (and buttons cannot be deselected), otherwise radio-buttons can be deselected, and no radio button is selected by default.
@@ -545,7 +544,7 @@ A set of radio buttons. `Radio` itself is not a `Block`, but rather contains a s
 **`radio.selected`** - Returns the `RadioButton` object that is selected.  
 **`radio.val`**  - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis")
 
-**`radio.remove(radioButton, radioButton, ...)`** - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Block` contains the `RadioButton`s.  
+**`radio.remove(radioButton, radioButton, ...)`** - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Gem` contains the `RadioButton`s.
 **`radio.remove(arrayOfRadioButtons)`** - Same as above, except the argument is an array of the `RadioButtons` to remove.  
 **`radio.remove(value, value, ...)`** - Removes the radio buttons that have the passed values from the `Radio` object's set.  
 **`radio.remove(arrayOfValues)`** - Same as above, except the argument is an array of the values who's radio buttons should be removed.
@@ -587,13 +586,13 @@ Your standard `<table>` element.
 **`Table()`** - Returns a new empty table.  
 **`Table(tableInit)`** - Returns a new populated table.  
 **`Table(label,tableInit)`**
-* `tableInit` - A list where each element in the list represents a row. Each element itself should be a list where each element is a `Block` or string to put in a table `Cell`. E.g. `Table([['a','b','c'],[Text('x'),Text('y')]])` is a table with two rows and three columns, where there are only two cells in the second row.
+* `tableInit` - A list where each element in the list represents a row. Each element itself should be a list where each element is a `Gem` or string to put in a table `Cell`. E.g. `Table([['a','b','c'],[Text('x'),Text('y')]])` is a table with two rows and three columns, where there are only two cells in the second row.
 
 **`table.row(rowInit)`** - Creates a new table `TableRow` (`<tr>`), and appends it to the table.  
 **`table.row(label, rowInit)`**  
 **`table.header(rowInit)`**  - Creates a new table `TableHeader` (`<th>`), and appends it to the table.  
 **`table.header(label, rowInit)`**
-* `rowInit` - A list where each element is a `Block` or string to put in a table `TableCell`. E.g. `table.row(['a','b','c'])` is a row with three cells.
+* `rowInit` - A list where each element is a `Gem` or string to put in a table `TableCell`. E.g. `table.row(['a','b','c'])` is a row with three cells.
 
 **`Table.Row`** - The `TableRow` class.  
 **`Table.Header`** - The `TableHeader` class.  
@@ -608,7 +607,7 @@ Your standard `<table>` element.
 **`row.cell(label, contents)`**  
 **`header.cell(contents)`** - Creates a new table `TableCell` (`<td>`) and appends it to the `TableHeader`.  
 **`header.cell(label, contents)`**
-* `contents` - Either a string (text content) or any value you could pass into `block.add` (a Block, a list of Blocks, etc).
+* `contents` - Either a string (text content) or any value you could pass into `gem.add` (a Gem, a list of Gems, etc).
 
 **`Table.Cell(contents)`** - Same as `row.cell`, but doesn't append the cell to any row.
 **`Table.Cell(label, contents)`**
@@ -652,14 +651,14 @@ A one-line text input field. Your standard `<input type='text'>` element.
 
 If you're going to build a web application, why not do it with `Style`?
 
-While a `Block` is pretty analogous to its HTML node, `Style` objects in blocks.js are quite different from normal CSS.
+While a `Gem` is pretty analogous to its HTML node, `Style` objects in gem.js are quite different from normal CSS.
 
-In blocks.js, individual css style properties do *not* cascade. Instead, whole `Style` objects cascade. This may not seem like much of a difference, but it makes all the difference. For example:
+In gem.js, individual css style properties do *not* cascade. Instead, whole `Style` objects cascade. This may not seem like much of a difference, but it makes all the difference. For example:
 
 ```javascript
-var parentContainer = Container([
+var parentBlock = Block([
     Text('a'),
-    Container([
+    Block([
         Text('b'),
         Text('c')
     ]),
@@ -671,7 +670,7 @@ c.style = Style({
         color: 'blue',
         fontWeight: 'bold'
     },
-    Container: {
+    Block: {
         Text: {       // 2
             color: 'red'
         }
@@ -679,20 +678,20 @@ c.style = Style({
 })
 ```
 
-In the above example, "a" will be bold and blue, and "b" and "c" will be red. But "b" and "c" won't be bold - that property does not cascade. The `Text` styling inside `Container` is isolated from all previous stylings of `Text`, which means you don't have to worry about the styles someone used for elements further up the dom tree. I mentioned, tho, that whole `Style` objects *do* cascade, and that is why "d" will also be blue and bold even though it isn't a direct child of `parentContainer`.
+In the above example, "a" will be bold and blue, and "b" and "c" will be red. But "b" and "c" won't be bold - that property does not cascade. The `Text` styling inside `Block` is isolated from all previous stylings of `Text`, which means you don't have to worry about the styles someone used for elements further up the dom tree. I mentioned, tho, that whole `Style` objects *do* cascade, and that is why "d" will also be blue and bold even though it isn't a direct child of `parentBlock`.
 
-Another difference is that blocks.js doesn't have selectors that can style any element on the page.
+Another difference is that gem.js doesn't have selectors that can style any element on the page.
 Traditional CSS stylesheets are developed by selecting a group of elements from the entire page
 (via ids, classes, attributes, pseudoclasses representing element state, etc) and appending styles to them.
 These styles may overwrite styles written earlier, and they themselves may be overwritten.
-In blocks.js, `Style` objects can only be attached in a strict hierarchical setting, where only a specific section
-of the dom can be affected. In the above example, the `Text` style marked 2 doesn't affect anything outside that inner Container.
-For example, even though the text "d" is a `Text` object inside a `Container` object, it is *not* colored red.
-That's because styles in blocks.js are not like the selectors you're used to from css.
-They are strictly hierarchical - they only affect descendant `Block` objects' (children, grandchildren, etc) from the point in
+In gem.js, `Style` objects can only be attached in a strict hierarchical setting, where only a specific section
+of the dom can be affected. In the above example, the `Text` style marked 2 doesn't affect anything outside that inner Block.
+For example, even though the text "d" is a `Text` object inside a `Block` object, it is *not* colored red.
+That's because styles in gem.js are not like the selectors you're used to from css.
+They are strictly hierarchical - they only affect descendant `Gem` objects' (children, grandchildren, etc) from the point in
 the dom they match.
 
-The combination of the fact that blocks.js `Style` objects only cascade as a whole object and that styles are defined hierarchically makes styles modular and provides isolation from other styles on the page, so that it becomes much easier to understand and manage styling for a page or entire application.
+The combination of the fact that gem.js `Style` objects only cascade as a whole object and that styles are defined hierarchically makes styles modular and provides isolation from other styles on the page, so that it becomes much easier to understand and manage styling for a page or entire application.
 
 ### `Style` constructor
 
@@ -700,11 +699,11 @@ The combination of the fact that blocks.js `Style` objects only cascade as a who
 * `styleDefinition` is an object where key-value pairs can be either style properties or selectors:
     * style properties:
         * `<cssPropertyName>`: the value is a valid css value for that style property.
-        * `$setup`: the value is a function to be run on a block when the style is applied to it
-        * `$kill`: the value is a function to be run on a block when a style is removed from it
-        * `$state`: the value is a function to be run when `block.state` changes (ie when its `change` event fires).
+        * `$setup`: the value is a function to be run on a gem when the style is applied to it
+        * `$kill`: the value is a function to be run on a gem when a style is removed from it
+        * `$state`: the value is a function to be run when `gem.state` changes (ie when its `change` event fires).
     * selectors - the value for each of these should be a `Style` object or a nested `styleDefinition` object
-        * `<BlockName>`
+        * `<GemName>`
         * `$<label>`
         * `$$<pseudoclass>`
     * `$inherit`
@@ -721,20 +720,20 @@ Style({
 }
 ```
 
-The above style would give a color and margin-right to whatever `Block` is set with that style (`block.style = styleObject`). Note that camelCase names can be used, and numbers are automatically appended with "px" if appropriate for the property (just like with jquery's `css` method).
+The above style would give a color and margin-right to whatever `Gem` is set with that style (`gem.style = styleObject`). Note that camelCase names can be used, and numbers are automatically appended with "px" if appropriate for the property (just like with jquery's `css` method).
 
 #### `$setup` and `$kill`
 
-`$setup(block)` is a function that is run when the style is applied to a block, and `$kill(block, setupObject)` is run when the style is removed from a block. Both functions get the block being given the style as their first argument, the `$kill` also gets the return value of the `$setup` function as its second argument. For example:
+`$setup(gem)` is a function that is run when the style is applied to a gem, and `$kill(gem, setupObject)` is run when the style is removed from a gem. Both functions get the gem being given the style as their first argument, the `$kill` also gets the return value of the `$setup` function as its second argument. For example:
 
 ```javascript
 var S = Style({
-    $setup: function(block) {
-        block.text = "I got zee style"
+    $setup: function(gem) {
+        gem.text = "I got zee style"
         return 20
     },
-    $kill: function(block,setupValue) {
-        block.text = "I'm "+setupValue+"% less cool"
+    $kill: function(gem,setupValue) {
+        gem.text = "I'm "+setupValue+"% less cool"
     }
 })
 var t = Text("x")
@@ -746,8 +745,8 @@ t.text === "I'm 20% less cool"
 
 #### `$state`
 
-`$state(state)` is a function that is run when the block's `state` observer property emits a `change` event (which happens when
-its changed with its methods `set`, `push`, `splice`, or `append`). The `state` function is passed the value of `block.state.subject`
+`$state(state)` is a function that is run when the gem's `state` observer property emits a `change` event (which happens when
+its changed with its methods `set`, `push`, `splice`, or `append`). The `state` function is passed the value of `gem.state.subject`
 as its parameter. The return value of the function should be a `Style` object to mix with the object's current style.
 
 *Note that if you create styles in $state functions, remember that you will create a new style every time the state changes.
@@ -786,9 +785,9 @@ c.state.set("late", true)    // container's background turns yellow
 
 In the above example, the container goes through all 3 backgroundColor colors as its state changes. In all states, the text color will be blue tho, since the $state style mixes with the primary style properties.
 
-#### `<BlockName>`
+#### `<GemName>`
 
-This sets a style for the `Block` with the given name. Only blocks *within* the block who's style this is are affected, blocks that do not descend from the styled block, and even the styled block themselves are not affected. For example:
+This sets a style for the `Gem` with the given name. Only gems *within* the gem who's style this is are affected, gems that do not descend from the styled gem, and even the styled gem themselves are not affected. For example:
 
 ```javascript
 var stylish = Style({
@@ -797,7 +796,7 @@ var stylish = Style({
     }
 })
 
-var container = Container([Text('a')])
+var container = Block([Text('a')])
 var text = Text("b")
 
 container.style = stylish
@@ -806,7 +805,7 @@ text.style = stylish
 
 In the above example, only "a" is styled red. The `Text` "b" remains the default, black.
 
-You can also give Blocks a `Style` object, which is the same as the above form, except that the object-immediate is passed into the `Style` constructor:
+You can also give Gems a `Style` object, which is the same as the above form, except that the object-immediate is passed into the `Style` constructor:
 
 ```javascript
 var textStyle = Style({
@@ -818,18 +817,18 @@ var stylish = Style({
 })
 ```
 
-Keep in mind that `Block` styles are inherited by their parent in-full (not line-by-line like in css). So any `Block` that isn't given its own explicit style inherits from its ancestors (if its ancestors have a style for that `Block`). For example,
+Keep in mind that `Gem` styles are inherited by their parent in-full (not line-by-line like in css). So any `Gem` that isn't given its own explicit style inherits from its ancestors (if its ancestors have a style for that `Gem`). For example,
 
 ```javascript
-var a,b,c,d,e, dContainer
-var tree = Container([
+var a,b,c,d,e, dBlock
+var tree = Block([
     a = Text('a'),
-    Container([
+    Block([
         b = Text('b'),
         c = Text('c'),
-        dContainer = Container([
+        dBlock = Block([
             d = Text('d'),
-            Container([
+            Block([
                 e = Text('e')
             ])
         ])
@@ -842,25 +841,25 @@ tree.style = Style({
 c.style = Style({
     fontWeight: 'bold'
 })
-dContainer.style = Style({
+dBlock.style = Style({
     Text: {textDecoration: 'underline'}
 })
 ```
 
-I hope you don't mind I assigned variables inside the `Block` structure - don't worry, the structure would be the same if the variables weren't assigned, but assigning the variables allows me to manipulate them after the structure is defined.
+I hope you don't mind I assigned variables inside the `Gem` structure - don't worry, the structure would be the same if the variables weren't assigned, but assigning the variables allows me to manipulate them after the structure is defined.
 
-In any case, in the above example, the `tree` object is given a style where `Text` blocks are green. However, `dContainer` is given an alternate `Text` style.
-How does that affect the resulting style? Well, "a" and "b" are colored green, but "d" and "e" are *not* green. Instead, "d" and "e" are the default color, black, and are underlined. This is because "d" and "e" inherit the `Text` style from `dContainer` which overrides the `Text` style given to `tree`.
+In any case, in the above example, the `tree` object is given a style where `Text` gems are green. However, `dBlock` is given an alternate `Text` style.
+How does that affect the resulting style? Well, "a" and "b" are colored green, but "d" and "e" are *not* green. Instead, "d" and "e" are the default color, black, and are underlined. This is because "d" and "e" inherit the `Text` style from `dBlock` which overrides the `Text` style given to `tree`.
 And what about "c" you ask? Since "c" is given its own *explicit* style, that style also overrides any inheriting style. So "c" is bold and the default black.
 
 #### `$<label>`
 
-`Block` objects can be given a `label` property, which can be used to identify `Block` objects of the same type that have different purposes within their parent.
-This is essentially analogous to giving divs class names, and then styling using that class, except that it works in blocks.js's hierarchical way of course. Note, tho, that a `Block` can have only one label.
+`Gem` objects can be given a `label` property, which can be used to identify `Gem` objects of the same type that have different purposes within their parent.
+This is essentially analogous to giving divs class names, and then styling using that class, except that it works in gem.js's hierarchical way of course. Note, tho, that a `Gem` can have only one label.
 For example:
 
 ```javascript
-var container = Container([
+var container = Block([
     Text("header", "Your Receipt, Sir: "),
     Text("receipt", "1 bagel - $5, 3 buffulo - $45, 3 sticks dynamite - $100, 45 tons of wheat - $200")
     Text("Thank you for using butler-copter!")
@@ -879,19 +878,19 @@ container.style = Style({
 In the above example, the text `"Your Receipt, Sir: "` will be gray, the receipt text will be green, and the thank-you text
 will be blue. Only the thank-you text will be bold.
 
-Note that `$label` styles override block styles, even if the block style is "closer" to the block. For example, in the following
+Note that `$label` styles override gem styles, even if the gem style is "closer" to the gem. For example, in the following
 example, the text "hi" will be gray, not blue.
 
 ```javascript
-var container = Container([
-    Container([
+var container = Block([
+    Block([
         Text("hi")
     ])
 ])
 
 container.style = Style({
     $someLabel: {color: 'gray'},
-    Container: {
+    Block: {
         Text: {color: 'blue'}
     }
 })
@@ -899,7 +898,7 @@ container.style = Style({
 
 #### `$$<pseudoclass>`
 
-Pseudoclasses filter out which `Block` styles are given to. Also, the styles mix with the styles defined in the style-definition containing it. For example:
+Pseudoclasses filter out which `Gem` styles are given to. Also, the styles mix with the styles defined in the style-definition containing it. For example:
 
 ```javascript
 var x = Text("hi")
@@ -914,7 +913,7 @@ The above code changes the text from bold-black to bold-red when you hover over 
 Pseudoclasses also mix with each other when applicable. For example:
 
 ```javascript
-var container = Container([Text("a"), Text("b")])
+var container = Block([Text("a"), Text("b")])
 container.style = Style({
     Text: {
         $$lastChild: 'bold',
@@ -941,7 +940,7 @@ In the above code, "a" will turn red if it is both the last child of its parent 
 Also, pseudoclasses may take parameters, which are passed in with parens like a javascript function. For example:
 
 ```javascript
-var c = Container([Text("a"),Text("b"),Text("c"),Text("d"),Text("e")])
+var c = Block([Text("a"),Text("b"),Text("c"),Text("d"),Text("e")])
 c.style = Style({
     Text: {
         '$$nthChild(1+2n)': {color: 'red'},
@@ -960,7 +959,7 @@ but also a red text color:
 ```javascript
 Style({
     Text: {color: 'red'},
-    Container: {
+    Block: {
         Text: {
             $inherit: true,
             backgroundColor: 'green'
@@ -969,7 +968,7 @@ Style({
 })
 ```
 
-In the following, a Text block with the label 'boom' would have both a green background and red text, whereas a Text block without that label,
+In the following, a Text gem with the label 'boom' would have both a green background and red text, whereas a Text gem without that label,
 would not have the background color:
 
 ```javascript
@@ -995,20 +994,20 @@ Style({
     marginTop: topBarHeight,
 	
 	Button: {
-		$setup: function(block) {
+		$setup: function(gem) {
 		    var handler;
-            block.on('moo', handler=function() {
+            gem.on('moo', handler=function() {
                 console.log("He won't stop mooing!")
             })
             return {handler:handler}
 		},
-		$kill: function(block, setupState) {
-            block.off('moo',setupState.handler)
+		$kill: function(gem, setupState) {
+            gem.off('moo',setupState.handler)
 		}
 	},
 
 	$closeButton: {
-	    //future: $inherit: true, // inherits the Button style (if the block is a Button)
+	    //future: $inherit: true, // inherits the Button style (if the gem is a Button)
         position: 'absolute',
         right: 3, top: 3,
         width: 'calc(50% - 2px)'
@@ -1119,17 +1118,17 @@ Returns a new style that is a copy of the calling style object but has a new `cl
 `Style.addPseudoClass(name, fns)` - Creates a new pseudoclass that can be used in `Style` objects. This can be used to create all-new psuedoclasses no one's ever thought of before!
 * `name` - The name of the new pseudoclass
 * `fns` - An object with the members:
-    * `check(block, processedParameter)` - A function that returns true if the pseudoclass applies to passed `block`
-    * `setup(block, startCallback, endCallback, processedParameter)` - A function that should call `startCallback()` when the pseudoclass starts applying, and `endCallback()` when it stops applying. Can return a `state` object that will be passed to the `kill` function.
+    * `check(gem, processedParameter)` - A function that returns true if the pseudoclass applies to passed `gem`
+    * `setup(gem, startCallback, endCallback, processedParameter)` - A function that should call `startCallback()` when the pseudoclass starts applying, and `endCallback()` when it stops applying. Can return a `state` object that will be passed to the `kill` function.
         * `processedParameter` - The parameter passed to the pseudoclass (e.g. in `":not(:first-child)"`, ":first-child" is the parameter). If a `processParameter` function is given, this will be the return value of that function.
-    * `kill(block, state)` - A function that cleans up any event listeners or anything else set up in the `setup` function.
-    * `emulated` - (Optional - default false) Set to true if this implements a native pseudoclass. If `true`, Blocks will attempt optimize the pseudoclass using native css if possible.
+    * `kill(gem, state)` - A function that cleans up any event listeners or anything else set up in the `setup` function.
+    * `emulated` - (Optional - default false) Set to true if this implements a native pseudoclass. If `true`, Gems will attempt optimize the pseudoclass using native css if possible.
     * `processParameter(parameter)` - (Optional) Takes the pseudoclass parameter and returns some object representing it that will be used by the `setup` and `check` functions.
     * `parameterTransform(parameter)` - (Optional) Returns a modified version of the passed parameter. This is useful in cases where native pseudoclass parameter parsing is unnecessarily strict (eg. nth-child parameters)
 
 ### Standard Pseudoclasses
 
-Any pseudoclass that exists in standard css can be used by blocks.js, even if it isn't build-in with a js-rendered emulation. The catch is that their use is limited. The following things aren't supported for these:
+Any pseudoclass that exists in standard css can be used by gem.js, even if it isn't build-in with a js-rendered emulation. The catch is that their use is limited. The following things aren't supported for these:
 * Using a `$setup`, `$kill`, or `$state` functions within the pseudoclass style definition
 * Using non-standard pseudoclasses within the pseudoclass style definition
 
@@ -1145,14 +1144,14 @@ Note that, while the list of built-in pseudoclasses is currently short, all stan
 
 ### Default style
 
-Blocks.js unifies the default styles of dom nodes - all objects that inherit directly from `Block` have the same default styling unless they define their `defaultStyle` property.
+Gem.js unifies the default styles of dom nodes - all objects that inherit directly from `Gem` have the same default styling unless they define their `defaultStyle` property.
 
-The base default is mostly the same as css's base default. The two defaults that are different for `Block` objects:
+The base default is mostly the same as css's base default. The two defaults that are different for `Gem` objects:
 * `display` - `"inline-block"`
 * `position` - `"relative"`
 * `box-sizing` - `"border-box"` (excepting `<img>` nodes, which are still defaulted to `content-box` because pixel perfect image sizing is often important)
 
-Also, while most css styles are not inherited from a `Block`'s parent, the following are inherited:
+Also, while most css styles are not inherited from a `Gem`'s parent, the following are inherited:
 * `color`
 * `cursor`
 * `fontFamily`
@@ -1162,52 +1161,52 @@ Also, while most css styles are not inherited from a `Block`'s parent, the follo
 * `fontWeight`
 * `visibility`
 
-And while blocks.js generally rejects css's use of cascading, there is some similar cascading going on, but much more simplified and localized. Defining this behavior in terms of "cascading order" (where later additions override earlier), the order is:
+And while gem.js generally rejects css's use of cascading, there is some similar cascading going on, but much more simplified and localized. Defining this behavior in terms of "cascading order" (where later additions override earlier), the order is:
 1. The base default style (described above in this section).
-2. The `defaultStyle` property of the block instance's furthest ancestor class
-3. ... (more `defaultStyle`s in the Block's ancestry)
-4. The  `defaultStyle` property of the Block's parent class
-5. The `defaultStyle` property of the Block itself
-6. The Block instance's current style (either an inherited style or its `style` property)
-7. The state style returned for that block by its current style
-8. Any pseudoclass styles that apply on the block
+2. The `defaultStyle` property of the gem instance's furthest ancestor class
+3. ... (more `defaultStyle`s in the Gem's ancestry)
+4. The  `defaultStyle` property of the Gem's parent class
+5. The `defaultStyle` property of the Gem itself
+6. The Gem instance's current style (either an inherited style or its `style` property)
+7. The state style returned for that gem by its current style
+8. Any pseudoclass styles that apply on the gem
 
 ## Tips and Recommendations
 
 ### Don't Create a node until you need it
 
-Often in traditional web development, all the HTML will be rendered and any javascript for them initialized on page load, and the elements that shouldn't be shown to the user are simply hidden, and then shown when needed. Using blocks.js, its recommended that you create and remove nodes as needed, rather than showing and hiding (using `visible`). The only reason to use the show/hide technique is if the element in question is particularly expensive to generate.
+Often in traditional web development, all the HTML will be rendered and any javascript for them initialized on page load, and the elements that shouldn't be shown to the user are simply hidden, and then shown when needed. Using gem.js, its recommended that you create and remove nodes as needed, rather than showing and hiding (using `visible`). The only reason to use the show/hide technique is if the element in question is particularly expensive to generate.
 
 Decisions
 =========
 
-* `Block.label` is not dynamic (can't be changed) because it is intended to be used to identify a particular Block when multiple Blocks of the same type are used alongside eachother. If you're looking for a way to change styles dynamically, use `Block.state`.
-* Blocks are styled based on their name rather than their object identity (which would be possible with an array style definition like [Text,{backgroundColor:'...'}]) because otherwise all Blocks would have to be exposed at the top level. Not only does this go against modularity, but creators of 3rd party modules would inevitably fail to expose all their Blocks, which would make styling impossible. With names, you don't have to be able to reach the object, you just have to know its name.
+* `Gem.label` is not dynamic (can't be changed) because it is intended to be used to identify a particular Gem when multiple Gems of the same type are used alongside eachother. If you're looking for a way to change styles dynamically, use `Gem.state`.
+* Gems are styled based on their name rather than their object identity (which would be possible with an array style definition like [Text,{backgroundColor:'...'}]) because otherwise all Gems would have to be exposed at the top level. Not only does this go against modularity, but creators of 3rd party modules would inevitably fail to expose all their Gems, which would make styling impossible. With names, you don't have to be able to reach the object, you just have to know its name.
 * don't use npm shrinkwrap for browser modules like this, because otherwise multiple minor versions of the same package might get into a browser bundle and make page loading slower
 
-What `blocks.js` is ***not***
+What `gem.js` is ***not***
 =======================
 
-Blocks.js is not:
-* **a compatibility layer**. Blocks.js uses modern browser features and is built to rely on polyfills to add older browser support. If you're looking for a compatibility system, try [modernizr](http://modernizr.com/).
+Gem.js is not:
+* **a compatibility layer**. Gem.js uses modern browser features and is built to rely on polyfills to add older browser support. If you're looking for a compatibility system, try [modernizr](http://modernizr.com/).
 * **a path router**. If you're looking for a path routing module, try [grapetree](https://github.com/fresheneesz/grapetree).
 * **a class system**. If you're looking for a system for creating classes and prototypes, try [proto](https://github.com/fresheneesz/proto).
 * **a module system, script bundler, or loader**. If you're looking for an excellent module system and bundler, look no further than [webpack](http://webpack.github.io/).
-* **a templating system**. In blocks.js, you use functions and objects to compose together a page, rather than templates.
+* **a templating system**. In gem.js, you use functions and objects to compose together a page, rather than templates.
 * **an animation library**. If you're looking for animations, try [Émile](https://github.com/madrobby/emile).
-* **a framework**. A framework is a system that calls *your* code. A module is a set of functions and classes that your code can call. Blocks.js is the latter.  Blocks.js can work well right alongside traditionally written html and css, and you can choose to wrap dom constructs in a Block only if you want to.
+* **a framework**. A framework is a system that calls *your* code. A module is a set of functions and classes that your code can call. Gem.js is the latter.  Gem.js can work well right alongside traditionally written html and css, and you can choose to wrap dom constructs in a Gem only if you want to.
 * **super heroic**. It does one thing well: web components. It embraces the [single-responsibility principle ](http://en.wikipedia.org/wiki/Single_responsibility_principle) and is entirely stand-alone.
 
 Contributors
 ============
 
 * Billy Tetrud
-* Robbert Wijtman - designed and helped implement the prototype version of blocks.js
+* Robbert Wijtman - designed and helped implement the prototype version of gem.js
 
 Todo
 ======
 
-* have an event a block will emit when it or one of its ancestors becomes detached from the dom
+* have an event a gem will emit when it or one of its ancestors becomes detached from the dom
     * Think about what to do about event forwarding for such an event, and for the 'newParent' and "parentRemoved' events - they shouldn't be forwarded
 * consider adding vertical-align:top to the default css, since it solves weird issues with inline-blocks causing extra bottom-margin: http://stackoverflow.com/questions/20310690/overflowhidden-on-inline-block-adds-height-to-parent
 * Implement an $inherit option on Styles, so that they can implicitly inherit from styles above them without specifying which style to combine into it
@@ -1239,32 +1238,36 @@ Todo
     * Make sure its easy to dynamically create many-stepped animations, eg: http://www.joelambert.co.uk/morf/
     * http://stackoverflow.com/questions/18481550/how-to-dynamically-create-keyframe-css-animations
 
-* Maybe if a block has an explicit style set, it ignore's any styling from its parent (ie the componentStyleMap)
-    * Similarly, maybe if a block has an explicit style set, it shouldn't be able to inherit from anything
+* Maybe if a gem has an explicit style set, it ignore's any styling from its parent (ie the componentStyleMap)
+    * Similarly, maybe if a gem has an explicit style set, it shouldn't be able to inherit from anything
 * user-defined style properties
     * parameterized and combinable/overridable
 * Finish MultiSelect (currently may not fire certain events with certain ways of selecting things with the mouse)
 * Make all controls usable via the keybaord
   * eg. checkboxes should be toggled if you press enter while they're focused on
 
-* Consider making Style objects dynamically changable, and also inheritable/extendable so that you can extend the style object of a Block instead of having to extend the object passed to a Style prototype
+* Consider making Style objects dynamically changable, and also inheritable/extendable so that you can extend the style object of a Gem instead of having to extend the object passed to a Style prototype
 
-* in separate module (a Blocks utility kit or something):
+* in separate module (a Gems utility kit or something):
   * RadioSet (a set of labeled radio buttons)
   * TextEditor
 
 
 Optimization ideas:
 * When possible, use a WeakMap to cache Style mixes, componentStyleMap conjunctions, etc so that extraneous style don't cause memory leaks
-* When dom nodes are added, either add them inside a setTimeout, or render their styles in a setTimeout (first way's probably best so you have less change of seeing unstyled blocks)
+* When dom nodes are added, either add them inside a setTimeout, or render their styles in a setTimeout (first way's probably best so you have less change of seeing unstyled gems)
     * This should improve UI responsiveness, but not execution time
 * Purge style cache entries after a certain age (for non-weak maps)
 * Use document fragments when adding multiple dom nodes
-* Mix together defaultStyles statically (once per block type) since they're not dynamic
+* Mix together defaultStyles statically (once per gem type) since they're not dynamic
 
 Changelog
 ========
 
+* 2.0.0 - BREAKING CHANGE
+    * BREAKING CHANGE - Changing the project name to "Gem.js", and so changing "Block" to "Gem" and "Container" to "Block"
+    * Fixing bug when a style inheritance was used inside a psuedoclass
+    * Fixing bug in firefox that caused an exception if you tried to use the ::selection style
 * 1.1.9 - Making Selects and Options able to have non-string values
 * 1.1.8 - fixing broken style caching (by removing a cache step)
 * 1.1.7
@@ -1272,22 +1275,22 @@ Changelog
     * Allowing style definitions (rather than Style objects) to be passed into Style.mix
 * 1.1.6 - Another native pseudoclass bug fix related to overrides of other pseudoclasseses
 * 1.1.5 - Another native pseudoclass bug fix related to overrides
-* 1.1.4 - Fixing bug where base defaults weren't being used for native-rendered pseudoclass styles in cases where a block doesn't have a defaultStyle
-* 1.1.3 - fixing bug in TextField, and optimizing Style performance by only creating each css class once (was creating once per block)
+* 1.1.4 - Fixing bug where base defaults weren't being used for native-rendered pseudoclass styles in cases where a gem doesn't have a defaultStyle
+* 1.1.3 - fixing bug in TextField, and optimizing Style performance by only creating each css class once (was creating once per gem)
 * 1.1.2
-    * fixing minor bug where in certain cases involving native-rendered pseudoclass styles, the browser's default value was used instead of blocks's default
+    * fixing minor bug where in certain cases involving native-rendered pseudoclass styles, the browser's default value was used instead of gem's default
     * Attempting to improve style cache performance
 * 1.1.1 - MINOR BREAKING CHANGE
-    * MINOR BREAKING CHANGE: detach can no longer take an optional first parameter, but always detaches blocks from whatever dom parent they have
+    * MINOR BREAKING CHANGE: detach can no longer take an optional first parameter, but always detaches gems from whatever dom parent they have
     * Fixing bugs in attach and detach
 * 1.1.0 - MINOR BREAKING CHANGES
     * Speeding up the `addAt` method and `.style` setter by between 10 and 30 times by
-        * only rendering styles once the blocks are attached to the document and
+        * only rendering styles once the gems are attached to the document and
         * fixing a couple bugs that were causing cached style not to be used
-    * Changing the `block.attach` method and `Blocks.attach` function to take an optional first parameter - a domNode to append to in place of `document.body`
-        * MINOR BREAKING CHANGE 1: the `Blocks.attach` function can no longer take varargs of blocks (eg `Blocks.attach(block1, block2, block2)` - instead do `Blocks.attach([block1, block2, block2])`)
-    * Fixing bug: native pseudoclass style overriding block default styles when they must override a StyleMap style with "initial"
-    * MINOR BREAKING CHANGE 2: It is now required that a block be attached to the document with the `attach` function or method. Without this, styles won't be rendered.
+    * Changing the `gem.attach` method and `Gems.attach` function to take an optional first parameter - a domNode to append to in place of `document.body`
+        * MINOR BREAKING CHANGE 1: the `Gems.attach` function can no longer take varargs of gems (eg `Gems.attach(gem1, gem2, gem3)` - instead do `Gems.attach([gem1, gem2, gem3])`)
+    * Fixing bug: native pseudoclass style overriding gem default styles when they must override a StyleMap style with "initial"
+    * MINOR BREAKING CHANGE 2: It is now required that a gem be attached to the document with the `attach` function or method. Without this, styles won't be rendered.
 * 1.0.3 - fixing native pseudo element rendering
 * 1.0.2 - making `processParameter` in `addPseudoClass` optional like the docs say
 * 1.0.1
@@ -1300,17 +1303,17 @@ Changelog
         * Optimizing pseudoclass styles when their style branch can be rendered in pure-css
         * `defaultStyle` styles can be arbitrary Style objects now
         * $state styles can be arbitrary Style objects now
-        * $label changed from being a modifier on a Block style to indicating a whole new labeled block style (see section on $label for details)
+        * $label changed from being a modifier on a Gem style to indicating a whole new labeled gem style (see section on $label for details)
         * augmenting nth-child to be able to be more sane in how it processes its input (you can reverse the order of the terms and whitespace is tolerated)
         * changing the default of box-sizing to 'border-box' except for images, which retain the 'content-box' default
 * 0.9.17 - requiring a node to be removed from its parent before its added to a different parent
 * 0.9.16 - fixing text for
 * 0.9.15
         * if `undefined` is passed as a style, it is now ignored
-        * fixing bug: an array of blocks couldn't be passed to `table.cell`
-* 0.9.14 - Improving fix for when blocks.js is loaded twice (seemed to fix an additional problem i saw where defaults were sometimes overriding styles from other instances of blocks.js, possibly related to load order of scripts? Unfortunately I couldn't create a test to repro)
+        * fixing bug: an array of gems couldn't be passed to `table.cell`
+* 0.9.14 - Improving fix for when gem.js is loaded twice (seemed to fix an additional problem i saw where defaults were sometimes overriding styles from other instances of gem.js, possibly related to load order of scripts? Unfortunately I couldn't create a test to repro)
 * 0.9.13
-        * Fixing issue where styles break if block.js is loaded twice (also adding a warning when it detects two instances of blocks.js)
+        * Fixing issue where styles break if gem.js is loaded twice (also adding a warning when it detects two instances of gem.js)
         * Adding a little more documentation around $state
 * 0.9.12
         * bringing back the $state style in a slightly different form
@@ -1319,27 +1322,27 @@ Changelog
 * 0.9.11 - updating hashmap version, since it was giving me trouble in another project
 * 0.9.10
         * remove the $state style thing - $setup and $kill cover it
-        * allow $setup to return a value that's then passed to $kill (so they aren't forced to set properties on the block)
+        * allow $setup to return a value that's then passed to $kill (so they aren't forced to set properties on the gem)
 * 0.9.9 adding better require paths for commonjs
 * 0.9.8 - writing all this documentation
 * 0.9.7 - Added List, Image, and Canvas
 * 0.9.6 - Fixed but in EventEmitterB that was causing catch-all ifon handlers to not fire on-call if events were already attached beforehand
 * 0.9.5
-        * Used default stying to set defaults on some of the built in Blocks
+        * Used default stying to set defaults on some of the built in Gems
         * Fixed a bug in ifon when its called without an event and there are already events set up
-* 0.9.4 - Create a way to set unobtrusive default styles for custom Blocks (so you can, for example, make Option blocks display: block)
-* 0.9.3 - Support styling blocks via their inheritance tree (ie if A inherits from B, styling A should style A and B, but a B style should override an A style)
+* 0.9.4 - Create a way to set unobtrusive default styles for custom Gems (so you can, for example, make Option gems display: block)
+* 0.9.3 - Support styling gems via their inheritance tree (ie if A inherits from B, styling A should style A and B, but a B style should override an A style)
 * 0.9.2
-        * Using `ifon` and `ifoff` for proxying browser events through Blocks
+        * Using `ifon` and `ifoff` for proxying browser events through Gems
         * Override the `on` method so that standard browser events are automatically attached to domNodes
             * provide a way to exclude certain events, so they can be set up in an alternate way
 * 0.9.1
-        * Adding tests for all the public Block properties that didn't already have tests
+        * Adding tests for all the public Gem properties that didn't already have tests
         * Changing API of focus/blur, show/hide, and selection methods to getter/setter style properties
         * Replacing getCaretPosition to selectionRange that returns the full selection range
         * Made the selection stuff work for inputs and text areas
         * Adding `ifon` and `ifoff` methods
-* 0.1.1 - Creating a bunch of conventions that all the standard blocks conform to
+* 0.1.1 - Creating a bunch of conventions that all the standard gems conform to
 * 0.1.0 - Initial commit - code transferred from private project.
 
 How to Contribute!

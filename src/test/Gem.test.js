@@ -3,18 +3,17 @@ var Future = require("async-future")
 
 var syn = require("fsyn")
 var testUtils = require('testUtils')
-var blocks = require("../blocks.browser")
-var Block = blocks.Block
+var Gem = require("../Gem.browser")
 
-var Text = blocks.Text
-var Button = blocks.Button
+var Text = Gem.Text
+var Button = Gem.Button
 
 
 
 module.exports = function(t) {
 
     // basic test block
-    var TestThinger = proto(Block,function(superclass) {
+    var TestThinger = proto(Gem,function(superclass) {
         this.name = 'TestThinger'
     })
 
@@ -37,7 +36,7 @@ module.exports = function(t) {
 
     this.test('add, addAt, addBefore', function() {
 		this.count(5);
-        var C = proto(Block, function(superclass) {
+        var C = proto(Gem, function(superclass) {
             this.name = 'addTest'
             this.init = function() {
                 superclass.init.call(this) // set style with constructor
@@ -158,7 +157,7 @@ module.exports = function(t) {
         })
 
         this.test('remove', function() {
-            var C = proto(Block, function(superclass) {
+            var C = proto(Gem, function(superclass) {
                 this.name = 'removeTest'
 
                 this.init = function() {
@@ -224,7 +223,7 @@ module.exports = function(t) {
 
 		this.test('setting parent',function() {
 			this.count(2);
-			var C = proto(Block, function(superclass) {
+			var C = proto(Gem, function(superclass) {
                 this.name = 'parent'
 
                 this.init = function() {
@@ -232,7 +231,7 @@ module.exports = function(t) {
                 }
             })
 
-			var C2 = proto(Block, function(superclass) {
+			var C2 = proto(Gem, function(superclass) {
                 this.name = 'child'
 
                 this.init = function() {
@@ -269,7 +268,7 @@ module.exports = function(t) {
     })
 
     this.test('label property', function() {
-        blocks.dev = false // turn off dev for a second
+        Gem.dev = false // turn off dev for a second
 
         var thinger = TestThinger()
         this.eq(thinger.label, undefined)
@@ -280,7 +279,7 @@ module.exports = function(t) {
         //this.eq(thinger.attr('label'), undefined) why not just do it for everything // only set in dev mode
 
         var thinger2 = TestThinger()
-        blocks.dev = true // turn back on
+        Gem.dev = true // turn back on
         thinger2.label = "moose2"
         this.eq(thinger2.label, "moose2")
         this.eq(thinger2.attr('label'), "moose2")
@@ -288,12 +287,12 @@ module.exports = function(t) {
         try {
             thinger.label = 'setagainfails'
         } catch(e) {
-            this.eq(e.message, "A Block's label can only be set once (was already set to: moose)")
+            this.eq(e.message, "A Gem's label can only be set once (was already set to: moose)")
         }
     })
 
     this.test('visible', function() {
-        var container = blocks.Container()
+        var container = Gem.Block()
         testUtils.demo("visible test", container)
 
         var thinger = TestThinger()
@@ -322,7 +321,7 @@ module.exports = function(t) {
             var thinger = TestThinger()
             container.add(thinger)
             thinger.attached = true // pretend its attached so it'll render the style
-            thinger.style = blocks.Style({display: 'inline'})
+            thinger.style = Gem.Style({display: 'inline'})
 
             this.eq($(thinger.domNode).css('display'), "inline")
 
@@ -353,7 +352,7 @@ module.exports = function(t) {
     })
 
     this.test("focus", function() {
-        var input = blocks.TextField()
+        var input = Gem.TextField()
         testUtils.demo("focus test", input)
 
         this.ok(input.domNode !== document.activeElement)
@@ -366,11 +365,11 @@ module.exports = function(t) {
     })
 
     this.test("setSelection and getCaratOffset", function() {
-        var container = blocks.Container()
+        var container = Gem.Block()
         testUtils.demo("setSelection and getCaratOffset", container)
 
         this.test('input textfield', function() {
-            var input = blocks.TextField()
+            var input = Gem.TextField()
             container.add(input)
             input.val = "whatever yo"
 
@@ -385,9 +384,9 @@ module.exports = function(t) {
             this.eq(input.selectionRange[1], 5)
 
             this.test("input textfields that are next to eachother", function() {
-                var c = blocks.Container()
+                var c = Gem.Block()
                 container.add(c)
-                var input = blocks.TextField(), input2 = blocks.TextField()
+                var input = Gem.TextField(), input2 = Gem.TextField()
                 c.add(input, input2)
                 input.val = "whatever yo"
                 input2.val = 'more whatever'
@@ -417,7 +416,7 @@ module.exports = function(t) {
         })
 
         this.test('textarea', function() {
-            var input = blocks.TextArea()
+            var input = Gem.TextArea()
             container.add(input)
             input.val = "whatever yo"
 
@@ -433,7 +432,7 @@ module.exports = function(t) {
         })
 
         this.test("regular div", function() {
-            var div = blocks.Text("Whatever")
+            var div = Gem.Text("Whatever")
             div.attr("contenteditable", true)
             container.add(div)
 
@@ -449,7 +448,7 @@ module.exports = function(t) {
         })
 
         this.test("contenteditable div", function() {
-            var input = blocks.Text("Whatever")
+            var input = Gem.Text("Whatever")
             input.attr("contenteditable", true)
             container.add(input)
 
@@ -475,7 +474,7 @@ module.exports = function(t) {
 
         this.test("selectionRange across nodes", function() {
             var one = Text('one'), two = Text("two"), three = Text("three")
-            var c = blocks.Container(one, two, three)
+            var c = Gem.Block(one, two, three)
             container.add(c)
 
             c.selectionRange = [2,8]
@@ -493,7 +492,7 @@ module.exports = function(t) {
     this.test("on, addListener, once, removeListener, removeAllListeners", function(t) {
         this.count(10)
 
-        var EventWhore = proto(Block,function(superclass) {
+        var EventWhore = proto(Gem,function(superclass) {
             this.name = 'EventWhore'
         })
 
@@ -554,14 +553,14 @@ module.exports = function(t) {
 
 
     this.test('listening on standard browser events', function(t) {
-        var container = blocks.Container()
+        var container = Gem.Block()
         testUtils.demo('listening on standard browser events', container)
         this.test("basic browser events", function (t) {
             this.count(1)
 
             var EventEmitter = require("events").EventEmitter
 
-            var EventWhore = proto(Block,function(superclass) {
+            var EventWhore = proto(Gem,function(superclass) {
                 this.name = 'EventWhore'
             })
 
@@ -572,7 +571,7 @@ module.exports = function(t) {
                 t.eq(eventName, 'click')
             })
 
-            // events shouldn't be emitted unless bound with the EventEmitterB/Block `on` method (the EventEmitter `on` method bypasses the critical dom event handling setup)
+            // events shouldn't be emitted unless bound with the EventEmitterB/Gem `on` method (the EventEmitter `on` method bypasses the critical dom event handling setup)
             var eventEmitterPrototypeHandler;
             EventEmitter.prototype.on.call(e, "click", eventEmitterPrototypeHandler=function() {
                 testEvent('EventEmitter click')
@@ -613,7 +612,7 @@ module.exports = function(t) {
         this.test("browser events with exclusion", function(t) {
             this.count(1)
 
-            var EventWhore = proto(Block,function(superclass) {
+            var EventWhore = proto(Gem,function(superclass) {
                 this.name = 'EventWhore'
 
                 this.excludeDomEvents = {click: 1}
@@ -638,36 +637,36 @@ module.exports = function(t) {
     })
 
     this.test("attach and detach", function() {
-        var a = blocks.Text("tach")
+        var a = Gem.Text("tach")
         a.attach()
         this.eq(a.domNode.parentNode, document.body)
 
-        var b = blocks.Text("tach2")
+        var b = Gem.Text("tach2")
         b.attach(a.domNode)
         this.eq(b.domNode.parentNode, a.domNode)
 
 
-        var c = blocks.Text("tach3")
-        blocks.attach(c)
+        var c = Gem.Text("tach3")
+        Gem.attach(c)
         this.eq(c.domNode.parentNode, document.body)
 
-        var d = blocks.Text("tach4")
-        blocks.attach(c.domNode, d)
+        var d = Gem.Text("tach4")
+        Gem.attach(c.domNode, d)
         this.eq(d.domNode.parentNode, c.domNode)
 
 
-        var e = blocks.Text("tach5")
-        blocks.attach([e])
+        var e = Gem.Text("tach5")
+        Gem.attach([e])
         this.eq(e.domNode.parentNode, document.body)
 
-        var f = blocks.Text("tach6")
-        blocks.attach(e.domNode, [f])
+        var f = Gem.Text("tach6")
+        Gem.attach(e.domNode, [f])
         this.eq(f.domNode.parentNode, e.domNode)
 
 
-        blocks.detach(f)
+        Gem.detach(f)
         this.eq(f.domNode.parentNode, null)
-        blocks.detach([e,d])
+        Gem.detach([e,d])
         this.eq(e.domNode.parentNode, null)
         this.eq(d.domNode.parentNode, null)
         c.detach()
@@ -681,7 +680,7 @@ module.exports = function(t) {
         this.test("dom events handlers not being unbound correctly when more than one type of event is bound", function(t) {
             this.count(1)
 
-            var EventWhore = proto(Block,function(superclass) {
+            var EventWhore = proto(Gem,function(superclass) {
                 this.name = 'EventWhore'
             })
 

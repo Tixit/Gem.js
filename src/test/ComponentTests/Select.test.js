@@ -2,14 +2,14 @@ var testUtils = require('testUtils')
 var syn = require("fsyn")
 var domUtils = require('domUtils')
 
-var Container = require("Components/Container")
+var Block = require("Components/Block")
 var Text = require("Components/Text")
 
 var Select = require('Components/Select')
 
 module.exports = function() {
 
-    var container = Container()
+    var container = Block()
     testUtils.demo("Select", container)
 
     this.test("basic usage", function(t) {
@@ -328,7 +328,7 @@ module.exports = function() {
         try {
             select2.remove(optionB)
         } catch(e) {
-            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
+            this.eq(e.message, "The Gem passed at argument index 0 is not a child of this Gem.")
         }
     })
 };

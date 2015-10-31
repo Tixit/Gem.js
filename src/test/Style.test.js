@@ -1,16 +1,15 @@
 var proto = require('proto')
 
 var testUtils = require('testUtils')
-var blocks = require("../blocks.browser")
-var Block = blocks.Block
+var Gem = require("../Gem.browser")
 var domUtils = require('domUtils')
 var syn = require("fsyn")
 
-var Style = blocks.Style
-var Text = blocks.Text
-var Button = blocks.Button
-var CheckBox = blocks.CheckBox
-var Container = blocks.Container
+var Style = Gem.Style
+var Text = Gem.Text
+var Button = Gem.Button
+var CheckBox = Gem.CheckBox
+var Block = Gem.Block
 
 var defaultBackgroundColor = 'rgba(0, 0, 0, 0)'; var defaultBgColor = defaultBackgroundColor
 
@@ -25,6 +24,9 @@ module.exports = function(t) {
 
 
 
+
+
+
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -33,7 +35,7 @@ module.exports = function(t) {
             color: 'rgb(0, 128, 0)'
         })
 
-        var C = proto(Block, function(superclass) {
+        var C = proto(Gem, function(superclass) {
             this.name = 'C'
 
             this.build = function() {
@@ -63,7 +65,7 @@ module.exports = function(t) {
             CheckBox: {backgroundColor: 'rgb(0, 0, 128)'}
         })
 
-        var C = proto(Block, function(superclass) {
+        var C = proto(Gem, function(superclass) {
             this.name = 'C'
 
             this.build = function() {
@@ -97,7 +99,7 @@ module.exports = function(t) {
             this.name = 'NextText'
         })
 
-        var C = proto(Block, function(superclass) {
+        var C = proto(Gem, function(superclass) {
             this.name = 'C'
 
             this.build = function() {
@@ -125,7 +127,7 @@ module.exports = function(t) {
             Text: textStyle1
         })
 
-        var C = proto(Block, function(superclass) {
+        var C = proto(Gem, function(superclass) {
             this.name = 'C'
 
             this.build = function() {
@@ -150,7 +152,7 @@ module.exports = function(t) {
 
     })
 
-    this.test('default Block styles',function(t) {
+    this.test('default Gem styles',function(t) {
         this.test('simple default styles', function(t) {
             this.count(10)
 
@@ -173,8 +175,8 @@ module.exports = function(t) {
 
             var node = C("yeahhh")
             var node2 = D("NOOOOO")
-            var container = Container(node, node2)
-            testUtils.demo('default Block styles', container) // node has to be apart of the page before css class styles are applied to it
+            var container = Block(node, node2)
+            testUtils.demo('default Gem styles', container) // node has to be apart of the page before css class styles are applied to it
 
             var div = $(node.domNode)
             this.eq(div.css('color'), 'rgb(0, 128, 0)')
@@ -198,7 +200,7 @@ module.exports = function(t) {
             },0)
         })
 
-        this.test("complex default Block styles", function(t) {
+        this.test("complex default Gem styles", function(t) {
             var C = proto(Text, function(superclass) {
                 this.defaultStyle = Style({
                     color: 'rgb(0, 128, 0)',
@@ -213,7 +215,7 @@ module.exports = function(t) {
 
             var c = C()
             c.add(Text("moooose"))
-            testUtils.demo("complex default Block styles", c)
+            testUtils.demo("complex default Gem styles", c)
 
             var node = $(c.domNode)
             var child = c.children[0]
@@ -235,7 +237,7 @@ module.exports = function(t) {
             })
         })
 
-        var Parent = proto(Block, function(superclass) {
+        var Parent = proto(Gem, function(superclass) {
             this.name = 'Parent'
 
             this.build = function() {
@@ -243,7 +245,7 @@ module.exports = function(t) {
             }
         })
 
-        var Grandparent = proto(Block, function(superclass) {
+        var Grandparent = proto(Gem, function(superclass) {
             this.name = 'Grandparent'
 
             this.build = function() {
@@ -286,7 +288,7 @@ module.exports = function(t) {
         })
         var S2 = Style({}) // empty style
 
-        var C = proto(Block, function(superclass) {
+        var C = proto(Gem, function(superclass) {
             this.name = 'C'
 
             this.build = function() {
@@ -306,7 +308,7 @@ module.exports = function(t) {
 
     this.test("changing styles on the fly", function() {
 
-        var C = proto(Block, function(superclass) {
+        var C = proto(Gem, function(superclass) {
             this.name = 'C'
 
             this.build = function(style) {
@@ -393,7 +395,7 @@ module.exports = function(t) {
                 Text: textStyle2
             })
 
-        var Parent = proto(Block, function(superclass) {
+        var Parent = proto(Gem, function(superclass) {
             this.name = 'Parent'
 
             this.build = function() {
@@ -405,7 +407,7 @@ module.exports = function(t) {
             }
         })
 
-        var Grandparent = proto(Block, function(superclass) {
+        var Grandparent = proto(Gem, function(superclass) {
             this.name = 'Grandparent'
 
             this.build = function() {
@@ -432,7 +434,7 @@ module.exports = function(t) {
 
     this.test('component label styling', function() {
 
-        var C = proto(Block, function(superclass) {
+        var C = proto(Gem, function(superclass) {
             this.name = 'C'
 
             this.build = function() {
@@ -440,9 +442,9 @@ module.exports = function(t) {
                 this.add(
                     Text('one'),
                     Text('inner', 'two'),
-                    Container([Text('three')]),
-                    Container('inner2', [Text('four')]),
-                    Container('inner2', [Text('inner', 'five')])
+                    Block([Text('three')]),
+                    Block('inner2', [Text('four')]),
+                    Block('inner2', [Text('inner', 'five')])
                 )
             }
         })
@@ -463,7 +465,7 @@ module.exports = function(t) {
                 }
             },
 
-            Container: {
+            Block: {
                 backgroundColor: 'rgb(0, 120, 130)',
 
                 Text: {
@@ -480,15 +482,15 @@ module.exports = function(t) {
         this.eq($(children[0]).css('backgroundColor'), 'rgb(1, 2, 3)')
 
         this.eq($(children[1]).css('color'), 'rgb(128, 128, 128)')
-        this.eq($(children[1]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')   // the $inner style doesn't have a backgroundColor set and doesn't inherit from the Block style
+        this.eq($(children[1]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')   // the $inner style doesn't have a backgroundColor set and doesn't inherit from the Gem style
 
         this.eq($(children[2]).css('backgroundColor'), 'rgb(0, 120, 130)')
         this.eq($(children[2].children[0]).css('color'), 'rgb(0, 0, 128)')
 
-        this.eq($(children[3]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')  // uses the label style, not the Block style
+        this.eq($(children[3]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')  // uses the label style, not the Gem style
         this.eq($(children[3].children[0]).css('color'), 'rgb(0, 128, 128)')
 
-        this.eq($(children[4]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')  // uses the label style, not the Block style
+        this.eq($(children[4]).css('backgroundColor'), 'rgba(0, 0, 0, 0)')  // uses the label style, not the Gem style
         this.eq($(children[4].children[0]).css('color'), 'rgb(128, 128, 128)')         // comes from the $inner style rather than the component style (this behavior is a little weird, but is how it works for now)
         this.eq($(children[4].children[0]).css('backgroundColor'), 'rgba(0, 0, 0, 0)') // nothing should be inherited from the non-label style
 
@@ -661,7 +663,7 @@ module.exports = function(t) {
                     }
                 },
 
-                Container: {
+                Block: {
                     CheckBox: {
                         color: 'rgb(0, 128, 0)',
                         width: 100 // make sure this doesn't bleed through to the readWrite CheckBox style
@@ -678,9 +680,9 @@ module.exports = function(t) {
                 }
             })
 
-            var block = Container([
+            var block = Block([
                 CheckBox(),
-                Container([CheckBox()])
+                Block([CheckBox()])
             ])
             block.style = style
 
@@ -809,8 +811,8 @@ module.exports = function(t) {
             })
 
             var checkbox = CheckBox()
-            var inner = Container([checkbox])
-            var block = Container([inner])
+            var inner = Block([checkbox])
+            var block = Block([inner])
             inner.style = style
 
             testUtils.demo("native psuedoclass styling broken by a block's computedStyleMap", block)
@@ -862,7 +864,7 @@ module.exports = function(t) {
                     }
                 },
                 '$$nthChild(2)': {
-                    Container:{
+                    Block:{
                         backgroundColor: 'rgb(1, 10, 57)',
                         CheckBox: {
                             color: 'rgb(128, 129, 230)'
@@ -872,9 +874,9 @@ module.exports = function(t) {
             })
 
             var checkbox, inner, evenInner
-            var block = Container([
-                inner = Container([
-                     evenInner = Container([
+            var block = Block([
+                inner = Block([
+                     evenInner = Block([
                          checkbox = CheckBox()
                      ])
                 ])
@@ -931,8 +933,8 @@ module.exports = function(t) {
             })
 
             var checkbox = CheckBox()
-            var inner = Container([checkbox])
-            var block = Container([inner])
+            var inner = Block([checkbox])
+            var block = Block([inner])
             block.style = style
             inner.style = Style({
                 '$$nthChild(2)': {
@@ -980,13 +982,13 @@ module.exports = function(t) {
         this.test("basic psuedoclass styling (some emulated some not)", function() {
             this.count(40)
 
-            var C = proto(Block, function(superclass) {
+            var C = proto(Gem, function(superclass) {
                 this.name = 'C'
 
                 this.build = function() {
                     this.style = style
 
-                    var container = Container([CheckBox()])
+                    var container = Block([CheckBox()])
 
                     this.add(
                         CheckBox(),
@@ -1023,7 +1025,7 @@ module.exports = function(t) {
                     }
                 },
 
-                Container: {
+                Block: {
                     CheckBox: {color: 'rgb(0, 128, 0)'},
                     $$required: {
                         CheckBox: {
@@ -1168,7 +1170,7 @@ module.exports = function(t) {
             })
 
             var x,y;
-            var c = Container([
+            var c = Block([
                 x = Text('a'),
                 y = Text('b')
             ])
@@ -1196,7 +1198,7 @@ module.exports = function(t) {
                 c.style = style
             })
             this.test('visited', function() {
-                var C = proto(Block, function(superclass) {
+                var C = proto(Gem, function(superclass) {
                     this.name = 'C'
 
                     this.build = function(text, link) {
@@ -1224,13 +1226,13 @@ module.exports = function(t) {
                     }
                 })
 
-                var component1 = C("This should be green when not in focus, and blue when you click on it (if its not, visit google then try again)", "http://www.google.com/")
+                var component1 = C("This should be green when not in focus, and blue when you click on it (if its not, visit google then try again)", "https://www.google.com/")
                     component1.attr('tabindex', 1) // to make it focusable
                 var component3 = C("This should be red (even when clicked on)", "http://www.thisdoesntexistatall.com/notatall")
                     component3.attr('tabindex', 1) // to make it focusable
 
                 // these need to be manually verified because the 'visited' pseudClass styles can't be verified via javascript for "security" reasons (privacy really)
-                testUtils.manualDemo('Manually verify these: component :visited pseudo-class styling', Container([component1, component3]))
+                testUtils.manualDemo('component :visited pseudo-class styling', Block([component1, component3]))
 
                 component1.focus = true
 
@@ -1264,7 +1266,7 @@ module.exports = function(t) {
                         color: red
                     }
                 },
-                Container:{
+                Block:{
                     '$$not(:nthChild(3))': {
                         Text: {
                             color: teal
@@ -1273,11 +1275,11 @@ module.exports = function(t) {
                 }
             })
 
-            var c = Container([
+            var c = Block([
                 Text('a'),
                 Text('b'),
-                Container([Text('c')]),
-                Container([Text('d')])
+                Block([Text('c')]),
+                Block([Text('d')])
             ])
             testUtils.demo('not', c)
             c.style = style
@@ -1294,7 +1296,7 @@ module.exports = function(t) {
             this.test('last-child', function(t) {
                 this.count(7)
 
-                var C = proto(Block, function(superclass) {
+                var C = proto(Gem, function(superclass) {
                     this.name = 'C'
 
                     this.build = function() {
@@ -1339,7 +1341,7 @@ module.exports = function(t) {
             })
 
             this.test('nth-child', function() {
-                var C = proto(Block, function(superclass) {
+                var C = proto(Gem, function(superclass) {
                     this.name = 'C'
 
                     this.build = function() {
@@ -1383,7 +1385,7 @@ module.exports = function(t) {
                     var teal = 'rgb(0, 128, 128)'
 
                     var style = Style({
-                        Container:{
+                        Block:{
                             '$$nthChild(2)': {
                                 Text: {
                                     color: red,
@@ -1401,15 +1403,15 @@ module.exports = function(t) {
                         }
                     })
 
-                    var c = Container([])
+                    var c = Block([])
                     testUtils.demo('nth-child emulation', c)
                     c.style = style
 
-                    c.add(Container([Text('a')]))
-                    c.add(Container([Text('b')]))
-                    c.add(Container([Text('c')]))
-                    c.add(Container([Text('d')]))
-                    c.add(Container([Text('e')]))
+                    c.add(Block([Text('a')]))
+                    c.add(Block([Text('b')]))
+                    c.add(Block([Text('c')]))
+                    c.add(Block([Text('d')]))
+                    c.add(Block([Text('e')]))
 
                     setTimeout(function() {
                         t.eq($(c.children[0].children[0].domNode).css('color'), teal)
@@ -1434,8 +1436,8 @@ module.exports = function(t) {
                         }
                     })
 
-                    var box = Container([])
-                    var c = Container([])
+                    var box = Block([])
+                    var c = Block([])
                     c.style = style
 
                     c.add(Text("moo"))
@@ -1497,7 +1499,7 @@ module.exports = function(t) {
 
         var inheritsFromText = proto(Text, function() {})
 
-        var C = proto(Block, function(superclass) {
+        var C = proto(Gem, function(superclass) {
             this.name = 'C'
 
             this.build = function() {
@@ -1564,9 +1566,9 @@ module.exports = function(t) {
     this.test("$inherit", function() {
         this.test("$inherit from component style map", function() {
             var style = Style({
-                Container: {
+                Block: {
                     backgroundColor: 'rgb(12, 14, 19)',
-                    Container: {
+                    Block: {
                         $inherit: true,
                         color: 'rgb(15, 25, 35)'
                     }
@@ -1574,7 +1576,7 @@ module.exports = function(t) {
             })
 
             var inner;
-            var thing = Container([Container([inner = Container([Text("hi")])])])
+            var thing = Block([Block([inner = Block([Text("hi")])])])
             thing.style = style
             testUtils.demo("$inherit from component style map", thing)
 
@@ -1595,7 +1597,7 @@ module.exports = function(t) {
             })
 
             var text;
-            var thing = Container([text=Text('textLabel', "hi")])
+            var thing = Block([text=Text('textLabel', "hi")])
             thing.style = style
             testUtils.demo("label style inheriting from from sibling", thing)
 
@@ -1611,7 +1613,7 @@ module.exports = function(t) {
             })
 
             var text;
-            var thing = Container([text=Text('textLabel', "hi")])
+            var thing = Block([text=Text('textLabel', "hi")])
             thing.style = style
             text.style = Style({
                 $inherit: true,
@@ -1629,12 +1631,12 @@ module.exports = function(t) {
                 Text: {
                     backgroundColor: 'rgb(12, 14, 19)'
                 },
-                Container: {
+                Block: {
                     Text: {
                         $inherit: true,
                         color: 'rgb(15, 25, 35)'
                     },
-                    Container: {
+                    Block: {
                         Text: {
                             $inherit: true,
                             width: 30
@@ -1644,7 +1646,7 @@ module.exports = function(t) {
             })
 
             var inner;
-            var thing = Container([Container([Container([inner = Text("hi")])])])
+            var thing = Block([Block([Block([inner = Text("hi")])])])
             thing.style = style
             testUtils.demo("$inherit from component style map", thing)
 
@@ -1681,7 +1683,7 @@ module.exports = function(t) {
             })
 
             var inner;
-            var thing = Container([
+            var thing = Block([
                 inner=Text3('label', "hi")
             ])
             thing.style = style
@@ -1700,12 +1702,12 @@ module.exports = function(t) {
 //                Text: {
 //                    backgroundColor: 'rgb(12, 14, 19)'
 //                },
-//                Container: {
+//                Block: {
 //                    $textLabel: {
 //                        $inherit: true,
 //                        color: 'rgb(15, 25, 35)'
 //                    },
-//                    Container: {
+//                    Block: {
 //                        Text: {
 //                            $inherit: true,
 //                            width: 30
@@ -1715,7 +1717,7 @@ module.exports = function(t) {
 //            })
 //
 //            var inner;
-//            var thing = Container([Container([inner = Container([Text("hi")])])])
+//            var thing = Block([Block([inner = Block([Text("hi")])])])
 //            thing.style = style
 //            testUtils.demo("$inherit from component style map", thing)
 //
@@ -1728,7 +1730,7 @@ module.exports = function(t) {
     this.test('former bugs', function() {
         this.test('propogating inner style wasnt working', function() {
             var S = Style({
-                    Container: {
+                    Block: {
                         Button: {
                             color: 'rgb(1,2,3)'
                         }
@@ -1737,7 +1739,7 @@ module.exports = function(t) {
 
             var C = Text('X')
                 C.style = S
-                var A = Container()
+                var A = Block()
                     var B = Button('b')
                 A.add(B)
             C.add(A)
@@ -1756,8 +1758,8 @@ module.exports = function(t) {
                 }
             })
 
-            var c = Container([
-                Container('label', [Text('hi')])
+            var c = Block([
+                Block('label', [Text('hi')])
             ])
             c.style = S
 
@@ -1778,28 +1780,28 @@ module.exports = function(t) {
                 }
             })
 
-            var c = Container([
-                Container('label', [Text('hi')])
+            var c = Block([
+                Block('label', [Text('hi')])
             ])
             c.style = S
 
-            var superContainer = Container([c]) // the component has to be added to a parent for the bug to manifest
+            var superBlock = Block([c]) // the component has to be added to a parent for the bug to manifest
 
-            testUtils.demo('inner styles inside labels werent working right when there was a style outside the label', superContainer)
+            testUtils.demo('inner styles inside labels werent working right when there was a style outside the label', superBlock)
 
             this.eq($(c.children[0].children[0].domNode).css('color'), 'rgb(1, 2, 3)')
         })
 
         this.test('removing the last child component failed', function() {
-            var c = Container([Text('a')])
+            var c = Block([Text('a')])
             c.remove(0)
         })
 
-        this.test("loading blocks.js twice caused weird behavior - defaulting overriding main styling", function(t) {
+        this.test("loading Gem.js twice caused weird behavior - defaulting overriding main styling", function(t) {
             this.count(6)
 
-            var container = Container()
-            testUtils.demo("loading blocks.js twice caused weird behavior - defaulting overriding main styling", container)
+            var container = Block()
+            testUtils.demo("loading Gem.js twice caused weird behavior - defaulting overriding main styling", container)
 
             var c = Text('a')
             c.defaultStyle =  Style({
@@ -1814,12 +1816,12 @@ module.exports = function(t) {
             t.eq($(c.domNode).css('position'), 'absolute')
             t.eq($(c.domNode).css('display'), 'block')
 
-            // because of webpack's shaddowing (i'm guessing) this will cause window.blocks to get populated instead of being passed back to require.js (thus the "undefinedResult")
-            requirejs(["/dist/blocks.umd.js"], function(undefinedResult) {
+            // because of webpack's shaddowing (i'm guessing) this will cause window.Gem to get populated instead of being passed back to require.js (thus the "undefinedResult")
+            requirejs(["/dist/Gem.umd.js"], function(undefinedResult) {
                 t.eq($(c.domNode).css('position'), 'absolute')
                 t.eq($(c.domNode).css('display'), 'block')
 
-                var d = window.blocks.Text("d")
+                var d = window.Gem.Text("d")
                 d.defaultStyle =  Style({
                     display: 'block'
                 })
@@ -1842,7 +1844,7 @@ module.exports = function(t) {
         this.test('last-child not working when more children are added asynchronously', function(t) {
             this.count(10)
 
-            var C = proto(Block, function(superclass) {
+            var C = proto(Gem, function(superclass) {
                 this.name = 'C'
 
                 this.build = function() {
@@ -1897,8 +1899,8 @@ module.exports = function(t) {
             })
 
             var text = C("a'llo")
-            var c = Container([
-                Container('a', [text])
+            var c = Block([
+                Block('a', [text])
             ])
             c.style = Style({
                 Text: {
@@ -1922,21 +1924,21 @@ module.exports = function(t) {
 
         this.test('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', function(t) {
 
-            var C = proto(Container, function(superclass) {
+            var C = proto(Block, function(superclass) {
                 this.name = 'blah'
             })
 
             var text = C(Text("a'llo"))
-            var c = Container([
-                Container('a', [text])
+            var c = Block([
+                Block('a', [text])
             ])
             c.style = Style({
-                Container: {
+                Block: {
                     display: "block"
                 },
                 $a: {
                     '$$nthChild(1)': {
-                        Container: {
+                        Block: {
                             // color left as default (which should override the 'red' above)
                         }
                     }
@@ -1950,12 +1952,12 @@ module.exports = function(t) {
 
         this.test('native pseudoclass style not using default styles when they must override a StyleMap style with "initial" when there is no default style', function(t) {
 
-            var C = proto(Container, function(superclass) {
+            var C = proto(Block, function(superclass) {
                 this.name = 'TicketView'
             })
 
             var thing = C(Text("a'llo"))
-            var c = Container([
+            var c = Block([
                 C([thing])
             ])
             c.style = Style({
@@ -1971,7 +1973,7 @@ module.exports = function(t) {
                         $$lastChild: {
                             borderBottom: 'none'
                         },
-                        $componentContainer: {
+                        $componentBlock: {
                             display: 'flex',
                             alignItems: 'center',
                         }
@@ -1988,16 +1990,16 @@ module.exports = function(t) {
 
         this.test('native pseudoclass style not overriding competing psuedoclass styles', function(t) {
 
-            var C = proto(Container, function(superclass) {
+            var C = proto(Block, function(superclass) {
                 this.name = 'Whatever'
             })
 
             var thing = C(Text("a'llo"))
-            var c = Container([
-                Container([thing])
+            var c = Block([
+                Block([thing])
             ])
             c.style = Style({
-                Container: {
+                Block: {
                     Whatever: {
                         display: 'table-cell',
 
@@ -2023,7 +2025,7 @@ module.exports = function(t) {
         this.test("improper caching caused invalid styles to be returned - case 1", function() {
 
             var text = Text("text")
-            var inner = Container([Container('wrapper', [text])])
+            var inner = Block([Block('wrapper', [text])])
             inner.style = Style({
                 marginRight: 2,
 
@@ -2032,9 +2034,9 @@ module.exports = function(t) {
                 }
             })
 
-            var component = Container(Container([inner]))
+            var component = Block(Block([inner]))
             component.style = Style({
-                Container: {
+                Block: {
                     display: 'block'
                 }
             })
@@ -2047,7 +2049,7 @@ module.exports = function(t) {
         this.test("improper caching caused invalid styles to be returned - case 2", function() {
 
             var text = Text()
-            var inner = Container([Container('wrapper', [text])])
+            var inner = Block([Block('wrapper', [text])])
             inner.style = Style({
                 marginRight: 2,
 
@@ -2063,13 +2065,13 @@ module.exports = function(t) {
 
                 UserSelection: {
                     $setup: function(){},
-                    Container: {}  /// ????? why does removing this make the style *not* work?
+                    Block: {}  /// ????? why does removing this make the style *not* work?
                 }
             })
 
-            var component = Container(Container([inner]))
+            var component = Block(Block([inner]))
             component.style = Style({
-                Container: {
+                Block: {
                     display: 'block'
                 }
             })
@@ -2077,6 +2079,35 @@ module.exports = function(t) {
             testUtils.demo("improper caching caused invalid styles to be returned - case 2", component)
 
             this.eq($(text.domNode).css('borderWidth'), '1px')
+        })
+
+        this.test("inherit inside pseudoclass style was causing an exception", function() {
+            var style = Style({
+                TableRow: {
+                    '$$last-child':{
+                        TableCell: {
+                        },
+
+                        $layoutCell: {
+                            $inherit: true,
+                            color: 'red'
+                        }
+                    }
+                }
+            })
+
+            var Table = Gem.Table
+            var component = Table([
+                ['a1','b1','c1'],
+                ['a2','b2','c2'],
+                ['a3','b3','c3']
+            ])
+
+            component.style = style
+
+            testUtils.demo("something", component)
+
+            // the point of this test is just to not throw an exception
         })
 
     })

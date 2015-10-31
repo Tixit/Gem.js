@@ -1,7 +1,7 @@
 var syn = require("fsyn")
 var testUtils = require('testUtils')
 
-var Container = require('Components/Container')
+var Block = require('Components/Block')
 var Text = require("Components/Text")
 
 module.exports = function() {
@@ -9,12 +9,12 @@ module.exports = function() {
     this.test('basic usage', function(t) {
         t.count(18)
 
-        var demoContainer = Container()
-        testUtils.demo("Container", demoContainer)
+        var demoContainer = Block()
+        testUtils.demo("Block", demoContainer)
 
 
         var text1 = Text('a')
-        var c1 = Container(text1)
+        var c1 = Block(text1)
         demoContainer.add(c1)
 
         this.eq(c1.children.length, 1)
@@ -31,7 +31,7 @@ module.exports = function() {
 
 
         var text2 = Text('b'), text3 = Text('c')
-        var c2 = Container(text2, text3)
+        var c2 = Block(text2, text3)
         demoContainer.add(c2)
 
         this.eq(c2.children.length, 2)
@@ -40,7 +40,7 @@ module.exports = function() {
 
 
         var text4 = Text('d'), text5 = Text('e')
-        var c3 = Container([text4, text5])
+        var c3 = Block([text4, text5])
         demoContainer.add(c3)
 
         this.eq(c3.children.length, 2)
@@ -50,24 +50,24 @@ module.exports = function() {
 
         // test to make sure label arguments work
 
-        var c4 = Container('aLabel1', Text('e'))
+        var c4 = Block('aLabel1', Text('e'))
         this.eq(c4.children.length, 1)
         this.eq(c4.attr('label', 'aLabel1'))
 
-        var c5 = Container('aLabel2', Text('f'), Text('g'))
+        var c5 = Block('aLabel2', Text('f'), Text('g'))
         this.eq(c5.children.length, 2)
         this.eq(c5.attr('label', 'aLabel2'))
 
-        var c6 = Container('aLabel3', [Text('h')])
+        var c6 = Block('aLabel3', [Text('h')])
         this.eq(c6.children.length, 1)
         this.eq(c6.attr('label', 'aLabel3'))
 
     })
 
     this.test('label arguments', function() {
-        var c1 = Container("label1")
-        var c2 = Container("label2", [])
-        var c3 = Container("label3", Text("a"), Text("b"))
+        var c1 = Block("label1")
+        var c2 = Block("label2", [])
+        var c3 = Block("label3", Text("a"), Text("b"))
 
         this.eq(c1.label, "label1")
         this.eq(c2.label, "label2")

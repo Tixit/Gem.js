@@ -1,12 +1,12 @@
 var testUtils = require('testUtils')
-var Container = require("Components/Container")
+var Block = require("Components/Block")
 var syn = require("fsyn")
 
 var TextField = require('Components/TextField')
 
 module.exports = function() {
 
-    var container = Container()
+    var container = Block()
     testUtils.demo("TextArea", container)
 
 	this.test('basic usage',function(t) {
@@ -61,7 +61,7 @@ module.exports = function() {
     this.test("former bugs", function() {
         this.test("TextField was messing directly with the domNode's classname for god knows what reason", function() {
             var field = TextField(true)
-            var inner = Container([field])
+            var inner = Block([field])
             container.add(inner)
 
             this.eq($(field.domNode).css('box-sizing'), 'border-box')

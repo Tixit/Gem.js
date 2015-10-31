@@ -1,12 +1,12 @@
 var testUtils = require('testUtils')
-var Container = require("Components/Container")
+var Block = require("Components/Block")
 var domUtils = require('domUtils')
 
 var Text = require('Components/Text');
 
 module.exports = function() {
 
-    var container = Container()
+    var container = Block()
     testUtils.demo("Text", container)
 
 	this.test('basic usage',function(t) {

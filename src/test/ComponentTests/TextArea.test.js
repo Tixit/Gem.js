@@ -1,12 +1,12 @@
 var testUtils = require('testUtils')
-var Container = require("Components/Container")
+var Block = require("Components/Block")
 var syn = require("fsyn")
 
 var TextArea = require('Components/TextArea')
 
 module.exports = function(t) {
 
-    var container = Container()
+    var container = Block()
     testUtils.demo("TextArea", container)
 
 	this.test('basic usage',function(t) {

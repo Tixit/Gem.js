@@ -1,6 +1,6 @@
 
 var testUtils = require('testUtils')
-var Container = require("Components/Container")
+var Block = require("Components/Block")
 var Text = require('Components/Text')
 var Style = require('Style')
 
@@ -11,7 +11,7 @@ var buildNestedStyle = testUtils.buildNestedStyle
 
 // warm up (not sure if this is really a good warm up)
 for(var n=0; n<100; n++) {
-    Container().add(Text("x"))
+    Block().add(Text("x"))
 }
 
 
@@ -19,7 +19,7 @@ for(var n=0; n<100; n++) {
 //*
 
 test("simple repetitive add performance", function() {
-    var c = Container()
+    var c = Block()
     this.time(function() {
         for(var n=0; n<100; n++) {
             c.add(Text("x"))
@@ -28,7 +28,7 @@ test("simple repetitive add performance", function() {
 })
 
 test("performance of repetitive add on already-attached block", function(){
-    var c = Container()
+    var c = Block()
     var nodes = testUtils.demo(1, c)
 
     this.time(function() {
@@ -115,9 +115,9 @@ test("performance of add on end of nested structure - 100 nestings, 100 style ne
 test("performance of add on end of nested structure with native pseudoclass style", function(){
     var structure = buildNestedStructure(5)
     structure.top.style = Style({
-        Container: {
+        Block: {
             hover: {
-                Container: {
+                Block: {
                     color: 'blue'
                 }
             }

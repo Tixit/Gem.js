@@ -1,13 +1,13 @@
 <body></body>
-<script src="blocks.umd.js"></script>
+<script src="Gem.umd.js"></script>
 <script src="proto.umd.js"></script>
 
 <script>
 
-var list = blocks.Container()
+var list = Gem.Block()
 ;[1,2,3].forEach(function(n) {
     var text = "Hi "+n
-    var toggleButton = blocks.Button(text) // create a button
+    var toggleButton = Gem.Button(text) // create a button
 
     // make it do stuff when you click on it
     toggleButton.on('click', function() {
@@ -24,11 +24,11 @@ var list = blocks.Container()
     list.add(toggleButton)
 })
 
-var greet = blocks.Button("send", "Send your Greetings") // labels like 'send' can differentiate otherwise identical types of blocks
+var greet = Gem.Button("send", "Send your Greetings") // labels like 'send' can differentiate otherwise identical types of Gems
 list.add(greet)
 
 // create styles with style objects ..
-list.style = blocks.Style({
+list.style = Gem.Style({
     border: '1px solid blue', // .. that use familiar css values,
     marginRight: 34,          // .. camelCase css properties and integers interpreted as "px" values when appropriate,
 
@@ -37,7 +37,7 @@ list.style = blocks.Style({
             color: 'rgb(0,100,240)',
         },
         $state: function(state) { // .. more sophisticated styling techniques
-            return blocks.Style({
+            return Gem.Style({
                 color: state.color
             })
         }
@@ -51,12 +51,12 @@ list.style = blocks.Style({
 list.attach()
 
 
-// custom blocks (use your favorite javascript class library - here proto is being used)
-var NameInput = proto(blocks.Block, function() { // inherit from Block
+// custom Gem (use your favorite javascript class library - here proto is being used)
+var NameInput = proto(Gem, function() { // inherit from Block
     this.name = 'NameInput'
     this.build = function(LabelText) {              // the `build` method initializes the custom Block
-        this.nameField = blocks.TextField()
-        this.add(blocks.Text(LabelText), this.nameField)
+        this.nameField = Gem.TextField()
+        this.add(Gem.Text(LabelText), this.nameField)
         this.nameField.on('change', function() {
             list.children[0].text = "Hi "+this.val
         })
@@ -65,8 +65,8 @@ var NameInput = proto(blocks.Block, function() { // inherit from Block
 
 var nameInput = NameInput("Your Name: ")
 greet.on('click', function() {
-    var text = blocks.Text("Whats up, "+nameInput.nameField.val+'?')
-    text.style = blocks.Style({display:'block'})
+    var text = Gem.Text("Whats up, "+nameInput.nameField.val+'?')
+    text.style = Gem.Style({display:'block'})
     text.attach()
 })
 nameInput.attach()

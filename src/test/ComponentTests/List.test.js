@@ -1,5 +1,5 @@
 var testUtils = require('testUtils')
-var Container = require("Components/Container")
+var Block = require("Components/Block")
 var domUtils = require("domUtils")
 
 var Text = require("Components/Text")
@@ -8,7 +8,7 @@ var List = require('Components/List')
 module.exports = function(t) {
 
 
-    var container = Container()
+    var container = Block()
     testUtils.demo("List", container)
 
     this.test("simple creation - unordered", function() {

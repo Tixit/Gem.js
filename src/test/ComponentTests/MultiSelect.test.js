@@ -1,14 +1,14 @@
 var testUtils = require('testUtils')
 var syn = require("fsyn")
 
-var Container = require("Components/Container")
+var Block = require("Components/Block")
 var Text = require("Components/Text")
 
 var MultiSelect = require('Components/MultiSelect')
 
 module.exports = function() {
 
-    var container = Container()
+    var container = Block()
     testUtils.demo("MultiSelect", container)
 
     this.test("basic usage", function(t) {
@@ -156,7 +156,7 @@ module.exports = function() {
         // change option value
 
         s1.options[5].val = 7
-        this.eq(s1.options[7].val, '7')
+        this.eq(s1.options[7].val, 7)
         this.eq(s1.val[1], '7')
         this.eq(s1.options[4].selected, true)
         this.eq(s1.options[5], undefined)     // moved to value 7
@@ -373,7 +373,7 @@ module.exports = function() {
         try {
             optionB.val = "1"
         } catch(e) {
-            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: '1')")
+            this.eq(e.message, "Can't give an Option the same value as another in the Select or MultiSelect (value: \"1\")")
         }
 
         select.options[1].selected = true
@@ -402,7 +402,7 @@ module.exports = function() {
         try {
             select2.remove(optionB)
         } catch(e) {
-            this.eq(e.message, "The Block passed at index 0 is not a child of this Block.")
+            this.eq(e.message, "The Gem passed at argument index 0 is not a child of this Gem.")
         }
     })
 };

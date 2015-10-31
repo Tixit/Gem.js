@@ -1,6 +1,6 @@
 
 var testUtils = require('testUtils')
-var Container = require("Components/Container")
+var Block = require("Components/Block")
 var Text = require('Components/Text')
 var Style = require('Style')
 
@@ -11,7 +11,7 @@ var buildNestedStyle = testUtils.buildNestedStyle
 
 // warm up (not sure if this is really a good warm up)
 for(var n=0; n<100; n++) {
-    Container().add(Text("x"))
+    Block().add(Text("x"))
 }
 
 
@@ -34,7 +34,7 @@ test("simple pure css style creation", function() {
 })
 
 test("simple pure css style", function() {
-    var c = Container()
+    var c = Block()
     var nodes = testUtils.demo(1, c)
 
     var style = Style({
@@ -50,7 +50,7 @@ test("simple pure css style", function() {
     testUtils.cleanupDemo(nodes)
 })
 test("simple pure css style 2", function() {
-    var c = Container()
+    var c = Block()
     var nodes = testUtils.demo(1, c)
 
     this.time(function() {
@@ -65,7 +65,7 @@ test("simple pure css style 2", function() {
 })
 
 test("simple pure css style on a list of nodes", function() {
-    var c = Container()
+    var c = Block()
     var nodes = testUtils.demo(1, c)
 
     for(var n=0; n<100; n++) {
@@ -87,16 +87,16 @@ test("simple pure css style on a list of nodes", function() {
 
 
 test("pure css style with a substyle on a list of nodes", function() {
-    var c = Container()
+    var c = Block()
     var nodes = testUtils.demo(1, c)
 
     for(var n=0; n<100; n++) {
-        c.add(Container("hi",[]))
+        c.add(Block("hi",[]))
     }
 
     var style = Style({
         color: 'red',
-        Container: {
+        Block: {
             color: 'green'
         }
     })
@@ -112,7 +112,7 @@ test("pure css style with a substyle on a list of nodes", function() {
 
 
 test("state style with a substyle on a list of nodes", function() {
-    var c = Container()
+    var c = Block()
     var nodes = testUtils.demo(1, c)
 
     for(var n=0; n<100; n++) {
@@ -130,7 +130,7 @@ test("state style with a substyle on a list of nodes", function() {
             return stateStyle
         },
 
-        Container: {
+        Block: {
             color: 'green'
         }
     })
