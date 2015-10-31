@@ -1,0 +1,50 @@
+<!DOCTYPE html><html>
+<head></head>
+<body><div id='warning'>If this screen is just blank, you should probably start the test server and load the tests at localhost:8100</div>
+<h1 id="manualDemoTitle">Manual Demos (verify these manually)</h1>
+<div id='manualDemos'></div>
+<h1 id="demoTitle">Demos (click to toggle)</h1>
+<div id='demos'></div>
+<div id='results'></div>
+</body>
+
+<script src='/node_modules/requirejs/require.js'></script>
+<script>
+    var requirejs = require // so it doesn't get shadowed by webpack's require
+</script>
+
+<script src="/src/test/external/jquery2.0.4.min.js"></script>
+<!--<script src="/Gem.umd.js"></script> Currently, these are being bundled into allTests.umd.js-->
+<script src="/src/external/syn.js"></script>
+
+<script src="/src/test/generated/allTests.umd.js"></script>
+
+<script>
+    var demosHidden = false
+    var toggle;
+    $("#demoTitle").click(toggle = function() {
+        //  hides without using display none, because if elements aren't visible, some of the tests won't work (eg. domNode.offsetWidth is always 0)
+        if(demosHidden) {
+            $("#demos").css("left", 0)
+            $("#demos").css("position", "relative")
+        } else {
+            $("#demos").css("left", document.body.offsetWidth+200)
+            $("#demos").css("position", "absolute")
+        }
+
+        demosHidden = !demosHidden
+    })
+    toggle()
+
+    // wait for it to start being dumb and scrolling weird to scroll back
+    // doing it multiple times cause its being extra stupid
+    ;[100,1000,2000, 5000].forEach(function(timeout) {
+        setTimeout(function() {window.scrollTo(0,0);},timeout) // wait for it to start being dumb and scrolling weird to scroll back
+    })
+
+    allTests().events({
+        end: function() {
+            window.scrollTo(0,0);
+        }
+    })
+</script>
