@@ -1265,6 +1265,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.0.1 - Fixing package.json main file path
 * 2.0.0 - BREAKING CHANGE
     * BREAKING CHANGE - Changing the project name to "Gem.js", and so changing "Block" to "Gem" and "Container" to "Block"
     * Fixing bug when a style inheritance was used inside a psuedoclass

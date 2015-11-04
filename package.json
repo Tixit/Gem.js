@@ -1,8 +1,11 @@
 {"name":"Gem.js",
  "description": "A view library for building and styling web components in pure-javascript.",
- "keywords": ["web", "components", "html", "css", "style", "view", "react", "angular", "blocks", "application"],
- "version":"2.0.0",
- "main": "src/Gem.js",
+ "keywords": [
+     "web", "components", "html", "css", "style", "view", "react",
+     "angular", "angularjs", "blocks", "application", "react", "backbone"
+ ],
+ "version":"2.0.1",
+ "main": "src/node_modules/Gem.js",
  "contributors": [
     "Billy Tetrud <bitetrudpublic@gmail.com> (https://github.com/fresheneesz/)",
     "Robbert Wijtman (https://github.com/Bucky24)"
