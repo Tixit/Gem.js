@@ -216,7 +216,7 @@ Gem // if you're using the umd package
 **`Gem.name`** - The name of the Gem. Used both for naming dom elements for view in browser dev tools and for styling.
 
 **`Gem.attach(listOfGems)`** - Appends the passed gems to `document.body`. IMPORTANT: only attach a gem to the dom via
-this `attach` function or a gem's `attach` method. Without this, styles won't be rendered.
+this `attach` function or a gem's `attach` method. Without this, styles won't be rendered.  
 **`Gem.attach(domNode, listOfGems)`** - Appends the passed gems to the passed `domNode`.
 
 **`Gem.detach(listOfGems)`** - Removes the passed gems from their respective dom parents.
@@ -225,40 +225,40 @@ this `attach` function or a gem's `attach` method. Without this, styles won't be
 
 ### Instance properties and methods
 
-**`gem.parent`** - The Gem's parent (which will also be a Gem)
-**`gem.children`** - An array of the Gem's children (which will all be Gems themselves).
-**`gem.domNode`** - The Gem's standard dom node object.
-**`gem.label`** - A string used for styling. Should be set once when the object is instantiated, and cannot change. *See the section on `Style` objects for details about how this is used*.
-**`gem.excludeDomEvents`** - A set of dom events to exclude from automatic registration. Will have the structure `{eventName1:1, eventName2:1, ...}`. See the documentation for `on` for more details.
+**`gem.parent`** - The Gem's parent (which will also be a Gem)  
+**`gem.children`** - An array of the Gem's children (which will all be Gems themselves).  
+**`gem.domNode`** - The Gem's standard dom node object.  
+**`gem.label`** - A string used for styling. Should be set once when the object is instantiated, and cannot change. *See the section on `Style` objects for details about how this is used*.  
+**`gem.excludeDomEvents`** - A set of dom events to exclude from automatic registration. Will have the structure `{eventName1:1, eventName2:1, ...}`. See the documentation for `on` for more details.  
 **`gem.state`** - An [observer](https://github.com/Tixit/observe) object that can be listened on for changes. Can be used for any purpose, but is intended for being used to create dynamically changing styles. *See the section on `Style` objects for an example*.
 
-**`gem.add(gem, gem, ...)`** - Appends gems as children to the calling gem. This causes the domNodes of the passed gems to be appended to the calling gem's dom node.
+**`gem.add(gem, gem, ...)`** - Appends gems as children to the calling gem. This causes the domNodes of the passed gems to be appended to the calling gem's dom node.  
 **`gem.add(listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
 
-**`gem.addAt(index, gem, gem, ...)`** - Adds gems as children to the calling gem at a particular index.
+**`gem.addAt(index, gem, gem, ...)`** - Adds gems as children to the calling gem at a particular index.  
 **`gem.addAt(index, listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
 
-**`gem.addBefore(beforeChild, gem, gem, ...)`** - Adds gems as children to the calling gem before a particular child. If `beforeChild` is undefined, this will append the given nodes.
+**`gem.addBefore(beforeChild, gem, gem, ...)`** - Adds gems as children to the calling gem before a particular child. If `beforeChild` is undefined, this will append the given nodes.  
 **`gem.addBefore(beforeChild, listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
 
-**`gem.remove(gem, gem, ...)`** - Removes the passed gems as children.
-**`gem.remove(listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
-**`gem.remove(index, index, ...)`** - Removes, as children, the gems at the given `index`es in the `children` list.
+**`gem.remove(gem, gem, ...)`** - Removes the passed gems as children.  
+**`gem.remove(listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*  
+**`gem.remove(index, index, ...)`** - Removes, as children, the gems at the given `index`es in the `children` list.  
 **`gem.remove(listOfIndexes)`** - *Same as above, but `listOfIndexes` is an array of indexes to remove.*
 
 **`gem.attach(domNode=document.body)`** - Appends this `Gem`'s domNode to the passed domNode (default `document.body`).
-IMPORTANT: only attach a gem to the dom via this `attach` function or a gem's `attach` method. Without this, styles won't be rendered.
+IMPORTANT: only attach a gem to the dom via this `attach` function or a gem's `attach` method. Without this, styles won't be rendered.  
 **`gem.detach()`** - Removes this `Gem`'s domNode from its dom parent.
 
-**`gem.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Gem's domNode.
-**`gem.attr(attributeName, value)`** - Sets the attribute to the passed `value`.
+**`gem.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Gem's domNode.  
+**`gem.attr(attributeName, value)`** - Sets the attribute to the passed `value`.  
 **`gem.attr(attributeObject)`** - Sets the attributes in the `attributeObject`, where `attributeObject` looks like: `{attribute1: value1, attribute2: value2, ...}`.
 
-**`gem.style`** - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Gem's children.
-**`gem.visible`** - Setting this variable to false hides the gem using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state.
+**`gem.style`** - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Gem's children.  
+**`gem.visible`** - Setting this variable to false hides the gem using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state.  
 **`gem.focus`** - Setting this variable to true gives the gem focus on the page. Setting this variable to false `blur`s it. Accessing the variable returns whether or not the gem is the focused element on the page.
 
-**`gem.selectionRange`** - Returns an array representing the selection range in terms of visible character offsets. E.g. a value of `[2,4]` means that the current element has 2 visible entities (usually characters) selected within it at offset 2 and 4 from the start. Note that if there are hidden characters like multiple spaces in a row, or newlines, or other non-visible characters (mostly only applies to contenteditable nodes), they are ignored.
+**`gem.selectionRange`** - Returns an array representing the selection range in terms of visible character offsets. E.g. a value of `[2,4]` means that the current element has 2 visible entities (usually characters) selected within it at offset 2 and 4 from the start. Note that if there are hidden characters like multiple spaces in a row, or newlines, or other non-visible characters (mostly only applies to contenteditable nodes), they are ignored.  
 **`gem.selectionRange = [offsetStart, offsetEnd]`** - Setting the `selectionRange` property sets the selection inside the Gem's domNode based on the given offsets.
 
 Example of `selectionRange`:
@@ -275,7 +275,7 @@ All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.ht
 
 **`gem.emit(event, data, data2, ...)`** - Emits an event that triggers handlers setup via the Gem's `on` methods.
 
-**`gem.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Gem.
+**`gem.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Gem.  
 * `event` - The string event name to listen for. If the passed event is one of the many standard dom events (e.g. 'click', 'mouseover', 'touchstart', etc), the passed handler will be registered as a dom event handler in one of three cases:
     * the gem's `excludeDomEvents` object is undefined
     * the event is `in` the gem's `excludeDomEvents` property
@@ -283,7 +283,7 @@ All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.ht
 
 **`gem.once(event, callback)`** - Like `on` but the `callback` will only be called the first time the event happens.
 
-**`gem.off(event, callback)`** - Removes a callback as an event handler (the `callback` won't be called for that event again).
+**`gem.off(event, callback)`** - Removes a callback as an event handler (the `callback` won't be called for that event again).  
 **`gem.removeListener(event,callback)`** - *Same as `off`.*
 
 **`this.removeAllListeners(event)`** - Removes all the callbacks for the passed `event`.  
@@ -310,29 +310,29 @@ parent.ifoff('someoneClickedTheThing', function() {
 })
 ```
 
-**`gem.ifon(event, callback)`** - Registers a callback that will be called when a handler is registered for `event` if it had no handler registered previously. If there is already a listener attached to that event, `callback` is called immediately.
+**`gem.ifon(event, callback)`** - Registers a callback that will be called when a handler is registered for `event` if it had no handler registered previously. If there is already a listener attached to that event, `callback` is called immediately.  
 * `callback(event)` - The callback gets the newly registered event type as its argument.
 
-**`gem.ifoff(event, callback)`** - Registers a callback that will be called when the last handler for `event` is unregistered.
+**`gem.ifoff(event, callback)`** - Registers a callback that will be called when the last handler for `event` is unregistered.  
 **`gem.ifoff(callback)`** - Registers a callback that will be called when the last handler for any event is unregistered.
 * `callback(event)` - The callback gets the unregistered event type as its argument.
 
-**`gem.removeIfon()`** - Removes all `ifon` handlers.
-**`gem.removeIfon(event)`** - Removes all `ifon` handlers for the passed `event`.
-**`gem.removeIfon(callback)`** - Removes `callback` as an "all" `ifon` handler (a callback passed to `ifon` without an event).
+**`gem.removeIfon()`** - Removes all `ifon` handlers.  
+**`gem.removeIfon(event)`** - Removes all `ifon` handlers for the passed `event`.  
+**`gem.removeIfon(callback)`** - Removes `callback` as an "all" `ifon` handler (a callback passed to `ifon` without an event).  
 **`gem.removeIfon(event, callback)`** - Removes `callback` as an `ifon` handler for the passed `event`.
 
-**`gem.removeIfoff()`** - Removes all `ifoff` handlers.
-**`gem.removeIfoff(event)`** - Removes all `ifoff` handlers for the passed `event`.
-**`gem.removeIfoff(callback)`** - Removes `callback` as an "all" `ifoff` handler (a callback passed to `ifoff` without an event).
+**`gem.removeIfoff()`** - Removes all `ifoff` handlers.  
+**`gem.removeIfoff(event)`** - Removes all `ifoff` handlers for the passed `event`.  
+**`gem.removeIfoff(callback)`** - Removes `callback` as an "all" `ifoff` handler (a callback passed to `ifoff` without an event).  
 **`gem.removeIfoff(event, callback)`** - Removes `callback` as an `ifoff` handler for the passed `event`.
 
 ##### `proxy`
 
 The `proxy` method uses `ifon` and `ifoff` to minmize the number of event listeners that need to be attached in the system.
 
-**`gem.proxy(emitter, options)`** - Proxies event registration to `emitter`.
-* `emitter` - The emitter (usually a `Gem`) to proxy handler binding to
+**`gem.proxy(emitter, options)`** - Proxies event registration to `emitter`.  
+* `emitter` - The emitter (usually a `Gem`) to proxy handler binding to  
 * `options` - An object that defines what events are proxied. If `undefined`, all events are proxied. The object can have one of the following properties:
   * `only` - An array of events to proxy.
   * `except` - An array of events to *not* proxy. All other events are proxied.
@@ -353,7 +353,7 @@ B.emit("click", "Ughh..") // console prints "hey hey heyyy! Ughh.."
 
 ### Instance events
 
-**`"newParent"`** - Emitted when a Gem gets a new parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
+**`"newParent"`** - Emitted when a Gem gets a new parent. *Note: this event is used by `Style` objects, so don't prevent these events.*  
 **`"parentRemoved"`** - Emitted when a Gem is detached from its parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
 
 #### Dom Events
@@ -496,9 +496,9 @@ Your standard html `<input type="checkbox">`.
 
 A `<div>` that contains other gems.
 
-**`Block(gem, gem, ...)`** - Returns a new container with all the passed gems as children (in the passed order).
-**`Block(listOfGems)`** - Same as above except `listOfGems` is an array of gems.
-**`Block(label, gem, gem, ...)`**
+**`Block(gem, gem, ...)`** - Returns a new container with all the passed gems as children (in the passed order).  
+**`Block(listOfGems)`** - Same as above except `listOfGems` is an array of gems.  
+**`Block(label, gem, gem, ...)`**  
 **`Block(label, listOfGems)`**
 
 ### Image
@@ -517,14 +517,14 @@ An `<ol>` or `<ul>` element.
 
 **`List()`** - Returns a new empty list.  
 **`List(ordered)`** - Returns a new empty list. Is an ordered-list if `ordered` is true, and an unorderd-list otherwise.  
-**`List(listInit)`** - Returns a new populated list. `listInit` is an array containing either `Gem` objects or strings to add as list items.
+**`List(listInit)`** - Returns a new populated list. `listInit` is an array containing either `Gem` objects or strings to add as list items.  
 **`List(ordered, listInit)`**  
 **`List(label)`**  
 **`List(label, ordered)`**  
 **`List(label, listInit)`**  
 **`List(label, ordered, listInit)`**
 
-**`list.item(contents)`** - Creates a new `ListItem` with the passed `contents` and appends it to the list, which can either be a `Gem` or a string.
+**`list.item(contents)`** - Creates a new `ListItem` with the passed `contents` and appends it to the list, which can either be a `Gem` or a string.  
 **`list.item(label, contents)`**
 
 **`List.Item`** - The `ListItem` class.
@@ -545,7 +545,7 @@ A set of radio buttons. `Radio` itself is not a `Gem`, but rather contains a set
 **`radio.selected`** - Returns the `RadioButton` object that is selected.  
 **`radio.val`**  - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis")
 
-**`radio.remove(radioButton, radioButton, ...)`** - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Gem` contains the `RadioButton`s.
+**`radio.remove(radioButton, radioButton, ...)`** - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Gem` contains the `RadioButton`s.  
 **`radio.remove(arrayOfRadioButtons)`** - Same as above, except the argument is an array of the `RadioButtons` to remove.  
 **`radio.remove(value, value, ...)`** - Removes the radio buttons that have the passed values from the `Radio` object's set.  
 **`radio.remove(arrayOfValues)`** - Same as above, except the argument is an array of the values who's radio buttons should be removed.
@@ -573,7 +573,7 @@ Your standard `<select>` element.
 
 **`Select.Option`** - The `Option` class.
 
-**`Select.Option(value, text)`** - same as `select.option` above, except doesn't append the `Option` to any list.
+**`Select.Option(value, text)`** - same as `select.option` above, except doesn't append the `Option` to any list.  
 **`Select.Option(label, contents)`**
 
 **`option.selected`** - Gets or sets the selected state of the `Option`.  
@@ -629,7 +629,7 @@ A `<div>` with text in it.
 
 A  multi-line text input field. Your standard `<textarea>` element.
 
-**`TextArea()`** - Returns an empty TextArea.
+**`TextArea()`** - Returns an empty TextArea.  
 **`TextArea(label)`**
 
 **`textArea.val`** - Gets or sets the testArea's value (the text inside the text box).
