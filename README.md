@@ -79,9 +79,9 @@ Example
 =======
 
 ```javascript
-var Button = require("gem.js/Button")
-var Style = require("gem.js/Style")
-var Block = require("gem.js/Block")
+var Button = require("gem/Button")
+var Style = require("gem/Style")
+var Block = require("gem/Block")
 
 var list = Block()
 ;[1,2,3].forEach(function(n) {
@@ -186,13 +186,13 @@ Usage
 =====
 
 ```javascript
-var gem = require('gem')  // node.js and webpack
+var Gem = require('gem')  // node.js and webpack
 
 define(['Gem.umd.js'], function(gem) { ... } // amd
 
 <script src="Gem.umd.js">&lt;/script>
 <script>
-  gem; // global 'gem' module object
+  Gem; // global 'Gem' module object
 </script>
 
 ```
@@ -203,13 +203,6 @@ define(['Gem.umd.js'], function(gem) { ... } // amd
 All gems inherit from `Gem` - the basic building-block of the system. Gems are [EventEmitters](http://nodejs.org/api/events.html), and emitting events is one of the primary ways gems should communicate.
 
 `Gem` is abstract and can't be instantiated on its own. See the section ''Custom Gems'' for details on how to create objects that inherit from Gem.
-
-### Loading
-
-```javascript
-var Gem = require("Gem.js") // or
-Gem // if you're using the umd package
-```
 
 ### Static properties and methods
 
