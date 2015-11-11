@@ -1,4 +1,4 @@
-{"name":"gem.js",
+{"name":"gem",
  "description": "A view library for building and styling web components in pure-javascript.",
  "keywords": [
      "web", "components", "html", "css", "style", "view", "react",

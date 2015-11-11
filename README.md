@@ -155,17 +155,17 @@ nameInput.attach()
 
 If anything in the documentation is unclear, or you want to see more examples, [the unit tests](https://github.com/Tixit/Gem.js/tree/master/src/test) give a comprehensive and exhaustive set of examples to look at.
 
-Why use `gem.js`?
+Why use `Gem.js`?
 ====================
 
 * Makes your web application **easier to develop** with modular reusable structure objects (`Gem` objects) *and* `Style` objects
-* **No HTML Needed**. With `gem.js`, you write in 100% javascript. The only html requirement is a `document` `body`. You can still add plain old HTML into your gems using `gem.domNode.innerHTML` tho if you so choose.
-* **No CSS Needed**. While gem.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
+* **No HTML Needed**. With `Gem.js`, you write in 100% javascript. The only html requirement is a `document` `body`. You can still add plain old HTML into your gems using `gem.domNode.innerHTML` tho if you so choose.
+* **No CSS Needed**. While Gem.js uses css style properties, it rejects the cascading nature of css, allowing one style to be fully isolated from another. No more wondering which selector in which stylesheet botched your nice clean style.
 * **Works with your HTML and CSS**. `Gems` can be added as a child to any standard dom object and they can be styled with standard css stylesheets if you so choose.
 * **Works with your current javascript**. `Gems` give you direct access to their `domNode` so you can use the dom manipulation libraries you're used to.
 * **Fully separate style from structure**. By using [`$state`](#state), [`$setup`, and `$kill`](#setup-and-kill) javascript in your `Style` objects, you can include any javascript that is stylistic rather than structural.
 * Import `Gem` modules with real APIs that anyone can release online. HTML snippets are so 1995.
-* Unlike [HTML web components](http://robdodson.me/why-web-components/), `gem.js` **works in modern browsers without polyfills**.
+* Unlike [HTML web components](http://robdodson.me/why-web-components/), `Gem.js` **works in modern browsers without polyfills**.
 * Also unlike HTML web components, [element name collision](https://groups.google.com/forum/#!topic/polymer-dev/90Dq_2bk8CU) isn't a problem.
 * Has a small footprint: **16.5KB minified and gzipped in umd format**
 
@@ -177,7 +177,7 @@ Install
 =======
 
 ```
-npm install gem.js
+npm install gem
 ```
 
 or download the built package `Gem.umd.js` from the 'dist' folder in the repository
@@ -186,7 +186,7 @@ Usage
 =====
 
 ```javascript
-var gem = require('gem.js')  // node.js and webpack
+var gem = require('gem')  // node.js and webpack
 
 define(['Gem.umd.js'], function(gem) { ... } // amd
 
@@ -207,7 +207,7 @@ All gems inherit from `Gem` - the basic building-block of the system. Gems are [
 ### Loading
 
 ```javascript
-var Gem = require("gem.js") // or
+var Gem = require("Gem.js") // or
 Gem // if you're using the umd package
 ```
 
@@ -392,12 +392,12 @@ var gem = CustomGem(5) // gem.x is 5
 ### Releasing custom gems as separate modules
 
 If you'd like to release a custom `Gem` or set of `Gem` objects, there are a couple of important things to remember to do:
-* If you're releasing on npm, do *not* add `gem.js` as a normal "dependency". Instead, it should be added as a ["peerDependency"](http://blog.nodejs.org/2013/02/07/peer-dependencies/) or perhaps a "devDependency". It shouldn't be a normal "dependency" because otherwise bundlers may bundle multiple copies of gem.js when using your custom gem module (even though bundlers like webpack dedupe files, if the versions of webpack being used are slightly different, they would still package together both versions of gem.js)
-* If you're releasing a module distribution intended to be loaded in a `<script>` tag, do *not* bundle gem.js in your distribution bundle. It should assume the `gems` global variable (e.g. `gems.Gem`) is available.
+* If you're releasing on npm, do *not* add `Gem.js` as a normal "dependency". Instead, it should be added as a ["peerDependency"](http://blog.nodejs.org/2013/02/07/peer-dependencies/) or perhaps a "devDependency". It shouldn't be a normal "dependency" because otherwise bundlers may bundle multiple copies of Gem.js when using your custom gem module (even though bundlers like webpack dedupe files, if the versions of webpack being used are slightly different, they would still package together both versions of Gem.js)
+* If you're releasing a module distribution intended to be loaded in a `<script>` tag, do *not* bundle Gem.js in your distribution bundle. It should assume the `gems` global variable (e.g. `gems.Gem`) is available.
 
 ### Inheriting from Gems with a class library other than `proto`
 
-If you're building Gems with something other than `proto` (*or are using a version of proto older than 1.0.17*), note that gem.js relies on the following properties:
+If you're building Gems with something other than `proto` (*or are using a version of proto older than 1.0.17*), note that Gem.js relies on the following properties:
 * **gem.constructor** - must point to the Gem prototype class (in the proto example, the object returned by the call to proto). This is a standard property that all good class libraries should set.
 * **gem.constructor.parent** - must point either to the parent of the gem's constructor, or undefined if there is no parent. Note that while `proto` sets this automatically, it is not a standard property and if you're using a different library from proto, you must set this manually.
 * **gem.constructor.name** - the constructors must have the same name property that instances can access. Note that while `proto` sets this appropriately, most class libraries probably don't and it isn't simple to manually set. [See here for details](http://stackoverflow.com/a/28665860/122422).
@@ -431,10 +431,10 @@ Standard Gems
 
 The built-in standard gems all inherit from `Gem` and so have all the methods and properties in the above documentation. For each build-in gem, its `name` property will be the same as the name the documentation uses for it. For example `Button` will have the name `"Button"`.
 
-To use these built in gems, access them via either `require("gem.js/<GemName>")` or ` gems.<GemName>`. For example:
+To use these built in gems, access them via either `require("gem/<GemName>")` or `Gem.<GemName>`. For example:
 
 ```javascript
-var Table = require("gem.js/Table") // webpack or browserify
+var Table = require("gem/Table") // webpack or browserify
 // or
 var Table = Gem.Table // if loading the umd bundle in a <script> tag
 ```
@@ -652,9 +652,9 @@ A one-line text input field. Your standard `<input type='text'>` element.
 
 If you're going to build a web application, why not do it with `Style`?
 
-While a `Gem` is pretty analogous to its HTML node, `Style` objects in gem.js are quite different from normal CSS.
+While a `Gem` is pretty analogous to its HTML node, `Style` objects in Gem.js are quite different from normal CSS.
 
-In gem.js, individual css style properties do *not* cascade. Instead, whole `Style` objects cascade. This may not seem like much of a difference, but it makes all the difference. For example:
+In Gem.js, individual css style properties do *not* cascade. Instead, whole `Style` objects cascade. This may not seem like much of a difference, but it makes all the difference. For example:
 
 ```javascript
 var parentBlock = Block([
@@ -681,18 +681,18 @@ c.style = Style({
 
 In the above example, "a" will be bold and blue, and "b" and "c" will be red. But "b" and "c" won't be bold - that property does not cascade. The `Text` styling inside `Block` is isolated from all previous stylings of `Text`, which means you don't have to worry about the styles someone used for elements further up the dom tree. I mentioned, tho, that whole `Style` objects *do* cascade, and that is why "d" will also be blue and bold even though it isn't a direct child of `parentBlock`.
 
-Another difference is that gem.js doesn't have selectors that can style any element on the page.
+Another difference is that Gem.js doesn't have selectors that can style any element on the page.
 Traditional CSS stylesheets are developed by selecting a group of elements from the entire page
 (via ids, classes, attributes, pseudoclasses representing element state, etc) and appending styles to them.
 These styles may overwrite styles written earlier, and they themselves may be overwritten.
-In gem.js, `Style` objects can only be attached in a strict hierarchical setting, where only a specific section
+In Gem.js, `Style` objects can only be attached in a strict hierarchical setting, where only a specific section
 of the dom can be affected. In the above example, the `Text` style marked 2 doesn't affect anything outside that inner Block.
 For example, even though the text "d" is a `Text` object inside a `Block` object, it is *not* colored red.
-That's because styles in gem.js are not like the selectors you're used to from css.
+That's because styles in Gem.js are not like the selectors you're used to from css.
 They are strictly hierarchical - they only affect descendant `Gem` objects' (children, grandchildren, etc) from the point in
 the dom they match.
 
-The combination of the fact that gem.js `Style` objects only cascade as a whole object and that styles are defined hierarchically makes styles modular and provides isolation from other styles on the page, so that it becomes much easier to understand and manage styling for a page or entire application.
+The combination of the fact that Gem.js `Style` objects only cascade as a whole object and that styles are defined hierarchically makes styles modular and provides isolation from other styles on the page, so that it becomes much easier to understand and manage styling for a page or entire application.
 
 ### `Style` constructor
 
@@ -1185,7 +1185,7 @@ Decisions
 * Gems are styled based on their name rather than their object identity (which would be possible with an array style definition like [Text,{backgroundColor:'...'}]) because otherwise all Gems would have to be exposed at the top level. Not only does this go against modularity, but creators of 3rd party modules would inevitably fail to expose all their Gems, which would make styling impossible. With names, you don't have to be able to reach the object, you just have to know its name.
 * don't use npm shrinkwrap for browser modules like this, because otherwise multiple minor versions of the same package might get into a browser bundle and make page loading slower
 
-What `gem.js` is ***not***
+What `Gem.js` is ***not***
 =======================
 
 Gem.js is not:
@@ -1265,6 +1265,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.0.1 - Changing npm name to `gem` now that I have access to that name
 * 2.0.1 - Fixing package.json main file path
 * 2.0.0 - BREAKING CHANGE
     * BREAKING CHANGE - Changing the project name to "Gem.js", and so changing "Block" to "Gem" and "Container" to "Block"
