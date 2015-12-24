@@ -1200,10 +1200,13 @@ Contributors
 Todo
 ======
 
+* Improve error messages for styles
+    * Show the selector of the Style that went wrong in the error message
+    * Show the name of the gem being styled/restyled to a style that caused the error
+    * Even better would be to be able to some context, maybe show the path like "Gem<Main>.$inner.LayoutEditor.$wrapper.$$hover" so you can trace where exactly in your style objects things are going wrong
 * have an event a gem will emit when it or one of its ancestors becomes detached from the dom
     * Think about what to do about event forwarding for such an event, and for the 'newParent' and "parentRemoved' events - they shouldn't be forwarded
 * consider adding vertical-align:top to the default css, since it solves weird issues with inline-blocks causing extra bottom-margin: http://stackoverflow.com/questions/20310690/overflowhidden-on-inline-block-adds-height-to-parent
-* Implement an $inherit option on Styles, so that they can implicitly inherit from styles above them without specifying which style to combine into it
 * Emulate the :not psuedoclass
 
 * Figure out how to support animations, @keyframes and that kind of thing
@@ -1258,6 +1261,9 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.0.2
+    * Fixing TextField to work around IE bug
+    * Minor improvement to flexibility of Option arguments
 * 2.0.1 - Changing npm name to `gem` now that I have access to that name
 * 2.0.1 - Fixing package.json main file path
 * 2.0.0 - BREAKING CHANGE
