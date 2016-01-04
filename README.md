@@ -151,7 +151,7 @@ greet.on('click', function() {
 nameInput.attach()
 ```
 
-[![example](example/exampleShot.png)](http://www.btetrud.com/example/example.html)
+[![example](example/exampleShot.png)](example/example.html)
 
 If anything in the documentation is unclear, or you want to see more examples, [the unit tests](https://github.com/Tixit/Gem.js/tree/master/src/test) give a comprehensive and exhaustive set of examples to look at.
 
@@ -641,7 +641,7 @@ A one-line text input field. Your standard `<input type='text'>` element.
 `Style` objects
 -------
 
-![deLorean](http://www.btetrud.com/files/Delorean-200x150.jpg)
+![deLorean](Delorean-200x150.jpg)
 
 If you're going to build a web application, why not do it with `Style`?
 
