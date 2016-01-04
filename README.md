@@ -151,7 +151,7 @@ greet.on('click', function() {
 nameInput.attach()
 ```
 
-[![example](example/exampleShot.png)](example/example.html)
+[![example](example/exampleShot.png)](https://cdn.rawgit.com/Tixit/Gem.js/master/example/example.html)
 
 If anything in the documentation is unclear, or you want to see more examples, [the unit tests](https://github.com/Tixit/Gem.js/tree/master/src/test) give a comprehensive and exhaustive set of examples to look at.
 
