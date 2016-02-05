@@ -270,10 +270,12 @@ module.exports = function(t) {
     })
 
     this.test("the 'setup' javascript initialization", function(t) {
-        this.count(3)
+        this.count(4)
 
         var S = Style({
-            $setup: function(component) {
+            $setup: function(component, style) {
+                t.eq(style, S)
+
                 component.mahdiv = domUtils.div()
                     component.mahdiv.textContent = "It is set up"
 

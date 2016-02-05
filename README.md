@@ -718,7 +718,11 @@ The above style would give a color and margin-right to whatever `Gem` is set wit
 
 #### `$setup` and `$kill`
 
-`$setup(gem)` is a function that is run when the style is applied to a gem, and `$kill(gem, setupObject)` is run when the style is removed from a gem. Both functions get the gem being given the style as their first argument, the `$kill` also gets the return value of the `$setup` function as its second argument. For example:
+`$setup(gem, style)` - A function that is run when the style is applied to a `gem`. The passed `style` parameter is the style containing the $setup function.
+
+`$kill(gem, setupObject)` - Run when the style is removed from a gem. Also gets the return value of the `$setup` function as its second argument.
+
+For example:
 
 ```javascript
 var S = Style({
@@ -1261,6 +1265,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.0.3 - Adding the style being applied as a paremeter to the $setup functions (so that the style can be analyized, for example to apply a style to a node that isn't an actual child, but is a conceptual child)
 * 2.0.2
     * Fixing TextField to work around IE bug
     * Minor improvement to flexibility of Option arguments
