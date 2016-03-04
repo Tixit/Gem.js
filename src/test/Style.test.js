@@ -10,6 +10,7 @@ var Text = Gem.Text
 var Button = Gem.Button
 var CheckBox = Gem.CheckBox
 var Block = Gem.Block
+var Svg = Gem.Svg
 
 var defaultBackgroundColor = 'rgba(0, 0, 0, 0)'; var defaultBgColor = defaultBackgroundColor
 
@@ -18,10 +19,6 @@ module.exports = function(t) {
 
      // todo:
         // test mix and copy
-
-
-
-
 
 
 
@@ -308,7 +305,7 @@ module.exports = function(t) {
         this.eq(innerDiv.html(), 'It has been killed')
     })
 
-    this.test("changing styles on the fly", function() {
+    this.test("changing style objects on the fly", function() {
 
         var C = proto(Gem, function(superclass) {
             this.name = 'C'
@@ -2108,6 +2105,18 @@ module.exports = function(t) {
             component.style = style
 
             testUtils.demo("something", component)
+
+            // the point of this test is just to not throw an exception
+        })
+
+        this.test("Svg styling throws an error because className is used differently for svg", function() {
+            var component = Svg("<svg></svg>")
+
+            component.style = Style({
+                color: 'green'
+            })
+
+            testUtils.demo("svg", component)
 
             // the point of this test is just to not throw an exception
         })

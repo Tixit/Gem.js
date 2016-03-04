@@ -10,6 +10,7 @@ exports.List = require('Components/List')
 //exports.MultiSelect = require("Components/MultiSelect") // not ready yet
 exports.Radio = require("Components/Radio")
 exports.Select = require("Components/Select")
+exports.Svg = require("Components/Svg")
 exports.Table = require("Components/Table")
 exports.TextArea = require("Components/TextArea")
 exports.TextField = require("Components/TextField")

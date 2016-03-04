@@ -46,6 +46,7 @@ Gem.js is here to change that. Finally, modern application development for the b
     - [List](#list)
     - [Radio](#radio---not-a-gem)
     - [Select](#select)
+    - [Svg](#svg)
     - [Table](#table)
     - [Text](#text)
     - [TextArea](#textarea)
@@ -529,49 +530,56 @@ An `<ol>` or `<ul>` element.
 
 A set of radio buttons. `Radio` itself is not a `Gem`, but rather contains a set of related `RadioButton`s (which are `Gem` objects).
 
-**`Radio()`** - Returns a new `Radio` object where a button is not required to be set (same as `Radio(false)`).  
+**`Radio()`** - Returns a new `Radio` object where a button is not required to be set (same as `Radio(false)`).
 **`Radio(required)`** - Returns a new `Radio` object. If `required` is true, a radio button will always be selected (and buttons cannot be deselected), otherwise radio-buttons can be deselected, and no radio button is selected by default.
 
-**`radio.button(value)`** - Creates a new `RadioButton` with the passed string `value` that is a member of the `Radio` object.  
+**`radio.button(value)`** - Creates a new `RadioButton` with the passed string `value` that is a member of the `Radio` object.
 **`radio.button(label, value)`**
 
-**`radio.selected`** - Returns the `RadioButton` object that is selected.  
+**`radio.selected`** - Returns the `RadioButton` object that is selected.
 **`radio.val`**  - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis")
 
-**`radio.remove(radioButton, radioButton, ...)`** - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Gem` contains the `RadioButton`s.  
-**`radio.remove(arrayOfRadioButtons)`** - Same as above, except the argument is an array of the `RadioButtons` to remove.  
-**`radio.remove(value, value, ...)`** - Removes the radio buttons that have the passed values from the `Radio` object's set.  
+**`radio.remove(radioButton, radioButton, ...)`** - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Gem` contains the `RadioButton`s.
+**`radio.remove(arrayOfRadioButtons)`** - Same as above, except the argument is an array of the `RadioButtons` to remove.
+**`radio.remove(value, value, ...)`** - Removes the radio buttons that have the passed values from the `Radio` object's set.
 **`radio.remove(arrayOfValues)`** - Same as above, except the argument is an array of the values who's radio buttons should be removed.
 
 **`Radio.Button`** - The `RadioButton` class.
 
-**`radioButton.val`** - Gets or sets the value of the radio button.  
+**`radioButton.val`** - Gets or sets the value of the radio button.
 **`radioButton.selected`** - Gets whether the radio button is selected or not. If set to true, selects the button. If set to false, deselects it.  
-**`radioButton.selectNext()`** - Sets the next radio button in the `Radio` object's set.  
+**`radioButton.selectNext()`** - Sets the next radio button in the `Radio` object's set.
 **`radioButton.selectPrevious()`** - Sets the previous radio button in the `Radio` object's set.
 
 ### Select
 
 Your standard `<select>` element.
 
-**`Select()`** - Returns a new empty selection list.  
-**`Select(selections)`** - Returns a new populated selection list.  
+**`Select()`** - Returns a new empty selection list.
+**`Select(selections)`** - Returns a new populated selection list.
 **`Select(label, selections)`**
 * `selections` - An object with the structure `{optionValue: optionText, ...}`
 
-**`select.option(value, text)`** - Creates a new `Option` with the passed `value` and `text`, and appends it to the list.  
+**`select.option(value, text)`** - Creates a new `Option` with the passed `value` and `text`, and appends it to the list.
 **`select.option(label, value, text)`**
 
 **`select.val`** - Gets the value of the selected `Option`, or selects the `Option` with the set value (e.g. `select.val = 'moo'` selects the `Option` with the value 'moo').
 
 **`Select.Option`** - The `Option` class.
 
-**`Select.Option(value, text)`** - same as `select.option` above, except doesn't append the `Option` to any list.  
+**`Select.Option(value, text)`** - same as `select.option` above, except doesn't append the `Option` to any list.
 **`Select.Option(label, contents)`**
 
-**`option.selected`** - Gets or sets the selected state of the `Option`.  
-**`option.text`** - Gets or sets the display text of the `Option`.  
+**`option.selected`** - Gets or sets the selected state of the `Option`.
+**`option.text`** - Gets or sets the display text of the `Option`.
 **`option.val`** - Gets or sets the string value of the `Option`.
+
+### Svg
+
+An `<svg>` element.
+
+**`Svg(svgXml)`** - Returns a new Svg image using the passed `svgXml`. The `svgXml` must include the `<svg>` tag at the top-level.
+**`Svg(label, svgXml)`**
 
 ### Table
 
@@ -785,7 +793,7 @@ In the above example, the container goes through all 3 backgroundColor colors as
 
 #### `<GemName>`
 
-This sets a style for the `Gem` with the given name. Only gems *within* the gem who's style this is are affected, gems that do not descend from the styled gem, and even the styled gem themselves are not affected. For example:
+This sets a style for the `Gem` with the given name. Only gems *within* the gem who's style this is are affected, gems that do not descend from the styled gem, and even the styled gem itself is not affected. For example:
 
 ```javascript
 var stylish = Style({
@@ -1265,6 +1273,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.0.4 - Adding Svg gem
 * 2.0.3 - Adding the style being applied as a paremeter to the $setup functions (so that the style can be analyized, for example to apply a style to a node that isn't an actual child, but is a conceptual child)
 * 2.0.2
     * Fixing TextField to work around IE bug
