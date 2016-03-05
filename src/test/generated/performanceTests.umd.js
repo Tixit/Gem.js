@@ -78,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 4)
+	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 18)
 	
 	var Gem = __webpack_require__(/*! ../Gem.browser */ 1)
 	Gem.dev = true
@@ -93,22 +93,23 @@ return /******/ (function(modules) { // webpackBootstrap
   \*************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var exports = module.exports = __webpack_require__(/*! Gem */ 5)
-	exports.Style = __webpack_require__(/*! Style */ 6)
+	var exports = module.exports = __webpack_require__(/*! Gem */ 4)
+	exports.Style = __webpack_require__(/*! Style */ 5)
 	
-	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 8)
-	exports.Block = __webpack_require__(/*! Components/Block */ 9)
-	exports.Button = __webpack_require__(/*! Components/Button */ 10)
-	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 11)
-	exports.Image = __webpack_require__(/*! Components/Image */ 12)
-	exports.List = __webpack_require__(/*! Components/List */ 13)
+	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 6)
+	exports.Block = __webpack_require__(/*! Components/Block */ 7)
+	exports.Button = __webpack_require__(/*! Components/Button */ 9)
+	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 8)
+	exports.Image = __webpack_require__(/*! Components/Image */ 10)
+	exports.List = __webpack_require__(/*! Components/List */ 11)
 	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
-	exports.Radio = __webpack_require__(/*! Components/Radio */ 14)
-	exports.Select = __webpack_require__(/*! Components/Select */ 15)
-	exports.Table = __webpack_require__(/*! Components/Table */ 16)
-	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 17)
-	exports.TextField = __webpack_require__(/*! Components/TextField */ 18)
-	exports.Text = __webpack_require__(/*! Components/Text */ 19)
+	exports.Radio = __webpack_require__(/*! Components/Radio */ 12)
+	exports.Select = __webpack_require__(/*! Components/Select */ 14)
+	exports.Svg = __webpack_require__(/*! Components/Svg */ 13)
+	exports.Table = __webpack_require__(/*! Components/Table */ 15)
+	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 16)
+	exports.TextField = __webpack_require__(/*! Components/TextField */ 19)
+	exports.Text = __webpack_require__(/*! Components/Text */ 17)
 
 /***/ },
 /* 2 */
@@ -118,10 +119,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 7)
-	var Block = __webpack_require__(/*! Components/Block */ 9)
-	var Text = __webpack_require__(/*! Components/Text */ 19)
-	var Style = __webpack_require__(/*! Style */ 6)
+	var testUtils = __webpack_require__(/*! testUtils */ 20)
+	var Block = __webpack_require__(/*! Components/Block */ 7)
+	var Text = __webpack_require__(/*! Components/Text */ 17)
+	var Style = __webpack_require__(/*! Style */ 5)
 	
 	var test = testUtils.performanceTest
 	var buildNestedStructure = testUtils.buildNestedStructure
@@ -264,10 +265,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 7)
-	var Block = __webpack_require__(/*! Components/Block */ 9)
-	var Text = __webpack_require__(/*! Components/Text */ 19)
-	var Style = __webpack_require__(/*! Style */ 6)
+	var testUtils = __webpack_require__(/*! testUtils */ 20)
+	var Block = __webpack_require__(/*! Components/Block */ 7)
+	var Text = __webpack_require__(/*! Components/Text */ 17)
+	var Style = __webpack_require__(/*! Style */ 5)
 	
 	var test = testUtils.performanceTest
 	var buildNestedStructure = testUtils.buildNestedStructure
@@ -413,706 +414,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/*!***********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/deadunit.browser.js ***!
-  \***********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var Future = __webpack_require__(/*! async-future */ 40)
-	var proto = __webpack_require__(/*! proto */ 41)
-	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 20)
-	
-	var Container = __webpack_require__(/*! blocks.js/Container */ 33)
-	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 34)
-	var Block = __webpack_require__(/*! blocks.js/Block */ 35)
-	Block.dev = true
-	var Style = __webpack_require__(/*! blocks.js/Style */ 36)
-	
-	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 21)
-	var utils = __webpack_require__(/*! ./utils */ 22)
-	
-	
-	module.exports = deadunitInternal({
-	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 42),
-	
-	    environmentSpecificMethods: function() {
-	        var red = 'rgb(200,30,30)'
-	
-	        var warningWritten = false
-	        function warnAboutLateEvents(domNode) {
-	            if(!warningWritten) {
-	                append(domNode, "Test results were accessed before asynchronous parts of tests were fully complete.", {style: "color: red;"})
-	                warningWritten = true
-	            }
-	        }
-	
-	        function writeLateEvent(written, ended, domNode, event, manager) {
-	            if(ended) {
-	                written.then(function() {
-	                    warnAboutLateEvents(domNode)
-	                    append(domNode, JSON.stringify(event), {style: "color: red;"})
-	                })
-	            }
-	        }
-	
-	        // writes html on the current (browser) page
-	        this.writeHtml = function(domNode) {
-	            if(domNode === undefined) domNode = document.body
-	
-	            var f = new Future, groups = {}, ended = false, mainGroup, lateEventsWarningPrinted=false;
-	            this.events({
-	                group: function(groupStartEvent) {
-	                    if(groupStartEvent.parent === undefined) {
-	                        var group = mainGroup = MainGroup(groupStartEvent.name, groupStartEvent.time)
-	                        domNode.appendChild(mainGroup.domNode)
-	
-	                    } else {
-	                        var group = Group(mainGroup, groupStartEvent.name, groupStartEvent.time, groups[groupStartEvent.parent])
-	                        group.parentGroup.addSubGroup(group)
-	                    }
-	
-	                    groups[groupStartEvent.id] = group
-	                    lateEventCheck()
-	                },
-	                count: function(e) {
-	                    groups[e.parent].addExpectedCount(e.expected, Count(e.sourceLines, e.file, e.line, e.column, ended, e.expected))
-	                    lateEventCheck()
-	                },
-	                assert: function(e) {
-	                    groups[e.parent].addAssert(Assert(e.sourceLines, e.file, e.line, e.column, ended, e.expected, e.actual, e.success))
-	                    lateEventCheck()
-	                },
-	                exception: function(exceptionEvent) {
-	                    groups[exceptionEvent.parent].addException(Exception(exceptionEvent.error, ended))
-	                    lateEventCheck()
-	                },
-	                log: function(logEvent) {
-	                    groups[logEvent.parent].results.add(Log(logEvent.values, ended))
-	                    lateEventCheck()
-	                },
-	                groupEnd: function(groupEvent) {
-	                    var group = groups[groupEvent.id]
-	                    group.end(groupEvent.time, ended)
-	
-	                    if(group.parentGroup !== undefined && group.state.subject.success) {
-	                        group.parentGroup.title.passed++
-	                        group.parentGroup.updateTitle()
-	                    }
-	
-	                    lateEventCheck()
-	                },
-	                end: function(endEvent) {
-	                    mainGroup.endTest(endEvent.type, endEvent.time)
-	                    ended = true
-	                    f.return()
-	                }
-	            })
-	            return f
-	
-	            // if late is true, prints out the late event warning, unless it's already been printed
-	            function lateEventCheck() {
-	                if(ended && !lateEventsWarningPrinted) {
-	                    mainGroup.add(Text('lateEventsWarning', "Warning: some events happened after the test ended."))
-	                    lateEventsWarningPrinted = true
-	                }
-	            }
-	        }
-	
-	    }
-	})
-	
-	function append(domNode, content, attributes) {
-	    if(domNode.setAttributeNode === undefined || domNode.appendChild === undefined)
-	        console.log("Object that is not a dom node passed to 'append' (jquery objects aren't supported anymore): "+domNode)
-	    if(attributes ===  undefined) attributes = {}
-	
-	    /*var div = document.createElement('div')
-	        div.innerHTML = content
-	    for(var attribute in attributes) {
-	        var a = document.createAttribute(attribute)
-	            a.nodeValue = attributes[attribute]
-	        domNode.setAttributeNode(a);
-	    }
-	
-	    domNode.appendChild(div)
-	    */
-	    $(domNode).append(content)
-	}
-	
-	var color = defaultFormats.htmlColors
-	
-	document.body.style.backgroundColor = color.black
-	var mainGroupStyle = Style({
-	    color: color.white,
-	    marginTop: 10,
-	
-	    Text: {
-	        $mainTitle:{
-	            cursor: 'pointer',
-	            color: color.brightBlue,
-	            fontSize: 28,
-	            fontWeight: 'bold',
-	            margin: '9px 0'
-	        },
-	        $timeout: {
-	            color: color.red
-	        },
-	        $lateEventsWarning: {
-	            color: color.yellow
-	        }
-	    },
-	
-	    Container:{$results:{
-	        $state: function(state) {
-	            if(state.success) {
-	                if(state.late) {
-	                    var borderColor = color.darkYellow
-	                } else {
-	                    var borderColor = color.green
-	                }
-	            } else {
-	                var borderColor = color.red
-	            }
-	
-	            return Style({
-	                border: '1px solid '+borderColor,
-	                display: 'block',
-	                padding: 5
-	            })
-	        }
-	    }},
-	
-	    MainBar: {
-	        $state: function(state) {
-	            if(state.success) {
-	                if(state.late) {
-	                    var borderColor = color.darkYellow
-	                } else {
-	                    var borderColor = color.green
-	                }
-	            } else {
-	                var borderColor = color.red
-	            }
-	
-	            return Style({
-	                cursor: 'pointer',
-	                border: "2px solid "+borderColor,
-	                display: 'block',
-	                padding: 1,
-	            })
-	        },
-	
-	
-	        Container: {
-	            $inner: {
-	                $state: function(state) {
-	                    if(state.success) {
-	                        if(state.late) {
-	                            var backgroundColor = color.darkYellow
-	                        } else {
-	                            var backgroundColor = color.green
-	                        }
-	                    } else {
-	                        var backgroundColor = color.red
-	                    }
-	
-	                    return Style({
-	                        backgroundColor: backgroundColor,
-	                        display: "block",
-	                        padding: "1px 3px",
-	                    })
-	                },
-	
-	                Text: {
-	                    color: color.white,
-	                    $title: {
-	                        color: color.brightBlue
-	                    }
-	                }
-	            },
-	            $passes: {
-	                Text: {color: color.brightGreen}
-	            },
-	            $failures: {
-	                Text: {color: color.darkRed}
-	            },
-	            $exceptions: {
-	                Text: {color: color.brightPurple}
-	            },
-	            $clickText: {
-	                float: 'right',
-	                Text: {fontStyle: 'italic'}
-	            }
-	        },
-	    },
-	
-	    Group: {
-	        padding: 1,
-	        margin: '8px 0',
-	
-	        GroupTitle: {
-	            $state: function(state) {
-	                if(state.success) {
-	                    var textColor = color.brightGreen
-	                    if(state.late) {
-	                        var backgroundColor = color.darkYellow
-	                    } else {
-	                        var backgroundColor = color.green
-	                    }
-	                } else {
-	                    var textColor = color.white
-	                    var backgroundColor = color.red
-	                }
-	
-	                return Style({
-	                    backgroundColor: backgroundColor,
-	                    color: textColor,
-	                    paddingLeft: 3,
-	                    cursor: 'pointer'
-	                })
-	            },
-	
-	            Text: {
-	                $timeElapsed: {
-	                    color: color.gray
-	                }
-	            }
-	        },
-	    },
-	
-	    ResultLine: {
-	        $state: function(state) {
-	            if(!state.success) {
-	                var textColor = color.red
-	            } else if(state.late) {
-	                var textColor = color.yellow
-	            } else {
-	                var textColor = color.green
-	            }
-	
-	            return Style({color: textColor})
-	        },
-	
-	        Container: {
-	            $location: {
-	                Text: {
-	                    color: color.gray,
-	                    $line: {
-	                        color: color.white
-	                    }
-	                }
-	            },
-	            $expectedAndActual: {
-	                Text: {
-	                    color: color.gray,
-	                    $actual: {
-	                        color: color.white
-	                    },
-	                    $expected: {
-	                        color: color.white
-	                    }
-	                }
-	            }
-	        }
-	    },
-	
-	    Exception: {
-	        color: color.purple
-	    },
-	    Log: {
-	        Text: {
-	            display: 'block'
-	        }
-	    }
-	})
-	
-	
-	
-	// a Block on its own line
-	var Line = proto(Block, function() {
-	    this.name = "Line"
-	    this.defaultStyle = Style({
-	        display: 'block'
-	    })
-	})
-	
-	var Group = proto(Line, function() {
-	    this.name = "Group"
-	
-	    this.build = function(mainGroup, groupTitle, time, parentGroup) {
-	        this.mainGroup = mainGroup
-	        this.results = Container('results')
-	        this.parentGroup = parentGroup
-	
-	        this.add(this.results)
-	        this.createTitleBar(groupTitle)
-	        this.startTime = time
-	        this.count = 0
-	
-	        this.title.on('click', function() {
-	            this.results.visible = !this.results.visible
-	        }.bind(this))
-	    }
-	
-	    this.createTitleBar = function(groupTitle) {
-	        this.title = GroupTitle(groupTitle)
-	        this.addAt(0, this.title)
-	    }
-	
-	    this.addExpectedCount = function(expected, countBlock) {
-	        this.expected = expected
-	        this.countBlock = countBlock
-	        this.countBlock.count = this.count
-	        this.results.addAt(0, countBlock)
-	        this.title.total++
-	
-	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
-	        this.updateTitle()
-	    }
-	
-	    this.addAssert = function(assertBlock) {
-	        this.results.add(assertBlock)
-	        this.count++
-	        if(this.countBlock !== undefined)
-	            this.countBlock.count = this.count
-	
-	        this.title.total++
-	        if(assertBlock.state.subject.success) {
-	            this.title.passed++
-	            this.mainGroup.title.testTotalPasses++
-	        } else {
-	            this.mainGroup.title.testTotalFailures++
-	        }
-	
-	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
-	        this.updateTitle()
-	    }
-	
-	    this.addException = function(exceptionBlock) {
-	        this.results.add(exceptionBlock)
-	        this.title.exceptions++
-	        this.mainGroup.title.testTotalExceptions++
-	
-	        this.updateTitle()
-	    }
-	
-	    this.addSubGroup = function(groupBlock) {
-	        this.results.add(groupBlock)
-	        this.count++
-	        if(this.countBlock !== undefined)
-	            this.countBlock.count = this.count
-	
-	        this.title.total++
-	
-	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
-	        this.updateTitle()
-	    }
-	
-	    this.end = function(time) {
-	        //updateCountSuccess(this, true) // must be run before groupEnded is set (because it relies on groupEnded being false at this point)
-	        if(this.expected !== undefined && !(this.count === this.expected)) this.mainGroup.title.testTotalFailures++
-	
-	        this.groupEnded = true
-	        this.updateTitle()
-	        if(!(this instanceof MainGroup)) {
-	            this.title.add(Text('timeElapsed', ' took '+(time - this.startTime)+'ms'))
-	        }
-	    }
-	
-	    this.updateTitle = function() {
-	        var success = this.title.passed === this.title.total && this.title.exceptions === 0
-	                      && (this !== this.mainGroup || this.title.testTotalFailures === 0 && this.title.testTotalExceptions === 0)
-	
-	        this.results.visible = !success
-	        var parts = [this,this.results,this.title]// things to set success on (since $state styling is currently so limited, you have to set it on everything that needs a style)
-	        if(this instanceof MainGroup) {
-	            parts.push(this.title.inner)
-	        }
-	
-	        var ended = this.mainGroup.ended
-	        parts.forEach(function(block) {
-	            block.state.set("success", success)
-	            block.state.set("late", ended)
-	        })
-	
-	        if(this.parentGroup !== undefined) this.parentGroup.updateTitle()
-	    }
-	})
-	
-	// figure out if count succeeded and update the main group and the countblock state
-	function updateCountSuccess(that) {
-	    if(that.expected !== undefined) {
-	        var countSuccess = that.count === that.expected
-	        that.countBlock.state.set("success", countSuccess)
-	        if(that.groupEnded) that.countBlock.results.state.set("late", true)
-	
-	        if(countSuccess) {
-	            that.mainGroup.title.testTotalPasses++
-	            that.title.passed++
-	            if(that.groupEnded) {
-	                that.mainGroup.title.testTotalFailures--
-	                that.groupEndCountSubtracted = true // marks that failures were subtracted after the test finished (so successes can be later subtracted correctly if need be)
-	            }
-	        } else if(that.groupEndCountSubtracted || that.count - 1 === that.expected) {
-	            that.title.passed--
-	            that.mainGroup.title.testTotalPasses--
-	            if(that.groupEnded) {
-	                that.mainGroup.title.testTotalFailures++
-	            }
-	        }
-	    }
-	}
-	
-	var MainGroup = proto(Group, function(superclass) {
-	    this.name = "MainGroup"
-	
-	    this.createTitleBar = function(groupTitle) {
-	        this.title = MainBar(groupTitle)
-	        this.add(this.title)
-	    }
-	
-	    this.build = function(groupTitle, time) {
-	        superclass.build.call(this, this,groupTitle,time)
-	        this.style = mainGroupStyle
-	
-	        var mainTitle = Text('mainTitle', groupTitle)
-	        this.addAt(0, mainTitle)
-	        this.add(this.pendingText=Text("Pending..."))
-	
-	        mainTitle.on('click', function() {
-	            this.results.visible = !this.results.visible
-	        }.bind(this))
-	    }
-	
-	    this.endTest = function(type, time) {
-	        if(type === 'timeout')
-	            this.add(Text('timeout', "The test timed out!"))
-	
-	        this.pendingText.visible = false
-	        this.updateTitle()
-	        this.testTotalTime = getTimeDisplay(time - this.startTime)
-	        this.title.takenText.text = "Took "
-	        this.ended = true
-	    }
-	})
-	
-	
-	
-	var Text = proto(OriginalText, function() { // doing this cause i'm to lazy to update blocks.js right now
-	    this.defaultStyle = Style({
-	        whiteSpace: 'pre-wrap'
-	    })
-	})
-	
-	
-	var GroupTitle = proto(Line, function() {
-	    this.name = "GroupTitle"
-	
-	    this.build = function(title) {
-	        this.totalNode = Text('0')
-	        this.passedNode = Text('0')
-	        this.exceptionsNode = Text('0')
-	
-	
-	        if(title !== undefined) {
-	            this.add(Text(title+":       "))
-	        }
-	
-	        this.add(this.passedNode, Text('/'), this.totalNode, Text(' and '), this.exceptionsNode, Text(" exceptions "))
-	    }
-	
-	    ;['total','passed','exceptions'].forEach(function(property) {
-	        Object.defineProperty(this, property, {
-	            get: function() {  return parseInt(this[property+"Node"].text)},
-	            set: function(v) {
-	                this[property+"Node"].text = v
-	                if(property === 'total' && this.totalPlural) {
-	                    if(v == 1) this.totalPlural.visible = false
-	                    else       this.totalPlural.visible = true
-	                }
-	            }
-	        })
-	    }.bind(this))
-	})
-	
-	var MainBar = proto(GroupTitle, function() {
-	    this.name = "MainBar"
-	
-	    /*override*/ this.build = function(title) {
-	        this.totalNode = Text('0'); this.totalPlural = Text('s')
-	        this.passedNode = Text('0')
-	        this.exceptionsNode = Text('0')  // unused, but needed to match the interface of GroupTitle
-	
-	        this.testTotalPassesNode = Text('0'); this.testTotalPassesPlural = Text('es')
-	        this.testTotalFailuresNode = Text('0'); this.testTotalFailuresPlural = Text('s')
-	        this.testTotalExceptionsNode = Text('0'); this.testTotalExceptionsPlural = Text('s')
-	        this.testTotalTimeNode = Text('0')
-	
-	        // used temporarily to approximate the time when counting up on-the-fly
-	        // will be replaced by the time coming from deadunitCore's events at the end
-	        this.temporaryStartTime = Date.now()
-	
-	        this.inner = Container('inner', []) // outer used for styling)
-	        this.add(this.inner)
-	
-	        if(title !== undefined) {
-	            this.inner.add(Text('title', title), Text(' - '))
-	        }
-	
-	        this.inner.add(
-	            this.passedNode, Text('/'), this.totalNode, Text(' successful test'),this.totalPlural,Text('. '),
-	            Container('passes', this.testTotalPassesNode, Text(" pass"), this.testTotalPassesPlural), Text(", "),
-	            Container('failures', this.testTotalFailuresNode, Text(" failure"),this.testTotalFailuresPlural), Text(", and "),
-	            Container('exceptions', this.testTotalExceptionsNode, Text(" exception"), this.testTotalExceptionsPlural), Text(". "),
-	            Container('time', this.takenText=Text("Has taken "), this.testTotalTimeNode, Text(".")),
-	            Container('clickText', Text("click on this bar"))
-	        )
-	    }
-	
-	    ;['testTotalPasses','testTotalFailures','testTotalExceptions','testTotalTime'].forEach(function(property) {
-	        Object.defineProperty(this, property, {
-	            get: function() {  return parseInt(this[property+"Node"].text)},
-	            set: function(v) {
-	                this[property+"Node"].text = v
-	
-	                if(property!=='testTotalTime') {
-	                    this.testTotalTime = getTimeDisplay(Date.now() - this.temporaryStartTime)
-	
-	                    if(v == 1) this[property+'Plural'].visible = false
-	                    else        this[property+'Plural'].visible = true
-	                }
-	            }
-	        })
-	    }.bind(this))
-	})
-	
-	
-	// a line of result text
-	var ResultLine = proto(Line, function() {
-	    this.name = "ResultLine"
-	
-	    this.build = function(resultText, sourceLines, file, line, column, expected, actual) {
-	        this.resultTextNode = Text(resultText)
-	        var location = Container('location',[Text("["+file+' '), Text('line',line), Text(":"+column+'] ')])
-	        this.add(this.resultTextNode, location, Text(sourceLines))
-	
-	        this.expectedAndActual = Container('expectedAndActual')
-	        this.add(this.expectedAndActual)
-	
-	        if(expected !== undefined) {
-	            this.expectedAndActual.add(Text(" Expected "), Text('expected', utils.valueToMessage(expected)))
-	        }
-	        if(actual !== undefined) {
-	            if(expected !== undefined)
-	                this.expectedAndActual.add(Text(","))
-	
-	            this.got = Text("actual", utils.valueToMessage(actual))
-	            this.expectedAndActual.add(Text(" Got "), this.got)
-	        }
-	    }
-	})
-	
-	
-	var Assert = proto(Line, function() {
-	    this.name = "Assert"
-	
-	    this.successText = "Ok! "
-	    this.failText = "Fail: "
-	
-	    this.build = function(sourceLines, file, line, column, late, expected, actual, success) {
-	        var text = success?this.successText:this.failText
-	
-	        this.results = ResultLine(text, sourceLines, file, line, column, expected, actual)
-	        this.add(this.results)
-	
-	        var that = this
-	        this.state.on('change', function() {
-	            that.results.expectedAndActual.visible = !that.state.subject.success
-	        })
-	
-	        this.state.set("success", success)
-	        this.results.state.set("success", success)
-	        if(late) this.results.state.set("late", true)
-	    }
-	})
-	
-	var Exception = proto(Line, function() {
-	    this.name = "Exception"
-	
-	    this.build = function(error, late) {
-	        if(late) this.state.set("late", true)
-	
-	        var exceptionText = Text(utils.errorToString(error))
-	        this.add(exceptionText)
-	    }
-	})
-	
-	var Count = proto(Assert, function(superclass) {
-	    this.name = "Count"
-	
-	    this.build = function(sourceLines, file, line, column, late, expected) {
-	        superclass.build.call(this, sourceLines, file, line, column, late, expected, 0, false)
-	        this.expected = expected
-	    }
-	
-	    Object.defineProperty(this, 'count', {
-	        get: function() {
-	            return this.results.got.text
-	        }, set: function(count) {
-	            this.results.got.text = count
-	            if(count === this.expected) {
-	                this.results.resultTextNode.text = this.successText
-	            } else {
-	                this.results.resultTextNode.text = this.failText
-	            }
-	
-	            this.results.state.set("success", count === this.expected)
-	        }
-	    })
-	})
-	
-	var Log = proto(Line, function() {
-	    this.name = "Log"
-	
-	    this.build = function(values, late) {
-	        if(late) this.state.set("late", true)
-	
-	        values.forEach(function(v) {
-	            this.add(Text(utils.valueToString(v)))
-	        }.bind(this))
-	
-	    }
-	})
-	
-	function getTimeDisplay(milliseconds) {
-	    if(milliseconds > 1000) {
-	        return Math.floor(milliseconds/1000)+'s'
-	    } else {
-	        return milliseconds+'ms'
-	    }
-	}
-
-
-/***/ },
-/* 5 */
 /*!*******************!*\
   !*** ../~/Gem.js ***!
   \*******************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 25)
-	var proto = __webpack_require__(/*! proto */ 38);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 46)
-	var observe = __webpack_require__(/*! observe */ 47)
+	var proto = __webpack_require__(/*! proto */ 37);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 35)
+	var observe = __webpack_require__(/*! observe */ 36)
 	
-	var utils = __webpack_require__(/*! ./utils */ 24)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 26)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 27)
+	var utils = __webpack_require__(/*! ./utils */ 22)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 23)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 24)
 	
-	var Style = __webpack_require__(/*! ./Style */ 6)
+	var Style = __webpack_require__(/*! ./Style */ 5)
 	Style.isDev = function() {return module.exports.dev}
 	
 	var components = {};
@@ -1140,12 +456,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // static properties
 	
+	    this.name = 'Gem'
+	
 	    // constructor
 		this.init = function() {
 	        var that = this
 	
-	        if(this.name === undefined) {
-	            throw new Error("The 'name' property is required for Gem")
+	        if(this.name === 'Gem') {
+	            throw new Error("The 'name' property is required for Gem (it must be set to something that isn't 'Gem')")
 	        }
 	
 	        superclass.init.call(this)
@@ -1474,7 +792,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function getStyle(gem) {
 	        if(gem._style !== undefined) {            // use the gem's explicit style if possible
 	            if(gem._style.inherit) {
-	                var styleToInerit = blockStyleUtils.getInheritingStyle(gem, gem.parent)
+	                var styleToInerit = blockStyleUtils.getInheritingStyle(gem)
 	                if(styleToInerit !== undefined)
 	                    return styleToInerit.mix(gem._style)
 	            }
@@ -1482,7 +800,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return gem._style
 	
 	        } else {     // otherwise use the parent's computedStyleMap
-	            return blockStyleUtils.getInheritingStyle(gem, gem.parent)
+	            return blockStyleUtils.getInheritingStyle(gem)
 	        }
 	    }
 	});
@@ -1595,17 +913,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 6 */
+/* 5 */
 /*!*********************!*\
   !*** ../~/Style.js ***!
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 23)
-	var proto = __webpack_require__(/*! proto */ 38)
-	var HashMap = __webpack_require__(/*! hashmap */ 45)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 21)
+	var proto = __webpack_require__(/*! proto */ 37)
+	var HashMap = __webpack_require__(/*! hashmap */ 38)
 	
-	var utils = __webpack_require__(/*! ./utils */ 24)
+	var utils = __webpack_require__(/*! ./utils */ 22)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -1882,7 +1200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // mixInherit - (default: false) if true, mixes in the 'inherit' property
 	    this.mix = function(styleB, mixInherit) {
 	        if(mixInherit === undefined) mixInherit = false
-	        if(styleB === undefined)
+	        if(styleB === undefined || styleB === this)
 	            return this
 	        if(!isStyleObject(styleB)) styleB = Style(styleB)
 	
@@ -1947,7 +1265,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        // else
 	        var styleToReturn = this // can change below if there is an interaction with the styleMap
-	        if(this.pureNative && this.pseudoclasses.classes.keys() !== 0) { // only care about pseudoclass interactions if it has pseudoclasses
+	        if(this.pureNative && this.pseudoclasses.classes.keys().length !== 0) { // only care about pseudoclass interactions if it has pseudoclasses
 	            var styleSelectors = containedStyleSelectors(this)
 	            var info = stylesInfo(styleSelectors, styleMap)
 	            var interacts = info.impure.length > 0
@@ -2865,225 +2183,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 7 */
-/*!************************!*\
-  !*** ./~/testUtils.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Future = __webpack_require__(/*! async-future */ 37)
-	var Style = __webpack_require__(/*! Style */ 6)
-	var Block = __webpack_require__(/*! Components/Block */ 9)
-	
-	// compares arrays and objects for value equality (all elements and members must match)
-	exports.equal = function(a,b) {
-	    if(a instanceof Array) {
-	        if(!(b instanceof Array))
-	            return false
-	        if(a.length !== b.length) {
-	            return false
-	        } else {
-	            return a.reduce(function(previousValue, currentValue, index) {
-	                return previousValue && exports.equal(currentValue,b[index])
-	            }, true)
-	        }
-	    } else if(a instanceof Object) {
-	        if(!(b instanceof Object))
-	            return false
-	
-	        var aKeys = Object.keys(a)
-	        var bKeys = Object.keys(b)
-	
-	        if(aKeys.length !== bKeys.length) {
-	            return false
-	        } else {
-	            for(var n=0; n<aKeys.length; n++) {
-	                var key = aKeys[n]
-	                var aVal = a[key]
-	                var bVal = b[key]
-	
-	                if(!exports.equal(aVal,bVal)) {
-	                    return false
-	                }
-	            }
-	            // else
-	            return true
-	        }
-	    } else {
-	        return a===b
-	    }
-	}
-	
-	
-	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
-	// returns a function that, each time its called, calls the next function in the list with the passed argument
-	// example:
-	/*
-	var sequenceX = testUtils.seq(
-	 function(x) {
-	     t.ok(x === 'a')
-	 },
-	 function(x) {
-	     t.ok(x === 'b')
-	 },
-	 function(x) {
-	     t.ok(x === 'c')
-	})
-	
-	 var obj = {a:1,b:2,c:3}
-	 for(var x in obj) {
-	     sequenceX(x)
-	 }
-	 */
-	exports.seq = function (/*functions*/) {
-	    var n=-1
-	    var fns = arguments
-	    return function() {
-	        n++
-	        if(n>=fns.length)
-	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
-	        // else
-	        fns[n].apply(this,arguments)
-	    }
-	}
-	
-	
-	exports.demo = function(name, component) {
-	    var header = document.createElement("h2")
-	        header.textContent = name
-	
-	    $("#demos").append(header);
-	    component.attach($("#demos")[0])
-	
-	    return [header, component]
-	}
-	exports.cleanupDemo = function(nodes) {
-	    $(nodes[0]).remove()
-	    nodes[1].detach()
-	}
-	exports.manualDemo = function(name, component) {
-	    var header = document.createElement("h2")
-	        header.textContent = name
-	
-	    $("#manualDemos").append(header);
-	    component.attach($("#manualDemos")[0])
-	}
-	exports.textOutput = function(name, textContent) {
-	    var header = document.createElement("h2")
-	        header.textContent = name
-	
-	    var text = document.createElement("div")
-	        text.textContent = textContent
-	
-	    $("#results").append([header, text]);
-	}
-	
-	// future wraps a function like: function(result) {}
-	exports.wrapSingleParameter = function() {
-	    if(arguments.length === 1) {
-	        var fn = arguments[0]
-	    } else {
-	        var object = arguments[0]
-	        var method = arguments[1]
-	        var fn = object[method]
-	    }
-	
-	    return function() {
-	        var args = Array.prototype.slice.call(arguments)
-			var future = new Future
-			args.push(function(result) {
-			    future.return(result)
-			})
-			var me = this
-	        if(object) me = object
-	        fn.apply(me, args)
-			return future
-	    }
-	}
-	
-	exports.performanceTest = function(name, testDefinition) {
-	    setTimeout(function() {
-	        var times = []
-	        var totalTime = 0
-	        while(totalTime < 2000) {
-	            var time = oneIteration()
-	            times.push(time)
-	            totalTime += time
-	        }
-	
-	        var averageTime = totalTime/times.length
-	        var stdDeviationPercentage = standardDeviation(times)/averageTime
-	
-	        //console.log(mean(times)+ ' vs '+averageTime) // these should be equal and looks like they are
-	        exports.textOutput(name, Math.round(averageTime)+'ms (averaged over '+times.length+" iterations) - standard deviation: "+Math.round(stdDeviationPercentage*100)/100+'%')
-	
-	
-	        function oneIteration() {
-	            var time;
-	            testDefinition.call({
-	                time: function(testFn) {
-	                    var start = performance.now()
-	                    testFn()
-	                    time = performance.now() - start // ms
-	                }
-	            })
-	
-	            return time
-	        }
-	    },0)
-	}
-	
-	function standardDeviation(numberSet) {
-	    return Math.sqrt(variance(numberSet))
-	}
-	
-	function variance(numberSet) {
-	    var theMean = mean(numberSet)
-	    var sumOfDifferenceSquares = numberSet.reduce(function(acc,x) {
-	        var difference = x-theMean
-	        return acc + difference*difference
-	    },0)
-	
-	    return sumOfDifferenceSquares / (numberSet.length-1)
-	}
-	
-	function mean(numberSet) {
-	    var sum = numberSet.reduce(function(acc,x) {
-	        return acc+x
-	    },0)
-	
-	    return sum/numberSet.length
-	}
-	
-	
-	exports.buildNestedStructure = function (nestings) {
-	    var innerMost = Block()
-	    var cur = innerMost
-	    for(var n=0; n<nestings; n++) {
-	        cur = Block('moose', [cur])
-	    }
-	    return {innerMost:innerMost, top: cur}
-	}
-	
-	exports.buildNestedStyle = function(nestings) {
-	    var styleObject = {};
-	    for(var n=0; n<nestings; n++) {
-	        styleObject = {color: 'red', Block: styleObject}
-	    }
-	
-	    return Style(styleObject)
-	}
-
-/***/ },
-/* 8 */
+/* 6 */
 /*!*********************************!*\
   !*** ../~/Components/Canvas.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! Gem */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
-	var Style = __webpack_require__(/*! Style */ 6)
+	var Gem = __webpack_require__(/*! Gem */ 4)
+	var proto = __webpack_require__(/*! proto */ 37)
+	var Style = __webpack_require__(/*! Style */ 5)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -3137,14 +2245,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 7 */
 /*!********************************!*\
   !*** ../~/Components/Block.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! ../Gem */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Gem = __webpack_require__(/*! ../Gem */ 4)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -3174,14 +2282,57 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 8 */
+/*!***********************************!*\
+  !*** ../~/Components/CheckBox.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! Gem */ 4)
+	var proto = __webpack_require__(/*! proto */ 37)
+	
+	module.exports = proto(Gem, function(superclass) {
+		// static variables
+	    this.name = 'CheckBox'
+	
+		// instance methods
+		this.init = function(label) {
+	        var that = this
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+			this.attr('type','checkbox')
+		}
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the checkbox is checked
+	        get: function() {
+	            return this.domNode.checked
+	        },
+	        // sets the value of the checkbox to the passed value (true for checked)
+	        set: function(checked) {
+	            var newValue = checked === true
+	            var curValue = this.domNode.checked
+	            if(curValue === newValue) return;  // do nothing if nothing's changing
+	
+	            this.domNode.checked = newValue
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	        }
+	    })
+	})
+
+
+/***/ },
+/* 9 */
 /*!*********************************!*\
   !*** ../~/Components/Button.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! Gem */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Gem = __webpack_require__(/*! Gem */ 4)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -3221,57 +2372,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
-/*!***********************************!*\
-  !*** ../~/Components/CheckBox.js ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! Gem */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
-	
-	module.exports = proto(Gem, function(superclass) {
-		// static variables
-	    this.name = 'CheckBox'
-	
-		// instance methods
-		this.init = function(label) {
-	        var that = this
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-			this.attr('type','checkbox')
-		}
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the checkbox is checked
-	        get: function() {
-	            return this.domNode.checked
-	        },
-	        // sets the value of the checkbox to the passed value (true for checked)
-	        set: function(checked) {
-	            var newValue = checked === true
-	            var curValue = this.domNode.checked
-	            if(curValue === newValue) return;  // do nothing if nothing's changing
-	
-	            this.domNode.checked = newValue
-	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	        }
-	    })
-	})
-
-
-/***/ },
-/* 12 */
+/* 10 */
 /*!********************************!*\
   !*** ../~/Components/Image.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! Gem */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Gem = __webpack_require__(/*! Gem */ 4)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -3309,18 +2417,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 11 */
 /*!*******************************!*\
   !*** ../~/Components/List.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 38)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var Gem = __webpack_require__(/*! Gem */ 5)
-	var Style = __webpack_require__(/*! Style */ 6)
+	var Gem = __webpack_require__(/*! Gem */ 4)
+	var Style = __webpack_require__(/*! Style */ 5)
 	
-	var Item = __webpack_require__(/*! ./Item */ 28);
+	var Item = __webpack_require__(/*! ./Item */ 26);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -3386,16 +2494,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 14 */
+/* 12 */
 /*!********************************!*\
   !*** ../~/Components/Radio.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 38)
-	var EventEmitter = __webpack_require__(/*! events */ 39).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 37)
+	var EventEmitter = __webpack_require__(/*! events */ 34).EventEmitter
 	
-	var Gem = __webpack_require__(/*! ../Gem */ 5)
+	var Gem = __webpack_require__(/*! ../Gem */ 4)
 	
 	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
 	
@@ -3655,16 +2763,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 15 */
+/* 13 */
+/*!******************************!*\
+  !*** ../~/Components/Svg.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 37)
+	var Gem = __webpack_require__(/*! ../Gem */ 4)
+	
+	module.exports = proto(Gem, function(superclass) {
+		// static variables
+	    this.name = 'Svg'
+	
+		// instance methods
+		this.build = function(/*[label,] svgXml*/) {
+	        if(arguments.length === 1) {
+	            var svgXml = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var svgXml = arguments[1]
+	        }
+	
+	        var div = document.createElement('div')
+	        div.innerHTML = svgXml
+	        this.domNode = div.firstChild
+	
+	        this.label = label
+		}
+	})
+
+/***/ },
+/* 14 */
 /*!*********************************!*\
   !*** ../~/Components/Select.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! ../Gem */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Gem = __webpack_require__(/*! ../Gem */ 4)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var Option = __webpack_require__(/*! Components/Option */ 29)
+	var Option = __webpack_require__(/*! Components/Option */ 28)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Gem, function(superclass) {
@@ -3811,20 +2950,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 15 */
 /*!********************************!*\
   !*** ../~/Components/Table.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 38)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var Gem = __webpack_require__(/*! ../Gem */ 5)
-	var Style = __webpack_require__(/*! Style */ 6)
+	var Gem = __webpack_require__(/*! ../Gem */ 4)
+	var Style = __webpack_require__(/*! Style */ 5)
 	
-	var Header = __webpack_require__(/*! ./Header */ 30);
-	var Row = __webpack_require__(/*! ./Row */ 31);
-	var Cell = __webpack_require__(/*! ./Cell */ 32);
+	var Header = __webpack_require__(/*! ./Header */ 27);
+	var Row = __webpack_require__(/*! ./Row */ 29);
+	var Cell = __webpack_require__(/*! ./Cell */ 30);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -3878,14 +3017,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 17 */
+/* 16 */
 /*!***********************************!*\
   !*** ../~/Components/TextArea.js ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! ../Gem */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
+	var Gem = __webpack_require__(/*! ../Gem */ 4)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -3921,74 +3060,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
-/*!************************************!*\
-  !*** ../~/Components/TextField.js ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! ../Gem */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
-	
-	var domUtils = __webpack_require__(/*! ../domUtils */ 26)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'TextField'
-	
-		this.init = function(/*[label,] password*/) {
-	        if(arguments.length === 1) {
-	            var password = arguments[0]
-	        } else if(arguments.length > 1) {
-	            var label = arguments[0]
-	            var password = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-			this.label = label
-			domUtils.setAttribute(this.domNode,'type','text');
-	        if(password)
-	            domUtils.setAttribute(this.domNode, 'type', 'password')
-		}
-	
-	
-		// instance properties
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.domNode.value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.val === value) return; // do nothing if there's no change
-	
-	            this.domNode.value = value
-	            this.emit('change')
-	        }
-	    })
-	
-	});
-
-
-/***/ },
-/* 19 */
+/* 17 */
 /*!*******************************!*\
   !*** ../~/Components/Text.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 38)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var Gem = __webpack_require__(/*! Gem */ 5)
-	var Style = __webpack_require__(/*! Style */ 6)
+	var Gem = __webpack_require__(/*! Gem */ 4)
+	var Style = __webpack_require__(/*! Style */ 5)
 	
-	var domUtils = __webpack_require__(/*! domUtils */ 26)
+	var domUtils = __webpack_require__(/*! domUtils */ 23)
 	
 	
 	
@@ -4033,17 +3116,2442 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 18 */
+/*!***********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/deadunit.browser.js ***!
+  \***********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var Future = __webpack_require__(/*! async-future */ 47)
+	var proto = __webpack_require__(/*! proto */ 46)
+	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 31)
+	
+	var Container = __webpack_require__(/*! blocks.js/Container */ 40)
+	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 41)
+	var Block = __webpack_require__(/*! blocks.js/Block */ 42)
+	Block.dev = true
+	var Style = __webpack_require__(/*! blocks.js/Style */ 43)
+	
+	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 32)
+	var utils = __webpack_require__(/*! ./utils */ 33)
+	
+	
+	module.exports = deadunitInternal({
+	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 44),
+	
+	    environmentSpecificMethods: function() {
+	        var red = 'rgb(200,30,30)'
+	
+	        var warningWritten = false
+	        function warnAboutLateEvents(domNode) {
+	            if(!warningWritten) {
+	                append(domNode, "Test results were accessed before asynchronous parts of tests were fully complete.", {style: "color: red;"})
+	                warningWritten = true
+	            }
+	        }
+	
+	        function writeLateEvent(written, ended, domNode, event, manager) {
+	            if(ended) {
+	                written.then(function() {
+	                    warnAboutLateEvents(domNode)
+	                    append(domNode, JSON.stringify(event), {style: "color: red;"})
+	                })
+	            }
+	        }
+	
+	        // writes html on the current (browser) page
+	        this.writeHtml = function(domNode) {
+	            if(domNode === undefined) domNode = document.body
+	
+	            var f = new Future, groups = {}, ended = false, mainGroup, lateEventsWarningPrinted=false;
+	            this.events({
+	                group: function(groupStartEvent) {
+	                    if(groupStartEvent.parent === undefined) {
+	                        var group = mainGroup = MainGroup(groupStartEvent.name, groupStartEvent.time)
+	                        domNode.appendChild(mainGroup.domNode)
+	
+	                    } else {
+	                        var group = Group(mainGroup, groupStartEvent.name, groupStartEvent.time, groups[groupStartEvent.parent])
+	                        group.parentGroup.addSubGroup(group)
+	                    }
+	
+	                    groups[groupStartEvent.id] = group
+	                    lateEventCheck()
+	                },
+	                count: function(e) {
+	                    groups[e.parent].addExpectedCount(e.expected, Count(e.sourceLines, e.file, e.line, e.column, ended, e.expected))
+	                    lateEventCheck()
+	                },
+	                assert: function(e) {
+	                    groups[e.parent].addAssert(Assert(e.sourceLines, e.file, e.line, e.column, ended, e.expected, e.actual, e.success))
+	                    lateEventCheck()
+	                },
+	                exception: function(exceptionEvent) {
+	                    groups[exceptionEvent.parent].addException(Exception(exceptionEvent.error, ended))
+	                    lateEventCheck()
+	                },
+	                log: function(logEvent) {
+	                    groups[logEvent.parent].results.add(Log(logEvent.values, ended))
+	                    lateEventCheck()
+	                },
+	                groupEnd: function(groupEvent) {
+	                    var group = groups[groupEvent.id]
+	                    group.end(groupEvent.time, ended)
+	
+	                    if(group.parentGroup !== undefined && group.state.subject.success) {
+	                        group.parentGroup.title.passed++
+	                        group.parentGroup.updateTitle()
+	                    }
+	
+	                    lateEventCheck()
+	                },
+	                end: function(endEvent) {
+	                    mainGroup.endTest(endEvent.type, endEvent.time)
+	                    ended = true
+	                    f.return()
+	                }
+	            })
+	            return f
+	
+	            // if late is true, prints out the late event warning, unless it's already been printed
+	            function lateEventCheck() {
+	                if(ended && !lateEventsWarningPrinted) {
+	                    mainGroup.add(Text('lateEventsWarning', "Warning: some events happened after the test ended."))
+	                    lateEventsWarningPrinted = true
+	                }
+	            }
+	        }
+	
+	    }
+	})
+	
+	function append(domNode, content, attributes) {
+	    if(domNode.setAttributeNode === undefined || domNode.appendChild === undefined)
+	        console.log("Object that is not a dom node passed to 'append' (jquery objects aren't supported anymore): "+domNode)
+	    if(attributes ===  undefined) attributes = {}
+	
+	    /*var div = document.createElement('div')
+	        div.innerHTML = content
+	    for(var attribute in attributes) {
+	        var a = document.createAttribute(attribute)
+	            a.nodeValue = attributes[attribute]
+	        domNode.setAttributeNode(a);
+	    }
+	
+	    domNode.appendChild(div)
+	    */
+	    $(domNode).append(content)
+	}
+	
+	var color = defaultFormats.htmlColors
+	
+	document.body.style.backgroundColor = color.black
+	var mainGroupStyle = Style({
+	    color: color.white,
+	    marginTop: 10,
+	
+	    Text: {
+	        $mainTitle:{
+	            cursor: 'pointer',
+	            color: color.brightBlue,
+	            fontSize: 28,
+	            fontWeight: 'bold',
+	            margin: '9px 0'
+	        },
+	        $timeout: {
+	            color: color.red
+	        },
+	        $lateEventsWarning: {
+	            color: color.yellow
+	        }
+	    },
+	
+	    Container:{$results:{
+	        $state: function(state) {
+	            if(state.success) {
+	                if(state.late) {
+	                    var borderColor = color.darkYellow
+	                } else {
+	                    var borderColor = color.green
+	                }
+	            } else {
+	                var borderColor = color.red
+	            }
+	
+	            return Style({
+	                border: '1px solid '+borderColor,
+	                display: 'block',
+	                padding: 5
+	            })
+	        }
+	    }},
+	
+	    MainBar: {
+	        $state: function(state) {
+	            if(state.success) {
+	                if(state.late) {
+	                    var borderColor = color.darkYellow
+	                } else {
+	                    var borderColor = color.green
+	                }
+	            } else {
+	                var borderColor = color.red
+	            }
+	
+	            return Style({
+	                cursor: 'pointer',
+	                border: "2px solid "+borderColor,
+	                display: 'block',
+	                padding: 1,
+	            })
+	        },
+	
+	
+	        Container: {
+	            $inner: {
+	                $state: function(state) {
+	                    if(state.success) {
+	                        if(state.late) {
+	                            var backgroundColor = color.darkYellow
+	                        } else {
+	                            var backgroundColor = color.green
+	                        }
+	                    } else {
+	                        var backgroundColor = color.red
+	                    }
+	
+	                    return Style({
+	                        backgroundColor: backgroundColor,
+	                        display: "block",
+	                        padding: "1px 3px",
+	                    })
+	                },
+	
+	                Text: {
+	                    color: color.white,
+	                    $title: {
+	                        color: color.brightBlue
+	                    }
+	                }
+	            },
+	            $passes: {
+	                Text: {color: color.brightGreen}
+	            },
+	            $failures: {
+	                Text: {color: color.darkRed}
+	            },
+	            $exceptions: {
+	                Text: {color: color.brightPurple}
+	            },
+	            $clickText: {
+	                float: 'right',
+	                Text: {fontStyle: 'italic'}
+	            }
+	        },
+	    },
+	
+	    Group: {
+	        padding: 1,
+	        margin: '8px 0',
+	
+	        GroupTitle: {
+	            $state: function(state) {
+	                if(state.success) {
+	                    var textColor = color.brightGreen
+	                    if(state.late) {
+	                        var backgroundColor = color.darkYellow
+	                    } else {
+	                        var backgroundColor = color.green
+	                    }
+	                } else {
+	                    var textColor = color.white
+	                    var backgroundColor = color.red
+	                }
+	
+	                return Style({
+	                    backgroundColor: backgroundColor,
+	                    color: textColor,
+	                    paddingLeft: 3,
+	                    cursor: 'pointer'
+	                })
+	            },
+	
+	            Text: {
+	                $timeElapsed: {
+	                    color: color.gray
+	                }
+	            }
+	        },
+	    },
+	
+	    ResultLine: {
+	        $state: function(state) {
+	            if(!state.success) {
+	                var textColor = color.red
+	            } else if(state.late) {
+	                var textColor = color.yellow
+	            } else {
+	                var textColor = color.green
+	            }
+	
+	            return Style({color: textColor})
+	        },
+	
+	        Container: {
+	            $location: {
+	                Text: {
+	                    color: color.gray,
+	                    $line: {
+	                        color: color.white
+	                    }
+	                }
+	            },
+	            $expectedAndActual: {
+	                Text: {
+	                    color: color.gray,
+	                    $actual: {
+	                        color: color.white
+	                    },
+	                    $expected: {
+	                        color: color.white
+	                    }
+	                }
+	            }
+	        }
+	    },
+	
+	    Exception: {
+	        color: color.purple
+	    },
+	    Log: {
+	        Text: {
+	            display: 'block'
+	        }
+	    }
+	})
+	
+	
+	
+	// a Block on its own line
+	var Line = proto(Block, function() {
+	    this.name = "Line"
+	    this.defaultStyle = Style({
+	        display: 'block'
+	    })
+	})
+	
+	var Group = proto(Line, function() {
+	    this.name = "Group"
+	
+	    this.build = function(mainGroup, groupTitle, time, parentGroup) {
+	        this.mainGroup = mainGroup
+	        this.results = Container('results')
+	        this.parentGroup = parentGroup
+	
+	        this.add(this.results)
+	        this.createTitleBar(groupTitle)
+	        this.startTime = time
+	        this.count = 0
+	
+	        this.title.on('click', function() {
+	            this.results.visible = !this.results.visible
+	        }.bind(this))
+	    }
+	
+	    this.createTitleBar = function(groupTitle) {
+	        this.title = GroupTitle(groupTitle)
+	        this.addAt(0, this.title)
+	    }
+	
+	    this.addExpectedCount = function(expected, countBlock) {
+	        this.expected = expected
+	        this.countBlock = countBlock
+	        this.countBlock.count = this.count
+	        this.results.addAt(0, countBlock)
+	        this.title.total++
+	
+	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
+	        this.updateTitle()
+	    }
+	
+	    this.addAssert = function(assertBlock) {
+	        this.results.add(assertBlock)
+	        this.count++
+	        if(this.countBlock !== undefined)
+	            this.countBlock.count = this.count
+	
+	        this.title.total++
+	        if(assertBlock.state.subject.success) {
+	            this.title.passed++
+	            this.mainGroup.title.testTotalPasses++
+	        } else {
+	            this.mainGroup.title.testTotalFailures++
+	        }
+	
+	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
+	        this.updateTitle()
+	    }
+	
+	    this.addException = function(exceptionBlock) {
+	        this.results.add(exceptionBlock)
+	        this.title.exceptions++
+	        this.mainGroup.title.testTotalExceptions++
+	
+	        this.updateTitle()
+	    }
+	
+	    this.addSubGroup = function(groupBlock) {
+	        this.results.add(groupBlock)
+	        this.count++
+	        if(this.countBlock !== undefined)
+	            this.countBlock.count = this.count
+	
+	        this.title.total++
+	
+	        updateCountSuccess(this)   // must be run before updateTitle (because it modifies info updateTitle relies on)
+	        this.updateTitle()
+	    }
+	
+	    this.end = function(time) {
+	        //updateCountSuccess(this, true) // must be run before groupEnded is set (because it relies on groupEnded being false at this point)
+	        if(this.expected !== undefined && !(this.count === this.expected)) this.mainGroup.title.testTotalFailures++
+	
+	        this.groupEnded = true
+	        this.updateTitle()
+	        if(!(this instanceof MainGroup)) {
+	            this.title.add(Text('timeElapsed', ' took '+(time - this.startTime)+'ms'))
+	        }
+	    }
+	
+	    this.updateTitle = function() {
+	        var success = this.title.passed === this.title.total && this.title.exceptions === 0
+	                      && (this !== this.mainGroup || this.title.testTotalFailures === 0 && this.title.testTotalExceptions === 0)
+	
+	        this.results.visible = !success
+	        var parts = [this,this.results,this.title]// things to set success on (since $state styling is currently so limited, you have to set it on everything that needs a style)
+	        if(this instanceof MainGroup) {
+	            parts.push(this.title.inner)
+	        }
+	
+	        var ended = this.mainGroup.ended
+	        parts.forEach(function(block) {
+	            block.state.set("success", success)
+	            block.state.set("late", ended)
+	        })
+	
+	        if(this.parentGroup !== undefined) this.parentGroup.updateTitle()
+	    }
+	})
+	
+	// figure out if count succeeded and update the main group and the countblock state
+	function updateCountSuccess(that) {
+	    if(that.expected !== undefined) {
+	        var countSuccess = that.count === that.expected
+	        that.countBlock.state.set("success", countSuccess)
+	        if(that.groupEnded) that.countBlock.results.state.set("late", true)
+	
+	        if(countSuccess) {
+	            that.mainGroup.title.testTotalPasses++
+	            that.title.passed++
+	            if(that.groupEnded) {
+	                that.mainGroup.title.testTotalFailures--
+	                that.groupEndCountSubtracted = true // marks that failures were subtracted after the test finished (so successes can be later subtracted correctly if need be)
+	            }
+	        } else if(that.groupEndCountSubtracted || that.count - 1 === that.expected) {
+	            that.title.passed--
+	            that.mainGroup.title.testTotalPasses--
+	            if(that.groupEnded) {
+	                that.mainGroup.title.testTotalFailures++
+	            }
+	        }
+	    }
+	}
+	
+	var MainGroup = proto(Group, function(superclass) {
+	    this.name = "MainGroup"
+	
+	    this.createTitleBar = function(groupTitle) {
+	        this.title = MainBar(groupTitle)
+	        this.add(this.title)
+	    }
+	
+	    this.build = function(groupTitle, time) {
+	        superclass.build.call(this, this,groupTitle,time)
+	        this.style = mainGroupStyle
+	
+	        var mainTitle = Text('mainTitle', groupTitle)
+	        this.addAt(0, mainTitle)
+	        this.add(this.pendingText=Text("Pending..."))
+	
+	        mainTitle.on('click', function() {
+	            this.results.visible = !this.results.visible
+	        }.bind(this))
+	    }
+	
+	    this.endTest = function(type, time) {
+	        if(type === 'timeout')
+	            this.add(Text('timeout', "The test timed out!"))
+	
+	        this.pendingText.visible = false
+	        this.updateTitle()
+	        this.testTotalTime = getTimeDisplay(time - this.startTime)
+	        this.title.takenText.text = "Took "
+	        this.ended = true
+	    }
+	})
+	
+	
+	
+	var Text = proto(OriginalText, function() { // doing this cause i'm to lazy to update blocks.js right now
+	    this.defaultStyle = Style({
+	        whiteSpace: 'pre-wrap'
+	    })
+	})
+	
+	
+	var GroupTitle = proto(Line, function() {
+	    this.name = "GroupTitle"
+	
+	    this.build = function(title) {
+	        this.totalNode = Text('0')
+	        this.passedNode = Text('0')
+	        this.exceptionsNode = Text('0')
+	
+	
+	        if(title !== undefined) {
+	            this.add(Text(title+":       "))
+	        }
+	
+	        this.add(this.passedNode, Text('/'), this.totalNode, Text(' and '), this.exceptionsNode, Text(" exceptions "))
+	    }
+	
+	    ;['total','passed','exceptions'].forEach(function(property) {
+	        Object.defineProperty(this, property, {
+	            get: function() {  return parseInt(this[property+"Node"].text)},
+	            set: function(v) {
+	                this[property+"Node"].text = v
+	                if(property === 'total' && this.totalPlural) {
+	                    if(v == 1) this.totalPlural.visible = false
+	                    else       this.totalPlural.visible = true
+	                }
+	            }
+	        })
+	    }.bind(this))
+	})
+	
+	var MainBar = proto(GroupTitle, function() {
+	    this.name = "MainBar"
+	
+	    /*override*/ this.build = function(title) {
+	        this.totalNode = Text('0'); this.totalPlural = Text('s')
+	        this.passedNode = Text('0')
+	        this.exceptionsNode = Text('0')  // unused, but needed to match the interface of GroupTitle
+	
+	        this.testTotalPassesNode = Text('0'); this.testTotalPassesPlural = Text('es')
+	        this.testTotalFailuresNode = Text('0'); this.testTotalFailuresPlural = Text('s')
+	        this.testTotalExceptionsNode = Text('0'); this.testTotalExceptionsPlural = Text('s')
+	        this.testTotalTimeNode = Text('0')
+	
+	        // used temporarily to approximate the time when counting up on-the-fly
+	        // will be replaced by the time coming from deadunitCore's events at the end
+	        this.temporaryStartTime = Date.now()
+	
+	        this.inner = Container('inner', []) // outer used for styling)
+	        this.add(this.inner)
+	
+	        if(title !== undefined) {
+	            this.inner.add(Text('title', title), Text(' - '))
+	        }
+	
+	        this.inner.add(
+	            this.passedNode, Text('/'), this.totalNode, Text(' successful test'),this.totalPlural,Text('. '),
+	            Container('passes', this.testTotalPassesNode, Text(" pass"), this.testTotalPassesPlural), Text(", "),
+	            Container('failures', this.testTotalFailuresNode, Text(" failure"),this.testTotalFailuresPlural), Text(", and "),
+	            Container('exceptions', this.testTotalExceptionsNode, Text(" exception"), this.testTotalExceptionsPlural), Text(". "),
+	            Container('time', this.takenText=Text("Has taken "), this.testTotalTimeNode, Text(".")),
+	            Container('clickText', Text("click on this bar"))
+	        )
+	    }
+	
+	    ;['testTotalPasses','testTotalFailures','testTotalExceptions','testTotalTime'].forEach(function(property) {
+	        Object.defineProperty(this, property, {
+	            get: function() {  return parseInt(this[property+"Node"].text)},
+	            set: function(v) {
+	                this[property+"Node"].text = v
+	
+	                if(property!=='testTotalTime') {
+	                    this.testTotalTime = getTimeDisplay(Date.now() - this.temporaryStartTime)
+	
+	                    if(v == 1) this[property+'Plural'].visible = false
+	                    else        this[property+'Plural'].visible = true
+	                }
+	            }
+	        })
+	    }.bind(this))
+	})
+	
+	
+	// a line of result text
+	var ResultLine = proto(Line, function() {
+	    this.name = "ResultLine"
+	
+	    this.build = function(resultText, sourceLines, file, line, column, expected, actual) {
+	        this.resultTextNode = Text(resultText)
+	        var location = Container('location',[Text("["+file+' '), Text('line',line), Text(":"+column+'] ')])
+	        this.add(this.resultTextNode, location, Text(sourceLines))
+	
+	        this.expectedAndActual = Container('expectedAndActual')
+	        this.add(this.expectedAndActual)
+	
+	        if(expected !== undefined) {
+	            this.expectedAndActual.add(Text(" Expected "), Text('expected', utils.valueToMessage(expected)))
+	        }
+	        if(actual !== undefined) {
+	            if(expected !== undefined)
+	                this.expectedAndActual.add(Text(","))
+	
+	            this.got = Text("actual", utils.valueToMessage(actual))
+	            this.expectedAndActual.add(Text(" Got "), this.got)
+	        }
+	    }
+	})
+	
+	
+	var Assert = proto(Line, function() {
+	    this.name = "Assert"
+	
+	    this.successText = "Ok! "
+	    this.failText = "Fail: "
+	
+	    this.build = function(sourceLines, file, line, column, late, expected, actual, success) {
+	        var text = success?this.successText:this.failText
+	
+	        this.results = ResultLine(text, sourceLines, file, line, column, expected, actual)
+	        this.add(this.results)
+	
+	        var that = this
+	        this.state.on('change', function() {
+	            that.results.expectedAndActual.visible = !that.state.subject.success
+	        })
+	
+	        this.state.set("success", success)
+	        this.results.state.set("success", success)
+	        if(late) this.results.state.set("late", true)
+	    }
+	})
+	
+	var Exception = proto(Line, function() {
+	    this.name = "Exception"
+	
+	    this.build = function(error, late) {
+	        if(late) this.state.set("late", true)
+	
+	        var exceptionText = Text(utils.errorToString(error))
+	        this.add(exceptionText)
+	    }
+	})
+	
+	var Count = proto(Assert, function(superclass) {
+	    this.name = "Count"
+	
+	    this.build = function(sourceLines, file, line, column, late, expected) {
+	        superclass.build.call(this, sourceLines, file, line, column, late, expected, 0, false)
+	        this.expected = expected
+	    }
+	
+	    Object.defineProperty(this, 'count', {
+	        get: function() {
+	            return this.results.got.text
+	        }, set: function(count) {
+	            this.results.got.text = count
+	            if(count === this.expected) {
+	                this.results.resultTextNode.text = this.successText
+	            } else {
+	                this.results.resultTextNode.text = this.failText
+	            }
+	
+	            this.results.state.set("success", count === this.expected)
+	        }
+	    })
+	})
+	
+	var Log = proto(Line, function() {
+	    this.name = "Log"
+	
+	    this.build = function(values, late) {
+	        if(late) this.state.set("late", true)
+	
+	        values.forEach(function(v) {
+	            this.add(Text(utils.valueToString(v)))
+	        }.bind(this))
+	
+	    }
+	})
+	
+	function getTimeDisplay(milliseconds) {
+	    if(milliseconds > 1000) {
+	        return Math.floor(milliseconds/1000)+'s'
+	    } else {
+	        return milliseconds+'ms'
+	    }
+	}
+
+
+/***/ },
+/* 19 */
+/*!************************************!*\
+  !*** ../~/Components/TextField.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! ../Gem */ 4)
+	var proto = __webpack_require__(/*! proto */ 37)
+	
+	var domUtils = __webpack_require__(/*! ../domUtils */ 23)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'TextField'
+	
+		this.init = function(/*[label,] password*/) {
+	        if(arguments.length === 1) {
+	            var password = arguments[0]
+	        } else if(arguments.length > 1) {
+	            var label = arguments[0]
+	            var password = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+			this.label = label
+			//domUtils.setAttribute(this.domNode,'type','text');  // NOTE: IE fucks this up, and since 'text' is the default type for an input node, lets just forget abat it
+	        if(password)
+	            domUtils.setAttribute(this.domNode, 'type', 'password')
+		}
+	
+	
+		// instance properties
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.domNode.value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.val === value) return; // do nothing if there's no change
+	
+	            this.domNode.value = value
+	            this.emit('change')
+	        }
+	    })
+	
+	});
+
+
+/***/ },
 /* 20 */
+/*!************************!*\
+  !*** ./~/testUtils.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(/*! async-future */ 45)
+	var Style = __webpack_require__(/*! Style */ 5)
+	var Block = __webpack_require__(/*! Components/Block */ 7)
+	
+	// compares arrays and objects for value equality (all elements and members must match)
+	exports.equal = function(a,b) {
+	    if(a instanceof Array) {
+	        if(!(b instanceof Array))
+	            return false
+	        if(a.length !== b.length) {
+	            return false
+	        } else {
+	            return a.reduce(function(previousValue, currentValue, index) {
+	                return previousValue && exports.equal(currentValue,b[index])
+	            }, true)
+	        }
+	    } else if(a instanceof Object) {
+	        if(!(b instanceof Object))
+	            return false
+	
+	        var aKeys = Object.keys(a)
+	        var bKeys = Object.keys(b)
+	
+	        if(aKeys.length !== bKeys.length) {
+	            return false
+	        } else {
+	            for(var n=0; n<aKeys.length; n++) {
+	                var key = aKeys[n]
+	                var aVal = a[key]
+	                var bVal = b[key]
+	
+	                if(!exports.equal(aVal,bVal)) {
+	                    return false
+	                }
+	            }
+	            // else
+	            return true
+	        }
+	    } else {
+	        return a===b
+	    }
+	}
+	
+	
+	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
+	// returns a function that, each time its called, calls the next function in the list with the passed argument
+	// example:
+	/*
+	var sequenceX = testUtils.seq(
+	 function(x) {
+	     t.ok(x === 'a')
+	 },
+	 function(x) {
+	     t.ok(x === 'b')
+	 },
+	 function(x) {
+	     t.ok(x === 'c')
+	})
+	
+	 var obj = {a:1,b:2,c:3}
+	 for(var x in obj) {
+	     sequenceX(x)
+	 }
+	 */
+	exports.seq = function (/*functions*/) {
+	    var n=-1
+	    var fns = arguments
+	    return function() {
+	        n++
+	        if(n>=fns.length)
+	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
+	        // else
+	        fns[n].apply(this,arguments)
+	    }
+	}
+	
+	
+	exports.demo = function(name, component) {
+	    var header = document.createElement("h2")
+	        header.textContent = name
+	
+	    $("#demos").append(header);
+	    component.attach($("#demos")[0])
+	
+	    return [header, component]
+	}
+	exports.cleanupDemo = function(nodes) {
+	    $(nodes[0]).remove()
+	    nodes[1].detach()
+	}
+	exports.manualDemo = function(name, component) {
+	    var header = document.createElement("h2")
+	        header.textContent = name
+	
+	    $("#manualDemos").append(header);
+	    component.attach($("#manualDemos")[0])
+	}
+	exports.textOutput = function(name, textContent) {
+	    var header = document.createElement("h2")
+	        header.textContent = name
+	
+	    var text = document.createElement("div")
+	        text.textContent = textContent
+	
+	    $("#results").append([header, text]);
+	}
+	
+	// future wraps a function like: function(result) {}
+	exports.wrapSingleParameter = function() {
+	    if(arguments.length === 1) {
+	        var fn = arguments[0]
+	    } else {
+	        var object = arguments[0]
+	        var method = arguments[1]
+	        var fn = object[method]
+	    }
+	
+	    return function() {
+	        var args = Array.prototype.slice.call(arguments)
+			var future = new Future
+			args.push(function(result) {
+			    future.return(result)
+			})
+			var me = this
+	        if(object) me = object
+	        fn.apply(me, args)
+			return future
+	    }
+	}
+	
+	exports.performanceTest = function(name, testDefinition) {
+	    setTimeout(function() {
+	        var times = []
+	        var totalTime = 0
+	        while(totalTime < 2000) {
+	            var time = oneIteration()
+	            times.push(time)
+	            totalTime += time
+	        }
+	
+	        var averageTime = totalTime/times.length
+	        var stdDeviationPercentage = standardDeviation(times)/averageTime
+	
+	        //console.log(mean(times)+ ' vs '+averageTime) // these should be equal and looks like they are
+	        exports.textOutput(name, Math.round(averageTime)+'ms (averaged over '+times.length+" iterations) - standard deviation: "+Math.round(stdDeviationPercentage*100)/100+'%')
+	
+	
+	        function oneIteration() {
+	            var time;
+	            testDefinition.call({
+	                time: function(testFn) {
+	                    var start = performance.now()
+	                    testFn()
+	                    time = performance.now() - start // ms
+	                }
+	            })
+	
+	            return time
+	        }
+	    },0)
+	}
+	
+	function standardDeviation(numberSet) {
+	    return Math.sqrt(variance(numberSet))
+	}
+	
+	function variance(numberSet) {
+	    var theMean = mean(numberSet)
+	    var sumOfDifferenceSquares = numberSet.reduce(function(acc,x) {
+	        var difference = x-theMean
+	        return acc + difference*difference
+	    },0)
+	
+	    return sumOfDifferenceSquares / (numberSet.length-1)
+	}
+	
+	function mean(numberSet) {
+	    var sum = numberSet.reduce(function(acc,x) {
+	        return acc+x
+	    },0)
+	
+	    return sum/numberSet.length
+	}
+	
+	
+	exports.buildNestedStructure = function (nestings) {
+	    var innerMost = Block()
+	    var cur = innerMost
+	    for(var n=0; n<nestings; n++) {
+	        cur = Block('moose', [cur])
+	    }
+	    return {innerMost:innerMost, top: cur}
+	}
+	
+	exports.buildNestedStyle = function(nestings) {
+	    var styleObject = {};
+	    for(var n=0; n<nestings; n++) {
+	        styleObject = {color: 'red', Block: styleObject}
+	    }
+	
+	    return Style(styleObject)
+	}
+
+/***/ },
+/* 21 */
+/*!**************************!*\
+  !*** ../external/jss.js ***!
+  \**************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	 * JSS v0.6 - JavaScript Stylesheets
+	 * https://github.com/Box9/jss
+	 *
+	 * Copyright (c) 2011, David Tang
+	 * MIT Licensed (http://www.opensource.org/licenses/mit-license.php)
+	 */
+	var jss = (function() {
+	    var adjSelAttrRegex = /((?:\.|#)[^\.\s#]+)((?:\.|#)[^\.\s#]+)/g;
+	    var doubleColonPseudoElRegex = /(::)(before|after|first-line|first-letter|selection)/;
+	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
+	    var singleColonForPseudoElements; // flag for older browsers
+	
+	    function getSelectorsAndRules(sheet) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var results = {};
+	        for (var i = 0; i < rules.length; i++) {
+	            // Older browsers and FF report pseudo element selectors in an outdated format
+	            var selectorText = toDoubleColonPseudoElements(rules[i].selectorText);
+	            if (!results[selectorText]) {
+	                results[selectorText] = [];
+	            }
+	            results[selectorText].push({
+	                sheet: sheet,
+	                index: i,
+	                style: rules[i].style
+	            });
+	        }
+	        return results;
+	    }
+	
+	    function getRules(sheet, selector) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var results = [];
+	        // Browsers report selectors in lowercase
+	        selector = selector.toLowerCase();
+	        for (var i = 0; i < rules.length; i++) {
+	            var selectorText = rules[i].selectorText;
+	            // Note - certain rules (e.g. @rules) don't have selectorText
+	            if (selectorText && (selectorText == selector || selectorText == swapAdjSelAttr(selector) || selectorText == swapPseudoElSyntax(selector))) {
+	                results.push({
+	                    sheet: sheet,
+	                    index: i,
+	                    style: rules[i].style
+	                });
+	            }
+	        }
+	        return results;
+	    }
+	
+	    function addRule(sheet, selector) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var index = rules.length;
+	        var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
+	
+	        if (!pseudoElementRule) {
+	            addRuleToSheet(sheet, selector, index);
+	        }
+	
+	        return {
+	            sheet: sheet,
+	            index: index,
+	            style: rules[index].style
+	        };
+	    };
+	
+	    function addRuleToSheet(sheet, selector, index) {
+	        if (sheet.insertRule) {
+	            sheet.insertRule(selector + ' { }', index);
+	        } else {
+	            sheet.addRule(selector, null, index);
+	        }
+	    }
+	
+	    // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
+	    function addPseudoElementRule(sheet, selector, rules, index) {
+	        var doubleColonSelector;
+	        var singleColonSelector;
+	
+	        if (doubleColonPseudoElRegex.exec(selector)) {
+	            doubleColonSelector = selector;
+	            singleColonSelector = toSingleColonPseudoElements(selector);
+	        } else if (singleColonPseudoElRegex.exec(selector)) {
+	            doubleColonSelector = toDoubleColonPseudoElements(selector);
+	            singleColonSelector = selector;
+	        } else {
+	            return false; // Not dealing with a pseudo element
+	        }
+	
+	        if (!singleColonForPseudoElements) {
+	            // Assume modern browser and then check if successful
+	            addRuleToSheet(sheet, doubleColonSelector, index);
+	            if (rules.length <= index) {
+	                singleColonForPseudoElements = true;
+	            }
+	        }
+	        if (singleColonForPseudoElements) {
+	            addRuleToSheet(sheet, singleColonSelector, index);
+	        }
+	
+	        return true;
+	    }
+	
+	    function toDoubleColonPseudoElements(selector) {
+	        return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
+	            return submatch1 + '::' + submatch3;
+	        });
+	    }
+	
+	    function toSingleColonPseudoElements(selector) {
+	        return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
+	            return ':' + submatch2;
+	        })
+	    }
+	
+	    function removeRule(rule) {
+	        var sheet = rule.sheet;
+	        if (sheet.deleteRule) {
+	            sheet.deleteRule(rule.index);
+	        } else if (sheet.removeRule) {
+	            sheet.removeRule(rule.index);
+	        }
+	    }
+	
+	    function extend(dest, src) {
+	        for (var key in src) {
+	            if (!src.hasOwnProperty(key))
+	                continue;
+	            dest[key] = src[key];
+	        }
+	        return dest;
+	    }
+	
+	    function aggregateStyles(rules) {
+	        var aggregate = {};
+	        for (var i = 0; i < rules.length; i++) {
+	            extend(aggregate, declaredProperties(rules[i].style));
+	        }
+	        return aggregate;
+	    }
+	
+	    function declaredProperties(style) {
+	        var declared = {};
+	        for (var i = 0; i < style.length; i++) {
+	            declared[style[i]] = style[toCamelCase(style[i])];
+	        }
+	        return declared;
+	    }
+	
+	    // IE9 stores rules with attributes (classes or ID's) adjacent in the opposite order as defined
+	    // causing them to not be found, so this method swaps [#|.]sel1[#|.]sel2 to become [#|.]sel2[#|.]sel1
+	    function swapAdjSelAttr(selector) {
+	        var swap = '';
+	        var lastIndex = 0;
+	
+	        while ((match = adjSelAttrRegex.exec(selector)) != null) {
+	            if (match[0] === '')
+	                break;
+	            swap += selector.substring(lastIndex, match.index);
+	            swap += selector.substr(match.index + match[1].length, match[2].length);
+	            swap += selector.substr(match.index, match[1].length);
+	            lastIndex = match.index + match[0].length;
+	        }
+	        swap += selector.substr(lastIndex);
+	
+	        return swap;
+	    };
+	
+	    // FF and older browsers store rules with pseudo elements using single-colon syntax
+	    function swapPseudoElSyntax(selector) {
+	        if (doubleColonPseudoElRegex.exec(selector)) {
+	            return toSingleColonPseudoElements(selector);
+	        }
+	        return selector;
+	    }
+	
+	    function setStyleProperties(rule, properties) {
+	        for (var key in properties) {
+	            var value = properties[key];
+	            var importantIndex = value.indexOf(' !important');
+	
+	            // Modern browsers seem to handle overrides fine, but IE9 doesn't
+	            rule.style.removeProperty(key);
+	            if (importantIndex > 0) {
+	                rule.style.setProperty(key, value.substr(0, importantIndex), 'important');
+	            } else {
+	                rule.style.setProperty(key, value);
+	            }
+	        }
+	    }
+	
+	    function toCamelCase(str) {
+	        return str.replace(/-([a-z])/g, function (match, submatch) {
+	            return submatch.toUpperCase();
+	        });
+	    }
+	
+	    function transformCamelCasedPropertyNames(oldProps) {
+	        var newProps = {};
+	        for (var key in oldProps) {
+	            newProps[unCamelCase(key)] = oldProps[key];
+	        }
+	        return newProps;
+	    }
+	
+	    function unCamelCase(str) {
+	        return str.replace(/([A-Z])/g, function(match, submatch) {
+	            return '-' + submatch.toLowerCase();
+	        });
+	    }
+	
+	    var Jss = function(doc) {
+	        this.doc = doc;
+	        this.head = this.doc.head || this.doc.getElementsByTagName('head')[0];
+	        this.sheets = this.doc.styleSheets || [];
+	    };
+	
+	    Jss.prototype = {
+	        // Returns JSS rules (selector is optional)
+	        get: function(selector) {
+	            if (!this.defaultSheet) {
+	                return {};
+	            }
+	            if (selector) {
+	                return aggregateStyles(getRules(this.defaultSheet, selector));
+	            }
+	            var rules = getSelectorsAndRules(this.defaultSheet);
+	            for (selector in rules) {
+	                rules[selector] = aggregateStyles(rules[selector]);
+	            }
+	            return rules;
+	        },
+	        // Returns all rules (selector is required)
+	        getAll: function(selector) {
+	            var properties = {};
+	            for (var i = 0; i < this.sheets.length; i++) {
+	                extend(properties, aggregateStyles(getRules(this.sheets[i], selector)));
+	            }
+	            return properties;
+	        },
+	        // Adds JSS rules for the selector based on the given properties
+	        set: function(selector, properties) {
+	            if (!this.defaultSheet) {
+	                this.defaultSheet = this._createSheet();
+	            }
+	            properties = transformCamelCasedPropertyNames(properties);
+	            var rules = getRules(this.defaultSheet, selector);
+	            if (!rules.length) {
+	                rules = [addRule(this.defaultSheet, selector)];
+	            }
+	            for (var i = 0; i < rules.length; i++) {
+	                setStyleProperties(rules[i], properties);
+	            }
+	        },
+	        // Removes JSS rules (selector is optional)
+	        remove: function(selector) {
+	            if (!this.defaultSheet)
+	                return;
+	            if (!selector) {
+	                this._removeSheet(this.defaultSheet);
+	                delete this.defaultSheet;
+	                return;
+	            }
+	            var rules = getRules(this.defaultSheet, selector);
+	            for (var i = 0; i < rules.length; i++) {
+	                removeRule(rules[i]);
+	            }
+	            return rules.length;
+	        },
+	        _createSheet: function() {
+	            var styleNode = this.doc.createElement('style');
+	            styleNode.type = 'text/css';
+	            styleNode.rel = 'stylesheet';
+	            this.head.appendChild(styleNode);
+	            return styleNode.sheet;
+	        },
+	        _removeSheet: function(sheet) {
+	            var node = sheet.ownerNode;
+	            node.parentNode.removeChild(node);
+	        }
+	    };
+	
+	    var exports = new Jss(document);
+	    exports.forDocument = function(doc) {
+	        return new Jss(doc);
+	    };
+	    return exports;
+	})();
+	
+	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
+
+/***/ },
+/* 22 */
+/*!*********************!*\
+  !*** ../~/utils.js ***!
+  \*********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	//require('hashmap') // here to mark hashmapMerge's dependency on this module
+	var path = __webpack_require__(/*! path */ 50)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	// merges two hashmaps together just like merge does for regular objects
+	// non-deep merge
+	exports.hashmapMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    obj2.forEach(function(value, key) {
+	        obj1.set(key, obj2.get(key))
+	    })
+	
+	    if(arguments.length > 2) {
+	        var newObjects = [obj1].concat(Array.prototype.slice.call(arguments, 2))
+	        return exports.hashmapMerge.apply(this, newObjects)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
+	exports.objectConjunction = function(a, b) {
+	    var objectCopy = {}
+	    merge(objectCopy, a)
+	    merge(objectCopy, b)
+	    return objectCopy
+	}
+	
+	// turns an array of values into a an object where those values are all keys that point to 'true'
+	exports.arrayToMap = function(array) {
+	    var result = {}
+	    array.forEach(function(v) {
+	        result[v] = true
+	    })
+	    return result
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       //if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       //}
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 23 */
+/*!************************!*\
+  !*** ../~/domUtils.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	// the property that should be used to get and set text (this is different on chrome vs firefox for some dumb reason)
+	exports.textProperty = 'textContent' //document.createElement("div").textContent != undefined ? 'textContent' : 'innerText'
+	
+	// creates a dom element optionally with a class and attributes
+	 var node = exports.node = function(type, className, options) {
+	    var elem = document.createElement(type)
+	
+	    if(options !== undefined) {
+	        if(options.attr !== undefined) {
+	            for(var attribute in options.attr) {
+	                setAttribute(elem, attribute, options.attr[attribute])
+	            }
+	        }
+	        if(options.textContent !== undefined) {
+	            elem.textContent = options.textContent
+	        }
+	    }
+	
+	    if(className !== undefined)
+	        elem.className = className
+	
+	    return elem
+	}
+	
+	// convenience function for creating a div
+	exports.div = function(className, options) {
+	    return node('div', className, options)
+	}
+	
+	
+	// adds an attribute to a domNode
+	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
+	    if (arguments.length === 2) {
+	        var domNode = this.domNode;
+	        var type = arguments[0];
+	        var value = arguments[1];
+	    } else if (arguments.length === 3) {
+	        var domNode = arguments[0];
+	        var type = arguments[1];
+	        var value = arguments[2];
+	    } else {
+	        throw new Error("This function expects arguments to be: [domNode,] type, value");
+	    }
+	    var attr = document.createAttribute(type)
+	    attr.value = value
+	    domNode.setAttributeNode(attr)
+	}
+	
+	// sets the selection
+	//
+	// works for contenteditable elements
+	exports.setSelectionRange = function(containerEl, start, end) {
+	
+	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
+	        containerEl.setSelectionRange(start, end)
+	    } else {
+	        var charIndex = 0, range = document.createRange();
+	        range.setStart(containerEl, 0);
+	        range.collapse(true);
+	        var foundStart = false;
+	
+	        iterateThroughLeafNodes(containerEl, function(node) {
+	            var hiddenCharacters = findHiddenCharacters(node, node.length)
+	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
+	
+	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+	                var nodeIndex = start-charIndex
+	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
+	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
+	                foundStart = true;
+	            }
+	
+	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
+	                var nodeIndex = end-charIndex
+	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
+	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
+	                return true; // stop the iteration - we're done here
+	            }
+	
+	            charIndex = nextCharIndex
+	        })
+	
+	        var sel = window.getSelection();
+	        sel.removeAllRanges();
+	        sel.addRange(range);
+	    }
+	}
+	
+	// gets the character offsets of a selection within a particular dom node
+	// returns undefined if there is no selection in the element
+	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
+	exports.getSelectionRange = function (element) {
+	
+	    var selection = window.getSelection()
+	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
+	
+	    for(var n=0; n<selection.rangeCount; n++) {
+	        var range = selection.getRangeAt(0)
+	        if(isInputOrArea) {
+	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
+	                return [element.selectionStart, element.selectionEnd]
+	            }
+	        } else {
+	            var startsInElement = element.contains(range.startContainer)
+	            if(startsInElement) {
+	                var elementToIterateThrough = element
+	                var startFound = true
+	            } else {
+	                var elementToIterateThrough = range.commonAncestorContainer
+	                var startFound = false
+	                var startContainerFound = false
+	            }
+	
+	            var visibleCharacterOffset = 0, start, end;
+	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
+	                if(!startFound) {
+	                    if(leaf === range.startContainer) {
+	                        startContainerFound = true
+	                    }
+	
+	                    if(!element.contains(leaf) || !startContainerFound)
+	                        return; // continue
+	                    else if(startContainerFound)
+	                       startFound = true
+	                } else if(!startsInElement && !element.contains(leaf)) {
+	                    return true // done!
+	                }
+	
+	                if(leaf === range.startContainer) {
+	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
+	                }
+	                if(leaf === range.endContainer) {
+	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
+	                    return true // done!
+	                }
+	
+	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
+	            })
+	
+	            if(start === undefined && !startFound) {
+	                return undefined
+	            } else {
+	                if(start === undefined) {
+	                    start = 0 // start is at the beginning
+	                }
+	                if(end === undefined) {
+	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
+	                }
+	
+	                return [start, end]
+	            }
+	        }
+	    }
+	}
+	
+	
+	// iterate through the leaf nodes inside element
+	// callback(node) - a function called for each leaf node
+	    // returning true from this ends the iteration
+	function iterateThroughLeafNodes(element, callback) {
+	    var nodeStack = [element], node;
+	
+	    while (node = nodeStack.pop()) {
+	        if (node.nodeType == 3) {
+	            if(callback(node) === true)
+	                break;
+	        } else {
+	            var i = node.childNodes.length;
+	            while (i--) {
+	                nodeStack.push(node.childNodes[i]);
+	            }
+	        }
+	    }
+	}
+	
+	function findHiddenCharacters(node, beforeCaretIndex) {
+	    var hiddenCharacters = 0
+	    var lastCharWasWhiteSpace=true
+	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
+	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
+	            if(lastCharWasWhiteSpace)
+	                hiddenCharacters++
+	            else
+	                lastCharWasWhiteSpace = true
+	        } else {
+	            lastCharWasWhiteSpace = false
+	        }
+	    }
+	
+	    return hiddenCharacters
+	}
+
+/***/ },
+/* 24 */
+/*!*******************************!*\
+  !*** ../~/blockStyleUtils.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// some functionality that is needed by Gem.js but is related to styling (some things are also needed by Style.js)
+	
+	var HashMap = __webpack_require__(/*! hashmap */ 38)
+	
+	var Style = __webpack_require__(/*! ./Style */ 5)
+	var utils = __webpack_require__(/*! ./utils */ 22)
+	
+	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
+	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
+	
+	
+	// gets the right style from the styleMap, depending on the gem's `name` and `label` (`label` styles take precedence)
+	// takes the component's inheritance tree into account (relies on the gem.constructor.parent property)
+	var getStyleMapEntryForGem = exports.getStyleForComponent = function (styleMap, gem) {
+	    if(styleMap === undefined)
+	        return undefined
+	
+	    return getStyleForLabel(styleMap, gem) || getStyleForGemName(styleMap, gem)
+	}
+	
+	var getStyleForLabel = exports.getStyleForLabel = function(styleMap, gem) {
+	    if(gem.label !== undefined && '$'+gem.label in styleMap) {
+	        return styleMap['$'+gem.label]
+	    }
+	}
+	var getStyleForGemName = exports.getStyleForBlockName = function(styleMap, gem) {
+	    var constructor = gem.constructor
+	    while(constructor !== undefined) {
+	        var style = styleMap[constructor.name]
+	        if(style !== undefined) {
+	            return style
+	        } else {
+	            constructor = constructor.parent
+	        }
+	    }
+	}
+	
+	// gets the possibly inheriting style from the styleMap for `gem`
+	// gem - the gem to get the style for
+	// ancestor - the gem to get the computedStyleMap from
+	var getInheritingStyle = exports.getInheritingStyle = function(gem) {
+	    var ancestor = gem.parent
+	    if(ancestor === undefined || ancestor.computedStyleMap === undefined) return undefined
+	
+	    if(gem.label !== undefined) {
+	        var styleMapKey = '$'+gem.label
+	        var nextContructor = gem.constructor
+	    } else {
+	        var styleMapKey = gem.constructor.name
+	        var nextContructor = gem.constructor.parent
+	    }
+	
+	    var nextAncestorToSearchFrom = ancestor
+	    var styles = [], inherit = true
+	    while(nextAncestorToSearchFrom !== undefined) {    // find styles from the most specific name to the least specific
+	        var stylesForKey = findStylesForStyleMapKey(nextAncestorToSearchFrom, styleMapKey)
+	        styles = styles.concat(stylesForKey.styles)
+	        nextAncestorToSearchFrom = stylesForKey.nextAncestorToSearchFrom
+	        inherit = stylesForKey.inherit
+	
+	        if(nextContructor === undefined || !inherit) {
+	            break
+	        } else {
+	            if(styleMapKey === 'Gem') {
+	                break // we're done - no need to check anything higher in the prototype chain than Gem
+	            }
+	
+	            styleMapKey = nextContructor.name
+	            nextContructor = nextContructor.parent
+	        }
+	    }
+	
+	    var reversedStyles = styles.reverse() // reverse so later styles override earlier styles
+	    var styleToReturn = reversedStyles[0]
+	    for(var n=1; n<reversedStyles.length; n++) {
+	        styleToReturn = styleToReturn.mix(reversedStyles[n])
+	    }
+	
+	    return styleToReturn
+	
+	
+	    function findStylesForStyleMapKey(startAncestor, key) {
+	        var styles = [], inherit = true
+	        var curAncestor = startAncestor, nextAncestorToSearchFrom = startAncestor
+	        while(curAncestor !== undefined) {                                // find styles from the closest parent to the farthest
+	            if(curAncestor.computedStyleMap !== undefined) {
+	                var style = curAncestor.computedStyleMap[key]
+	            }
+	            if(style !== undefined) {
+	                if(styles.indexOf(style) === -1) {
+	                    styles.push(style)
+	                }
+	                nextAncestorToSearchFrom = curAncestor
+	
+	                inherit = style.inherit
+	                if(!inherit) {
+	                    break
+	                }
+	            }
+	
+	            curAncestor = curAncestor.parent
+	        }
+	
+	        return {styles:styles, nextAncestorToSearchFrom: nextAncestorToSearchFrom, inherit:inherit}
+	    }
+	}
+	
+	// returns the conjunction of two style maps
+	// gets it from the computedStyles cache if its already in there
+	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
+	    if(secondaryStyleMap === undefined) return primaryStyleMap
+	    if(primaryStyleMap === undefined) return secondaryStyleMap
+	
+	    var cachedStyleMap = computedStyles.get([secondaryStyleMap, primaryStyleMap])
+	    if(cachedStyleMap === undefined) {
+	        if(secondaryStyleMap  === undefined) {
+	            cachedStyleMap = primaryStyleMap
+	        } else if(primaryStyleMap === undefined) {
+	            cachedStyleMap = secondaryStyleMap
+	        } else {
+	            var overridingProperties = {}, atLeastOne = false
+	            for(var key in primaryStyleMap) {
+	                if(secondaryStyleMap[key] !== primaryStyleMap[key]) {
+	                    overridingProperties[key] = primaryStyleMap[key]
+	                    atLeastOne = true
+	                }
+	            }
+	
+	            if(atLeastOne) {
+	                cachedStyleMap = utils.objectConjunction(secondaryStyleMap, overridingProperties)
+	            } else { // the styleMaps are different objects, but contain the same thing
+	                cachedStyleMap = secondaryStyleMap
+	            }
+	        }
+	
+	        if(cachedStyleMap === undefined) cachedStyleMap = false // switch it out with false so it can be recognized
+	        computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
+	    }
+	
+	    if(cachedStyleMap === false) {
+	        return undefined
+	    }
+	    return cachedStyleMap
+	}
+	
+	
+	
+	exports.getDefaultStyle = function(gem)  {
+	    // attempt to get from the cache
+	    var defaultGemStyle = defaultStyleMap.get(gem.constructor)
+	    if(defaultGemStyle === undefined) {
+	        defaultGemStyle = createDefaultGemStyle(gem)
+	        if(defaultGemStyle === undefined) defaultGemStyle = false
+	        defaultStyleMap.set(gem.constructor, defaultGemStyle)
+	    }
+	
+	    if(defaultGemStyle === false) {
+	        return undefined
+	    }
+	    return defaultGemStyle
+	}
+	
+	// returns a new style with style b mixed into style a (works even if they're both undefined)
+	var mixStyles = exports.mixStyles = function(a,b) {
+	    if(a === undefined)
+	        return b
+	    else
+	        return a.mix(b)
+	}
+	
+	
+	
+	
+	
+	// sets the currentStyle of a gem and makes all the appropriate changes to render a new active style for the gem and its children
+	exports.setCurrentStyle = function(gem, newCurrentStyle, defaultStyle) {
+	
+	    var current$state = gem._currentStyle === undefined? undefined: gem._currentStyle.stateHandler
+	    var newCurrentStyle$state = newCurrentStyle === undefined? undefined: newCurrentStyle.stateHandler
+	    if(current$state !== newCurrentStyle$state) {     // if the $state function remains the same, we don't gotta do nothin (about switching state functions at least)
+	        if(gem._stateChangeHandler !== undefined) {  // remove the old handler if necessary
+	            gem.state.removeListener('change', gem._stateChangeHandler)
+	            gem._stateChangeHandler = undefined
+	        }
+	
+	        if(newCurrentStyle$state !== undefined) {     // add a new handler if necessary
+	            gem.state.on('change', gem._stateChangeHandler = function() {
+	                var rawStateStyle = getStateStyle(gem._currentStyle, gem.state.subject)
+	                setMixedStateStyle(gem, mixStyles(gem._currentStyle, rawStateStyle))
+	            })
+	        }
+	    }
+	
+	    gem._currentStyle = newCurrentStyle
+	    var rawStateStyle = getStateStyle(newCurrentStyle, gem.state.subject)
+	
+	    var newMixedStateStyle = mixStyles(newCurrentStyle, rawStateStyle)
+	    setMixedStateStyle(gem, newMixedStateStyle, defaultStyle)
+	}
+	
+	
+	// handles reseting a gem's active style when its state style changes
+	// renders the pseudoclass style
+	function setMixedStateStyle(gem, mixedStateStyle, defaultStyle) {
+	    var psuedoclassState = {}
+	
+	    // if a pseudoclass can no longer apply, undo its setup
+	    for(var pseudoClass in gem._styleSetupInfo) {
+	        if(mixedStateStyle === undefined || !(pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo)) {
+	            var setupInfo = gem._styleSetupInfo[pseudoClass]
+	            setupInfo.kill(gem, setupInfo.state)
+	            delete gem._styleSetupInfo[pseudoClass]
+	        }
+	    }
+	
+	    // setup new pseudoclasses
+	    if(mixedStateStyle !== undefined) {
+	        for(var pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo) {
+	            if(!(pseudoClass in gem._styleSetupInfo)) {                     // if this exact pseudoclass is already setup, no need to do anything
+	                ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
+	                    var setupState = emulationInfo.fns.setup(gem, function() { // start
+	                        var changed = psuedoclassState[pseudoClass] !== true
+	                        if(changed) {
+	                            psuedoclassState[pseudoClass] = true
+	                            changeStyleIfNecessary()
+	                        }
+	                    }, function() { // end
+	                        var changed = psuedoclassState[pseudoClass] !== false
+	                        if(changed) {
+	                            psuedoclassState[pseudoClass] = false
+	                            changeStyleIfNecessary()
+	                        }
+	                    }, emulationInfo.parameter)
+	
+	                    gem._styleSetupInfo[pseudoClass] = {state: setupState, kill: emulationInfo.fns.kill}
+	
+	                })(pseudoClass, mixedStateStyle.pseudoclasses.emulatedInfo[pseudoClass])
+	            }
+	        }
+	    }
+	
+	    // build up the pseudoclass state - depending on what pseudoclasses might become applicable
+	    if(mixedStateStyle !== undefined) {
+	        for(var pseudoclassKey in mixedStateStyle.pseudoclasses.emulatedInfo) {
+	            var info = mixedStateStyle.pseudoclasses.emulatedInfo[pseudoclassKey]
+	            psuedoclassState[pseudoclassKey] = info.fns.check(gem, info.parameter)
+	        }
+	    }
+	
+	    // set current pseudoclass style
+	    changeStyleIfNecessary()
+	
+	
+	    function changeStyleIfNecessary() {
+	        var pseudoclassStyleInfo = getPseudoclassStyleFor(mixedStateStyle, psuedoclassState)
+	        var newPreStyleMapStyle = mixStyles(mixedStateStyle, pseudoclassStyleInfo.style)
+	        setPreStyleMapStyle(gem, newPreStyleMapStyle, pseudoclassStyleInfo.index, defaultStyle)
+	    }
+	}
+	
+	// sets the style before being modified by the gem's parent's computedStyleMap
+	// handles removing the state listener and calling $kill on the old activeStyle
+	function setPreStyleMapStyle(gem, newPreStyleMapStyle, jsRenderedPseudoclassIndex, defaultStyle) {
+	    if(gem.parent !== undefined && newPreStyleMapStyle !== undefined)
+	        var newComputedStyleMap = styleMapConjunction(gem.parent.computedStyleMap, newPreStyleMapStyle.componentStyleMap)
+	    else if(gem.parent !== undefined)
+	        var newComputedStyleMap = gem.parent.computedStyleMap
+	    else if(newPreStyleMapStyle !== undefined)
+	        var newComputedStyleMap = newPreStyleMapStyle.componentStyleMap
+	    else
+	        var newComputedStyleMap = undefined
+	
+	    var newActiveStyle = undefined // can be changed below
+	    var cancel = false
+	    if(newPreStyleMapStyle !== undefined) {
+	        if(gem.parent !== undefined) var nativePseudoclassMap = gem.parent._nativePseudoclassMap
+	        else                           var nativePseudoclassMap = {}
+	
+	        var nativePseudoclassSelectorMap = getStyleMapEntryForGem(nativePseudoclassMap, gem)
+	        var nativeCssInfo = newPreStyleMapStyle.createNativeCssInfo(newComputedStyleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
+	
+	        if(nativeCssInfo.cancel) {
+	            cancel = true
+	            setMixedStateStyle(gem, nativeCssInfo.retryStyle)
+	
+	        } else {
+	            newActiveStyle = nativeCssInfo.style
+	            newComputedStyleMap = nativeCssInfo.styleMap // even newer!
+	            gem._nativePseudoclassMap = nativeCssInfo.nativePseudoclassMap
+	        }
+	    }
+	
+	    if(!cancel) {
+	        setActiveStyle(gem, newActiveStyle, newComputedStyleMap)
+	    }
+	}
+	
+	// sets the active style on the gem and on the gem's children
+	// also sets the gem's new computedStyleMap
+	function setActiveStyle(gem, newActiveStyle, newComputedStyleMap) {
+	    var activeStyleChanged = newActiveStyle !== gem._activeStyle
+	    var computedStyleMapChanged = gem.computedStyleMap !== newComputedStyleMap
+	
+	    if(activeStyleChanged) {
+	        setStyleClass(gem, newActiveStyle)
+	
+	        var curActiveStyle$setup = gem._activeStyle === undefined? undefined: gem._activeStyle.setup
+	        var newActiveStyle$setup = newActiveStyle === undefined? undefined: newActiveStyle.setup
+	        if(curActiveStyle$setup !== newActiveStyle$setup) {
+	            applyStyleKillFunction(gem)
+	            applyStyleSetupFunction(gem, newActiveStyle)
+	        }
+	
+	        gem._activeStyle = newActiveStyle
+	    }
+	
+	
+	    gem.computedStyleMap = newComputedStyleMap
+	
+	    // propogate styles to children
+	    gem.children.forEach(function(child) {
+	        if(computedStyleMapChanged || !child.attached) {
+	            child.attached = true
+	            child.style = child.style  // force a re-render on each child
+	        }
+	    })
+	}
+	
+	
+	
+	// given a style and an object representing some state, returns the state given by the style's $state function
+	// returns undefined if it doesn't have a state function
+	// handles caching state styles (an optimization)
+	function getStateStyle(currentStyle, stateParameter) {
+	    if(currentStyle === undefined || currentStyle.stateHandler === undefined) return undefined
+	
+	    var returnedStyle = currentStyle.stateHandler(stateParameter)
+	
+	    // todo: figure out if this style has been returned before, and if so, use the already-generated style (mostly so that that style can take advantage of other cached combinations)
+	
+	    return returnedStyle
+	}
+	
+	// returns an object with the properties:
+	    // style - the jsRendered pseudoclass style for the gem's relevant pseudoclass state
+	    // index - the index of the pseudoclass (jsRenderedPseudoclassIndex)
+	// returns undefined if no emulated pseudoclass style applies or if only native pseudoclass stylings apply
+	// state - an object that will be mutated with the current state for each pseudoclass
+	function getPseudoclassStyleFor(style, state) {
+	    if(style === undefined) return {index:0}
+	
+	    var index = 0, result={index:0}
+	    style.pseudoclasses.classes.forEach(function(psuedoclassStyle, compoundKey) {
+	        if(!psuedoclassStyle.pureNative) {
+	            for(var j=0; j<compoundKey.length; j++) {
+	                var pseudoclass = compoundKey[j]
+	                if(!state[pseudoclass]) {
+	                    break;
+	                }
+	            }
+	
+	            if(j === compoundKey.length) {
+	                result = {index: index, style: psuedoclassStyle}
+	            }
+	        }
+	
+	        index++
+	    })
+	
+	    return result
+	}
+	
+	
+	
+	// finds the default style for a gem, mixes it with the appropriate ancestor styles, and returns the result
+	function createDefaultGemStyle(that) {
+	    if(that.defaultStyle !== undefined) {
+	        validateDefaultStyle(that.defaultStyle)
+	    }
+	
+	    // get list of default styles
+	    var defaultStyles = []
+	    var nextConstructor = that.constructor
+	    while(nextConstructor !== undefined) {
+	        if(nextConstructor.defaultStyle !== undefined) {
+	            defaultStyles.push(nextConstructor.defaultStyle)
+	        }
+	        nextConstructor = nextConstructor.parent
+	    }
+	
+	    // generate merged default style
+	    var reversedDefaults = defaultStyles.reverse()
+	    var mergedDefaultStyle = reversedDefaults[0]
+	    for(var n=1; n<reversedDefaults.length; n++) {
+	        mergedDefaultStyle = mergedDefaultStyle.mix(reversedDefaults[n])
+	    }
+	
+	    return mergedDefaultStyle
+	}
+	
+	
+	// applies setup appropriately
+	function applyStyleSetupFunction(component, style) {
+	    if(style !== undefined && style.setup !== undefined) {
+	        component._styleSetupObject = style.setup(component, style) // call setup on the component
+	    } else {
+	        component._styleSetupObject = undefined
+	    }
+	}
+	// applies kill appropriately
+	function applyStyleKillFunction(component) {
+	    var activeStyle = component._activeStyle
+	    if(activeStyle !== undefined && activeStyle.setup !== undefined) {
+	        if(activeStyle.kill === undefined)
+	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
+	
+	        activeStyle.kill(component, component._styleSetupObject)
+	    }
+	}
+	
+	
+	// sets the style, replacing one if one already exists
+	function setStyleClass(component, style) {
+	    var activeStyle = component._activeStyle
+	
+	    //var newStyle = component.domNode.className
+	    if(activeStyle !== undefined) {
+	        component.domNode.classList.remove(activeStyle.className)
+	        // newStyle = newStyle.replace(new RegExp(" ?\\b"+activeStyle.className+"\\b"),'') // remove the previous css class
+	    }
+	    if(style !== undefined) {
+	        component.domNode.classList.add(style.className)
+	        //newStyle = style.className+' '+newStyle.trim() // note that the order of classes doesn't matter
+	    }
+	
+	    //component.domNode.className = newStyle
+	}
+	
+	function validateDefaultStyle(defaultStyle) {
+	    if(!isStyleObject(defaultStyle)) {
+	        throw new Error("defaultStyle property must be a Style object")
+	    }
+	}
+	
+	// if you load two different instances of gems, its necessary to do a bit of duck typing
+	function isStyleObject(x) {
+	    return x.className !== undefined && x.componentStyleMap !== undefined && x.mix !== undefined
+	}
+
+/***/ },
+/* 25 */
+/*!*****************************!*\
+  !*** ../~/EventEmitterB.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitter = __webpack_require__(/*! events */ 34).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 37)
+	var utils = __webpack_require__(/*! utils */ 22)
+	
+	module.exports = proto(EventEmitter, function(superclass) {
+	
+	    this.init = function() {
+	        superclass.apply(this, arguments)
+	
+	        this.ifonHandlers = {}
+	        this.ifoffHandlers = {}
+	        this.ifonAllHandlers = []
+	        this.ifoffAllHandlers = []
+	    }
+	
+	    // callback will be triggered immediately if there is already a listener attached, or
+	    // callback will be triggered when the first listener for the event is added
+	    // (regardless of whether its done through on or once)
+	    // parameters can be:
+	        // event, callback - attach an ifon handler for the passed event
+	        // callback - attach an ifon handler for all events
+	    this.ifon = function(event, callback) {
+	        if(event instanceof Function) {     // event not passed, only a callback
+	            callback = event // fix the argument
+	            for(var eventName in this._events) {
+	                if(this.listeners(eventName).length > 0) {
+	                    callback(eventName)
+	                }
+	            }
+	        } else if(this.listeners(event).length > 0) {
+	            callback(event)
+	        }
+	
+	        addHandlerToList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfon() - all ifon handlers (if no arguments are passed), or
+	        // removeIfon(event) - all ifon handlers for the passed event, or
+	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
+	        // removeIfon(event, callback) - the specific passed callback for the passed event
+	    this.removeIfon = function(event, callback) {
+	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
+	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
+	    // parameters can be:
+	        // event, callback - attach an ifoff handler for the passed event
+	        // callback - attach an ifoff handler for all events
+	    this.ifoff = function(event, callback) {
+	        addHandlerToList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfoff() - all ifoff handlers (if no arguments are passed), or
+	        // removeIfoff(event) - all ifoff handlers for the passed event, or
+	        // removeIfoff(callback) - the passed ifoff-all handler (if the first parameter is the callback)
+	        // removeIfoff(event, callback) - the specific passed callback for the passed event
+	    this.removeIfoff = function(event, callback) {
+	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // emitter is the emitter to proxy handler binding to
+	    // options can have one of the following properties:
+	        // only - an array of events to proxy
+	        // except - an array of events to *not* proxy
+	    this.proxy = function(emitter, options) {
+	        if(options === undefined) options = {}
+	        if(options.except !== undefined) {
+	            var except = utils.arrayToMap(options.except)
+	            var handleIt = function(event){return !(event in except)}
+	        } else if(options.only !== undefined) {
+	            var only = utils.arrayToMap(options.only)
+	            var handleIt = function(event){return event in only}
+	        } else {
+	            var handleIt = function(){return true}
+	        }
+	
+	        var that = this, handler;
+	        this.ifon(function(event) {
+	            if(handleIt(event)) {
+	                emitter.on(event, handler = function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        this.ifoff(function(event) {
+	            if(handleIt(event))
+	                emitter.off(event, handler)
+	        })
+	    }
+	
+	    /*override*/ this.on = this.addListener = function(event, callback) {
+	        var triggerIfOn = this.listeners(event).length === 0
+	        superclass.prototype.on.apply(this,arguments)
+	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
+	    }
+	
+	    /*override*/ this.off = this.removeListener = function(event, callback) {
+	        var triggerIfOff = this.listeners(event).length === 1
+	        superclass.prototype.removeListener.apply(this,arguments)
+	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
+	    }
+	    /*override*/ this.removeAllListeners = function(event) {
+	        var triggerIfOffForEvents = []
+	        if(event !== undefined) {
+	            if(this.listeners(event).length > 0) {
+	                triggerIfOffForEvents.push(event)
+	            }
+	        } else {
+	            for(var event in this._events) {
+	                if(this.listeners(event).length > 0) {
+	                    triggerIfOffForEvents.push(event)
+	                }
+	            }
+	        }
+	
+	        superclass.prototype.removeAllListeners.apply(this,arguments)
+	
+	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
+	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
+	        }
+	    }
+	
+	})
+	
+	
+	// triggers the if handlers from the normal list and the "all" list
+	function triggerIfHandlers(that, handlerListName, event) {
+	    triggerIfHandlerList(that[handlerListName][event], event)
+	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
+	}
+	
+	
+	// triggers the if handlers from a specific list
+	// ya these names are confusing, sorry : (
+	function triggerIfHandlerList(handlerList, event) {
+	    if(handlerList !== undefined) {
+	        for(var n=0; n<handlerList.length; n++) {
+	            handlerList[n](event)
+	        }
+	    }
+	}
+	
+	function addHandlerToList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        var handlerList = that[handlerListName][event]
+	        if(handlerList === undefined) {
+	            handlerList = that[handlerListName][event] = []
+	        }
+	
+	        handlerList.push(callback)
+	    } else {
+	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
+	    }
+	}
+	
+	function removeFromHandlerList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        removeCallbackFromList(that[handlerListName][event], callback)
+	    } else if(event !== undefined) {
+	        delete that[handlerListName][event]
+	    } else if(callback !== undefined) {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        removeCallbackFromList(that[allHandlerListName], callback)
+	    } else {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        that[handlerListName] = {}
+	        that[allHandlerListName] = []
+	    }
+	}
+	
+	function normalHandlerToAllHandlerProperty(handlerListName) {
+	    if(handlerListName === 'ifonHandlers')
+	        return 'ifonAllHandlers'
+	    if(handlerListName === 'ifoffHandlers')
+	        return 'ifoffAllHandlers'
+	}
+	
+	function removeCallbackFromList(list, callback) {
+	    var index = list.indexOf(callback)
+	    list.splice(index,1)
+	}
+
+/***/ },
+/* 26 */
+/*!*******************************!*\
+  !*** ../~/Components/Item.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! Gem */ 4)
+	var proto = __webpack_require__(/*! proto */ 37)
+	var Style = __webpack_require__(/*! Style */ 5)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'ListItem'
+	
+	    this.defaultStyle = Style({
+	        display: 'list-item'
+	    })
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Gem) {
+				this.add(contents)
+			} else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	});
+
+
+/***/ },
+/* 27 */
+/*!*********************************!*\
+  !*** ../~/Components/Header.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 39);
+	
+	module.exports = RowlikeGenerator('th', "TableHeader")
+
+/***/ },
+/* 28 */
+/*!*********************************!*\
+  !*** ../~/Components/Option.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// note: this is  not intended to be used directly - only through Select and MultiSelect
+	
+	var proto = __webpack_require__(/*! proto */ 37)
+	
+	var Gem = __webpack_require__(/*! Gem */ 4)
+	var Style = __webpack_require__(/*! Style */ 5)
+	var domUtils = __webpack_require__(/*! domUtils */ 23)
+	
+	// emits a 'change' event when its 'selected' value changes
+	module.exports = proto(Gem, function(superclass) {
+	
+	    // staic members
+	
+	    this.name = 'Option'
+	
+	    this.defaultStyle = Style({
+	        display: 'block'
+	    })
+	
+	
+	    // instance members
+	
+	    this.init = function(/*[label,] value, text*/) {
+	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        if(arguments.length===2) {
+	            this.val = arguments[0]
+	            this.text = arguments[1]
+	        } else { // 3
+	            this.label = arguments[0]
+	            this.val = arguments[1]
+	            this.text = arguments[2]
+	        }
+	    }
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this._value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.parent !== undefined) {
+	                if(this.parent.options[value] !== undefined) {
+	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: "+JSON.stringify(value)+")")
+	                }
+	
+	                if(this.val !== null) {
+	                    delete this.parent.options[this.val]
+	                }
+	
+	                this.parent.options[value] = this
+	            }
+	
+	            this._value = value
+	
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the option is selected
+	        get: function() {
+	            return this.domNode.selected
+	        },
+	
+	        // sets the selected state of the option to the passed value (true for selected)
+	        set: function(value) {
+	            var booleanValue = value === true
+	            if(this.selected === booleanValue) return false; // ignore if there's no change
+	
+	            if(this.parent !== undefined)
+	                this.parent.prepareForValueChange([this.val])
+	
+	            this.setSelectedQuiet(booleanValue)
+	
+	            if(this.parent !== undefined)
+	                this.parent.emit('change')
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode[domUtils.textProperty]
+	        },
+	
+	        set: function(text) {
+	            this.domNode[domUtils.textProperty] = text
+	        }
+	    })
+	
+	
+	    // private
+	
+	    // does everything for setting the selected state except emit the parent's change event
+	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
+	        if(this.selected === booleanValue) return; // ignore if there's no change
+	
+	        this.domNode.selected = booleanValue
+	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	    }
+	})
+
+/***/ },
+/* 29 */
+/*!******************************!*\
+  !*** ../~/Components/Row.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 39);
+	
+	module.exports = RowlikeGenerator('tr', "TableRow")
+
+
+/***/ },
+/* 30 */
+/*!*******************************!*\
+  !*** ../~/Components/Cell.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! ../Gem */ 4)
+	var proto = __webpack_require__(/*! proto */ 37)
+	var Style = __webpack_require__(/*! Style */ 5)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'TableCell'
+	
+	    this.defaultStyle = Style({
+	        display: 'table-cell'
+	    })
+		
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Gem || typeof(contents) !== 'string') {
+	            this.add(contents)
+	        } else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	
+		this.colspan = function(cols) {
+			this.attr('colspan',cols);
+		}
+	});
+
+
+/***/ },
+/* 31 */
 /*!*********************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/defaultFormats.js ***!
   \*********************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 40)
+	var Future = __webpack_require__(/*! async-future */ 47)
 	
-	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 43)
-	var indent = __webpack_require__(/*! ./indent */ 44)
-	var utils = __webpack_require__(/*! ./utils */ 22)
+	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 48)
+	var indent = __webpack_require__(/*! ./indent */ 49)
+	var utils = __webpack_require__(/*! ./utils */ 33)
 	
 	// unitTest is a deadunit-core UnitTest object
 	// if consoleColoring is true, the string will contain console color annotations
@@ -4477,7 +5985,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 32 */
 /*!************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/deadunit.internal.js ***!
   \************************************************************************************/
@@ -4490,10 +5998,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var exports = {}
 	
 	    var deadunitCore = options.deadunitCore
-	    var proto = __webpack_require__(/*! proto */ 41)
+	    var proto = __webpack_require__(/*! proto */ 46)
 	
-	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 20)
-	    exports.format = __webpack_require__(/*! ./basicFormatter */ 43)
+	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 31)
+	    exports.format = __webpack_require__(/*! ./basicFormatter */ 48)
 	
 	    exports.error = deadunitCore.error
 	
@@ -4520,14 +6028,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+/* 33 */
 /*!************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/utils.js ***!
   \************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var util = __webpack_require__(/*! util */ 49)
+	var util = __webpack_require__(/*! util */ 52)
 	
 	exports.plural = function (num, plural, singular) {
 		var plur = num!==1;
@@ -4624,1651 +6132,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 23 */
-/*!**************************!*\
-  !*** ../external/jss.js ***!
-  \**************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * JSS v0.6 - JavaScript Stylesheets
-	 * https://github.com/Box9/jss
-	 *
-	 * Copyright (c) 2011, David Tang
-	 * MIT Licensed (http://www.opensource.org/licenses/mit-license.php)
-	 */
-	var jss = (function() {
-	    var adjSelAttrRegex = /((?:\.|#)[^\.\s#]+)((?:\.|#)[^\.\s#]+)/g;
-	    var doubleColonPseudoElRegex = /(::)(before|after|first-line|first-letter|selection)/;
-	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
-	    var singleColonForPseudoElements; // flag for older browsers
-	
-	    function getSelectorsAndRules(sheet) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var results = {};
-	        for (var i = 0; i < rules.length; i++) {
-	            // Older browsers and FF report pseudo element selectors in an outdated format
-	            var selectorText = toDoubleColonPseudoElements(rules[i].selectorText);
-	            if (!results[selectorText]) {
-	                results[selectorText] = [];
-	            }
-	            results[selectorText].push({
-	                sheet: sheet,
-	                index: i,
-	                style: rules[i].style
-	            });
-	        }
-	        return results;
-	    }
-	
-	    function getRules(sheet, selector) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var results = [];
-	        // Browsers report selectors in lowercase
-	        selector = selector.toLowerCase();
-	        for (var i = 0; i < rules.length; i++) {
-	            var selectorText = rules[i].selectorText;
-	            // Note - certain rules (e.g. @rules) don't have selectorText
-	            if (selectorText && (selectorText == selector || selectorText == swapAdjSelAttr(selector) || selectorText == swapPseudoElSyntax(selector))) {
-	                results.push({
-	                    sheet: sheet,
-	                    index: i,
-	                    style: rules[i].style
-	                });
-	            }
-	        }
-	        return results;
-	    }
-	
-	    function addRule(sheet, selector) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var index = rules.length;
-	        var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
-	
-	        if (!pseudoElementRule) {
-	            addRuleToSheet(sheet, selector, index);
-	        }
-	
-	        return {
-	            sheet: sheet,
-	            index: index,
-	            style: rules[index].style
-	        };
-	    };
-	
-	    function addRuleToSheet(sheet, selector, index) {
-	        if (sheet.insertRule) {
-	            sheet.insertRule(selector + ' { }', index);
-	        } else {
-	            sheet.addRule(selector, null, index);
-	        }
-	    }
-	
-	    // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
-	    function addPseudoElementRule(sheet, selector, rules, index) {
-	        var doubleColonSelector;
-	        var singleColonSelector;
-	
-	        if (doubleColonPseudoElRegex.exec(selector)) {
-	            doubleColonSelector = selector;
-	            singleColonSelector = toSingleColonPseudoElements(selector);
-	        } else if (singleColonPseudoElRegex.exec(selector)) {
-	            doubleColonSelector = toDoubleColonPseudoElements(selector);
-	            singleColonSelector = selector;
-	        } else {
-	            return false; // Not dealing with a pseudo element
-	        }
-	
-	        if (!singleColonForPseudoElements) {
-	            // Assume modern browser and then check if successful
-	            addRuleToSheet(sheet, doubleColonSelector, index);
-	            if (rules.length <= index) {
-	                singleColonForPseudoElements = true;
-	            }
-	        }
-	        if (singleColonForPseudoElements) {
-	            addRuleToSheet(sheet, singleColonSelector, index);
-	        }
-	
-	        return true;
-	    }
-	
-	    function toDoubleColonPseudoElements(selector) {
-	        return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
-	            return submatch1 + '::' + submatch3;
-	        });
-	    }
-	
-	    function toSingleColonPseudoElements(selector) {
-	        return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
-	            return ':' + submatch2;
-	        })
-	    }
-	
-	    function removeRule(rule) {
-	        var sheet = rule.sheet;
-	        if (sheet.deleteRule) {
-	            sheet.deleteRule(rule.index);
-	        } else if (sheet.removeRule) {
-	            sheet.removeRule(rule.index);
-	        }
-	    }
-	
-	    function extend(dest, src) {
-	        for (var key in src) {
-	            if (!src.hasOwnProperty(key))
-	                continue;
-	            dest[key] = src[key];
-	        }
-	        return dest;
-	    }
-	
-	    function aggregateStyles(rules) {
-	        var aggregate = {};
-	        for (var i = 0; i < rules.length; i++) {
-	            extend(aggregate, declaredProperties(rules[i].style));
-	        }
-	        return aggregate;
-	    }
-	
-	    function declaredProperties(style) {
-	        var declared = {};
-	        for (var i = 0; i < style.length; i++) {
-	            declared[style[i]] = style[toCamelCase(style[i])];
-	        }
-	        return declared;
-	    }
-	
-	    // IE9 stores rules with attributes (classes or ID's) adjacent in the opposite order as defined
-	    // causing them to not be found, so this method swaps [#|.]sel1[#|.]sel2 to become [#|.]sel2[#|.]sel1
-	    function swapAdjSelAttr(selector) {
-	        var swap = '';
-	        var lastIndex = 0;
-	
-	        while ((match = adjSelAttrRegex.exec(selector)) != null) {
-	            if (match[0] === '')
-	                break;
-	            swap += selector.substring(lastIndex, match.index);
-	            swap += selector.substr(match.index + match[1].length, match[2].length);
-	            swap += selector.substr(match.index, match[1].length);
-	            lastIndex = match.index + match[0].length;
-	        }
-	        swap += selector.substr(lastIndex);
-	
-	        return swap;
-	    };
-	
-	    // FF and older browsers store rules with pseudo elements using single-colon syntax
-	    function swapPseudoElSyntax(selector) {
-	        if (doubleColonPseudoElRegex.exec(selector)) {
-	            return toSingleColonPseudoElements(selector);
-	        }
-	        return selector;
-	    }
-	
-	    function setStyleProperties(rule, properties) {
-	        for (var key in properties) {
-	            var value = properties[key];
-	            var importantIndex = value.indexOf(' !important');
-	
-	            // Modern browsers seem to handle overrides fine, but IE9 doesn't
-	            rule.style.removeProperty(key);
-	            if (importantIndex > 0) {
-	                rule.style.setProperty(key, value.substr(0, importantIndex), 'important');
-	            } else {
-	                rule.style.setProperty(key, value);
-	            }
-	        }
-	    }
-	
-	    function toCamelCase(str) {
-	        return str.replace(/-([a-z])/g, function (match, submatch) {
-	            return submatch.toUpperCase();
-	        });
-	    }
-	
-	    function transformCamelCasedPropertyNames(oldProps) {
-	        var newProps = {};
-	        for (var key in oldProps) {
-	            newProps[unCamelCase(key)] = oldProps[key];
-	        }
-	        return newProps;
-	    }
-	
-	    function unCamelCase(str) {
-	        return str.replace(/([A-Z])/g, function(match, submatch) {
-	            return '-' + submatch.toLowerCase();
-	        });
-	    }
-	
-	    var Jss = function(doc) {
-	        this.doc = doc;
-	        this.head = this.doc.head || this.doc.getElementsByTagName('head')[0];
-	        this.sheets = this.doc.styleSheets || [];
-	    };
-	
-	    Jss.prototype = {
-	        // Returns JSS rules (selector is optional)
-	        get: function(selector) {
-	            if (!this.defaultSheet) {
-	                return {};
-	            }
-	            if (selector) {
-	                return aggregateStyles(getRules(this.defaultSheet, selector));
-	            }
-	            var rules = getSelectorsAndRules(this.defaultSheet);
-	            for (selector in rules) {
-	                rules[selector] = aggregateStyles(rules[selector]);
-	            }
-	            return rules;
-	        },
-	        // Returns all rules (selector is required)
-	        getAll: function(selector) {
-	            var properties = {};
-	            for (var i = 0; i < this.sheets.length; i++) {
-	                extend(properties, aggregateStyles(getRules(this.sheets[i], selector)));
-	            }
-	            return properties;
-	        },
-	        // Adds JSS rules for the selector based on the given properties
-	        set: function(selector, properties) {
-	            if (!this.defaultSheet) {
-	                this.defaultSheet = this._createSheet();
-	            }
-	            properties = transformCamelCasedPropertyNames(properties);
-	            var rules = getRules(this.defaultSheet, selector);
-	            if (!rules.length) {
-	                rules = [addRule(this.defaultSheet, selector)];
-	            }
-	            for (var i = 0; i < rules.length; i++) {
-	                setStyleProperties(rules[i], properties);
-	            }
-	        },
-	        // Removes JSS rules (selector is optional)
-	        remove: function(selector) {
-	            if (!this.defaultSheet)
-	                return;
-	            if (!selector) {
-	                this._removeSheet(this.defaultSheet);
-	                delete this.defaultSheet;
-	                return;
-	            }
-	            var rules = getRules(this.defaultSheet, selector);
-	            for (var i = 0; i < rules.length; i++) {
-	                removeRule(rules[i]);
-	            }
-	            return rules.length;
-	        },
-	        _createSheet: function() {
-	            var styleNode = this.doc.createElement('style');
-	            styleNode.type = 'text/css';
-	            styleNode.rel = 'stylesheet';
-	            this.head.appendChild(styleNode);
-	            return styleNode.sheet;
-	        },
-	        _removeSheet: function(sheet) {
-	            var node = sheet.ownerNode;
-	            node.parentNode.removeChild(node);
-	        }
-	    };
-	
-	    var exports = new Jss(document);
-	    exports.forDocument = function(doc) {
-	        return new Jss(doc);
-	    };
-	    return exports;
-	})();
-	
-	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
-
-/***/ },
-/* 24 */
-/*!*********************!*\
-  !*** ../~/utils.js ***!
-  \*********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	//require('hashmap') // here to mark hashmapMerge's dependency on this module
-	var path = __webpack_require__(/*! path */ 50)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	// merges two hashmaps together just like merge does for regular objects
-	// non-deep merge
-	exports.hashmapMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    obj2.forEach(function(value, key) {
-	        obj1.set(key, obj2.get(key))
-	    })
-	
-	    if(arguments.length > 2) {
-	        var newObjects = [obj1].concat(Array.prototype.slice.call(arguments, 2))
-	        return exports.hashmapMerge.apply(this, newObjects)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
-	exports.objectConjunction = function(a, b) {
-	    var objectCopy = {}
-	    merge(objectCopy, a)
-	    merge(objectCopy, b)
-	    return objectCopy
-	}
-	
-	// turns an array of values into a an object where those values are all keys that point to 'true'
-	exports.arrayToMap = function(array) {
-	    var result = {}
-	    array.forEach(function(v) {
-	        result[v] = true
-	    })
-	    return result
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       //if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       //}
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 25 */
-/*!*****************************!*\
-  !*** ../~/EventEmitterB.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var EventEmitter = __webpack_require__(/*! events */ 39).EventEmitter
-	var proto = __webpack_require__(/*! proto */ 38)
-	var utils = __webpack_require__(/*! utils */ 24)
-	
-	module.exports = proto(EventEmitter, function(superclass) {
-	
-	    this.init = function() {
-	        superclass.apply(this, arguments)
-	
-	        this.ifonHandlers = {}
-	        this.ifoffHandlers = {}
-	        this.ifonAllHandlers = []
-	        this.ifoffAllHandlers = []
-	    }
-	
-	    // callback will be triggered immediately if there is already a listener attached, or
-	    // callback will be triggered when the first listener for the event is added
-	    // (regardless of whether its done through on or once)
-	    // parameters can be:
-	        // event, callback - attach an ifon handler for the passed event
-	        // callback - attach an ifon handler for all events
-	    this.ifon = function(event, callback) {
-	        if(event instanceof Function) {     // event not passed, only a callback
-	            callback = event // fix the argument
-	            for(var eventName in this._events) {
-	                if(this.listeners(eventName).length > 0) {
-	                    callback(eventName)
-	                }
-	            }
-	        } else if(this.listeners(event).length > 0) {
-	            callback(event)
-	        }
-	
-	        addHandlerToList(this, 'ifonHandlers', event, callback)
-	    }
-	
-	    // removes either:
-	        // removeIfon() - all ifon handlers (if no arguments are passed), or
-	        // removeIfon(event) - all ifon handlers for the passed event, or
-	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
-	        // removeIfon(event, callback) - the specific passed callback for the passed event
-	    this.removeIfon = function(event, callback) {
-	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
-	    }
-	
-	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
-	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
-	    // parameters can be:
-	        // event, callback - attach an ifoff handler for the passed event
-	        // callback - attach an ifoff handler for all events
-	    this.ifoff = function(event, callback) {
-	        addHandlerToList(this, 'ifoffHandlers', event, callback)
-	    }
-	
-	    // removes either:
-	        // removeIfoff() - all ifoff handlers (if no arguments are passed), or
-	        // removeIfoff(event) - all ifoff handlers for the passed event, or
-	        // removeIfoff(callback) - the passed ifoff-all handler (if the first parameter is the callback)
-	        // removeIfoff(event, callback) - the specific passed callback for the passed event
-	    this.removeIfoff = function(event, callback) {
-	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
-	    }
-	
-	    // emitter is the emitter to proxy handler binding to
-	    // options can have one of the following properties:
-	        // only - an array of events to proxy
-	        // except - an array of events to *not* proxy
-	    this.proxy = function(emitter, options) {
-	        if(options === undefined) options = {}
-	        if(options.except !== undefined) {
-	            var except = utils.arrayToMap(options.except)
-	            var handleIt = function(event){return !(event in except)}
-	        } else if(options.only !== undefined) {
-	            var only = utils.arrayToMap(options.only)
-	            var handleIt = function(event){return event in only}
-	        } else {
-	            var handleIt = function(){return true}
-	        }
-	
-	        var that = this, handler;
-	        this.ifon(function(event) {
-	            if(handleIt(event)) {
-	                emitter.on(event, handler = function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        this.ifoff(function(event) {
-	            if(handleIt(event))
-	                emitter.off(event, handler)
-	        })
-	    }
-	
-	    /*override*/ this.on = this.addListener = function(event, callback) {
-	        var triggerIfOn = this.listeners(event).length === 0
-	        superclass.prototype.on.apply(this,arguments)
-	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
-	    }
-	
-	    /*override*/ this.off = this.removeListener = function(event, callback) {
-	        var triggerIfOff = this.listeners(event).length === 1
-	        superclass.prototype.removeListener.apply(this,arguments)
-	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
-	    }
-	    /*override*/ this.removeAllListeners = function(event) {
-	        var triggerIfOffForEvents = []
-	        if(event !== undefined) {
-	            if(this.listeners(event).length > 0) {
-	                triggerIfOffForEvents.push(event)
-	            }
-	        } else {
-	            for(var event in this._events) {
-	                if(this.listeners(event).length > 0) {
-	                    triggerIfOffForEvents.push(event)
-	                }
-	            }
-	        }
-	
-	        superclass.prototype.removeAllListeners.apply(this,arguments)
-	
-	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
-	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
-	        }
-	    }
-	
-	})
-	
-	
-	// triggers the if handlers from the normal list and the "all" list
-	function triggerIfHandlers(that, handlerListName, event) {
-	    triggerIfHandlerList(that[handlerListName][event], event)
-	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
-	}
-	
-	
-	// triggers the if handlers from a specific list
-	// ya these names are confusing, sorry : (
-	function triggerIfHandlerList(handlerList, event) {
-	    if(handlerList !== undefined) {
-	        for(var n=0; n<handlerList.length; n++) {
-	            handlerList[n](event)
-	        }
-	    }
-	}
-	
-	function addHandlerToList(that, handlerListName, event, callback) {
-	    if(event instanceof Function) {
-	        // correct arguments
-	        callback = event
-	        event = undefined
-	    }
-	
-	    if(event !== undefined && callback !== undefined) {
-	        var handlerList = that[handlerListName][event]
-	        if(handlerList === undefined) {
-	            handlerList = that[handlerListName][event] = []
-	        }
-	
-	        handlerList.push(callback)
-	    } else {
-	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
-	    }
-	}
-	
-	function removeFromHandlerList(that, handlerListName, event, callback) {
-	    if(event instanceof Function) {
-	        // correct arguments
-	        callback = event
-	        event = undefined
-	    }
-	
-	    if(event !== undefined && callback !== undefined) {
-	        removeCallbackFromList(that[handlerListName][event], callback)
-	    } else if(event !== undefined) {
-	        delete that[handlerListName][event]
-	    } else if(callback !== undefined) {
-	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
-	        removeCallbackFromList(that[allHandlerListName], callback)
-	    } else {
-	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
-	        that[handlerListName] = {}
-	        that[allHandlerListName] = []
-	    }
-	}
-	
-	function normalHandlerToAllHandlerProperty(handlerListName) {
-	    if(handlerListName === 'ifonHandlers')
-	        return 'ifonAllHandlers'
-	    if(handlerListName === 'ifoffHandlers')
-	        return 'ifoffAllHandlers'
-	}
-	
-	function removeCallbackFromList(list, callback) {
-	    var index = list.indexOf(callback)
-	    list.splice(index,1)
-	}
-
-/***/ },
-/* 26 */
-/*!************************!*\
-  !*** ../~/domUtils.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	// the property that should be used to get and set text (this is different on chrome vs firefox for some dumb reason)
-	exports.textProperty = 'textContent' //document.createElement("div").textContent != undefined ? 'textContent' : 'innerText'
-	
-	// creates a dom element optionally with a class and attributes
-	 var node = exports.node = function(type, className, options) {
-	    var elem = document.createElement(type)
-	
-	    if(options !== undefined) {
-	        if(options.attr !== undefined) {
-	            for(var attribute in options.attr) {
-	                setAttribute(elem, attribute, options.attr[attribute])
-	            }
-	        }
-	        if(options.textContent !== undefined) {
-	            elem.textContent = options.textContent
-	        }
-	    }
-	
-	    if(className !== undefined)
-	        elem.className = className
-	
-	    return elem
-	}
-	
-	// convenience function for creating a div
-	exports.div = function(className, options) {
-	    return node('div', className, options)
-	}
-	
-	
-	// adds an attribute to a domNode
-	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
-	    if (arguments.length === 2) {
-	        var domNode = this.domNode;
-	        var type = arguments[0];
-	        var value = arguments[1];
-	    } else if (arguments.length === 3) {
-	        var domNode = arguments[0];
-	        var type = arguments[1];
-	        var value = arguments[2];
-	    } else {
-	        throw new Error("This function expects arguments to be: [domNode,] type, value");
-	    }
-	    var attr = document.createAttribute(type)
-	    attr.value = value
-	    domNode.setAttributeNode(attr)
-	}
-	
-	// sets the selection
-	//
-	// works for contenteditable elements
-	exports.setSelectionRange = function(containerEl, start, end) {
-	
-	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
-	        containerEl.setSelectionRange(start, end)
-	    } else {
-	        var charIndex = 0, range = document.createRange();
-	        range.setStart(containerEl, 0);
-	        range.collapse(true);
-	        var foundStart = false;
-	
-	        iterateThroughLeafNodes(containerEl, function(node) {
-	            var hiddenCharacters = findHiddenCharacters(node, node.length)
-	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
-	
-	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-	                var nodeIndex = start-charIndex
-	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
-	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
-	                foundStart = true;
-	            }
-	
-	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
-	                var nodeIndex = end-charIndex
-	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
-	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
-	                return true; // stop the iteration - we're done here
-	            }
-	
-	            charIndex = nextCharIndex
-	        })
-	
-	        var sel = window.getSelection();
-	        sel.removeAllRanges();
-	        sel.addRange(range);
-	    }
-	}
-	
-	// gets the character offsets of a selection within a particular dom node
-	// returns undefined if there is no selection in the element
-	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
-	exports.getSelectionRange = function (element) {
-	
-	    var selection = window.getSelection()
-	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
-	
-	    for(var n=0; n<selection.rangeCount; n++) {
-	        var range = selection.getRangeAt(0)
-	        if(isInputOrArea) {
-	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
-	                return [element.selectionStart, element.selectionEnd]
-	            }
-	        } else {
-	            var startsInElement = element.contains(range.startContainer)
-	            if(startsInElement) {
-	                var elementToIterateThrough = element
-	                var startFound = true
-	            } else {
-	                var elementToIterateThrough = range.commonAncestorContainer
-	                var startFound = false
-	                var startContainerFound = false
-	            }
-	
-	            var visibleCharacterOffset = 0, start, end;
-	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
-	                if(!startFound) {
-	                    if(leaf === range.startContainer) {
-	                        startContainerFound = true
-	                    }
-	
-	                    if(!element.contains(leaf) || !startContainerFound)
-	                        return; // continue
-	                    else if(startContainerFound)
-	                       startFound = true
-	                } else if(!startsInElement && !element.contains(leaf)) {
-	                    return true // done!
-	                }
-	
-	                if(leaf === range.startContainer) {
-	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
-	                }
-	                if(leaf === range.endContainer) {
-	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
-	                    return true // done!
-	                }
-	
-	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
-	            })
-	
-	            if(start === undefined && !startFound) {
-	                return undefined
-	            } else {
-	                if(start === undefined) {
-	                    start = 0 // start is at the beginning
-	                }
-	                if(end === undefined) {
-	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
-	                }
-	
-	                return [start, end]
-	            }
-	        }
-	    }
-	}
-	
-	
-	// iterate through the leaf nodes inside element
-	// callback(node) - a function called for each leaf node
-	    // returning true from this ends the iteration
-	function iterateThroughLeafNodes(element, callback) {
-	    var nodeStack = [element], node;
-	
-	    while (node = nodeStack.pop()) {
-	        if (node.nodeType == 3) {
-	            if(callback(node) === true)
-	                break;
-	        } else {
-	            var i = node.childNodes.length;
-	            while (i--) {
-	                nodeStack.push(node.childNodes[i]);
-	            }
-	        }
-	    }
-	}
-	
-	function findHiddenCharacters(node, beforeCaretIndex) {
-	    var hiddenCharacters = 0
-	    var lastCharWasWhiteSpace=true
-	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
-	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
-	            if(lastCharWasWhiteSpace)
-	                hiddenCharacters++
-	            else
-	                lastCharWasWhiteSpace = true
-	        } else {
-	            lastCharWasWhiteSpace = false
-	        }
-	    }
-	
-	    return hiddenCharacters
-	}
-
-/***/ },
-/* 27 */
-/*!*******************************!*\
-  !*** ../~/blockStyleUtils.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// some functionality that is needed by Gem.js but is related to styling (some things are also needed by Style.js)
-	
-	var HashMap = __webpack_require__(/*! hashmap */ 45)
-	
-	var Style = __webpack_require__(/*! ./Style */ 6)
-	var utils = __webpack_require__(/*! ./utils */ 24)
-	
-	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
-	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
-	
-	
-	// gets the right style from the styleMap, depending on the gem's `name` and `label` (`label` styles take precedence)
-	// takes the component's inheritance tree into account (relies on the gem.constructor.parent property)
-	var getStyleMapEntryForGem = exports.getStyleForComponent = function (styleMap, gem) {
-	    if(styleMap === undefined)
-	        return undefined
-	
-	    return getStyleForLabel(styleMap, gem) || getStyleForGemName(styleMap, gem)
-	}
-	
-	var getStyleForLabel = exports.getStyleForLabel = function(styleMap, gem) {
-	    if(gem.label !== undefined && '$'+gem.label in styleMap) {
-	        return styleMap['$'+gem.label]
-	    }
-	}
-	var getStyleForGemName = exports.getStyleForBlockName = function(styleMap, gem) {
-	    var constructor = gem.constructor
-	    while(constructor !== undefined) {
-	        var style = styleMap[constructor.name]
-	        if(style !== undefined) {
-	            return style
-	        } else {
-	            constructor = constructor.parent
-	        }
-	    }
-	}
-	
-	// gets the possibly inheriting style from the styleMap for `gem`
-	// gem - the gem to get the style for
-	// ancestor - the gem to get the computedStyleMap from
-	var getInheritingStyle = exports.getInheritingStyle = function(gem, ancestor) {
-	    if(ancestor === undefined || ancestor.computedStyleMap === undefined) return undefined
-	
-	    var labelStyle = getStyleForLabel(ancestor.computedStyleMap, gem)
-	    if(labelStyle !== undefined) {
-	        if(labelStyle.inherit) {
-	            var inheritingGemStyle = getInheritingGemStyle(gem, ancestor)
-	            return mixStyles(inheritingGemStyle, labelStyle)
-	        } else {
-	            return labelStyle
-	        }
-	    } else {
-	        return getInheritingGemStyle(gem, ancestor)
-	    }
-	
-	
-	    // gets the inheriting style ignoring the first label style
-	    function getInheritingGemStyle(gem, ancestor) {
-	        var gemStyle = getStyleForGemNameWithInheritance(ancestor.computedStyleMap, gem)
-	        if(gemStyle !== undefined) {
-	            if(gemStyle.inherit) {
-	                return mixStyles(
-	                    getInheritingStyle(gem, ancestor.parent),
-	                    gemStyle
-	                )
-	            } else {
-	                return gemStyle
-	            }
-	        } else {
-	            return undefined
-	        }
-	    }
-	
-	    // like getStyleForGemName, but mixes together styles in the styleMap as they inherit based on the gem's ancestral names
-	    function getStyleForGemNameWithInheritance(styleMap, gem) {
-	        var styles = [];
-	
-	        var constructor = gem.constructor
-	        while(constructor !== undefined) {
-	            var style = styleMap[constructor.name]
-	            if(style !== undefined) {
-	                styles.push(style)
-	                if(!style.inherit) {
-	                    break;
-	                }
-	            }
-	
-	            constructor = constructor.parent
-	        }
-	
-	        var reversedStyles = styles.reverse() // reverse so later styles override earlier styles
-	        var styleToReturn = reversedStyles[0]
-	        for(var n=1; n<reversedStyles.length; n++) {
-	            styleToReturn = styleToReturn.mix(reversedStyles[n])
-	        }
-	
-	        return styleToReturn
-	    }
-	
-	}
-	
-	// returns the conjunction of two style maps
-	// gets it from the computedStyles cache if its already in there
-	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
-	    var cachedStyleMap = computedStyles.get([secondaryStyleMap, primaryStyleMap])
-	    if(cachedStyleMap === undefined) {
-	        if(secondaryStyleMap  === undefined) {
-	            cachedStyleMap = primaryStyleMap
-	        } else if(primaryStyleMap === undefined) {
-	            cachedStyleMap = secondaryStyleMap
-	        } else {
-	            var overridingProperties = {}, atLeastOne = false
-	            for(var key in primaryStyleMap) {
-	                if(secondaryStyleMap[key] !== primaryStyleMap[key]) {
-	                    overridingProperties[key] = primaryStyleMap[key]
-	                    atLeastOne = true
-	                }
-	            }
-	
-	            if(atLeastOne) {
-	                cachedStyleMap = utils.objectConjunction(secondaryStyleMap, overridingProperties)
-	            } else { // the styleMaps are different objects, but contain the same thing
-	                cachedStyleMap = secondaryStyleMap
-	            }
-	        }
-	
-	        if(cachedStyleMap === undefined) cachedStyleMap = false // switch it out with false so it can be recognized
-	        computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
-	    }
-	
-	    if(cachedStyleMap === false) {
-	        return undefined
-	    }
-	    return cachedStyleMap
-	}
-	
-	
-	
-	exports.getDefaultStyle = function(gem)  {
-	    // attempt to get from the cache
-	    var defaultGemStyle = defaultStyleMap.get(gem.constructor)
-	    if(defaultGemStyle === undefined) {
-	        defaultGemStyle = createDefaultGemStyle(gem)
-	        if(defaultGemStyle === undefined) defaultGemStyle = false
-	        defaultStyleMap.set(gem.constructor, defaultGemStyle)
-	    }
-	
-	    if(defaultGemStyle === false) {
-	        return undefined
-	    }
-	    return defaultGemStyle
-	}
-	
-	// returns a new style with style b mixed into style a (works even if they're both undefined)
-	var mixStyles = exports.mixStyles = function(a,b) {
-	    if(a === undefined)
-	        return b
-	    else
-	        return a.mix(b)
-	}
-	
-	
-	
-	
-	
-	// sets the currentStyle of a gem and makes all the appropriate changes to render a new active style for the gem and its children
-	exports.setCurrentStyle = function(gem, newCurrentStyle, defaultStyle) {
-	
-	    var current$state = gem._currentStyle === undefined? undefined: gem._currentStyle.stateHandler
-	    var newCurrentStyle$state = newCurrentStyle === undefined? undefined: newCurrentStyle.stateHandler
-	    if(current$state !== newCurrentStyle$state) {     // if the $state function remains the same, we don't gotta do nothin (about switching state functions at least)
-	        if(gem._stateChangeHandler !== undefined) {  // remove the old handler if necessary
-	            gem.state.removeListener('change', gem._stateChangeHandler)
-	            gem._stateChangeHandler = undefined
-	        }
-	
-	        if(newCurrentStyle$state !== undefined) {     // add a new handler if necessary
-	            gem.state.on('change', gem._stateChangeHandler = function() {
-	                var rawStateStyle = getStateStyle(gem._currentStyle, gem.state.subject)
-	                setMixedStateStyle(gem, mixStyles(gem._currentStyle, rawStateStyle))
-	            })
-	        }
-	    }
-	
-	    gem._currentStyle = newCurrentStyle
-	    var rawStateStyle = getStateStyle(newCurrentStyle, gem.state.subject)
-	
-	    var newMixedStateStyle = mixStyles(newCurrentStyle, rawStateStyle)
-	    setMixedStateStyle(gem, newMixedStateStyle, defaultStyle)
-	}
-	
-	
-	// handles reseting a gem's active style when its state style changes
-	// renders the pseudoclass style
-	function setMixedStateStyle(gem, mixedStateStyle, defaultStyle) {
-	    var psuedoclassState = {}
-	
-	    // if a pseudoclass can no longer apply, undo its setup
-	    for(var pseudoClass in gem._styleSetupInfo) {
-	        if(mixedStateStyle === undefined || !(pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo)) {
-	            var setupInfo = gem._styleSetupInfo[pseudoClass]
-	            setupInfo.kill(gem, setupInfo.state)
-	            delete gem._styleSetupInfo[pseudoClass]
-	        }
-	    }
-	
-	    // setup new pseudoclasses
-	    if(mixedStateStyle !== undefined) {
-	        for(var pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo) {
-	            if(!(pseudoClass in gem._styleSetupInfo)) {                     // if this exact pseudoclass is already setup, no need to do anything
-	                ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
-	                    var setupState = emulationInfo.fns.setup(gem, function() { // start
-	                        var changed = psuedoclassState[pseudoClass] !== true
-	                        if(changed) {
-	                            psuedoclassState[pseudoClass] = true
-	                            changeStyleIfNecessary()
-	                        }
-	                    }, function() { // end
-	                        var changed = psuedoclassState[pseudoClass] !== false
-	                        if(changed) {
-	                            psuedoclassState[pseudoClass] = false
-	                            changeStyleIfNecessary()
-	                        }
-	                    }, emulationInfo.parameter)
-	
-	                    gem._styleSetupInfo[pseudoClass] = {state: setupState, kill: emulationInfo.fns.kill}
-	
-	                })(pseudoClass, mixedStateStyle.pseudoclasses.emulatedInfo[pseudoClass])
-	            }
-	        }
-	    }
-	
-	    // build up the pseudoclass state - depending on what pseudoclasses might become applicable
-	    if(mixedStateStyle !== undefined) {
-	        for(var pseudoclassKey in mixedStateStyle.pseudoclasses.emulatedInfo) {
-	            var info = mixedStateStyle.pseudoclasses.emulatedInfo[pseudoclassKey]
-	            psuedoclassState[pseudoclassKey] = info.fns.check(gem, info.parameter)
-	        }
-	    }
-	
-	    // set current pseudoclass style
-	    changeStyleIfNecessary()
-	
-	
-	    function changeStyleIfNecessary() {
-	        var pseudoclassStyleInfo = getPseudoclassStyleFor(mixedStateStyle, psuedoclassState)
-	        var newPreStyleMapStyle = mixStyles(mixedStateStyle, pseudoclassStyleInfo.style)
-	        setPreStyleMapStyle(gem, newPreStyleMapStyle, pseudoclassStyleInfo.index, defaultStyle)
-	    }
-	}
-	
-	// sets the style before being modified by the gem's parent's computedStyleMap
-	// handles removing the state listener and calling $kill on the old activeStyle
-	function setPreStyleMapStyle(gem, newPreStyleMapStyle, jsRenderedPseudoclassIndex, defaultStyle) {
-	    if(gem.parent !== undefined && newPreStyleMapStyle !== undefined)
-	        var newComputedStyleMap = styleMapConjunction(gem.parent.computedStyleMap, newPreStyleMapStyle.componentStyleMap)
-	    else if(gem.parent !== undefined)
-	        var newComputedStyleMap = gem.parent.computedStyleMap
-	    else if(newPreStyleMapStyle !== undefined)
-	        var newComputedStyleMap = newPreStyleMapStyle.componentStyleMap
-	    else
-	        var newComputedStyleMap = undefined
-	
-	    var newActiveStyle = undefined // can be changed below
-	    var cancel = false
-	    if(newPreStyleMapStyle !== undefined) {
-	        if(gem.parent !== undefined) var nativePseudoclassMap = gem.parent._nativePseudoclassMap
-	        else                           var nativePseudoclassMap = {}
-	
-	        var nativePseudoclassSelectorMap = getStyleMapEntryForGem(nativePseudoclassMap, gem)
-	        var nativeCssInfo = newPreStyleMapStyle.createNativeCssInfo(newComputedStyleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
-	
-	        if(nativeCssInfo.cancel) {
-	            cancel = true
-	            setMixedStateStyle(gem, nativeCssInfo.retryStyle)
-	
-	        } else {
-	            newActiveStyle = nativeCssInfo.style
-	            newComputedStyleMap = nativeCssInfo.styleMap // even newer!
-	            gem._nativePseudoclassMap = nativeCssInfo.nativePseudoclassMap
-	        }
-	    }
-	
-	    if(!cancel) {
-	        setActiveStyle(gem, newActiveStyle, newComputedStyleMap)
-	    }
-	}
-	
-	// sets the active style on the gem and on the gem's children
-	// also sets the gem's new computedStyleMap
-	function setActiveStyle(gem, newActiveStyle, newComputedStyleMap) {
-	    var activeStyleChanged = newActiveStyle !== gem._activeStyle
-	    var computedStyleMapChanged = gem.computedStyleMap !== newComputedStyleMap
-	
-	    if(activeStyleChanged) {
-	        setStyleClass(gem, newActiveStyle)
-	
-	        var curActiveStyle$setup = gem._activeStyle === undefined? undefined: gem._activeStyle.setup
-	        var newActiveStyle$setup = newActiveStyle === undefined? undefined: newActiveStyle.setup
-	        if(curActiveStyle$setup !== newActiveStyle$setup) {
-	            applyStyleKillFunction(gem)
-	            applyStyleSetupFunction(gem, newActiveStyle)
-	        }
-	
-	        gem._activeStyle = newActiveStyle
-	    }
-	
-	
-	    gem.computedStyleMap = newComputedStyleMap
-	
-	    // propogate styles to children
-	    gem.children.forEach(function(child) {
-	        if(computedStyleMapChanged || !child.attached) {
-	            child.attached = true
-	            child.style = child.style  // force a re-render on each child
-	        }
-	    })
-	}
-	
-	
-	
-	// given a style and an object representing some state, returns the state given by the style's $state function
-	// returns undefined if it doesn't have a state function
-	// handles caching state styles (an optimization)
-	function getStateStyle(currentStyle, stateParameter) {
-	    if(currentStyle === undefined || currentStyle.stateHandler === undefined) return undefined
-	
-	    var returnedStyle = currentStyle.stateHandler(stateParameter)
-	
-	    // todo: figure out if this style has been returned before, and if so, use the already-generated style (mostly so that that style can take advantage of other cached combinations)
-	
-	    return returnedStyle
-	}
-	
-	// returns an object with the properties:
-	    // style - the jsRendered pseudoclass style for the gem's relevant pseudoclass state
-	    // index - the index of the pseudoclass (jsRenderedPseudoclassIndex)
-	// returns undefined if no emulated pseudoclass style applies or if only native pseudoclass stylings apply
-	// state - an object that will be mutated with the current state for each pseudoclass
-	function getPseudoclassStyleFor(style, state) {
-	    if(style === undefined) return {index:0}
-	
-	    var index = 0, result={index:0}
-	    style.pseudoclasses.classes.forEach(function(psuedoclassStyle, compoundKey) {
-	        if(!psuedoclassStyle.pureNative) {
-	            for(var j=0; j<compoundKey.length; j++) {
-	                var pseudoclass = compoundKey[j]
-	                if(!state[pseudoclass]) {
-	                    break;
-	                }
-	            }
-	
-	            if(j === compoundKey.length) {
-	                result = {index: index, style: psuedoclassStyle}
-	            }
-	        }
-	
-	        index++
-	    })
-	
-	    return result
-	}
-	
-	
-	
-	// finds the default style for a gem, mixes it with the appropriate ancestor styles, and returns the result
-	function createDefaultGemStyle(that) {
-	    if(that.defaultStyle !== undefined) {
-	        validateDefaultStyle(that.defaultStyle)
-	    }
-	
-	    // get list of default styles
-	    var defaultStyles = []
-	    var nextConstructor = that.constructor
-	    while(nextConstructor !== undefined) {
-	        if(nextConstructor.defaultStyle !== undefined) {
-	            defaultStyles.push(nextConstructor.defaultStyle)
-	        }
-	        nextConstructor = nextConstructor.parent
-	    }
-	
-	    // generate merged default style
-	    var reversedDefaults = defaultStyles.reverse()
-	    var mergedDefaultStyle = reversedDefaults[0]
-	    for(var n=1; n<reversedDefaults.length; n++) {
-	        mergedDefaultStyle = mergedDefaultStyle.mix(reversedDefaults[n])
-	    }
-	
-	    return mergedDefaultStyle
-	}
-	
-	
-	// applies setup appropriately
-	function applyStyleSetupFunction(component, style) {
-	    if(style !== undefined && style.setup !== undefined) {
-	        component._styleSetupObject = style.setup(component) // call setup on the component
-	    } else {
-	        component._styleSetupObject = undefined
-	    }
-	}
-	// applies kill appropriately
-	function applyStyleKillFunction(component) {
-	    var activeStyle = component._activeStyle
-	    if(activeStyle !== undefined && activeStyle.setup !== undefined) {
-	        if(activeStyle.kill === undefined)
-	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
-	
-	        activeStyle.kill(component, component._styleSetupObject)
-	    }
-	}
-	
-	
-	// sets the style, replacing one if one already exists
-	function setStyleClass(component, style) {
-	    var activeStyle = component._activeStyle
-	
-	    var newStyle = component.domNode.className
-	    if(activeStyle !== undefined) {
-	        newStyle = newStyle.replace(new RegExp(" ?\\b"+activeStyle.className+"\\b"),'') // remove the previous css class
-	    }
-	    if(style !== undefined) {
-	        newStyle = style.className+' '+newStyle.trim() // note that the order of classes doesn't matter
-	    }
-	
-	    component.domNode.className = newStyle
-	}
-	
-	function validateDefaultStyle(defaultStyle) {
-	    if(!isStyleObject(defaultStyle)) {
-	        throw new Error("defaultStyle property must be a Style object")
-	    }
-	}
-	
-	// if you load two different instances of gems, its necessary to do a bit of duck typing
-	function isStyleObject(x) {
-	    return x.className !== undefined && x.componentStyleMap !== undefined && x.mix !== undefined
-	}
-
-/***/ },
-/* 28 */
-/*!*******************************!*\
-  !*** ../~/Components/Item.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! Gem */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
-	var Style = __webpack_require__(/*! Style */ 6)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-		this.name = 'ListItem'
-	
-	    this.defaultStyle = Style({
-	        display: 'list-item'
-	    })
-	
-		// instance properties
-	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
-	
-	        if(contents instanceof Gem) {
-				this.add(contents)
-			} else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
-		}
-	});
-
-
-/***/ },
-/* 29 */
-/*!*********************************!*\
-  !*** ../~/Components/Option.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// note: this is  not intended to be used directly - only through Select and MultiSelect
-	
-	var proto = __webpack_require__(/*! proto */ 38)
-	
-	var Gem = __webpack_require__(/*! Gem */ 5)
-	var Style = __webpack_require__(/*! Style */ 6)
-	var domUtils = __webpack_require__(/*! domUtils */ 26)
-	
-	// emits a 'change' event when its 'selected' value changes
-	module.exports = proto(Gem, function(superclass) {
-	
-	    // staic members
-	
-	    this.name = 'Option'
-	
-	    this.defaultStyle = Style({
-	        display: 'block'
-	    })
-	
-	
-	    // instance members
-	
-	    this.init = function(label, value, text) {
-	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	
-	        this.text = text
-	        this.val = value
-	    }
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this._value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.parent !== undefined) {
-	                if(this.parent.options[value] !== undefined) {
-	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: "+JSON.stringify(value)+")")
-	                }
-	
-	                if(this.val !== null) {
-	                    delete this.parent.options[this.val]
-	                }
-	
-	                this.parent.options[value] = this
-	            }
-	
-	            this._value = value
-	
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the option is selected
-	        get: function() {
-	            return this.domNode.selected
-	        },
-	
-	        // sets the selected state of the option to the passed value (true for selected)
-	        set: function(value) {
-	            var booleanValue = value === true
-	            if(this.selected === booleanValue) return false; // ignore if there's no change
-	
-	            if(this.parent !== undefined)
-	                this.parent.prepareForValueChange([this.val])
-	
-	            this.setSelectedQuiet(booleanValue)
-	
-	            if(this.parent !== undefined)
-	                this.parent.emit('change')
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode[domUtils.textProperty]
-	        },
-	
-	        set: function(text) {
-	            this.domNode[domUtils.textProperty] = text
-	        }
-	    })
-	
-	
-	    // private
-	
-	    // does everything for setting the selected state except emit the parent's change event
-	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
-	        if(this.selected === booleanValue) return; // ignore if there's no change
-	
-	        this.domNode.selected = booleanValue
-	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	    }
-	})
-
-/***/ },
-/* 30 */
-/*!*********************************!*\
-  !*** ../~/Components/Header.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 48);
-	
-	module.exports = RowlikeGenerator('th', "TableHeader")
-
-/***/ },
-/* 31 */
-/*!******************************!*\
-  !*** ../~/Components/Row.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 48);
-	
-	module.exports = RowlikeGenerator('tr', "TableRow")
-
-
-/***/ },
-/* 32 */
-/*!*******************************!*\
-  !*** ../~/Components/Cell.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! ../Gem */ 5)
-	var proto = __webpack_require__(/*! proto */ 38)
-	var Style = __webpack_require__(/*! Style */ 6)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-		this.name = 'TableCell'
-	
-	    this.defaultStyle = Style({
-	        display: 'table-cell'
-	    })
-		
-	
-		// instance properties
-	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
-	
-	        if(contents instanceof Gem || typeof(contents) !== 'string') {
-	            this.add(contents)
-	        } else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
-		}
-	
-		this.colspan = function(cols) {
-			this.attr('colspan',cols);
-		}
-	});
-
-
-/***/ },
-/* 33 */
-/*!****************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Container.js ***!
-  \****************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Container')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 55)
-
-/***/ },
 /* 34 */
-/*!***********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Text.js ***!
-  \***********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Text')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 56)
-
-/***/ },
-/* 35 */
-/*!************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Block.js ***!
-  \************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Block */ 53)
-
-/***/ },
-/* 36 */
-/*!************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Style.js ***!
-  \************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Style */ 54)
-
-/***/ },
-/* 37 */
-/*!**********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/async-future/asyncFuture.js ***!
-  \**********************************************************************************/
-[106, 59],
-/* 38 */
-/*!*********************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/proto/proto.js ***!
-  \*********************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                },
-	                configurable: true // so you can change it if you want
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
-/* 39 */
 /*!********************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/events/events.js ***!
   \********************************************************/
@@ -6578,538 +6442,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 40 */
-/*!*********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/async-future/asyncFuture.js ***!
-  \*********************************************************************************************/
-[105, 61],
-/* 41 */
-/*!********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/proto/proto.js ***!
-  \********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                }
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
-/* 42 */
-/*!***********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
-  \***********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 51)
-	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 52)
-	
-	module.exports = deadunitCore(browserConfig())
-
-/***/ },
-/* 43 */
-/*!*********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/basicFormatter.js ***!
-  \*********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 40)
-	
-	// built in test formatting helper
-	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
-	    if(arguments.length === 3) {
-	        var format = arguments[2]
-	    } else /* if(arguments.length > 3) */{
-	        var color = arguments[2]
-	        var format = arguments[3]
-	    }
-	
-	    var dotText = '.'
-	    if(color !== undefined) {
-	        dotText = color.green('.')
-	    }
-	
-	    var result = new Future
-	
-	    var lastPrintWasDot = false
-	    var printDot = function(dot) {
-	        if(dot) {
-	            process.stdout.write(dotText)
-	        } else if(lastPrintWasDot) {
-	            process.stdout.write('\n')
-	        }
-	
-	        lastPrintWasDot = dot
-	    }
-	
-	    var ended = false
-	    var events = {
-	        end: function(e) {
-	            ended = true
-	            if(printOnTheFly) printDot(false)
-	
-	            var results = unitTest.results()
-	            result.return(formatGroup(results, format, 0).result)
-	
-	            if(format.end !== undefined)
-	                format.end()
-	        }
-	    }
-	
-	    if(printOnTheFly) {
-	        var groups = {}
-	        events.assert = function(e) {
-	            printDot(e.success && !ended)
-	            if(e.success) {
-	                groups[e.parent].testSuccesses++
-	                groups[e.parent].assertSuccesses++
-	            } else {
-	                groups[e.parent].testFailures++
-	                groups[e.parent].assertFailures++
-	            }
-	
-	            if(!e.success || ended) {
-	                console.log(format.assert(e, undefined, true))
-	            }
-	        }
-	        events.exception = function(e) {
-	            printDot(false)
-	            groups[e.parent].exceptions++
-	
-	            console.log(format.exception(e.error, true))
-	        }
-	        events.log = function(e) {
-	            printDot(false)
-	            console.log(format.log(e.values, true))
-	        }
-	        events.group = function(g) {
-	            groups[g.id] = {parent: g.parent, name: g.name, testSuccesses: 0, testFailures: 0, assertSuccesses: 0, assertFailures: 0, exceptions: 0}
-	        }
-	        events.groupEnd = function(g) {
-	            var parent = groups[g.id].parent
-	            if(parent !== undefined) {
-	                printDot(false)
-	                if(groups[g.id].testFailures === 0 && groups[g.id].assertFailures === 0 && groups[g.id].exceptions === 0) {
-	                    groups[parent].testSuccesses++
-	                } else {
-	                    groups[parent].testFailures++
-	                }
-	
-	                console.log(format.group(groups[g.id].name, undefined, groups[g.id].testSuccesses,groups[g.id].testFailures,groups[g.id].assertSuccesses,groups[g.id].assertFailures,
-	                                        groups[g.id].exceptions, [], [], 1, false, true))
-	            }
-	        }
-	    }
-	
-	    unitTest.events(events)
-	
-	    return result
-	}
-	
-	function formatGroup(testResults, format, nestingLevel) {
-	    var assertSuccesses = 0
-	    var assertFailures = 0
-	    var exceptions = 0
-	
-	    var testCaseSuccesses= 0, testCaseFailures=0;
-	
-	    var results = []
-	    testResults.results.forEach(function(result) {
-	        if(result.type === 'assert') {
-	            if(result.success) {
-	                testCaseSuccesses++
-	                assertSuccesses ++
-	            } else {
-	                testCaseFailures++
-	                assertFailures++
-	            }
-	
-	            results.push(format.assert(result, testResults.name, false))
-	
-	        } else if(result.type === 'group') {
-	            var group = formatGroup(result, format, nestingLevel+1)
-	            exceptions+= group.exceptions
-	
-	            if(group.failures === 0 && group.exceptions === 0)
-	                testCaseSuccesses++
-	            else
-	                testCaseFailures++
-	
-	            results.push(group.result)
-	            assertSuccesses+= group.assertSuccesses
-	            assertFailures+= group.assertFailures
-	
-	        } else if(result.type === 'log') {
-	            results.push(format.log(result.values, false))
-	        } else {
-	            throw new Error("Unknown result type: "+result.type)
-	        }
-	    })
-	
-	    var exceptionResults = []
-	    testResults.exceptions.forEach(function(e) {
-	        exceptionResults.push(format.exception(e, false))
-	    })
-	
-	    exceptions+= testResults.exceptions.length
-	
-	    var formattedGroup = format.group(testResults.name, testResults.duration,
-	                                      testCaseSuccesses, testCaseFailures,
-	                                      assertSuccesses, assertFailures, exceptions,
-	                                      results, exceptionResults, nestingLevel, testResults.timeout, false)
-	    return {result: formattedGroup,
-	            successes: testCaseSuccesses,
-	            failures: testCaseFailures,
-	            assertSuccesses: assertSuccesses,
-	            assertFailures: assertFailures,
-	            exceptions: exceptions
-	    }
-	}
-	
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 58)))
-
-/***/ },
-/* 44 */
-/*!*************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/indent.js ***!
-  \*************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = function(i, str) {
-	    return i+str.split("\n")       // get all lines
-	              .join("\n"+i)      // join all lines with an indent
-	}
-
-/***/ },
-/* 45 */
-/*!*************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/hashmap/hashmap.js ***!
-  \*************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
-	 * HashMap - HashMap Class for JavaScript
-	 * @author Ariel Flesler <aflesler@gmail.com>
-	 * @version 2.0.3
-	 * Homepage: https://github.com/flesler/hashmap
-	 */
-	
-	(function(factory) {
-		if (true) {
-			// AMD. Register as an anonymous module.
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else if (typeof module === 'object') {
-			// Node js environment
-			var HashMap = module.exports = factory();
-			// Keep it backwards compatible
-			HashMap.HashMap = HashMap;
-		} else {
-			// Browser globals (this is window)
-			this.HashMap = factory();
-		}
-	}(function() {
-	
-		function HashMap(other) {
-			this.clear();
-			switch (arguments.length) {
-				case 0: break;
-				case 1: this.copy(other); break;
-				default: multi(this, arguments); break;
-			}
-		}
-	
-		var proto = HashMap.prototype = {
-			constructor:HashMap,
-	
-			get:function(key) {
-				var data = this._data[this.hash(key)];
-				return data && data[1];
-			},
-	
-			set:function(key, value) {
-				// Store original key as well (for iteration)
-				this._data[this.hash(key)] = [key, value];
-			},
-	
-			multi:function() {
-				multi(this, arguments);
-			},
-	
-			copy:function(other) {
-				for (var key in other._data) {
-					this._data[key] = other._data[key];
-				}
-			},
-	
-			has:function(key) {
-				return this.hash(key) in this._data;
-			},
-	
-			search:function(value) {
-				for (var key in this._data) {
-					if (this._data[key][1] === value) {
-						return this._data[key][0];
-					}
-				}
-	
-				return null;
-			},
-	
-			remove:function(key) {
-				delete this._data[this.hash(key)];
-			},
-	
-			type:function(key) {
-				var str = Object.prototype.toString.call(key);
-				var type = str.slice(8, -1).toLowerCase();
-				// Some browsers yield DOMWindow for null and undefined, works fine on Node
-				if (type === 'domwindow' && !key) {
-					return key + '';
-				}
-				return type;
-			},
-	
-			keys:function() {
-				var keys = [];
-				this.forEach(function(value, key) { keys.push(key); });
-				return keys;
-			},
-	
-			values:function() {
-				var values = [];
-				this.forEach(function(value) { values.push(value); });
-				return values;
-			},
-	
-			count:function() {
-				return this.keys().length;
-			},
-	
-			clear:function() {
-				// TODO: Would Object.create(null) make any difference
-				this._data = {};
-			},
-	
-			clone:function() {
-				return new HashMap(this);
-			},
-	
-			hash:function(key) {
-				switch (this.type(key)) {
-					case 'undefined':
-					case 'null':
-					case 'boolean':
-					case 'number':
-					case 'regexp':
-						return key + '';
-	
-					case 'date':
-						return '♣' + key.getTime();
-	
-					case 'string':
-						return '♠' + key;
-	
-					case 'array':
-						var hashes = [];
-						for (var i = 0; i < key.length; i++) {
-							hashes[i] = this.hash(key[i]);
-						}
-						return '♥' + hashes.join('⁞');
-	
-					default:
-						// TODO: Don't use expandos when Object.defineProperty is not available?
-						if (!key.hasOwnProperty('_hmuid_')) {
-							key._hmuid_ = ++HashMap.uid;
-							hide(key, '_hmuid_');
-						}
-	
-						return '♦' + key._hmuid_;
-				}
-			},
-	
-			forEach:function(func, ctx) {
-				for (var key in this._data) {
-					var data = this._data[key];
-					func.call(ctx || this, data[1], data[0]);
-				}
-			}
-		};
-	
-		HashMap.uid = 0;
-	
-		//- Automatically add chaining to some methods
-	
-		for (var method in proto) {
-			// Skip constructor, valueOf, toString and any other built-in method
-			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
-				continue;
-			}
-			var fn = proto[method];
-			if (fn.toString().indexOf('return ') === -1) {
-				proto[method] = chain(fn);
-			}
-		}
-	
-		//- Utils
-	
-		function multi(map, args) {
-			for (var i = 0; i < args.length; i += 2) {
-				map.set(args[i], args[i+1]);
-			}
-		}
-	
-		function chain(fn) {
-			return function() {
-				fn.apply(this, arguments);
-				return this;
-			};
-		}
-	
-		function hide(obj, prop) {
-			// Make non iterable if supported
-			if (Object.defineProperty) {
-				Object.defineProperty(obj, prop, {enumerable:false});
-			}
-		}
-	
-		return HashMap;
-	}));
-
-
-/***/ },
-/* 46 */
+/* 35 */
 /*!*************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/trimArguments/trimArguments.js ***!
   \*************************************************************************************/
@@ -7133,15 +6466,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 47 */
+/* 36 */
 /*!*************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/observe.js ***!
   \*************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 68)
-	var EventEmitter = __webpack_require__(/*! events */ 39).EventEmitter
-	var utils = __webpack_require__(/*! ./utils */ 57)
+	var proto = __webpack_require__(/*! proto */ 60)
+	var EventEmitter = __webpack_require__(/*! events */ 34).EventEmitter
+	var utils = __webpack_require__(/*! ./utils */ 51)
 	
 	
 	// emits the event:
@@ -7611,17 +6944,353 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 48 */
+/* 37 */
+/*!*********************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/proto/proto.js ***!
+  \*********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                },
+	                configurable: true // so you can change it if you want
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 38 */
+/*!*************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/hashmap/hashmap.js ***!
+  \*************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * HashMap - HashMap Class for JavaScript
+	 * @author Ariel Flesler <aflesler@gmail.com>
+	 * @version 2.0.3
+	 * Homepage: https://github.com/flesler/hashmap
+	 */
+	
+	(function(factory) {
+		if (true) {
+			// AMD. Register as an anonymous module.
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module === 'object') {
+			// Node js environment
+			var HashMap = module.exports = factory();
+			// Keep it backwards compatible
+			HashMap.HashMap = HashMap;
+		} else {
+			// Browser globals (this is window)
+			this.HashMap = factory();
+		}
+	}(function() {
+	
+		function HashMap(other) {
+			this.clear();
+			switch (arguments.length) {
+				case 0: break;
+				case 1: this.copy(other); break;
+				default: multi(this, arguments); break;
+			}
+		}
+	
+		var proto = HashMap.prototype = {
+			constructor:HashMap,
+	
+			get:function(key) {
+				var data = this._data[this.hash(key)];
+				return data && data[1];
+			},
+	
+			set:function(key, value) {
+				// Store original key as well (for iteration)
+				this._data[this.hash(key)] = [key, value];
+			},
+	
+			multi:function() {
+				multi(this, arguments);
+			},
+	
+			copy:function(other) {
+				for (var key in other._data) {
+					this._data[key] = other._data[key];
+				}
+			},
+	
+			has:function(key) {
+				return this.hash(key) in this._data;
+			},
+	
+			search:function(value) {
+				for (var key in this._data) {
+					if (this._data[key][1] === value) {
+						return this._data[key][0];
+					}
+				}
+	
+				return null;
+			},
+	
+			remove:function(key) {
+				delete this._data[this.hash(key)];
+			},
+	
+			type:function(key) {
+				var str = Object.prototype.toString.call(key);
+				var type = str.slice(8, -1).toLowerCase();
+				// Some browsers yield DOMWindow for null and undefined, works fine on Node
+				if (type === 'domwindow' && !key) {
+					return key + '';
+				}
+				return type;
+			},
+	
+			keys:function() {
+				var keys = [];
+				this.forEach(function(value, key) { keys.push(key); });
+				return keys;
+			},
+	
+			values:function() {
+				var values = [];
+				this.forEach(function(value) { values.push(value); });
+				return values;
+			},
+	
+			count:function() {
+				return this.keys().length;
+			},
+	
+			clear:function() {
+				// TODO: Would Object.create(null) make any difference
+				this._data = {};
+			},
+	
+			clone:function() {
+				return new HashMap(this);
+			},
+	
+			hash:function(key) {
+				switch (this.type(key)) {
+					case 'undefined':
+					case 'null':
+					case 'boolean':
+					case 'number':
+					case 'regexp':
+						return key + '';
+	
+					case 'date':
+						return '♣' + key.getTime();
+	
+					case 'string':
+						return '♠' + key;
+	
+					case 'array':
+						var hashes = [];
+						for (var i = 0; i < key.length; i++) {
+							hashes[i] = this.hash(key[i]);
+						}
+						return '♥' + hashes.join('⁞');
+	
+					default:
+						// TODO: Don't use expandos when Object.defineProperty is not available?
+						if (!key.hasOwnProperty('_hmuid_')) {
+							key._hmuid_ = ++HashMap.uid;
+							hide(key, '_hmuid_');
+						}
+	
+						return '♦' + key._hmuid_;
+				}
+			},
+	
+			forEach:function(func, ctx) {
+				for (var key in this._data) {
+					var data = this._data[key];
+					func.call(ctx || this, data[1], data[0]);
+				}
+			}
+		};
+	
+		HashMap.uid = 0;
+	
+		//- Automatically add chaining to some methods
+	
+		for (var method in proto) {
+			// Skip constructor, valueOf, toString and any other built-in method
+			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
+				continue;
+			}
+			var fn = proto[method];
+			if (fn.toString().indexOf('return ') === -1) {
+				proto[method] = chain(fn);
+			}
+		}
+	
+		//- Utils
+	
+		function multi(map, args) {
+			for (var i = 0; i < args.length; i += 2) {
+				map.set(args[i], args[i+1]);
+			}
+		}
+	
+		function chain(fn) {
+			return function() {
+				fn.apply(this, arguments);
+				return this;
+			};
+		}
+	
+		function hide(obj, prop) {
+			// Make non iterable if supported
+			if (Object.defineProperty) {
+				Object.defineProperty(obj, prop, {enumerable:false});
+			}
+		}
+	
+		return HashMap;
+	}));
+
+
+/***/ },
+/* 39 */
 /*!*******************************************!*\
   !*** ../~/Components/RowlikeGenerator.js ***!
   \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 38)
+	var proto = __webpack_require__(/*! proto */ 37)
 	
-	var Gem = __webpack_require__(/*! Gem */ 5)
-	var Style = __webpack_require__(/*! Style */ 6)
-	var Cell = __webpack_require__(/*! ./Cell */ 32);
+	var Gem = __webpack_require__(/*! Gem */ 4)
+	var Style = __webpack_require__(/*! Style */ 5)
+	var Cell = __webpack_require__(/*! ./Cell */ 30);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -7668,7 +7337,673 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
+/* 40 */
+/*!****************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Container.js ***!
+  \****************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Container')
+	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 57)
+
+/***/ },
+/* 41 */
+/*!***********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Text.js ***!
+  \***********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Text')
+	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 58)
+
+/***/ },
+/* 42 */
+/*!************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Block.js ***!
+  \************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
+	module.exports = __webpack_require__(/*! ./src/~/Block */ 55)
+
+/***/ },
+/* 43 */
+/*!************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Style.js ***!
+  \************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
+	module.exports = __webpack_require__(/*! ./src/~/Style */ 56)
+
+/***/ },
+/* 44 */
+/*!***********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
+  \***********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 53)
+	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 54)
+	
+	module.exports = deadunitCore(browserConfig())
+
+/***/ },
+/* 45 */
+/*!**********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/async-future/asyncFuture.js ***!
+  \**********************************************************************************/
+[142, 64],
+/* 46 */
+/*!********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/proto/proto.js ***!
+  \********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                }
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 47 */
+/*!*********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/async-future/asyncFuture.js ***!
+  \*********************************************************************************************/
+[141, 69],
+/* 48 */
+/*!*********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/basicFormatter.js ***!
+  \*********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 47)
+	
+	// built in test formatting helper
+	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
+	    if(arguments.length === 3) {
+	        var format = arguments[2]
+	    } else /* if(arguments.length > 3) */{
+	        var color = arguments[2]
+	        var format = arguments[3]
+	    }
+	
+	    var dotText = '.'
+	    if(color !== undefined) {
+	        dotText = color.green('.')
+	    }
+	
+	    var result = new Future
+	
+	    var lastPrintWasDot = false
+	    var printDot = function(dot) {
+	        if(dot) {
+	            process.stdout.write(dotText)
+	        } else if(lastPrintWasDot) {
+	            process.stdout.write('\n')
+	        }
+	
+	        lastPrintWasDot = dot
+	    }
+	
+	    var ended = false
+	    var events = {
+	        end: function(e) {
+	            ended = true
+	            if(printOnTheFly) printDot(false)
+	
+	            var results = unitTest.results()
+	            result.return(formatGroup(results, format, 0).result)
+	
+	            if(format.end !== undefined)
+	                format.end()
+	        }
+	    }
+	
+	    if(printOnTheFly) {
+	        var groups = {}
+	        events.assert = function(e) {
+	            printDot(e.success && !ended)
+	            if(e.success) {
+	                groups[e.parent].testSuccesses++
+	                groups[e.parent].assertSuccesses++
+	            } else {
+	                groups[e.parent].testFailures++
+	                groups[e.parent].assertFailures++
+	            }
+	
+	            if(!e.success || ended) {
+	                console.log(format.assert(e, undefined, true))
+	            }
+	        }
+	        events.exception = function(e) {
+	            printDot(false)
+	            groups[e.parent].exceptions++
+	
+	            console.log(format.exception(e.error, true))
+	        }
+	        events.log = function(e) {
+	            printDot(false)
+	            console.log(format.log(e.values, true))
+	        }
+	        events.group = function(g) {
+	            groups[g.id] = {parent: g.parent, name: g.name, testSuccesses: 0, testFailures: 0, assertSuccesses: 0, assertFailures: 0, exceptions: 0}
+	        }
+	        events.groupEnd = function(g) {
+	            var parent = groups[g.id].parent
+	            if(parent !== undefined) {
+	                printDot(false)
+	                if(groups[g.id].testFailures === 0 && groups[g.id].assertFailures === 0 && groups[g.id].exceptions === 0) {
+	                    groups[parent].testSuccesses++
+	                } else {
+	                    groups[parent].testFailures++
+	                }
+	
+	                console.log(format.group(groups[g.id].name, undefined, groups[g.id].testSuccesses,groups[g.id].testFailures,groups[g.id].assertSuccesses,groups[g.id].assertFailures,
+	                                        groups[g.id].exceptions, [], [], 1, false, true))
+	            }
+	        }
+	    }
+	
+	    unitTest.events(events)
+	
+	    return result
+	}
+	
+	function formatGroup(testResults, format, nestingLevel) {
+	    var assertSuccesses = 0
+	    var assertFailures = 0
+	    var exceptions = 0
+	
+	    var testCaseSuccesses= 0, testCaseFailures=0;
+	
+	    var results = []
+	    testResults.results.forEach(function(result) {
+	        if(result.type === 'assert') {
+	            if(result.success) {
+	                testCaseSuccesses++
+	                assertSuccesses ++
+	            } else {
+	                testCaseFailures++
+	                assertFailures++
+	            }
+	
+	            results.push(format.assert(result, testResults.name, false))
+	
+	        } else if(result.type === 'group') {
+	            var group = formatGroup(result, format, nestingLevel+1)
+	            exceptions+= group.exceptions
+	
+	            if(group.failures === 0 && group.exceptions === 0)
+	                testCaseSuccesses++
+	            else
+	                testCaseFailures++
+	
+	            results.push(group.result)
+	            assertSuccesses+= group.assertSuccesses
+	            assertFailures+= group.assertFailures
+	
+	        } else if(result.type === 'log') {
+	            results.push(format.log(result.values, false))
+	        } else {
+	            throw new Error("Unknown result type: "+result.type)
+	        }
+	    })
+	
+	    var exceptionResults = []
+	    testResults.exceptions.forEach(function(e) {
+	        exceptionResults.push(format.exception(e, false))
+	    })
+	
+	    exceptions+= testResults.exceptions.length
+	
+	    var formattedGroup = format.group(testResults.name, testResults.duration,
+	                                      testCaseSuccesses, testCaseFailures,
+	                                      assertSuccesses, assertFailures, exceptions,
+	                                      results, exceptionResults, nestingLevel, testResults.timeout, false)
+	    return {result: formattedGroup,
+	            successes: testCaseSuccesses,
+	            failures: testCaseFailures,
+	            assertSuccesses: assertSuccesses,
+	            assertFailures: assertFailures,
+	            exceptions: exceptions
+	    }
+	}
+	
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 59)))
+
+/***/ },
 /* 49 */
+/*!*************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/indent.js ***!
+  \*************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = function(i, str) {
+	    return i+str.split("\n")       // get all lines
+	              .join("\n"+i)      // join all lines with an indent
+	}
+
+/***/ },
+/* 50 */
+/*!****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/path-browserify/index.js ***!
+  \****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	// resolves . and .. elements in a path array with directory names there
+	// must be no slashes, empty elements, or device names (c:\) in the array
+	// (so also no leading and trailing slashes - it does not distinguish
+	// relative and absolute paths)
+	function normalizeArray(parts, allowAboveRoot) {
+	  // if the path tries to go above the root, `up` ends up > 0
+	  var up = 0;
+	  for (var i = parts.length - 1; i >= 0; i--) {
+	    var last = parts[i];
+	    if (last === '.') {
+	      parts.splice(i, 1);
+	    } else if (last === '..') {
+	      parts.splice(i, 1);
+	      up++;
+	    } else if (up) {
+	      parts.splice(i, 1);
+	      up--;
+	    }
+	  }
+	
+	  // if the path is allowed to go above the root, restore leading ..s
+	  if (allowAboveRoot) {
+	    for (; up--; up) {
+	      parts.unshift('..');
+	    }
+	  }
+	
+	  return parts;
+	}
+	
+	// Split a filename into [root, dir, basename, ext], unix version
+	// 'root' is just a slash, or nothing.
+	var splitPathRe =
+	    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+	var splitPath = function(filename) {
+	  return splitPathRe.exec(filename).slice(1);
+	};
+	
+	// path.resolve([from ...], to)
+	// posix version
+	exports.resolve = function() {
+	  var resolvedPath = '',
+	      resolvedAbsolute = false;
+	
+	  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+	    var path = (i >= 0) ? arguments[i] : process.cwd();
+	
+	    // Skip empty and invalid entries
+	    if (typeof path !== 'string') {
+	      throw new TypeError('Arguments to path.resolve must be strings');
+	    } else if (!path) {
+	      continue;
+	    }
+	
+	    resolvedPath = path + '/' + resolvedPath;
+	    resolvedAbsolute = path.charAt(0) === '/';
+	  }
+	
+	  // At this point the path should be resolved to a full absolute path, but
+	  // handle relative paths to be safe (might happen when process.cwd() fails)
+	
+	  // Normalize the path
+	  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+	    return !!p;
+	  }), !resolvedAbsolute).join('/');
+	
+	  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+	};
+	
+	// path.normalize(path)
+	// posix version
+	exports.normalize = function(path) {
+	  var isAbsolute = exports.isAbsolute(path),
+	      trailingSlash = substr(path, -1) === '/';
+	
+	  // Normalize the path
+	  path = normalizeArray(filter(path.split('/'), function(p) {
+	    return !!p;
+	  }), !isAbsolute).join('/');
+	
+	  if (!path && !isAbsolute) {
+	    path = '.';
+	  }
+	  if (path && trailingSlash) {
+	    path += '/';
+	  }
+	
+	  return (isAbsolute ? '/' : '') + path;
+	};
+	
+	// posix version
+	exports.isAbsolute = function(path) {
+	  return path.charAt(0) === '/';
+	};
+	
+	// posix version
+	exports.join = function() {
+	  var paths = Array.prototype.slice.call(arguments, 0);
+	  return exports.normalize(filter(paths, function(p, index) {
+	    if (typeof p !== 'string') {
+	      throw new TypeError('Arguments to path.join must be strings');
+	    }
+	    return p;
+	  }).join('/'));
+	};
+	
+	
+	// path.relative(from, to)
+	// posix version
+	exports.relative = function(from, to) {
+	  from = exports.resolve(from).substr(1);
+	  to = exports.resolve(to).substr(1);
+	
+	  function trim(arr) {
+	    var start = 0;
+	    for (; start < arr.length; start++) {
+	      if (arr[start] !== '') break;
+	    }
+	
+	    var end = arr.length - 1;
+	    for (; end >= 0; end--) {
+	      if (arr[end] !== '') break;
+	    }
+	
+	    if (start > end) return [];
+	    return arr.slice(start, end - start + 1);
+	  }
+	
+	  var fromParts = trim(from.split('/'));
+	  var toParts = trim(to.split('/'));
+	
+	  var length = Math.min(fromParts.length, toParts.length);
+	  var samePartsLength = length;
+	  for (var i = 0; i < length; i++) {
+	    if (fromParts[i] !== toParts[i]) {
+	      samePartsLength = i;
+	      break;
+	    }
+	  }
+	
+	  var outputParts = [];
+	  for (var i = samePartsLength; i < fromParts.length; i++) {
+	    outputParts.push('..');
+	  }
+	
+	  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+	
+	  return outputParts.join('/');
+	};
+	
+	exports.sep = '/';
+	exports.delimiter = ':';
+	
+	exports.dirname = function(path) {
+	  var result = splitPath(path),
+	      root = result[0],
+	      dir = result[1];
+	
+	  if (!root && !dir) {
+	    // No dirname whatsoever
+	    return '.';
+	  }
+	
+	  if (dir) {
+	    // It has a dirname, strip trailing slash
+	    dir = dir.substr(0, dir.length - 1);
+	  }
+	
+	  return root + dir;
+	};
+	
+	
+	exports.basename = function(path, ext) {
+	  var f = splitPath(path)[2];
+	  // TODO: make this comparison case-insensitive on windows?
+	  if (ext && f.substr(-1 * ext.length) === ext) {
+	    f = f.substr(0, f.length - ext.length);
+	  }
+	  return f;
+	};
+	
+	
+	exports.extname = function(path) {
+	  return splitPath(path)[3];
+	};
+	
+	function filter (xs, f) {
+	    if (xs.filter) return xs.filter(f);
+	    var res = [];
+	    for (var i = 0; i < xs.length; i++) {
+	        if (f(xs[i], i, xs)) res.push(xs[i]);
+	    }
+	    return res;
+	}
+	
+	// String.prototype.substr - negative index don't work in IE8
+	var substr = 'ab'.substr(-1) === 'b'
+	    ? function (str, start, len) { return str.substr(start, len) }
+	    : function (str, start, len) {
+	        if (start < 0) start = str.length + start;
+	        return str.substr(start, len);
+	    }
+	;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 59)))
+
+/***/ },
+/* 51 */
+/*!***********************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/utils.js ***!
+  \***********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	var path = __webpack_require__(/*! path */ 50)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       }
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 52 */
 /*!****************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/util/util.js ***!
   \****************************************************/
@@ -8199,7 +8534,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 60);
+	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 61);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -8243,7 +8578,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(/*! inherits */ 71);
+	exports.inherits = __webpack_require__(/*! inherits */ 72);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -8261,244 +8596,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 58)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 59)))
 
 /***/ },
-/* 50 */
-/*!****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/path-browserify/index.js ***!
-  \****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	// resolves . and .. elements in a path array with directory names there
-	// must be no slashes, empty elements, or device names (c:\) in the array
-	// (so also no leading and trailing slashes - it does not distinguish
-	// relative and absolute paths)
-	function normalizeArray(parts, allowAboveRoot) {
-	  // if the path tries to go above the root, `up` ends up > 0
-	  var up = 0;
-	  for (var i = parts.length - 1; i >= 0; i--) {
-	    var last = parts[i];
-	    if (last === '.') {
-	      parts.splice(i, 1);
-	    } else if (last === '..') {
-	      parts.splice(i, 1);
-	      up++;
-	    } else if (up) {
-	      parts.splice(i, 1);
-	      up--;
-	    }
-	  }
-	
-	  // if the path is allowed to go above the root, restore leading ..s
-	  if (allowAboveRoot) {
-	    for (; up--; up) {
-	      parts.unshift('..');
-	    }
-	  }
-	
-	  return parts;
-	}
-	
-	// Split a filename into [root, dir, basename, ext], unix version
-	// 'root' is just a slash, or nothing.
-	var splitPathRe =
-	    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-	var splitPath = function(filename) {
-	  return splitPathRe.exec(filename).slice(1);
-	};
-	
-	// path.resolve([from ...], to)
-	// posix version
-	exports.resolve = function() {
-	  var resolvedPath = '',
-	      resolvedAbsolute = false;
-	
-	  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-	    var path = (i >= 0) ? arguments[i] : process.cwd();
-	
-	    // Skip empty and invalid entries
-	    if (typeof path !== 'string') {
-	      throw new TypeError('Arguments to path.resolve must be strings');
-	    } else if (!path) {
-	      continue;
-	    }
-	
-	    resolvedPath = path + '/' + resolvedPath;
-	    resolvedAbsolute = path.charAt(0) === '/';
-	  }
-	
-	  // At this point the path should be resolved to a full absolute path, but
-	  // handle relative paths to be safe (might happen when process.cwd() fails)
-	
-	  // Normalize the path
-	  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
-	    return !!p;
-	  }), !resolvedAbsolute).join('/');
-	
-	  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
-	};
-	
-	// path.normalize(path)
-	// posix version
-	exports.normalize = function(path) {
-	  var isAbsolute = exports.isAbsolute(path),
-	      trailingSlash = substr(path, -1) === '/';
-	
-	  // Normalize the path
-	  path = normalizeArray(filter(path.split('/'), function(p) {
-	    return !!p;
-	  }), !isAbsolute).join('/');
-	
-	  if (!path && !isAbsolute) {
-	    path = '.';
-	  }
-	  if (path && trailingSlash) {
-	    path += '/';
-	  }
-	
-	  return (isAbsolute ? '/' : '') + path;
-	};
-	
-	// posix version
-	exports.isAbsolute = function(path) {
-	  return path.charAt(0) === '/';
-	};
-	
-	// posix version
-	exports.join = function() {
-	  var paths = Array.prototype.slice.call(arguments, 0);
-	  return exports.normalize(filter(paths, function(p, index) {
-	    if (typeof p !== 'string') {
-	      throw new TypeError('Arguments to path.join must be strings');
-	    }
-	    return p;
-	  }).join('/'));
-	};
-	
-	
-	// path.relative(from, to)
-	// posix version
-	exports.relative = function(from, to) {
-	  from = exports.resolve(from).substr(1);
-	  to = exports.resolve(to).substr(1);
-	
-	  function trim(arr) {
-	    var start = 0;
-	    for (; start < arr.length; start++) {
-	      if (arr[start] !== '') break;
-	    }
-	
-	    var end = arr.length - 1;
-	    for (; end >= 0; end--) {
-	      if (arr[end] !== '') break;
-	    }
-	
-	    if (start > end) return [];
-	    return arr.slice(start, end - start + 1);
-	  }
-	
-	  var fromParts = trim(from.split('/'));
-	  var toParts = trim(to.split('/'));
-	
-	  var length = Math.min(fromParts.length, toParts.length);
-	  var samePartsLength = length;
-	  for (var i = 0; i < length; i++) {
-	    if (fromParts[i] !== toParts[i]) {
-	      samePartsLength = i;
-	      break;
-	    }
-	  }
-	
-	  var outputParts = [];
-	  for (var i = samePartsLength; i < fromParts.length; i++) {
-	    outputParts.push('..');
-	  }
-	
-	  outputParts = outputParts.concat(toParts.slice(samePartsLength));
-	
-	  return outputParts.join('/');
-	};
-	
-	exports.sep = '/';
-	exports.delimiter = ':';
-	
-	exports.dirname = function(path) {
-	  var result = splitPath(path),
-	      root = result[0],
-	      dir = result[1];
-	
-	  if (!root && !dir) {
-	    // No dirname whatsoever
-	    return '.';
-	  }
-	
-	  if (dir) {
-	    // It has a dirname, strip trailing slash
-	    dir = dir.substr(0, dir.length - 1);
-	  }
-	
-	  return root + dir;
-	};
-	
-	
-	exports.basename = function(path, ext) {
-	  var f = splitPath(path)[2];
-	  // TODO: make this comparison case-insensitive on windows?
-	  if (ext && f.substr(-1 * ext.length) === ext) {
-	    f = f.substr(0, f.length - ext.length);
-	  }
-	  return f;
-	};
-	
-	
-	exports.extname = function(path) {
-	  return splitPath(path)[3];
-	};
-	
-	function filter (xs, f) {
-	    if (xs.filter) return xs.filter(f);
-	    var res = [];
-	    for (var i = 0; i < xs.length; i++) {
-	        if (f(xs[i], i, xs)) res.push(xs[i]);
-	    }
-	    return res;
-	}
-	
-	// String.prototype.substr - negative index don't work in IE8
-	var substr = 'ab'.substr(-1) === 'b'
-	    ? function (str, start, len) { return str.substr(start, len) }
-	    : function (str, start, len) {
-	        if (start < 0) start = str.length + start;
-	        return str.substr(start, len);
-	    }
-	;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 58)))
-
-/***/ },
-/* 51 */
+/* 53 */
 /*!***************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.js ***!
   \***************************************************************************************************/
@@ -8508,14 +8609,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
 	var path = __webpack_require__(/*! path */ 50)
-	var Url = __webpack_require__(/*! url */ 70)
+	var Url = __webpack_require__(/*! url */ 71)
 	
-	var proto = __webpack_require__(/*! proto */ 75)
-	var Future = __webpack_require__(/*! async-future */ 74)
-	var SourceMapConsumer = __webpack_require__(/*! source-map */ 79).SourceMapConsumer
+	var proto = __webpack_require__(/*! proto */ 74)
+	var Future = __webpack_require__(/*! async-future */ 76)
+	var SourceMapConsumer = __webpack_require__(/*! source-map */ 77).SourceMapConsumer
 	
-	var processResults = __webpack_require__(/*! ./processResults */ 67)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 65)
+	var processResults = __webpack_require__(/*! ./processResults */ 63)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 62)
 	
 	// returns a module intended for a specific environment (that environment being described by the options)
 	// options can contain:
@@ -9416,7 +9517,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 52 */
+/* 54 */
 /*!*****************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.browserConfig.js ***!
   \*****************************************************************************************************************/
@@ -9427,14 +9528,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var path = __webpack_require__(/*! path */ 50);
 	
-	var Future = __webpack_require__(/*! async-future */ 74)
-	var proto = __webpack_require__(/*! proto */ 75)
-	var stackinfo = __webpack_require__(/*! stackinfo */ 77)
-	var ajax = __webpack_require__(/*! ajax */ 76)
-	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 78).resolveSourceMap)
+	var Future = __webpack_require__(/*! async-future */ 76)
+	var proto = __webpack_require__(/*! proto */ 74)
+	var stackinfo = __webpack_require__(/*! stackinfo */ 78)
+	var ajax = __webpack_require__(/*! ajax */ 73)
+	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 75).resolveSourceMap)
 	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 51)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 65)
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 53)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 62)
 	
 	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
 	
@@ -9593,22 +9694,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 53 */
+/* 55 */
 /*!******************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
   \******************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 69)
-	var proto = __webpack_require__(/*! proto */ 41);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 46)
-	var observe = __webpack_require__(/*! observe */ 72)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 70)
+	var proto = __webpack_require__(/*! proto */ 46);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 35)
+	var observe = __webpack_require__(/*! observe */ 79)
 	
-	var utils = __webpack_require__(/*! ./utils */ 62)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 63)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 64)
+	var utils = __webpack_require__(/*! ./utils */ 65)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 66)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 67)
 	
-	var Style = __webpack_require__(/*! ./Style */ 54)
+	var Style = __webpack_require__(/*! ./Style */ 56)
 	Style.isDev = function() {return module.exports.dev}
 	
 	var components = {};
@@ -10042,18 +10143,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 54 */
+/* 56 */
 /*!******************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Style.js ***!
   \******************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 66)
-	var proto = __webpack_require__(/*! proto */ 41)
-	var HashMap = __webpack_require__(/*! hashmap */ 73)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 68)
+	var proto = __webpack_require__(/*! proto */ 46)
+	var HashMap = __webpack_require__(/*! hashmap */ 80)
 	
-	var utils = __webpack_require__(/*! ./utils */ 62)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 64)
+	var utils = __webpack_require__(/*! ./utils */ 65)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 67)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -10904,14 +11005,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 55 */
+/* 57 */
 /*!*********************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Components/Container.js ***!
   \*********************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 53)
-	var proto = __webpack_require__(/*! proto */ 41)
+	var Block = __webpack_require__(/*! ../Block */ 55)
+	var proto = __webpack_require__(/*! proto */ 46)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -10941,15 +11042,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 56 */
+/* 58 */
 /*!****************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Components/Text.js ***!
   \****************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 53)
-	var proto = __webpack_require__(/*! proto */ 41)
-	var Style = __webpack_require__(/*! Style */ 54)
+	var Block = __webpack_require__(/*! ../Block */ 55)
+	var proto = __webpack_require__(/*! proto */ 46)
+	var Style = __webpack_require__(/*! Style */ 56)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -11004,59 +11105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 57 */
-/*!***********************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/utils.js ***!
-  \***********************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	var path = __webpack_require__(/*! path */ 50)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       }
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 58 */
+/* 59 */
 /*!**********************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/process/browser.js ***!
   \**********************************************************/
@@ -11151,7 +11200,300 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 59 */
+/* 60 */
+/*!*******************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/~/proto/proto.js ***!
+  \*******************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    function ProtoObjectFactory() {     // result object factory
+	        var x = new F()                 // empty object
+	
+	        if(prototype[init]) {
+	            var result = prototype[init].apply(x, arguments)    // populate object via the constructor
+	            if(result === proto[protoUndefined])
+	                return undefined
+	            else if(result !== undefined)
+	                return result
+	            else
+	                return x
+	        } else {
+	            return x
+	        }
+	    }
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet (to get thing in like
+	    for(var n in parent) {
+	        if(Object.hasOwnProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                }
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	        var IntermediateInheritor = function() {}
+	            IntermediateInheritor.prototype = ErrorObject.prototype
+	        NormalizedError.prototype = new IntermediateInheritor()
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 61 */
+/*!***********************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
+  \***********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function isBuffer(arg) {
+	  return arg && typeof arg === 'object'
+	    && typeof arg.copy === 'function'
+	    && typeof arg.fill === 'function'
+	    && typeof arg.readUInt8 === 'function';
+	}
+
+/***/ },
+/* 62 */
+/*!*************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
+  \*************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var path = __webpack_require__(/*! path */ 50)
+	
+	module.exports = function isRelative(p) {
+	    var normal = path.normalize(p)
+	    var absolute = path.resolve(p)
+	    return normal != absolute && p.indexOf('://') === -1// second part for urls
+	}
+
+/***/ },
+/* 63 */
+/*!*****************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/processResults.js ***!
+  \*****************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function returnResults(unitTestObject) {
+	
+	    var results;
+	    var groups = {}
+	    var groupMetadata = {}
+	
+	    var primaryGroup;
+	    var ended = false
+	
+	    unitTestObject.events({
+	        group: function(e) {
+	            var g = {
+	               parent: e.parent,
+	               id: e.id,              // a unique id for the test group
+	               type: 'group',         // indicates a test group (either a `Unit.test` call or `this.test`)
+	               name: e.name,          // the name of the test
+	               results: [],           // An array of test results, which can be of an `UnitTest` Result Types
+	               exceptions: [],        // An array of uncaught exceptions thrown in the test,
+	               time: e.time,
+	               duration: 0            // the duration of the test from its start til the last test action (assert, log, etc)
+	               //                       including asynchronous parts and including subtests
+	               //syncDuration: _,      // the synchronous duration of the test (not including any asynchronous parts)
+	               //totalSyncDuration: _  // syncDuration plus the before and after (if applicable)
+	            }
+	
+	            if(primaryGroup === undefined) primaryGroup = g
+	
+	            groups[e.id] = g
+	            groupMetadata[e.id] = {}
+	            if(e.parent === undefined) {
+	                results = g
+	            } else {
+	                groups[e.parent].results.push(g)
+	            }
+	        },
+	        assert: function(e) {
+	            e.type = 'assert'
+	            groups[e.parent].results.push(e)
+	            setGroupDuration(e.parent, e.time)
+	        },
+	        count: function(e) {
+	            e.type = 'assert'
+	            setGroupDuration(e.parent, e.time)
+	
+	            groupMetadata[e.parent].countInfo = e
+	        },
+	        exception: function(e) {
+	            groups[e.parent].exceptions.push(e.error)
+	            setGroupDuration(e.parent, e.time)
+	        },
+	        log: function(e) {
+	            e.type = 'log'
+	            groups[e.parent].results.push(e)
+	            setGroupDuration(e.parent, e.time)
+	        },
+	        before: function(e) {
+	            groups[e.parent].beforeStart = e.time
+	        },
+	        after: function(e) {
+	            groups[e.parent].afterStart = e.time
+	        },
+	        beforeEnd: function(e) {
+	            groups[e.parent].beforeDuration = e.time - groups[e.parent].beforeStart
+	        },
+	        afterEnd: function(e) {
+	            groups[e.parent].afterDuration = e.time - groups[e.parent].afterStart
+	        },
+	        groupEnd: function(e) {
+	            setGroupDuration(e.id, e.time)
+	        },
+	        end: function(e) {
+	            primaryGroup.timeout = e.type === 'timeout'
+	            setGroupDuration(primaryGroup.id, e.time)
+	
+	            // make the count assertions
+	            eachTest(primaryGroup, function(subtest, parenttest) {
+	                var countInfo = groupMetadata[subtest.id].countInfo
+	                if(countInfo !== undefined) {
+	                    var info = countInfo
+	                    var actualCount = 0
+	                    subtest.results.forEach(function(a) {
+	                        if(a.type === 'assert' || a.type === 'group')
+	                            actualCount++
+	                    })
+	
+	                    subtest.results.splice(0,0,{
+	                        parent: subtest.id,
+	                        type: 'assert',
+	                        success: actualCount === info.expected,
+	                        time: info.time,
+	                        sourceLines: info.sourceLines,
+	                        file: info.file,
+	                        line: info.line,
+	                        column: info.column,
+	                        expected: info.expected,
+	                        actual: actualCount
+	                    })
+	                }
+	            })
+	
+	            ended = true
+	        }
+	    })
+	
+	    function setGroupDuration(groupid, time) {
+	        var newDuration = time - groups[groupid].time
+	        if(newDuration > groups[groupid].duration) {
+	            groups[groupid].duration = newDuration
+	        }
+	
+	        if(groups[groupid].parent) {
+	            setGroupDuration(groups[groupid].parent, time)
+	        }
+	    }
+	
+	    return results
+	}
+	
+	
+	// iterates through the tests and subtests leaves first (depth first)
+	function eachTest(test, callback, parent) {
+	    test.results.forEach(function(result) {
+	        if(result.type === 'group') {
+	            eachTest(result, callback, test)
+	        }
+	    })
+	
+	    callback(test, parent)
+	}
+
+/***/ },
+/* 64 */
 /*!****************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/async-future/~/trimArguments/trimArguments.js ***!
   \****************************************************************************************************/
@@ -11173,26 +11515,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 60 */
-/*!***********************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
-  \***********************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function isBuffer(arg) {
-	  return arg && typeof arg === 'object'
-	    && typeof arg.copy === 'function'
-	    && typeof arg.fill === 'function'
-	    && typeof arg.readUInt8 === 'function';
-	}
-
-/***/ },
-/* 61 */
-/*!***************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
-  \***************************************************************************************************************/
-59,
-/* 62 */
+/* 65 */
 /*!******************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/utils.js ***!
   \******************************************************************************************/
@@ -11261,7 +11584,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 63 */
+/* 66 */
 /*!*********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/domUtils.js ***!
   \*********************************************************************************************/
@@ -11458,7 +11781,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 64 */
+/* 67 */
 /*!****************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
   \****************************************************************************************************/
@@ -11466,10 +11789,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
 	
-	var HashMap = __webpack_require__(/*! hashmap */ 73)
+	var HashMap = __webpack_require__(/*! hashmap */ 80)
 	
-	var Style = __webpack_require__(/*! ./Style */ 54)
-	var utils = __webpack_require__(/*! ./utils */ 62)
+	var Style = __webpack_require__(/*! ./Style */ 56)
+	var utils = __webpack_require__(/*! ./utils */ 65)
 	
 	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
 	
@@ -11648,22 +11971,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 65 */
-/*!*************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
-  \*************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var path = __webpack_require__(/*! path */ 50)
-	
-	module.exports = function isRelative(p) {
-	    var normal = path.normalize(p)
-	    var absolute = path.resolve(p)
-	    return normal != absolute && p.indexOf('://') === -1// second part for urls
-	}
-
-/***/ },
-/* 66 */
+/* 68 */
 /*!***********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
   \***********************************************************************************************/
@@ -11961,279 +12269,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
 
 /***/ },
-/* 67 */
-/*!*****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/processResults.js ***!
-  \*****************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function returnResults(unitTestObject) {
-	
-	    var results;
-	    var groups = {}
-	    var groupMetadata = {}
-	
-	    var primaryGroup;
-	    var ended = false
-	
-	    unitTestObject.events({
-	        group: function(e) {
-	            var g = {
-	               parent: e.parent,
-	               id: e.id,              // a unique id for the test group
-	               type: 'group',         // indicates a test group (either a `Unit.test` call or `this.test`)
-	               name: e.name,          // the name of the test
-	               results: [],           // An array of test results, which can be of an `UnitTest` Result Types
-	               exceptions: [],        // An array of uncaught exceptions thrown in the test,
-	               time: e.time,
-	               duration: 0            // the duration of the test from its start til the last test action (assert, log, etc)
-	               //                       including asynchronous parts and including subtests
-	               //syncDuration: _,      // the synchronous duration of the test (not including any asynchronous parts)
-	               //totalSyncDuration: _  // syncDuration plus the before and after (if applicable)
-	            }
-	
-	            if(primaryGroup === undefined) primaryGroup = g
-	
-	            groups[e.id] = g
-	            groupMetadata[e.id] = {}
-	            if(e.parent === undefined) {
-	                results = g
-	            } else {
-	                groups[e.parent].results.push(g)
-	            }
-	        },
-	        assert: function(e) {
-	            e.type = 'assert'
-	            groups[e.parent].results.push(e)
-	            setGroupDuration(e.parent, e.time)
-	        },
-	        count: function(e) {
-	            e.type = 'assert'
-	            setGroupDuration(e.parent, e.time)
-	
-	            groupMetadata[e.parent].countInfo = e
-	        },
-	        exception: function(e) {
-	            groups[e.parent].exceptions.push(e.error)
-	            setGroupDuration(e.parent, e.time)
-	        },
-	        log: function(e) {
-	            e.type = 'log'
-	            groups[e.parent].results.push(e)
-	            setGroupDuration(e.parent, e.time)
-	        },
-	        before: function(e) {
-	            groups[e.parent].beforeStart = e.time
-	        },
-	        after: function(e) {
-	            groups[e.parent].afterStart = e.time
-	        },
-	        beforeEnd: function(e) {
-	            groups[e.parent].beforeDuration = e.time - groups[e.parent].beforeStart
-	        },
-	        afterEnd: function(e) {
-	            groups[e.parent].afterDuration = e.time - groups[e.parent].afterStart
-	        },
-	        groupEnd: function(e) {
-	            setGroupDuration(e.id, e.time)
-	        },
-	        end: function(e) {
-	            primaryGroup.timeout = e.type === 'timeout'
-	            setGroupDuration(primaryGroup.id, e.time)
-	
-	            // make the count assertions
-	            eachTest(primaryGroup, function(subtest, parenttest) {
-	                var countInfo = groupMetadata[subtest.id].countInfo
-	                if(countInfo !== undefined) {
-	                    var info = countInfo
-	                    var actualCount = 0
-	                    subtest.results.forEach(function(a) {
-	                        if(a.type === 'assert' || a.type === 'group')
-	                            actualCount++
-	                    })
-	
-	                    subtest.results.splice(0,0,{
-	                        parent: subtest.id,
-	                        type: 'assert',
-	                        success: actualCount === info.expected,
-	                        time: info.time,
-	                        sourceLines: info.sourceLines,
-	                        file: info.file,
-	                        line: info.line,
-	                        column: info.column,
-	                        expected: info.expected,
-	                        actual: actualCount
-	                    })
-	                }
-	            })
-	
-	            ended = true
-	        }
-	    })
-	
-	    function setGroupDuration(groupid, time) {
-	        var newDuration = time - groups[groupid].time
-	        if(newDuration > groups[groupid].duration) {
-	            groups[groupid].duration = newDuration
-	        }
-	
-	        if(groups[groupid].parent) {
-	            setGroupDuration(groups[groupid].parent, time)
-	        }
-	    }
-	
-	    return results
-	}
-	
-	
-	// iterates through the tests and subtests leaves first (depth first)
-	function eachTest(test, callback, parent) {
-	    test.results.forEach(function(result) {
-	        if(result.type === 'group') {
-	            eachTest(result, callback, test)
-	        }
-	    })
-	
-	    callback(test, parent)
-	}
-
-/***/ },
-/* 68 */
-/*!*******************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/~/proto/proto.js ***!
-  \*******************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    function ProtoObjectFactory() {     // result object factory
-	        var x = new F()                 // empty object
-	
-	        if(prototype[init]) {
-	            var result = prototype[init].apply(x, arguments)    // populate object via the constructor
-	            if(result === proto[protoUndefined])
-	                return undefined
-	            else if(result !== undefined)
-	                return result
-	            else
-	                return x
-	        } else {
-	            return x
-	        }
-	    }
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet (to get thing in like
-	    for(var n in parent) {
-	        if(Object.hasOwnProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                }
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	        var IntermediateInheritor = function() {}
-	            IntermediateInheritor.prototype = ErrorObject.prototype
-	        NormalizedError.prototype = new IntermediateInheritor()
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
 /* 69 */
+/*!***************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
+  \***************************************************************************************************************/
+64,
+/* 70 */
 /*!**************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/EventEmitterB.js ***!
   \**************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitter = __webpack_require__(/*! events */ 39).EventEmitter
-	var proto = __webpack_require__(/*! proto */ 41)
-	var utils = __webpack_require__(/*! utils */ 62)
+	var EventEmitter = __webpack_require__(/*! events */ 34).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 46)
+	var utils = __webpack_require__(/*! utils */ 65)
 	
 	module.exports = proto(EventEmitter, function(superclass) {
 	
@@ -12429,7 +12478,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 70 */
+/* 71 */
 /*!**************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
   \**************************************************/
@@ -12456,7 +12505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var punycode = __webpack_require__(/*! punycode */ 81);
+	var punycode = __webpack_require__(/*! punycode */ 85);
 	
 	exports.parse = urlParse;
 	exports.resolve = urlResolve;
@@ -12528,7 +12577,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'gopher:': true,
 	      'file:': true
 	    },
-	    querystring = __webpack_require__(/*! querystring */ 87);
+	    querystring = __webpack_require__(/*! querystring */ 84);
 	
 	function urlParse(url, parseQueryString, slashesDenoteHost) {
 	  if (url && isObject(url) && url instanceof Url) return url;
@@ -13145,7 +13194,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 71 */
+/* 72 */
 /*!***************************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/util/~/inherits/inherits_browser.js ***!
   \***************************************************************************/
@@ -13177,15 +13226,484 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 72 */
+/* 73 */
+/*!**********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
+  \**********************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(/*! async-future */ 97)
+	
+	// returns the XHR function or equivalent for use with ajax
+	// memoizes the function for faster repeated use
+	var createXMLHTTPObject = function() {
+	    var versions = ["Msxml2.XMLHTTP",
+	                    "Msxml3.XMLHTTP",
+	                    "Microsoft.XMLHTTP",
+	                    "MSXML2.XmlHttp.6.0",
+	                    "MSXML2.XmlHttp.5.0",
+	                    "MSXML2.XmlHttp.4.0",
+	                    "MSXML2.XmlHttp.3.0",
+	                    "MSXML2.XmlHttp.2.0"
+	    ]
+	
+	    if(XMLHttpRequest !== undefined) {  // For non-IE browsers
+	        createXMLHTTPObject = function() {  // Use memoization to cache the factory
+	            return new XMLHttpRequest()
+	        }
+	        return createXMLHTTPObject()
+	
+	    } else { // IE
+	        for(var i=0, n=versions.length; i<n; i++) {
+	            try {
+	                var version = versions[i]
+	                var fn = function() {
+	                    return new ActiveXObject(version)
+	                }
+	                createXMLHTTPObject = fn   // Use memoization to cache the factory
+	                return createXMLHTTPObject()
+	
+	            } catch(e) {   }
+	        }
+	    }
+	
+	    throw new Error('Cant get XmlHttpRequest object')
+	}
+	
+	
+	
+	var HEADER = "([^\\s]+): (.*)"
+	
+	// returns the contents and headers from a given URL
+	exports = module.exports = function(url) {
+	    if(getFromCache(url))
+	        return getFromCache(url)
+	
+	    var futureResult = new Future
+	    setOnCache(url, futureResult)
+	
+	    var req = createXMLHTTPObject()
+	    req.onreadystatechange = function() {
+	        if( req.readyState === 4 ) {
+	            if( req.status === 200 ) {
+	                var headers = {}
+	                req.getAllResponseHeaders().split('\n').forEach(function(line) {
+	                    var match = line.match(HEADER)
+	                    if(match !== null) {
+	                        var name = match[1]
+	                        var value = match[2]
+	
+	                        headers[name] = value
+	                    }
+	                })
+	
+	                futureResult.return({text: req.responseText, headers: headers})
+	
+	            } else {
+	                var error = new Error('Error in request: Status '+req.status)
+	                error.status = req.status
+	                futureResult.throw(error)
+	            }
+	        }
+	    }
+	
+	    req.onerror = function(e) {
+	        futureResult.throw(e)
+	    }
+	
+	
+	    req.open('GET', url, asynchronous)
+	    try {
+	        req.send()
+	    } catch(e) {
+	        futureResult.throw(e)
+	    }
+	
+	    return futureResult
+	}
+	
+	var cache = {}
+	var getFromCache = function(url) {
+	    return cache[url]
+	}
+	var setOnCache = function(url, futureResponse) {
+	    cache[url] = futureResponse
+	}
+	
+	var asynchronous = true
+	exports.setSynchronous = function(synchronous) { // this is here so I can work around this bug in chrome: https://code.google.com/p/chromium/issues/detail?id=368444
+	    asynchronous = !synchronous
+	}
+	
+	exports.cacheGet = function(fn) {
+	    getFromCache = fn
+	}
+	exports.cacheSet = function(fn) {
+	    setOnCache = fn
+	}
+
+/***/ },
+/* 74 */
+/*!************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
+  \************************************************************************************************/
+37,
+/* 75 */
+/*!**************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/source-map-resolve.js ***!
+  \**************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(setImmediate) {// Copyright 2014 Simon Lydell
+	// X11 (“MIT”) Licensed. (See LICENSE.)
+	
+	// Note: source-map-resolve.js is generated from source-map-resolve-node.js and
+	// source-map-resolve-template.js. Only edit the two latter files, _not_
+	// source-map-resolve.js!
+	
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 98), __webpack_require__(/*! resolve-url */ 99)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    var sourceMappingURL = require("source-map-url")
+	    var resolveUrl = require("resolve-url")
+	    module.exports = factory(sourceMappingURL, resolveUrl)
+	  } else {
+	    root.sourceMapResolve = factory(root.sourceMappingURL, root.resolveUrl)
+	  }
+	}(this, function(sourceMappingURL, resolveUrl) {
+	
+	  function callbackAsync(callback, error, result) {
+	    setImmediate(function() { callback(error, result) })
+	  }
+	
+	  function sig(name, codeOrMap, url, read, callback) {
+	    var type = (name.indexOf("Sources") >= 0 ? "map" : "code")
+	
+	    var throwError = function(num, what, got) {
+	      throw new Error(
+	        name + " requires argument " + num + " to be " + what + ". Got:\n" + got
+	      )
+	    }
+	
+	    if (type === "map") {
+	      if (typeof codeOrMap !== "object" || codeOrMap === null) {
+	        throwError(1, "a source map", codeOrMap)
+	      }
+	    } else {
+	      if (typeof codeOrMap !== "string") {
+	        throwError(1, "some code", codeOrMap)
+	      }
+	    }
+	    if (typeof url !== "string") {
+	      throwError(2, "the " + type + " url", url)
+	    }
+	    if (typeof read !== "function") {
+	      throwError(3, "a reading function", read)
+	    }
+	    if (arguments.length === 1 + 4 && typeof callback !== "function") {
+	      throwError(4, "a callback function", callback)
+	    }
+	  }
+	
+	  function parseMapToJSON(string) {
+	    return JSON.parse(string.replace(/^\)\]\}'/, ""))
+	  }
+	
+	
+	
+	  function resolveSourceMap(code, codeUrl, read, callback) {
+	    sig("resolveSourceMap", code, codeUrl, read, callback)
+	    var mapData
+	    try {
+	      mapData = resolveSourceMapHelper(code, codeUrl)
+	    } catch (error) {
+	      return callbackAsync(callback, error)
+	    }
+	    if (!mapData || mapData.map) {
+	      return callbackAsync(callback, null, mapData)
+	    }
+	    read(mapData.url, function(error, result) {
+	      if (error) {
+	        return callback(error)
+	      }
+	      try {
+	        mapData.map = parseMapToJSON(String(result))
+	      } catch (error) {
+	        return callback(error)
+	      }
+	      callback(null, mapData)
+	    })
+	  }
+	
+	  function resolveSourceMapSync(code, codeUrl, read) {
+	    sig("resolveSourceMapSync", code, codeUrl, read)
+	    var mapData = resolveSourceMapHelper(code, codeUrl)
+	    if (!mapData || mapData.map) {
+	      return mapData
+	    }
+	    mapData.map = parseMapToJSON(String(read(mapData.url)))
+	    return mapData
+	  }
+	
+	  var dataUriRegex = /^data:([^,;]*)(;[^,;]*)*(?:,(.*))?$/
+	  var jsonMimeTypeRegex = /^(?:application|text)\/json$/
+	
+	  function resolveSourceMapHelper(code, codeUrl) {
+	    var url = sourceMappingURL.get(code)
+	    if (!url) {
+	      return null
+	    }
+	
+	    var dataUri = url.match(dataUriRegex)
+	    if (dataUri) {
+	      var mimeType = dataUri[1]
+	      var lastParameter = dataUri[2]
+	      var encoded = dataUri[3]
+	      if (!jsonMimeTypeRegex.test(mimeType)) {
+	        throw new Error("Unuseful data uri mime type: " + (mimeType || "text/plain"))
+	      }
+	      return {
+	        sourceMappingURL: url,
+	        url: null,
+	        sourcesRelativeTo: codeUrl,
+	        map: parseMapToJSON(lastParameter === ";base64" ? atob(encoded) : decodeURIComponent(encoded))
+	      }
+	    }
+	
+	    var mapUrl = resolveUrl(codeUrl, url)
+	    return {
+	      sourceMappingURL: url,
+	      url: mapUrl,
+	      sourcesRelativeTo: mapUrl,
+	      map: null
+	    }
+	  }
+	
+	
+	
+	  function resolveSources(map, mapUrl, read, callback) {
+	    sig("resolveSources", map, mapUrl, read, callback)
+	    var pending = map.sources.length
+	    var errored = false
+	    var sources = []
+	
+	    var done = function(error) {
+	      if (errored) {
+	        return
+	      }
+	      if (error) {
+	        errored = true
+	        return callback(error)
+	      }
+	      pending--
+	      if (pending === 0) {
+	        callback(null, sources)
+	      }
+	    }
+	
+	    resolveSourcesHelper(map, mapUrl, function(fullUrl, sourceContent, index) {
+	      if (typeof sourceContent === "string") {
+	        sources[index] = sourceContent
+	        callbackAsync(done, null)
+	      } else {
+	        read(fullUrl, function(error, result) {
+	          sources[index] = String(result)
+	          done(error)
+	        })
+	      }
+	    })
+	  }
+	
+	  function resolveSourcesSync(map, mapUrl, read) {
+	    sig("resolveSourcesSync", map, mapUrl, read)
+	    var sources = []
+	    resolveSourcesHelper(map, mapUrl, function(fullUrl, sourceContent, index) {
+	      if (typeof sourceContent === "string") {
+	        sources[index] = sourceContent
+	      } else {
+	        sources[index] = String(read(fullUrl))
+	      }
+	    })
+	    return sources
+	  }
+	
+	  var endingSlash = /\/?$/
+	
+	  function resolveSourcesHelper(map, mapUrl, fn) {
+	    var fullUrl
+	    var sourceContent
+	    for (var index = 0, len = map.sources.length; index < len; index++) {
+	      if (map.sourceRoot) {
+	        // Make sure that the sourceRoot ends with a slash, so that `/scripts/subdir` becomes
+	        // `/scripts/subdir/<source>`, not `/scripts/<source>`. Pointing to a file as source root
+	        // does not make sense.
+	        fullUrl = resolveUrl(mapUrl, map.sourceRoot.replace(endingSlash, "/"), map.sources[index])
+	      } else {
+	        fullUrl = resolveUrl(mapUrl, map.sources[index])
+	      }
+	      sourceContent = (map.sourceContents || [])[index]
+	      fn(fullUrl, sourceContent, index)
+	    }
+	  }
+	
+	
+	
+	  function resolve(code, codeUrl, read, callback) {
+	    sig("resolve", code, codeUrl, read, callback)
+	    resolveSourceMap(code, codeUrl, read, function(error, mapData) {
+	      if (error) {
+	        return callback(error)
+	      }
+	      if (!mapData) {
+	        return callback(null, null)
+	      }
+	      resolveSources(mapData.map, mapData.sourcesRelativeTo, read, function(error, sources) {
+	        if (error) {
+	          return callback(error)
+	        }
+	        mapData.sources = sources
+	        callback(null, mapData)
+	      })
+	    })
+	  }
+	
+	  function resolveSync(code, codeUrl, read) {
+	    sig("resolveSync", code, codeUrl, read)
+	    var mapData = resolveSourceMapSync(code, codeUrl, read)
+	    if (!mapData) {
+	      return null
+	    }
+	    mapData.sources = resolveSourcesSync(mapData.map, mapData.sourcesRelativeTo, read)
+	    return mapData
+	  }
+	
+	
+	
+	  return {
+	    resolveSourceMap:     resolveSourceMap,
+	    resolveSourceMapSync: resolveSourceMapSync,
+	    resolveSources:       resolveSources,
+	    resolveSourcesSync:   resolveSourcesSync,
+	    resolve:              resolve,
+	    resolveSync:          resolveSync
+	  }
+	
+	}));
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 89).setImmediate))
+
+/***/ },
+/* 76 */
+/*!*************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
+  \*************************************************************************************************************/
+[142, 96],
+/* 77 */
+/*!**************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
+  \**************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	 * Copyright 2009-2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE.txt or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 81).SourceMapGenerator;
+	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 83).SourceMapConsumer;
+	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 82).SourceNode;
+
+
+/***/ },
+/* 78 */
+/*!********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
+  \********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 100)
+	var parsers = __webpack_require__(/*! ./tracelineParser */ 86)
+	var mode = __webpack_require__(/*! ./exceptionMode */ 87)
+	
+	module.exports = function(ex) {
+	    if(parsers[mode] === undefined)
+	        throw new Error("browser "+mode+" not supported")
+	
+	    var options = undefined
+	    if(ex !== undefined) {
+	        if(mode === 'ie' && ex.number === undefined)
+	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
+	        options = {e:ex, guess: true}
+	    }
+	    var trace = printStackTrace(options)
+	
+	    if(ex === undefined) {
+	        trace.splice(0,4) // strip stacktrace-js internals
+	    }
+	
+	    return parseStacktrace(trace)
+	}
+	
+	function TraceInfo(traceline) {
+	    this.traceline = traceline
+	}
+	TraceInfo.prototype = {
+	    get file() {
+	        return getInfo(this).file
+	    },
+	    get function() {
+	        return getInfo(this).function
+	    },
+	    get line() {
+	        return getInfo(this).line
+	    },
+	    get column() {
+	        return getInfo(this).column
+	    },
+	    get info() {
+	        return getInfo(this)
+	    }
+	}
+	
+	function getInfo(traceInfo) {
+	    if(traceInfo.cache === undefined) {
+	        var info = parsers[mode](traceInfo.traceline)
+	        if(info.line !== undefined)
+	            info.line = parseInt(info.line, 10)
+	        if(info.column !== undefined)
+	            info.column = parseInt(info.column, 10)
+	
+	        traceInfo.cache = info
+	    }
+	
+	    return traceInfo.cache
+	}
+	
+	function parseStacktrace(trace) {
+	    var results = []
+	    for(var n = 0; n<trace.length; n++) {
+	        results.push(new TraceInfo(trace[n]))
+	    }
+	    return results
+	}
+	
+	// here because i'm lazy, they're here for testing only
+	module.exports.parsers = parsers
+	module.exports.mode = mode
+	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
+
+
+/***/ },
+/* 79 */
 /*!************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/observe.js ***!
   \************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 89)
-	var EventEmitter = __webpack_require__(/*! events */ 39).EventEmitter
-	var utils = __webpack_require__(/*! ./utils */ 80)
+	var proto = __webpack_require__(/*! proto */ 101)
+	var EventEmitter = __webpack_require__(/*! events */ 34).EventEmitter
+	var utils = __webpack_require__(/*! ./utils */ 88)
 	
 	
 	// emits the event:
@@ -13601,7 +14119,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 73 */
+/* 80 */
 /*!************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/hashmap/hashmap.js ***!
   \************************************************************************************************/
@@ -13797,481 +14315,1309 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 74 */
-/*!*************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
-  \*************************************************************************************************************/
-[106, 90],
-/* 75 */
-/*!************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
-  \************************************************************************************************/
-38,
-/* 76 */
-/*!**********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
-  \**********************************************************************************************/
+/* 81 */
+/*!***********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-generator.js ***!
+  \***********************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 91)
-	
-	// returns the XHR function or equivalent for use with ajax
-	// memoizes the function for faster repeated use
-	var createXMLHTTPObject = function() {
-	    var versions = ["Msxml2.XMLHTTP",
-	                    "Msxml3.XMLHTTP",
-	                    "Microsoft.XMLHTTP",
-	                    "MSXML2.XmlHttp.6.0",
-	                    "MSXML2.XmlHttp.5.0",
-	                    "MSXML2.XmlHttp.4.0",
-	                    "MSXML2.XmlHttp.3.0",
-	                    "MSXML2.XmlHttp.2.0"
-	    ]
-	
-	    if(XMLHttpRequest !== undefined) {  // For non-IE browsers
-	        createXMLHTTPObject = function() {  // Use memoization to cache the factory
-	            return new XMLHttpRequest()
-	        }
-	        return createXMLHTTPObject()
-	
-	    } else { // IE
-	        for(var i=0, n=versions.length; i<n; i++) {
-	            try {
-	                var version = versions[i]
-	                var fn = function() {
-	                    return new ActiveXObject(version)
-	                }
-	                createXMLHTTPObject = fn   // Use memoization to cache the factory
-	                return createXMLHTTPObject()
-	
-	            } catch(e) {   }
-	        }
-	    }
-	
-	    throw new Error('Cant get XmlHttpRequest object')
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
 	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 93);
+	  var util = __webpack_require__(/*! ./util */ 90);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 92).ArraySet;
 	
+	  /**
+	   * An instance of the SourceMapGenerator represents a source map which is
+	   * being built incrementally. You may pass an object with the following
+	   * properties:
+	   *
+	   *   - file: The filename of the generated source.
+	   *   - sourceRoot: A root for all relative URLs in this source map.
+	   */
+	  function SourceMapGenerator(aArgs) {
+	    if (!aArgs) {
+	      aArgs = {};
+	    }
+	    this._file = util.getArg(aArgs, 'file', null);
+	    this._sourceRoot = util.getArg(aArgs, 'sourceRoot', null);
+	    this._sources = new ArraySet();
+	    this._names = new ArraySet();
+	    this._mappings = [];
+	    this._sourcesContents = null;
+	  }
 	
-	var HEADER = "([^\\s]+): (.*)"
+	  SourceMapGenerator.prototype._version = 3;
 	
-	// returns the contents and headers from a given URL
-	exports = module.exports = function(url) {
-	    if(getFromCache(url))
-	        return getFromCache(url)
+	  /**
+	   * Creates a new SourceMapGenerator based on a SourceMapConsumer
+	   *
+	   * @param aSourceMapConsumer The SourceMap.
+	   */
+	  SourceMapGenerator.fromSourceMap =
+	    function SourceMapGenerator_fromSourceMap(aSourceMapConsumer) {
+	      var sourceRoot = aSourceMapConsumer.sourceRoot;
+	      var generator = new SourceMapGenerator({
+	        file: aSourceMapConsumer.file,
+	        sourceRoot: sourceRoot
+	      });
+	      aSourceMapConsumer.eachMapping(function (mapping) {
+	        var newMapping = {
+	          generated: {
+	            line: mapping.generatedLine,
+	            column: mapping.generatedColumn
+	          }
+	        };
 	
-	    var futureResult = new Future
-	    setOnCache(url, futureResult)
+	        if (mapping.source) {
+	          newMapping.source = mapping.source;
+	          if (sourceRoot) {
+	            newMapping.source = util.relative(sourceRoot, newMapping.source);
+	          }
 	
-	    var req = createXMLHTTPObject()
-	    req.onreadystatechange = function() {
-	        if( req.readyState === 4 ) {
-	            if( req.status === 200 ) {
-	                var headers = {}
-	                req.getAllResponseHeaders().split('\n').forEach(function(line) {
-	                    var match = line.match(HEADER)
-	                    if(match !== null) {
-	                        var name = match[1]
-	                        var value = match[2]
+	          newMapping.original = {
+	            line: mapping.originalLine,
+	            column: mapping.originalColumn
+	          };
 	
-	                        headers[name] = value
-	                    }
-	                })
+	          if (mapping.name) {
+	            newMapping.name = mapping.name;
+	          }
+	        }
 	
-	                futureResult.return({text: req.responseText, headers: headers})
+	        generator.addMapping(newMapping);
+	      });
+	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
+	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+	        if (content) {
+	          generator.setSourceContent(sourceFile, content);
+	        }
+	      });
+	      return generator;
+	    };
 	
-	            } else {
-	                var error = new Error('Error in request: Status '+req.status)
-	                error.status = req.status
-	                futureResult.throw(error)
+	  /**
+	   * Add a single mapping from original source line and column to the generated
+	   * source's line and column for this source map being created. The mapping
+	   * object should have the following properties:
+	   *
+	   *   - generated: An object with the generated line and column positions.
+	   *   - original: An object with the original line and column positions.
+	   *   - source: The original source file (relative to the sourceRoot).
+	   *   - name: An optional original token name for this mapping.
+	   */
+	  SourceMapGenerator.prototype.addMapping =
+	    function SourceMapGenerator_addMapping(aArgs) {
+	      var generated = util.getArg(aArgs, 'generated');
+	      var original = util.getArg(aArgs, 'original', null);
+	      var source = util.getArg(aArgs, 'source', null);
+	      var name = util.getArg(aArgs, 'name', null);
+	
+	      this._validateMapping(generated, original, source, name);
+	
+	      if (source && !this._sources.has(source)) {
+	        this._sources.add(source);
+	      }
+	
+	      if (name && !this._names.has(name)) {
+	        this._names.add(name);
+	      }
+	
+	      this._mappings.push({
+	        generatedLine: generated.line,
+	        generatedColumn: generated.column,
+	        originalLine: original != null && original.line,
+	        originalColumn: original != null && original.column,
+	        source: source,
+	        name: name
+	      });
+	    };
+	
+	  /**
+	   * Set the source content for a source file.
+	   */
+	  SourceMapGenerator.prototype.setSourceContent =
+	    function SourceMapGenerator_setSourceContent(aSourceFile, aSourceContent) {
+	      var source = aSourceFile;
+	      if (this._sourceRoot) {
+	        source = util.relative(this._sourceRoot, source);
+	      }
+	
+	      if (aSourceContent !== null) {
+	        // Add the source content to the _sourcesContents map.
+	        // Create a new _sourcesContents map if the property is null.
+	        if (!this._sourcesContents) {
+	          this._sourcesContents = {};
+	        }
+	        this._sourcesContents[util.toSetString(source)] = aSourceContent;
+	      } else {
+	        // Remove the source file from the _sourcesContents map.
+	        // If the _sourcesContents map is empty, set the property to null.
+	        delete this._sourcesContents[util.toSetString(source)];
+	        if (Object.keys(this._sourcesContents).length === 0) {
+	          this._sourcesContents = null;
+	        }
+	      }
+	    };
+	
+	  /**
+	   * Applies the mappings of a sub-source-map for a specific source file to the
+	   * source map being generated. Each mapping to the supplied source file is
+	   * rewritten using the supplied source map. Note: The resolution for the
+	   * resulting mappings is the minimium of this map and the supplied map.
+	   *
+	   * @param aSourceMapConsumer The source map to be applied.
+	   * @param aSourceFile Optional. The filename of the source file.
+	   *        If omitted, SourceMapConsumer's file property will be used.
+	   * @param aSourceMapPath Optional. The dirname of the path to the source map
+	   *        to be applied. If relative, it is relative to the SourceMapConsumer.
+	   *        This parameter is needed when the two source maps aren't in the same
+	   *        directory, and the source map to be applied contains relative source
+	   *        paths. If so, those relative source paths need to be rewritten
+	   *        relative to the SourceMapGenerator.
+	   */
+	  SourceMapGenerator.prototype.applySourceMap =
+	    function SourceMapGenerator_applySourceMap(aSourceMapConsumer, aSourceFile, aSourceMapPath) {
+	      // If aSourceFile is omitted, we will use the file property of the SourceMap
+	      if (!aSourceFile) {
+	        if (!aSourceMapConsumer.file) {
+	          throw new Error(
+	            'SourceMapGenerator.prototype.applySourceMap requires either an explicit source file, ' +
+	            'or the source map\'s "file" property. Both were omitted.'
+	          );
+	        }
+	        aSourceFile = aSourceMapConsumer.file;
+	      }
+	      var sourceRoot = this._sourceRoot;
+	      // Make "aSourceFile" relative if an absolute Url is passed.
+	      if (sourceRoot) {
+	        aSourceFile = util.relative(sourceRoot, aSourceFile);
+	      }
+	      // Applying the SourceMap can add and remove items from the sources and
+	      // the names array.
+	      var newSources = new ArraySet();
+	      var newNames = new ArraySet();
+	
+	      // Find mappings for the "aSourceFile"
+	      this._mappings.forEach(function (mapping) {
+	        if (mapping.source === aSourceFile && mapping.originalLine) {
+	          // Check if it can be mapped by the source map, then update the mapping.
+	          var original = aSourceMapConsumer.originalPositionFor({
+	            line: mapping.originalLine,
+	            column: mapping.originalColumn
+	          });
+	          if (original.source !== null) {
+	            // Copy mapping
+	            mapping.source = original.source;
+	            if (aSourceMapPath) {
+	              mapping.source = util.join(aSourceMapPath, mapping.source)
 	            }
+	            if (sourceRoot) {
+	              mapping.source = util.relative(sourceRoot, mapping.source);
+	            }
+	            mapping.originalLine = original.line;
+	            mapping.originalColumn = original.column;
+	            if (original.name !== null && mapping.name !== null) {
+	              // Only use the identifier name if it's an identifier
+	              // in both SourceMaps
+	              mapping.name = original.name;
+	            }
+	          }
 	        }
-	    }
 	
-	    req.onerror = function(e) {
-	        futureResult.throw(e)
-	    }
+	        var source = mapping.source;
+	        if (source && !newSources.has(source)) {
+	          newSources.add(source);
+	        }
 	
+	        var name = mapping.name;
+	        if (name && !newNames.has(name)) {
+	          newNames.add(name);
+	        }
 	
-	    req.open('GET', url, asynchronous)
-	    try {
-	        req.send()
-	    } catch(e) {
-	        futureResult.throw(e)
-	    }
+	      }, this);
+	      this._sources = newSources;
+	      this._names = newNames;
 	
-	    return futureResult
-	}
+	      // Copy sourcesContents of applied map.
+	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
+	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+	        if (content) {
+	          if (sourceRoot) {
+	            sourceFile = util.relative(sourceRoot, sourceFile);
+	          }
+	          this.setSourceContent(sourceFile, content);
+	        }
+	      }, this);
+	    };
 	
-	var cache = {}
-	var getFromCache = function(url) {
-	    return cache[url]
-	}
-	var setOnCache = function(url, futureResponse) {
-	    cache[url] = futureResponse
-	}
+	  /**
+	   * A mapping can have one of the three levels of data:
+	   *
+	   *   1. Just the generated position.
+	   *   2. The Generated position, original position, and original source.
+	   *   3. Generated and original position, original source, as well as a name
+	   *      token.
+	   *
+	   * To maintain consistency, we validate that any new mapping being added falls
+	   * in to one of these categories.
+	   */
+	  SourceMapGenerator.prototype._validateMapping =
+	    function SourceMapGenerator_validateMapping(aGenerated, aOriginal, aSource,
+	                                                aName) {
+	      if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
+	          && aGenerated.line > 0 && aGenerated.column >= 0
+	          && !aOriginal && !aSource && !aName) {
+	        // Case 1.
+	        return;
+	      }
+	      else if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
+	               && aOriginal && 'line' in aOriginal && 'column' in aOriginal
+	               && aGenerated.line > 0 && aGenerated.column >= 0
+	               && aOriginal.line > 0 && aOriginal.column >= 0
+	               && aSource) {
+	        // Cases 2 and 3.
+	        return;
+	      }
+	      else {
+	        throw new Error('Invalid mapping: ' + JSON.stringify({
+	          generated: aGenerated,
+	          source: aSource,
+	          original: aOriginal,
+	          name: aName
+	        }));
+	      }
+	    };
 	
-	var asynchronous = true
-	exports.setSynchronous = function(synchronous) { // this is here so I can work around this bug in chrome: https://code.google.com/p/chromium/issues/detail?id=368444
-	    asynchronous = !synchronous
-	}
+	  /**
+	   * Serialize the accumulated mappings in to the stream of base 64 VLQs
+	   * specified by the source map format.
+	   */
+	  SourceMapGenerator.prototype._serializeMappings =
+	    function SourceMapGenerator_serializeMappings() {
+	      var previousGeneratedColumn = 0;
+	      var previousGeneratedLine = 1;
+	      var previousOriginalColumn = 0;
+	      var previousOriginalLine = 0;
+	      var previousName = 0;
+	      var previousSource = 0;
+	      var result = '';
+	      var mapping;
 	
-	exports.cacheGet = function(fn) {
-	    getFromCache = fn
-	}
-	exports.cacheSet = function(fn) {
-	    setOnCache = fn
-	}
+	      // The mappings must be guaranteed to be in sorted order before we start
+	      // serializing them or else the generated line numbers (which are defined
+	      // via the ';' separators) will be all messed up. Note: it might be more
+	      // performant to maintain the sorting as we insert them, rather than as we
+	      // serialize them, but the big O is the same either way.
+	      this._mappings.sort(util.compareByGeneratedPositions);
+	
+	      for (var i = 0, len = this._mappings.length; i < len; i++) {
+	        mapping = this._mappings[i];
+	
+	        if (mapping.generatedLine !== previousGeneratedLine) {
+	          previousGeneratedColumn = 0;
+	          while (mapping.generatedLine !== previousGeneratedLine) {
+	            result += ';';
+	            previousGeneratedLine++;
+	          }
+	        }
+	        else {
+	          if (i > 0) {
+	            if (!util.compareByGeneratedPositions(mapping, this._mappings[i - 1])) {
+	              continue;
+	            }
+	            result += ',';
+	          }
+	        }
+	
+	        result += base64VLQ.encode(mapping.generatedColumn
+	                                   - previousGeneratedColumn);
+	        previousGeneratedColumn = mapping.generatedColumn;
+	
+	        if (mapping.source) {
+	          result += base64VLQ.encode(this._sources.indexOf(mapping.source)
+	                                     - previousSource);
+	          previousSource = this._sources.indexOf(mapping.source);
+	
+	          // lines are stored 0-based in SourceMap spec version 3
+	          result += base64VLQ.encode(mapping.originalLine - 1
+	                                     - previousOriginalLine);
+	          previousOriginalLine = mapping.originalLine - 1;
+	
+	          result += base64VLQ.encode(mapping.originalColumn
+	                                     - previousOriginalColumn);
+	          previousOriginalColumn = mapping.originalColumn;
+	
+	          if (mapping.name) {
+	            result += base64VLQ.encode(this._names.indexOf(mapping.name)
+	                                       - previousName);
+	            previousName = this._names.indexOf(mapping.name);
+	          }
+	        }
+	      }
+	
+	      return result;
+	    };
+	
+	  SourceMapGenerator.prototype._generateSourcesContent =
+	    function SourceMapGenerator_generateSourcesContent(aSources, aSourceRoot) {
+	      return aSources.map(function (source) {
+	        if (!this._sourcesContents) {
+	          return null;
+	        }
+	        if (aSourceRoot) {
+	          source = util.relative(aSourceRoot, source);
+	        }
+	        var key = util.toSetString(source);
+	        return Object.prototype.hasOwnProperty.call(this._sourcesContents,
+	                                                    key)
+	          ? this._sourcesContents[key]
+	          : null;
+	      }, this);
+	    };
+	
+	  /**
+	   * Externalize the source map.
+	   */
+	  SourceMapGenerator.prototype.toJSON =
+	    function SourceMapGenerator_toJSON() {
+	      var map = {
+	        version: this._version,
+	        file: this._file,
+	        sources: this._sources.toArray(),
+	        names: this._names.toArray(),
+	        mappings: this._serializeMappings()
+	      };
+	      if (this._sourceRoot) {
+	        map.sourceRoot = this._sourceRoot;
+	      }
+	      if (this._sourcesContents) {
+	        map.sourcesContent = this._generateSourcesContent(map.sources, map.sourceRoot);
+	      }
+	
+	      return map;
+	    };
+	
+	  /**
+	   * Render the source map being generated to a string.
+	   */
+	  SourceMapGenerator.prototype.toString =
+	    function SourceMapGenerator_toString() {
+	      return JSON.stringify(this);
+	    };
+	
+	  exports.SourceMapGenerator = SourceMapGenerator;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
 
 /***/ },
-/* 77 */
-/*!********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
-  \********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 97)
-	var parsers = __webpack_require__(/*! ./tracelineParser */ 85)
-	var mode = __webpack_require__(/*! ./exceptionMode */ 86)
-	
-	module.exports = function(ex) {
-	    if(parsers[mode] === undefined)
-	        throw new Error("browser "+mode+" not supported")
-	
-	    var options = undefined
-	    if(ex !== undefined) {
-	        if(mode === 'ie' && ex.number === undefined)
-	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
-	        options = {e:ex, guess: true}
-	    }
-	    var trace = printStackTrace(options)
-	
-	    if(ex === undefined) {
-	        trace.splice(0,4) // strip stacktrace-js internals
-	    }
-	
-	    return parseStacktrace(trace)
-	}
-	
-	function TraceInfo(traceline) {
-	    this.traceline = traceline
-	}
-	TraceInfo.prototype = {
-	    get file() {
-	        return getInfo(this).file
-	    },
-	    get function() {
-	        return getInfo(this).function
-	    },
-	    get line() {
-	        return getInfo(this).line
-	    },
-	    get column() {
-	        return getInfo(this).column
-	    },
-	    get info() {
-	        return getInfo(this)
-	    }
-	}
-	
-	function getInfo(traceInfo) {
-	    if(traceInfo.cache === undefined) {
-	        var info = parsers[mode](traceInfo.traceline)
-	        if(info.line !== undefined)
-	            info.line = parseInt(info.line, 10)
-	        if(info.column !== undefined)
-	            info.column = parseInt(info.column, 10)
-	
-	        traceInfo.cache = info
-	    }
-	
-	    return traceInfo.cache
-	}
-	
-	function parseStacktrace(trace) {
-	    var results = []
-	    for(var n = 0; n<trace.length; n++) {
-	        results.push(new TraceInfo(trace[n]))
-	    }
-	    return results
-	}
-	
-	// here because i'm lazy, they're here for testing only
-	module.exports.parsers = parsers
-	module.exports.mode = mode
-	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
-
-
-/***/ },
-/* 78 */
+/* 82 */
 /*!**************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/source-map-resolve.js ***!
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
   \**************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(setImmediate) {// Copyright 2014 Simon Lydell
-	// X11 (“MIT”) Licensed. (See LICENSE.)
-	
-	// Note: source-map-resolve.js is generated from source-map-resolve-node.js and
-	// source-map-resolve-template.js. Only edit the two latter files, _not_
-	// source-map-resolve.js!
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 93), __webpack_require__(/*! resolve-url */ 92)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    var sourceMappingURL = require("source-map-url")
-	    var resolveUrl = require("resolve-url")
-	    module.exports = factory(sourceMappingURL, resolveUrl)
-	  } else {
-	    root.sourceMapResolve = factory(root.sourceMappingURL, root.resolveUrl)
-	  }
-	}(this, function(sourceMappingURL, resolveUrl) {
-	
-	  function callbackAsync(callback, error, result) {
-	    setImmediate(function() { callback(error, result) })
-	  }
-	
-	  function sig(name, codeOrMap, url, read, callback) {
-	    var type = (name.indexOf("Sources") >= 0 ? "map" : "code")
-	
-	    var throwError = function(num, what, got) {
-	      throw new Error(
-	        name + " requires argument " + num + " to be " + what + ". Got:\n" + got
-	      )
-	    }
-	
-	    if (type === "map") {
-	      if (typeof codeOrMap !== "object" || codeOrMap === null) {
-	        throwError(1, "a source map", codeOrMap)
-	      }
-	    } else {
-	      if (typeof codeOrMap !== "string") {
-	        throwError(1, "some code", codeOrMap)
-	      }
-	    }
-	    if (typeof url !== "string") {
-	      throwError(2, "the " + type + " url", url)
-	    }
-	    if (typeof read !== "function") {
-	      throwError(3, "a reading function", read)
-	    }
-	    if (arguments.length === 1 + 4 && typeof callback !== "function") {
-	      throwError(4, "a callback function", callback)
-	    }
-	  }
-	
-	  function parseMapToJSON(string) {
-	    return JSON.parse(string.replace(/^\)\]\}'/, ""))
-	  }
-	
-	
-	
-	  function resolveSourceMap(code, codeUrl, read, callback) {
-	    sig("resolveSourceMap", code, codeUrl, read, callback)
-	    var mapData
-	    try {
-	      mapData = resolveSourceMapHelper(code, codeUrl)
-	    } catch (error) {
-	      return callbackAsync(callback, error)
-	    }
-	    if (!mapData || mapData.map) {
-	      return callbackAsync(callback, null, mapData)
-	    }
-	    read(mapData.url, function(error, result) {
-	      if (error) {
-	        return callback(error)
-	      }
-	      try {
-	        mapData.map = parseMapToJSON(String(result))
-	      } catch (error) {
-	        return callback(error)
-	      }
-	      callback(null, mapData)
-	    })
-	  }
-	
-	  function resolveSourceMapSync(code, codeUrl, read) {
-	    sig("resolveSourceMapSync", code, codeUrl, read)
-	    var mapData = resolveSourceMapHelper(code, codeUrl)
-	    if (!mapData || mapData.map) {
-	      return mapData
-	    }
-	    mapData.map = parseMapToJSON(String(read(mapData.url)))
-	    return mapData
-	  }
-	
-	  var dataUriRegex = /^data:([^,;]*)(;[^,;]*)*(?:,(.*))?$/
-	  var jsonMimeTypeRegex = /^(?:application|text)\/json$/
-	
-	  function resolveSourceMapHelper(code, codeUrl) {
-	    var url = sourceMappingURL.get(code)
-	    if (!url) {
-	      return null
-	    }
-	
-	    var dataUri = url.match(dataUriRegex)
-	    if (dataUri) {
-	      var mimeType = dataUri[1]
-	      var lastParameter = dataUri[2]
-	      var encoded = dataUri[3]
-	      if (!jsonMimeTypeRegex.test(mimeType)) {
-	        throw new Error("Unuseful data uri mime type: " + (mimeType || "text/plain"))
-	      }
-	      return {
-	        sourceMappingURL: url,
-	        url: null,
-	        sourcesRelativeTo: codeUrl,
-	        map: parseMapToJSON(lastParameter === ";base64" ? atob(encoded) : decodeURIComponent(encoded))
-	      }
-	    }
-	
-	    var mapUrl = resolveUrl(codeUrl, url)
-	    return {
-	      sourceMappingURL: url,
-	      url: mapUrl,
-	      sourcesRelativeTo: mapUrl,
-	      map: null
-	    }
-	  }
-	
-	
-	
-	  function resolveSources(map, mapUrl, read, callback) {
-	    sig("resolveSources", map, mapUrl, read, callback)
-	    var pending = map.sources.length
-	    var errored = false
-	    var sources = []
-	
-	    var done = function(error) {
-	      if (errored) {
-	        return
-	      }
-	      if (error) {
-	        errored = true
-	        return callback(error)
-	      }
-	      pending--
-	      if (pending === 0) {
-	        callback(null, sources)
-	      }
-	    }
-	
-	    resolveSourcesHelper(map, mapUrl, function(fullUrl, sourceContent, index) {
-	      if (typeof sourceContent === "string") {
-	        sources[index] = sourceContent
-	        callbackAsync(done, null)
-	      } else {
-	        read(fullUrl, function(error, result) {
-	          sources[index] = String(result)
-	          done(error)
-	        })
-	      }
-	    })
-	  }
-	
-	  function resolveSourcesSync(map, mapUrl, read) {
-	    sig("resolveSourcesSync", map, mapUrl, read)
-	    var sources = []
-	    resolveSourcesHelper(map, mapUrl, function(fullUrl, sourceContent, index) {
-	      if (typeof sourceContent === "string") {
-	        sources[index] = sourceContent
-	      } else {
-	        sources[index] = String(read(fullUrl))
-	      }
-	    })
-	    return sources
-	  }
-	
-	  var endingSlash = /\/?$/
-	
-	  function resolveSourcesHelper(map, mapUrl, fn) {
-	    var fullUrl
-	    var sourceContent
-	    for (var index = 0, len = map.sources.length; index < len; index++) {
-	      if (map.sourceRoot) {
-	        // Make sure that the sourceRoot ends with a slash, so that `/scripts/subdir` becomes
-	        // `/scripts/subdir/<source>`, not `/scripts/<source>`. Pointing to a file as source root
-	        // does not make sense.
-	        fullUrl = resolveUrl(mapUrl, map.sourceRoot.replace(endingSlash, "/"), map.sources[index])
-	      } else {
-	        fullUrl = resolveUrl(mapUrl, map.sources[index])
-	      }
-	      sourceContent = (map.sourceContents || [])[index]
-	      fn(fullUrl, sourceContent, index)
-	    }
-	  }
-	
-	
-	
-	  function resolve(code, codeUrl, read, callback) {
-	    sig("resolve", code, codeUrl, read, callback)
-	    resolveSourceMap(code, codeUrl, read, function(error, mapData) {
-	      if (error) {
-	        return callback(error)
-	      }
-	      if (!mapData) {
-	        return callback(null, null)
-	      }
-	      resolveSources(mapData.map, mapData.sourcesRelativeTo, read, function(error, sources) {
-	        if (error) {
-	          return callback(error)
-	        }
-	        mapData.sources = sources
-	        callback(null, mapData)
-	      })
-	    })
-	  }
-	
-	  function resolveSync(code, codeUrl, read) {
-	    sig("resolveSync", code, codeUrl, read)
-	    var mapData = resolveSourceMapSync(code, codeUrl, read)
-	    if (!mapData) {
-	      return null
-	    }
-	    mapData.sources = resolveSourcesSync(mapData.map, mapData.sourcesRelativeTo, read)
-	    return mapData
-	  }
-	
-	
-	
-	  return {
-	    resolveSourceMap:     resolveSourceMap,
-	    resolveSourceMapSync: resolveSourceMapSync,
-	    resolveSources:       resolveSources,
-	    resolveSourcesSync:   resolveSourcesSync,
-	    resolve:              resolve,
-	    resolveSync:          resolveSync
-	  }
-	
-	}));
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 88).setImmediate))
-
-/***/ },
-/* 79 */
-/*!**************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
-  \**************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
 	/*
-	 * Copyright 2009-2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE.txt or:
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
 	 * http://opensource.org/licenses/BSD-3-Clause
 	 */
-	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 82).SourceMapGenerator;
-	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 83).SourceMapConsumer;
-	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 84).SourceNode;
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 81).SourceMapGenerator;
+	  var util = __webpack_require__(/*! ./util */ 90);
+	
+	  /**
+	   * SourceNodes provide a way to abstract over interpolating/concatenating
+	   * snippets of generated JavaScript source code while maintaining the line and
+	   * column information associated with the original source code.
+	   *
+	   * @param aLine The original line number.
+	   * @param aColumn The original column number.
+	   * @param aSource The original source's filename.
+	   * @param aChunks Optional. An array of strings which are snippets of
+	   *        generated JS, or other SourceNodes.
+	   * @param aName The original identifier.
+	   */
+	  function SourceNode(aLine, aColumn, aSource, aChunks, aName) {
+	    this.children = [];
+	    this.sourceContents = {};
+	    this.line = aLine === undefined ? null : aLine;
+	    this.column = aColumn === undefined ? null : aColumn;
+	    this.source = aSource === undefined ? null : aSource;
+	    this.name = aName === undefined ? null : aName;
+	    if (aChunks != null) this.add(aChunks);
+	  }
+	
+	  /**
+	   * Creates a SourceNode from generated code and a SourceMapConsumer.
+	   *
+	   * @param aGeneratedCode The generated code
+	   * @param aSourceMapConsumer The SourceMap for the generated code
+	   */
+	  SourceNode.fromStringWithSourceMap =
+	    function SourceNode_fromStringWithSourceMap(aGeneratedCode, aSourceMapConsumer) {
+	      // The SourceNode we want to fill with the generated code
+	      // and the SourceMap
+	      var node = new SourceNode();
+	
+	      // The generated code
+	      // Processed fragments are removed from this array.
+	      var remainingLines = aGeneratedCode.split('\n');
+	
+	      // We need to remember the position of "remainingLines"
+	      var lastGeneratedLine = 1, lastGeneratedColumn = 0;
+	
+	      // The generate SourceNodes we need a code range.
+	      // To extract it current and last mapping is used.
+	      // Here we store the last mapping.
+	      var lastMapping = null;
+	
+	      aSourceMapConsumer.eachMapping(function (mapping) {
+	        if (lastMapping !== null) {
+	          // We add the code from "lastMapping" to "mapping":
+	          // First check if there is a new line in between.
+	          if (lastGeneratedLine < mapping.generatedLine) {
+	            var code = "";
+	            // Associate first line with "lastMapping"
+	            addMappingWithCode(lastMapping, remainingLines.shift() + "\n");
+	            lastGeneratedLine++;
+	            lastGeneratedColumn = 0;
+	            // The remaining code is added without mapping
+	          } else {
+	            // There is no new line in between.
+	            // Associate the code between "lastGeneratedColumn" and
+	            // "mapping.generatedColumn" with "lastMapping"
+	            var nextLine = remainingLines[0];
+	            var code = nextLine.substr(0, mapping.generatedColumn -
+	                                          lastGeneratedColumn);
+	            remainingLines[0] = nextLine.substr(mapping.generatedColumn -
+	                                                lastGeneratedColumn);
+	            lastGeneratedColumn = mapping.generatedColumn;
+	            addMappingWithCode(lastMapping, code);
+	            // No more remaining code, continue
+	            lastMapping = mapping;
+	            return;
+	          }
+	        }
+	        // We add the generated code until the first mapping
+	        // to the SourceNode without any mapping.
+	        // Each line is added as separate string.
+	        while (lastGeneratedLine < mapping.generatedLine) {
+	          node.add(remainingLines.shift() + "\n");
+	          lastGeneratedLine++;
+	        }
+	        if (lastGeneratedColumn < mapping.generatedColumn) {
+	          var nextLine = remainingLines[0];
+	          node.add(nextLine.substr(0, mapping.generatedColumn));
+	          remainingLines[0] = nextLine.substr(mapping.generatedColumn);
+	          lastGeneratedColumn = mapping.generatedColumn;
+	        }
+	        lastMapping = mapping;
+	      }, this);
+	      // We have processed all mappings.
+	      if (remainingLines.length > 0) {
+	        if (lastMapping) {
+	          // Associate the remaining code in the current line with "lastMapping"
+	          var lastLine = remainingLines.shift();
+	          if (remainingLines.length > 0) lastLine += "\n";
+	          addMappingWithCode(lastMapping, lastLine);
+	        }
+	        // and add the remaining lines without any mapping
+	        node.add(remainingLines.join("\n"));
+	      }
+	
+	      // Copy sourcesContent into SourceNode
+	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
+	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+	        if (content) {
+	          node.setSourceContent(sourceFile, content);
+	        }
+	      });
+	
+	      return node;
+	
+	      function addMappingWithCode(mapping, code) {
+	        if (mapping === null || mapping.source === undefined) {
+	          node.add(code);
+	        } else {
+	          node.add(new SourceNode(mapping.originalLine,
+	                                  mapping.originalColumn,
+	                                  mapping.source,
+	                                  code,
+	                                  mapping.name));
+	        }
+	      }
+	    };
+	
+	  /**
+	   * Add a chunk of generated JS to this source node.
+	   *
+	   * @param aChunk A string snippet of generated JS code, another instance of
+	   *        SourceNode, or an array where each member is one of those things.
+	   */
+	  SourceNode.prototype.add = function SourceNode_add(aChunk) {
+	    if (Array.isArray(aChunk)) {
+	      aChunk.forEach(function (chunk) {
+	        this.add(chunk);
+	      }, this);
+	    }
+	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
+	      if (aChunk) {
+	        this.children.push(aChunk);
+	      }
+	    }
+	    else {
+	      throw new TypeError(
+	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
+	      );
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Add a chunk of generated JS to the beginning of this source node.
+	   *
+	   * @param aChunk A string snippet of generated JS code, another instance of
+	   *        SourceNode, or an array where each member is one of those things.
+	   */
+	  SourceNode.prototype.prepend = function SourceNode_prepend(aChunk) {
+	    if (Array.isArray(aChunk)) {
+	      for (var i = aChunk.length-1; i >= 0; i--) {
+	        this.prepend(aChunk[i]);
+	      }
+	    }
+	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
+	      this.children.unshift(aChunk);
+	    }
+	    else {
+	      throw new TypeError(
+	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
+	      );
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Walk over the tree of JS snippets in this node and its children. The
+	   * walking function is called once for each snippet of JS and is passed that
+	   * snippet and the its original associated source's line/column location.
+	   *
+	   * @param aFn The traversal function.
+	   */
+	  SourceNode.prototype.walk = function SourceNode_walk(aFn) {
+	    var chunk;
+	    for (var i = 0, len = this.children.length; i < len; i++) {
+	      chunk = this.children[i];
+	      if (chunk instanceof SourceNode) {
+	        chunk.walk(aFn);
+	      }
+	      else {
+	        if (chunk !== '') {
+	          aFn(chunk, { source: this.source,
+	                       line: this.line,
+	                       column: this.column,
+	                       name: this.name });
+	        }
+	      }
+	    }
+	  };
+	
+	  /**
+	   * Like `String.prototype.join` except for SourceNodes. Inserts `aStr` between
+	   * each of `this.children`.
+	   *
+	   * @param aSep The separator.
+	   */
+	  SourceNode.prototype.join = function SourceNode_join(aSep) {
+	    var newChildren;
+	    var i;
+	    var len = this.children.length;
+	    if (len > 0) {
+	      newChildren = [];
+	      for (i = 0; i < len-1; i++) {
+	        newChildren.push(this.children[i]);
+	        newChildren.push(aSep);
+	      }
+	      newChildren.push(this.children[i]);
+	      this.children = newChildren;
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Call String.prototype.replace on the very right-most source snippet. Useful
+	   * for trimming whitespace from the end of a source node, etc.
+	   *
+	   * @param aPattern The pattern to replace.
+	   * @param aReplacement The thing to replace the pattern with.
+	   */
+	  SourceNode.prototype.replaceRight = function SourceNode_replaceRight(aPattern, aReplacement) {
+	    var lastChild = this.children[this.children.length - 1];
+	    if (lastChild instanceof SourceNode) {
+	      lastChild.replaceRight(aPattern, aReplacement);
+	    }
+	    else if (typeof lastChild === 'string') {
+	      this.children[this.children.length - 1] = lastChild.replace(aPattern, aReplacement);
+	    }
+	    else {
+	      this.children.push(''.replace(aPattern, aReplacement));
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Set the source content for a source file. This will be added to the SourceMapGenerator
+	   * in the sourcesContent field.
+	   *
+	   * @param aSourceFile The filename of the source file
+	   * @param aSourceContent The content of the source file
+	   */
+	  SourceNode.prototype.setSourceContent =
+	    function SourceNode_setSourceContent(aSourceFile, aSourceContent) {
+	      this.sourceContents[util.toSetString(aSourceFile)] = aSourceContent;
+	    };
+	
+	  /**
+	   * Walk over the tree of SourceNodes. The walking function is called for each
+	   * source file content and is passed the filename and source content.
+	   *
+	   * @param aFn The traversal function.
+	   */
+	  SourceNode.prototype.walkSourceContents =
+	    function SourceNode_walkSourceContents(aFn) {
+	      for (var i = 0, len = this.children.length; i < len; i++) {
+	        if (this.children[i] instanceof SourceNode) {
+	          this.children[i].walkSourceContents(aFn);
+	        }
+	      }
+	
+	      var sources = Object.keys(this.sourceContents);
+	      for (var i = 0, len = sources.length; i < len; i++) {
+	        aFn(util.fromSetString(sources[i]), this.sourceContents[sources[i]]);
+	      }
+	    };
+	
+	  /**
+	   * Return the string representation of this source node. Walks over the tree
+	   * and concatenates all the various snippets together to one string.
+	   */
+	  SourceNode.prototype.toString = function SourceNode_toString() {
+	    var str = "";
+	    this.walk(function (chunk) {
+	      str += chunk;
+	    });
+	    return str;
+	  };
+	
+	  /**
+	   * Returns the string representation of this source node along with a source
+	   * map.
+	   */
+	  SourceNode.prototype.toStringWithSourceMap = function SourceNode_toStringWithSourceMap(aArgs) {
+	    var generated = {
+	      code: "",
+	      line: 1,
+	      column: 0
+	    };
+	    var map = new SourceMapGenerator(aArgs);
+	    var sourceMappingActive = false;
+	    var lastOriginalSource = null;
+	    var lastOriginalLine = null;
+	    var lastOriginalColumn = null;
+	    var lastOriginalName = null;
+	    this.walk(function (chunk, original) {
+	      generated.code += chunk;
+	      if (original.source !== null
+	          && original.line !== null
+	          && original.column !== null) {
+	        if(lastOriginalSource !== original.source
+	           || lastOriginalLine !== original.line
+	           || lastOriginalColumn !== original.column
+	           || lastOriginalName !== original.name) {
+	          map.addMapping({
+	            source: original.source,
+	            original: {
+	              line: original.line,
+	              column: original.column
+	            },
+	            generated: {
+	              line: generated.line,
+	              column: generated.column
+	            },
+	            name: original.name
+	          });
+	        }
+	        lastOriginalSource = original.source;
+	        lastOriginalLine = original.line;
+	        lastOriginalColumn = original.column;
+	        lastOriginalName = original.name;
+	        sourceMappingActive = true;
+	      } else if (sourceMappingActive) {
+	        map.addMapping({
+	          generated: {
+	            line: generated.line,
+	            column: generated.column
+	          }
+	        });
+	        lastOriginalSource = null;
+	        sourceMappingActive = false;
+	      }
+	      chunk.split('').forEach(function (ch, idx, array) {
+	        if (ch === '\n') {
+	          generated.line++;
+	          generated.column = 0;
+	          // Mappings end at eol
+	          if (idx + 1 === array.length) {
+	            lastOriginalSource = null;
+	            sourceMappingActive = false;
+	          } else if (sourceMappingActive) {
+	            map.addMapping({
+	              source: original.source,
+	              original: {
+	                line: original.line,
+	                column: original.column
+	              },
+	              generated: {
+	                line: generated.line,
+	                column: generated.column
+	              },
+	              name: original.name
+	            });
+	          }
+	        } else {
+	          generated.column++;
+	        }
+	      });
+	    });
+	    this.walkSourceContents(function (sourceFile, sourceContent) {
+	      map.setSourceContent(sourceFile, sourceContent);
+	    });
+	
+	    return { code: generated.code, map: map };
+	  };
+	
+	  exports.SourceNode = SourceNode;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
 /***/ },
-/* 80 */
-/*!**********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/utils.js ***!
-  \**********************************************************************************************/
-57,
-/* 81 */
+/* 83 */
+/*!**********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-consumer.js ***!
+  \**********************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var util = __webpack_require__(/*! ./util */ 90);
+	  var binarySearch = __webpack_require__(/*! ./binary-search */ 91);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 92).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 93);
+	
+	  /**
+	   * A SourceMapConsumer instance represents a parsed source map which we can
+	   * query for information about the original file positions by giving it a file
+	   * position in the generated source.
+	   *
+	   * The only parameter is the raw source map (either as a JSON string, or
+	   * already parsed to an object). According to the spec, source maps have the
+	   * following attributes:
+	   *
+	   *   - version: Which version of the source map spec this map is following.
+	   *   - sources: An array of URLs to the original source files.
+	   *   - names: An array of identifiers which can be referrenced by individual mappings.
+	   *   - sourceRoot: Optional. The URL root from which all sources are relative.
+	   *   - sourcesContent: Optional. An array of contents of the original source files.
+	   *   - mappings: A string of base64 VLQs which contain the actual mappings.
+	   *   - file: Optional. The generated file this source map is associated with.
+	   *
+	   * Here is an example source map, taken from the source map spec[0]:
+	   *
+	   *     {
+	   *       version : 3,
+	   *       file: "out.js",
+	   *       sourceRoot : "",
+	   *       sources: ["foo.js", "bar.js"],
+	   *       names: ["src", "maps", "are", "fun"],
+	   *       mappings: "AA,AB;;ABCDE;"
+	   *     }
+	   *
+	   * [0]: https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit?pli=1#
+	   */
+	  function SourceMapConsumer(aSourceMap) {
+	    var sourceMap = aSourceMap;
+	    if (typeof aSourceMap === 'string') {
+	      sourceMap = JSON.parse(aSourceMap.replace(/^\)\]\}'/, ''));
+	    }
+	
+	    var version = util.getArg(sourceMap, 'version');
+	    var sources = util.getArg(sourceMap, 'sources');
+	    // Sass 3.3 leaves out the 'names' array, so we deviate from the spec (which
+	    // requires the array) to play nice here.
+	    var names = util.getArg(sourceMap, 'names', []);
+	    var sourceRoot = util.getArg(sourceMap, 'sourceRoot', null);
+	    var sourcesContent = util.getArg(sourceMap, 'sourcesContent', null);
+	    var mappings = util.getArg(sourceMap, 'mappings');
+	    var file = util.getArg(sourceMap, 'file', null);
+	
+	    // Once again, Sass deviates from the spec and supplies the version as a
+	    // string rather than a number, so we use loose equality checking here.
+	    if (version != this._version) {
+	      throw new Error('Unsupported version: ' + version);
+	    }
+	
+	    // Pass `true` below to allow duplicate names and sources. While source maps
+	    // are intended to be compressed and deduplicated, the TypeScript compiler
+	    // sometimes generates source maps with duplicates in them. See Github issue
+	    // #72 and bugzil.la/889492.
+	    this._names = ArraySet.fromArray(names, true);
+	    this._sources = ArraySet.fromArray(sources, true);
+	
+	    this.sourceRoot = sourceRoot;
+	    this.sourcesContent = sourcesContent;
+	    this._mappings = mappings;
+	    this.file = file;
+	  }
+	
+	  /**
+	   * Create a SourceMapConsumer from a SourceMapGenerator.
+	   *
+	   * @param SourceMapGenerator aSourceMap
+	   *        The source map that will be consumed.
+	   * @returns SourceMapConsumer
+	   */
+	  SourceMapConsumer.fromSourceMap =
+	    function SourceMapConsumer_fromSourceMap(aSourceMap) {
+	      var smc = Object.create(SourceMapConsumer.prototype);
+	
+	      smc._names = ArraySet.fromArray(aSourceMap._names.toArray(), true);
+	      smc._sources = ArraySet.fromArray(aSourceMap._sources.toArray(), true);
+	      smc.sourceRoot = aSourceMap._sourceRoot;
+	      smc.sourcesContent = aSourceMap._generateSourcesContent(smc._sources.toArray(),
+	                                                              smc.sourceRoot);
+	      smc.file = aSourceMap._file;
+	
+	      smc.__generatedMappings = aSourceMap._mappings.slice()
+	        .sort(util.compareByGeneratedPositions);
+	      smc.__originalMappings = aSourceMap._mappings.slice()
+	        .sort(util.compareByOriginalPositions);
+	
+	      return smc;
+	    };
+	
+	  /**
+	   * The version of the source mapping spec that we are consuming.
+	   */
+	  SourceMapConsumer.prototype._version = 3;
+	
+	  /**
+	   * The list of original sources.
+	   */
+	  Object.defineProperty(SourceMapConsumer.prototype, 'sources', {
+	    get: function () {
+	      return this._sources.toArray().map(function (s) {
+	        return this.sourceRoot ? util.join(this.sourceRoot, s) : s;
+	      }, this);
+	    }
+	  });
+	
+	  // `__generatedMappings` and `__originalMappings` are arrays that hold the
+	  // parsed mapping coordinates from the source map's "mappings" attribute. They
+	  // are lazily instantiated, accessed via the `_generatedMappings` and
+	  // `_originalMappings` getters respectively, and we only parse the mappings
+	  // and create these arrays once queried for a source location. We jump through
+	  // these hoops because there can be many thousands of mappings, and parsing
+	  // them is expensive, so we only want to do it if we must.
+	  //
+	  // Each object in the arrays is of the form:
+	  //
+	  //     {
+	  //       generatedLine: The line number in the generated code,
+	  //       generatedColumn: The column number in the generated code,
+	  //       source: The path to the original source file that generated this
+	  //               chunk of code,
+	  //       originalLine: The line number in the original source that
+	  //                     corresponds to this chunk of generated code,
+	  //       originalColumn: The column number in the original source that
+	  //                       corresponds to this chunk of generated code,
+	  //       name: The name of the original symbol which generated this chunk of
+	  //             code.
+	  //     }
+	  //
+	  // All properties except for `generatedLine` and `generatedColumn` can be
+	  // `null`.
+	  //
+	  // `_generatedMappings` is ordered by the generated positions.
+	  //
+	  // `_originalMappings` is ordered by the original positions.
+	
+	  SourceMapConsumer.prototype.__generatedMappings = null;
+	  Object.defineProperty(SourceMapConsumer.prototype, '_generatedMappings', {
+	    get: function () {
+	      if (!this.__generatedMappings) {
+	        this.__generatedMappings = [];
+	        this.__originalMappings = [];
+	        this._parseMappings(this._mappings, this.sourceRoot);
+	      }
+	
+	      return this.__generatedMappings;
+	    }
+	  });
+	
+	  SourceMapConsumer.prototype.__originalMappings = null;
+	  Object.defineProperty(SourceMapConsumer.prototype, '_originalMappings', {
+	    get: function () {
+	      if (!this.__originalMappings) {
+	        this.__generatedMappings = [];
+	        this.__originalMappings = [];
+	        this._parseMappings(this._mappings, this.sourceRoot);
+	      }
+	
+	      return this.__originalMappings;
+	    }
+	  });
+	
+	  /**
+	   * Parse the mappings in a string in to a data structure which we can easily
+	   * query (the ordered arrays in the `this.__generatedMappings` and
+	   * `this.__originalMappings` properties).
+	   */
+	  SourceMapConsumer.prototype._parseMappings =
+	    function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
+	      var generatedLine = 1;
+	      var previousGeneratedColumn = 0;
+	      var previousOriginalLine = 0;
+	      var previousOriginalColumn = 0;
+	      var previousSource = 0;
+	      var previousName = 0;
+	      var mappingSeparator = /^[,;]/;
+	      var str = aStr;
+	      var mapping;
+	      var temp;
+	
+	      while (str.length > 0) {
+	        if (str.charAt(0) === ';') {
+	          generatedLine++;
+	          str = str.slice(1);
+	          previousGeneratedColumn = 0;
+	        }
+	        else if (str.charAt(0) === ',') {
+	          str = str.slice(1);
+	        }
+	        else {
+	          mapping = {};
+	          mapping.generatedLine = generatedLine;
+	
+	          // Generated column.
+	          temp = base64VLQ.decode(str);
+	          mapping.generatedColumn = previousGeneratedColumn + temp.value;
+	          previousGeneratedColumn = mapping.generatedColumn;
+	          str = temp.rest;
+	
+	          if (str.length > 0 && !mappingSeparator.test(str.charAt(0))) {
+	            // Original source.
+	            temp = base64VLQ.decode(str);
+	            mapping.source = this._sources.at(previousSource + temp.value);
+	            previousSource += temp.value;
+	            str = temp.rest;
+	            if (str.length === 0 || mappingSeparator.test(str.charAt(0))) {
+	              throw new Error('Found a source, but no line and column');
+	            }
+	
+	            // Original line.
+	            temp = base64VLQ.decode(str);
+	            mapping.originalLine = previousOriginalLine + temp.value;
+	            previousOriginalLine = mapping.originalLine;
+	            // Lines are stored 0-based
+	            mapping.originalLine += 1;
+	            str = temp.rest;
+	            if (str.length === 0 || mappingSeparator.test(str.charAt(0))) {
+	              throw new Error('Found a source and line, but no column');
+	            }
+	
+	            // Original column.
+	            temp = base64VLQ.decode(str);
+	            mapping.originalColumn = previousOriginalColumn + temp.value;
+	            previousOriginalColumn = mapping.originalColumn;
+	            str = temp.rest;
+	
+	            if (str.length > 0 && !mappingSeparator.test(str.charAt(0))) {
+	              // Original name.
+	              temp = base64VLQ.decode(str);
+	              mapping.name = this._names.at(previousName + temp.value);
+	              previousName += temp.value;
+	              str = temp.rest;
+	            }
+	          }
+	
+	          this.__generatedMappings.push(mapping);
+	          if (typeof mapping.originalLine === 'number') {
+	            this.__originalMappings.push(mapping);
+	          }
+	        }
+	      }
+	
+	      this.__generatedMappings.sort(util.compareByGeneratedPositions);
+	      this.__originalMappings.sort(util.compareByOriginalPositions);
+	    };
+	
+	  /**
+	   * Find the mapping that best matches the hypothetical "needle" mapping that
+	   * we are searching for in the given "haystack" of mappings.
+	   */
+	  SourceMapConsumer.prototype._findMapping =
+	    function SourceMapConsumer_findMapping(aNeedle, aMappings, aLineName,
+	                                           aColumnName, aComparator) {
+	      // To return the position we are searching for, we must first find the
+	      // mapping for the given position and then return the opposite position it
+	      // points to. Because the mappings are sorted, we can use binary search to
+	      // find the best mapping.
+	
+	      if (aNeedle[aLineName] <= 0) {
+	        throw new TypeError('Line must be greater than or equal to 1, got '
+	                            + aNeedle[aLineName]);
+	      }
+	      if (aNeedle[aColumnName] < 0) {
+	        throw new TypeError('Column must be greater than or equal to 0, got '
+	                            + aNeedle[aColumnName]);
+	      }
+	
+	      return binarySearch.search(aNeedle, aMappings, aComparator);
+	    };
+	
+	  /**
+	   * Returns the original source, line, and column information for the generated
+	   * source's line and column positions provided. The only argument is an object
+	   * with the following properties:
+	   *
+	   *   - line: The line number in the generated source.
+	   *   - column: The column number in the generated source.
+	   *
+	   * and an object is returned with the following properties:
+	   *
+	   *   - source: The original source file, or null.
+	   *   - line: The line number in the original source, or null.
+	   *   - column: The column number in the original source, or null.
+	   *   - name: The original identifier, or null.
+	   */
+	  SourceMapConsumer.prototype.originalPositionFor =
+	    function SourceMapConsumer_originalPositionFor(aArgs) {
+	      var needle = {
+	        generatedLine: util.getArg(aArgs, 'line'),
+	        generatedColumn: util.getArg(aArgs, 'column')
+	      };
+	
+	      var mapping = this._findMapping(needle,
+	                                      this._generatedMappings,
+	                                      "generatedLine",
+	                                      "generatedColumn",
+	                                      util.compareByGeneratedPositions);
+	
+	      if (mapping && mapping.generatedLine === needle.generatedLine) {
+	        var source = util.getArg(mapping, 'source', null);
+	        if (source && this.sourceRoot) {
+	          source = util.join(this.sourceRoot, source);
+	        }
+	        return {
+	          source: source,
+	          line: util.getArg(mapping, 'originalLine', null),
+	          column: util.getArg(mapping, 'originalColumn', null),
+	          name: util.getArg(mapping, 'name', null)
+	        };
+	      }
+	
+	      return {
+	        source: null,
+	        line: null,
+	        column: null,
+	        name: null
+	      };
+	    };
+	
+	  /**
+	   * Returns the original source content. The only argument is the url of the
+	   * original source file. Returns null if no original source content is
+	   * availible.
+	   */
+	  SourceMapConsumer.prototype.sourceContentFor =
+	    function SourceMapConsumer_sourceContentFor(aSource) {
+	      if (!this.sourcesContent) {
+	        return null;
+	      }
+	
+	      if (this.sourceRoot) {
+	        aSource = util.relative(this.sourceRoot, aSource);
+	      }
+	
+	      if (this._sources.has(aSource)) {
+	        return this.sourcesContent[this._sources.indexOf(aSource)];
+	      }
+	
+	      var url;
+	      if (this.sourceRoot
+	          && (url = util.urlParse(this.sourceRoot))) {
+	        // XXX: file:// URIs and absolute paths lead to unexpected behavior for
+	        // many users. We can help them out when they expect file:// URIs to
+	        // behave like it would if they were running a local HTTP server. See
+	        // https://bugzilla.mozilla.org/show_bug.cgi?id=885597.
+	        var fileUriAbsPath = aSource.replace(/^file:\/\//, "");
+	        if (url.scheme == "file"
+	            && this._sources.has(fileUriAbsPath)) {
+	          return this.sourcesContent[this._sources.indexOf(fileUriAbsPath)]
+	        }
+	
+	        if ((!url.path || url.path == "/")
+	            && this._sources.has("/" + aSource)) {
+	          return this.sourcesContent[this._sources.indexOf("/" + aSource)];
+	        }
+	      }
+	
+	      throw new Error('"' + aSource + '" is not in the SourceMap.');
+	    };
+	
+	  /**
+	   * Returns the generated line and column information for the original source,
+	   * line, and column positions provided. The only argument is an object with
+	   * the following properties:
+	   *
+	   *   - source: The filename of the original source.
+	   *   - line: The line number in the original source.
+	   *   - column: The column number in the original source.
+	   *
+	   * and an object is returned with the following properties:
+	   *
+	   *   - line: The line number in the generated source, or null.
+	   *   - column: The column number in the generated source, or null.
+	   */
+	  SourceMapConsumer.prototype.generatedPositionFor =
+	    function SourceMapConsumer_generatedPositionFor(aArgs) {
+	      var needle = {
+	        source: util.getArg(aArgs, 'source'),
+	        originalLine: util.getArg(aArgs, 'line'),
+	        originalColumn: util.getArg(aArgs, 'column')
+	      };
+	
+	      if (this.sourceRoot) {
+	        needle.source = util.relative(this.sourceRoot, needle.source);
+	      }
+	
+	      var mapping = this._findMapping(needle,
+	                                      this._originalMappings,
+	                                      "originalLine",
+	                                      "originalColumn",
+	                                      util.compareByOriginalPositions);
+	
+	      if (mapping) {
+	        return {
+	          line: util.getArg(mapping, 'generatedLine', null),
+	          column: util.getArg(mapping, 'generatedColumn', null)
+	        };
+	      }
+	
+	      return {
+	        line: null,
+	        column: null
+	      };
+	    };
+	
+	  SourceMapConsumer.GENERATED_ORDER = 1;
+	  SourceMapConsumer.ORIGINAL_ORDER = 2;
+	
+	  /**
+	   * Iterate over each mapping between an original source/line/column and a
+	   * generated line/column in this source map.
+	   *
+	   * @param Function aCallback
+	   *        The function that is called with each mapping.
+	   * @param Object aContext
+	   *        Optional. If specified, this object will be the value of `this` every
+	   *        time that `aCallback` is called.
+	   * @param aOrder
+	   *        Either `SourceMapConsumer.GENERATED_ORDER` or
+	   *        `SourceMapConsumer.ORIGINAL_ORDER`. Specifies whether you want to
+	   *        iterate over the mappings sorted by the generated file's line/column
+	   *        order or the original's source/line/column order, respectively. Defaults to
+	   *        `SourceMapConsumer.GENERATED_ORDER`.
+	   */
+	  SourceMapConsumer.prototype.eachMapping =
+	    function SourceMapConsumer_eachMapping(aCallback, aContext, aOrder) {
+	      var context = aContext || null;
+	      var order = aOrder || SourceMapConsumer.GENERATED_ORDER;
+	
+	      var mappings;
+	      switch (order) {
+	      case SourceMapConsumer.GENERATED_ORDER:
+	        mappings = this._generatedMappings;
+	        break;
+	      case SourceMapConsumer.ORIGINAL_ORDER:
+	        mappings = this._originalMappings;
+	        break;
+	      default:
+	        throw new Error("Unknown order of iteration.");
+	      }
+	
+	      var sourceRoot = this.sourceRoot;
+	      mappings.map(function (mapping) {
+	        var source = mapping.source;
+	        if (source && sourceRoot) {
+	          source = util.join(sourceRoot, source);
+	        }
+	        return {
+	          source: source,
+	          generatedLine: mapping.generatedLine,
+	          generatedColumn: mapping.generatedColumn,
+	          originalLine: mapping.originalLine,
+	          originalColumn: mapping.originalColumn,
+	          name: mapping.name
+	        };
+	      }).forEach(aCallback, context);
+	    };
+	
+	  exports.SourceMapConsumer = SourceMapConsumer;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 84 */
+/*!****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/index.js ***!
+  \****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 94);
+	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 95);
+
+
+/***/ },
+/* 85 */
 /*!************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
   \************************************************************/
@@ -14806,1299 +16152,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/buildin/module.js */ 101)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/buildin/module.js */ 102)(module), (function() { return this; }())))
 
 /***/ },
-/* 82 */
-/*!***********************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-generator.js ***!
-  \***********************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 94);
-	  var util = __webpack_require__(/*! ./util */ 95);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 96).ArraySet;
-	
-	  /**
-	   * An instance of the SourceMapGenerator represents a source map which is
-	   * being built incrementally. You may pass an object with the following
-	   * properties:
-	   *
-	   *   - file: The filename of the generated source.
-	   *   - sourceRoot: A root for all relative URLs in this source map.
-	   */
-	  function SourceMapGenerator(aArgs) {
-	    if (!aArgs) {
-	      aArgs = {};
-	    }
-	    this._file = util.getArg(aArgs, 'file', null);
-	    this._sourceRoot = util.getArg(aArgs, 'sourceRoot', null);
-	    this._sources = new ArraySet();
-	    this._names = new ArraySet();
-	    this._mappings = [];
-	    this._sourcesContents = null;
-	  }
-	
-	  SourceMapGenerator.prototype._version = 3;
-	
-	  /**
-	   * Creates a new SourceMapGenerator based on a SourceMapConsumer
-	   *
-	   * @param aSourceMapConsumer The SourceMap.
-	   */
-	  SourceMapGenerator.fromSourceMap =
-	    function SourceMapGenerator_fromSourceMap(aSourceMapConsumer) {
-	      var sourceRoot = aSourceMapConsumer.sourceRoot;
-	      var generator = new SourceMapGenerator({
-	        file: aSourceMapConsumer.file,
-	        sourceRoot: sourceRoot
-	      });
-	      aSourceMapConsumer.eachMapping(function (mapping) {
-	        var newMapping = {
-	          generated: {
-	            line: mapping.generatedLine,
-	            column: mapping.generatedColumn
-	          }
-	        };
-	
-	        if (mapping.source) {
-	          newMapping.source = mapping.source;
-	          if (sourceRoot) {
-	            newMapping.source = util.relative(sourceRoot, newMapping.source);
-	          }
-	
-	          newMapping.original = {
-	            line: mapping.originalLine,
-	            column: mapping.originalColumn
-	          };
-	
-	          if (mapping.name) {
-	            newMapping.name = mapping.name;
-	          }
-	        }
-	
-	        generator.addMapping(newMapping);
-	      });
-	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
-	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-	        if (content) {
-	          generator.setSourceContent(sourceFile, content);
-	        }
-	      });
-	      return generator;
-	    };
-	
-	  /**
-	   * Add a single mapping from original source line and column to the generated
-	   * source's line and column for this source map being created. The mapping
-	   * object should have the following properties:
-	   *
-	   *   - generated: An object with the generated line and column positions.
-	   *   - original: An object with the original line and column positions.
-	   *   - source: The original source file (relative to the sourceRoot).
-	   *   - name: An optional original token name for this mapping.
-	   */
-	  SourceMapGenerator.prototype.addMapping =
-	    function SourceMapGenerator_addMapping(aArgs) {
-	      var generated = util.getArg(aArgs, 'generated');
-	      var original = util.getArg(aArgs, 'original', null);
-	      var source = util.getArg(aArgs, 'source', null);
-	      var name = util.getArg(aArgs, 'name', null);
-	
-	      this._validateMapping(generated, original, source, name);
-	
-	      if (source && !this._sources.has(source)) {
-	        this._sources.add(source);
-	      }
-	
-	      if (name && !this._names.has(name)) {
-	        this._names.add(name);
-	      }
-	
-	      this._mappings.push({
-	        generatedLine: generated.line,
-	        generatedColumn: generated.column,
-	        originalLine: original != null && original.line,
-	        originalColumn: original != null && original.column,
-	        source: source,
-	        name: name
-	      });
-	    };
-	
-	  /**
-	   * Set the source content for a source file.
-	   */
-	  SourceMapGenerator.prototype.setSourceContent =
-	    function SourceMapGenerator_setSourceContent(aSourceFile, aSourceContent) {
-	      var source = aSourceFile;
-	      if (this._sourceRoot) {
-	        source = util.relative(this._sourceRoot, source);
-	      }
-	
-	      if (aSourceContent !== null) {
-	        // Add the source content to the _sourcesContents map.
-	        // Create a new _sourcesContents map if the property is null.
-	        if (!this._sourcesContents) {
-	          this._sourcesContents = {};
-	        }
-	        this._sourcesContents[util.toSetString(source)] = aSourceContent;
-	      } else {
-	        // Remove the source file from the _sourcesContents map.
-	        // If the _sourcesContents map is empty, set the property to null.
-	        delete this._sourcesContents[util.toSetString(source)];
-	        if (Object.keys(this._sourcesContents).length === 0) {
-	          this._sourcesContents = null;
-	        }
-	      }
-	    };
-	
-	  /**
-	   * Applies the mappings of a sub-source-map for a specific source file to the
-	   * source map being generated. Each mapping to the supplied source file is
-	   * rewritten using the supplied source map. Note: The resolution for the
-	   * resulting mappings is the minimium of this map and the supplied map.
-	   *
-	   * @param aSourceMapConsumer The source map to be applied.
-	   * @param aSourceFile Optional. The filename of the source file.
-	   *        If omitted, SourceMapConsumer's file property will be used.
-	   * @param aSourceMapPath Optional. The dirname of the path to the source map
-	   *        to be applied. If relative, it is relative to the SourceMapConsumer.
-	   *        This parameter is needed when the two source maps aren't in the same
-	   *        directory, and the source map to be applied contains relative source
-	   *        paths. If so, those relative source paths need to be rewritten
-	   *        relative to the SourceMapGenerator.
-	   */
-	  SourceMapGenerator.prototype.applySourceMap =
-	    function SourceMapGenerator_applySourceMap(aSourceMapConsumer, aSourceFile, aSourceMapPath) {
-	      // If aSourceFile is omitted, we will use the file property of the SourceMap
-	      if (!aSourceFile) {
-	        if (!aSourceMapConsumer.file) {
-	          throw new Error(
-	            'SourceMapGenerator.prototype.applySourceMap requires either an explicit source file, ' +
-	            'or the source map\'s "file" property. Both were omitted.'
-	          );
-	        }
-	        aSourceFile = aSourceMapConsumer.file;
-	      }
-	      var sourceRoot = this._sourceRoot;
-	      // Make "aSourceFile" relative if an absolute Url is passed.
-	      if (sourceRoot) {
-	        aSourceFile = util.relative(sourceRoot, aSourceFile);
-	      }
-	      // Applying the SourceMap can add and remove items from the sources and
-	      // the names array.
-	      var newSources = new ArraySet();
-	      var newNames = new ArraySet();
-	
-	      // Find mappings for the "aSourceFile"
-	      this._mappings.forEach(function (mapping) {
-	        if (mapping.source === aSourceFile && mapping.originalLine) {
-	          // Check if it can be mapped by the source map, then update the mapping.
-	          var original = aSourceMapConsumer.originalPositionFor({
-	            line: mapping.originalLine,
-	            column: mapping.originalColumn
-	          });
-	          if (original.source !== null) {
-	            // Copy mapping
-	            mapping.source = original.source;
-	            if (aSourceMapPath) {
-	              mapping.source = util.join(aSourceMapPath, mapping.source)
-	            }
-	            if (sourceRoot) {
-	              mapping.source = util.relative(sourceRoot, mapping.source);
-	            }
-	            mapping.originalLine = original.line;
-	            mapping.originalColumn = original.column;
-	            if (original.name !== null && mapping.name !== null) {
-	              // Only use the identifier name if it's an identifier
-	              // in both SourceMaps
-	              mapping.name = original.name;
-	            }
-	          }
-	        }
-	
-	        var source = mapping.source;
-	        if (source && !newSources.has(source)) {
-	          newSources.add(source);
-	        }
-	
-	        var name = mapping.name;
-	        if (name && !newNames.has(name)) {
-	          newNames.add(name);
-	        }
-	
-	      }, this);
-	      this._sources = newSources;
-	      this._names = newNames;
-	
-	      // Copy sourcesContents of applied map.
-	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
-	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-	        if (content) {
-	          if (sourceRoot) {
-	            sourceFile = util.relative(sourceRoot, sourceFile);
-	          }
-	          this.setSourceContent(sourceFile, content);
-	        }
-	      }, this);
-	    };
-	
-	  /**
-	   * A mapping can have one of the three levels of data:
-	   *
-	   *   1. Just the generated position.
-	   *   2. The Generated position, original position, and original source.
-	   *   3. Generated and original position, original source, as well as a name
-	   *      token.
-	   *
-	   * To maintain consistency, we validate that any new mapping being added falls
-	   * in to one of these categories.
-	   */
-	  SourceMapGenerator.prototype._validateMapping =
-	    function SourceMapGenerator_validateMapping(aGenerated, aOriginal, aSource,
-	                                                aName) {
-	      if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
-	          && aGenerated.line > 0 && aGenerated.column >= 0
-	          && !aOriginal && !aSource && !aName) {
-	        // Case 1.
-	        return;
-	      }
-	      else if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
-	               && aOriginal && 'line' in aOriginal && 'column' in aOriginal
-	               && aGenerated.line > 0 && aGenerated.column >= 0
-	               && aOriginal.line > 0 && aOriginal.column >= 0
-	               && aSource) {
-	        // Cases 2 and 3.
-	        return;
-	      }
-	      else {
-	        throw new Error('Invalid mapping: ' + JSON.stringify({
-	          generated: aGenerated,
-	          source: aSource,
-	          original: aOriginal,
-	          name: aName
-	        }));
-	      }
-	    };
-	
-	  /**
-	   * Serialize the accumulated mappings in to the stream of base 64 VLQs
-	   * specified by the source map format.
-	   */
-	  SourceMapGenerator.prototype._serializeMappings =
-	    function SourceMapGenerator_serializeMappings() {
-	      var previousGeneratedColumn = 0;
-	      var previousGeneratedLine = 1;
-	      var previousOriginalColumn = 0;
-	      var previousOriginalLine = 0;
-	      var previousName = 0;
-	      var previousSource = 0;
-	      var result = '';
-	      var mapping;
-	
-	      // The mappings must be guaranteed to be in sorted order before we start
-	      // serializing them or else the generated line numbers (which are defined
-	      // via the ';' separators) will be all messed up. Note: it might be more
-	      // performant to maintain the sorting as we insert them, rather than as we
-	      // serialize them, but the big O is the same either way.
-	      this._mappings.sort(util.compareByGeneratedPositions);
-	
-	      for (var i = 0, len = this._mappings.length; i < len; i++) {
-	        mapping = this._mappings[i];
-	
-	        if (mapping.generatedLine !== previousGeneratedLine) {
-	          previousGeneratedColumn = 0;
-	          while (mapping.generatedLine !== previousGeneratedLine) {
-	            result += ';';
-	            previousGeneratedLine++;
-	          }
-	        }
-	        else {
-	          if (i > 0) {
-	            if (!util.compareByGeneratedPositions(mapping, this._mappings[i - 1])) {
-	              continue;
-	            }
-	            result += ',';
-	          }
-	        }
-	
-	        result += base64VLQ.encode(mapping.generatedColumn
-	                                   - previousGeneratedColumn);
-	        previousGeneratedColumn = mapping.generatedColumn;
-	
-	        if (mapping.source) {
-	          result += base64VLQ.encode(this._sources.indexOf(mapping.source)
-	                                     - previousSource);
-	          previousSource = this._sources.indexOf(mapping.source);
-	
-	          // lines are stored 0-based in SourceMap spec version 3
-	          result += base64VLQ.encode(mapping.originalLine - 1
-	                                     - previousOriginalLine);
-	          previousOriginalLine = mapping.originalLine - 1;
-	
-	          result += base64VLQ.encode(mapping.originalColumn
-	                                     - previousOriginalColumn);
-	          previousOriginalColumn = mapping.originalColumn;
-	
-	          if (mapping.name) {
-	            result += base64VLQ.encode(this._names.indexOf(mapping.name)
-	                                       - previousName);
-	            previousName = this._names.indexOf(mapping.name);
-	          }
-	        }
-	      }
-	
-	      return result;
-	    };
-	
-	  SourceMapGenerator.prototype._generateSourcesContent =
-	    function SourceMapGenerator_generateSourcesContent(aSources, aSourceRoot) {
-	      return aSources.map(function (source) {
-	        if (!this._sourcesContents) {
-	          return null;
-	        }
-	        if (aSourceRoot) {
-	          source = util.relative(aSourceRoot, source);
-	        }
-	        var key = util.toSetString(source);
-	        return Object.prototype.hasOwnProperty.call(this._sourcesContents,
-	                                                    key)
-	          ? this._sourcesContents[key]
-	          : null;
-	      }, this);
-	    };
-	
-	  /**
-	   * Externalize the source map.
-	   */
-	  SourceMapGenerator.prototype.toJSON =
-	    function SourceMapGenerator_toJSON() {
-	      var map = {
-	        version: this._version,
-	        file: this._file,
-	        sources: this._sources.toArray(),
-	        names: this._names.toArray(),
-	        mappings: this._serializeMappings()
-	      };
-	      if (this._sourceRoot) {
-	        map.sourceRoot = this._sourceRoot;
-	      }
-	      if (this._sourcesContents) {
-	        map.sourcesContent = this._generateSourcesContent(map.sources, map.sourceRoot);
-	      }
-	
-	      return map;
-	    };
-	
-	  /**
-	   * Render the source map being generated to a string.
-	   */
-	  SourceMapGenerator.prototype.toString =
-	    function SourceMapGenerator_toString() {
-	      return JSON.stringify(this);
-	    };
-	
-	  exports.SourceMapGenerator = SourceMapGenerator;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 83 */
-/*!**********************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-consumer.js ***!
-  \**********************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var util = __webpack_require__(/*! ./util */ 95);
-	  var binarySearch = __webpack_require__(/*! ./binary-search */ 98);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 96).ArraySet;
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 94);
-	
-	  /**
-	   * A SourceMapConsumer instance represents a parsed source map which we can
-	   * query for information about the original file positions by giving it a file
-	   * position in the generated source.
-	   *
-	   * The only parameter is the raw source map (either as a JSON string, or
-	   * already parsed to an object). According to the spec, source maps have the
-	   * following attributes:
-	   *
-	   *   - version: Which version of the source map spec this map is following.
-	   *   - sources: An array of URLs to the original source files.
-	   *   - names: An array of identifiers which can be referrenced by individual mappings.
-	   *   - sourceRoot: Optional. The URL root from which all sources are relative.
-	   *   - sourcesContent: Optional. An array of contents of the original source files.
-	   *   - mappings: A string of base64 VLQs which contain the actual mappings.
-	   *   - file: Optional. The generated file this source map is associated with.
-	   *
-	   * Here is an example source map, taken from the source map spec[0]:
-	   *
-	   *     {
-	   *       version : 3,
-	   *       file: "out.js",
-	   *       sourceRoot : "",
-	   *       sources: ["foo.js", "bar.js"],
-	   *       names: ["src", "maps", "are", "fun"],
-	   *       mappings: "AA,AB;;ABCDE;"
-	   *     }
-	   *
-	   * [0]: https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit?pli=1#
-	   */
-	  function SourceMapConsumer(aSourceMap) {
-	    var sourceMap = aSourceMap;
-	    if (typeof aSourceMap === 'string') {
-	      sourceMap = JSON.parse(aSourceMap.replace(/^\)\]\}'/, ''));
-	    }
-	
-	    var version = util.getArg(sourceMap, 'version');
-	    var sources = util.getArg(sourceMap, 'sources');
-	    // Sass 3.3 leaves out the 'names' array, so we deviate from the spec (which
-	    // requires the array) to play nice here.
-	    var names = util.getArg(sourceMap, 'names', []);
-	    var sourceRoot = util.getArg(sourceMap, 'sourceRoot', null);
-	    var sourcesContent = util.getArg(sourceMap, 'sourcesContent', null);
-	    var mappings = util.getArg(sourceMap, 'mappings');
-	    var file = util.getArg(sourceMap, 'file', null);
-	
-	    // Once again, Sass deviates from the spec and supplies the version as a
-	    // string rather than a number, so we use loose equality checking here.
-	    if (version != this._version) {
-	      throw new Error('Unsupported version: ' + version);
-	    }
-	
-	    // Pass `true` below to allow duplicate names and sources. While source maps
-	    // are intended to be compressed and deduplicated, the TypeScript compiler
-	    // sometimes generates source maps with duplicates in them. See Github issue
-	    // #72 and bugzil.la/889492.
-	    this._names = ArraySet.fromArray(names, true);
-	    this._sources = ArraySet.fromArray(sources, true);
-	
-	    this.sourceRoot = sourceRoot;
-	    this.sourcesContent = sourcesContent;
-	    this._mappings = mappings;
-	    this.file = file;
-	  }
-	
-	  /**
-	   * Create a SourceMapConsumer from a SourceMapGenerator.
-	   *
-	   * @param SourceMapGenerator aSourceMap
-	   *        The source map that will be consumed.
-	   * @returns SourceMapConsumer
-	   */
-	  SourceMapConsumer.fromSourceMap =
-	    function SourceMapConsumer_fromSourceMap(aSourceMap) {
-	      var smc = Object.create(SourceMapConsumer.prototype);
-	
-	      smc._names = ArraySet.fromArray(aSourceMap._names.toArray(), true);
-	      smc._sources = ArraySet.fromArray(aSourceMap._sources.toArray(), true);
-	      smc.sourceRoot = aSourceMap._sourceRoot;
-	      smc.sourcesContent = aSourceMap._generateSourcesContent(smc._sources.toArray(),
-	                                                              smc.sourceRoot);
-	      smc.file = aSourceMap._file;
-	
-	      smc.__generatedMappings = aSourceMap._mappings.slice()
-	        .sort(util.compareByGeneratedPositions);
-	      smc.__originalMappings = aSourceMap._mappings.slice()
-	        .sort(util.compareByOriginalPositions);
-	
-	      return smc;
-	    };
-	
-	  /**
-	   * The version of the source mapping spec that we are consuming.
-	   */
-	  SourceMapConsumer.prototype._version = 3;
-	
-	  /**
-	   * The list of original sources.
-	   */
-	  Object.defineProperty(SourceMapConsumer.prototype, 'sources', {
-	    get: function () {
-	      return this._sources.toArray().map(function (s) {
-	        return this.sourceRoot ? util.join(this.sourceRoot, s) : s;
-	      }, this);
-	    }
-	  });
-	
-	  // `__generatedMappings` and `__originalMappings` are arrays that hold the
-	  // parsed mapping coordinates from the source map's "mappings" attribute. They
-	  // are lazily instantiated, accessed via the `_generatedMappings` and
-	  // `_originalMappings` getters respectively, and we only parse the mappings
-	  // and create these arrays once queried for a source location. We jump through
-	  // these hoops because there can be many thousands of mappings, and parsing
-	  // them is expensive, so we only want to do it if we must.
-	  //
-	  // Each object in the arrays is of the form:
-	  //
-	  //     {
-	  //       generatedLine: The line number in the generated code,
-	  //       generatedColumn: The column number in the generated code,
-	  //       source: The path to the original source file that generated this
-	  //               chunk of code,
-	  //       originalLine: The line number in the original source that
-	  //                     corresponds to this chunk of generated code,
-	  //       originalColumn: The column number in the original source that
-	  //                       corresponds to this chunk of generated code,
-	  //       name: The name of the original symbol which generated this chunk of
-	  //             code.
-	  //     }
-	  //
-	  // All properties except for `generatedLine` and `generatedColumn` can be
-	  // `null`.
-	  //
-	  // `_generatedMappings` is ordered by the generated positions.
-	  //
-	  // `_originalMappings` is ordered by the original positions.
-	
-	  SourceMapConsumer.prototype.__generatedMappings = null;
-	  Object.defineProperty(SourceMapConsumer.prototype, '_generatedMappings', {
-	    get: function () {
-	      if (!this.__generatedMappings) {
-	        this.__generatedMappings = [];
-	        this.__originalMappings = [];
-	        this._parseMappings(this._mappings, this.sourceRoot);
-	      }
-	
-	      return this.__generatedMappings;
-	    }
-	  });
-	
-	  SourceMapConsumer.prototype.__originalMappings = null;
-	  Object.defineProperty(SourceMapConsumer.prototype, '_originalMappings', {
-	    get: function () {
-	      if (!this.__originalMappings) {
-	        this.__generatedMappings = [];
-	        this.__originalMappings = [];
-	        this._parseMappings(this._mappings, this.sourceRoot);
-	      }
-	
-	      return this.__originalMappings;
-	    }
-	  });
-	
-	  /**
-	   * Parse the mappings in a string in to a data structure which we can easily
-	   * query (the ordered arrays in the `this.__generatedMappings` and
-	   * `this.__originalMappings` properties).
-	   */
-	  SourceMapConsumer.prototype._parseMappings =
-	    function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
-	      var generatedLine = 1;
-	      var previousGeneratedColumn = 0;
-	      var previousOriginalLine = 0;
-	      var previousOriginalColumn = 0;
-	      var previousSource = 0;
-	      var previousName = 0;
-	      var mappingSeparator = /^[,;]/;
-	      var str = aStr;
-	      var mapping;
-	      var temp;
-	
-	      while (str.length > 0) {
-	        if (str.charAt(0) === ';') {
-	          generatedLine++;
-	          str = str.slice(1);
-	          previousGeneratedColumn = 0;
-	        }
-	        else if (str.charAt(0) === ',') {
-	          str = str.slice(1);
-	        }
-	        else {
-	          mapping = {};
-	          mapping.generatedLine = generatedLine;
-	
-	          // Generated column.
-	          temp = base64VLQ.decode(str);
-	          mapping.generatedColumn = previousGeneratedColumn + temp.value;
-	          previousGeneratedColumn = mapping.generatedColumn;
-	          str = temp.rest;
-	
-	          if (str.length > 0 && !mappingSeparator.test(str.charAt(0))) {
-	            // Original source.
-	            temp = base64VLQ.decode(str);
-	            mapping.source = this._sources.at(previousSource + temp.value);
-	            previousSource += temp.value;
-	            str = temp.rest;
-	            if (str.length === 0 || mappingSeparator.test(str.charAt(0))) {
-	              throw new Error('Found a source, but no line and column');
-	            }
-	
-	            // Original line.
-	            temp = base64VLQ.decode(str);
-	            mapping.originalLine = previousOriginalLine + temp.value;
-	            previousOriginalLine = mapping.originalLine;
-	            // Lines are stored 0-based
-	            mapping.originalLine += 1;
-	            str = temp.rest;
-	            if (str.length === 0 || mappingSeparator.test(str.charAt(0))) {
-	              throw new Error('Found a source and line, but no column');
-	            }
-	
-	            // Original column.
-	            temp = base64VLQ.decode(str);
-	            mapping.originalColumn = previousOriginalColumn + temp.value;
-	            previousOriginalColumn = mapping.originalColumn;
-	            str = temp.rest;
-	
-	            if (str.length > 0 && !mappingSeparator.test(str.charAt(0))) {
-	              // Original name.
-	              temp = base64VLQ.decode(str);
-	              mapping.name = this._names.at(previousName + temp.value);
-	              previousName += temp.value;
-	              str = temp.rest;
-	            }
-	          }
-	
-	          this.__generatedMappings.push(mapping);
-	          if (typeof mapping.originalLine === 'number') {
-	            this.__originalMappings.push(mapping);
-	          }
-	        }
-	      }
-	
-	      this.__generatedMappings.sort(util.compareByGeneratedPositions);
-	      this.__originalMappings.sort(util.compareByOriginalPositions);
-	    };
-	
-	  /**
-	   * Find the mapping that best matches the hypothetical "needle" mapping that
-	   * we are searching for in the given "haystack" of mappings.
-	   */
-	  SourceMapConsumer.prototype._findMapping =
-	    function SourceMapConsumer_findMapping(aNeedle, aMappings, aLineName,
-	                                           aColumnName, aComparator) {
-	      // To return the position we are searching for, we must first find the
-	      // mapping for the given position and then return the opposite position it
-	      // points to. Because the mappings are sorted, we can use binary search to
-	      // find the best mapping.
-	
-	      if (aNeedle[aLineName] <= 0) {
-	        throw new TypeError('Line must be greater than or equal to 1, got '
-	                            + aNeedle[aLineName]);
-	      }
-	      if (aNeedle[aColumnName] < 0) {
-	        throw new TypeError('Column must be greater than or equal to 0, got '
-	                            + aNeedle[aColumnName]);
-	      }
-	
-	      return binarySearch.search(aNeedle, aMappings, aComparator);
-	    };
-	
-	  /**
-	   * Returns the original source, line, and column information for the generated
-	   * source's line and column positions provided. The only argument is an object
-	   * with the following properties:
-	   *
-	   *   - line: The line number in the generated source.
-	   *   - column: The column number in the generated source.
-	   *
-	   * and an object is returned with the following properties:
-	   *
-	   *   - source: The original source file, or null.
-	   *   - line: The line number in the original source, or null.
-	   *   - column: The column number in the original source, or null.
-	   *   - name: The original identifier, or null.
-	   */
-	  SourceMapConsumer.prototype.originalPositionFor =
-	    function SourceMapConsumer_originalPositionFor(aArgs) {
-	      var needle = {
-	        generatedLine: util.getArg(aArgs, 'line'),
-	        generatedColumn: util.getArg(aArgs, 'column')
-	      };
-	
-	      var mapping = this._findMapping(needle,
-	                                      this._generatedMappings,
-	                                      "generatedLine",
-	                                      "generatedColumn",
-	                                      util.compareByGeneratedPositions);
-	
-	      if (mapping && mapping.generatedLine === needle.generatedLine) {
-	        var source = util.getArg(mapping, 'source', null);
-	        if (source && this.sourceRoot) {
-	          source = util.join(this.sourceRoot, source);
-	        }
-	        return {
-	          source: source,
-	          line: util.getArg(mapping, 'originalLine', null),
-	          column: util.getArg(mapping, 'originalColumn', null),
-	          name: util.getArg(mapping, 'name', null)
-	        };
-	      }
-	
-	      return {
-	        source: null,
-	        line: null,
-	        column: null,
-	        name: null
-	      };
-	    };
-	
-	  /**
-	   * Returns the original source content. The only argument is the url of the
-	   * original source file. Returns null if no original source content is
-	   * availible.
-	   */
-	  SourceMapConsumer.prototype.sourceContentFor =
-	    function SourceMapConsumer_sourceContentFor(aSource) {
-	      if (!this.sourcesContent) {
-	        return null;
-	      }
-	
-	      if (this.sourceRoot) {
-	        aSource = util.relative(this.sourceRoot, aSource);
-	      }
-	
-	      if (this._sources.has(aSource)) {
-	        return this.sourcesContent[this._sources.indexOf(aSource)];
-	      }
-	
-	      var url;
-	      if (this.sourceRoot
-	          && (url = util.urlParse(this.sourceRoot))) {
-	        // XXX: file:// URIs and absolute paths lead to unexpected behavior for
-	        // many users. We can help them out when they expect file:// URIs to
-	        // behave like it would if they were running a local HTTP server. See
-	        // https://bugzilla.mozilla.org/show_bug.cgi?id=885597.
-	        var fileUriAbsPath = aSource.replace(/^file:\/\//, "");
-	        if (url.scheme == "file"
-	            && this._sources.has(fileUriAbsPath)) {
-	          return this.sourcesContent[this._sources.indexOf(fileUriAbsPath)]
-	        }
-	
-	        if ((!url.path || url.path == "/")
-	            && this._sources.has("/" + aSource)) {
-	          return this.sourcesContent[this._sources.indexOf("/" + aSource)];
-	        }
-	      }
-	
-	      throw new Error('"' + aSource + '" is not in the SourceMap.');
-	    };
-	
-	  /**
-	   * Returns the generated line and column information for the original source,
-	   * line, and column positions provided. The only argument is an object with
-	   * the following properties:
-	   *
-	   *   - source: The filename of the original source.
-	   *   - line: The line number in the original source.
-	   *   - column: The column number in the original source.
-	   *
-	   * and an object is returned with the following properties:
-	   *
-	   *   - line: The line number in the generated source, or null.
-	   *   - column: The column number in the generated source, or null.
-	   */
-	  SourceMapConsumer.prototype.generatedPositionFor =
-	    function SourceMapConsumer_generatedPositionFor(aArgs) {
-	      var needle = {
-	        source: util.getArg(aArgs, 'source'),
-	        originalLine: util.getArg(aArgs, 'line'),
-	        originalColumn: util.getArg(aArgs, 'column')
-	      };
-	
-	      if (this.sourceRoot) {
-	        needle.source = util.relative(this.sourceRoot, needle.source);
-	      }
-	
-	      var mapping = this._findMapping(needle,
-	                                      this._originalMappings,
-	                                      "originalLine",
-	                                      "originalColumn",
-	                                      util.compareByOriginalPositions);
-	
-	      if (mapping) {
-	        return {
-	          line: util.getArg(mapping, 'generatedLine', null),
-	          column: util.getArg(mapping, 'generatedColumn', null)
-	        };
-	      }
-	
-	      return {
-	        line: null,
-	        column: null
-	      };
-	    };
-	
-	  SourceMapConsumer.GENERATED_ORDER = 1;
-	  SourceMapConsumer.ORIGINAL_ORDER = 2;
-	
-	  /**
-	   * Iterate over each mapping between an original source/line/column and a
-	   * generated line/column in this source map.
-	   *
-	   * @param Function aCallback
-	   *        The function that is called with each mapping.
-	   * @param Object aContext
-	   *        Optional. If specified, this object will be the value of `this` every
-	   *        time that `aCallback` is called.
-	   * @param aOrder
-	   *        Either `SourceMapConsumer.GENERATED_ORDER` or
-	   *        `SourceMapConsumer.ORIGINAL_ORDER`. Specifies whether you want to
-	   *        iterate over the mappings sorted by the generated file's line/column
-	   *        order or the original's source/line/column order, respectively. Defaults to
-	   *        `SourceMapConsumer.GENERATED_ORDER`.
-	   */
-	  SourceMapConsumer.prototype.eachMapping =
-	    function SourceMapConsumer_eachMapping(aCallback, aContext, aOrder) {
-	      var context = aContext || null;
-	      var order = aOrder || SourceMapConsumer.GENERATED_ORDER;
-	
-	      var mappings;
-	      switch (order) {
-	      case SourceMapConsumer.GENERATED_ORDER:
-	        mappings = this._generatedMappings;
-	        break;
-	      case SourceMapConsumer.ORIGINAL_ORDER:
-	        mappings = this._originalMappings;
-	        break;
-	      default:
-	        throw new Error("Unknown order of iteration.");
-	      }
-	
-	      var sourceRoot = this.sourceRoot;
-	      mappings.map(function (mapping) {
-	        var source = mapping.source;
-	        if (source && sourceRoot) {
-	          source = util.join(sourceRoot, source);
-	        }
-	        return {
-	          source: source,
-	          generatedLine: mapping.generatedLine,
-	          generatedColumn: mapping.generatedColumn,
-	          originalLine: mapping.originalLine,
-	          originalColumn: mapping.originalColumn,
-	          name: mapping.name
-	        };
-	      }).forEach(aCallback, context);
-	    };
-	
-	  exports.SourceMapConsumer = SourceMapConsumer;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 84 */
-/*!**************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
-  \**************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 82).SourceMapGenerator;
-	  var util = __webpack_require__(/*! ./util */ 95);
-	
-	  /**
-	   * SourceNodes provide a way to abstract over interpolating/concatenating
-	   * snippets of generated JavaScript source code while maintaining the line and
-	   * column information associated with the original source code.
-	   *
-	   * @param aLine The original line number.
-	   * @param aColumn The original column number.
-	   * @param aSource The original source's filename.
-	   * @param aChunks Optional. An array of strings which are snippets of
-	   *        generated JS, or other SourceNodes.
-	   * @param aName The original identifier.
-	   */
-	  function SourceNode(aLine, aColumn, aSource, aChunks, aName) {
-	    this.children = [];
-	    this.sourceContents = {};
-	    this.line = aLine === undefined ? null : aLine;
-	    this.column = aColumn === undefined ? null : aColumn;
-	    this.source = aSource === undefined ? null : aSource;
-	    this.name = aName === undefined ? null : aName;
-	    if (aChunks != null) this.add(aChunks);
-	  }
-	
-	  /**
-	   * Creates a SourceNode from generated code and a SourceMapConsumer.
-	   *
-	   * @param aGeneratedCode The generated code
-	   * @param aSourceMapConsumer The SourceMap for the generated code
-	   */
-	  SourceNode.fromStringWithSourceMap =
-	    function SourceNode_fromStringWithSourceMap(aGeneratedCode, aSourceMapConsumer) {
-	      // The SourceNode we want to fill with the generated code
-	      // and the SourceMap
-	      var node = new SourceNode();
-	
-	      // The generated code
-	      // Processed fragments are removed from this array.
-	      var remainingLines = aGeneratedCode.split('\n');
-	
-	      // We need to remember the position of "remainingLines"
-	      var lastGeneratedLine = 1, lastGeneratedColumn = 0;
-	
-	      // The generate SourceNodes we need a code range.
-	      // To extract it current and last mapping is used.
-	      // Here we store the last mapping.
-	      var lastMapping = null;
-	
-	      aSourceMapConsumer.eachMapping(function (mapping) {
-	        if (lastMapping !== null) {
-	          // We add the code from "lastMapping" to "mapping":
-	          // First check if there is a new line in between.
-	          if (lastGeneratedLine < mapping.generatedLine) {
-	            var code = "";
-	            // Associate first line with "lastMapping"
-	            addMappingWithCode(lastMapping, remainingLines.shift() + "\n");
-	            lastGeneratedLine++;
-	            lastGeneratedColumn = 0;
-	            // The remaining code is added without mapping
-	          } else {
-	            // There is no new line in between.
-	            // Associate the code between "lastGeneratedColumn" and
-	            // "mapping.generatedColumn" with "lastMapping"
-	            var nextLine = remainingLines[0];
-	            var code = nextLine.substr(0, mapping.generatedColumn -
-	                                          lastGeneratedColumn);
-	            remainingLines[0] = nextLine.substr(mapping.generatedColumn -
-	                                                lastGeneratedColumn);
-	            lastGeneratedColumn = mapping.generatedColumn;
-	            addMappingWithCode(lastMapping, code);
-	            // No more remaining code, continue
-	            lastMapping = mapping;
-	            return;
-	          }
-	        }
-	        // We add the generated code until the first mapping
-	        // to the SourceNode without any mapping.
-	        // Each line is added as separate string.
-	        while (lastGeneratedLine < mapping.generatedLine) {
-	          node.add(remainingLines.shift() + "\n");
-	          lastGeneratedLine++;
-	        }
-	        if (lastGeneratedColumn < mapping.generatedColumn) {
-	          var nextLine = remainingLines[0];
-	          node.add(nextLine.substr(0, mapping.generatedColumn));
-	          remainingLines[0] = nextLine.substr(mapping.generatedColumn);
-	          lastGeneratedColumn = mapping.generatedColumn;
-	        }
-	        lastMapping = mapping;
-	      }, this);
-	      // We have processed all mappings.
-	      if (remainingLines.length > 0) {
-	        if (lastMapping) {
-	          // Associate the remaining code in the current line with "lastMapping"
-	          var lastLine = remainingLines.shift();
-	          if (remainingLines.length > 0) lastLine += "\n";
-	          addMappingWithCode(lastMapping, lastLine);
-	        }
-	        // and add the remaining lines without any mapping
-	        node.add(remainingLines.join("\n"));
-	      }
-	
-	      // Copy sourcesContent into SourceNode
-	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
-	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-	        if (content) {
-	          node.setSourceContent(sourceFile, content);
-	        }
-	      });
-	
-	      return node;
-	
-	      function addMappingWithCode(mapping, code) {
-	        if (mapping === null || mapping.source === undefined) {
-	          node.add(code);
-	        } else {
-	          node.add(new SourceNode(mapping.originalLine,
-	                                  mapping.originalColumn,
-	                                  mapping.source,
-	                                  code,
-	                                  mapping.name));
-	        }
-	      }
-	    };
-	
-	  /**
-	   * Add a chunk of generated JS to this source node.
-	   *
-	   * @param aChunk A string snippet of generated JS code, another instance of
-	   *        SourceNode, or an array where each member is one of those things.
-	   */
-	  SourceNode.prototype.add = function SourceNode_add(aChunk) {
-	    if (Array.isArray(aChunk)) {
-	      aChunk.forEach(function (chunk) {
-	        this.add(chunk);
-	      }, this);
-	    }
-	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
-	      if (aChunk) {
-	        this.children.push(aChunk);
-	      }
-	    }
-	    else {
-	      throw new TypeError(
-	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
-	      );
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Add a chunk of generated JS to the beginning of this source node.
-	   *
-	   * @param aChunk A string snippet of generated JS code, another instance of
-	   *        SourceNode, or an array where each member is one of those things.
-	   */
-	  SourceNode.prototype.prepend = function SourceNode_prepend(aChunk) {
-	    if (Array.isArray(aChunk)) {
-	      for (var i = aChunk.length-1; i >= 0; i--) {
-	        this.prepend(aChunk[i]);
-	      }
-	    }
-	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
-	      this.children.unshift(aChunk);
-	    }
-	    else {
-	      throw new TypeError(
-	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
-	      );
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Walk over the tree of JS snippets in this node and its children. The
-	   * walking function is called once for each snippet of JS and is passed that
-	   * snippet and the its original associated source's line/column location.
-	   *
-	   * @param aFn The traversal function.
-	   */
-	  SourceNode.prototype.walk = function SourceNode_walk(aFn) {
-	    var chunk;
-	    for (var i = 0, len = this.children.length; i < len; i++) {
-	      chunk = this.children[i];
-	      if (chunk instanceof SourceNode) {
-	        chunk.walk(aFn);
-	      }
-	      else {
-	        if (chunk !== '') {
-	          aFn(chunk, { source: this.source,
-	                       line: this.line,
-	                       column: this.column,
-	                       name: this.name });
-	        }
-	      }
-	    }
-	  };
-	
-	  /**
-	   * Like `String.prototype.join` except for SourceNodes. Inserts `aStr` between
-	   * each of `this.children`.
-	   *
-	   * @param aSep The separator.
-	   */
-	  SourceNode.prototype.join = function SourceNode_join(aSep) {
-	    var newChildren;
-	    var i;
-	    var len = this.children.length;
-	    if (len > 0) {
-	      newChildren = [];
-	      for (i = 0; i < len-1; i++) {
-	        newChildren.push(this.children[i]);
-	        newChildren.push(aSep);
-	      }
-	      newChildren.push(this.children[i]);
-	      this.children = newChildren;
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Call String.prototype.replace on the very right-most source snippet. Useful
-	   * for trimming whitespace from the end of a source node, etc.
-	   *
-	   * @param aPattern The pattern to replace.
-	   * @param aReplacement The thing to replace the pattern with.
-	   */
-	  SourceNode.prototype.replaceRight = function SourceNode_replaceRight(aPattern, aReplacement) {
-	    var lastChild = this.children[this.children.length - 1];
-	    if (lastChild instanceof SourceNode) {
-	      lastChild.replaceRight(aPattern, aReplacement);
-	    }
-	    else if (typeof lastChild === 'string') {
-	      this.children[this.children.length - 1] = lastChild.replace(aPattern, aReplacement);
-	    }
-	    else {
-	      this.children.push(''.replace(aPattern, aReplacement));
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Set the source content for a source file. This will be added to the SourceMapGenerator
-	   * in the sourcesContent field.
-	   *
-	   * @param aSourceFile The filename of the source file
-	   * @param aSourceContent The content of the source file
-	   */
-	  SourceNode.prototype.setSourceContent =
-	    function SourceNode_setSourceContent(aSourceFile, aSourceContent) {
-	      this.sourceContents[util.toSetString(aSourceFile)] = aSourceContent;
-	    };
-	
-	  /**
-	   * Walk over the tree of SourceNodes. The walking function is called for each
-	   * source file content and is passed the filename and source content.
-	   *
-	   * @param aFn The traversal function.
-	   */
-	  SourceNode.prototype.walkSourceContents =
-	    function SourceNode_walkSourceContents(aFn) {
-	      for (var i = 0, len = this.children.length; i < len; i++) {
-	        if (this.children[i] instanceof SourceNode) {
-	          this.children[i].walkSourceContents(aFn);
-	        }
-	      }
-	
-	      var sources = Object.keys(this.sourceContents);
-	      for (var i = 0, len = sources.length; i < len; i++) {
-	        aFn(util.fromSetString(sources[i]), this.sourceContents[sources[i]]);
-	      }
-	    };
-	
-	  /**
-	   * Return the string representation of this source node. Walks over the tree
-	   * and concatenates all the various snippets together to one string.
-	   */
-	  SourceNode.prototype.toString = function SourceNode_toString() {
-	    var str = "";
-	    this.walk(function (chunk) {
-	      str += chunk;
-	    });
-	    return str;
-	  };
-	
-	  /**
-	   * Returns the string representation of this source node along with a source
-	   * map.
-	   */
-	  SourceNode.prototype.toStringWithSourceMap = function SourceNode_toStringWithSourceMap(aArgs) {
-	    var generated = {
-	      code: "",
-	      line: 1,
-	      column: 0
-	    };
-	    var map = new SourceMapGenerator(aArgs);
-	    var sourceMappingActive = false;
-	    var lastOriginalSource = null;
-	    var lastOriginalLine = null;
-	    var lastOriginalColumn = null;
-	    var lastOriginalName = null;
-	    this.walk(function (chunk, original) {
-	      generated.code += chunk;
-	      if (original.source !== null
-	          && original.line !== null
-	          && original.column !== null) {
-	        if(lastOriginalSource !== original.source
-	           || lastOriginalLine !== original.line
-	           || lastOriginalColumn !== original.column
-	           || lastOriginalName !== original.name) {
-	          map.addMapping({
-	            source: original.source,
-	            original: {
-	              line: original.line,
-	              column: original.column
-	            },
-	            generated: {
-	              line: generated.line,
-	              column: generated.column
-	            },
-	            name: original.name
-	          });
-	        }
-	        lastOriginalSource = original.source;
-	        lastOriginalLine = original.line;
-	        lastOriginalColumn = original.column;
-	        lastOriginalName = original.name;
-	        sourceMappingActive = true;
-	      } else if (sourceMappingActive) {
-	        map.addMapping({
-	          generated: {
-	            line: generated.line,
-	            column: generated.column
-	          }
-	        });
-	        lastOriginalSource = null;
-	        sourceMappingActive = false;
-	      }
-	      chunk.split('').forEach(function (ch, idx, array) {
-	        if (ch === '\n') {
-	          generated.line++;
-	          generated.column = 0;
-	          // Mappings end at eol
-	          if (idx + 1 === array.length) {
-	            lastOriginalSource = null;
-	            sourceMappingActive = false;
-	          } else if (sourceMappingActive) {
-	            map.addMapping({
-	              source: original.source,
-	              original: {
-	                line: original.line,
-	                column: original.column
-	              },
-	              generated: {
-	                line: generated.line,
-	                column: generated.column
-	              },
-	              name: original.name
-	            });
-	          }
-	        } else {
-	          generated.column++;
-	        }
-	      });
-	    });
-	    this.walkSourceContents(function (sourceFile, sourceContent) {
-	      map.setSourceContent(sourceFile, sourceContent);
-	    });
-	
-	    return { code: generated.code, map: map };
-	  };
-	
-	  exports.SourceNode = SourceNode;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 85 */
+/* 86 */
 /*!**************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
   \**************************************************************************************************************/
@@ -16203,7 +16260,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
 
 /***/ },
-/* 86 */
+/* 87 */
 /*!************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
   \************************************************************************************************************/
@@ -16261,26 +16318,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 87 */
-/*!****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/index.js ***!
-  \****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 99);
-	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 100);
-
-
-/***/ },
 /* 88 */
+/*!**********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/utils.js ***!
+  \**********************************************************************************************/
+51,
+/* 89 */
 /*!*****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/timers-browserify/main.js ***!
   \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 103).nextTick;
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(/*! process/browser.js */ 104).nextTick;
 	var slice = Array.prototype.slice;
 	var immediateIds = {};
 	var nextImmediateId = 0;
@@ -16334,321 +16383,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 88).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 88).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 89).setImmediate, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 89).clearImmediate))
 
 /***/ },
-/* 89 */
-/*!******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/~/proto/proto.js ***!
-  \******************************************************************************************************/
-68,
 /* 90 */
-/*!*******************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
-  \*******************************************************************************************************************************/
-59,
-/* 91 */
-/*!********************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
-  \********************************************************************************************************************/
-[105, 104],
-/* 92 */
-/*!*********************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
-  \*********************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
-	// X11 (“MIT”) Licensed. (See LICENSE.)
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    module.exports = factory()
-	  } else {
-	    root.resolveUrl = factory()
-	  }
-	}(this, function() {
-	
-	  function resolveUrl(/* ...urls */) {
-	    var numUrls = arguments.length
-	
-	    if (numUrls === 0) {
-	      throw new Error("resolveUrl requires at least one argument; got none.")
-	    }
-	
-	    var base = document.createElement("base")
-	    base.href = arguments[0]
-	
-	    if (numUrls === 1) {
-	      return base.href
-	    }
-	
-	    var head = document.getElementsByTagName("head")[0]
-	    head.insertBefore(base, head.firstChild)
-	
-	    var a = document.createElement("a")
-	    var resolved
-	
-	    for (var index = 1; index < numUrls; index++) {
-	      a.href = arguments[index]
-	      resolved = a.href
-	      base.href = resolved
-	    }
-	
-	    head.removeChild(base)
-	
-	    return resolved
-	  }
-	
-	  return resolveUrl
-	
-	}));
-
-
-/***/ },
-/* 93 */
-/*!***************************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
-  \***************************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    module.exports = factory()
-	  } else {
-	    root.sourceMappingURL = factory()
-	  }
-	}(this, function(undefined) {
-	
-	  var innerRegex = /[#@] sourceMappingURL=([^\s'"]*)/
-	  var newlineRegex = /\r\n?|\n/
-	
-	  var regex = RegExp(
-	    "(^|(?:" + newlineRegex.source + "))" +
-	    "(?:" +
-	      "/\\*" +
-	      "(?:\\s*(?:" + newlineRegex.source + ")(?://)?)?" +
-	      "(?:" + innerRegex.source + ")" +
-	      "\\s*" +
-	      "\\*/" +
-	      "|" +
-	      "//(?:" + innerRegex.source + ")" +
-	    ")" +
-	    "\\s*$"
-	  )
-	
-	  function SourceMappingURL(commentSyntax) {
-	    this._commentSyntax = commentSyntax
-	  }
-	
-	  SourceMappingURL.prototype.regex = regex
-	  SourceMappingURL.prototype._innerRegex = innerRegex
-	  SourceMappingURL.prototype._newlineRegex = newlineRegex
-	
-	  SourceMappingURL.prototype.get = function(code) {
-	    var match = code.match(this.regex)
-	    if (!match) {
-	      return null
-	    }
-	    return match[2] || match[3] || ""
-	  }
-	
-	  SourceMappingURL.prototype.set = function(code, url, commentSyntax) {
-	    if (!commentSyntax) {
-	      commentSyntax = this._commentSyntax
-	    }
-	    // Use a newline present in the code, or fall back to '\n'.
-	    var newline = String(code.match(this._newlineRegex) || "\n")
-	    var open = commentSyntax[0], close = commentSyntax[1] || ""
-	    code = this.remove(code)
-	    return code + newline + open + "# sourceMappingURL=" + url + close
-	  }
-	
-	  SourceMappingURL.prototype.remove = function(code) {
-	    return code.replace(this.regex, "")
-	  }
-	
-	  SourceMappingURL.prototype.insertBefore = function(code, string) {
-	    var match = code.match(this.regex)
-	    if (match) {
-	      var hasNewline = Boolean(match[1])
-	      return code.slice(0, match.index) +
-	        string +
-	        (hasNewline ? "" : "\n") +
-	        code.slice(match.index)
-	    } else {
-	      return code + string
-	    }
-	  }
-	
-	  SourceMappingURL.prototype.SourceMappingURL = SourceMappingURL
-	
-	  return new SourceMappingURL(["/*", " */"])
-	
-	}));
-
-
-/***/ },
-/* 94 */
-/*!*************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
-  \*************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 *
-	 * Based on the Base 64 VLQ implementation in Closure Compiler:
-	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
-	 *
-	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
-	 * Redistribution and use in source and binary forms, with or without
-	 * modification, are permitted provided that the following conditions are
-	 * met:
-	 *
-	 *  * Redistributions of source code must retain the above copyright
-	 *    notice, this list of conditions and the following disclaimer.
-	 *  * Redistributions in binary form must reproduce the above
-	 *    copyright notice, this list of conditions and the following
-	 *    disclaimer in the documentation and/or other materials provided
-	 *    with the distribution.
-	 *  * Neither the name of Google Inc. nor the names of its
-	 *    contributors may be used to endorse or promote products derived
-	 *    from this software without specific prior written permission.
-	 *
-	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var base64 = __webpack_require__(/*! ./base64 */ 102);
-	
-	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
-	  // length quantities we use in the source map spec, the first bit is the sign,
-	  // the next four bits are the actual value, and the 6th bit is the
-	  // continuation bit. The continuation bit tells us whether there are more
-	  // digits in this value following this digit.
-	  //
-	  //   Continuation
-	  //   |    Sign
-	  //   |    |
-	  //   V    V
-	  //   101011
-	
-	  var VLQ_BASE_SHIFT = 5;
-	
-	  // binary: 100000
-	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
-	
-	  // binary: 011111
-	  var VLQ_BASE_MASK = VLQ_BASE - 1;
-	
-	  // binary: 100000
-	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
-	
-	  /**
-	   * Converts from a two-complement value to a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
-	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
-	   */
-	  function toVLQSigned(aValue) {
-	    return aValue < 0
-	      ? ((-aValue) << 1) + 1
-	      : (aValue << 1) + 0;
-	  }
-	
-	  /**
-	   * Converts to a two-complement value from a value where the sign bit is
-	   * is placed in the least significant bit.  For example, as decimals:
-	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
-	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
-	   */
-	  function fromVLQSigned(aValue) {
-	    var isNegative = (aValue & 1) === 1;
-	    var shifted = aValue >> 1;
-	    return isNegative
-	      ? -shifted
-	      : shifted;
-	  }
-	
-	  /**
-	   * Returns the base 64 VLQ encoded value.
-	   */
-	  exports.encode = function base64VLQ_encode(aValue) {
-	    var encoded = "";
-	    var digit;
-	
-	    var vlq = toVLQSigned(aValue);
-	
-	    do {
-	      digit = vlq & VLQ_BASE_MASK;
-	      vlq >>>= VLQ_BASE_SHIFT;
-	      if (vlq > 0) {
-	        // There are still more digits in this value, so we must make sure the
-	        // continuation bit is marked.
-	        digit |= VLQ_CONTINUATION_BIT;
-	      }
-	      encoded += base64.encode(digit);
-	    } while (vlq > 0);
-	
-	    return encoded;
-	  };
-	
-	  /**
-	   * Decodes the next base 64 VLQ value from the given string and returns the
-	   * value and the rest of the string.
-	   */
-	  exports.decode = function base64VLQ_decode(aStr) {
-	    var i = 0;
-	    var strLen = aStr.length;
-	    var result = 0;
-	    var shift = 0;
-	    var continuation, digit;
-	
-	    do {
-	      if (i >= strLen) {
-	        throw new Error("Expected more digits in base 64 VLQ value.");
-	      }
-	      digit = base64.decode(aStr.charAt(i++));
-	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
-	      digit &= VLQ_BASE_MASK;
-	      result = result + (digit << shift);
-	      shift += VLQ_BASE_SHIFT;
-	    } while (continuation);
-	
-	    return {
-	      value: fromVLQSigned(result),
-	      rest: aStr.slice(i)
-	    };
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 95 */
 /*!*******************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
   \*******************************************************************************************************************/
@@ -16959,7 +16697,97 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 96 */
+/* 91 */
+/*!****************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
+  \****************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  /**
+	   * Recursive implementation of binary search.
+	   *
+	   * @param aLow Indices here and lower do not contain the needle.
+	   * @param aHigh Indices here and higher do not contain the needle.
+	   * @param aNeedle The element being searched for.
+	   * @param aHaystack The non-empty array being searched.
+	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
+	   */
+	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
+	    // This function terminates when one of the following is true:
+	    //
+	    //   1. We find the exact element we are looking for.
+	    //
+	    //   2. We did not find the exact element, but we can return the next
+	    //      closest element that is less than that element.
+	    //
+	    //   3. We did not find the exact element, and there is no next-closest
+	    //      element which is less than the one we are searching for, so we
+	    //      return null.
+	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
+	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
+	    if (cmp === 0) {
+	      // Found the element we are looking for.
+	      return aHaystack[mid];
+	    }
+	    else if (cmp > 0) {
+	      // aHaystack[mid] is greater than our needle.
+	      if (aHigh - mid > 1) {
+	        // The element is in the upper half.
+	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
+	      }
+	      // We did not find an exact match, return the next closest one
+	      // (termination case 2).
+	      return aHaystack[mid];
+	    }
+	    else {
+	      // aHaystack[mid] is less than our needle.
+	      if (mid - aLow > 1) {
+	        // The element is in the lower half.
+	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
+	      }
+	      // The exact needle element was not found in this haystack. Determine if
+	      // we are in termination case (2) or (3) and return the appropriate thing.
+	      return aLow < 0
+	        ? null
+	        : aHaystack[aLow];
+	    }
+	  }
+	
+	  /**
+	   * This is an implementation of binary search which will always try and return
+	   * the next lowest value checked if there is no exact hit. This is because
+	   * mappings between original and generated line/col pairs are single points,
+	   * and there is an implicit region between each of them, so a miss just means
+	   * that you aren't on the very start of a region.
+	   *
+	   * @param aNeedle The element you are looking for.
+	   * @param aHaystack The array that is being searched.
+	   * @param aCompare A function which takes the needle and an element in the
+	   *     array and returns -1, 0, or 1 depending on whether the needle is less
+	   *     than, equal to, or greater than the element, respectively.
+	   */
+	  exports.search = function search(aNeedle, aHaystack, aCompare) {
+	    return aHaystack.length > 0
+	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
+	      : null;
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 92 */
 /*!************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
   \************************************************************************************************************************/
@@ -16976,7 +16804,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var util = __webpack_require__(/*! ./util */ 95);
+	  var util = __webpack_require__(/*! ./util */ 90);
 	
 	  /**
 	   * A data structure which is a combination of an array and a set. Adding a new
@@ -17065,7 +16893,500 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 93 */
+/*!*************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
+  \*************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 *
+	 * Based on the Base 64 VLQ implementation in Closure Compiler:
+	 * https://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/debugging/sourcemap/Base64VLQ.java
+	 *
+	 * Copyright 2011 The Closure Compiler Authors. All rights reserved.
+	 * Redistribution and use in source and binary forms, with or without
+	 * modification, are permitted provided that the following conditions are
+	 * met:
+	 *
+	 *  * Redistributions of source code must retain the above copyright
+	 *    notice, this list of conditions and the following disclaimer.
+	 *  * Redistributions in binary form must reproduce the above
+	 *    copyright notice, this list of conditions and the following
+	 *    disclaimer in the documentation and/or other materials provided
+	 *    with the distribution.
+	 *  * Neither the name of Google Inc. nor the names of its
+	 *    contributors may be used to endorse or promote products derived
+	 *    from this software without specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+	 * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+	 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+	 * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+	 * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+	 * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+	 * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+	 * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+	 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var base64 = __webpack_require__(/*! ./base64 */ 103);
+	
+	  // A single base 64 digit can contain 6 bits of data. For the base 64 variable
+	  // length quantities we use in the source map spec, the first bit is the sign,
+	  // the next four bits are the actual value, and the 6th bit is the
+	  // continuation bit. The continuation bit tells us whether there are more
+	  // digits in this value following this digit.
+	  //
+	  //   Continuation
+	  //   |    Sign
+	  //   |    |
+	  //   V    V
+	  //   101011
+	
+	  var VLQ_BASE_SHIFT = 5;
+	
+	  // binary: 100000
+	  var VLQ_BASE = 1 << VLQ_BASE_SHIFT;
+	
+	  // binary: 011111
+	  var VLQ_BASE_MASK = VLQ_BASE - 1;
+	
+	  // binary: 100000
+	  var VLQ_CONTINUATION_BIT = VLQ_BASE;
+	
+	  /**
+	   * Converts from a two-complement value to a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
+	   *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
+	   */
+	  function toVLQSigned(aValue) {
+	    return aValue < 0
+	      ? ((-aValue) << 1) + 1
+	      : (aValue << 1) + 0;
+	  }
+	
+	  /**
+	   * Converts to a two-complement value from a value where the sign bit is
+	   * is placed in the least significant bit.  For example, as decimals:
+	   *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
+	   *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
+	   */
+	  function fromVLQSigned(aValue) {
+	    var isNegative = (aValue & 1) === 1;
+	    var shifted = aValue >> 1;
+	    return isNegative
+	      ? -shifted
+	      : shifted;
+	  }
+	
+	  /**
+	   * Returns the base 64 VLQ encoded value.
+	   */
+	  exports.encode = function base64VLQ_encode(aValue) {
+	    var encoded = "";
+	    var digit;
+	
+	    var vlq = toVLQSigned(aValue);
+	
+	    do {
+	      digit = vlq & VLQ_BASE_MASK;
+	      vlq >>>= VLQ_BASE_SHIFT;
+	      if (vlq > 0) {
+	        // There are still more digits in this value, so we must make sure the
+	        // continuation bit is marked.
+	        digit |= VLQ_CONTINUATION_BIT;
+	      }
+	      encoded += base64.encode(digit);
+	    } while (vlq > 0);
+	
+	    return encoded;
+	  };
+	
+	  /**
+	   * Decodes the next base 64 VLQ value from the given string and returns the
+	   * value and the rest of the string.
+	   */
+	  exports.decode = function base64VLQ_decode(aStr) {
+	    var i = 0;
+	    var strLen = aStr.length;
+	    var result = 0;
+	    var shift = 0;
+	    var continuation, digit;
+	
+	    do {
+	      if (i >= strLen) {
+	        throw new Error("Expected more digits in base 64 VLQ value.");
+	      }
+	      digit = base64.decode(aStr.charAt(i++));
+	      continuation = !!(digit & VLQ_CONTINUATION_BIT);
+	      digit &= VLQ_BASE_MASK;
+	      result = result + (digit << shift);
+	      shift += VLQ_BASE_SHIFT;
+	    } while (continuation);
+	
+	    return {
+	      value: fromVLQSigned(result),
+	      rest: aStr.slice(i)
+	    };
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 94 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	// If obj.hasOwnProperty has been overridden, then calling
+	// obj.hasOwnProperty(prop) will break.
+	// See: https://github.com/joyent/node/issues/1707
+	function hasOwnProperty(obj, prop) {
+	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	}
+	
+	module.exports = function(qs, sep, eq, options) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  var obj = {};
+	
+	  if (typeof qs !== 'string' || qs.length === 0) {
+	    return obj;
+	  }
+	
+	  var regexp = /\+/g;
+	  qs = qs.split(sep);
+	
+	  var maxKeys = 1000;
+	  if (options && typeof options.maxKeys === 'number') {
+	    maxKeys = options.maxKeys;
+	  }
+	
+	  var len = qs.length;
+	  // maxKeys <= 0 means that we should not limit keys count
+	  if (maxKeys > 0 && len > maxKeys) {
+	    len = maxKeys;
+	  }
+	
+	  for (var i = 0; i < len; ++i) {
+	    var x = qs[i].replace(regexp, '%20'),
+	        idx = x.indexOf(eq),
+	        kstr, vstr, k, v;
+	
+	    if (idx >= 0) {
+	      kstr = x.substr(0, idx);
+	      vstr = x.substr(idx + 1);
+	    } else {
+	      kstr = x;
+	      vstr = '';
+	    }
+	
+	    k = decodeURIComponent(kstr);
+	    v = decodeURIComponent(vstr);
+	
+	    if (!hasOwnProperty(obj, k)) {
+	      obj[k] = v;
+	    } else if (isArray(obj[k])) {
+	      obj[k].push(v);
+	    } else {
+	      obj[k] = [obj[k], v];
+	    }
+	  }
+	
+	  return obj;
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+
+
+/***/ },
+/* 95 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	var stringifyPrimitive = function(v) {
+	  switch (typeof v) {
+	    case 'string':
+	      return v;
+	
+	    case 'boolean':
+	      return v ? 'true' : 'false';
+	
+	    case 'number':
+	      return isFinite(v) ? v : '';
+	
+	    default:
+	      return '';
+	  }
+	};
+	
+	module.exports = function(obj, sep, eq, name) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  if (obj === null) {
+	    obj = undefined;
+	  }
+	
+	  if (typeof obj === 'object') {
+	    return map(objectKeys(obj), function(k) {
+	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+	      if (isArray(obj[k])) {
+	        return map(obj[k], function(v) {
+	          return ks + encodeURIComponent(stringifyPrimitive(v));
+	        }).join(sep);
+	      } else {
+	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+	      }
+	    }).join(sep);
+	
+	  }
+	
+	  if (!name) return '';
+	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+	         encodeURIComponent(stringifyPrimitive(obj));
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+	
+	function map (xs, f) {
+	  if (xs.map) return xs.map(f);
+	  var res = [];
+	  for (var i = 0; i < xs.length; i++) {
+	    res.push(f(xs[i], i));
+	  }
+	  return res;
+	}
+	
+	var objectKeys = Object.keys || function (obj) {
+	  var res = [];
+	  for (var key in obj) {
+	    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+	  }
+	  return res;
+	};
+
+
+/***/ },
+/* 96 */
+/*!*******************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
+  \*******************************************************************************************************************************/
+64,
 /* 97 */
+/*!********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
+  \********************************************************************************************************************/
+[141, 105],
+/* 98 */
+/*!***************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
+  \***************************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
+	
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    module.exports = factory()
+	  } else {
+	    root.sourceMappingURL = factory()
+	  }
+	}(this, function(undefined) {
+	
+	  var innerRegex = /[#@] sourceMappingURL=([^\s'"]*)/
+	  var newlineRegex = /\r\n?|\n/
+	
+	  var regex = RegExp(
+	    "(^|(?:" + newlineRegex.source + "))" +
+	    "(?:" +
+	      "/\\*" +
+	      "(?:\\s*(?:" + newlineRegex.source + ")(?://)?)?" +
+	      "(?:" + innerRegex.source + ")" +
+	      "\\s*" +
+	      "\\*/" +
+	      "|" +
+	      "//(?:" + innerRegex.source + ")" +
+	    ")" +
+	    "\\s*$"
+	  )
+	
+	  function SourceMappingURL(commentSyntax) {
+	    this._commentSyntax = commentSyntax
+	  }
+	
+	  SourceMappingURL.prototype.regex = regex
+	  SourceMappingURL.prototype._innerRegex = innerRegex
+	  SourceMappingURL.prototype._newlineRegex = newlineRegex
+	
+	  SourceMappingURL.prototype.get = function(code) {
+	    var match = code.match(this.regex)
+	    if (!match) {
+	      return null
+	    }
+	    return match[2] || match[3] || ""
+	  }
+	
+	  SourceMappingURL.prototype.set = function(code, url, commentSyntax) {
+	    if (!commentSyntax) {
+	      commentSyntax = this._commentSyntax
+	    }
+	    // Use a newline present in the code, or fall back to '\n'.
+	    var newline = String(code.match(this._newlineRegex) || "\n")
+	    var open = commentSyntax[0], close = commentSyntax[1] || ""
+	    code = this.remove(code)
+	    return code + newline + open + "# sourceMappingURL=" + url + close
+	  }
+	
+	  SourceMappingURL.prototype.remove = function(code) {
+	    return code.replace(this.regex, "")
+	  }
+	
+	  SourceMappingURL.prototype.insertBefore = function(code, string) {
+	    var match = code.match(this.regex)
+	    if (match) {
+	      var hasNewline = Boolean(match[1])
+	      return code.slice(0, match.index) +
+	        string +
+	        (hasNewline ? "" : "\n") +
+	        code.slice(match.index)
+	    } else {
+	      return code + string
+	    }
+	  }
+	
+	  SourceMappingURL.prototype.SourceMappingURL = SourceMappingURL
+	
+	  return new SourceMappingURL(["/*", " */"])
+	
+	}));
+
+
+/***/ },
+/* 99 */
+/*!*********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
+  \*********************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
+	// X11 (“MIT”) Licensed. (See LICENSE.)
+	
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    module.exports = factory()
+	  } else {
+	    root.resolveUrl = factory()
+	  }
+	}(this, function() {
+	
+	  function resolveUrl(/* ...urls */) {
+	    var numUrls = arguments.length
+	
+	    if (numUrls === 0) {
+	      throw new Error("resolveUrl requires at least one argument; got none.")
+	    }
+	
+	    var base = document.createElement("base")
+	    base.href = arguments[0]
+	
+	    if (numUrls === 1) {
+	      return base.href
+	    }
+	
+	    var head = document.getElementsByTagName("head")[0]
+	    head.insertBefore(base, head.firstChild)
+	
+	    var a = document.createElement("a")
+	    var resolved
+	
+	    for (var index = 1; index < numUrls; index++) {
+	      a.href = arguments[index]
+	      resolved = a.href
+	      base.href = resolved
+	    }
+	
+	    head.removeChild(base)
+	
+	    return resolved
+	  }
+	
+	  return resolveUrl
+	
+	}));
+
+
+/***/ },
+/* 100 */
 /*!*************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/~/stacktrace-js/stacktrace.js ***!
   \*************************************************************************************************************************/
@@ -17535,284 +17856,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}));
 
 /***/ },
-/* 98 */
-/*!****************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
-  \****************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  /**
-	   * Recursive implementation of binary search.
-	   *
-	   * @param aLow Indices here and lower do not contain the needle.
-	   * @param aHigh Indices here and higher do not contain the needle.
-	   * @param aNeedle The element being searched for.
-	   * @param aHaystack The non-empty array being searched.
-	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
-	   */
-	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
-	    // This function terminates when one of the following is true:
-	    //
-	    //   1. We find the exact element we are looking for.
-	    //
-	    //   2. We did not find the exact element, but we can return the next
-	    //      closest element that is less than that element.
-	    //
-	    //   3. We did not find the exact element, and there is no next-closest
-	    //      element which is less than the one we are searching for, so we
-	    //      return null.
-	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
-	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
-	    if (cmp === 0) {
-	      // Found the element we are looking for.
-	      return aHaystack[mid];
-	    }
-	    else if (cmp > 0) {
-	      // aHaystack[mid] is greater than our needle.
-	      if (aHigh - mid > 1) {
-	        // The element is in the upper half.
-	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
-	      }
-	      // We did not find an exact match, return the next closest one
-	      // (termination case 2).
-	      return aHaystack[mid];
-	    }
-	    else {
-	      // aHaystack[mid] is less than our needle.
-	      if (mid - aLow > 1) {
-	        // The element is in the lower half.
-	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
-	      }
-	      // The exact needle element was not found in this haystack. Determine if
-	      // we are in termination case (2) or (3) and return the appropriate thing.
-	      return aLow < 0
-	        ? null
-	        : aHaystack[aLow];
-	    }
-	  }
-	
-	  /**
-	   * This is an implementation of binary search which will always try and return
-	   * the next lowest value checked if there is no exact hit. This is because
-	   * mappings between original and generated line/col pairs are single points,
-	   * and there is an implicit region between each of them, so a miss just means
-	   * that you aren't on the very start of a region.
-	   *
-	   * @param aNeedle The element you are looking for.
-	   * @param aHaystack The array that is being searched.
-	   * @param aCompare A function which takes the needle and an element in the
-	   *     array and returns -1, 0, or 1 depending on whether the needle is less
-	   *     than, equal to, or greater than the element, respectively.
-	   */
-	  exports.search = function search(aNeedle, aHaystack, aCompare) {
-	    return aHaystack.length > 0
-	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
-	      : null;
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 99 */
-/*!*****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
-  \*****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	'use strict';
-	
-	// If obj.hasOwnProperty has been overridden, then calling
-	// obj.hasOwnProperty(prop) will break.
-	// See: https://github.com/joyent/node/issues/1707
-	function hasOwnProperty(obj, prop) {
-	  return Object.prototype.hasOwnProperty.call(obj, prop);
-	}
-	
-	module.exports = function(qs, sep, eq, options) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  var obj = {};
-	
-	  if (typeof qs !== 'string' || qs.length === 0) {
-	    return obj;
-	  }
-	
-	  var regexp = /\+/g;
-	  qs = qs.split(sep);
-	
-	  var maxKeys = 1000;
-	  if (options && typeof options.maxKeys === 'number') {
-	    maxKeys = options.maxKeys;
-	  }
-	
-	  var len = qs.length;
-	  // maxKeys <= 0 means that we should not limit keys count
-	  if (maxKeys > 0 && len > maxKeys) {
-	    len = maxKeys;
-	  }
-	
-	  for (var i = 0; i < len; ++i) {
-	    var x = qs[i].replace(regexp, '%20'),
-	        idx = x.indexOf(eq),
-	        kstr, vstr, k, v;
-	
-	    if (idx >= 0) {
-	      kstr = x.substr(0, idx);
-	      vstr = x.substr(idx + 1);
-	    } else {
-	      kstr = x;
-	      vstr = '';
-	    }
-	
-	    k = decodeURIComponent(kstr);
-	    v = decodeURIComponent(vstr);
-	
-	    if (!hasOwnProperty(obj, k)) {
-	      obj[k] = v;
-	    } else if (isArray(obj[k])) {
-	      obj[k].push(v);
-	    } else {
-	      obj[k] = [obj[k], v];
-	    }
-	  }
-	
-	  return obj;
-	};
-	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
-
-
-/***/ },
-/* 100 */
-/*!*****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
-  \*****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	'use strict';
-	
-	var stringifyPrimitive = function(v) {
-	  switch (typeof v) {
-	    case 'string':
-	      return v;
-	
-	    case 'boolean':
-	      return v ? 'true' : 'false';
-	
-	    case 'number':
-	      return isFinite(v) ? v : '';
-	
-	    default:
-	      return '';
-	  }
-	};
-	
-	module.exports = function(obj, sep, eq, name) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  if (obj === null) {
-	    obj = undefined;
-	  }
-	
-	  if (typeof obj === 'object') {
-	    return map(objectKeys(obj), function(k) {
-	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-	      if (isArray(obj[k])) {
-	        return map(obj[k], function(v) {
-	          return ks + encodeURIComponent(stringifyPrimitive(v));
-	        }).join(sep);
-	      } else {
-	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-	      }
-	    }).join(sep);
-	
-	  }
-	
-	  if (!name) return '';
-	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-	         encodeURIComponent(stringifyPrimitive(obj));
-	};
-	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
-	
-	function map (xs, f) {
-	  if (xs.map) return xs.map(f);
-	  var res = [];
-	  for (var i = 0; i < xs.length; i++) {
-	    res.push(f(xs[i], i));
-	  }
-	  return res;
-	}
-	
-	var objectKeys = Object.keys || function (obj) {
-	  var res = [];
-	  for (var key in obj) {
-	    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-	  }
-	  return res;
-	};
-
-
-/***/ },
 /* 101 */
+/*!******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/~/proto/proto.js ***!
+  \******************************************************************************************************/
+60,
+/* 102 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
@@ -17831,7 +17880,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 102 */
+/* 103 */
 /*!*********************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64.js ***!
   \*********************************************************************************************************************/
@@ -17882,7 +17931,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 103 */
+/* 104 */
 /*!******************************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/timers-browserify/~/process/browser.js ***!
   \******************************************************************************/
@@ -17948,14 +17997,49 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 104 */
+/* 105 */
 /*!**************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/~/trimArguments/trimArguments.js ***!
   \**************************************************************************************************************************************/
-59,
-/* 105 */
+64,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */
 /*!***********************************!*\
-  !*** template of 40 referencing  ***!
+  !*** template of 47 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
@@ -18260,9 +18344,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 106 */
+/* 142 */
 /*!***********************************!*\
-  !*** template of 74 referencing  ***!
+  !*** template of 76 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 

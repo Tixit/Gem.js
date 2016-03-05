@@ -1273,6 +1273,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.0.5 - Fixing a bug where a style inheriting from a label style wasn't working correctly
 * 2.0.4 - Adding Svg gem
 * 2.0.3 - Adding the style being applied as a paremeter to the $setup functions (so that the style can be analyized, for example to apply a style to a node that isn't an actual child, but is a conceptual child)
 * 2.0.2

@@ -69,9 +69,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
 	exports.Radio = __webpack_require__(/*! Components/Radio */ 9)
 	exports.Select = __webpack_require__(/*! Components/Select */ 10)
+	exports.Svg = __webpack_require__(/*! Components/Svg */ 12)
 	exports.Table = __webpack_require__(/*! Components/Table */ 11)
-	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 12)
-	exports.TextField = __webpack_require__(/*! Components/TextField */ 13)
+	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 13)
+	exports.TextField = __webpack_require__(/*! Components/TextField */ 15)
 	exports.Text = __webpack_require__(/*! Components/Text */ 14)
 
 /***/ },
@@ -81,14 +82,14 @@ return /******/ (function(modules) { // webpackBootstrap
   \******************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 17)
-	var proto = __webpack_require__(/*! proto */ 26);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 28)
-	var observe = __webpack_require__(/*! observe */ 29)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 18)
+	var proto = __webpack_require__(/*! proto */ 28);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 29)
+	var observe = __webpack_require__(/*! observe */ 30)
 	
-	var utils = __webpack_require__(/*! ./utils */ 16)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 18)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 19)
+	var utils = __webpack_require__(/*! ./utils */ 17)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 19)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 20)
 	
 	var Style = __webpack_require__(/*! ./Style */ 2)
 	Style.isDev = function() {return module.exports.dev}
@@ -118,12 +119,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // static properties
 	
+	    this.name = 'Gem'
+	
 	    // constructor
 		this.init = function() {
 	        var that = this
 	
-	        if(this.name === undefined) {
-	            throw new Error("The 'name' property is required for Gem")
+	        if(this.name === 'Gem') {
+	            throw new Error("The 'name' property is required for Gem (it must be set to something that isn't 'Gem')")
 	        }
 	
 	        superclass.init.call(this)
@@ -452,7 +455,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function getStyle(gem) {
 	        if(gem._style !== undefined) {            // use the gem's explicit style if possible
 	            if(gem._style.inherit) {
-	                var styleToInerit = blockStyleUtils.getInheritingStyle(gem, gem.parent)
+	                var styleToInerit = blockStyleUtils.getInheritingStyle(gem)
 	                if(styleToInerit !== undefined)
 	                    return styleToInerit.mix(gem._style)
 	            }
@@ -460,7 +463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return gem._style
 	
 	        } else {     // otherwise use the parent's computedStyleMap
-	            return blockStyleUtils.getInheritingStyle(gem, gem.parent)
+	            return blockStyleUtils.getInheritingStyle(gem)
 	        }
 	    }
 	});
@@ -579,11 +582,11 @@ return /******/ (function(modules) { // webpackBootstrap
   \********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 15)
-	var proto = __webpack_require__(/*! proto */ 26)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 16)
+	var proto = __webpack_require__(/*! proto */ 28)
 	var HashMap = __webpack_require__(/*! hashmap */ 27)
 	
-	var utils = __webpack_require__(/*! ./utils */ 16)
+	var utils = __webpack_require__(/*! ./utils */ 17)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -860,7 +863,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // mixInherit - (default: false) if true, mixes in the 'inherit' property
 	    this.mix = function(styleB, mixInherit) {
 	        if(mixInherit === undefined) mixInherit = false
-	        if(styleB === undefined)
+	        if(styleB === undefined || styleB === this)
 	            return this
 	        if(!isStyleObject(styleB)) styleB = Style(styleB)
 	
@@ -925,7 +928,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        // else
 	        var styleToReturn = this // can change below if there is an interaction with the styleMap
-	        if(this.pureNative && this.pseudoclasses.classes.keys() !== 0) { // only care about pseudoclass interactions if it has pseudoclasses
+	        if(this.pureNative && this.pseudoclasses.classes.keys().length !== 0) { // only care about pseudoclass interactions if it has pseudoclasses
 	            var styleSelectors = containedStyleSelectors(this)
 	            var info = stylesInfo(styleSelectors, styleMap)
 	            var interacts = info.impure.length > 0
@@ -1850,7 +1853,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
 	module.exports = proto(Gem, function(superclass) {
@@ -1912,7 +1915,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -1949,7 +1952,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -1996,7 +1999,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
 	module.exports = proto(Gem, function(superclass) {
 		// static variables
@@ -2039,7 +2042,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2083,12 +2086,12 @@ return /******/ (function(modules) { // webpackBootstrap
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
 	var Gem = __webpack_require__(/*! Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
-	var Item = __webpack_require__(/*! ./Item */ 20);
+	var Item = __webpack_require__(/*! ./Item */ 21);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2160,8 +2163,8 @@ return /******/ (function(modules) { // webpackBootstrap
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 26)
-	var EventEmitter = __webpack_require__(/*! events */ 25).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 28)
+	var EventEmitter = __webpack_require__(/*! events */ 26).EventEmitter
 	
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
 	
@@ -2430,9 +2433,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
-	var Option = __webpack_require__(/*! Components/Option */ 24)
+	var Option = __webpack_require__(/*! Components/Option */ 25)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Gem, function(superclass) {
@@ -2585,14 +2588,14 @@ return /******/ (function(modules) { // webpackBootstrap
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
-	var Header = __webpack_require__(/*! ./Header */ 21);
+	var Header = __webpack_require__(/*! ./Header */ 23);
 	var Row = __webpack_require__(/*! ./Row */ 22);
-	var Cell = __webpack_require__(/*! ./Cell */ 23);
+	var Cell = __webpack_require__(/*! ./Cell */ 24);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2647,13 +2650,44 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 12 */
+/*!*****************************!*\
+  !*** ./~/Components/Svg.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 28)
+	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	
+	module.exports = proto(Gem, function(superclass) {
+		// static variables
+	    this.name = 'Svg'
+	
+		// instance methods
+		this.build = function(/*[label,] svgXml*/) {
+	        if(arguments.length === 1) {
+	            var svgXml = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var svgXml = arguments[1]
+	        }
+	
+	        var div = document.createElement('div')
+	        div.innerHTML = svgXml
+	        this.domNode = div.firstChild
+	
+	        this.label = label
+		}
+	})
+
+/***/ },
+/* 13 */
 /*!**********************************!*\
   !*** ./~/Components/TextArea.js ***!
   \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2689,74 +2723,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
-/*!***********************************!*\
-  !*** ./~/Components/TextField.js ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 26)
-	
-	var domUtils = __webpack_require__(/*! ../domUtils */ 18)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'TextField'
-	
-		this.init = function(/*[label,] password*/) {
-	        if(arguments.length === 1) {
-	            var password = arguments[0]
-	        } else if(arguments.length > 1) {
-	            var label = arguments[0]
-	            var password = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-			this.label = label
-			domUtils.setAttribute(this.domNode,'type','text');
-	        if(password)
-	            domUtils.setAttribute(this.domNode, 'type', 'password')
-		}
-	
-	
-		// instance properties
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.domNode.value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.val === value) return; // do nothing if there's no change
-	
-	            this.domNode.value = value
-	            this.emit('change')
-	        }
-	    })
-	
-	});
-
-
-/***/ },
 /* 14 */
 /*!******************************!*\
   !*** ./~/Components/Text.js ***!
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
 	var Gem = __webpack_require__(/*! Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
-	var domUtils = __webpack_require__(/*! domUtils */ 18)
+	var domUtils = __webpack_require__(/*! domUtils */ 19)
 	
 	
 	
@@ -2802,6 +2780,62 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 15 */
+/*!***********************************!*\
+  !*** ./~/Components/TextField.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	var domUtils = __webpack_require__(/*! ../domUtils */ 19)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'TextField'
+	
+		this.init = function(/*[label,] password*/) {
+	        if(arguments.length === 1) {
+	            var password = arguments[0]
+	        } else if(arguments.length > 1) {
+	            var label = arguments[0]
+	            var password = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+			this.label = label
+			//domUtils.setAttribute(this.domNode,'type','text');  // NOTE: IE fucks this up, and since 'text' is the default type for an input node, lets just forget abat it
+	        if(password)
+	            domUtils.setAttribute(this.domNode, 'type', 'password')
+		}
+	
+	
+		// instance properties
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.domNode.value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.val === value) return; // do nothing if there's no change
+	
+	            this.domNode.value = value
+	            this.emit('change')
+	        }
+	    })
+	
+	});
+
+
+/***/ },
+/* 16 */
 /*!*************************!*\
   !*** ./external/jss.js ***!
   \*************************/
@@ -3099,7 +3133,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
 
 /***/ },
-/* 16 */
+/* 17 */
 /*!********************!*\
   !*** ./~/utils.js ***!
   \********************/
@@ -3108,7 +3142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
 	//require('hashmap') // here to mark hashmapMerge's dependency on this module
-	var path = __webpack_require__(/*! path */ 31)
+	var path = __webpack_require__(/*! path */ 32)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -3185,15 +3219,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /*!****************************!*\
   !*** ./~/EventEmitterB.js ***!
   \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitter = __webpack_require__(/*! events */ 25).EventEmitter
-	var proto = __webpack_require__(/*! proto */ 26)
-	var utils = __webpack_require__(/*! utils */ 16)
+	var EventEmitter = __webpack_require__(/*! events */ 26).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 28)
+	var utils = __webpack_require__(/*! utils */ 17)
 	
 	module.exports = proto(EventEmitter, function(superclass) {
 	
@@ -3389,7 +3423,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 18 */
+/* 19 */
 /*!***********************!*\
   !*** ./~/domUtils.js ***!
   \***********************/
@@ -3589,7 +3623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 19 */
+/* 20 */
 /*!******************************!*\
   !*** ./~/blockStyleUtils.js ***!
   \******************************/
@@ -3600,7 +3634,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var HashMap = __webpack_require__(/*! hashmap */ 27)
 	
 	var Style = __webpack_require__(/*! ./Style */ 2)
-	var utils = __webpack_require__(/*! ./utils */ 16)
+	var utils = __webpack_require__(/*! ./utils */ 17)
 	
 	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
 	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
@@ -3635,70 +3669,79 @@ return /******/ (function(modules) { // webpackBootstrap
 	// gets the possibly inheriting style from the styleMap for `gem`
 	// gem - the gem to get the style for
 	// ancestor - the gem to get the computedStyleMap from
-	var getInheritingStyle = exports.getInheritingStyle = function(gem, ancestor) {
+	var getInheritingStyle = exports.getInheritingStyle = function(gem) {
+	    var ancestor = gem.parent
 	    if(ancestor === undefined || ancestor.computedStyleMap === undefined) return undefined
 	
-	    var labelStyle = getStyleForLabel(ancestor.computedStyleMap, gem)
-	    if(labelStyle !== undefined) {
-	        if(labelStyle.inherit) {
-	            var inheritingGemStyle = getInheritingGemStyle(gem, ancestor)
-	            return mixStyles(inheritingGemStyle, labelStyle)
-	        } else {
-	            return labelStyle
-	        }
+	    if(gem.label !== undefined) {
+	        var styleMapKey = '$'+gem.label
+	        var nextContructor = gem.constructor
 	    } else {
-	        return getInheritingGemStyle(gem, ancestor)
+	        var styleMapKey = gem.constructor.name
+	        var nextContructor = gem.constructor.parent
 	    }
 	
+	    var nextAncestorToSearchFrom = ancestor
+	    var styles = [], inherit = true
+	    while(nextAncestorToSearchFrom !== undefined) {    // find styles from the most specific name to the least specific
+	        var stylesForKey = findStylesForStyleMapKey(nextAncestorToSearchFrom, styleMapKey)
+	        styles = styles.concat(stylesForKey.styles)
+	        nextAncestorToSearchFrom = stylesForKey.nextAncestorToSearchFrom
+	        inherit = stylesForKey.inherit
 	
-	    // gets the inheriting style ignoring the first label style
-	    function getInheritingGemStyle(gem, ancestor) {
-	        var gemStyle = getStyleForGemNameWithInheritance(ancestor.computedStyleMap, gem)
-	        if(gemStyle !== undefined) {
-	            if(gemStyle.inherit) {
-	                return mixStyles(
-	                    getInheritingStyle(gem, ancestor.parent),
-	                    gemStyle
-	                )
-	            } else {
-	                return gemStyle
-	            }
+	        if(nextContructor === undefined || !inherit) {
+	            break
 	        } else {
-	            return undefined
+	            if(styleMapKey === 'Gem') {
+	                break // we're done - no need to check anything higher in the prototype chain than Gem
+	            }
+	
+	            styleMapKey = nextContructor.name
+	            nextContructor = nextContructor.parent
 	        }
 	    }
 	
-	    // like getStyleForGemName, but mixes together styles in the styleMap as they inherit based on the gem's ancestral names
-	    function getStyleForGemNameWithInheritance(styleMap, gem) {
-	        var styles = [];
+	    var reversedStyles = styles.reverse() // reverse so later styles override earlier styles
+	    var styleToReturn = reversedStyles[0]
+	    for(var n=1; n<reversedStyles.length; n++) {
+	        styleToReturn = styleToReturn.mix(reversedStyles[n])
+	    }
 	
-	        var constructor = gem.constructor
-	        while(constructor !== undefined) {
-	            var style = styleMap[constructor.name]
+	    return styleToReturn
+	
+	
+	    function findStylesForStyleMapKey(startAncestor, key) {
+	        var styles = [], inherit = true
+	        var curAncestor = startAncestor, nextAncestorToSearchFrom = startAncestor
+	        while(curAncestor !== undefined) {                                // find styles from the closest parent to the farthest
+	            if(curAncestor.computedStyleMap !== undefined) {
+	                var style = curAncestor.computedStyleMap[key]
+	            }
 	            if(style !== undefined) {
-	                styles.push(style)
-	                if(!style.inherit) {
-	                    break;
+	                if(styles.indexOf(style) === -1) {
+	                    styles.push(style)
+	                }
+	                nextAncestorToSearchFrom = curAncestor
+	
+	                inherit = style.inherit
+	                if(!inherit) {
+	                    break
 	                }
 	            }
 	
-	            constructor = constructor.parent
+	            curAncestor = curAncestor.parent
 	        }
 	
-	        var reversedStyles = styles.reverse() // reverse so later styles override earlier styles
-	        var styleToReturn = reversedStyles[0]
-	        for(var n=1; n<reversedStyles.length; n++) {
-	            styleToReturn = styleToReturn.mix(reversedStyles[n])
-	        }
-	
-	        return styleToReturn
+	        return {styles:styles, nextAncestorToSearchFrom: nextAncestorToSearchFrom, inherit:inherit}
 	    }
-	
 	}
 	
 	// returns the conjunction of two style maps
 	// gets it from the computedStyles cache if its already in there
 	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
+	    if(secondaryStyleMap === undefined) return primaryStyleMap
+	    if(primaryStyleMap === undefined) return secondaryStyleMap
+	
 	    var cachedStyleMap = computedStyles.get([secondaryStyleMap, primaryStyleMap])
 	    if(cachedStyleMap === undefined) {
 	        if(secondaryStyleMap  === undefined) {
@@ -3990,7 +4033,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// applies setup appropriately
 	function applyStyleSetupFunction(component, style) {
 	    if(style !== undefined && style.setup !== undefined) {
-	        component._styleSetupObject = style.setup(component) // call setup on the component
+	        component._styleSetupObject = style.setup(component, style) // call setup on the component
 	    } else {
 	        component._styleSetupObject = undefined
 	    }
@@ -4011,15 +4054,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	function setStyleClass(component, style) {
 	    var activeStyle = component._activeStyle
 	
-	    var newStyle = component.domNode.className
+	    //var newStyle = component.domNode.className
 	    if(activeStyle !== undefined) {
-	        newStyle = newStyle.replace(new RegExp(" ?\\b"+activeStyle.className+"\\b"),'') // remove the previous css class
+	        component.domNode.classList.remove(activeStyle.className)
+	        // newStyle = newStyle.replace(new RegExp(" ?\\b"+activeStyle.className+"\\b"),'') // remove the previous css class
 	    }
 	    if(style !== undefined) {
-	        newStyle = style.className+' '+newStyle.trim() // note that the order of classes doesn't matter
+	        component.domNode.classList.add(style.className)
+	        //newStyle = style.className+' '+newStyle.trim() // note that the order of classes doesn't matter
 	    }
 	
-	    component.domNode.className = newStyle
+	    //component.domNode.className = newStyle
 	}
 	
 	function validateDefaultStyle(defaultStyle) {
@@ -4034,14 +4079,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 20 */
+/* 21 */
 /*!******************************!*\
   !*** ./~/Components/Item.js ***!
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
 	module.exports = proto(Gem, function(superclass) {
@@ -4078,7 +4123,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 22 */
+/*!*****************************!*\
+  !*** ./~/Components/Row.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 31);
+	
+	module.exports = RowlikeGenerator('tr', "TableRow")
+
+
+/***/ },
+/* 23 */
 /*!********************************!*\
   !*** ./~/Components/Header.js ***!
   \********************************/
@@ -4086,31 +4143,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	
 	
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 30);
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 31);
 	
 	module.exports = RowlikeGenerator('th', "TableHeader")
 
 /***/ },
-/* 22 */
-/*!*****************************!*\
-  !*** ./~/Components/Row.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 30);
-	
-	module.exports = RowlikeGenerator('tr', "TableRow")
-
-
-/***/ },
-/* 23 */
+/* 24 */
 /*!******************************!*\
   !*** ./~/Components/Cell.js ***!
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
 	module.exports = proto(Gem, function(superclass) {
@@ -4152,7 +4197,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /*!********************************!*\
   !*** ./~/Components/Option.js ***!
   \********************************/
@@ -4160,11 +4205,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// note: this is  not intended to be used directly - only through Select and MultiSelect
 	
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
 	var Gem = __webpack_require__(/*! Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
-	var domUtils = __webpack_require__(/*! domUtils */ 18)
+	var domUtils = __webpack_require__(/*! domUtils */ 19)
 	
 	// emits a 'change' event when its 'selected' value changes
 	module.exports = proto(Gem, function(superclass) {
@@ -4180,14 +4225,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // instance members
 	
-	    this.init = function(label, value, text) {
+	    this.init = function(/*[label,] value, text*/) {
 	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        superclass.init.call(this) // superclass constructor
 	
-	        this.label = label
-	
-	        this.text = text
-	        this.val = value
+	        if(arguments.length===2) {
+	            this.val = arguments[0]
+	            this.text = arguments[1]
+	        } else { // 3
+	            this.label = arguments[0]
+	            this.val = arguments[1]
+	            this.text = arguments[2]
+	        }
 	    }
 	
 	    Object.defineProperty(this, 'val', {
@@ -4260,7 +4309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})
 
 /***/ },
-/* 25 */
+/* 26 */
 /*!***************************************************************************!*\
   !*** ../~/build-modules/~/webpack/~/node-libs-browser/~/events/events.js ***!
   \***************************************************************************/
@@ -4570,146 +4619,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 26 */
-/*!***************************!*\
-  !*** ../~/proto/proto.js ***!
-  \***************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                },
-	                configurable: true // so you can change it if you want
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
 /* 27 */
 /*!*******************************!*\
   !*** ../~/hashmap/hashmap.js ***!
@@ -4907,6 +4816,146 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 28 */
+/*!***************************!*\
+  !*** ../~/proto/proto.js ***!
+  \***************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                },
+	                configurable: true // so you can change it if you want
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 29 */
 /*!*******************************************!*\
   !*** ../~/trimArguments/trimArguments.js ***!
   \*******************************************/
@@ -4930,15 +4979,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 29 */
+/* 30 */
 /*!*******************************!*\
   !*** ../~/observe/observe.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 33)
-	var EventEmitter = __webpack_require__(/*! events */ 25).EventEmitter
-	var utils = __webpack_require__(/*! ./utils */ 32)
+	var proto = __webpack_require__(/*! proto */ 35)
+	var EventEmitter = __webpack_require__(/*! events */ 26).EventEmitter
+	var utils = __webpack_require__(/*! ./utils */ 33)
 	
 	
 	// emits the event:
@@ -5408,17 +5457,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 30 */
+/* 31 */
 /*!******************************************!*\
   !*** ./~/Components/RowlikeGenerator.js ***!
   \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 26)
+	var proto = __webpack_require__(/*! proto */ 28)
 	
 	var Gem = __webpack_require__(/*! Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
-	var Cell = __webpack_require__(/*! ./Cell */ 23);
+	var Cell = __webpack_require__(/*! ./Cell */ 24);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -5465,7 +5514,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 31 */
+/* 32 */
 /*!***********************************************************************************!*\
   !*** ../~/build-modules/~/webpack/~/node-libs-browser/~/path-browserify/index.js ***!
   \***********************************************************************************/
@@ -5699,7 +5748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ../~/build-modules/~/webpack/~/node-libs-browser/~/process/browser.js */ 34)))
 
 /***/ },
-/* 32 */
+/* 33 */
 /*!*****************************!*\
   !*** ../~/observe/utils.js ***!
   \*****************************/
@@ -5707,7 +5756,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	var path = __webpack_require__(/*! path */ 31)
+	var path = __webpack_require__(/*! path */ 32)
 	
 	
 	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -5751,7 +5800,102 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 33 */
+/* 34 */
+/*!*****************************************************************************!*\
+  !*** ../~/build-modules/~/webpack/~/node-libs-browser/~/process/browser.js ***!
+  \*****************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// shim for using process in browser
+	
+	var process = module.exports = {};
+	
+	process.nextTick = (function () {
+	    var canSetImmediate = typeof window !== 'undefined'
+	    && window.setImmediate;
+	    var canMutationObserver = typeof window !== 'undefined'
+	    && window.MutationObserver;
+	    var canPost = typeof window !== 'undefined'
+	    && window.postMessage && window.addEventListener
+	    ;
+	
+	    if (canSetImmediate) {
+	        return function (f) { return window.setImmediate(f) };
+	    }
+	
+	    var queue = [];
+	
+	    if (canMutationObserver) {
+	        var hiddenDiv = document.createElement("div");
+	        var observer = new MutationObserver(function () {
+	            var queueList = queue.slice();
+	            queue.length = 0;
+	            queueList.forEach(function (fn) {
+	                fn();
+	            });
+	        });
+	
+	        observer.observe(hiddenDiv, { attributes: true });
+	
+	        return function nextTick(fn) {
+	            if (!queue.length) {
+	                hiddenDiv.setAttribute('yes', 'no');
+	            }
+	            queue.push(fn);
+	        };
+	    }
+	
+	    if (canPost) {
+	        window.addEventListener('message', function (ev) {
+	            var source = ev.source;
+	            if ((source === window || source === null) && ev.data === 'process-tick') {
+	                ev.stopPropagation();
+	                if (queue.length > 0) {
+	                    var fn = queue.shift();
+	                    fn();
+	                }
+	            }
+	        }, true);
+	
+	        return function nextTick(fn) {
+	            queue.push(fn);
+	            window.postMessage('process-tick', '*');
+	        };
+	    }
+	
+	    return function nextTick(fn) {
+	        setTimeout(fn, 0);
+	    };
+	})();
+	
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	
+	function noop() {}
+	
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+	
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+	
+	// TODO(shtylman)
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+
+
+/***/ },
+/* 35 */
 /*!*************************************!*\
   !*** ../~/observe/~/proto/proto.js ***!
   \*************************************/
@@ -5876,101 +6020,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // do nothing, if a property (like `name`) can't be set, just ignore it
 	    }
 	}
-
-/***/ },
-/* 34 */
-/*!*****************************************************************************!*\
-  !*** ../~/build-modules/~/webpack/~/node-libs-browser/~/process/browser.js ***!
-  \*****************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// shim for using process in browser
-	
-	var process = module.exports = {};
-	
-	process.nextTick = (function () {
-	    var canSetImmediate = typeof window !== 'undefined'
-	    && window.setImmediate;
-	    var canMutationObserver = typeof window !== 'undefined'
-	    && window.MutationObserver;
-	    var canPost = typeof window !== 'undefined'
-	    && window.postMessage && window.addEventListener
-	    ;
-	
-	    if (canSetImmediate) {
-	        return function (f) { return window.setImmediate(f) };
-	    }
-	
-	    var queue = [];
-	
-	    if (canMutationObserver) {
-	        var hiddenDiv = document.createElement("div");
-	        var observer = new MutationObserver(function () {
-	            var queueList = queue.slice();
-	            queue.length = 0;
-	            queueList.forEach(function (fn) {
-	                fn();
-	            });
-	        });
-	
-	        observer.observe(hiddenDiv, { attributes: true });
-	
-	        return function nextTick(fn) {
-	            if (!queue.length) {
-	                hiddenDiv.setAttribute('yes', 'no');
-	            }
-	            queue.push(fn);
-	        };
-	    }
-	
-	    if (canPost) {
-	        window.addEventListener('message', function (ev) {
-	            var source = ev.source;
-	            if ((source === window || source === null) && ev.data === 'process-tick') {
-	                ev.stopPropagation();
-	                if (queue.length > 0) {
-	                    var fn = queue.shift();
-	                    fn();
-	                }
-	            }
-	        }, true);
-	
-	        return function nextTick(fn) {
-	            queue.push(fn);
-	            window.postMessage('process-tick', '*');
-	        };
-	    }
-	
-	    return function nextTick(fn) {
-	        setTimeout(fn, 0);
-	    };
-	})();
-	
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-	
-	function noop() {}
-	
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-	
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-	
-	// TODO(shtylman)
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
-
 
 /***/ }
 /******/ ])

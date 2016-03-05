@@ -1695,35 +1695,67 @@ module.exports = function(t) {
             this.eq(innerNode.css('height'), '30px')
         })
 
-//        this one is very confusing unless order is preserved between labels and block styles
-//        this.test("inheriting from multiple levels of componentStyleMap", function() {
-//            var style = Style({
-//                Text: {
-//                    backgroundColor: 'rgb(12, 14, 19)'
-//                },
-//                Block: {
-//                    $textLabel: {
-//                        $inherit: true,
-//                        color: 'rgb(15, 25, 35)'
-//                    },
-//                    Block: {
-//                        Text: {
-//                            $inherit: true,
-//                            width: 30
-//                        }
-//                    }
-//                }
-//            })
-//
-//            var inner;
-//            var thing = Block([Block([inner = Block([Text("hi")])])])
-//            thing.style = style
-//            testUtils.demo("$inherit from component style map", thing)
-//
-//            var innerNode = $(inner.domNode)
-//            this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
-//            this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
-//        })
+        this.test("inheriting from a label style", function() {
+
+            var inner = Gem.Text('something', "der")
+
+            var x = Gem.Block('a',[
+                Gem.Text('something', 'hi'),
+                Gem.Block('b', inner)
+            ])
+
+            x.style = Gem.Style({
+                $something: {
+                    color: 'rgb(150, 250, 255)'
+                },
+                $b: {
+                    $something: {
+                        $inherit: true
+                    }
+                }
+            })
+
+            testUtils.demo("inheriting from a label style", x)
+
+            var innerNode = $(inner.domNode)
+            this.eq(innerNode.css('color'), 'rgb(150, 250, 255)')
+        })
+
+        this.test("inheriting from multiple levels of componentStyleMap with a label", function() {
+            var style = Style({
+                Text: {
+                    backgroundColor: 'rgb(12, 14, 19)'
+                },
+                Block: {
+                    $textLabel: {
+                        $inherit: true,
+                        color: 'rgb(15, 25, 35)'
+                    },
+                    Block: {
+                        Text: {
+                            $inherit: true,
+                            width: 30
+                        }
+                    }
+                }
+            })
+
+            var inner;
+            var thing = Block([
+                Block([
+                    Block([
+                        inner = Text('textLabel',"hi")
+                    ])
+                ])
+            ])
+            thing.style = style
+            testUtils.demo("$inherit from component style map", thing)
+
+            var innerNode = $(inner.domNode)
+            this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
+            this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
+            this.eq(innerNode.css('width'), '12px')   // default (isn't affected)
+        })
     })
 
     this.test('former bugs', function() {
@@ -2119,6 +2151,29 @@ module.exports = function(t) {
             testUtils.demo("svg", component)
 
             // the point of this test is just to not throw an exception
+        })
+
+        this.test("lower selectors were incorrectly propagating up the tree", function() {
+            var style = Style({
+                Block: {
+                    $textLabel: {
+                        color: 'blue'
+                    }
+                },
+            })
+
+            var inner1, inner2
+            var thing = Block(inner1=Block(
+
+            ))
+
+            thing.style = style
+            thing.attach()
+
+            this.eq(Object.keys(thing.computedStyleMap).length, 1)
+            this.ok(thing.computedStyleMap.Block !== undefined)
+            this.eq(Object.keys(inner1.computedStyleMap).length, 2)
+            this.ok(inner1.computedStyleMap.$textLabel !== undefined)
         })
 
     })
