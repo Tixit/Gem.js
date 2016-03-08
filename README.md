@@ -1104,6 +1104,8 @@ Style({
 
 `styleObject.mix(styleObject2)`
 `styleObject.mix(styleDefinition)`
+`styleObject.mix(styleObject2, mixInherit)`
+`styleObject.mix(styleDefinition, mixInherit)`
 
 Returns a new style that combines together calling style object and the passed style object or style definition. The properties from the passed style object override the ones from the calling object.
 
@@ -1273,6 +1275,9 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.1.0
+    * Changing the `mixInherit` paramter for `Style.mix` to default to true, and documenting that parameter
+    * Fixing a bug where style inheriting from a psuedoclass wasn't working correctly
 * 2.0.5 - Fixing a bug where a style inheriting from a label style wasn't working correctly
 * 2.0.4 - Adding Svg gem
 * 2.0.3 - Adding the style being applied as a paremeter to the $setup functions (so that the style can be analyized, for example to apply a style to a node that isn't an actual child, but is a conceptual child)

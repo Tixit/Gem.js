@@ -69,11 +69,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
 	exports.Radio = __webpack_require__(/*! Components/Radio */ 9)
 	exports.Select = __webpack_require__(/*! Components/Select */ 10)
-	exports.Svg = __webpack_require__(/*! Components/Svg */ 12)
-	exports.Table = __webpack_require__(/*! Components/Table */ 11)
+	exports.Svg = __webpack_require__(/*! Components/Svg */ 11)
+	exports.Table = __webpack_require__(/*! Components/Table */ 12)
 	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 13)
-	exports.TextField = __webpack_require__(/*! Components/TextField */ 15)
-	exports.Text = __webpack_require__(/*! Components/Text */ 14)
+	exports.TextField = __webpack_require__(/*! Components/TextField */ 14)
+	exports.Text = __webpack_require__(/*! Components/Text */ 15)
 
 /***/ },
 /* 1 */
@@ -82,14 +82,14 @@ return /******/ (function(modules) { // webpackBootstrap
   \******************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 18)
-	var proto = __webpack_require__(/*! proto */ 28);
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 16)
+	var proto = __webpack_require__(/*! proto */ 27);
 	var trimArguments = __webpack_require__(/*! trimArguments */ 29)
-	var observe = __webpack_require__(/*! observe */ 30)
+	var observe = __webpack_require__(/*! observe */ 28)
 	
 	var utils = __webpack_require__(/*! ./utils */ 17)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 19)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 20)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 18)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 19)
 	
 	var Style = __webpack_require__(/*! ./Style */ 2)
 	Style.isDev = function() {return module.exports.dev}
@@ -457,7 +457,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if(gem._style.inherit) {
 	                var styleToInerit = blockStyleUtils.getInheritingStyle(gem)
 	                if(styleToInerit !== undefined)
-	                    return styleToInerit.mix(gem._style)
+	                    return styleToInerit.mix(gem._style, false)
 	            }
 	            // else
 	            return gem._style
@@ -582,9 +582,9 @@ return /******/ (function(modules) { // webpackBootstrap
   \********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 16)
-	var proto = __webpack_require__(/*! proto */ 28)
-	var HashMap = __webpack_require__(/*! hashmap */ 27)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 20)
+	var proto = __webpack_require__(/*! proto */ 27)
+	var HashMap = __webpack_require__(/*! hashmap */ 30)
 	
 	var utils = __webpack_require__(/*! ./utils */ 17)
 	
@@ -701,7 +701,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            pseudoclasses.classes.forEach(function(substyle, subPseudoClass){
 	                var newCompoundSelector = canonicalizeCompoundPseudoclass(pseudoClasses.concat(subPseudoClass))
-	                var mixedStyle = pseudoClassStyleCopy.mix(substyle)
+	                var mixedStyle = pseudoClassStyleCopy.mix(substyle, false)
 	                flattenedStyles.set(newCompoundSelector, mixedStyle)
 	            })
 	
@@ -731,7 +731,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // mutates map
 	        function styleHashmapMerge(map, newKey, newStyle) {
 	            if(map.has(newKey)) {
-	                var valueToSet = map.get(newKey).mix(newStyle)
+	                var valueToSet = map.get(newKey).mix(newStyle, false)
 	            } else {
 	                var valueToSet = newStyle
 	            }
@@ -860,9 +860,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // returns either
 	        // this style if styleB is undefined, or
 	        // a new Style object that merges styleB's properties into the current one such that styleB's properties override the current Style's properties
-	    // mixInherit - (default: false) if true, mixes in the 'inherit' property
+	    // mixInherit - (default: true) if false, doesn't mix in the 'inherit' property
 	    this.mix = function(styleB, mixInherit) {
-	        if(mixInherit === undefined) mixInherit = false
+	        if(mixInherit === undefined) mixInherit = true
 	        if(styleB === undefined || styleB === this)
 	            return this
 	        if(!isStyleObject(styleB)) styleB = Style(styleB)
@@ -920,8 +920,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // the computedStyleMap can affect how sub-pseudoclass selectors are written
 	    // nativePseudoclassSelectorMap - an object where each key is a base css-selector, and each value is a Style object
 	    // jsRenderedPseudoclassIndex - if this style is a js-redered/emulated psueodclass, this is its index inside its parent style's pseudoclasses.classes map, otherwise the value will be 0
-	    this.createNativeCssInfo = function(styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
-	        var cacheKey = [styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle]
+	    this.createNativeCssInfo = function(gem, styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
+	        if(this.inherit) {
+	            var parentCacheKey = gem.parent
+	        }
+	        var cacheKey = [parentCacheKey, styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle]
 	        var cacheHasStyleMap = this.nativeCssInfoCache.has(cacheKey)
 	        if(cacheHasStyleMap) {
 	            return this.nativeCssInfoCache.get(cacheKey)
@@ -967,7 +970,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            styleToReturn.basicNativeCssRendered = true
 	        }
 	
-	        var newNativePseudoclassMap = createNativePseudoclasses(styleToReturn, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
+	        var newNativePseudoclassMap = createNativePseudoclasses(gem, styleToReturn, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
 	
 	        var result = {style: styleToReturn, styleMap: styleMap, nativePseudoclassMap: newNativePseudoclassMap}
 	        setNativeCssInfoCache(this.nativeCssInfoCache, result)
@@ -1132,7 +1135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if(a === undefined)
 	                return b
 	            else
-	                return a.mix(b)
+	                return a.mix(b, false)
 	        } else {
 	            return b
 	        }
@@ -1290,7 +1293,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // styleMap - A block's new computedStyleMap. Selectors that also exist in native pseudoclasses of the style have already been created or copied (so you can be sure creating css class styles for them won't conflict with anything)
 	    // jsRenderedPseudoclassIndex - the index of the active pseudoclass style - needed for deciding what native css needs to be overridden by `style`
 	        // if this is 0, no overriding needs to happen (so 0 is also set when there's no active js-rendered/emulated pseudoclass)
-	    function createNativePseudoclasses(style, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
+	    function createNativePseudoclasses(gem, style, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
 	        if(nativePseudoclassSelectorMap === undefined) nativePseudoclassSelectorMap = {}
 	
 	        var nativePseudoclassSelectors = []
@@ -1318,8 +1321,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            index++
 	        })
 	
+	        var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 19)
 	        for(var selector in nativePseudoclassSelectorMap) {
 	            var pseudoclassStyle = nativePseudoclassSelectorMap[selector]
+	            if(pseudoclassStyle.inherit) {
+	                pseudoclassStyle = blockStyleUtils.getInheritingStyle(gem).mix(pseudoclassStyle, false)
+	            }
+	
 	            var fullSelector = selector+' '+'.'+style.className
 	
 	            // create css styles for the top-level style when inside a pure native pseudoclass style of its parent
@@ -1853,7 +1861,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
 	module.exports = proto(Gem, function(superclass) {
@@ -1915,7 +1923,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -1952,7 +1960,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -1999,7 +2007,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
 	module.exports = proto(Gem, function(superclass) {
 		// static variables
@@ -2042,7 +2050,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2086,7 +2094,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
 	var Gem = __webpack_require__(/*! Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
@@ -2163,7 +2171,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	var EventEmitter = __webpack_require__(/*! events */ 26).EventEmitter
 	
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
@@ -2433,9 +2441,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
-	var Option = __webpack_require__(/*! Components/Option */ 25)
+	var Option = __webpack_require__(/*! Components/Option */ 22)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Gem, function(superclass) {
@@ -2583,19 +2591,50 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 11 */
+/*!*****************************!*\
+  !*** ./~/Components/Svg.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 27)
+	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	
+	module.exports = proto(Gem, function(superclass) {
+		// static variables
+	    this.name = 'Svg'
+	
+		// instance methods
+		this.build = function(/*[label,] svgXml*/) {
+	        if(arguments.length === 1) {
+	            var svgXml = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var svgXml = arguments[1]
+	        }
+	
+	        var div = document.createElement('div')
+	        div.innerHTML = svgXml
+	        this.domNode = div.firstChild
+	
+	        this.label = label
+		}
+	})
+
+/***/ },
+/* 12 */
 /*!*******************************!*\
   !*** ./~/Components/Table.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
 	var Header = __webpack_require__(/*! ./Header */ 23);
-	var Row = __webpack_require__(/*! ./Row */ 22);
-	var Cell = __webpack_require__(/*! ./Cell */ 24);
+	var Row = __webpack_require__(/*! ./Row */ 24);
+	var Cell = __webpack_require__(/*! ./Cell */ 25);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2649,37 +2688,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 12 */
-/*!*****************************!*\
-  !*** ./~/Components/Svg.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 28)
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	
-	module.exports = proto(Gem, function(superclass) {
-		// static variables
-	    this.name = 'Svg'
-	
-		// instance methods
-		this.build = function(/*[label,] svgXml*/) {
-	        if(arguments.length === 1) {
-	            var svgXml = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var svgXml = arguments[1]
-	        }
-	
-	        var div = document.createElement('div')
-	        div.innerHTML = svgXml
-	        this.domNode = div.firstChild
-	
-	        this.label = label
-		}
-	})
-
-/***/ },
 /* 13 */
 /*!**********************************!*\
   !*** ./~/Components/TextArea.js ***!
@@ -2687,7 +2695,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2724,71 +2732,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 14 */
-/*!******************************!*\
-  !*** ./~/Components/Text.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	var Gem = __webpack_require__(/*! Gem */ 1)
-	var Style = __webpack_require__(/*! Style */ 2)
-	
-	var domUtils = __webpack_require__(/*! domUtils */ 19)
-	
-	
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-	    //static properties
-	
-	    this.name = 'Text'
-	
-	    this.defaultStyle = Style({
-	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
-	    })
-	
-	    this.init = function(/*[label,] text*/) {
-	        if(arguments.length === 1) {
-	            var text = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var text = arguments[1]
-	        }
-	
-	        if (text === undefined) text = '';
-	
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	        this.text = text
-	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode[domUtils.textProperty]
-	        }, set: function(v) {
-	             this.domNode[domUtils.textProperty] = v
-	        }
-	    })
-	});
-	
-	
-
-
-/***/ },
-/* 15 */
 /*!***********************************!*\
   !*** ./~/Components/TextField.js ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
-	var domUtils = __webpack_require__(/*! ../domUtils */ 19)
+	var domUtils = __webpack_require__(/*! ../domUtils */ 18)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2835,7 +2787,1013 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 15 */
+/*!******************************!*\
+  !*** ./~/Components/Text.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 27)
+	
+	var Gem = __webpack_require__(/*! Gem */ 1)
+	var Style = __webpack_require__(/*! Style */ 2)
+	
+	var domUtils = __webpack_require__(/*! domUtils */ 18)
+	
+	
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Text'
+	
+	    this.defaultStyle = Style({
+	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
+	    })
+	
+	    this.init = function(/*[label,] text*/) {
+	        if(arguments.length === 1) {
+	            var text = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        }
+	
+	        if (text === undefined) text = '';
+	
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	        this.text = text
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode[domUtils.textProperty]
+	        }, set: function(v) {
+	             this.domNode[domUtils.textProperty] = v
+	        }
+	    })
+	});
+	
+	
+
+
+/***/ },
 /* 16 */
+/*!****************************!*\
+  !*** ./~/EventEmitterB.js ***!
+  \****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitter = __webpack_require__(/*! events */ 26).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 27)
+	var utils = __webpack_require__(/*! utils */ 17)
+	
+	module.exports = proto(EventEmitter, function(superclass) {
+	
+	    this.init = function() {
+	        superclass.apply(this, arguments)
+	
+	        this.ifonHandlers = {}
+	        this.ifoffHandlers = {}
+	        this.ifonAllHandlers = []
+	        this.ifoffAllHandlers = []
+	    }
+	
+	    // callback will be triggered immediately if there is already a listener attached, or
+	    // callback will be triggered when the first listener for the event is added
+	    // (regardless of whether its done through on or once)
+	    // parameters can be:
+	        // event, callback - attach an ifon handler for the passed event
+	        // callback - attach an ifon handler for all events
+	    this.ifon = function(event, callback) {
+	        if(event instanceof Function) {     // event not passed, only a callback
+	            callback = event // fix the argument
+	            for(var eventName in this._events) {
+	                if(this.listeners(eventName).length > 0) {
+	                    callback(eventName)
+	                }
+	            }
+	        } else if(this.listeners(event).length > 0) {
+	            callback(event)
+	        }
+	
+	        addHandlerToList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfon() - all ifon handlers (if no arguments are passed), or
+	        // removeIfon(event) - all ifon handlers for the passed event, or
+	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
+	        // removeIfon(event, callback) - the specific passed callback for the passed event
+	    this.removeIfon = function(event, callback) {
+	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
+	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
+	    // parameters can be:
+	        // event, callback - attach an ifoff handler for the passed event
+	        // callback - attach an ifoff handler for all events
+	    this.ifoff = function(event, callback) {
+	        addHandlerToList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfoff() - all ifoff handlers (if no arguments are passed), or
+	        // removeIfoff(event) - all ifoff handlers for the passed event, or
+	        // removeIfoff(callback) - the passed ifoff-all handler (if the first parameter is the callback)
+	        // removeIfoff(event, callback) - the specific passed callback for the passed event
+	    this.removeIfoff = function(event, callback) {
+	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // emitter is the emitter to proxy handler binding to
+	    // options can have one of the following properties:
+	        // only - an array of events to proxy
+	        // except - an array of events to *not* proxy
+	    this.proxy = function(emitter, options) {
+	        if(options === undefined) options = {}
+	        if(options.except !== undefined) {
+	            var except = utils.arrayToMap(options.except)
+	            var handleIt = function(event){return !(event in except)}
+	        } else if(options.only !== undefined) {
+	            var only = utils.arrayToMap(options.only)
+	            var handleIt = function(event){return event in only}
+	        } else {
+	            var handleIt = function(){return true}
+	        }
+	
+	        var that = this, handler;
+	        this.ifon(function(event) {
+	            if(handleIt(event)) {
+	                emitter.on(event, handler = function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        this.ifoff(function(event) {
+	            if(handleIt(event))
+	                emitter.off(event, handler)
+	        })
+	    }
+	
+	    /*override*/ this.on = this.addListener = function(event, callback) {
+	        var triggerIfOn = this.listeners(event).length === 0
+	        superclass.prototype.on.apply(this,arguments)
+	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
+	    }
+	
+	    /*override*/ this.off = this.removeListener = function(event, callback) {
+	        var triggerIfOff = this.listeners(event).length === 1
+	        superclass.prototype.removeListener.apply(this,arguments)
+	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
+	    }
+	    /*override*/ this.removeAllListeners = function(event) {
+	        var triggerIfOffForEvents = []
+	        if(event !== undefined) {
+	            if(this.listeners(event).length > 0) {
+	                triggerIfOffForEvents.push(event)
+	            }
+	        } else {
+	            for(var event in this._events) {
+	                if(this.listeners(event).length > 0) {
+	                    triggerIfOffForEvents.push(event)
+	                }
+	            }
+	        }
+	
+	        superclass.prototype.removeAllListeners.apply(this,arguments)
+	
+	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
+	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
+	        }
+	    }
+	
+	})
+	
+	
+	// triggers the if handlers from the normal list and the "all" list
+	function triggerIfHandlers(that, handlerListName, event) {
+	    triggerIfHandlerList(that[handlerListName][event], event)
+	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
+	}
+	
+	
+	// triggers the if handlers from a specific list
+	// ya these names are confusing, sorry : (
+	function triggerIfHandlerList(handlerList, event) {
+	    if(handlerList !== undefined) {
+	        for(var n=0; n<handlerList.length; n++) {
+	            handlerList[n](event)
+	        }
+	    }
+	}
+	
+	function addHandlerToList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        var handlerList = that[handlerListName][event]
+	        if(handlerList === undefined) {
+	            handlerList = that[handlerListName][event] = []
+	        }
+	
+	        handlerList.push(callback)
+	    } else {
+	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
+	    }
+	}
+	
+	function removeFromHandlerList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        removeCallbackFromList(that[handlerListName][event], callback)
+	    } else if(event !== undefined) {
+	        delete that[handlerListName][event]
+	    } else if(callback !== undefined) {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        removeCallbackFromList(that[allHandlerListName], callback)
+	    } else {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        that[handlerListName] = {}
+	        that[allHandlerListName] = []
+	    }
+	}
+	
+	function normalHandlerToAllHandlerProperty(handlerListName) {
+	    if(handlerListName === 'ifonHandlers')
+	        return 'ifonAllHandlers'
+	    if(handlerListName === 'ifoffHandlers')
+	        return 'ifoffAllHandlers'
+	}
+	
+	function removeCallbackFromList(list, callback) {
+	    var index = list.indexOf(callback)
+	    list.splice(index,1)
+	}
+
+/***/ },
+/* 17 */
+/*!********************!*\
+  !*** ./~/utils.js ***!
+  \********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	//require('hashmap') // here to mark hashmapMerge's dependency on this module
+	var path = __webpack_require__(/*! path */ 32)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	// merges two hashmaps together just like merge does for regular objects
+	// non-deep merge
+	exports.hashmapMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    obj2.forEach(function(value, key) {
+	        obj1.set(key, obj2.get(key))
+	    })
+	
+	    if(arguments.length > 2) {
+	        var newObjects = [obj1].concat(Array.prototype.slice.call(arguments, 2))
+	        return exports.hashmapMerge.apply(this, newObjects)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
+	exports.objectConjunction = function(a, b) {
+	    var objectCopy = {}
+	    merge(objectCopy, a)
+	    merge(objectCopy, b)
+	    return objectCopy
+	}
+	
+	// turns an array of values into a an object where those values are all keys that point to 'true'
+	exports.arrayToMap = function(array) {
+	    var result = {}
+	    array.forEach(function(v) {
+	        result[v] = true
+	    })
+	    return result
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       //if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       //}
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 18 */
+/*!***********************!*\
+  !*** ./~/domUtils.js ***!
+  \***********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	// the property that should be used to get and set text (this is different on chrome vs firefox for some dumb reason)
+	exports.textProperty = 'textContent' //document.createElement("div").textContent != undefined ? 'textContent' : 'innerText'
+	
+	// creates a dom element optionally with a class and attributes
+	 var node = exports.node = function(type, className, options) {
+	    var elem = document.createElement(type)
+	
+	    if(options !== undefined) {
+	        if(options.attr !== undefined) {
+	            for(var attribute in options.attr) {
+	                setAttribute(elem, attribute, options.attr[attribute])
+	            }
+	        }
+	        if(options.textContent !== undefined) {
+	            elem.textContent = options.textContent
+	        }
+	    }
+	
+	    if(className !== undefined)
+	        elem.className = className
+	
+	    return elem
+	}
+	
+	// convenience function for creating a div
+	exports.div = function(className, options) {
+	    return node('div', className, options)
+	}
+	
+	
+	// adds an attribute to a domNode
+	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
+	    if (arguments.length === 2) {
+	        var domNode = this.domNode;
+	        var type = arguments[0];
+	        var value = arguments[1];
+	    } else if (arguments.length === 3) {
+	        var domNode = arguments[0];
+	        var type = arguments[1];
+	        var value = arguments[2];
+	    } else {
+	        throw new Error("This function expects arguments to be: [domNode,] type, value");
+	    }
+	    var attr = document.createAttribute(type)
+	    attr.value = value
+	    domNode.setAttributeNode(attr)
+	}
+	
+	// sets the selection
+	//
+	// works for contenteditable elements
+	exports.setSelectionRange = function(containerEl, start, end) {
+	
+	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
+	        containerEl.setSelectionRange(start, end)
+	    } else {
+	        var charIndex = 0, range = document.createRange();
+	        range.setStart(containerEl, 0);
+	        range.collapse(true);
+	        var foundStart = false;
+	
+	        iterateThroughLeafNodes(containerEl, function(node) {
+	            var hiddenCharacters = findHiddenCharacters(node, node.length)
+	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
+	
+	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+	                var nodeIndex = start-charIndex
+	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
+	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
+	                foundStart = true;
+	            }
+	
+	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
+	                var nodeIndex = end-charIndex
+	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
+	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
+	                return true; // stop the iteration - we're done here
+	            }
+	
+	            charIndex = nextCharIndex
+	        })
+	
+	        var sel = window.getSelection();
+	        sel.removeAllRanges();
+	        sel.addRange(range);
+	    }
+	}
+	
+	// gets the character offsets of a selection within a particular dom node
+	// returns undefined if there is no selection in the element
+	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
+	exports.getSelectionRange = function (element) {
+	
+	    var selection = window.getSelection()
+	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
+	
+	    for(var n=0; n<selection.rangeCount; n++) {
+	        var range = selection.getRangeAt(0)
+	        if(isInputOrArea) {
+	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
+	                return [element.selectionStart, element.selectionEnd]
+	            }
+	        } else {
+	            var startsInElement = element.contains(range.startContainer)
+	            if(startsInElement) {
+	                var elementToIterateThrough = element
+	                var startFound = true
+	            } else {
+	                var elementToIterateThrough = range.commonAncestorContainer
+	                var startFound = false
+	                var startContainerFound = false
+	            }
+	
+	            var visibleCharacterOffset = 0, start, end;
+	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
+	                if(!startFound) {
+	                    if(leaf === range.startContainer) {
+	                        startContainerFound = true
+	                    }
+	
+	                    if(!element.contains(leaf) || !startContainerFound)
+	                        return; // continue
+	                    else if(startContainerFound)
+	                       startFound = true
+	                } else if(!startsInElement && !element.contains(leaf)) {
+	                    return true // done!
+	                }
+	
+	                if(leaf === range.startContainer) {
+	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
+	                }
+	                if(leaf === range.endContainer) {
+	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
+	                    return true // done!
+	                }
+	
+	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
+	            })
+	
+	            if(start === undefined && !startFound) {
+	                return undefined
+	            } else {
+	                if(start === undefined) {
+	                    start = 0 // start is at the beginning
+	                }
+	                if(end === undefined) {
+	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
+	                }
+	
+	                return [start, end]
+	            }
+	        }
+	    }
+	}
+	
+	
+	// iterate through the leaf nodes inside element
+	// callback(node) - a function called for each leaf node
+	    // returning true from this ends the iteration
+	function iterateThroughLeafNodes(element, callback) {
+	    var nodeStack = [element], node;
+	
+	    while (node = nodeStack.pop()) {
+	        if (node.nodeType == 3) {
+	            if(callback(node) === true)
+	                break;
+	        } else {
+	            var i = node.childNodes.length;
+	            while (i--) {
+	                nodeStack.push(node.childNodes[i]);
+	            }
+	        }
+	    }
+	}
+	
+	function findHiddenCharacters(node, beforeCaretIndex) {
+	    var hiddenCharacters = 0
+	    var lastCharWasWhiteSpace=true
+	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
+	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
+	            if(lastCharWasWhiteSpace)
+	                hiddenCharacters++
+	            else
+	                lastCharWasWhiteSpace = true
+	        } else {
+	            lastCharWasWhiteSpace = false
+	        }
+	    }
+	
+	    return hiddenCharacters
+	}
+
+/***/ },
+/* 19 */
+/*!******************************!*\
+  !*** ./~/blockStyleUtils.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// some functionality that is needed by Gem.js but is related to styling (some things are also needed by Style.js)
+	
+	var HashMap = __webpack_require__(/*! hashmap */ 30)
+	
+	var Style = __webpack_require__(/*! ./Style */ 2)
+	var utils = __webpack_require__(/*! ./utils */ 17)
+	
+	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
+	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
+	
+	
+	// gets the right style from the styleMap, depending on the gem's `name` and `label` (`label` styles take precedence)
+	// takes the component's inheritance tree into account (relies on the gem.constructor.parent property)
+	var getStyleMapEntryForGem = exports.getStyleForComponent = function (styleMap, gem) {
+	    if(styleMap === undefined)
+	        return undefined
+	
+	    return getStyleForLabel(styleMap, gem) || getStyleForGemName(styleMap, gem)
+	}
+	
+	var getStyleForLabel = exports.getStyleForLabel = function(styleMap, gem) {
+	    if(gem.label !== undefined && '$'+gem.label in styleMap) {
+	        return styleMap['$'+gem.label]
+	    }
+	}
+	var getStyleForGemName = exports.getStyleForBlockName = function(styleMap, gem) {
+	    var constructor = gem.constructor
+	    while(constructor !== undefined) {
+	        var style = styleMap[constructor.name]
+	        if(style !== undefined) {
+	            return style
+	        } else {
+	            constructor = constructor.parent
+	        }
+	    }
+	}
+	
+	// gets the possibly inheriting style from the styleMap for `gem`
+	// gem - the gem to get the style for
+	// ancestor - the gem to get the computedStyleMap from
+	var getInheritingStyle = exports.getInheritingStyle = function(gem) {
+	    var ancestor = gem.parent
+	    if(ancestor === undefined || ancestor.computedStyleMap === undefined) return undefined
+	
+	    if(gem.label !== undefined) {
+	        var styleMapKey = '$'+gem.label
+	        var nextContructor = gem.constructor
+	    } else {
+	        var styleMapKey = gem.constructor.name
+	        var nextContructor = gem.constructor.parent
+	    }
+	
+	    var nextAncestorToSearchFrom = ancestor
+	    var styles = [], inherit = true
+	    while(nextAncestorToSearchFrom !== undefined) {    // find styles from the most specific name to the least specific
+	        var stylesForKey = findStylesForStyleMapKey(nextAncestorToSearchFrom, styleMapKey)
+	        styles = styles.concat(stylesForKey.styles)
+	        nextAncestorToSearchFrom = stylesForKey.nextAncestorToSearchFrom
+	        inherit = stylesForKey.inherit
+	
+	        if(nextContructor === undefined || !inherit) {
+	            break
+	        } else {
+	            if(styleMapKey === 'Gem') {
+	                break // we're done - no need to check anything higher in the prototype chain than Gem
+	            }
+	
+	            styleMapKey = nextContructor.name
+	            nextContructor = nextContructor.parent
+	        }
+	    }
+	
+	    var reversedStyles = styles.reverse() // reverse so later styles override earlier styles
+	    var styleToReturn = reversedStyles[0]
+	    for(var n=1; n<reversedStyles.length; n++) {
+	        styleToReturn = styleToReturn.mix(reversedStyles[n], false)
+	    }
+	
+	    return styleToReturn
+	
+	
+	    function findStylesForStyleMapKey(startAncestor, key) {
+	        var styles = [], inherit = true
+	        var curAncestor = startAncestor, nextAncestorToSearchFrom = startAncestor
+	        while(curAncestor !== undefined) {                                // find styles from the closest parent to the farthest
+	            if(curAncestor.computedStyleMap !== undefined) {
+	                var style = curAncestor.computedStyleMap[key]
+	            }
+	            if(style !== undefined) {
+	                if(styles.indexOf(style) === -1) {
+	                    styles.push(style)
+	                }
+	                nextAncestorToSearchFrom = curAncestor
+	
+	                inherit = style.inherit
+	                if(!inherit) {
+	                    break
+	                }
+	            }
+	
+	            curAncestor = curAncestor.parent
+	        }
+	
+	        return {styles:styles, nextAncestorToSearchFrom: nextAncestorToSearchFrom, inherit:inherit}
+	    }
+	}
+	
+	// returns the conjunction of two style maps
+	// gets it from the computedStyles cache if its already in there
+	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
+	    if(secondaryStyleMap === undefined) return primaryStyleMap
+	    if(primaryStyleMap === undefined) return secondaryStyleMap
+	
+	    var cachedStyleMap = computedStyles.get([secondaryStyleMap, primaryStyleMap])
+	    if(cachedStyleMap === undefined) {
+	        if(secondaryStyleMap  === undefined) {
+	            cachedStyleMap = primaryStyleMap
+	        } else if(primaryStyleMap === undefined) {
+	            cachedStyleMap = secondaryStyleMap
+	        } else {
+	            var overridingProperties = {}, atLeastOne = false
+	            for(var key in primaryStyleMap) {
+	                if(secondaryStyleMap[key] !== primaryStyleMap[key]) {
+	                    overridingProperties[key] = primaryStyleMap[key]
+	                    atLeastOne = true
+	                }
+	            }
+	
+	            if(atLeastOne) {
+	                cachedStyleMap = utils.objectConjunction(secondaryStyleMap, overridingProperties)
+	            } else { // the styleMaps are different objects, but contain the same thing
+	                cachedStyleMap = secondaryStyleMap
+	            }
+	        }
+	
+	        if(cachedStyleMap === undefined) cachedStyleMap = false // switch it out with false so it can be recognized
+	        computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
+	    }
+	
+	    if(cachedStyleMap === false) {
+	        return undefined
+	    }
+	    return cachedStyleMap
+	}
+	
+	
+	
+	exports.getDefaultStyle = function(gem)  {
+	    // attempt to get from the cache
+	    var defaultGemStyle = defaultStyleMap.get(gem.constructor)
+	    if(defaultGemStyle === undefined) {
+	        defaultGemStyle = createDefaultGemStyle(gem)
+	        if(defaultGemStyle === undefined) defaultGemStyle = false
+	        defaultStyleMap.set(gem.constructor, defaultGemStyle)
+	    }
+	
+	    if(defaultGemStyle === false) {
+	        return undefined
+	    }
+	    return defaultGemStyle
+	}
+	
+	// returns a new style with style b mixed into style a (works even if they're both undefined)
+	var mixStyles = exports.mixStyles = function(a,b) {
+	    if(a === undefined)
+	        return b
+	    else
+	        return a.mix(b, false)
+	}
+	
+	
+	
+	
+	
+	// sets the currentStyle of a gem and makes all the appropriate changes to render a new active style for the gem and its children
+	exports.setCurrentStyle = function(gem, newCurrentStyle, defaultStyle) {
+	
+	    var current$state = gem._currentStyle === undefined? undefined: gem._currentStyle.stateHandler
+	    var newCurrentStyle$state = newCurrentStyle === undefined? undefined: newCurrentStyle.stateHandler
+	    if(current$state !== newCurrentStyle$state) {     // if the $state function remains the same, we don't gotta do nothin (about switching state functions at least)
+	        if(gem._stateChangeHandler !== undefined) {  // remove the old handler if necessary
+	            gem.state.removeListener('change', gem._stateChangeHandler)
+	            gem._stateChangeHandler = undefined
+	        }
+	
+	        if(newCurrentStyle$state !== undefined) {     // add a new handler if necessary
+	            gem.state.on('change', gem._stateChangeHandler = function() {
+	                var rawStateStyle = getStateStyle(gem._currentStyle, gem.state.subject)
+	                setMixedStateStyle(gem, mixStyles(gem._currentStyle, rawStateStyle))
+	            })
+	        }
+	    }
+	
+	    gem._currentStyle = newCurrentStyle
+	    var rawStateStyle = getStateStyle(newCurrentStyle, gem.state.subject)
+	
+	    var newMixedStateStyle = mixStyles(newCurrentStyle, rawStateStyle)
+	    setMixedStateStyle(gem, newMixedStateStyle, defaultStyle)
+	}
+	
+	
+	// handles reseting a gem's active style when its state style changes
+	// renders the pseudoclass style
+	function setMixedStateStyle(gem, mixedStateStyle, defaultStyle) {
+	    var psuedoclassState = {}
+	
+	    // if a pseudoclass can no longer apply, undo its setup
+	    for(var pseudoClass in gem._styleSetupInfo) {
+	        if(mixedStateStyle === undefined || !(pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo)) {
+	            var setupInfo = gem._styleSetupInfo[pseudoClass]
+	            setupInfo.kill(gem, setupInfo.state)
+	            delete gem._styleSetupInfo[pseudoClass]
+	        }
+	    }
+	
+	    // setup new pseudoclasses
+	    if(mixedStateStyle !== undefined) {
+	        for(var pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo) {
+	            if(!(pseudoClass in gem._styleSetupInfo)) {                     // if this exact pseudoclass is already setup, no need to do anything
+	                ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
+	                    var setupState = emulationInfo.fns.setup(gem, function() { // start
+	                        var changed = psuedoclassState[pseudoClass] !== true
+	                        if(changed) {
+	                            psuedoclassState[pseudoClass] = true
+	                            changeStyleIfNecessary()
+	                        }
+	                    }, function() { // end
+	                        var changed = psuedoclassState[pseudoClass] !== false
+	                        if(changed) {
+	                            psuedoclassState[pseudoClass] = false
+	                            changeStyleIfNecessary()
+	                        }
+	                    }, emulationInfo.parameter)
+	
+	                    gem._styleSetupInfo[pseudoClass] = {state: setupState, kill: emulationInfo.fns.kill}
+	
+	                })(pseudoClass, mixedStateStyle.pseudoclasses.emulatedInfo[pseudoClass])
+	            }
+	        }
+	    }
+	
+	    // build up the pseudoclass state - depending on what pseudoclasses might become applicable
+	    if(mixedStateStyle !== undefined) {
+	        for(var pseudoclassKey in mixedStateStyle.pseudoclasses.emulatedInfo) {
+	            var info = mixedStateStyle.pseudoclasses.emulatedInfo[pseudoclassKey]
+	            psuedoclassState[pseudoclassKey] = info.fns.check(gem, info.parameter)
+	        }
+	    }
+	
+	    // set current pseudoclass style
+	    changeStyleIfNecessary()
+	
+	
+	    function changeStyleIfNecessary() {
+	        var pseudoclassStyleInfo = getPseudoclassStyleFor(mixedStateStyle, psuedoclassState)
+	//        if(pseudoclassStyleInfo.style !== undefined && pseudoclassStyleInfo.style.inherit) {
+	//            pseudoclassStyleInfo.style = getInheritingStyle(gem).mix(pseudoclassStyleInfo.style, false)
+	//        }
+	
+	        var newPreStyleMapStyle = mixStyles(mixedStateStyle, pseudoclassStyleInfo.style)
+	        setPreStyleMapStyle(gem, newPreStyleMapStyle, pseudoclassStyleInfo.index, defaultStyle)
+	    }
+	}
+	
+	// sets the style before being modified by the gem's parent's computedStyleMap
+	// handles removing the state listener and calling $kill on the old activeStyle
+	function setPreStyleMapStyle(gem, newPreStyleMapStyle, jsRenderedPseudoclassIndex, defaultStyle) {
+	    if(gem.parent !== undefined && newPreStyleMapStyle !== undefined)
+	        var newComputedStyleMap = styleMapConjunction(gem.parent.computedStyleMap, newPreStyleMapStyle.componentStyleMap)
+	    else if(gem.parent !== undefined)
+	        var newComputedStyleMap = gem.parent.computedStyleMap
+	    else if(newPreStyleMapStyle !== undefined)
+	        var newComputedStyleMap = newPreStyleMapStyle.componentStyleMap
+	    else
+	        var newComputedStyleMap = undefined
+	
+	    var newActiveStyle = undefined // can be changed below
+	    var cancel = false
+	    if(newPreStyleMapStyle !== undefined) {
+	        if(gem.parent !== undefined) var nativePseudoclassMap = gem.parent._nativePseudoclassMap
+	        else                           var nativePseudoclassMap = {}
+	
+	        var nativePseudoclassSelectorMap = getStyleMapEntryForGem(nativePseudoclassMap, gem)
+	        var nativeCssInfo = newPreStyleMapStyle.createNativeCssInfo(gem, newComputedStyleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
+	
+	        if(nativeCssInfo.cancel) {
+	            cancel = true
+	            setMixedStateStyle(gem, nativeCssInfo.retryStyle)
+	
+	        } else {
+	            newActiveStyle = nativeCssInfo.style
+	            newComputedStyleMap = nativeCssInfo.styleMap // even newer!
+	            gem._nativePseudoclassMap = nativeCssInfo.nativePseudoclassMap
+	        }
+	    }
+	
+	    if(!cancel) {
+	        setActiveStyle(gem, newActiveStyle, newComputedStyleMap)
+	    }
+	}
+	
+	// sets the active style on the gem and on the gem's children
+	// also sets the gem's new computedStyleMap
+	function setActiveStyle(gem, newActiveStyle, newComputedStyleMap) {
+	    var activeStyleChanged = newActiveStyle !== gem._activeStyle
+	    var computedStyleMapChanged = gem.computedStyleMap !== newComputedStyleMap
+	
+	    if(activeStyleChanged) {
+	        setStyleClass(gem, newActiveStyle)
+	
+	        var curActiveStyle$setup = gem._activeStyle === undefined? undefined: gem._activeStyle.setup
+	        var newActiveStyle$setup = newActiveStyle === undefined? undefined: newActiveStyle.setup
+	        if(curActiveStyle$setup !== newActiveStyle$setup) {
+	            applyStyleKillFunction(gem)
+	            applyStyleSetupFunction(gem, newActiveStyle)
+	        }
+	
+	        gem._activeStyle = newActiveStyle
+	    }
+	
+	
+	    gem.computedStyleMap = newComputedStyleMap
+	
+	    // propogate styles to children
+	    gem.children.forEach(function(child) {
+	        if(computedStyleMapChanged || !child.attached) {
+	            child.attached = true
+	            child.style = child.style  // force a re-render on each child
+	        }
+	    })
+	}
+	
+	
+	
+	// given a style and an object representing some state, returns the state given by the style's $state function
+	// returns undefined if it doesn't have a state function
+	// handles caching state styles (an optimization)
+	function getStateStyle(currentStyle, stateParameter) {
+	    if(currentStyle === undefined || currentStyle.stateHandler === undefined) return undefined
+	
+	    var returnedStyle = currentStyle.stateHandler(stateParameter)
+	
+	    // todo: figure out if this style has been returned before, and if so, use the already-generated style (mostly so that that style can take advantage of other cached combinations)
+	
+	    return returnedStyle
+	}
+	
+	// returns an object with the properties:
+	    // style - the jsRendered pseudoclass style for the gem's relevant pseudoclass state
+	    // index - the index of the pseudoclass (jsRenderedPseudoclassIndex)
+	// returns undefined if no emulated pseudoclass style applies or if only native pseudoclass stylings apply
+	// state - an object that will be mutated with the current state for each pseudoclass
+	function getPseudoclassStyleFor(style, state) {
+	    if(style === undefined) return {index:0}
+	
+	    var index = 0, result={index:0}
+	    style.pseudoclasses.classes.forEach(function(psuedoclassStyle, compoundKey) {
+	        if(!psuedoclassStyle.pureNative) {
+	            for(var j=0; j<compoundKey.length; j++) {
+	                var pseudoclass = compoundKey[j]
+	                if(!state[pseudoclass]) {
+	                    break;
+	                }
+	            }
+	
+	            if(j === compoundKey.length) {
+	                result = {index: index, style: psuedoclassStyle}
+	            }
+	        }
+	
+	        index++
+	    })
+	
+	    return result
+	}
+	
+	
+	
+	// finds the default style for a gem, mixes it with the appropriate ancestor styles, and returns the result
+	function createDefaultGemStyle(that) {
+	    if(that.defaultStyle !== undefined) {
+	        validateDefaultStyle(that.defaultStyle)
+	    }
+	
+	    // get list of default styles
+	    var defaultStyles = []
+	    var nextConstructor = that.constructor
+	    while(nextConstructor !== undefined) {
+	        if(nextConstructor.defaultStyle !== undefined) {
+	            defaultStyles.push(nextConstructor.defaultStyle)
+	        }
+	        nextConstructor = nextConstructor.parent
+	    }
+	
+	    // generate merged default style
+	    var reversedDefaults = defaultStyles.reverse()
+	    var mergedDefaultStyle = reversedDefaults[0]
+	    for(var n=1; n<reversedDefaults.length; n++) {
+	        mergedDefaultStyle = mergedDefaultStyle.mix(reversedDefaults[n], false)
+	    }
+	
+	    return mergedDefaultStyle
+	}
+	
+	
+	// applies setup appropriately
+	function applyStyleSetupFunction(component, style) {
+	    if(style !== undefined && style.setup !== undefined) {
+	        component._styleSetupObject = style.setup(component, style) // call setup on the component
+	    } else {
+	        component._styleSetupObject = undefined
+	    }
+	}
+	// applies kill appropriately
+	function applyStyleKillFunction(component) {
+	    var activeStyle = component._activeStyle
+	    if(activeStyle !== undefined && activeStyle.setup !== undefined) {
+	        if(activeStyle.kill === undefined)
+	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
+	
+	        activeStyle.kill(component, component._styleSetupObject)
+	    }
+	}
+	
+	
+	// sets the style, replacing one if one already exists
+	function setStyleClass(component, style) {
+	    var activeStyle = component._activeStyle
+	
+	    //var newStyle = component.domNode.className
+	    if(activeStyle !== undefined) {
+	        component.domNode.classList.remove(activeStyle.className)
+	        // newStyle = newStyle.replace(new RegExp(" ?\\b"+activeStyle.className+"\\b"),'') // remove the previous css class
+	    }
+	    if(style !== undefined) {
+	        component.domNode.classList.add(style.className)
+	        //newStyle = style.className+' '+newStyle.trim() // note that the order of classes doesn't matter
+	    }
+	
+	    //component.domNode.className = newStyle
+	}
+	
+	function validateDefaultStyle(defaultStyle) {
+	    if(!isStyleObject(defaultStyle)) {
+	        throw new Error("defaultStyle property must be a Style object")
+	    }
+	}
+	
+	// if you load two different instances of gems, its necessary to do a bit of duck typing
+	function isStyleObject(x) {
+	    return x.className !== undefined && x.componentStyleMap !== undefined && x.mix !== undefined
+	}
+
+/***/ },
+/* 20 */
 /*!*************************!*\
   !*** ./external/jss.js ***!
   \*************************/
@@ -3133,952 +4091,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
 
 /***/ },
-/* 17 */
-/*!********************!*\
-  !*** ./~/utils.js ***!
-  \********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	//require('hashmap') // here to mark hashmapMerge's dependency on this module
-	var path = __webpack_require__(/*! path */ 32)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	// merges two hashmaps together just like merge does for regular objects
-	// non-deep merge
-	exports.hashmapMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    obj2.forEach(function(value, key) {
-	        obj1.set(key, obj2.get(key))
-	    })
-	
-	    if(arguments.length > 2) {
-	        var newObjects = [obj1].concat(Array.prototype.slice.call(arguments, 2))
-	        return exports.hashmapMerge.apply(this, newObjects)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
-	exports.objectConjunction = function(a, b) {
-	    var objectCopy = {}
-	    merge(objectCopy, a)
-	    merge(objectCopy, b)
-	    return objectCopy
-	}
-	
-	// turns an array of values into a an object where those values are all keys that point to 'true'
-	exports.arrayToMap = function(array) {
-	    var result = {}
-	    array.forEach(function(v) {
-	        result[v] = true
-	    })
-	    return result
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       //if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       //}
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 18 */
-/*!****************************!*\
-  !*** ./~/EventEmitterB.js ***!
-  \****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var EventEmitter = __webpack_require__(/*! events */ 26).EventEmitter
-	var proto = __webpack_require__(/*! proto */ 28)
-	var utils = __webpack_require__(/*! utils */ 17)
-	
-	module.exports = proto(EventEmitter, function(superclass) {
-	
-	    this.init = function() {
-	        superclass.apply(this, arguments)
-	
-	        this.ifonHandlers = {}
-	        this.ifoffHandlers = {}
-	        this.ifonAllHandlers = []
-	        this.ifoffAllHandlers = []
-	    }
-	
-	    // callback will be triggered immediately if there is already a listener attached, or
-	    // callback will be triggered when the first listener for the event is added
-	    // (regardless of whether its done through on or once)
-	    // parameters can be:
-	        // event, callback - attach an ifon handler for the passed event
-	        // callback - attach an ifon handler for all events
-	    this.ifon = function(event, callback) {
-	        if(event instanceof Function) {     // event not passed, only a callback
-	            callback = event // fix the argument
-	            for(var eventName in this._events) {
-	                if(this.listeners(eventName).length > 0) {
-	                    callback(eventName)
-	                }
-	            }
-	        } else if(this.listeners(event).length > 0) {
-	            callback(event)
-	        }
-	
-	        addHandlerToList(this, 'ifonHandlers', event, callback)
-	    }
-	
-	    // removes either:
-	        // removeIfon() - all ifon handlers (if no arguments are passed), or
-	        // removeIfon(event) - all ifon handlers for the passed event, or
-	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
-	        // removeIfon(event, callback) - the specific passed callback for the passed event
-	    this.removeIfon = function(event, callback) {
-	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
-	    }
-	
-	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
-	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
-	    // parameters can be:
-	        // event, callback - attach an ifoff handler for the passed event
-	        // callback - attach an ifoff handler for all events
-	    this.ifoff = function(event, callback) {
-	        addHandlerToList(this, 'ifoffHandlers', event, callback)
-	    }
-	
-	    // removes either:
-	        // removeIfoff() - all ifoff handlers (if no arguments are passed), or
-	        // removeIfoff(event) - all ifoff handlers for the passed event, or
-	        // removeIfoff(callback) - the passed ifoff-all handler (if the first parameter is the callback)
-	        // removeIfoff(event, callback) - the specific passed callback for the passed event
-	    this.removeIfoff = function(event, callback) {
-	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
-	    }
-	
-	    // emitter is the emitter to proxy handler binding to
-	    // options can have one of the following properties:
-	        // only - an array of events to proxy
-	        // except - an array of events to *not* proxy
-	    this.proxy = function(emitter, options) {
-	        if(options === undefined) options = {}
-	        if(options.except !== undefined) {
-	            var except = utils.arrayToMap(options.except)
-	            var handleIt = function(event){return !(event in except)}
-	        } else if(options.only !== undefined) {
-	            var only = utils.arrayToMap(options.only)
-	            var handleIt = function(event){return event in only}
-	        } else {
-	            var handleIt = function(){return true}
-	        }
-	
-	        var that = this, handler;
-	        this.ifon(function(event) {
-	            if(handleIt(event)) {
-	                emitter.on(event, handler = function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        this.ifoff(function(event) {
-	            if(handleIt(event))
-	                emitter.off(event, handler)
-	        })
-	    }
-	
-	    /*override*/ this.on = this.addListener = function(event, callback) {
-	        var triggerIfOn = this.listeners(event).length === 0
-	        superclass.prototype.on.apply(this,arguments)
-	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
-	    }
-	
-	    /*override*/ this.off = this.removeListener = function(event, callback) {
-	        var triggerIfOff = this.listeners(event).length === 1
-	        superclass.prototype.removeListener.apply(this,arguments)
-	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
-	    }
-	    /*override*/ this.removeAllListeners = function(event) {
-	        var triggerIfOffForEvents = []
-	        if(event !== undefined) {
-	            if(this.listeners(event).length > 0) {
-	                triggerIfOffForEvents.push(event)
-	            }
-	        } else {
-	            for(var event in this._events) {
-	                if(this.listeners(event).length > 0) {
-	                    triggerIfOffForEvents.push(event)
-	                }
-	            }
-	        }
-	
-	        superclass.prototype.removeAllListeners.apply(this,arguments)
-	
-	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
-	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
-	        }
-	    }
-	
-	})
-	
-	
-	// triggers the if handlers from the normal list and the "all" list
-	function triggerIfHandlers(that, handlerListName, event) {
-	    triggerIfHandlerList(that[handlerListName][event], event)
-	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
-	}
-	
-	
-	// triggers the if handlers from a specific list
-	// ya these names are confusing, sorry : (
-	function triggerIfHandlerList(handlerList, event) {
-	    if(handlerList !== undefined) {
-	        for(var n=0; n<handlerList.length; n++) {
-	            handlerList[n](event)
-	        }
-	    }
-	}
-	
-	function addHandlerToList(that, handlerListName, event, callback) {
-	    if(event instanceof Function) {
-	        // correct arguments
-	        callback = event
-	        event = undefined
-	    }
-	
-	    if(event !== undefined && callback !== undefined) {
-	        var handlerList = that[handlerListName][event]
-	        if(handlerList === undefined) {
-	            handlerList = that[handlerListName][event] = []
-	        }
-	
-	        handlerList.push(callback)
-	    } else {
-	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
-	    }
-	}
-	
-	function removeFromHandlerList(that, handlerListName, event, callback) {
-	    if(event instanceof Function) {
-	        // correct arguments
-	        callback = event
-	        event = undefined
-	    }
-	
-	    if(event !== undefined && callback !== undefined) {
-	        removeCallbackFromList(that[handlerListName][event], callback)
-	    } else if(event !== undefined) {
-	        delete that[handlerListName][event]
-	    } else if(callback !== undefined) {
-	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
-	        removeCallbackFromList(that[allHandlerListName], callback)
-	    } else {
-	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
-	        that[handlerListName] = {}
-	        that[allHandlerListName] = []
-	    }
-	}
-	
-	function normalHandlerToAllHandlerProperty(handlerListName) {
-	    if(handlerListName === 'ifonHandlers')
-	        return 'ifonAllHandlers'
-	    if(handlerListName === 'ifoffHandlers')
-	        return 'ifoffAllHandlers'
-	}
-	
-	function removeCallbackFromList(list, callback) {
-	    var index = list.indexOf(callback)
-	    list.splice(index,1)
-	}
-
-/***/ },
-/* 19 */
-/*!***********************!*\
-  !*** ./~/domUtils.js ***!
-  \***********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	// the property that should be used to get and set text (this is different on chrome vs firefox for some dumb reason)
-	exports.textProperty = 'textContent' //document.createElement("div").textContent != undefined ? 'textContent' : 'innerText'
-	
-	// creates a dom element optionally with a class and attributes
-	 var node = exports.node = function(type, className, options) {
-	    var elem = document.createElement(type)
-	
-	    if(options !== undefined) {
-	        if(options.attr !== undefined) {
-	            for(var attribute in options.attr) {
-	                setAttribute(elem, attribute, options.attr[attribute])
-	            }
-	        }
-	        if(options.textContent !== undefined) {
-	            elem.textContent = options.textContent
-	        }
-	    }
-	
-	    if(className !== undefined)
-	        elem.className = className
-	
-	    return elem
-	}
-	
-	// convenience function for creating a div
-	exports.div = function(className, options) {
-	    return node('div', className, options)
-	}
-	
-	
-	// adds an attribute to a domNode
-	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
-	    if (arguments.length === 2) {
-	        var domNode = this.domNode;
-	        var type = arguments[0];
-	        var value = arguments[1];
-	    } else if (arguments.length === 3) {
-	        var domNode = arguments[0];
-	        var type = arguments[1];
-	        var value = arguments[2];
-	    } else {
-	        throw new Error("This function expects arguments to be: [domNode,] type, value");
-	    }
-	    var attr = document.createAttribute(type)
-	    attr.value = value
-	    domNode.setAttributeNode(attr)
-	}
-	
-	// sets the selection
-	//
-	// works for contenteditable elements
-	exports.setSelectionRange = function(containerEl, start, end) {
-	
-	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
-	        containerEl.setSelectionRange(start, end)
-	    } else {
-	        var charIndex = 0, range = document.createRange();
-	        range.setStart(containerEl, 0);
-	        range.collapse(true);
-	        var foundStart = false;
-	
-	        iterateThroughLeafNodes(containerEl, function(node) {
-	            var hiddenCharacters = findHiddenCharacters(node, node.length)
-	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
-	
-	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-	                var nodeIndex = start-charIndex
-	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
-	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
-	                foundStart = true;
-	            }
-	
-	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
-	                var nodeIndex = end-charIndex
-	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
-	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
-	                return true; // stop the iteration - we're done here
-	            }
-	
-	            charIndex = nextCharIndex
-	        })
-	
-	        var sel = window.getSelection();
-	        sel.removeAllRanges();
-	        sel.addRange(range);
-	    }
-	}
-	
-	// gets the character offsets of a selection within a particular dom node
-	// returns undefined if there is no selection in the element
-	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
-	exports.getSelectionRange = function (element) {
-	
-	    var selection = window.getSelection()
-	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
-	
-	    for(var n=0; n<selection.rangeCount; n++) {
-	        var range = selection.getRangeAt(0)
-	        if(isInputOrArea) {
-	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
-	                return [element.selectionStart, element.selectionEnd]
-	            }
-	        } else {
-	            var startsInElement = element.contains(range.startContainer)
-	            if(startsInElement) {
-	                var elementToIterateThrough = element
-	                var startFound = true
-	            } else {
-	                var elementToIterateThrough = range.commonAncestorContainer
-	                var startFound = false
-	                var startContainerFound = false
-	            }
-	
-	            var visibleCharacterOffset = 0, start, end;
-	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
-	                if(!startFound) {
-	                    if(leaf === range.startContainer) {
-	                        startContainerFound = true
-	                    }
-	
-	                    if(!element.contains(leaf) || !startContainerFound)
-	                        return; // continue
-	                    else if(startContainerFound)
-	                       startFound = true
-	                } else if(!startsInElement && !element.contains(leaf)) {
-	                    return true // done!
-	                }
-	
-	                if(leaf === range.startContainer) {
-	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
-	                }
-	                if(leaf === range.endContainer) {
-	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
-	                    return true // done!
-	                }
-	
-	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
-	            })
-	
-	            if(start === undefined && !startFound) {
-	                return undefined
-	            } else {
-	                if(start === undefined) {
-	                    start = 0 // start is at the beginning
-	                }
-	                if(end === undefined) {
-	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
-	                }
-	
-	                return [start, end]
-	            }
-	        }
-	    }
-	}
-	
-	
-	// iterate through the leaf nodes inside element
-	// callback(node) - a function called for each leaf node
-	    // returning true from this ends the iteration
-	function iterateThroughLeafNodes(element, callback) {
-	    var nodeStack = [element], node;
-	
-	    while (node = nodeStack.pop()) {
-	        if (node.nodeType == 3) {
-	            if(callback(node) === true)
-	                break;
-	        } else {
-	            var i = node.childNodes.length;
-	            while (i--) {
-	                nodeStack.push(node.childNodes[i]);
-	            }
-	        }
-	    }
-	}
-	
-	function findHiddenCharacters(node, beforeCaretIndex) {
-	    var hiddenCharacters = 0
-	    var lastCharWasWhiteSpace=true
-	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
-	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
-	            if(lastCharWasWhiteSpace)
-	                hiddenCharacters++
-	            else
-	                lastCharWasWhiteSpace = true
-	        } else {
-	            lastCharWasWhiteSpace = false
-	        }
-	    }
-	
-	    return hiddenCharacters
-	}
-
-/***/ },
-/* 20 */
-/*!******************************!*\
-  !*** ./~/blockStyleUtils.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// some functionality that is needed by Gem.js but is related to styling (some things are also needed by Style.js)
-	
-	var HashMap = __webpack_require__(/*! hashmap */ 27)
-	
-	var Style = __webpack_require__(/*! ./Style */ 2)
-	var utils = __webpack_require__(/*! ./utils */ 17)
-	
-	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
-	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
-	
-	
-	// gets the right style from the styleMap, depending on the gem's `name` and `label` (`label` styles take precedence)
-	// takes the component's inheritance tree into account (relies on the gem.constructor.parent property)
-	var getStyleMapEntryForGem = exports.getStyleForComponent = function (styleMap, gem) {
-	    if(styleMap === undefined)
-	        return undefined
-	
-	    return getStyleForLabel(styleMap, gem) || getStyleForGemName(styleMap, gem)
-	}
-	
-	var getStyleForLabel = exports.getStyleForLabel = function(styleMap, gem) {
-	    if(gem.label !== undefined && '$'+gem.label in styleMap) {
-	        return styleMap['$'+gem.label]
-	    }
-	}
-	var getStyleForGemName = exports.getStyleForBlockName = function(styleMap, gem) {
-	    var constructor = gem.constructor
-	    while(constructor !== undefined) {
-	        var style = styleMap[constructor.name]
-	        if(style !== undefined) {
-	            return style
-	        } else {
-	            constructor = constructor.parent
-	        }
-	    }
-	}
-	
-	// gets the possibly inheriting style from the styleMap for `gem`
-	// gem - the gem to get the style for
-	// ancestor - the gem to get the computedStyleMap from
-	var getInheritingStyle = exports.getInheritingStyle = function(gem) {
-	    var ancestor = gem.parent
-	    if(ancestor === undefined || ancestor.computedStyleMap === undefined) return undefined
-	
-	    if(gem.label !== undefined) {
-	        var styleMapKey = '$'+gem.label
-	        var nextContructor = gem.constructor
-	    } else {
-	        var styleMapKey = gem.constructor.name
-	        var nextContructor = gem.constructor.parent
-	    }
-	
-	    var nextAncestorToSearchFrom = ancestor
-	    var styles = [], inherit = true
-	    while(nextAncestorToSearchFrom !== undefined) {    // find styles from the most specific name to the least specific
-	        var stylesForKey = findStylesForStyleMapKey(nextAncestorToSearchFrom, styleMapKey)
-	        styles = styles.concat(stylesForKey.styles)
-	        nextAncestorToSearchFrom = stylesForKey.nextAncestorToSearchFrom
-	        inherit = stylesForKey.inherit
-	
-	        if(nextContructor === undefined || !inherit) {
-	            break
-	        } else {
-	            if(styleMapKey === 'Gem') {
-	                break // we're done - no need to check anything higher in the prototype chain than Gem
-	            }
-	
-	            styleMapKey = nextContructor.name
-	            nextContructor = nextContructor.parent
-	        }
-	    }
-	
-	    var reversedStyles = styles.reverse() // reverse so later styles override earlier styles
-	    var styleToReturn = reversedStyles[0]
-	    for(var n=1; n<reversedStyles.length; n++) {
-	        styleToReturn = styleToReturn.mix(reversedStyles[n])
-	    }
-	
-	    return styleToReturn
-	
-	
-	    function findStylesForStyleMapKey(startAncestor, key) {
-	        var styles = [], inherit = true
-	        var curAncestor = startAncestor, nextAncestorToSearchFrom = startAncestor
-	        while(curAncestor !== undefined) {                                // find styles from the closest parent to the farthest
-	            if(curAncestor.computedStyleMap !== undefined) {
-	                var style = curAncestor.computedStyleMap[key]
-	            }
-	            if(style !== undefined) {
-	                if(styles.indexOf(style) === -1) {
-	                    styles.push(style)
-	                }
-	                nextAncestorToSearchFrom = curAncestor
-	
-	                inherit = style.inherit
-	                if(!inherit) {
-	                    break
-	                }
-	            }
-	
-	            curAncestor = curAncestor.parent
-	        }
-	
-	        return {styles:styles, nextAncestorToSearchFrom: nextAncestorToSearchFrom, inherit:inherit}
-	    }
-	}
-	
-	// returns the conjunction of two style maps
-	// gets it from the computedStyles cache if its already in there
-	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
-	    if(secondaryStyleMap === undefined) return primaryStyleMap
-	    if(primaryStyleMap === undefined) return secondaryStyleMap
-	
-	    var cachedStyleMap = computedStyles.get([secondaryStyleMap, primaryStyleMap])
-	    if(cachedStyleMap === undefined) {
-	        if(secondaryStyleMap  === undefined) {
-	            cachedStyleMap = primaryStyleMap
-	        } else if(primaryStyleMap === undefined) {
-	            cachedStyleMap = secondaryStyleMap
-	        } else {
-	            var overridingProperties = {}, atLeastOne = false
-	            for(var key in primaryStyleMap) {
-	                if(secondaryStyleMap[key] !== primaryStyleMap[key]) {
-	                    overridingProperties[key] = primaryStyleMap[key]
-	                    atLeastOne = true
-	                }
-	            }
-	
-	            if(atLeastOne) {
-	                cachedStyleMap = utils.objectConjunction(secondaryStyleMap, overridingProperties)
-	            } else { // the styleMaps are different objects, but contain the same thing
-	                cachedStyleMap = secondaryStyleMap
-	            }
-	        }
-	
-	        if(cachedStyleMap === undefined) cachedStyleMap = false // switch it out with false so it can be recognized
-	        computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
-	    }
-	
-	    if(cachedStyleMap === false) {
-	        return undefined
-	    }
-	    return cachedStyleMap
-	}
-	
-	
-	
-	exports.getDefaultStyle = function(gem)  {
-	    // attempt to get from the cache
-	    var defaultGemStyle = defaultStyleMap.get(gem.constructor)
-	    if(defaultGemStyle === undefined) {
-	        defaultGemStyle = createDefaultGemStyle(gem)
-	        if(defaultGemStyle === undefined) defaultGemStyle = false
-	        defaultStyleMap.set(gem.constructor, defaultGemStyle)
-	    }
-	
-	    if(defaultGemStyle === false) {
-	        return undefined
-	    }
-	    return defaultGemStyle
-	}
-	
-	// returns a new style with style b mixed into style a (works even if they're both undefined)
-	var mixStyles = exports.mixStyles = function(a,b) {
-	    if(a === undefined)
-	        return b
-	    else
-	        return a.mix(b)
-	}
-	
-	
-	
-	
-	
-	// sets the currentStyle of a gem and makes all the appropriate changes to render a new active style for the gem and its children
-	exports.setCurrentStyle = function(gem, newCurrentStyle, defaultStyle) {
-	
-	    var current$state = gem._currentStyle === undefined? undefined: gem._currentStyle.stateHandler
-	    var newCurrentStyle$state = newCurrentStyle === undefined? undefined: newCurrentStyle.stateHandler
-	    if(current$state !== newCurrentStyle$state) {     // if the $state function remains the same, we don't gotta do nothin (about switching state functions at least)
-	        if(gem._stateChangeHandler !== undefined) {  // remove the old handler if necessary
-	            gem.state.removeListener('change', gem._stateChangeHandler)
-	            gem._stateChangeHandler = undefined
-	        }
-	
-	        if(newCurrentStyle$state !== undefined) {     // add a new handler if necessary
-	            gem.state.on('change', gem._stateChangeHandler = function() {
-	                var rawStateStyle = getStateStyle(gem._currentStyle, gem.state.subject)
-	                setMixedStateStyle(gem, mixStyles(gem._currentStyle, rawStateStyle))
-	            })
-	        }
-	    }
-	
-	    gem._currentStyle = newCurrentStyle
-	    var rawStateStyle = getStateStyle(newCurrentStyle, gem.state.subject)
-	
-	    var newMixedStateStyle = mixStyles(newCurrentStyle, rawStateStyle)
-	    setMixedStateStyle(gem, newMixedStateStyle, defaultStyle)
-	}
-	
-	
-	// handles reseting a gem's active style when its state style changes
-	// renders the pseudoclass style
-	function setMixedStateStyle(gem, mixedStateStyle, defaultStyle) {
-	    var psuedoclassState = {}
-	
-	    // if a pseudoclass can no longer apply, undo its setup
-	    for(var pseudoClass in gem._styleSetupInfo) {
-	        if(mixedStateStyle === undefined || !(pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo)) {
-	            var setupInfo = gem._styleSetupInfo[pseudoClass]
-	            setupInfo.kill(gem, setupInfo.state)
-	            delete gem._styleSetupInfo[pseudoClass]
-	        }
-	    }
-	
-	    // setup new pseudoclasses
-	    if(mixedStateStyle !== undefined) {
-	        for(var pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo) {
-	            if(!(pseudoClass in gem._styleSetupInfo)) {                     // if this exact pseudoclass is already setup, no need to do anything
-	                ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
-	                    var setupState = emulationInfo.fns.setup(gem, function() { // start
-	                        var changed = psuedoclassState[pseudoClass] !== true
-	                        if(changed) {
-	                            psuedoclassState[pseudoClass] = true
-	                            changeStyleIfNecessary()
-	                        }
-	                    }, function() { // end
-	                        var changed = psuedoclassState[pseudoClass] !== false
-	                        if(changed) {
-	                            psuedoclassState[pseudoClass] = false
-	                            changeStyleIfNecessary()
-	                        }
-	                    }, emulationInfo.parameter)
-	
-	                    gem._styleSetupInfo[pseudoClass] = {state: setupState, kill: emulationInfo.fns.kill}
-	
-	                })(pseudoClass, mixedStateStyle.pseudoclasses.emulatedInfo[pseudoClass])
-	            }
-	        }
-	    }
-	
-	    // build up the pseudoclass state - depending on what pseudoclasses might become applicable
-	    if(mixedStateStyle !== undefined) {
-	        for(var pseudoclassKey in mixedStateStyle.pseudoclasses.emulatedInfo) {
-	            var info = mixedStateStyle.pseudoclasses.emulatedInfo[pseudoclassKey]
-	            psuedoclassState[pseudoclassKey] = info.fns.check(gem, info.parameter)
-	        }
-	    }
-	
-	    // set current pseudoclass style
-	    changeStyleIfNecessary()
-	
-	
-	    function changeStyleIfNecessary() {
-	        var pseudoclassStyleInfo = getPseudoclassStyleFor(mixedStateStyle, psuedoclassState)
-	        var newPreStyleMapStyle = mixStyles(mixedStateStyle, pseudoclassStyleInfo.style)
-	        setPreStyleMapStyle(gem, newPreStyleMapStyle, pseudoclassStyleInfo.index, defaultStyle)
-	    }
-	}
-	
-	// sets the style before being modified by the gem's parent's computedStyleMap
-	// handles removing the state listener and calling $kill on the old activeStyle
-	function setPreStyleMapStyle(gem, newPreStyleMapStyle, jsRenderedPseudoclassIndex, defaultStyle) {
-	    if(gem.parent !== undefined && newPreStyleMapStyle !== undefined)
-	        var newComputedStyleMap = styleMapConjunction(gem.parent.computedStyleMap, newPreStyleMapStyle.componentStyleMap)
-	    else if(gem.parent !== undefined)
-	        var newComputedStyleMap = gem.parent.computedStyleMap
-	    else if(newPreStyleMapStyle !== undefined)
-	        var newComputedStyleMap = newPreStyleMapStyle.componentStyleMap
-	    else
-	        var newComputedStyleMap = undefined
-	
-	    var newActiveStyle = undefined // can be changed below
-	    var cancel = false
-	    if(newPreStyleMapStyle !== undefined) {
-	        if(gem.parent !== undefined) var nativePseudoclassMap = gem.parent._nativePseudoclassMap
-	        else                           var nativePseudoclassMap = {}
-	
-	        var nativePseudoclassSelectorMap = getStyleMapEntryForGem(nativePseudoclassMap, gem)
-	        var nativeCssInfo = newPreStyleMapStyle.createNativeCssInfo(newComputedStyleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
-	
-	        if(nativeCssInfo.cancel) {
-	            cancel = true
-	            setMixedStateStyle(gem, nativeCssInfo.retryStyle)
-	
-	        } else {
-	            newActiveStyle = nativeCssInfo.style
-	            newComputedStyleMap = nativeCssInfo.styleMap // even newer!
-	            gem._nativePseudoclassMap = nativeCssInfo.nativePseudoclassMap
-	        }
-	    }
-	
-	    if(!cancel) {
-	        setActiveStyle(gem, newActiveStyle, newComputedStyleMap)
-	    }
-	}
-	
-	// sets the active style on the gem and on the gem's children
-	// also sets the gem's new computedStyleMap
-	function setActiveStyle(gem, newActiveStyle, newComputedStyleMap) {
-	    var activeStyleChanged = newActiveStyle !== gem._activeStyle
-	    var computedStyleMapChanged = gem.computedStyleMap !== newComputedStyleMap
-	
-	    if(activeStyleChanged) {
-	        setStyleClass(gem, newActiveStyle)
-	
-	        var curActiveStyle$setup = gem._activeStyle === undefined? undefined: gem._activeStyle.setup
-	        var newActiveStyle$setup = newActiveStyle === undefined? undefined: newActiveStyle.setup
-	        if(curActiveStyle$setup !== newActiveStyle$setup) {
-	            applyStyleKillFunction(gem)
-	            applyStyleSetupFunction(gem, newActiveStyle)
-	        }
-	
-	        gem._activeStyle = newActiveStyle
-	    }
-	
-	
-	    gem.computedStyleMap = newComputedStyleMap
-	
-	    // propogate styles to children
-	    gem.children.forEach(function(child) {
-	        if(computedStyleMapChanged || !child.attached) {
-	            child.attached = true
-	            child.style = child.style  // force a re-render on each child
-	        }
-	    })
-	}
-	
-	
-	
-	// given a style and an object representing some state, returns the state given by the style's $state function
-	// returns undefined if it doesn't have a state function
-	// handles caching state styles (an optimization)
-	function getStateStyle(currentStyle, stateParameter) {
-	    if(currentStyle === undefined || currentStyle.stateHandler === undefined) return undefined
-	
-	    var returnedStyle = currentStyle.stateHandler(stateParameter)
-	
-	    // todo: figure out if this style has been returned before, and if so, use the already-generated style (mostly so that that style can take advantage of other cached combinations)
-	
-	    return returnedStyle
-	}
-	
-	// returns an object with the properties:
-	    // style - the jsRendered pseudoclass style for the gem's relevant pseudoclass state
-	    // index - the index of the pseudoclass (jsRenderedPseudoclassIndex)
-	// returns undefined if no emulated pseudoclass style applies or if only native pseudoclass stylings apply
-	// state - an object that will be mutated with the current state for each pseudoclass
-	function getPseudoclassStyleFor(style, state) {
-	    if(style === undefined) return {index:0}
-	
-	    var index = 0, result={index:0}
-	    style.pseudoclasses.classes.forEach(function(psuedoclassStyle, compoundKey) {
-	        if(!psuedoclassStyle.pureNative) {
-	            for(var j=0; j<compoundKey.length; j++) {
-	                var pseudoclass = compoundKey[j]
-	                if(!state[pseudoclass]) {
-	                    break;
-	                }
-	            }
-	
-	            if(j === compoundKey.length) {
-	                result = {index: index, style: psuedoclassStyle}
-	            }
-	        }
-	
-	        index++
-	    })
-	
-	    return result
-	}
-	
-	
-	
-	// finds the default style for a gem, mixes it with the appropriate ancestor styles, and returns the result
-	function createDefaultGemStyle(that) {
-	    if(that.defaultStyle !== undefined) {
-	        validateDefaultStyle(that.defaultStyle)
-	    }
-	
-	    // get list of default styles
-	    var defaultStyles = []
-	    var nextConstructor = that.constructor
-	    while(nextConstructor !== undefined) {
-	        if(nextConstructor.defaultStyle !== undefined) {
-	            defaultStyles.push(nextConstructor.defaultStyle)
-	        }
-	        nextConstructor = nextConstructor.parent
-	    }
-	
-	    // generate merged default style
-	    var reversedDefaults = defaultStyles.reverse()
-	    var mergedDefaultStyle = reversedDefaults[0]
-	    for(var n=1; n<reversedDefaults.length; n++) {
-	        mergedDefaultStyle = mergedDefaultStyle.mix(reversedDefaults[n])
-	    }
-	
-	    return mergedDefaultStyle
-	}
-	
-	
-	// applies setup appropriately
-	function applyStyleSetupFunction(component, style) {
-	    if(style !== undefined && style.setup !== undefined) {
-	        component._styleSetupObject = style.setup(component, style) // call setup on the component
-	    } else {
-	        component._styleSetupObject = undefined
-	    }
-	}
-	// applies kill appropriately
-	function applyStyleKillFunction(component) {
-	    var activeStyle = component._activeStyle
-	    if(activeStyle !== undefined && activeStyle.setup !== undefined) {
-	        if(activeStyle.kill === undefined)
-	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
-	
-	        activeStyle.kill(component, component._styleSetupObject)
-	    }
-	}
-	
-	
-	// sets the style, replacing one if one already exists
-	function setStyleClass(component, style) {
-	    var activeStyle = component._activeStyle
-	
-	    //var newStyle = component.domNode.className
-	    if(activeStyle !== undefined) {
-	        component.domNode.classList.remove(activeStyle.className)
-	        // newStyle = newStyle.replace(new RegExp(" ?\\b"+activeStyle.className+"\\b"),'') // remove the previous css class
-	    }
-	    if(style !== undefined) {
-	        component.domNode.classList.add(style.className)
-	        //newStyle = style.className+' '+newStyle.trim() // note that the order of classes doesn't matter
-	    }
-	
-	    //component.domNode.className = newStyle
-	}
-	
-	function validateDefaultStyle(defaultStyle) {
-	    if(!isStyleObject(defaultStyle)) {
-	        throw new Error("defaultStyle property must be a Style object")
-	    }
-	}
-	
-	// if you load two different instances of gems, its necessary to do a bit of duck typing
-	function isStyleObject(x) {
-	    return x.className !== undefined && x.componentStyleMap !== undefined && x.mix !== undefined
-	}
-
-/***/ },
 /* 21 */
 /*!******************************!*\
   !*** ./~/Components/Item.js ***!
@@ -4086,7 +4098,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
 	module.exports = proto(Gem, function(superclass) {
@@ -4124,80 +4136,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 22 */
-/*!*****************************!*\
-  !*** ./~/Components/Row.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 31);
-	
-	module.exports = RowlikeGenerator('tr', "TableRow")
-
-
-/***/ },
-/* 23 */
-/*!********************************!*\
-  !*** ./~/Components/Header.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 31);
-	
-	module.exports = RowlikeGenerator('th', "TableHeader")
-
-/***/ },
-/* 24 */
-/*!******************************!*\
-  !*** ./~/Components/Cell.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
-	var Style = __webpack_require__(/*! Style */ 2)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-		this.name = 'TableCell'
-	
-	    this.defaultStyle = Style({
-	        display: 'table-cell'
-	    })
-		
-	
-		// instance properties
-	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
-	
-	        if(contents instanceof Gem || typeof(contents) !== 'string') {
-	            this.add(contents)
-	        } else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
-		}
-	
-		this.colspan = function(cols) {
-			this.attr('colspan',cols);
-		}
-	});
-
-
-/***/ },
-/* 25 */
 /*!********************************!*\
   !*** ./~/Components/Option.js ***!
   \********************************/
@@ -4205,11 +4143,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// note: this is  not intended to be used directly - only through Select and MultiSelect
 	
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
 	var Gem = __webpack_require__(/*! Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
-	var domUtils = __webpack_require__(/*! domUtils */ 19)
+	var domUtils = __webpack_require__(/*! domUtils */ 18)
 	
 	// emits a 'change' event when its 'selected' value changes
 	module.exports = proto(Gem, function(superclass) {
@@ -4307,6 +4245,80 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
 	    }
 	})
+
+/***/ },
+/* 23 */
+/*!********************************!*\
+  !*** ./~/Components/Header.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 31);
+	
+	module.exports = RowlikeGenerator('th', "TableHeader")
+
+/***/ },
+/* 24 */
+/*!*****************************!*\
+  !*** ./~/Components/Row.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 31);
+	
+	module.exports = RowlikeGenerator('tr', "TableRow")
+
+
+/***/ },
+/* 25 */
+/*!******************************!*\
+  !*** ./~/Components/Cell.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	var proto = __webpack_require__(/*! proto */ 27)
+	var Style = __webpack_require__(/*! Style */ 2)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'TableCell'
+	
+	    this.defaultStyle = Style({
+	        display: 'table-cell'
+	    })
+		
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Gem || typeof(contents) !== 'string') {
+	            this.add(contents)
+	        } else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	
+		this.colspan = function(cols) {
+			this.attr('colspan',cols);
+		}
+	});
+
 
 /***/ },
 /* 26 */
@@ -4620,202 +4632,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 27 */
-/*!*******************************!*\
-  !*** ../~/hashmap/hashmap.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
-	 * HashMap - HashMap Class for JavaScript
-	 * @author Ariel Flesler <aflesler@gmail.com>
-	 * @version 2.0.3
-	 * Homepage: https://github.com/flesler/hashmap
-	 */
-	
-	(function(factory) {
-		if (true) {
-			// AMD. Register as an anonymous module.
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else if (typeof module === 'object') {
-			// Node js environment
-			var HashMap = module.exports = factory();
-			// Keep it backwards compatible
-			HashMap.HashMap = HashMap;
-		} else {
-			// Browser globals (this is window)
-			this.HashMap = factory();
-		}
-	}(function() {
-	
-		function HashMap(other) {
-			this.clear();
-			switch (arguments.length) {
-				case 0: break;
-				case 1: this.copy(other); break;
-				default: multi(this, arguments); break;
-			}
-		}
-	
-		var proto = HashMap.prototype = {
-			constructor:HashMap,
-	
-			get:function(key) {
-				var data = this._data[this.hash(key)];
-				return data && data[1];
-			},
-	
-			set:function(key, value) {
-				// Store original key as well (for iteration)
-				this._data[this.hash(key)] = [key, value];
-			},
-	
-			multi:function() {
-				multi(this, arguments);
-			},
-	
-			copy:function(other) {
-				for (var key in other._data) {
-					this._data[key] = other._data[key];
-				}
-			},
-	
-			has:function(key) {
-				return this.hash(key) in this._data;
-			},
-	
-			search:function(value) {
-				for (var key in this._data) {
-					if (this._data[key][1] === value) {
-						return this._data[key][0];
-					}
-				}
-	
-				return null;
-			},
-	
-			remove:function(key) {
-				delete this._data[this.hash(key)];
-			},
-	
-			type:function(key) {
-				var str = Object.prototype.toString.call(key);
-				var type = str.slice(8, -1).toLowerCase();
-				// Some browsers yield DOMWindow for null and undefined, works fine on Node
-				if (type === 'domwindow' && !key) {
-					return key + '';
-				}
-				return type;
-			},
-	
-			keys:function() {
-				var keys = [];
-				this.forEach(function(value, key) { keys.push(key); });
-				return keys;
-			},
-	
-			values:function() {
-				var values = [];
-				this.forEach(function(value) { values.push(value); });
-				return values;
-			},
-	
-			count:function() {
-				return this.keys().length;
-			},
-	
-			clear:function() {
-				// TODO: Would Object.create(null) make any difference
-				this._data = {};
-			},
-	
-			clone:function() {
-				return new HashMap(this);
-			},
-	
-			hash:function(key) {
-				switch (this.type(key)) {
-					case 'undefined':
-					case 'null':
-					case 'boolean':
-					case 'number':
-					case 'regexp':
-						return key + '';
-	
-					case 'date':
-						return '♣' + key.getTime();
-	
-					case 'string':
-						return '♠' + key;
-	
-					case 'array':
-						var hashes = [];
-						for (var i = 0; i < key.length; i++) {
-							hashes[i] = this.hash(key[i]);
-						}
-						return '♥' + hashes.join('⁞');
-	
-					default:
-						// TODO: Don't use expandos when Object.defineProperty is not available?
-						if (!key.hasOwnProperty('_hmuid_')) {
-							key._hmuid_ = ++HashMap.uid;
-							hide(key, '_hmuid_');
-						}
-	
-						return '♦' + key._hmuid_;
-				}
-			},
-	
-			forEach:function(func, ctx) {
-				for (var key in this._data) {
-					var data = this._data[key];
-					func.call(ctx || this, data[1], data[0]);
-				}
-			}
-		};
-	
-		HashMap.uid = 0;
-	
-		//- Automatically add chaining to some methods
-	
-		for (var method in proto) {
-			// Skip constructor, valueOf, toString and any other built-in method
-			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
-				continue;
-			}
-			var fn = proto[method];
-			if (fn.toString().indexOf('return ') === -1) {
-				proto[method] = chain(fn);
-			}
-		}
-	
-		//- Utils
-	
-		function multi(map, args) {
-			for (var i = 0; i < args.length; i += 2) {
-				map.set(args[i], args[i+1]);
-			}
-		}
-	
-		function chain(fn) {
-			return function() {
-				fn.apply(this, arguments);
-				return this;
-			};
-		}
-	
-		function hide(obj, prop) {
-			// Make non iterable if supported
-			if (Object.defineProperty) {
-				Object.defineProperty(obj, prop, {enumerable:false});
-			}
-		}
-	
-		return HashMap;
-	}));
-
-
-/***/ },
-/* 28 */
 /*!***************************!*\
   !*** ../~/proto/proto.js ***!
   \***************************/
@@ -4955,37 +4771,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 29 */
-/*!*******************************************!*\
-  !*** ../~/trimArguments/trimArguments.js ***!
-  \*******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	        else
-	            break
-	    }
-	    args.splice(args.length-count, count)
-	    return args
-	}
-
-/***/ },
-/* 30 */
+/* 28 */
 /*!*******************************!*\
   !*** ../~/observe/observe.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 35)
+	var proto = __webpack_require__(/*! proto */ 34)
 	var EventEmitter = __webpack_require__(/*! events */ 26).EventEmitter
 	var utils = __webpack_require__(/*! ./utils */ 33)
 	
@@ -5457,17 +5249,237 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
+/* 29 */
+/*!*******************************************!*\
+  !*** ../~/trimArguments/trimArguments.js ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
+	
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	        else
+	            break
+	    }
+	    args.splice(args.length-count, count)
+	    return args
+	}
+
+/***/ },
+/* 30 */
+/*!*******************************!*\
+  !*** ../~/hashmap/hashmap.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * HashMap - HashMap Class for JavaScript
+	 * @author Ariel Flesler <aflesler@gmail.com>
+	 * @version 2.0.3
+	 * Homepage: https://github.com/flesler/hashmap
+	 */
+	
+	(function(factory) {
+		if (true) {
+			// AMD. Register as an anonymous module.
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module === 'object') {
+			// Node js environment
+			var HashMap = module.exports = factory();
+			// Keep it backwards compatible
+			HashMap.HashMap = HashMap;
+		} else {
+			// Browser globals (this is window)
+			this.HashMap = factory();
+		}
+	}(function() {
+	
+		function HashMap(other) {
+			this.clear();
+			switch (arguments.length) {
+				case 0: break;
+				case 1: this.copy(other); break;
+				default: multi(this, arguments); break;
+			}
+		}
+	
+		var proto = HashMap.prototype = {
+			constructor:HashMap,
+	
+			get:function(key) {
+				var data = this._data[this.hash(key)];
+				return data && data[1];
+			},
+	
+			set:function(key, value) {
+				// Store original key as well (for iteration)
+				this._data[this.hash(key)] = [key, value];
+			},
+	
+			multi:function() {
+				multi(this, arguments);
+			},
+	
+			copy:function(other) {
+				for (var key in other._data) {
+					this._data[key] = other._data[key];
+				}
+			},
+	
+			has:function(key) {
+				return this.hash(key) in this._data;
+			},
+	
+			search:function(value) {
+				for (var key in this._data) {
+					if (this._data[key][1] === value) {
+						return this._data[key][0];
+					}
+				}
+	
+				return null;
+			},
+	
+			remove:function(key) {
+				delete this._data[this.hash(key)];
+			},
+	
+			type:function(key) {
+				var str = Object.prototype.toString.call(key);
+				var type = str.slice(8, -1).toLowerCase();
+				// Some browsers yield DOMWindow for null and undefined, works fine on Node
+				if (type === 'domwindow' && !key) {
+					return key + '';
+				}
+				return type;
+			},
+	
+			keys:function() {
+				var keys = [];
+				this.forEach(function(value, key) { keys.push(key); });
+				return keys;
+			},
+	
+			values:function() {
+				var values = [];
+				this.forEach(function(value) { values.push(value); });
+				return values;
+			},
+	
+			count:function() {
+				return this.keys().length;
+			},
+	
+			clear:function() {
+				// TODO: Would Object.create(null) make any difference
+				this._data = {};
+			},
+	
+			clone:function() {
+				return new HashMap(this);
+			},
+	
+			hash:function(key) {
+				switch (this.type(key)) {
+					case 'undefined':
+					case 'null':
+					case 'boolean':
+					case 'number':
+					case 'regexp':
+						return key + '';
+	
+					case 'date':
+						return '♣' + key.getTime();
+	
+					case 'string':
+						return '♠' + key;
+	
+					case 'array':
+						var hashes = [];
+						for (var i = 0; i < key.length; i++) {
+							hashes[i] = this.hash(key[i]);
+						}
+						return '♥' + hashes.join('⁞');
+	
+					default:
+						// TODO: Don't use expandos when Object.defineProperty is not available?
+						if (!key.hasOwnProperty('_hmuid_')) {
+							key._hmuid_ = ++HashMap.uid;
+							hide(key, '_hmuid_');
+						}
+	
+						return '♦' + key._hmuid_;
+				}
+			},
+	
+			forEach:function(func, ctx) {
+				for (var key in this._data) {
+					var data = this._data[key];
+					func.call(ctx || this, data[1], data[0]);
+				}
+			}
+		};
+	
+		HashMap.uid = 0;
+	
+		//- Automatically add chaining to some methods
+	
+		for (var method in proto) {
+			// Skip constructor, valueOf, toString and any other built-in method
+			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
+				continue;
+			}
+			var fn = proto[method];
+			if (fn.toString().indexOf('return ') === -1) {
+				proto[method] = chain(fn);
+			}
+		}
+	
+		//- Utils
+	
+		function multi(map, args) {
+			for (var i = 0; i < args.length; i += 2) {
+				map.set(args[i], args[i+1]);
+			}
+		}
+	
+		function chain(fn) {
+			return function() {
+				fn.apply(this, arguments);
+				return this;
+			};
+		}
+	
+		function hide(obj, prop) {
+			// Make non iterable if supported
+			if (Object.defineProperty) {
+				Object.defineProperty(obj, prop, {enumerable:false});
+			}
+		}
+	
+		return HashMap;
+	}));
+
+
+/***/ },
 /* 31 */
 /*!******************************************!*\
   !*** ./~/Components/RowlikeGenerator.js ***!
   \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 28)
+	var proto = __webpack_require__(/*! proto */ 27)
 	
 	var Gem = __webpack_require__(/*! Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
-	var Cell = __webpack_require__(/*! ./Cell */ 24);
+	var Cell = __webpack_require__(/*! ./Cell */ 25);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -5745,7 +5757,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ../~/build-modules/~/webpack/~/node-libs-browser/~/process/browser.js */ 34)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ../~/build-modules/~/webpack/~/node-libs-browser/~/process/browser.js */ 35)))
 
 /***/ },
 /* 33 */
@@ -5801,101 +5813,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 34 */
-/*!*****************************************************************************!*\
-  !*** ../~/build-modules/~/webpack/~/node-libs-browser/~/process/browser.js ***!
-  \*****************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// shim for using process in browser
-	
-	var process = module.exports = {};
-	
-	process.nextTick = (function () {
-	    var canSetImmediate = typeof window !== 'undefined'
-	    && window.setImmediate;
-	    var canMutationObserver = typeof window !== 'undefined'
-	    && window.MutationObserver;
-	    var canPost = typeof window !== 'undefined'
-	    && window.postMessage && window.addEventListener
-	    ;
-	
-	    if (canSetImmediate) {
-	        return function (f) { return window.setImmediate(f) };
-	    }
-	
-	    var queue = [];
-	
-	    if (canMutationObserver) {
-	        var hiddenDiv = document.createElement("div");
-	        var observer = new MutationObserver(function () {
-	            var queueList = queue.slice();
-	            queue.length = 0;
-	            queueList.forEach(function (fn) {
-	                fn();
-	            });
-	        });
-	
-	        observer.observe(hiddenDiv, { attributes: true });
-	
-	        return function nextTick(fn) {
-	            if (!queue.length) {
-	                hiddenDiv.setAttribute('yes', 'no');
-	            }
-	            queue.push(fn);
-	        };
-	    }
-	
-	    if (canPost) {
-	        window.addEventListener('message', function (ev) {
-	            var source = ev.source;
-	            if ((source === window || source === null) && ev.data === 'process-tick') {
-	                ev.stopPropagation();
-	                if (queue.length > 0) {
-	                    var fn = queue.shift();
-	                    fn();
-	                }
-	            }
-	        }, true);
-	
-	        return function nextTick(fn) {
-	            queue.push(fn);
-	            window.postMessage('process-tick', '*');
-	        };
-	    }
-	
-	    return function nextTick(fn) {
-	        setTimeout(fn, 0);
-	    };
-	})();
-	
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-	
-	function noop() {}
-	
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-	
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-	
-	// TODO(shtylman)
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
-
-
-/***/ },
-/* 35 */
 /*!*************************************!*\
   !*** ../~/observe/~/proto/proto.js ***!
   \*************************************/
@@ -6020,6 +5937,101 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // do nothing, if a property (like `name`) can't be set, just ignore it
 	    }
 	}
+
+/***/ },
+/* 35 */
+/*!*****************************************************************************!*\
+  !*** ../~/build-modules/~/webpack/~/node-libs-browser/~/process/browser.js ***!
+  \*****************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// shim for using process in browser
+	
+	var process = module.exports = {};
+	
+	process.nextTick = (function () {
+	    var canSetImmediate = typeof window !== 'undefined'
+	    && window.setImmediate;
+	    var canMutationObserver = typeof window !== 'undefined'
+	    && window.MutationObserver;
+	    var canPost = typeof window !== 'undefined'
+	    && window.postMessage && window.addEventListener
+	    ;
+	
+	    if (canSetImmediate) {
+	        return function (f) { return window.setImmediate(f) };
+	    }
+	
+	    var queue = [];
+	
+	    if (canMutationObserver) {
+	        var hiddenDiv = document.createElement("div");
+	        var observer = new MutationObserver(function () {
+	            var queueList = queue.slice();
+	            queue.length = 0;
+	            queueList.forEach(function (fn) {
+	                fn();
+	            });
+	        });
+	
+	        observer.observe(hiddenDiv, { attributes: true });
+	
+	        return function nextTick(fn) {
+	            if (!queue.length) {
+	                hiddenDiv.setAttribute('yes', 'no');
+	            }
+	            queue.push(fn);
+	        };
+	    }
+	
+	    if (canPost) {
+	        window.addEventListener('message', function (ev) {
+	            var source = ev.source;
+	            if ((source === window || source === null) && ev.data === 'process-tick') {
+	                ev.stopPropagation();
+	                if (queue.length > 0) {
+	                    var fn = queue.shift();
+	                    fn();
+	                }
+	            }
+	        }, true);
+	
+	        return function nextTick(fn) {
+	            queue.push(fn);
+	            window.postMessage('process-tick', '*');
+	        };
+	    }
+	
+	    return function nextTick(fn) {
+	        setTimeout(fn, 0);
+	    };
+	})();
+	
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	
+	function noop() {}
+	
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+	
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+	
+	// TODO(shtylman)
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+
 
 /***/ }
 /******/ ])

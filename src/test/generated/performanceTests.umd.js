@@ -78,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 18)
+	var Unit = __webpack_require__(/*! deadunit/deadunit.browser */ 4)
 	
 	var Gem = __webpack_require__(/*! ../Gem.browser */ 1)
 	Gem.dev = true
@@ -93,23 +93,23 @@ return /******/ (function(modules) { // webpackBootstrap
   \*************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var exports = module.exports = __webpack_require__(/*! Gem */ 4)
-	exports.Style = __webpack_require__(/*! Style */ 5)
+	var exports = module.exports = __webpack_require__(/*! Gem */ 5)
+	exports.Style = __webpack_require__(/*! Style */ 6)
 	
-	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 6)
-	exports.Block = __webpack_require__(/*! Components/Block */ 7)
-	exports.Button = __webpack_require__(/*! Components/Button */ 9)
-	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 8)
-	exports.Image = __webpack_require__(/*! Components/Image */ 10)
-	exports.List = __webpack_require__(/*! Components/List */ 11)
+	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 8)
+	exports.Block = __webpack_require__(/*! Components/Block */ 9)
+	exports.Button = __webpack_require__(/*! Components/Button */ 10)
+	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 11)
+	exports.Image = __webpack_require__(/*! Components/Image */ 12)
+	exports.List = __webpack_require__(/*! Components/List */ 13)
 	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
-	exports.Radio = __webpack_require__(/*! Components/Radio */ 12)
-	exports.Select = __webpack_require__(/*! Components/Select */ 14)
-	exports.Svg = __webpack_require__(/*! Components/Svg */ 13)
-	exports.Table = __webpack_require__(/*! Components/Table */ 15)
-	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 16)
+	exports.Radio = __webpack_require__(/*! Components/Radio */ 14)
+	exports.Select = __webpack_require__(/*! Components/Select */ 15)
+	exports.Svg = __webpack_require__(/*! Components/Svg */ 16)
+	exports.Table = __webpack_require__(/*! Components/Table */ 17)
+	exports.TextArea = __webpack_require__(/*! Components/TextArea */ 18)
 	exports.TextField = __webpack_require__(/*! Components/TextField */ 19)
-	exports.Text = __webpack_require__(/*! Components/Text */ 17)
+	exports.Text = __webpack_require__(/*! Components/Text */ 20)
 
 /***/ },
 /* 2 */
@@ -119,10 +119,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 20)
-	var Block = __webpack_require__(/*! Components/Block */ 7)
-	var Text = __webpack_require__(/*! Components/Text */ 17)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var testUtils = __webpack_require__(/*! testUtils */ 7)
+	var Block = __webpack_require__(/*! Components/Block */ 9)
+	var Text = __webpack_require__(/*! Components/Text */ 20)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
 	var test = testUtils.performanceTest
 	var buildNestedStructure = testUtils.buildNestedStructure
@@ -265,10 +265,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 20)
-	var Block = __webpack_require__(/*! Components/Block */ 7)
-	var Text = __webpack_require__(/*! Components/Text */ 17)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var testUtils = __webpack_require__(/*! testUtils */ 7)
+	var Block = __webpack_require__(/*! Components/Block */ 9)
+	var Text = __webpack_require__(/*! Components/Text */ 20)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
 	var test = testUtils.performanceTest
 	var buildNestedStructure = testUtils.buildNestedStructure
@@ -414,2709 +414,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/*!*******************!*\
-  !*** ../~/Gem.js ***!
-  \*******************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 25)
-	var proto = __webpack_require__(/*! proto */ 37);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 35)
-	var observe = __webpack_require__(/*! observe */ 36)
-	
-	var utils = __webpack_require__(/*! ./utils */ 22)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 23)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 24)
-	
-	var Style = __webpack_require__(/*! ./Style */ 5)
-	Style.isDev = function() {return module.exports.dev}
-	
-	var components = {};
-	
-	var setOfBrowserEvents = utils.arrayToMap([
-	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
-	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
-	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
-	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
-	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
-	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
-	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
-	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
-	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
-	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
-	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
-	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
-	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
-	])
-	
-	// events:
-	    // newParent - emits this when a component gets a new parent
-	    // parentRemoved - emits this when a component is detached from its parent
-	var Gem = module.exports = proto(EventEmitterB,function(superclass) {
-	
-	    // static properties
-	
-	    this.name = 'Gem'
-	
-	    // constructor
-		this.init = function() {
-	        var that = this
-	
-	        if(this.name === 'Gem') {
-	            throw new Error("The 'name' property is required for Gem (it must be set to something that isn't 'Gem')")
-	        }
-	
-	        superclass.init.call(this)
-	
-	        this.attached = false
-	        this.children = []
-	        this.state = observe({})
-	        this.parent = undefined;
-	        this._styleSetupInfo = []
-	        this._nativePseudoclassMap = {}
-	
-			if (this.id !== undefined) {
-				components[this.id] = this;
-			}
-	
-	        if(this.domNode === undefined) {
-	            this.domNode = domUtils.div()
-	        }
-	
-	        this.build.apply(this, arguments)
-	
-	        //if(module.exports.dev) {
-	            this.attr('gem', this.name)
-	        //}
-	
-	
-	        this.domNode.className += ' '+Style.defaultClassName // add the default class
-	        /*if(this._style === undefined) { // if a style wasn't set by this.build
-	            this.style = undefined // initialize style to its gem or inherited default
-	        }*/
-	
-	        // set up dom event handlers
-	        var ifonHandlers={}
-	        that.ifon(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        that.ifoff(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.removeEventListener(event,ifonHandlers[event])
-	            }
-	        })
-		}
-	
-	    // sub-constructor - called by the constructor
-	    // parameters:
-	        // label - (Optional) A label that can be used to style a component differently.
-	                   // Intended to be some string describing what the component is being used for.
-	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
-	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
-	    this.build = function(/*[label,] domNode*/) {
-	        if(arguments.length === 1) {
-	            this.domNode = arguments[0]
-	        } else if(arguments.length >= 2) {
-	            this.label = arguments[0]
-	            this.domNode = arguments[1]
-	        }
-	    }
-	
-	
-		// instance properties
-	
-	
-		this.domNode;
-	    this.label;        // a static label that can be used for styling
-	    this.excludeDomEvents;
-	    this.children;     // a list of child components that are a part of a Gem object (these are used so Styles can be propogated down to child components)
-	
-	
-	    Object.defineProperty(this, 'label', {
-	        get: function() {
-	            return this._label
-	        }, set: function(v) {
-	            if(this._label === undefined) {
-	                this._label = v
-	
-	                //if(module.exports.dev) {
-	                    this.attr('label', this._label)
-	                //}
-	            } else {
-	                throw new Error("A Gem's label can only be set once (was already set to: "+this._label+")")
-	            }
-	        }
-	    })
-	
-	    // adds elements to the components main domNode
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfGems
-	    this.add = function() {
-	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
-		}
-	
-	    // adds nodes at a particular index
-	    // nodes can be one of the following:
-	        // component, component, component, ...
-	        // listOfGems
-	    // todo: look into using document fragments to speed this up when multiple nodes are being added
-	    this.addAt = function(index/*, nodes...*/) {
-	        var nodes = normalizeAddAtArguments.apply(this, arguments)
-	
-	        for (var i=0;i<nodes.length;i++) {
-				var node = nodes[i];
-	
-	            // remove the node from its current parent if necessary
-	            if(node.parent !== undefined) {
-	                throw new Error('Node at index '+i+' already has a parent. Remove the node from its parent before adding it somewhere else.')
-	            }
-	
-	            this.children.splice(index+i, 0, node)
-	
-	            if(!isGem(node)) {
-	                throw new Error("node is not a Gem")
-	            }
-	
-	            var beforeChild = this.children[1+i+index]
-	            if(beforeChild === undefined) {
-	                this.domNode.appendChild(node.domNode)
-	            } else {
-	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
-	            }
-	
-	            node.parent = this;
-	            node.emit('newParent')
-			}
-	
-	        if(this.attached) {
-	            for (var i=0;i<nodes.length;i++) {
-	                var node = nodes[i]
-	                node.attached = true
-	                node.style = node._style // rerender its style
-	            }
-	        }
-	    }
-	
-		// add a list of nodes before a particular node
-	    // if beforeChild is undefined, this will append the given nodes
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfGems
-	    this.addBefore = this.addBeforeNode = function(beforeChild) {
-	        var nodes = trimArguments(arguments).slice(1)
-	        if(beforeChild === undefined) {
-	            this.add.apply(this, nodes)
-	        } else {
-	            var index = this.children.indexOf(beforeChild)
-	            this.addAt.apply(this, [index].concat(nodes))
-	        }
-	    }
-	
-	
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // index, index, index, ... - each index is the numerical index to remove
-	        // arrayOfComponents
-	        // arrayOfIndexes
-	    this.remove = function() {
-	        var removals = normalizeRemoveArguments.apply(this, arguments)
-	        removals = removals.sort(function(a,b) {
-	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
-	        })
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	            var c = this.children[r]
-	
-	            if(c === undefined) {
-	                throw new Error("There is no child at index "+r)
-	            }
-	
-	            c.parent = undefined
-	            this.children.splice(r, 1)
-	            this.domNode.removeChild(this.domNode.childNodes[r])
-	
-	            c.emit('parentRemoved')
-	        }
-	    }
-	
-	    // sets or gets an attribute on the components domNode
-	    // parameter sets:
-	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
-	    // if there are two arguments passed, the attribute is set
-	        // if 'value' is undefined, the attribute is removed
-	    this.attr = function(/*attribute, value OR attributeObject*/) {
-	        if(arguments.length === 1) {
-	            if(arguments[0] instanceof Object) {
-	                var attributes = arguments[0]
-	                for(var attribute in attributes) {
-	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
-	                }
-	            } else {
-	                var attribute = this.domNode.getAttribute(arguments[0])
-	                if(attribute === null) {
-	                    return undefined // screw null
-	                } else {
-	                    return attribute
-	                }
-	            }
-	        } else {
-	            var attribute = arguments[0]
-	            if(arguments[1] !== undefined) {
-	                var value = arguments[1]
-	                domUtils.setAttribute(this.domNode, arguments[0], value)
-	            } else {
-	                this.domNode.removeAttribute(attribute)
-	            }
-	        }
-	    }
-	
-	    Object.defineProperty(this, 'visible', {
-	        // returns true if the element is visible
-	        get: function() {
-	            return this.domNode.style.display !== 'none';
-	
-	        // sets whether or not the element is visible
-	        }, set: function(setToVisible) {
-	            if(setToVisible) {
-	                if (this._displayStyle !== undefined) {
-	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
-	                    this._displayStyle = undefined
-	                } else {
-	                    this.domNode.style.display = ''
-	                }
-	            } else {
-	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
-	                    this._displayStyle = this.domNode.style.display
-	                }
-	
-	                this.domNode.style.display = 'none'
-	            }
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'focus', {
-	        // returns true if the element is in focus
-	        get: function() {
-	            return document.activeElement === this.domNode
-	
-	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
-	        }, set: function(setToInFocus) {
-	            if(setToInFocus) {
-	                this.domNode.focus()
-	            } else {
-	                this.domNode.blur()
-	            }
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'style', {
-	        get: function() {
-	            return this._style
-	
-	        // sets the style, replacing one if one already exists
-	        }, set: function(styleObject) {
-	            // get active style
-	                // mix the gem-default style with ..
-	                // .. the current style
-	                // .. style returned by the $state of current style
-	                // .. $$pseudoclasses of current + $state styles
-	
-	            this._style = styleObject
-	            if(this.attached) {
-	                var newStyle = getStyle(this)  // must be called after setting _style
-	                var defaultStyle = this.getDefaultStyle()
-	
-	                var newCurrentStyle = blockStyleUtils.mixStyles(defaultStyle, newStyle)
-	                blockStyleUtils.setCurrentStyle(this, newCurrentStyle, defaultStyle)
-	            }
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'selectionRange', {
-	        // returns the visible character selection range inside the element
-	        // returns an array like [offsetStart, offsetEnd]
-	        get: function() {
-	            return domUtils.getSelectionRange(this.domNode)
-	
-	        // sets the visible character selection range
-	        }, set: function(selection) {
-	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
-	        }
-	    })
-	
-	    this.attach = function(domNode) {
-	        if(domNode !== undefined)
-	            attach(domNode, this)
-	        else
-	            attach(this)
-	    }
-	    this.detach = function(domNode) {
-	        if(domNode !== undefined)
-	            detach(domNode, this)
-	        else
-	            detach(this)
-	    }
-	
-	
-		// private instance variables/functions
-	
-	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
-	    this._nativePseudoclassMap; // a map of Gem names to a set of native pseudoclass styles and their css selector base (eg: {GemA: {'.style1:required .style2': styleObject}}
-	
-		this._style;             // the object's explicit Style object (undefined if it inherits a style)
-	    this._currentStyle;      // the object's current Style that will only change if its parent's activeStyle changes, or if a style is explicitly reset on the gem
-	    this._activeStyle;       // the active style depending on pseudoclasses, $state, and defaultStyle
-	
-	    this._displayStyle;      // temporarily stores an inline display style while the element is hidden (for use when 'show' is called)
-	    this._styleSetupInfo   // place to put states for setup functions (used for css pseudoclass emulation)
-	    this._stateChangeHandler // the handler being used for $state style changes
-	
-	    this.attached           // set to true if the gem has been attached to the document (or if one of its ancestors has been)
-	
-	
-	    // returns the default style of the current Gem based on the 'defaultStyle' property set on its constructor (this.constructor)
-	    // if there is more than one default style, they are merged in order
-	    // if there is no default style, undefined is returned
-	    this.getDefaultStyle = function() {
-	        return blockStyleUtils.getDefaultStyle(this)
-	    }
-	
-	    // gets the high-level style of the gem, either from the gem's explicit style, or inherits from its parent's style map
-	    function getStyle(gem) {
-	        if(gem._style !== undefined) {            // use the gem's explicit style if possible
-	            if(gem._style.inherit) {
-	                var styleToInerit = blockStyleUtils.getInheritingStyle(gem)
-	                if(styleToInerit !== undefined)
-	                    return styleToInerit.mix(gem._style)
-	            }
-	            // else
-	            return gem._style
-	
-	        } else {     // otherwise use the parent's computedStyleMap
-	            return blockStyleUtils.getInheritingStyle(gem)
-	        }
-	    }
-	});
-	
-	
-	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
-	
-	
-	// appends components to the passed domNode (default: body)
-	var attach = module.exports.attach = function(/*[domNode,] component or components*/) {
-	    if(arguments.length > 1) {
-	        var domNode = arguments[0]
-	        var components = arguments[1]
-	    } else {
-	        if(document.body === null) throw new Error("Your document does not have a body.")
-	        var domNode = document.body
-	        var components = arguments[0]
-	    }
-	
-	    if(!(components instanceof Array)) {
-	        var components = [components]
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        domNode.appendChild(components[n].domNode)
-	
-	        components[n].attached = true
-	        components[n].style = components[n]._style
-	    }
-	
-	
-	}
-	// removes components from their parents
-	var detach = module.exports.detach = function(components) {
-	    if(!(components instanceof Array)) {
-	        components = [components]
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        var gem = components[n]
-	        gem.domNode.parentNode.removeChild(gem.domNode)
-	
-	        markDetached(gem)
-	    }
-	}
-	
-	// creates a body tag (only call this if document.body is null)
-	
-	module.exports.createBody = function(callback) {
-	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-	    var body = dom.createElement("body")
-	    dom.documentElement.appendChild(body)
-	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
-	        callback()
-	    },0)
-	}
-	
-	
-	
-	
-	// returns a list of indexes to remove from Gem.remove's arguments
-	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
-	    var that = this
-	
-	    if(arguments[0] instanceof Array) {
-	        var removals = arguments[0]
-	    } else {
-	        var removals = Array.prototype.slice.call(arguments)
-	    }
-	
-	    return removals.map(function(removal, parameterIndex) {
-	        if(isGem(removal)) {
-	            var index = that.children.indexOf(removal)
-	            if(index === -1) {
-	                throw new Error("The Gem passed at argument index "+parameterIndex+" is not a child of this Gem.")
-	            }
-	            return index
-	        } else {
-	            return removal
-	        }
-	
-	    })
-	}
-	
-	// returns a list of nodes to add
-	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
-	    if(arguments.length === 2) {
-	        if(arguments[1] instanceof Array) {
-	            return arguments[1]
-	        } else {
-	            return [arguments[1]]
-	        }
-	    } else { // > 2
-	        return trimArguments(arguments).slice(1)
-	    }
-	}
-	
-	function isGem(c) {
-	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
-	}
-	function isDomNode(node) {
-	    return node.nodeName !== undefined
-	}
-	
-	function markDetached(node) {
-	    node.attached = false
-	    for(var n=0; n<node.children.length; n++) {
-	        markDetached(node.children[n])
-	    }
-	}
-
-/***/ },
-/* 5 */
-/*!*********************!*\
-  !*** ../~/Style.js ***!
-  \*********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var jssModule = __webpack_require__(/*! ../external/jss */ 21)
-	var proto = __webpack_require__(/*! proto */ 37)
-	var HashMap = __webpack_require__(/*! hashmap */ 38)
-	
-	var utils = __webpack_require__(/*! ./utils */ 22)
-	
-	var baseClassName = '_ComponentStyle_' // the base name for generated class names
-	var nextClassNumber = 0
-	
-	
-	var mixedStyles = new HashMap() // maps from a pair of Style objects to the resulting mixed style
-	
-	// creates a style object
-	var Style = module.exports = proto(function() {
-	
-	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
-	
-	    // styleDefinition is an object where key-value pairs can be any of the following:
-	    // <cssPropertyName>: the value should be a valid css value for that style attribute
-	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
-	    // $setup: the value is a function to be run on a component when the style is applied to it
-	    // $kill: the value is a function to be run on a component when a style is removed from it
-	    // $state: the value should be a state handler function
-	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
-	    // $inherit: this style should inherit from whatever style would otherwise have been in its placed if it was undefined
-	    this.init = function(styleDefinition, privateOptions) {
-	        if(isStyleObject(styleDefinition))
-	            return styleDefinition
-	        // else
-	
-	        if(privateOptions === undefined) privateOptions = {}
-	
-	        this.className = baseClassName+nextClassNumber
-	        nextClassNumber++
-	
-	        this.componentStyleMap = {}
-	        this.nativeCssInfoCache = new HashMap
-	//        this.pureStyleInteractionCache = new HashMap
-	        this.nativePseudoclassesWritten = {}
-	        this.basicProperties = {}
-	        if(Style.isDev()) this.nativePseudoclassStyles = {}
-	
-	        var flatPseudoClassStyles = new HashMap
-	        for(var key in styleDefinition) {
-	            var value = styleDefinition[key]
-	
-	            if(key === '$setup') {
-	                if(!(value instanceof Function)) throw new Error("$setup key must be a function ('setup' can't be used as a label)")
-	                this.setup = value
-	
-	            } else if(key === '$kill') {
-	                if(!(value instanceof Function)) throw new Error("$kill key must be a function ('kill' can't be used as a label)")
-	                this.kill = value
-	
-	            } else if(key === '$state') {
-	                if(!(value instanceof Function)) throw new Error("$state key must be a function ('$state' can't be used as a label)")
-	                this.stateHandler = value
-	
-	            } else if(key === '$inherit') {
-	                this.inherit = true
-	
-	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
-	                var pseudoClass = mapCamelCase(key.substr(2))
-	                if(pseudoClass === '') {
-	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
-	                }
-	
-	                var flattenedPseudoclassObject = flattenPseudoClassStyles([pseudoClass], Style(value))
-	
-	                // mix in the resulting compound pseudoclass styles with what has already been found
-	                flattenedPseudoclassObject.forEach(function(style, key) {
-	                    styleHashmapMerge(flatPseudoClassStyles, key, style)
-	                })
-	
-	            } else if(key === '$') {
-	                throw new Error("Empty label name not valid (style key '$')")
-	            } else if(value instanceof Object || isStyleObject(value)) {  // $label or Gem style
-	                this.componentStyleMap[key] = Style(value)  // turn the object description into a full fledged style object (or pass back the object if its already a Style)
-	            } else if(value === undefined) {
-	                // ignore
-	            } else {
-	                var cssStyle = key
-	                var cssStyleName = mapCamelCase(cssStyle)
-	                this.basicProperties[cssStyleName] = cssValue(cssStyleName, value)
-	            }
-	        }
-	
-	        this.pseudoclasses = processFlattenedPseudoclasses(flatPseudoClassStyles, this.componentStyleMap)
-	        this.pureNative = isPureNative(this)
-	
-	
-	        // takes in a list of pseudoClassRules and changes any nesting like {$$hover: {$$focus: {}}} into something like {hover: {}, ['hover','focus']: {}}
-	        // returns a new HashMap where
-	            // each key is the list of pseudoclasses that need to apply for that style to take effect, and
-	            // each value is a Style object
-	        // also does some validation
-	        // pseudoClasses - an array of pseudoclasses
-	        // pseudoClassStyle - a Style object representing the style inside the pseudoclass
-	        function flattenPseudoClassStyles(pseudoClasses, pseudoClassStyle) {
-	
-	            if(pseudoClassStyle.stateHandler !== undefined) {
-	                throw new Error('$state style functions are not valid directly inside psuedoclasses')
-	            }
-	
-	            var flattenedStyles = new HashMap
-	            var pseudoClassStyleCopy = pseudoClassStyle.copy() // copy so you're not clobbering a style something else relies on
-	
-	            var pseudoclasses = pseudoClassStyleCopy.pseudoclasses
-	
-	            // remove the pseudoclasses
-	            pseudoClassStyleCopy.pseudoclasses = {classes:new HashMap,emulatedInfo:{}}//{native:new HashMap,emulated:new HashMap,emulatedInfo:{}, emulatedOrder:[]}
-	
-	            // write the top-level pseudoClass
-	            flattenedStyles.set(pseudoClasses, pseudoClassStyleCopy)
-	
-	            // create flattened styles (with merged in styles from its parent pseudoclass
-	
-	            pseudoclasses.classes.forEach(function(substyle, subPseudoClass){
-	                var newCompoundSelector = canonicalizeCompoundPseudoclass(pseudoClasses.concat(subPseudoClass))
-	                var mixedStyle = pseudoClassStyleCopy.mix(substyle)
-	                flattenedStyles.set(newCompoundSelector, mixedStyle)
-	            })
-	
-	            return flattenedStyles
-	        }
-	
-	        // pseudoclassList - the list of pseudoclasses that make up the key
-	        // mutates pseudoclassList into a canonicalized list
-	        function canonicalizeCompoundPseudoclass(pseudoclassList) {
-	            pseudoclassList.sort()  // some string sort to canonicalize the list of pseudoclasses (not really important how it sorts exactly, just that its consistent)
-	
-	            // remove duplicates
-	            var lastKey = pseudoclassList[0]
-	            for(var n=1; n<pseudoclassList.length;) {
-	                if(pseudoclassList[n] === lastKey) {
-	                    pseudoclassList.splice(n,1)
-	                } else {
-	                    n++
-	                }
-	            }
-	
-	            return pseudoclassList
-	        }
-	
-	
-	        // merges two hashmaps together, where if the same key is set in both hashmaps, the values (being Style objects) are mixed together (styles in b overriding)
-	        // mutates map
-	        function styleHashmapMerge(map, newKey, newStyle) {
-	            if(map.has(newKey)) {
-	                var valueToSet = map.get(newKey).mix(newStyle)
-	            } else {
-	                var valueToSet = newStyle
-	            }
-	
-	            map.set(newKey, valueToSet)
-	        }
-	
-	        // returns an object containing the following properties
-	            // emulated - a hashmap object
-	                // each key is a canonicalized array of pseudoclasses for only emulatable pseudoclasses, and
-	                // each value is a Style object
-	            // native - just like `emulated` except the pseudoclasses in the key and all the Style object values are all natively renderable
-	            // emulatedOrder - an array of canonicalized pseudoclasses sorted from most specific to least specific (longest to shortest
-	            // emulatedInfo - an object where
-	                // each key is an individual psuedoclass selector (like the elements in a canonicalized pseudoclass list), and
-	                // each value is an object containing the properties:
-	                    // fns - the emulated psuedoclass functions `check`, `setup`, and `kill`
-	                    // parameter - the psuedoclass parameter to pass into `check` and `setup`
-	        // compoundPseudoClassStyles - a hashmap where
-	            // each key is a canonicalized array of pseudoclasses, and
-	            // each value is a Style object
-	        function processFlattenedPseudoclasses(compoundPseudoClassStyles, componentStyleMap) {
-	
-	            var pseudoclasses = new HashMap
-	            compoundPseudoClassStyles.forEach(function(pseudoclassStyle, key) {
-	                if(pseudoclassStyle.pureNative) {
-	                    // make sure the pseudoclasses are all natively renderable (any js-rendered pseudoclass that isn't marked 'emulated' is not natively emulatable)
-	                    var allEmulated = true
-	                    for(var n=0; n<key.length; n++) {
-	                        var parts = getPseudoClassParts(key[n])
-	                        var psuedoclassInfo = jsRenderedPseduoclasses[parts.class]
-	                        if(psuedoclassInfo !== undefined && !psuedoclassInfo.emulated) {
-	                            allEmulated = false
-	                            break
-	                        }
-	                    }
-	
-	                    var componentStyleMapConflicts = false
-	                    if(allEmulated) {
-	                        componentStyleMapConflicts = styleMapConflicts(componentStyleMap, pseudoclassStyle.componentStyleMap)
-	                    }
-	
-	                    pseudoclassStyle.pureNative = allEmulated && !componentStyleMapConflicts
-	                }
-	
-	                for(var n=0; n<key.length; n++) {
-	                    var parts = getPseudoClassParts(key[n])
-	                    var psuedoclassInfo = jsRenderedPseduoclasses[parts.class]
-	                    if(psuedoclassInfo !== undefined && psuedoclassInfo.parameterTransform !== undefined) {
-	                        var transformedParameter = psuedoclassInfo.parameterTransform(parts.parameter)
-	                        key[n] = parts.class+"("+transformedParameter+")"
-	                    }
-	                }
-	
-	                pseudoclasses.set(key, pseudoclassStyle)
-	            })
-	
-	            var emulatedInfo={}
-	            pseudoclasses.forEach(function(pseudoclassStyle,individualPseudoclasses) {
-	                if(!pseudoclassStyle.pureNative) {
-	                    individualPseudoclasses.forEach(function(pseudoclass) {
-	                        if(!(pseudoclass in emulatedInfo)) {
-	                            emulatedInfo[pseudoclass] = getEmulatedInfo(pseudoclass)
-	                        }
-	                    })
-	                }
-	            })
-	
-	            return {classes: pseudoclasses, emulatedInfo:emulatedInfo}
-	        }
-	    }
-	
-	    // returns true if there are any styleMap conflicts, which is when any inner style of pseudoclassStyleMap collides with a non-pure style in mainStyleMap
-	    function styleMapConflicts(mainStyleMap, pseudoclassStyleMap) {
-	        for(var blockSelector in mainStyleMap) {
-	            if(blockSelector in pseudoclassStyleMap) {
-	                if(!mainStyleMap[blockSelector].pureNative) {
-	                    return true
-	                } else {
-	                    var pseudoclassInnerStyle = pseudoclassStyleMap[blockSelector]
-	                    if(styleMapConflicts(mainStyleMap, pseudoclassInnerStyle.componentStyleMap)) {
-	                        return true
-	                    }
-	
-	                    var pseudoclassStyles = pseudoclassInnerStyle.pseudoclasses.classes.values()
-	                    for(var n=0; n<pseudoclassStyles.length; n++) {
-	                        var pseudoclassStyle = pseudoclassStyles[n]
-	                        if(styleMapConflicts(mainStyleMap, pseudoclassStyle.componentStyleMap)) {
-	                            return true
-	                        }
-	                    }
-	                }
-	            }
-	        }
-	
-	        return false
-	    }
-	
-	
-	    // returns true if there are any styleMap conflicts, which is when any inner style of pseudoclassStyleMap collides with a non-pure style in mainStyleMap
-	    function styleMapConflicts(mainStyleMap, pseudoclassStyleMap) {
-	        for(var blockSelector in pseudoclassStyleMap) {
-	            if(blockSelector in mainStyleMap) {
-	                if(!mainStyleMap[blockSelector].pureNative) {
-	                    return true
-	                }
-	            }
-	
-	            var pseudoclassInnerStyle = pseudoclassStyleMap[blockSelector]
-	            if(styleMapConflicts(mainStyleMap, pseudoclassInnerStyle.componentStyleMap)) {
-	                return true
-	            }
-	
-	            var pseudoclassStyles = pseudoclassInnerStyle.pseudoclasses.classes.values()
-	            for(var n=0; n<pseudoclassStyles.length; n++) {
-	                var pseudoclassStyle = pseudoclassStyles[n]
-	                if(styleMapConflicts(mainStyleMap, pseudoclassStyle.componentStyleMap)) {
-	                    return true
-	                }
-	            }
-	        }
-	
-	        return false
-	    }
-	
-	    // returns either
-	        // this style if styleB is undefined, or
-	        // a new Style object that merges styleB's properties into the current one such that styleB's properties override the current Style's properties
-	    // mixInherit - (default: false) if true, mixes in the 'inherit' property
-	    this.mix = function(styleB, mixInherit) {
-	        if(mixInherit === undefined) mixInherit = false
-	        if(styleB === undefined || styleB === this)
-	            return this
-	        if(!isStyleObject(styleB)) styleB = Style(styleB)
-	
-	        var cacheKey = [this,styleB,mixInherit]
-	        var mixedStyle = mixedStyles.get(cacheKey)
-	        if(mixedStyle === undefined) {     // note: mixedStyle can only be undefined if the two style have never been mixed before
-	            var mixedStyle = mixWithoutCreatingNativePseudoclasses(this, styleB, mixInherit)
-	            mixedStyles.set(cacheKey, mixedStyle)
-	        }
-	
-	        return mixedStyle
-	    }
-	
-	    // returns a copy of the style with a new className
-	    this.copy = function () {
-	        return mixWithoutCreatingNativePseudoclasses(this, Style(), true)
-	    }
-	
-	    // returns an object with the members
-	        // fns - the functions for the given pseudoclass
-	        // parameter - the processed parameter to pass into fns.setup
-	    // pseudoclass - a pseudoclass selector (eg "not(:required)")
-	    function getEmulatedInfo(pseudoclass) {
-	        var parts = getPseudoClassParts(pseudoclass)
-	        var fns = jsRenderedPseduoclasses[parts.class]
-	
-	        if(fns ===  undefined) {
-	            throw new Error("Pseudoclass "+parts.class+" isn't emulated, but has a style that can't be rendered in pure css")
-	        }
-	
-	        var info = {fns: fns}
-	        if(parts.parameter !== undefined) {
-	            if(fns.processParameter !== undefined) {
-	                info.parameter = fns.processParameter(parts.parameter)
-	            } else {
-	                info.parameter = parts.parameter
-	            }
-	        }
-	
-	        return info
-	    }
-	
-	    // returns an object
-	        // either with the properties:
-	            // style - style that has native css properties (basic and pseudoclass) set for it and its block's computedStyleMap
-	                // this return value *can* be this style itself if there are no interactions with the passed styleMap
-	            // styleMap - a potentially new styleMap that has copied or inserted styles needed for native psuedoclass rendering
-	            // nativePsuedoclassMap - a new pseudoclassMap to set on the block
-	        // OR with the proeprties:
-	            // cancel:true - exists if a pure native psuedoclass style can't be rendered native because of a collision with a computedStyleMap style that isn't pure native
-	            // style - the new style to get the pseudoclass style from (and then set with setPreStyleMapStyle)
-	    // styleMap - a map of style selectors (Gem names or labels) to Styles who's classNames will be used to create the native css
-	        // intended to be a style map that comes from a block's computedStyleMap property
-	        // the computedStyleMap can affect how sub-pseudoclass selectors are written
-	    // nativePseudoclassSelectorMap - an object where each key is a base css-selector, and each value is a Style object
-	    // jsRenderedPseudoclassIndex - if this style is a js-redered/emulated psueodclass, this is its index inside its parent style's pseudoclasses.classes map, otherwise the value will be 0
-	    this.createNativeCssInfo = function(styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
-	        var cacheKey = [styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle]
-	        var cacheHasStyleMap = this.nativeCssInfoCache.has(cacheKey)
-	        if(cacheHasStyleMap) {
-	            return this.nativeCssInfoCache.get(cacheKey)
-	        }
-	        // else
-	        var styleToReturn = this // can change below if there is an interaction with the styleMap
-	        if(this.pureNative && this.pseudoclasses.classes.keys().length !== 0) { // only care about pseudoclass interactions if it has pseudoclasses
-	            var styleSelectors = containedStyleSelectors(this)
-	            var info = stylesInfo(styleSelectors, styleMap)
-	            var interacts = info.impure.length > 0
-	            if(!interacts) {
-	//                var pureStyleInteractionCacheItem = this.pureStyleInteractionCache.get(info.undef)
-	//                if(pureStyleInteractionCacheItem === undefined) {
-	                    var evenNewerComputedStyleMap = utils.merge({},styleMap) // copy
-	                    for(var key in evenNewerComputedStyleMap) {
-	                        if(key in styleSelectors) {
-	                            evenNewerComputedStyleMap[key] = evenNewerComputedStyleMap[key].copy() // copy to ensure that a unique className is created (so that native pseudoclasses don't have the possibility of merging weirdly)
-	                        }
-	                    }
-	                    for(var n=0; n<info.undef.length; n++) {
-	                        evenNewerComputedStyleMap[info.undef[n]] = Style()  // empty style who's className will be used to create native pseudoclass styles
-	                    }
-	
-	                    styleToReturn = this.copy()    // a new style className is needed to avoid potential incorrect css overlap
-	                    styleMap = evenNewerComputedStyleMap
-	//                    this.pureStyleInteractionCache.set(info.undef, {style:styleToReturn, map: styleMap})
-	//                } else {
-	//                    styleToReturn = pureStyleInteractionCacheItem.style
-	//                    styleMap = pureStyleInteractionCacheItem.map
-	//                }
-	            } else {
-	                var retryStyle = this.copy()
-	                changeStyleToNonNative(retryStyle)
-	
-	                var result = {cancel: true, retryStyle: retryStyle}
-	                setNativeCssInfoCache(this.nativeCssInfoCache, result)
-	                return result
-	            }
-	        }
-	
-	        if(!styleToReturn.basicNativeCssRendered) {
-	            setCss('.'+styleToReturn.className, styleToReturn.basicProperties)
-	            styleToReturn.basicNativeCssRendered = true
-	        }
-	
-	        var newNativePseudoclassMap = createNativePseudoclasses(styleToReturn, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
-	
-	        var result = {style: styleToReturn, styleMap: styleMap, nativePseudoclassMap: newNativePseudoclassMap}
-	        setNativeCssInfoCache(this.nativeCssInfoCache, result)
-	        return result
-	
-	
-	        // mutates the passed style so that its not native
-	        function changeStyleToNonNative(style) {
-	            style.pureNative = false
-	            var newClasses = new HashMap
-	            style.pseudoclasses.classes.forEach(function(pseudoclassStyle, individualPseudoclasses) {
-	                //if(style.pureNative) { // all of these will be pureNative, or style wouldn't be
-	                    var copy = pseudoclassStyle.copy()
-	                    copy.pureNative = false
-	                    newClasses.set(individualPseudoclasses, copy)
-	
-	                    individualPseudoclasses.forEach(function(pseudoclass) {
-	                        if(!(pseudoclass in pseudoclassStyle.pseudoclasses.emulatedInfo)) {
-	                            style.pseudoclasses.emulatedInfo[pseudoclass] = getEmulatedInfo(pseudoclass)
-	                        }
-	                    })
-	
-	                /*} else {
-	                    newClasses.set(individualPseudoclasses, style)
-	                }*/
-	            })
-	
-	            style.pseudoclasses.classes = newClasses
-	
-	            return style
-	        }
-	
-	        function setNativeCssInfoCache(nativeCssInfoCache, value) {
-	            nativeCssInfoCache.set(cacheKey, value)
-	        }
-	
-	        // returns the label and block selectors within the style (recursive)
-	        // the grabs from both componentStyleMap and psuedoclasses.native[x].componentStyleMap
-	        function containedStyleSelectors(style) {
-	            var result = {}
-	            for(var key in style.componentStyleMap) {
-	                var innerStyle = style.componentStyleMap[key]
-	                mergeInSelectors(key, innerStyle)
-	            }
-	
-	            style.pseudoclasses.classes.forEach(function(pseudoclassStyle) {
-	                if(pseudoclassStyle.pureNative) {
-	                    for(var key in pseudoclassStyle.componentStyleMap) {
-	                        var innerStyle = pseudoclassStyle.componentStyleMap[key]
-	                        mergeInSelectors(key, innerStyle)
-	                    }
-	                }
-	            })
-	
-	            return result
-	
-	
-	            function mergeInSelectors(key, innerStyle) {
-	                result[key] = true
-	
-	                var selectors = containedStyleSelectors(innerStyle)
-	                utils.merge(result, selectors)
-	            }
-	        }
-	
-	        // returns info about what styles in styleSelectors and in newComputedStyleMap are:
-	            // impure in newComputedStyleMap
-	            // not defined in newComputedStyleMap
-	        function stylesInfo(styleSelectors, newComputedStyleMap) {
-	            var impure = []
-	            var undef = []
-	            for(var key in styleSelectors) {
-	                var style = newComputedStyleMap[key]
-	                if(style === undefined) {
-	                    undef.push(key)
-	                } else if(!style.pureNative) {
-	                    impure.push(key)
-	                }
-	            }
-	            return {impure:impure,undef:undef}
-	        }
-	    }
-	
-	
-	    // instance properties
-	
-	    this.className          // the css classname for this style
-	    this.componentStyleMap; // maps a Component name to a Style object for that component
-	    this.setup;             // run some javascript on any element this class is applied to
-	    this.kill;              // a function to run on removal of the style (should reverse setup)
-	
-	
-	    // private properties
-	
-	    this.nativeCssInfoCache; // instance property that stores a map between a styleMap and a potentially modified pair: {style:<Style object>, styleMap: <computedStyleMap>}
-	    this.basicNativeCssRendered; // contains true if the css class has been written to a stylesheet
-	
-	
-	    // creates a new style with styleB mixed into styleA (styleB overrides)
-	    // does not create native pseudoclass styles
-	    // mixInherit - if true, mixes in the 'inherit' property, if false, 'inherit' will get undefined (same as inherit===false)
-	    function mixWithoutCreatingNativePseudoclasses(styleA, styleB, mixInherit) {
-	        // mix css properties and non-emulated pseudoclass properties
-	        var mainStylesMerged = utils.merge({}, styleA.basicProperties, styleB.basicProperties)
-	        var newStyle = Style(mainStylesMerged)
-	
-	        // mix block and label properties
-	        newStyle.componentStyleMap = mergeComponentStyleMaps(styleA, styleB)
-	
-	        // mix pseudoclass properties
-	        newStyle.pseudoclasses = mergePseudoclasses(styleA, styleB)
-	
-	        // mix $state
-	        if(styleB.stateHandler !== undefined) {
-	            newStyle.stateHandler = styleB.stateHandler
-	        } else {
-	            newStyle.stateHandler = styleA.stateHandler
-	        }
-	
-	        // mix $setup and $kill                                                                                                                                                                                                                                                                 waaahhh hah hah haaaaaaa
-	        if(styleB.setup !== undefined) {
-	            newStyle.setup = styleB.setup
-	        } else {
-	            newStyle.setup = styleA.setup
-	        }
-	        if(styleB.kill !== undefined) {
-	            newStyle.kill = styleB.kill
-	        } else {
-	            newStyle.kill = styleA.kill
-	        }
-	
-	        if(mixInherit) {
-	            newStyle.inherit = styleA.inherit || styleB.inherit
-	        }
-	
-	        newStyle.pureNative = isPureNative(newStyle)
-	
-	        return newStyle
-	    }
-	
-	    // returns a new component style map where styleB overrides styleA
-	    // handles the 'inherit' option on styles
-	    function mergeComponentStyleMaps(styleA, styleB) {
-	        var mergedStyleMap = utils.merge({}, styleA.componentStyleMap)
-	        for(var key in styleB.componentStyleMap) {
-	            var styleMapping = styleB.componentStyleMap[key] // a Style object
-	
-	            mergedStyleMap[key] = conditionalMix(mergedStyleMap[key], styleMapping)
-	        }
-	
-	        return mergedStyleMap
-	    }
-	
-	    // conditionally mixes two styles
-	    // returns b mixed into a if b inherits
-	    // otherwise returns b
-	    function conditionalMix(a,b) {
-	        if(b === undefined)
-	            return a
-	
-	        if(b.inherit) {
-	            if(a === undefined)
-	                return b
-	            else
-	                return a.mix(b)
-	        } else {
-	            return b
-	        }
-	    }
-	
-	    // returns true if the style can be rendered with pure css (no javascript needed)
-	    function isPureNative(style) {
-	        if(style.setup === undefined && style.kill === undefined && style.stateHandler === undefined
-	        ) {
-	            var allPseudoclassesNative = true
-	            style.pseudoclasses.classes.forEach(function(style) {
-	                if(!style.pureNative) allPseudoclassesNative = false
-	            })
-	            if(!allPseudoclassesNative) {
-	                return false
-	            }
-	
-	            var allPureNative = true
-	            for(var key in style.componentStyleMap) {
-	                if(style.componentStyleMap[key].pureNative !== true) {
-	                    allPureNative = false
-	                    break
-	                }
-	            }
-	            if(!allPureNative) {
-	                return false
-	            }
-	
-	            return true
-	        }
-	    }
-	
-	    // mixes together the pseudoclass properties of two styles
-	    // handles changing native pseudoclass handling to emulated (and vice versa)
-	    function mergePseudoclasses(styleA, styleB) {
-	        var merged = mergeStyleMaps(styleA.pseudoclasses.classes, styleB.pseudoclasses.classes)
-	        var emulatedInfo = utils.merge({}, styleA.pseudoclasses.emulatedInfo, styleB.pseudoclasses.emulatedInfo)
-	
-	        return {classes: merged, emulatedInfo:emulatedInfo}
-	
-	
-	        // returns a new map with mapA and mapB merged, where mapB's styles override
-	        function mergeStyleMaps(styleMapA, styleMapB) {
-	            var result = utils.hashmapMerge(new HashMap, styleMapA)
-	            styleMapB.forEach(function(v, key) {
-	                if(result.has(key)) {
-	                    var resultValue = result.get(key).mix(styleMapB.get(key), true)
-	                } else {
-	                    var resultValue = styleMapB.get(key)
-	                }
-	
-	                result.set(key, resultValue)
-	            })
-	
-	            return result
-	        }
-	    }
-	
-	    var singleColonForPseudoElements = false; // may be changed if its detected that the browser does this
-	    var doubleColonPseudoElRegex =      /(::)(before|after|first-line|first-letter|selection)/;
-	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
-	
-	    // creates a css selector with the passed properties
-	    function setCss(selector, properties) {
-	        var unCamelCasedProperties = {}
-	        for (key in properties) {
-	            unCamelCasedProperties[mapCamelCase(key)] = properties[key]
-	        }
-	
-	        var rule = addRule(jss.defaultSheet, selector)
-	        setStyleProperties(rule, properties);
-	
-	
-	
-	        function addRule(sheet, selector) {
-		        var rules = sheet.cssRules || sheet.rules || [];
-		        var index = rules.length;
-	
-	            var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
-	            if (!pseudoElementRule) {
-	                addRuleToSheet(sheet, selector, index);
-	            }
-	
-		        return rules[index].style
-		    }
-	
-	        // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
-	        function addPseudoElementRule(sheet, selector, rules, index) {
-	            var doubleColonSelector;
-	            var singleColonSelector;
-	
-	            if (doubleColonPseudoElRegex.exec(selector)) {
-	                doubleColonSelector = selector;
-	                singleColonSelector = toSingleColonPseudoElements(selector);
-	            } else if (singleColonPseudoElRegex.exec(selector)) {
-	                doubleColonSelector = toDoubleColonPseudoElements(selector);
-	                singleColonSelector = selector;
-	            } else {
-	                return false; // Not dealing with a pseudo element
-	            }
-	
-	            if (!singleColonForPseudoElements) {
-	                // Assume modern browser and then check if successful
-	                try {
-	                    addRuleToSheet(sheet, doubleColonSelector, index);
-	                } catch(e) {
-	                    // if there's an error, assume its because the selector was deemed invalid (firefox), so try -moz- extension
-	                    addRuleToSheet(sheet, toMozDoubleColonPseudoElements(selector), index);
-	                }
-	                if (rules.length <= index) {
-	                    singleColonForPseudoElements = true;
-	                }
-	            }
-	            if (singleColonForPseudoElements) {
-	                addRuleToSheet(sheet, singleColonSelector, index);
-	            }
-	
-	            return true;
-	        }
-	
-	        function addRuleToSheet(sheet, selector, index) {
-		        if (sheet.insertRule) {
-		            sheet.insertRule(selector + ' { }', index);
-		        } else {
-		            sheet.addRule(selector, null, index);
-		        }
-		    }
-	
-	        function setStyleProperties(ruleStyle, properties) {
-		        for (var key in properties) {
-	                ruleStyle.setProperty(key, properties[key])
-		        }
-		    }
-	
-	        function toDoubleColonPseudoElements(selector) {
-	            return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
-	                return submatch1 + '::' + submatch3;
-	            });
-	        }
-	        function toMozDoubleColonPseudoElements(selector) {
-	            return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
-	                return submatch1 + '::-moz-' + submatch3;
-	            });
-	        }
-	        function toSingleColonPseudoElements(selector) {
-	            return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
-	                return ':' + submatch2;
-	            })
-	        }
-	    }
-	
-	
-	    // creates the css styles necessary to render the native pseudoclass styles of this style (and contained styles that can be rendered native)
-	    // intended to be called only once per style
-	    // styleMap - A block's new computedStyleMap. Selectors that also exist in native pseudoclasses of the style have already been created or copied (so you can be sure creating css class styles for them won't conflict with anything)
-	    // jsRenderedPseudoclassIndex - the index of the active pseudoclass style - needed for deciding what native css needs to be overridden by `style`
-	        // if this is 0, no overriding needs to happen (so 0 is also set when there's no active js-rendered/emulated pseudoclass)
-	    function createNativePseudoclasses(style, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
-	        if(nativePseudoclassSelectorMap === undefined) nativePseudoclassSelectorMap = {}
-	
-	        var nativePseudoclassSelectors = []
-	        //var nativePseudoclassPropertiesToOverride = {}   // stores what style properties for what pseudoclasses needs to be overridden by an emulated style
-	        var newNativePseudoclassMap = {} // a mapping from a Gem name to a nativePseudoclassSelectorMap
-	        var index = 0
-	        style.pseudoclasses.classes.forEach(function(pseudoclassStyle, pseudoclassKey) {
-	            var fullSelector = '.'+style.className+':'+pseudoclassKey.join(':')
-	            if(pseudoclassStyle.pureNative) {
-	                // create css styles for top-level css properties of the native psuedoclass
-	                createPseudoClassRules(fullSelector, pseudoclassStyle.basicProperties, style, false)
-	                nativePseudoclassSelectors.push(pseudoclassKey.join(':'))
-	
-	                for(var blockSelector in pseudoclassStyle.componentStyleMap) {
-	                    addNativePseudoclassMapItem(blockSelector, fullSelector, pseudoclassStyle.componentStyleMap[blockSelector])
-	                }
-	            } else if(index === jsRenderedPseudoclassIndex) {
-	                // create overriding css styles for top-level css properties of the emulated psuedoclass (so that emulated and native pseudoclasses mix properly)
-	                for(var n=0; n<nativePseudoclassSelectors.length; n++) {
-	                    var selector = nativePseudoclassSelectors[n]
-	                    createPseudoClassRules(fullSelector+":"+selector, style.basicProperties, style, true)
-	                }
-	            }
-	
-	            index++
-	        })
-	
-	        for(var selector in nativePseudoclassSelectorMap) {
-	            var pseudoclassStyle = nativePseudoclassSelectorMap[selector]
-	            var fullSelector = selector+' '+'.'+style.className
-	
-	            // create css styles for the top-level style when inside a pure native pseudoclass style of its parent
-	            createPseudoClassRules(fullSelector, pseudoclassStyle.basicProperties, style, true)
-	
-	            for(var blockSelector in pseudoclassStyle.componentStyleMap) {
-	                addNativePseudoclassMapItem(blockSelector, fullSelector, pseudoclassStyle.componentStyleMap[blockSelector])
-	            }
-	
-	            // create css styles for pseudoclass styles when inside a pure native pseudoclass style of its parent
-	            pseudoclassStyle.pseudoclasses.classes.forEach(function(pseudoclassStyle, pseudoclassKey) {
-	                if(pseudoclassStyle.pureNative) {
-	                    createPseudoClassRules(fullSelector+':'+pseudoclassKey.join(':'), pseudoclassStyle.basicProperties, style, true)
-	                }
-	            })
-	        }
-	
-	        return newNativePseudoclassMap
-	
-	
-	        function addNativePseudoclassMapItem(blockSelector, cssSelector, styleValue) {
-	            if(newNativePseudoclassMap[blockSelector] === undefined)
-	                newNativePseudoclassMap[blockSelector] = {}
-	            newNativePseudoclassMap[blockSelector][cssSelector] = styleValue
-	        }
-	
-	        // cssProperties - The css rules to apply (should only contain native css properties). CamelCase and certain integer values will be converted.
-	        // overwriteBloodyStyles - if true, styles from styleMapStyle are overridden with the default (either a block's default or the base default)
-	        function createPseudoClassRules(selector, cssProperties,  /*temporary*/ styleMapStyle, overwriteBloodyStyles) {
-	            if(!style.nativePseudoclassesWritten[selector]) {
-	                var pseudoClassCss = {}
-	
-	                if(overwriteBloodyStyles) {
-	                    // overwrite styles that would bleed over from the styleMapStyle
-	
-	                    var propertiesToOverride = Object.keys(styleMapStyle.basicProperties)
-	                    styleMapStyle.pseudoclasses.classes.forEach(function(style) {
-	                        propertiesToOverride = propertiesToOverride.concat(Object.keys(style.basicProperties))
-	                    })
-	
-	                    for(var n=0; n<propertiesToOverride.length; n++) {
-	                        var key = propertiesToOverride[n]
-	                        if(defaultStyle) {
-	                            var defaultStyleProperty = defaultStyle.basicProperties[key]
-	                        }
-	
-	                        var initialStyle = defaultStyleProperty || defaultStyleValues[key] || 'initial' // todo: write a function to calculate the inital value, since 'initial' isn't supported in IE (of course) - tho it will be eventually since its becoming apart of css3
-	                        pseudoClassCss[key] = initialStyle
-	                    }
-	                }
-	
-	                for(var key in cssProperties) {
-	                    var value = cssProperties[key]
-	
-	                    var cssStyle = key
-	                    var cssStyleName = mapCamelCase(cssStyle)
-	                    pseudoClassCss[cssStyleName] = cssValue(cssStyleName, value)
-	                }
-	
-	                // create immediate pseudo class style
-	                setCss(selector, pseudoClassCss) // create the css class with the pseudoClass
-	                if(this.nativePseudoclassStyles !== undefined) {
-	                    styleMapStyle.nativePseudoclassStyles[selector] = pseudoClassCss
-	                }
-	
-	                style.nativePseudoclassesWritten[selector] = true
-	            }
-	        }
-	    }
-	})
-	
-	
-	// private
-	
-	
-	// a map of pseudoclass names and how they are emulated with javascript
-	// each pseudoclass sets up the following functions:
-	    // check - a function that checks if that pseudoclass currently applies to the component when its called
-	    // setup - calls a callback when the pseudoClass starts and stops applying
-	        // should return an object that will be passed to the kill function (as its 'state' parameter)
-	    // kill - cleans up anything set up in the 'setup' function
-	    // processParameter - takes the pseudoclass parameter and returns some object representing it that will be used by the setup and check functions
-	var jsRenderedPseduoclasses = {
-	    hover: {
-	        emulated: true,
-	        check: function(component) {
-	            var nodes = document.querySelectorAll( ":hover" )
-	            for(var n=0; n<nodes.length; n++) {
-	                if(nodes[n] === component.domNode) {
-	                    return true
-	                }
-	            }
-	            return false
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            component.on("mouseover", function() {
-	                startCallback()
-	            })
-	            component.on("mouseout", endCallback)
-	
-	            return {start: startCallback, end: endCallback}
-	        },
-	        kill: function(component, state) {
-	            component.off("mouseover", state.start)
-	            component.off("mouseout", state.end)
-	        }
-	    },
-	    checked: {
-	        emulated: true,
-	        check: function(component) {
-	            if(component.domNode.nodeName !== 'INPUT' && component.domNode.nodeName !== 'OPTION') {
-	                console.warn("The pseudoclass 'checked' can only apply to 'input' nodes (Button, CheckBox, RadioButton, or TextField) or 'option' nodes (Option)")
-	                return false
-	            }
-	            return component.selected
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var setupState = {}
-	            component.on("change", setupState.listener = function() {
-	                if(component.selected) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            return setupState
-	        },
-	        kill: function(component, state) {
-	            component.removeListener("change", state.listener)
-	        }
-	    },
-	    required: {
-	        emulated: true,
-	        check: function(component) {
-	            if(component.domNode.nodeName !== 'INPUT') {
-	                console.warn("The pseudoclass 'required' can only apply to 'input' nodes (Button, CheckBox, RadioButton, or TextField)")
-	                return false
-	            }
-	            return component.attr('required') !== undefined
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var observer = new MutationObserver(function() {
-	                if(component.attr('required') !== undefined) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            observer.observe(component.domNode, {attributes: true})
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        }
-	    },
-	    'last-child': {
-	        emulated: true,
-	        check: function(component) {
-	            return nthLastChildCheck(component, '1')
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var observer = new MutationObserver(function() {
-	                if(nthLastChildCheck(component, '1')) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            var setupObserver = function() {
-	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
-	                observer.observe(component.parent.domNode, {childList: true})
-	            }
-	
-	            if(component.parent !== undefined) {
-	                setupObserver()
-	            }
-	
-	            component.on('newParent', function() {
-	                setupObserver()
-	            })
-	            component.on('parentRemoved', function() {
-	                observer.disconnect()
-	            })
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        }
-	    },
-	    'nth-child': {
-	        emulated: true,
-	        parameterTransform: function(parameter) {
-	            var parts = parseNthChildParameter(parameter)
-	            if(parts.variable === 0) {
-	                return parts.constant+''
-	            } else if(parts.constant === 0) {
-	                return parts.variable+'n'
-	            } else {
-	                return parts.variable+'n+'+parts.constant
-	            }
-	        },
-	
-	        check: function(component, parameterCheck) {
-	            return nthChildCheck(component, parameterCheck)
-	        },
-	        setup: function(component, startCallback, endCallback, parameterCheck) {
-	
-	            var checkAndCallCallbacks = function() {
-	                if(nthChildCheck(component, parameterCheck)) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            }
-	
-	            var observer = new MutationObserver(function() {
-	                checkAndCallCallbacks()
-	            })
-	
-	            var setupObserver = function() {
-	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
-	                observer.observe(component.parent.domNode, {childList: true})
-	            }
-	
-	            if(component.parent !== undefined) {
-	                setupObserver()
-	            }
-	
-	            component.on('newParent', function() {
-	                setupObserver()
-	                checkAndCallCallbacks()
-	            })
-	            component.on('parentRemoved', function() {
-	                observer.disconnect()
-	                checkAndCallCallbacks()
-	            })
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        },
-	
-	        // returns a function that takes an index and tell you if that index applies to the nthChildParameter
-	        processParameter: function(parameter) {
-	            var parts = parseNthChildParameter(parameter)
-	
-	            if(parts.variable === 0) {
-	                return function(index) {
-	                    return index+1 === parts.constant
-	                }
-	            } else {
-	                return function(index) {
-	                    return ((index+1-parts.constant)/parts.variable) % 1 === 0
-	                }
-	            }
-	        }
-	    },
-	
-	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
-	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
-	    /*not: {
-	        check: function() {
-	
-	        },
-	    }*/
-	}
-	
-	// name is the name of the new pseudoclass
-	// options is an object with the members:
-	    // check(component) - returns true if the pseudoclass applies to the component
-	    // setup(component, startCallback, endCallback, parameter) - a function that should call startCallback when the pseudoclass starts applying, and endCallback when it stops applying
-	        // parameter - the parameter passed to the pseudoclass (e.g. in :not(:first-child), ":first-child" is the parameter)
-	    // kill - a function that cleans up any event listeners or anything else set up in the 'setup' function
-	    // processParameter - a function that processes the pseudoclass parameter and returns some object the 'setup' function will get as its 4th argument
-	        // if this is undefined, the pseudoclass will throw an exception for styles that have a parameter for it
-	    // emulated - if true, it means that there is a corresponding native pseudoclass that can be used if the style can be rendered with pure css
-	module.exports.addPseudoClass = function(name, options) {
-	    if(jsRenderedPseduoclasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
-	    // else
-	    jsRenderedPseduoclasses[name] = options
-	}
-	
-	
-	function nthChildCheck(component, testFn) {
-	    if(component.domNode.parentNode === null)
-	        return false
-	
-	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
-	    var index = Array.prototype.indexOf.call(children, component.domNode)
-	    return testFn(index)
-	}
-	
-	function nthLastChildCheck(component, parameter) {
-	    if(component.domNode.parentNode === null)
-	        return false
-	
-	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
-	    var index = children.length - parseInt(parameter)
-	    return children[index] === component.domNode
-	}
-	
-	var nthChildParameter = new RegExp(
-	    '^' // begin
-	        +'('
-	            +'('
-	                +'(-?\\d*)'        // constant
-	                +'(([+-]\\d*)n?)?' // first-order term
-	            +')|'
-	            +'('
-	                +'(-?\\d)*n?' // first-order term first
-	                +'([+-]\\d*)?' // then constant
-	            +')'
-	        +')'
-	    +'$' // the EYND
-	)
-	
-	// returns the variable and constnat parts of the parameter
-	function parseNthChildParameter(parameter) {
-	    var parts = parameter.replace(/\s/g, '').match(nthChildParameter)
-	    if(parts === null)
-	        throw new Error("nth-child parameter '"+parameter+"' isn't valid")
-	
-	    if(parts[2] !== undefined) {
-	        var constant = parts[3]
-	        var variable = parts[5]
-	    } else {
-	        var constant = parts[8]
-	        var variable = parts[7]
-	    }
-	
-	
-	
-	    if(constant === undefined) constant = 0
-	    else                       constant = parseInt(constant)
-	    if(variable === undefined) variable = 0
-	    else                       variable = parseInt(variable)
-	
-	    return {variable: variable, constant: constant}
-	}
-	
-	
-	// maps a style value to a css value
-	// style values that are numbers are mapped to strings, usually with px postfix
-	function cssValue(cssStyleName, value) {
-	    // If a number was passed in, add 'px' to the (except for certain CSS properties) [also taken from jquery's code]
-	    if(typeof(value) === "number" && cssNumber[cssStyleName] === undefined) {
-	        return value+"px"
-	    } else {
-	        return value.toString()
-	    }
-	}
-	
-	var pseudoClassRegex = new RegExp( // /^([^(]*)(\((.*)\))?$/
-	    "([^(]*)"        // anything that's not an open paren
-	    +"(\\((.*)\\))?" // optionally some arbitrary string inside parens
-	    +"$"             // THE EYND!
-	)
-	
-	// pulls apart the pseudoclass name from its (optional) parameter
-	// e.g. pulls out 'nth-child' and '2+3n' from 'nth-child(2+3n)'
-	function getPseudoClassParts(fullPsuedoClass) {
-	    var x = fullPsuedoClass.match(pseudoClassRegex)
-	    if(x === null) throw new Error("Pseudoclass '"+fullPsuedoClass+"' is invalid")
-	    return {class: x[1], parameter: x[3]}
-	}
-	
-	
-	// taken from jquery's code
-	var cssNumber = {
-	    "column-count": 1,
-	    "fill-opacity": 1,
-	    "flex-grow": 1,
-	    "flex-shrink": 1,
-	    "font-weight": 1,
-	    "line-height": 1,
-	    "opacity": 1,
-	    "order": 1,
-	    "orphans": 1,
-	    "widows": 1,
-	    "z-index": 1,
-	    "zoom": 1
-	}
-	
-	function isStyleObject(o) {
-	    return o !== undefined && o.componentStyleMap !== undefined
-	}
-	
-	
-	//var asciiA = 'A'.charCodeAt(0), asciiZ = 'Z'.charCodeAt(0), difference = 'a'.charCodeAt(0) - asciiA
-	function mapCamelCase(cssStyleName) {
-	    return cssStyleName.replace(/([A-Z])/g, function(match, submatch) {          // this is from jss
-	        return '-' + submatch.toLowerCase();
-	    })
-	
-	    /*for(var n=0; n<cssStyleName.length; n++) {
-	        var ascii = cssStyleName.charCodeAt(n)
-	        if(asciiA <= ascii && ascii <= asciiZ) { // found capital letter
-	            cssStyleName = cssStyleName.slice(0, n) + '-'+String.fromCharCode(ascii+difference) + cssStyleName.slice(n+1)
-	            n++ // increment a second time for the dash
-	        }
-	    }
-	
-	    return cssStyleName*/
-	}
-	
-	// maps all the styles that are inherited by descendant nodes to their default values
-	// source: http://stackoverflow.com/questions/5612302/which-css-styles-are-inherited
-	var defaultStyleValues = {
-	    'azimuth': 'center',
-	    'border-collapse': 'separate',
-	    'border-spacing': '0',
-	    'box-sizing': 'border-box',
-	    'caption-side': 'top',
-	    //'color': 'black',         // let this inherit
-	    //'cursor': 'auto',         // let this one inherit - its weird otherwise
-	    'direction': 'ltr',
-	     display: 'inline-block', // changes the default display to inline-block
-	    'elevation': '',
-	    'empty-cells': 'show',
-	    // 'font-family': '',       // let this inherit
-	    // 'font-size': 'medium',   // let this inherit
-	    //'font-style': 'normal',   // let this inherit
-	    //'font-variant': 'normal', // let this inherit
-	    //'font-weight': 'normal',  // let this inherit
-	    'letter-spacing': 'normal',
-	    'line-height': 'normal',
-	    'list-style-image': 'none',
-	    'list-style-position': 'outside',
-	    'list-style-type': 'disc',
-	    'orphans': '2',
-	    'pitch-range': '',
-	    'pitch': '',
-	     position: 'relative', // changes the default positioning so that absolute is relative to its parent by default
-	    'quotes': '',
-	    'richness': '',
-	    'speak-header': '',
-	    'speak-numeral': '',
-	    'speak-punctuation': '',
-	    'speak': '',
-	    'speak-rate': '',
-	    'stress': '',
-	    'text-align': 'left',
-	    'text-indent': '0',
-	    'text-transform': 'none',
-	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
-	    'voice-family': '',
-	    'volume': '',
-	    'white-space': 'normal',
-	    'widows': '2',
-	    'word-spacing': 'normal'
-	}
-	
-	
-	
-	
-	// returns index of the passed css classname, or undefined if sheet containing that class isn't found
-	function cssClassSheetIndex(classname) {
-	    var result = undefined
-	
-	    var styleNodes = document.querySelectorAll("style")
-	    for(var n=0; n<styleNodes.length; n++) {
-	        var sheet = styleNodes[n].sheet
-	        jssModule.defaultSheet = sheet
-	
-	        var defaultStyleMaybe = jssModule.get(classname)
-	        if(Object.keys(defaultStyleMaybe).length > 0) {
-	            result = n
-	            break
-	        }
-	    }
-	
-	    jssModule.defaultSheet = undefined
-	    return result
-	}
-	
-	
-	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
-	var jss = jssModule.forDocument(document)
-	
-	var defaultClassSheetIndex = cssClassSheetIndex('.'+Style.defaultClassName)
-	if(defaultClassSheetIndex === undefined) {
-	    defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
-	
-	    jss.defaultSheet = jss._createSheet()
-	} else {
-	    // if the default styleclass *already* exists, it probably means that blocks.js is being loaded twice
-	    console.log("Warning: the default-styles class name for blocks.js looks like its already in use. This probably means you have two versions of blocks.js loaded. If so, Gem.js will continue to work, but your app will be a bit bloated. If something other than block.js created that class, blocks.js may break that style.")
-	
-	    var styleNodes = document.querySelectorAll("style")
-	    defaultJss.defaultSheet = styleNodes[defaultClassSheetIndex].sheet
-	    jss.defaultSheet = styleNodes[defaultClassSheetIndex+1].sheet
-	
-	    // make sure the baseClassName isn't already taken
-	    var dedupNumber = 0
-	    while(true) {
-	        var testBaseClassName = baseClassName+dedupNumber
-	        if(cssClassSheetIndex('.'+testBaseClassName+dedupNumber+0) !== undefined) {
-	            dedupNumber++
-	        } else {
-	            break;
-	        }
-	    }
-	
-	    baseClassName = testBaseClassName+dedupNumber
-	}
-	
-	defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
-	
-	defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
-	    cursor: 'inherit'
-	})
-	defaultJss.set('img', { // images should retain content-box sizing, since pixel perfect width on images is important so you avoid resizing the image
-	    'box-sizing': 'content-box'
-	})
-	
-	
-	/*private*/ module.exports.isDev; // should be set by Gem
-
-
-/***/ },
-/* 6 */
-/*!*********************************!*\
-  !*** ../~/Components/Canvas.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! Gem */ 4)
-	var proto = __webpack_require__(/*! proto */ 37)
-	var Style = __webpack_require__(/*! Style */ 5)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-	    //static properties
-	
-	    this.name = 'Canvas'
-	
-	    this.init = function(/*[label,] height, width*/) {
-	        if(arguments.length === 2) {
-	            var height = arguments[0]
-	            var width = arguments[1]
-	        } else {
-	            var label = arguments[0]
-	            var height = arguments[1]
-	            var width = arguments[2]
-	        }
-	
-	        this.domNode = document.createElement('canvas') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	        this.height = height
-	        this.width = width
-	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'width', {
-	        get: function() {
-	            return this.domNode.width
-	        }, set: function(v) {
-	            this.domNode.width = v
-	        }
-	    })
-	    Object.defineProperty(this, 'height', {
-	        get: function() {
-	            return this.domNode.height
-	        }, set: function(v) {
-	            this.domNode.height = v
-	        }
-	    })
-	
-	    this.context = function() {
-	        return this.domNode.getContext.apply(this.domNode, arguments)
-	    }
-	
-	    this.toImg = this.toDataURL = function() {
-	        return this.domNode.toDataURL()
-	    }
-	});
-
-
-/***/ },
-/* 7 */
-/*!********************************!*\
-  !*** ../~/Components/Block.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! ../Gem */ 4)
-	var proto = __webpack_require__(/*! proto */ 37)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Block'
-	
-	
-		// instance properties
-	
-		this.init = function (/*[label,] content*/) {
-	        if(typeof(arguments[0]) !== 'string') {
-	            var contentArgs = arguments
-	        } else {
-	            var label = arguments[0]
-	            var contentArgs = Array.prototype.slice.call(arguments, 1)
-	        }
-	
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	
-			if(contentArgs !== undefined)
-	            this.add.apply(this,contentArgs)
-		}
-	})
-
-
-/***/ },
-/* 8 */
-/*!***********************************!*\
-  !*** ../~/Components/CheckBox.js ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! Gem */ 4)
-	var proto = __webpack_require__(/*! proto */ 37)
-	
-	module.exports = proto(Gem, function(superclass) {
-		// static variables
-	    this.name = 'CheckBox'
-	
-		// instance methods
-		this.init = function(label) {
-	        var that = this
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-			this.attr('type','checkbox')
-		}
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the checkbox is checked
-	        get: function() {
-	            return this.domNode.checked
-	        },
-	        // sets the value of the checkbox to the passed value (true for checked)
-	        set: function(checked) {
-	            var newValue = checked === true
-	            var curValue = this.domNode.checked
-	            if(curValue === newValue) return;  // do nothing if nothing's changing
-	
-	            this.domNode.checked = newValue
-	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	        }
-	    })
-	})
-
-
-/***/ },
-/* 9 */
-/*!*********************************!*\
-  !*** ../~/Components/Button.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! Gem */ 4)
-	var proto = __webpack_require__(/*! proto */ 37)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-	    // static variables
-	
-	    this.name = 'Button'
-	
-	
-	    // instance properties
-	
-		this.init = function(/*[label,] text*/) {
-	        if(arguments.length >= 2) {
-	            var label = arguments[0]
-	            var text = arguments[1]
-	        } else {
-	            var text = arguments[0]
-	        }
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-			this.attr('type','button');
-			this.text = text
-		}
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.attr('value')
-	        },
-	        set: function(text) {
-	            this.attr('value', text)
-	        }
-	    })
-	
-	})
-
-
-/***/ },
-/* 10 */
-/*!********************************!*\
-  !*** ../~/Components/Image.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! Gem */ 4)
-	var proto = __webpack_require__(/*! proto */ 37)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-	    //static properties
-	
-	    this.name = 'Image'
-	
-	    this.init = function(/*[label,] imageSource*/) {
-	        if(arguments.length === 1) {
-	            var imageSource = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var imageSource = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement('img') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        var that = this
-	
-	        this.label = label
-	        if(imageSource !==  undefined) this.src = imageSource
-	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'src', {
-	        get: function() {
-	            return this.domNode.src
-	        }, set: function(v) {
-	            this.domNode.src = v
-	        }
-	    })
-	});
-
-
-/***/ },
-/* 11 */
-/*!*******************************!*\
-  !*** ../~/Components/List.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 37)
-	
-	var Gem = __webpack_require__(/*! Gem */ 4)
-	var Style = __webpack_require__(/*! Style */ 5)
-	
-	var Item = __webpack_require__(/*! ./Item */ 26);
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-		this.Item = Item
-	
-	    this.name = 'List'
-	
-		// instance properties
-	
-		this.init = function(/*[label,] [ordered,] listInit*/) {
-			if(arguments[0] instanceof Array) {
-	            var listInit = arguments[0]
-	        } else {
-	            if(arguments[1] instanceof Array) {
-	                var listInit = arguments[1]
-	            } else if(arguments[2] instanceof Array) {
-	                var listInit = arguments[2]
-	            }
-	
-	            if(typeof(arguments[0]) === 'boolean') {
-	                var ordered = arguments[0]
-	            } else {
-	                if(typeof(arguments[1]) === 'boolean') {
-	                    var ordered = arguments[1]
-	                } else {
-	                    var ordered = false // default
-	                }
-	
-	                if(typeof(arguments[0]) === 'string') {
-	                    var label = arguments[0]
-	                }
-	            }
-	        }
-	
-	        if(ordered) {
-	            var type = 'ol'
-	        } else {
-	            var type = 'ul'
-	            this.defaultStyle = Style({
-	                listStyleType: 'decimal'
-	            })
-	        }
-	
-	
-	        this.domNode = document.createElement(type) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	        this.label = label
-	
-	        if(listInit !== undefined) {
-	            for(var n=0; n<listInit.length; n++) {
-	                this.item(listInit[n])
-	            }
-	        }
-		}
-	
-		this.item = function() {
-			var item = Item.apply(this, arguments)
-	        this.add(item)
-	        return item
-		}
-	});
-
-/***/ },
-/* 12 */
-/*!********************************!*\
-  !*** ../~/Components/Radio.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 37)
-	var EventEmitter = __webpack_require__(/*! events */ 34).EventEmitter
-	
-	var Gem = __webpack_require__(/*! ../Gem */ 4)
-	
-	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
-	
-	// A group of radio buttons
-	module.exports = proto(EventEmitter, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Radio'
-	
-		// instance properties
-	
-	
-	    // required - If true, a radio button must always be selected. Otherwise, radio buttons can be deselected by clicking on them.
-		this.init = function(required) {
-	        //this.selected
-	        this.required = required === true || required === undefined
-	        this.buttons = {} // maps values to the buttons that have each value
-	        this.randomStart = randomStart++
-		}
-	
-	    // returns a new radio button
-	    this.button = function(/*[label,] value*/) {
-	        if(arguments.length >= 2) {
-	            var label = arguments[0]
-	            var value = arguments[1]
-	        } else {
-	            var value = arguments[0]
-	        }
-	
-	        if(this.buttons[value] !== undefined) {
-	            throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
-	        }
-	
-	        var button = RadioButton(this, label, value, "_radioblock"+this.randomStart)
-	        this.buttons[value] = button
-	
-	        if(this.required && this._selected === undefined) {
-	            button.selected = true
-	        }
-	
-	        return button
-	    }
-	
-	    // returns the RadioButton in the group that's selected (or undefined if none are selected)
-	    Object.defineProperty(this, 'selected', {
-	        get: function() {
-	            return this._selected
-	        },
-	        set: function() {
-	            throw new Error("Can't set selected on a Radio object")
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the selected radio button in the group (undefined if none are selected)
-	        get: function() {
-	            var selected = this._selected
-	            if(selected === undefined) return undefined
-	            // else
-	            return selected.attr('value')
-	        },
-	
-	        // sets the value of the checkbox to the passed value (true for checked)
-	        // throws an exception if none of the radio buttons have that value
-	        // throws an exception if an unset is attempted for a required Radio set
-	        set: function(value) {
-	            if(value === undefined) {
-	                var selected = this._selected
-	                if(selected !== undefined) {
-	                    selected.selected = false
-	                }
-	            } else {
-	                var button = this.buttons[value]
-	                if(button === undefined) throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
-	
-	                button.selected = true
-	            }
-	        }
-	    })
-	
-	
-	    // arguments can be one of the following:
-	        // RadioButton, RadioButton, RadioButton, ...
-	        // value, value, value, ... - each value is the value of the RadioButton to remove
-	        // arrayOfRadioButtons
-	        // arrayOfValues
-	    this.remove = function() {
-	        if(arguments[0] instanceof Array) {
-	            var removals = arguments[0]
-	        } else {
-	            var removals = arguments
-	        }
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	
-	            if(r instanceof RadioButton) {
-	                var button = r
-	                var value = r.val
-	
-	                if(this.buttons[value] !== r) {
-	                    throw new Error("The button passed at index "+n+" is not part of the group.")
-	                }
-	            } else {
-	                var button = this.buttons[r]
-	                var value = r
-	
-	                if(button === undefined) {
-	                    throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
-	                }
-	            }
-	
-	            var originalSelected = this.selected
-	            if(this.selected === button) {
-	                this._selected = undefined
-	            }
-	
-	            this.buttons[value].group = undefined // fully remove it from the group
-	            delete this.buttons[value]
-	        }
-	
-	        if(this.required && this.selected === undefined) {
-	            for(var v in this.buttons) {
-	                this.buttons[v].selected = true // just select the first one
-	                break; // yes this doesn't loop
-	            }
-	        } else if(originalSelected !== this.selected) {
-	            this.emit('change')
-	        }
-	    }
-	
-	})
-	
-	var RadioButton = proto(Gem, function(superclass) {
-	    this.name = 'RadioButton'
-	
-	    this.init = function(radioGroup, label, value, name) {
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	        this.group = radioGroup
-	
-	        this.attr('type', 'radio')
-	        this.attr('name', name) // the name is needed so that using tab to move through page elements can tab between different radio groups
-	        this.val = value
-	
-	        var that = this
-			this.on("mousedown",function(event) {
-	            event.preventDefault()           // this needs to be here otherwise the radio button can't be changed
-	
-				if(that.group.required) {
-	                if(that.selected === false) {
-	                    that.selected = true
-	                }
-	            } else {
-	                that.selected = !that.selected // toggle
-	            }
-			})
-	        this.on("click",function(event) {
-	            event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
-	        })
-	        this.on("keydown",function(event) {
-	            if(event.keyCode === 40 || event.keyCode === 39) { // down or right
-	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                that.selectNext()
-	            } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
-	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
-	                that.selectPrevious()
-	            }
-	        })
-	    }
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value attribute of the checkbox
-	        get: function() {
-	            return this.attr('value')
-	        },
-	
-	        // sets the value attribute of the checkbox
-	        set: function(value) {
-	            if(this.group.buttons[value] !== undefined) {
-	                throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
-	            }
-	
-	            var oldValue = this.val
-	            this.attr('value', value)
-	            if(oldValue !== undefined) delete this.group.buttons[oldValue]
-	            this.group.buttons[value] = this
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the checkbox is checked
-	        get: function() {
-	            return this.domNode.checked
-	        },
-	
-	        // sets the selected state of the checkbox to the passed value (true for checked)
-	        set: function(value) {
-	            var booleanValue = value === true
-	            if(this.selected === value) return; // ignore if there's no change
-	
-	            if(booleanValue) {
-	                var previouslySelected = this.group.selected
-	                setButtonInGroup(this.group, this)
-	                if(previouslySelected !== undefined)
-	                    previouslySelected.emit('change')
-	            } else {
-	                if(this.group.required) throw new Error("Can't unset this Radio set, a value is required.")
-	                this.domNode.checked = false
-	                this.group._selected = undefined
-	            }
-	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	            this.group.emit('change')
-	        }
-	    })
-	
-	    this.selectNext = function() {
-	        selectSibling(this,1)
-	    }
-	    this.selectPrevious = function() {
-	        selectSibling(this,-1)
-	    }
-	
-	})
-	
-	// direction can be +1 or -1
-	function selectSibling(button, direction) {
-	    var buttons = button.group.buttons
-	    var values = Object.keys(buttons)
-	    var index = values.indexOf(button.attr('value'))
-	    if(direction === 1 && index === values.length-1) {
-	        var buttonToSelect = buttons[values[0]]
-	    } else if(direction === -1 && index === 0) {
-	        var buttonToSelect = buttons[values[values.length-1]]
-	
-	    } else {
-	        var buttonToSelect = buttons[values[index+direction]]
-	    }
-	
-	    buttonToSelect.selected = true
-	    buttonToSelect.focus()
-	}
-	
-	function setButtonInGroup(group, button) {
-	    var selected = group._selected
-	    if(selected !== undefined) selected.domNode.checked = false
-	    button.domNode.checked = true
-	    group._selected = button
-	}
-	
-	function getRandomInt(min, max) {
-	  return Math.floor(Math.random() * (max - min)) + min;
-	}
-
-/***/ },
-/* 13 */
-/*!******************************!*\
-  !*** ../~/Components/Svg.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 37)
-	var Gem = __webpack_require__(/*! ../Gem */ 4)
-	
-	module.exports = proto(Gem, function(superclass) {
-		// static variables
-	    this.name = 'Svg'
-	
-		// instance methods
-		this.build = function(/*[label,] svgXml*/) {
-	        if(arguments.length === 1) {
-	            var svgXml = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var svgXml = arguments[1]
-	        }
-	
-	        var div = document.createElement('div')
-	        div.innerHTML = svgXml
-	        this.domNode = div.firstChild
-	
-	        this.label = label
-		}
-	})
-
-/***/ },
-/* 14 */
-/*!*********************************!*\
-  !*** ../~/Components/Select.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! ../Gem */ 4)
-	var proto = __webpack_require__(/*! proto */ 37)
-	
-	var Option = __webpack_require__(/*! Components/Option */ 28)
-	
-	// emits a 'change' event when its 'val' changes
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static variables
-	
-	    this.name = 'Select'
-	
-	    this.Option = Option
-	
-		this.init = function(/*[label,] options*/) {
-	        if(arguments[0] instanceof Object) {
-	            var options = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var options = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	        this.label = label
-	
-	        this.options = {}
-	
-			for(var value in options) {
-				this.option(value, options[value])
-			}
-		}
-	
-	
-		// instance methods
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value that is selected
-	        get: function() {
-	            for(var value in this.options) {
-	                if(this.options[value].selected) {
-	                    return this.options[value].val
-	                }
-	            }
-	        },
-	
-	        set: function(value) {
-	            var option = this.options[value]
-	            if(option === undefined || option.val !== value) throw new Error("There is no Option in the Select with the value: '"+value+"'")
-	            option.selected = true
-	        }
-	    })
-		
-		this.option = function(/*[label,] value,text*/) {
-	        if(arguments.length === 2) {
-	            var value = arguments[0]
-	            var text = arguments[1]
-	        } else if(arguments.length === 3) {
-	            var label = arguments[0]
-	            var value = arguments[1]
-	            var text = arguments[2]
-	        } else {
-	            throw new Error("Invalid number of arguments")
-	        }
-	
-	        var newOption = Option(label, value,text)
-	        this.add(newOption)
-	
-	        return newOption
-	
-		}
-	
-	    // same interface as Gem.addAt
-	    /*override*/ this.addAt = function(index/*, nodes...*/) {
-	        var that = this
-	
-	        var nodesToAdd = Gem.normalizeAddAtArguments.apply(this, arguments)
-	
-	        // validation first
-	        nodesToAdd.forEach(function(option) {
-	            if(that.options[option.val] !== undefined) {
-	                throw new Error("Can't give an Option the same value as another in the Select (value: '"+option.val+"')")
-	            }
-	        })
-	
-	        superclass.addAt.call(this, index, nodesToAdd)
-	
-	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var anyWereSelected = false
-	        nodesToAdd.forEach(function(option) {
-	            if(option.selected) anyWereSelected = true
-	            that.options[option.val] = option
-	
-	            // set up Select events
-	            // todo: remove events when the Option is removed
-	
-	            option.on("mousedown",function(event) {
-	                option.parent.val = option.val      // select this one
-	            })
-	        })
-	
-	        if(anyWereSelected) {
-	            this.emit('change')
-	        }
-	    }
-	
-	    // same interface as Gem.remove
-	    /*override*/ this.remove = function() {
-	        var that = this
-	
-	        var removalIndexes = Gem.normalizeRemoveArguments.apply(this, arguments)
-	        var removals = removalIndexes.map(function(index) {
-	            return that.children[index]
-	        })
-	
-	        superclass.remove.call(this, removalIndexes)
-	
-	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
-	        var theSelectedWasRemoved = false
-	        removals.forEach(function(option) {
-	            if(option.selected) theSelectedWasRemoved = true
-	            delete that.options[option.val]
-	        })
-	
-	        if(theSelectedWasRemoved) {
-	            //this.children[0].selected = true // I think the browser does this automatically??
-	            this.emit('change')
-	        }
-	    }
-	
-	
-	    // private
-	
-	    this.prepareForValueChange = function(values) {
-	        var value = values[0]
-	
-	        for(var optionValue in this.options) {
-	            if(optionValue !== value) {
-	                var option = this.options[optionValue]
-	                if(option.selected === true) {
-	                    option.setSelectedQuiet(false)
-	                }
-	            }
-	        }
-	    }
-	})
-	
-
-
-/***/ },
-/* 15 */
-/*!********************************!*\
-  !*** ../~/Components/Table.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 37)
-	
-	var Gem = __webpack_require__(/*! ../Gem */ 4)
-	var Style = __webpack_require__(/*! Style */ 5)
-	
-	var Header = __webpack_require__(/*! ./Header */ 27);
-	var Row = __webpack_require__(/*! ./Row */ 29);
-	var Cell = __webpack_require__(/*! ./Cell */ 30);
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Table'
-	
-	    this.defaultStyle = Style({
-	        borderSpacing: 0
-	    })
-	
-	    this.Row = Row
-		this.Header = Header
-	    this.Cell = Cell
-	
-	
-		// instance properties
-	
-		this.init = function(/*[label,] tableInit*/) {
-			if(arguments[0] instanceof Array) {
-	            var tableInit = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var tableInit = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("table") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-	        this.label = label
-	
-	        if(tableInit !== undefined) {
-	            for(var n=0; n<tableInit.length; n++) {
-	                this.row(tableInit[n])
-	            }
-	        }
-		}
-		
-		this.header = function(/*[]label,] listOfBlocksOrText*/) {
-	        return headerOrRegularRow(this, Header, arguments)
-		}
-	
-		this.row = function() {
-			return headerOrRegularRow(this, Row, arguments)
-		}
-	});
-	
-	function headerOrRegularRow(that, Prototype, args) {
-	    var row = Prototype.apply(undefined, args)
-	    that.add(row)
-	    return row
-	}
-
-/***/ },
-/* 16 */
-/*!***********************************!*\
-  !*** ../~/Components/TextArea.js ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! ../Gem */ 4)
-	var proto = __webpack_require__(/*! proto */ 37)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static variables
-	
-	    this.name = 'TextArea'
-	
-		this.init = function(label) {
-	        this.domNode = document.createElement("textarea") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
-			this.label = label
-		}
-	
-	
-		// instance properties
-	
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.domNode.value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.val === value) return; // do nothing if there's no change
-	
-	            this.domNode.value = value
-	            this.emit('change')
-	        }
-	    })
-	});
-
-
-/***/ },
-/* 17 */
-/*!*******************************!*\
-  !*** ../~/Components/Text.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var proto = __webpack_require__(/*! proto */ 37)
-	
-	var Gem = __webpack_require__(/*! Gem */ 4)
-	var Style = __webpack_require__(/*! Style */ 5)
-	
-	var domUtils = __webpack_require__(/*! domUtils */ 23)
-	
-	
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-	    //static properties
-	
-	    this.name = 'Text'
-	
-	    this.defaultStyle = Style({
-	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
-	    })
-	
-	    this.init = function(/*[label,] text*/) {
-	        if(arguments.length === 1) {
-	            var text = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var text = arguments[1]
-	        }
-	
-	        if (text === undefined) text = '';
-	
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	        this.text = text
-	    }
-	
-	    // instance properties
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode[domUtils.textProperty]
-	        }, set: function(v) {
-	             this.domNode[domUtils.textProperty] = v
-	        }
-	    })
-	});
-	
-	
-
-
-/***/ },
-/* 18 */
 /*!***********************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/deadunit.browser.js ***!
   \***********************************************************************************/
@@ -3125,22 +422,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var Future = __webpack_require__(/*! async-future */ 47)
-	var proto = __webpack_require__(/*! proto */ 46)
-	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 31)
+	var Future = __webpack_require__(/*! async-future */ 41)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 21)
 	
-	var Container = __webpack_require__(/*! blocks.js/Container */ 40)
-	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 41)
-	var Block = __webpack_require__(/*! blocks.js/Block */ 42)
+	var Container = __webpack_require__(/*! blocks.js/Container */ 34)
+	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 35)
+	var Block = __webpack_require__(/*! blocks.js/Block */ 36)
 	Block.dev = true
-	var Style = __webpack_require__(/*! blocks.js/Style */ 43)
+	var Style = __webpack_require__(/*! blocks.js/Style */ 37)
 	
-	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 32)
-	var utils = __webpack_require__(/*! ./utils */ 33)
+	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 22)
+	var utils = __webpack_require__(/*! ./utils */ 23)
 	
 	
 	module.exports = deadunitInternal({
-	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 44),
+	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 45),
 	
 	    environmentSpecificMethods: function() {
 	        var red = 'rgb(200,30,30)'
@@ -3801,71 +1098,1793 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
-/*!************************************!*\
-  !*** ../~/Components/TextField.js ***!
-  \************************************/
+/* 5 */
+/*!*******************!*\
+  !*** ../~/Gem.js ***!
+  \*******************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! ../Gem */ 4)
-	var proto = __webpack_require__(/*! proto */ 37)
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 24)
+	var proto = __webpack_require__(/*! proto */ 39);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 46)
+	var observe = __webpack_require__(/*! observe */ 47)
 	
-	var domUtils = __webpack_require__(/*! ../domUtils */ 23)
+	var utils = __webpack_require__(/*! ./utils */ 25)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 26)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 27)
 	
-	module.exports = proto(Gem, function(superclass) {
+	var Style = __webpack_require__(/*! ./Style */ 6)
+	Style.isDev = function() {return module.exports.dev}
 	
-		// static properties
+	var components = {};
 	
-	    this.name = 'TextField'
+	var setOfBrowserEvents = utils.arrayToMap([
+	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
+	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
+	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
+	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
+	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
+	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
+	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
+	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
+	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
+	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
+	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
+	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
+	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
+	])
 	
-		this.init = function(/*[label,] password*/) {
-	        if(arguments.length === 1) {
-	            var password = arguments[0]
-	        } else if(arguments.length > 1) {
-	            var label = arguments[0]
-	            var password = arguments[1]
+	// events:
+	    // newParent - emits this when a component gets a new parent
+	    // parentRemoved - emits this when a component is detached from its parent
+	var Gem = module.exports = proto(EventEmitterB,function(superclass) {
+	
+	    // static properties
+	
+	    this.name = 'Gem'
+	
+	    // constructor
+		this.init = function() {
+	        var that = this
+	
+	        if(this.name === 'Gem') {
+	            throw new Error("The 'name' property is required for Gem (it must be set to something that isn't 'Gem')")
 	        }
 	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
+	        superclass.init.call(this)
 	
-			this.label = label
-			//domUtils.setAttribute(this.domNode,'type','text');  // NOTE: IE fucks this up, and since 'text' is the default type for an input node, lets just forget abat it
-	        if(password)
-	            domUtils.setAttribute(this.domNode, 'type', 'password')
+	        this.attached = false
+	        this.children = []
+	        this.state = observe({})
+	        this.parent = undefined;
+	        this._styleSetupInfo = []
+	        this._nativePseudoclassMap = {}
+	
+			if (this.id !== undefined) {
+				components[this.id] = this;
+			}
+	
+	        if(this.domNode === undefined) {
+	            this.domNode = domUtils.div()
+	        }
+	
+	        this.build.apply(this, arguments)
+	
+	        //if(module.exports.dev) {
+	            this.attr('gem', this.name)
+	        //}
+	
+	
+	        this.domNode.className += ' '+Style.defaultClassName // add the default class
+	        /*if(this._style === undefined) { // if a style wasn't set by this.build
+	            this.style = undefined // initialize style to its gem or inherited default
+	        }*/
+	
+	        // set up dom event handlers
+	        var ifonHandlers={}
+	        that.ifon(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        that.ifoff(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.removeEventListener(event,ifonHandlers[event])
+	            }
+	        })
 		}
+	
+	    // sub-constructor - called by the constructor
+	    // parameters:
+	        // label - (Optional) A label that can be used to style a component differently.
+	                   // Intended to be some string describing what the component is being used for.
+	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
+	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
+	    this.build = function(/*[label,] domNode*/) {
+	        if(arguments.length === 1) {
+	            this.domNode = arguments[0]
+	        } else if(arguments.length >= 2) {
+	            this.label = arguments[0]
+	            this.domNode = arguments[1]
+	        }
+	    }
 	
 	
 		// instance properties
 	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
+	
+		this.domNode;
+	    this.label;        // a static label that can be used for styling
+	    this.excludeDomEvents;
+	    this.children;     // a list of child components that are a part of a Gem object (these are used so Styles can be propogated down to child components)
+	
+	
+	    Object.defineProperty(this, 'label', {
 	        get: function() {
-	            return this.domNode.value
-	        },
+	            return this._label
+	        }, set: function(v) {
+	            if(this._label === undefined) {
+	                this._label = v
 	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.val === value) return; // do nothing if there's no change
-	
-	            this.domNode.value = value
-	            this.emit('change')
+	                //if(module.exports.dev) {
+	                    this.attr('label', this._label)
+	                //}
+	            } else {
+	                throw new Error("A Gem's label can only be set once (was already set to: "+this._label+")")
+	            }
 	        }
 	    })
 	
+	    // adds elements to the components main domNode
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfGems
+	    this.add = function() {
+	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
+		}
+	
+	    // adds nodes at a particular index
+	    // nodes can be one of the following:
+	        // component, component, component, ...
+	        // listOfGems
+	    // todo: look into using document fragments to speed this up when multiple nodes are being added
+	    this.addAt = function(index/*, nodes...*/) {
+	        var nodes = normalizeAddAtArguments.apply(this, arguments)
+	
+	        for (var i=0;i<nodes.length;i++) {
+				var node = nodes[i];
+	
+	            // remove the node from its current parent if necessary
+	            if(node.parent !== undefined) {
+	                throw new Error('Node at index '+i+' already has a parent. Remove the node from its parent before adding it somewhere else.')
+	            }
+	
+	            this.children.splice(index+i, 0, node)
+	
+	            if(!isGem(node)) {
+	                throw new Error("node is not a Gem")
+	            }
+	
+	            var beforeChild = this.children[1+i+index]
+	            if(beforeChild === undefined) {
+	                this.domNode.appendChild(node.domNode)
+	            } else {
+	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
+	            }
+	
+	            node.parent = this;
+	            node.emit('newParent')
+			}
+	
+	        if(this.attached) {
+	            for (var i=0;i<nodes.length;i++) {
+	                var node = nodes[i]
+	                node.attached = true
+	                node.style = node._style // rerender its style
+	            }
+	        }
+	    }
+	
+		// add a list of nodes before a particular node
+	    // if beforeChild is undefined, this will append the given nodes
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfGems
+	    this.addBefore = this.addBeforeNode = function(beforeChild) {
+	        var nodes = trimArguments(arguments).slice(1)
+	        if(beforeChild === undefined) {
+	            this.add.apply(this, nodes)
+	        } else {
+	            var index = this.children.indexOf(beforeChild)
+	            this.addAt.apply(this, [index].concat(nodes))
+	        }
+	    }
+	
+	
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // index, index, index, ... - each index is the numerical index to remove
+	        // arrayOfComponents
+	        // arrayOfIndexes
+	    this.remove = function() {
+	        var removals = normalizeRemoveArguments.apply(this, arguments)
+	        removals = removals.sort(function(a,b) {
+	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
+	        })
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	            var c = this.children[r]
+	
+	            if(c === undefined) {
+	                throw new Error("There is no child at index "+r)
+	            }
+	
+	            c.parent = undefined
+	            this.children.splice(r, 1)
+	            this.domNode.removeChild(this.domNode.childNodes[r])
+	
+	            c.emit('parentRemoved')
+	        }
+	    }
+	
+	    // sets or gets an attribute on the components domNode
+	    // parameter sets:
+	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
+	    // if there are two arguments passed, the attribute is set
+	        // if 'value' is undefined, the attribute is removed
+	    this.attr = function(/*attribute, value OR attributeObject*/) {
+	        if(arguments.length === 1) {
+	            if(arguments[0] instanceof Object) {
+	                var attributes = arguments[0]
+	                for(var attribute in attributes) {
+	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
+	                }
+	            } else {
+	                var attribute = this.domNode.getAttribute(arguments[0])
+	                if(attribute === null) {
+	                    return undefined // screw null
+	                } else {
+	                    return attribute
+	                }
+	            }
+	        } else {
+	            var attribute = arguments[0]
+	            if(arguments[1] !== undefined) {
+	                var value = arguments[1]
+	                domUtils.setAttribute(this.domNode, arguments[0], value)
+	            } else {
+	                this.domNode.removeAttribute(attribute)
+	            }
+	        }
+	    }
+	
+	    Object.defineProperty(this, 'visible', {
+	        // returns true if the element is visible
+	        get: function() {
+	            return this.domNode.style.display !== 'none';
+	
+	        // sets whether or not the element is visible
+	        }, set: function(setToVisible) {
+	            if(setToVisible) {
+	                if (this._displayStyle !== undefined) {
+	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
+	                    this._displayStyle = undefined
+	                } else {
+	                    this.domNode.style.display = ''
+	                }
+	            } else {
+	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
+	                    this._displayStyle = this.domNode.style.display
+	                }
+	
+	                this.domNode.style.display = 'none'
+	            }
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'focus', {
+	        // returns true if the element is in focus
+	        get: function() {
+	            return document.activeElement === this.domNode
+	
+	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
+	        }, set: function(setToInFocus) {
+	            if(setToInFocus) {
+	                this.domNode.focus()
+	            } else {
+	                this.domNode.blur()
+	            }
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'style', {
+	        get: function() {
+	            return this._style
+	
+	        // sets the style, replacing one if one already exists
+	        }, set: function(styleObject) {
+	            // get active style
+	                // mix the gem-default style with ..
+	                // .. the current style
+	                // .. style returned by the $state of current style
+	                // .. $$pseudoclasses of current + $state styles
+	
+	            this._style = styleObject
+	            if(this.attached) {
+	                var newStyle = getStyle(this)  // must be called after setting _style
+	                var defaultStyle = this.getDefaultStyle()
+	
+	                var newCurrentStyle = blockStyleUtils.mixStyles(defaultStyle, newStyle)
+	                blockStyleUtils.setCurrentStyle(this, newCurrentStyle, defaultStyle)
+	            }
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'selectionRange', {
+	        // returns the visible character selection range inside the element
+	        // returns an array like [offsetStart, offsetEnd]
+	        get: function() {
+	            return domUtils.getSelectionRange(this.domNode)
+	
+	        // sets the visible character selection range
+	        }, set: function(selection) {
+	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
+	        }
+	    })
+	
+	    this.attach = function(domNode) {
+	        if(domNode !== undefined)
+	            attach(domNode, this)
+	        else
+	            attach(this)
+	    }
+	    this.detach = function(domNode) {
+	        if(domNode !== undefined)
+	            detach(domNode, this)
+	        else
+	            detach(this)
+	    }
+	
+	
+		// private instance variables/functions
+	
+	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
+	    this._nativePseudoclassMap; // a map of Gem names to a set of native pseudoclass styles and their css selector base (eg: {GemA: {'.style1:required .style2': styleObject}}
+	
+		this._style;             // the object's explicit Style object (undefined if it inherits a style)
+	    this._currentStyle;      // the object's current Style that will only change if its parent's activeStyle changes, or if a style is explicitly reset on the gem
+	    this._activeStyle;       // the active style depending on pseudoclasses, $state, and defaultStyle
+	
+	    this._displayStyle;      // temporarily stores an inline display style while the element is hidden (for use when 'show' is called)
+	    this._styleSetupInfo   // place to put states for setup functions (used for css pseudoclass emulation)
+	    this._stateChangeHandler // the handler being used for $state style changes
+	
+	    this.attached           // set to true if the gem has been attached to the document (or if one of its ancestors has been)
+	
+	
+	    // returns the default style of the current Gem based on the 'defaultStyle' property set on its constructor (this.constructor)
+	    // if there is more than one default style, they are merged in order
+	    // if there is no default style, undefined is returned
+	    this.getDefaultStyle = function() {
+	        return blockStyleUtils.getDefaultStyle(this)
+	    }
+	
+	    // gets the high-level style of the gem, either from the gem's explicit style, or inherits from its parent's style map
+	    function getStyle(gem) {
+	        if(gem._style !== undefined) {            // use the gem's explicit style if possible
+	            if(gem._style.inherit) {
+	                var styleToInerit = blockStyleUtils.getInheritingStyle(gem)
+	                if(styleToInerit !== undefined)
+	                    return styleToInerit.mix(gem._style, false)
+	            }
+	            // else
+	            return gem._style
+	
+	        } else {     // otherwise use the parent's computedStyleMap
+	            return blockStyleUtils.getInheritingStyle(gem)
+	        }
+	    }
 	});
+	
+	
+	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
+	
+	
+	// appends components to the passed domNode (default: body)
+	var attach = module.exports.attach = function(/*[domNode,] component or components*/) {
+	    if(arguments.length > 1) {
+	        var domNode = arguments[0]
+	        var components = arguments[1]
+	    } else {
+	        if(document.body === null) throw new Error("Your document does not have a body.")
+	        var domNode = document.body
+	        var components = arguments[0]
+	    }
+	
+	    if(!(components instanceof Array)) {
+	        var components = [components]
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        domNode.appendChild(components[n].domNode)
+	
+	        components[n].attached = true
+	        components[n].style = components[n]._style
+	    }
+	
+	
+	}
+	// removes components from their parents
+	var detach = module.exports.detach = function(components) {
+	    if(!(components instanceof Array)) {
+	        components = [components]
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        var gem = components[n]
+	        gem.domNode.parentNode.removeChild(gem.domNode)
+	
+	        markDetached(gem)
+	    }
+	}
+	
+	// creates a body tag (only call this if document.body is null)
+	
+	module.exports.createBody = function(callback) {
+	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+	    var body = dom.createElement("body")
+	    dom.documentElement.appendChild(body)
+	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
+	        callback()
+	    },0)
+	}
+	
+	
+	
+	
+	// returns a list of indexes to remove from Gem.remove's arguments
+	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
+	    var that = this
+	
+	    if(arguments[0] instanceof Array) {
+	        var removals = arguments[0]
+	    } else {
+	        var removals = Array.prototype.slice.call(arguments)
+	    }
+	
+	    return removals.map(function(removal, parameterIndex) {
+	        if(isGem(removal)) {
+	            var index = that.children.indexOf(removal)
+	            if(index === -1) {
+	                throw new Error("The Gem passed at argument index "+parameterIndex+" is not a child of this Gem.")
+	            }
+	            return index
+	        } else {
+	            return removal
+	        }
+	
+	    })
+	}
+	
+	// returns a list of nodes to add
+	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
+	    if(arguments.length === 2) {
+	        if(arguments[1] instanceof Array) {
+	            return arguments[1]
+	        } else {
+	            return [arguments[1]]
+	        }
+	    } else { // > 2
+	        return trimArguments(arguments).slice(1)
+	    }
+	}
+	
+	function isGem(c) {
+	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
+	}
+	function isDomNode(node) {
+	    return node.nodeName !== undefined
+	}
+	
+	function markDetached(node) {
+	    node.attached = false
+	    for(var n=0; n<node.children.length; n++) {
+	        markDetached(node.children[n])
+	    }
+	}
+
+/***/ },
+/* 6 */
+/*!*********************!*\
+  !*** ../~/Style.js ***!
+  \*********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var jssModule = __webpack_require__(/*! ../external/jss */ 28)
+	var proto = __webpack_require__(/*! proto */ 39)
+	var HashMap = __webpack_require__(/*! hashmap */ 48)
+	
+	var utils = __webpack_require__(/*! ./utils */ 25)
+	
+	var baseClassName = '_ComponentStyle_' // the base name for generated class names
+	var nextClassNumber = 0
+	
+	
+	var mixedStyles = new HashMap() // maps from a pair of Style objects to the resulting mixed style
+	
+	// creates a style object
+	var Style = module.exports = proto(function() {
+	
+	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
+	
+	    // styleDefinition is an object where key-value pairs can be any of the following:
+	    // <cssPropertyName>: the value should be a valid css value for that style attribute
+	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
+	    // $setup: the value is a function to be run on a component when the style is applied to it
+	    // $kill: the value is a function to be run on a component when a style is removed from it
+	    // $state: the value should be a state handler function
+	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
+	    // $inherit: this style should inherit from whatever style would otherwise have been in its placed if it was undefined
+	    this.init = function(styleDefinition, privateOptions) {
+	        if(isStyleObject(styleDefinition))
+	            return styleDefinition
+	        // else
+	
+	        if(privateOptions === undefined) privateOptions = {}
+	
+	        this.className = baseClassName+nextClassNumber
+	        nextClassNumber++
+	
+	        this.componentStyleMap = {}
+	        this.nativeCssInfoCache = new HashMap
+	//        this.pureStyleInteractionCache = new HashMap
+	        this.nativePseudoclassesWritten = {}
+	        this.basicProperties = {}
+	        if(Style.isDev()) this.nativePseudoclassStyles = {}
+	
+	        var flatPseudoClassStyles = new HashMap
+	        for(var key in styleDefinition) {
+	            var value = styleDefinition[key]
+	
+	            if(key === '$setup') {
+	                if(!(value instanceof Function)) throw new Error("$setup key must be a function ('setup' can't be used as a label)")
+	                this.setup = value
+	
+	            } else if(key === '$kill') {
+	                if(!(value instanceof Function)) throw new Error("$kill key must be a function ('kill' can't be used as a label)")
+	                this.kill = value
+	
+	            } else if(key === '$state') {
+	                if(!(value instanceof Function)) throw new Error("$state key must be a function ('$state' can't be used as a label)")
+	                this.stateHandler = value
+	
+	            } else if(key === '$inherit') {
+	                this.inherit = true
+	
+	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
+	                var pseudoClass = mapCamelCase(key.substr(2))
+	                if(pseudoClass === '') {
+	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
+	                }
+	
+	                var flattenedPseudoclassObject = flattenPseudoClassStyles([pseudoClass], Style(value))
+	
+	                // mix in the resulting compound pseudoclass styles with what has already been found
+	                flattenedPseudoclassObject.forEach(function(style, key) {
+	                    styleHashmapMerge(flatPseudoClassStyles, key, style)
+	                })
+	
+	            } else if(key === '$') {
+	                throw new Error("Empty label name not valid (style key '$')")
+	            } else if(value instanceof Object || isStyleObject(value)) {  // $label or Gem style
+	                this.componentStyleMap[key] = Style(value)  // turn the object description into a full fledged style object (or pass back the object if its already a Style)
+	            } else if(value === undefined) {
+	                // ignore
+	            } else {
+	                var cssStyle = key
+	                var cssStyleName = mapCamelCase(cssStyle)
+	                this.basicProperties[cssStyleName] = cssValue(cssStyleName, value)
+	            }
+	        }
+	
+	        this.pseudoclasses = processFlattenedPseudoclasses(flatPseudoClassStyles, this.componentStyleMap)
+	        this.pureNative = isPureNative(this)
+	
+	
+	        // takes in a list of pseudoClassRules and changes any nesting like {$$hover: {$$focus: {}}} into something like {hover: {}, ['hover','focus']: {}}
+	        // returns a new HashMap where
+	            // each key is the list of pseudoclasses that need to apply for that style to take effect, and
+	            // each value is a Style object
+	        // also does some validation
+	        // pseudoClasses - an array of pseudoclasses
+	        // pseudoClassStyle - a Style object representing the style inside the pseudoclass
+	        function flattenPseudoClassStyles(pseudoClasses, pseudoClassStyle) {
+	
+	            if(pseudoClassStyle.stateHandler !== undefined) {
+	                throw new Error('$state style functions are not valid directly inside psuedoclasses')
+	            }
+	
+	            var flattenedStyles = new HashMap
+	            var pseudoClassStyleCopy = pseudoClassStyle.copy() // copy so you're not clobbering a style something else relies on
+	
+	            var pseudoclasses = pseudoClassStyleCopy.pseudoclasses
+	
+	            // remove the pseudoclasses
+	            pseudoClassStyleCopy.pseudoclasses = {classes:new HashMap,emulatedInfo:{}}//{native:new HashMap,emulated:new HashMap,emulatedInfo:{}, emulatedOrder:[]}
+	
+	            // write the top-level pseudoClass
+	            flattenedStyles.set(pseudoClasses, pseudoClassStyleCopy)
+	
+	            // create flattened styles (with merged in styles from its parent pseudoclass
+	
+	            pseudoclasses.classes.forEach(function(substyle, subPseudoClass){
+	                var newCompoundSelector = canonicalizeCompoundPseudoclass(pseudoClasses.concat(subPseudoClass))
+	                var mixedStyle = pseudoClassStyleCopy.mix(substyle, false)
+	                flattenedStyles.set(newCompoundSelector, mixedStyle)
+	            })
+	
+	            return flattenedStyles
+	        }
+	
+	        // pseudoclassList - the list of pseudoclasses that make up the key
+	        // mutates pseudoclassList into a canonicalized list
+	        function canonicalizeCompoundPseudoclass(pseudoclassList) {
+	            pseudoclassList.sort()  // some string sort to canonicalize the list of pseudoclasses (not really important how it sorts exactly, just that its consistent)
+	
+	            // remove duplicates
+	            var lastKey = pseudoclassList[0]
+	            for(var n=1; n<pseudoclassList.length;) {
+	                if(pseudoclassList[n] === lastKey) {
+	                    pseudoclassList.splice(n,1)
+	                } else {
+	                    n++
+	                }
+	            }
+	
+	            return pseudoclassList
+	        }
+	
+	
+	        // merges two hashmaps together, where if the same key is set in both hashmaps, the values (being Style objects) are mixed together (styles in b overriding)
+	        // mutates map
+	        function styleHashmapMerge(map, newKey, newStyle) {
+	            if(map.has(newKey)) {
+	                var valueToSet = map.get(newKey).mix(newStyle, false)
+	            } else {
+	                var valueToSet = newStyle
+	            }
+	
+	            map.set(newKey, valueToSet)
+	        }
+	
+	        // returns an object containing the following properties
+	            // emulated - a hashmap object
+	                // each key is a canonicalized array of pseudoclasses for only emulatable pseudoclasses, and
+	                // each value is a Style object
+	            // native - just like `emulated` except the pseudoclasses in the key and all the Style object values are all natively renderable
+	            // emulatedOrder - an array of canonicalized pseudoclasses sorted from most specific to least specific (longest to shortest
+	            // emulatedInfo - an object where
+	                // each key is an individual psuedoclass selector (like the elements in a canonicalized pseudoclass list), and
+	                // each value is an object containing the properties:
+	                    // fns - the emulated psuedoclass functions `check`, `setup`, and `kill`
+	                    // parameter - the psuedoclass parameter to pass into `check` and `setup`
+	        // compoundPseudoClassStyles - a hashmap where
+	            // each key is a canonicalized array of pseudoclasses, and
+	            // each value is a Style object
+	        function processFlattenedPseudoclasses(compoundPseudoClassStyles, componentStyleMap) {
+	
+	            var pseudoclasses = new HashMap
+	            compoundPseudoClassStyles.forEach(function(pseudoclassStyle, key) {
+	                if(pseudoclassStyle.pureNative) {
+	                    // make sure the pseudoclasses are all natively renderable (any js-rendered pseudoclass that isn't marked 'emulated' is not natively emulatable)
+	                    var allEmulated = true
+	                    for(var n=0; n<key.length; n++) {
+	                        var parts = getPseudoClassParts(key[n])
+	                        var psuedoclassInfo = jsRenderedPseduoclasses[parts.class]
+	                        if(psuedoclassInfo !== undefined && !psuedoclassInfo.emulated) {
+	                            allEmulated = false
+	                            break
+	                        }
+	                    }
+	
+	                    var componentStyleMapConflicts = false
+	                    if(allEmulated) {
+	                        componentStyleMapConflicts = styleMapConflicts(componentStyleMap, pseudoclassStyle.componentStyleMap)
+	                    }
+	
+	                    pseudoclassStyle.pureNative = allEmulated && !componentStyleMapConflicts
+	                }
+	
+	                for(var n=0; n<key.length; n++) {
+	                    var parts = getPseudoClassParts(key[n])
+	                    var psuedoclassInfo = jsRenderedPseduoclasses[parts.class]
+	                    if(psuedoclassInfo !== undefined && psuedoclassInfo.parameterTransform !== undefined) {
+	                        var transformedParameter = psuedoclassInfo.parameterTransform(parts.parameter)
+	                        key[n] = parts.class+"("+transformedParameter+")"
+	                    }
+	                }
+	
+	                pseudoclasses.set(key, pseudoclassStyle)
+	            })
+	
+	            var emulatedInfo={}
+	            pseudoclasses.forEach(function(pseudoclassStyle,individualPseudoclasses) {
+	                if(!pseudoclassStyle.pureNative) {
+	                    individualPseudoclasses.forEach(function(pseudoclass) {
+	                        if(!(pseudoclass in emulatedInfo)) {
+	                            emulatedInfo[pseudoclass] = getEmulatedInfo(pseudoclass)
+	                        }
+	                    })
+	                }
+	            })
+	
+	            return {classes: pseudoclasses, emulatedInfo:emulatedInfo}
+	        }
+	    }
+	
+	    // returns true if there are any styleMap conflicts, which is when any inner style of pseudoclassStyleMap collides with a non-pure style in mainStyleMap
+	    function styleMapConflicts(mainStyleMap, pseudoclassStyleMap) {
+	        for(var blockSelector in mainStyleMap) {
+	            if(blockSelector in pseudoclassStyleMap) {
+	                if(!mainStyleMap[blockSelector].pureNative) {
+	                    return true
+	                } else {
+	                    var pseudoclassInnerStyle = pseudoclassStyleMap[blockSelector]
+	                    if(styleMapConflicts(mainStyleMap, pseudoclassInnerStyle.componentStyleMap)) {
+	                        return true
+	                    }
+	
+	                    var pseudoclassStyles = pseudoclassInnerStyle.pseudoclasses.classes.values()
+	                    for(var n=0; n<pseudoclassStyles.length; n++) {
+	                        var pseudoclassStyle = pseudoclassStyles[n]
+	                        if(styleMapConflicts(mainStyleMap, pseudoclassStyle.componentStyleMap)) {
+	                            return true
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	
+	        return false
+	    }
+	
+	
+	    // returns true if there are any styleMap conflicts, which is when any inner style of pseudoclassStyleMap collides with a non-pure style in mainStyleMap
+	    function styleMapConflicts(mainStyleMap, pseudoclassStyleMap) {
+	        for(var blockSelector in pseudoclassStyleMap) {
+	            if(blockSelector in mainStyleMap) {
+	                if(!mainStyleMap[blockSelector].pureNative) {
+	                    return true
+	                }
+	            }
+	
+	            var pseudoclassInnerStyle = pseudoclassStyleMap[blockSelector]
+	            if(styleMapConflicts(mainStyleMap, pseudoclassInnerStyle.componentStyleMap)) {
+	                return true
+	            }
+	
+	            var pseudoclassStyles = pseudoclassInnerStyle.pseudoclasses.classes.values()
+	            for(var n=0; n<pseudoclassStyles.length; n++) {
+	                var pseudoclassStyle = pseudoclassStyles[n]
+	                if(styleMapConflicts(mainStyleMap, pseudoclassStyle.componentStyleMap)) {
+	                    return true
+	                }
+	            }
+	        }
+	
+	        return false
+	    }
+	
+	    // returns either
+	        // this style if styleB is undefined, or
+	        // a new Style object that merges styleB's properties into the current one such that styleB's properties override the current Style's properties
+	    // mixInherit - (default: true) if false, doesn't mix in the 'inherit' property
+	    this.mix = function(styleB, mixInherit) {
+	        if(mixInherit === undefined) mixInherit = true
+	        if(styleB === undefined || styleB === this)
+	            return this
+	        if(!isStyleObject(styleB)) styleB = Style(styleB)
+	
+	        var cacheKey = [this,styleB,mixInherit]
+	        var mixedStyle = mixedStyles.get(cacheKey)
+	        if(mixedStyle === undefined) {     // note: mixedStyle can only be undefined if the two style have never been mixed before
+	            var mixedStyle = mixWithoutCreatingNativePseudoclasses(this, styleB, mixInherit)
+	            mixedStyles.set(cacheKey, mixedStyle)
+	        }
+	
+	        return mixedStyle
+	    }
+	
+	    // returns a copy of the style with a new className
+	    this.copy = function () {
+	        return mixWithoutCreatingNativePseudoclasses(this, Style(), true)
+	    }
+	
+	    // returns an object with the members
+	        // fns - the functions for the given pseudoclass
+	        // parameter - the processed parameter to pass into fns.setup
+	    // pseudoclass - a pseudoclass selector (eg "not(:required)")
+	    function getEmulatedInfo(pseudoclass) {
+	        var parts = getPseudoClassParts(pseudoclass)
+	        var fns = jsRenderedPseduoclasses[parts.class]
+	
+	        if(fns ===  undefined) {
+	            throw new Error("Pseudoclass "+parts.class+" isn't emulated, but has a style that can't be rendered in pure css")
+	        }
+	
+	        var info = {fns: fns}
+	        if(parts.parameter !== undefined) {
+	            if(fns.processParameter !== undefined) {
+	                info.parameter = fns.processParameter(parts.parameter)
+	            } else {
+	                info.parameter = parts.parameter
+	            }
+	        }
+	
+	        return info
+	    }
+	
+	    // returns an object
+	        // either with the properties:
+	            // style - style that has native css properties (basic and pseudoclass) set for it and its block's computedStyleMap
+	                // this return value *can* be this style itself if there are no interactions with the passed styleMap
+	            // styleMap - a potentially new styleMap that has copied or inserted styles needed for native psuedoclass rendering
+	            // nativePsuedoclassMap - a new pseudoclassMap to set on the block
+	        // OR with the proeprties:
+	            // cancel:true - exists if a pure native psuedoclass style can't be rendered native because of a collision with a computedStyleMap style that isn't pure native
+	            // style - the new style to get the pseudoclass style from (and then set with setPreStyleMapStyle)
+	    // styleMap - a map of style selectors (Gem names or labels) to Styles who's classNames will be used to create the native css
+	        // intended to be a style map that comes from a block's computedStyleMap property
+	        // the computedStyleMap can affect how sub-pseudoclass selectors are written
+	    // nativePseudoclassSelectorMap - an object where each key is a base css-selector, and each value is a Style object
+	    // jsRenderedPseudoclassIndex - if this style is a js-redered/emulated psueodclass, this is its index inside its parent style's pseudoclasses.classes map, otherwise the value will be 0
+	    this.createNativeCssInfo = function(gem, styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
+	        if(this.inherit) {
+	            var parentCacheKey = gem.parent
+	        }
+	        var cacheKey = [parentCacheKey, styleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle]
+	        var cacheHasStyleMap = this.nativeCssInfoCache.has(cacheKey)
+	        if(cacheHasStyleMap) {
+	            return this.nativeCssInfoCache.get(cacheKey)
+	        }
+	        // else
+	        var styleToReturn = this // can change below if there is an interaction with the styleMap
+	        if(this.pureNative && this.pseudoclasses.classes.keys().length !== 0) { // only care about pseudoclass interactions if it has pseudoclasses
+	            var styleSelectors = containedStyleSelectors(this)
+	            var info = stylesInfo(styleSelectors, styleMap)
+	            var interacts = info.impure.length > 0
+	            if(!interacts) {
+	//                var pureStyleInteractionCacheItem = this.pureStyleInteractionCache.get(info.undef)
+	//                if(pureStyleInteractionCacheItem === undefined) {
+	                    var evenNewerComputedStyleMap = utils.merge({},styleMap) // copy
+	                    for(var key in evenNewerComputedStyleMap) {
+	                        if(key in styleSelectors) {
+	                            evenNewerComputedStyleMap[key] = evenNewerComputedStyleMap[key].copy() // copy to ensure that a unique className is created (so that native pseudoclasses don't have the possibility of merging weirdly)
+	                        }
+	                    }
+	                    for(var n=0; n<info.undef.length; n++) {
+	                        evenNewerComputedStyleMap[info.undef[n]] = Style()  // empty style who's className will be used to create native pseudoclass styles
+	                    }
+	
+	                    styleToReturn = this.copy()    // a new style className is needed to avoid potential incorrect css overlap
+	                    styleMap = evenNewerComputedStyleMap
+	//                    this.pureStyleInteractionCache.set(info.undef, {style:styleToReturn, map: styleMap})
+	//                } else {
+	//                    styleToReturn = pureStyleInteractionCacheItem.style
+	//                    styleMap = pureStyleInteractionCacheItem.map
+	//                }
+	            } else {
+	                var retryStyle = this.copy()
+	                changeStyleToNonNative(retryStyle)
+	
+	                var result = {cancel: true, retryStyle: retryStyle}
+	                setNativeCssInfoCache(this.nativeCssInfoCache, result)
+	                return result
+	            }
+	        }
+	
+	        if(!styleToReturn.basicNativeCssRendered) {
+	            setCss('.'+styleToReturn.className, styleToReturn.basicProperties)
+	            styleToReturn.basicNativeCssRendered = true
+	        }
+	
+	        var newNativePseudoclassMap = createNativePseudoclasses(gem, styleToReturn, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
+	
+	        var result = {style: styleToReturn, styleMap: styleMap, nativePseudoclassMap: newNativePseudoclassMap}
+	        setNativeCssInfoCache(this.nativeCssInfoCache, result)
+	        return result
+	
+	
+	        // mutates the passed style so that its not native
+	        function changeStyleToNonNative(style) {
+	            style.pureNative = false
+	            var newClasses = new HashMap
+	            style.pseudoclasses.classes.forEach(function(pseudoclassStyle, individualPseudoclasses) {
+	                //if(style.pureNative) { // all of these will be pureNative, or style wouldn't be
+	                    var copy = pseudoclassStyle.copy()
+	                    copy.pureNative = false
+	                    newClasses.set(individualPseudoclasses, copy)
+	
+	                    individualPseudoclasses.forEach(function(pseudoclass) {
+	                        if(!(pseudoclass in pseudoclassStyle.pseudoclasses.emulatedInfo)) {
+	                            style.pseudoclasses.emulatedInfo[pseudoclass] = getEmulatedInfo(pseudoclass)
+	                        }
+	                    })
+	
+	                /*} else {
+	                    newClasses.set(individualPseudoclasses, style)
+	                }*/
+	            })
+	
+	            style.pseudoclasses.classes = newClasses
+	
+	            return style
+	        }
+	
+	        function setNativeCssInfoCache(nativeCssInfoCache, value) {
+	            nativeCssInfoCache.set(cacheKey, value)
+	        }
+	
+	        // returns the label and block selectors within the style (recursive)
+	        // the grabs from both componentStyleMap and psuedoclasses.native[x].componentStyleMap
+	        function containedStyleSelectors(style) {
+	            var result = {}
+	            for(var key in style.componentStyleMap) {
+	                var innerStyle = style.componentStyleMap[key]
+	                mergeInSelectors(key, innerStyle)
+	            }
+	
+	            style.pseudoclasses.classes.forEach(function(pseudoclassStyle) {
+	                if(pseudoclassStyle.pureNative) {
+	                    for(var key in pseudoclassStyle.componentStyleMap) {
+	                        var innerStyle = pseudoclassStyle.componentStyleMap[key]
+	                        mergeInSelectors(key, innerStyle)
+	                    }
+	                }
+	            })
+	
+	            return result
+	
+	
+	            function mergeInSelectors(key, innerStyle) {
+	                result[key] = true
+	
+	                var selectors = containedStyleSelectors(innerStyle)
+	                utils.merge(result, selectors)
+	            }
+	        }
+	
+	        // returns info about what styles in styleSelectors and in newComputedStyleMap are:
+	            // impure in newComputedStyleMap
+	            // not defined in newComputedStyleMap
+	        function stylesInfo(styleSelectors, newComputedStyleMap) {
+	            var impure = []
+	            var undef = []
+	            for(var key in styleSelectors) {
+	                var style = newComputedStyleMap[key]
+	                if(style === undefined) {
+	                    undef.push(key)
+	                } else if(!style.pureNative) {
+	                    impure.push(key)
+	                }
+	            }
+	            return {impure:impure,undef:undef}
+	        }
+	    }
+	
+	
+	    // instance properties
+	
+	    this.className          // the css classname for this style
+	    this.componentStyleMap; // maps a Component name to a Style object for that component
+	    this.setup;             // run some javascript on any element this class is applied to
+	    this.kill;              // a function to run on removal of the style (should reverse setup)
+	
+	
+	    // private properties
+	
+	    this.nativeCssInfoCache; // instance property that stores a map between a styleMap and a potentially modified pair: {style:<Style object>, styleMap: <computedStyleMap>}
+	    this.basicNativeCssRendered; // contains true if the css class has been written to a stylesheet
+	
+	
+	    // creates a new style with styleB mixed into styleA (styleB overrides)
+	    // does not create native pseudoclass styles
+	    // mixInherit - if true, mixes in the 'inherit' property, if false, 'inherit' will get undefined (same as inherit===false)
+	    function mixWithoutCreatingNativePseudoclasses(styleA, styleB, mixInherit) {
+	        // mix css properties and non-emulated pseudoclass properties
+	        var mainStylesMerged = utils.merge({}, styleA.basicProperties, styleB.basicProperties)
+	        var newStyle = Style(mainStylesMerged)
+	
+	        // mix block and label properties
+	        newStyle.componentStyleMap = mergeComponentStyleMaps(styleA, styleB)
+	
+	        // mix pseudoclass properties
+	        newStyle.pseudoclasses = mergePseudoclasses(styleA, styleB)
+	
+	        // mix $state
+	        if(styleB.stateHandler !== undefined) {
+	            newStyle.stateHandler = styleB.stateHandler
+	        } else {
+	            newStyle.stateHandler = styleA.stateHandler
+	        }
+	
+	        // mix $setup and $kill                                                                                                                                                                                                                                                                 waaahhh hah hah haaaaaaa
+	        if(styleB.setup !== undefined) {
+	            newStyle.setup = styleB.setup
+	        } else {
+	            newStyle.setup = styleA.setup
+	        }
+	        if(styleB.kill !== undefined) {
+	            newStyle.kill = styleB.kill
+	        } else {
+	            newStyle.kill = styleA.kill
+	        }
+	
+	        if(mixInherit) {
+	            newStyle.inherit = styleA.inherit || styleB.inherit
+	        }
+	
+	        newStyle.pureNative = isPureNative(newStyle)
+	
+	        return newStyle
+	    }
+	
+	    // returns a new component style map where styleB overrides styleA
+	    // handles the 'inherit' option on styles
+	    function mergeComponentStyleMaps(styleA, styleB) {
+	        var mergedStyleMap = utils.merge({}, styleA.componentStyleMap)
+	        for(var key in styleB.componentStyleMap) {
+	            var styleMapping = styleB.componentStyleMap[key] // a Style object
+	
+	            mergedStyleMap[key] = conditionalMix(mergedStyleMap[key], styleMapping)
+	        }
+	
+	        return mergedStyleMap
+	    }
+	
+	    // conditionally mixes two styles
+	    // returns b mixed into a if b inherits
+	    // otherwise returns b
+	    function conditionalMix(a,b) {
+	        if(b === undefined)
+	            return a
+	
+	        if(b.inherit) {
+	            if(a === undefined)
+	                return b
+	            else
+	                return a.mix(b, false)
+	        } else {
+	            return b
+	        }
+	    }
+	
+	    // returns true if the style can be rendered with pure css (no javascript needed)
+	    function isPureNative(style) {
+	        if(style.setup === undefined && style.kill === undefined && style.stateHandler === undefined
+	        ) {
+	            var allPseudoclassesNative = true
+	            style.pseudoclasses.classes.forEach(function(style) {
+	                if(!style.pureNative) allPseudoclassesNative = false
+	            })
+	            if(!allPseudoclassesNative) {
+	                return false
+	            }
+	
+	            var allPureNative = true
+	            for(var key in style.componentStyleMap) {
+	                if(style.componentStyleMap[key].pureNative !== true) {
+	                    allPureNative = false
+	                    break
+	                }
+	            }
+	            if(!allPureNative) {
+	                return false
+	            }
+	
+	            return true
+	        }
+	    }
+	
+	    // mixes together the pseudoclass properties of two styles
+	    // handles changing native pseudoclass handling to emulated (and vice versa)
+	    function mergePseudoclasses(styleA, styleB) {
+	        var merged = mergeStyleMaps(styleA.pseudoclasses.classes, styleB.pseudoclasses.classes)
+	        var emulatedInfo = utils.merge({}, styleA.pseudoclasses.emulatedInfo, styleB.pseudoclasses.emulatedInfo)
+	
+	        return {classes: merged, emulatedInfo:emulatedInfo}
+	
+	
+	        // returns a new map with mapA and mapB merged, where mapB's styles override
+	        function mergeStyleMaps(styleMapA, styleMapB) {
+	            var result = utils.hashmapMerge(new HashMap, styleMapA)
+	            styleMapB.forEach(function(v, key) {
+	                if(result.has(key)) {
+	                    var resultValue = result.get(key).mix(styleMapB.get(key), true)
+	                } else {
+	                    var resultValue = styleMapB.get(key)
+	                }
+	
+	                result.set(key, resultValue)
+	            })
+	
+	            return result
+	        }
+	    }
+	
+	    var singleColonForPseudoElements = false; // may be changed if its detected that the browser does this
+	    var doubleColonPseudoElRegex =      /(::)(before|after|first-line|first-letter|selection)/;
+	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
+	
+	    // creates a css selector with the passed properties
+	    function setCss(selector, properties) {
+	        var unCamelCasedProperties = {}
+	        for (key in properties) {
+	            unCamelCasedProperties[mapCamelCase(key)] = properties[key]
+	        }
+	
+	        var rule = addRule(jss.defaultSheet, selector)
+	        setStyleProperties(rule, properties);
+	
+	
+	
+	        function addRule(sheet, selector) {
+		        var rules = sheet.cssRules || sheet.rules || [];
+		        var index = rules.length;
+	
+	            var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
+	            if (!pseudoElementRule) {
+	                addRuleToSheet(sheet, selector, index);
+	            }
+	
+		        return rules[index].style
+		    }
+	
+	        // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
+	        function addPseudoElementRule(sheet, selector, rules, index) {
+	            var doubleColonSelector;
+	            var singleColonSelector;
+	
+	            if (doubleColonPseudoElRegex.exec(selector)) {
+	                doubleColonSelector = selector;
+	                singleColonSelector = toSingleColonPseudoElements(selector);
+	            } else if (singleColonPseudoElRegex.exec(selector)) {
+	                doubleColonSelector = toDoubleColonPseudoElements(selector);
+	                singleColonSelector = selector;
+	            } else {
+	                return false; // Not dealing with a pseudo element
+	            }
+	
+	            if (!singleColonForPseudoElements) {
+	                // Assume modern browser and then check if successful
+	                try {
+	                    addRuleToSheet(sheet, doubleColonSelector, index);
+	                } catch(e) {
+	                    // if there's an error, assume its because the selector was deemed invalid (firefox), so try -moz- extension
+	                    addRuleToSheet(sheet, toMozDoubleColonPseudoElements(selector), index);
+	                }
+	                if (rules.length <= index) {
+	                    singleColonForPseudoElements = true;
+	                }
+	            }
+	            if (singleColonForPseudoElements) {
+	                addRuleToSheet(sheet, singleColonSelector, index);
+	            }
+	
+	            return true;
+	        }
+	
+	        function addRuleToSheet(sheet, selector, index) {
+		        if (sheet.insertRule) {
+		            sheet.insertRule(selector + ' { }', index);
+		        } else {
+		            sheet.addRule(selector, null, index);
+		        }
+		    }
+	
+	        function setStyleProperties(ruleStyle, properties) {
+		        for (var key in properties) {
+	                ruleStyle.setProperty(key, properties[key])
+		        }
+		    }
+	
+	        function toDoubleColonPseudoElements(selector) {
+	            return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
+	                return submatch1 + '::' + submatch3;
+	            });
+	        }
+	        function toMozDoubleColonPseudoElements(selector) {
+	            return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
+	                return submatch1 + '::-moz-' + submatch3;
+	            });
+	        }
+	        function toSingleColonPseudoElements(selector) {
+	            return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
+	                return ':' + submatch2;
+	            })
+	        }
+	    }
+	
+	
+	    // creates the css styles necessary to render the native pseudoclass styles of this style (and contained styles that can be rendered native)
+	    // intended to be called only once per style
+	    // styleMap - A block's new computedStyleMap. Selectors that also exist in native pseudoclasses of the style have already been created or copied (so you can be sure creating css class styles for them won't conflict with anything)
+	    // jsRenderedPseudoclassIndex - the index of the active pseudoclass style - needed for deciding what native css needs to be overridden by `style`
+	        // if this is 0, no overriding needs to happen (so 0 is also set when there's no active js-rendered/emulated pseudoclass)
+	    function createNativePseudoclasses(gem, style, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle) {
+	        if(nativePseudoclassSelectorMap === undefined) nativePseudoclassSelectorMap = {}
+	
+	        var nativePseudoclassSelectors = []
+	        //var nativePseudoclassPropertiesToOverride = {}   // stores what style properties for what pseudoclasses needs to be overridden by an emulated style
+	        var newNativePseudoclassMap = {} // a mapping from a Gem name to a nativePseudoclassSelectorMap
+	        var index = 0
+	        style.pseudoclasses.classes.forEach(function(pseudoclassStyle, pseudoclassKey) {
+	            var fullSelector = '.'+style.className+':'+pseudoclassKey.join(':')
+	            if(pseudoclassStyle.pureNative) {
+	                // create css styles for top-level css properties of the native psuedoclass
+	                createPseudoClassRules(fullSelector, pseudoclassStyle.basicProperties, style, false)
+	                nativePseudoclassSelectors.push(pseudoclassKey.join(':'))
+	
+	                for(var blockSelector in pseudoclassStyle.componentStyleMap) {
+	                    addNativePseudoclassMapItem(blockSelector, fullSelector, pseudoclassStyle.componentStyleMap[blockSelector])
+	                }
+	            } else if(index === jsRenderedPseudoclassIndex) {
+	                // create overriding css styles for top-level css properties of the emulated psuedoclass (so that emulated and native pseudoclasses mix properly)
+	                for(var n=0; n<nativePseudoclassSelectors.length; n++) {
+	                    var selector = nativePseudoclassSelectors[n]
+	                    createPseudoClassRules(fullSelector+":"+selector, style.basicProperties, style, true)
+	                }
+	            }
+	
+	            index++
+	        })
+	
+	        var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 27)
+	        for(var selector in nativePseudoclassSelectorMap) {
+	            var pseudoclassStyle = nativePseudoclassSelectorMap[selector]
+	            if(pseudoclassStyle.inherit) {
+	                pseudoclassStyle = blockStyleUtils.getInheritingStyle(gem).mix(pseudoclassStyle, false)
+	            }
+	
+	            var fullSelector = selector+' '+'.'+style.className
+	
+	            // create css styles for the top-level style when inside a pure native pseudoclass style of its parent
+	            createPseudoClassRules(fullSelector, pseudoclassStyle.basicProperties, style, true)
+	
+	            for(var blockSelector in pseudoclassStyle.componentStyleMap) {
+	                addNativePseudoclassMapItem(blockSelector, fullSelector, pseudoclassStyle.componentStyleMap[blockSelector])
+	            }
+	
+	            // create css styles for pseudoclass styles when inside a pure native pseudoclass style of its parent
+	            pseudoclassStyle.pseudoclasses.classes.forEach(function(pseudoclassStyle, pseudoclassKey) {
+	                if(pseudoclassStyle.pureNative) {
+	                    createPseudoClassRules(fullSelector+':'+pseudoclassKey.join(':'), pseudoclassStyle.basicProperties, style, true)
+	                }
+	            })
+	        }
+	
+	        return newNativePseudoclassMap
+	
+	
+	        function addNativePseudoclassMapItem(blockSelector, cssSelector, styleValue) {
+	            if(newNativePseudoclassMap[blockSelector] === undefined)
+	                newNativePseudoclassMap[blockSelector] = {}
+	            newNativePseudoclassMap[blockSelector][cssSelector] = styleValue
+	        }
+	
+	        // cssProperties - The css rules to apply (should only contain native css properties). CamelCase and certain integer values will be converted.
+	        // overwriteBloodyStyles - if true, styles from styleMapStyle are overridden with the default (either a block's default or the base default)
+	        function createPseudoClassRules(selector, cssProperties,  /*temporary*/ styleMapStyle, overwriteBloodyStyles) {
+	            if(!style.nativePseudoclassesWritten[selector]) {
+	                var pseudoClassCss = {}
+	
+	                if(overwriteBloodyStyles) {
+	                    // overwrite styles that would bleed over from the styleMapStyle
+	
+	                    var propertiesToOverride = Object.keys(styleMapStyle.basicProperties)
+	                    styleMapStyle.pseudoclasses.classes.forEach(function(style) {
+	                        propertiesToOverride = propertiesToOverride.concat(Object.keys(style.basicProperties))
+	                    })
+	
+	                    for(var n=0; n<propertiesToOverride.length; n++) {
+	                        var key = propertiesToOverride[n]
+	                        if(defaultStyle) {
+	                            var defaultStyleProperty = defaultStyle.basicProperties[key]
+	                        }
+	
+	                        var initialStyle = defaultStyleProperty || defaultStyleValues[key] || 'initial' // todo: write a function to calculate the inital value, since 'initial' isn't supported in IE (of course) - tho it will be eventually since its becoming apart of css3
+	                        pseudoClassCss[key] = initialStyle
+	                    }
+	                }
+	
+	                for(var key in cssProperties) {
+	                    var value = cssProperties[key]
+	
+	                    var cssStyle = key
+	                    var cssStyleName = mapCamelCase(cssStyle)
+	                    pseudoClassCss[cssStyleName] = cssValue(cssStyleName, value)
+	                }
+	
+	                // create immediate pseudo class style
+	                setCss(selector, pseudoClassCss) // create the css class with the pseudoClass
+	                if(this.nativePseudoclassStyles !== undefined) {
+	                    styleMapStyle.nativePseudoclassStyles[selector] = pseudoClassCss
+	                }
+	
+	                style.nativePseudoclassesWritten[selector] = true
+	            }
+	        }
+	    }
+	})
+	
+	
+	// private
+	
+	
+	// a map of pseudoclass names and how they are emulated with javascript
+	// each pseudoclass sets up the following functions:
+	    // check - a function that checks if that pseudoclass currently applies to the component when its called
+	    // setup - calls a callback when the pseudoClass starts and stops applying
+	        // should return an object that will be passed to the kill function (as its 'state' parameter)
+	    // kill - cleans up anything set up in the 'setup' function
+	    // processParameter - takes the pseudoclass parameter and returns some object representing it that will be used by the setup and check functions
+	var jsRenderedPseduoclasses = {
+	    hover: {
+	        emulated: true,
+	        check: function(component) {
+	            var nodes = document.querySelectorAll( ":hover" )
+	            for(var n=0; n<nodes.length; n++) {
+	                if(nodes[n] === component.domNode) {
+	                    return true
+	                }
+	            }
+	            return false
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            component.on("mouseover", function() {
+	                startCallback()
+	            })
+	            component.on("mouseout", endCallback)
+	
+	            return {start: startCallback, end: endCallback}
+	        },
+	        kill: function(component, state) {
+	            component.off("mouseover", state.start)
+	            component.off("mouseout", state.end)
+	        }
+	    },
+	    checked: {
+	        emulated: true,
+	        check: function(component) {
+	            if(component.domNode.nodeName !== 'INPUT' && component.domNode.nodeName !== 'OPTION') {
+	                console.warn("The pseudoclass 'checked' can only apply to 'input' nodes (Button, CheckBox, RadioButton, or TextField) or 'option' nodes (Option)")
+	                return false
+	            }
+	            return component.selected
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var setupState = {}
+	            component.on("change", setupState.listener = function() {
+	                if(component.selected) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            return setupState
+	        },
+	        kill: function(component, state) {
+	            component.removeListener("change", state.listener)
+	        }
+	    },
+	    required: {
+	        emulated: true,
+	        check: function(component) {
+	            if(component.domNode.nodeName !== 'INPUT') {
+	                console.warn("The pseudoclass 'required' can only apply to 'input' nodes (Button, CheckBox, RadioButton, or TextField)")
+	                return false
+	            }
+	            return component.attr('required') !== undefined
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var observer = new MutationObserver(function() {
+	                if(component.attr('required') !== undefined) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            observer.observe(component.domNode, {attributes: true})
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        }
+	    },
+	    'last-child': {
+	        emulated: true,
+	        check: function(component) {
+	            return nthLastChildCheck(component, '1')
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var observer = new MutationObserver(function() {
+	                if(nthLastChildCheck(component, '1')) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            var setupObserver = function() {
+	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
+	                observer.observe(component.parent.domNode, {childList: true})
+	            }
+	
+	            if(component.parent !== undefined) {
+	                setupObserver()
+	            }
+	
+	            component.on('newParent', function() {
+	                setupObserver()
+	            })
+	            component.on('parentRemoved', function() {
+	                observer.disconnect()
+	            })
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        }
+	    },
+	    'nth-child': {
+	        emulated: true,
+	        parameterTransform: function(parameter) {
+	            var parts = parseNthChildParameter(parameter)
+	            if(parts.variable === 0) {
+	                return parts.constant+''
+	            } else if(parts.constant === 0) {
+	                return parts.variable+'n'
+	            } else {
+	                return parts.variable+'n+'+parts.constant
+	            }
+	        },
+	
+	        check: function(component, parameterCheck) {
+	            return nthChildCheck(component, parameterCheck)
+	        },
+	        setup: function(component, startCallback, endCallback, parameterCheck) {
+	
+	            var checkAndCallCallbacks = function() {
+	                if(nthChildCheck(component, parameterCheck)) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            }
+	
+	            var observer = new MutationObserver(function() {
+	                checkAndCallCallbacks()
+	            })
+	
+	            var setupObserver = function() {
+	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
+	                observer.observe(component.parent.domNode, {childList: true})
+	            }
+	
+	            if(component.parent !== undefined) {
+	                setupObserver()
+	            }
+	
+	            component.on('newParent', function() {
+	                setupObserver()
+	                checkAndCallCallbacks()
+	            })
+	            component.on('parentRemoved', function() {
+	                observer.disconnect()
+	                checkAndCallCallbacks()
+	            })
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        },
+	
+	        // returns a function that takes an index and tell you if that index applies to the nthChildParameter
+	        processParameter: function(parameter) {
+	            var parts = parseNthChildParameter(parameter)
+	
+	            if(parts.variable === 0) {
+	                return function(index) {
+	                    return index+1 === parts.constant
+	                }
+	            } else {
+	                return function(index) {
+	                    return ((index+1-parts.constant)/parts.variable) % 1 === 0
+	                }
+	            }
+	        }
+	    },
+	
+	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
+	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
+	    /*not: {
+	        check: function() {
+	
+	        },
+	    }*/
+	}
+	
+	// name is the name of the new pseudoclass
+	// options is an object with the members:
+	    // check(component) - returns true if the pseudoclass applies to the component
+	    // setup(component, startCallback, endCallback, parameter) - a function that should call startCallback when the pseudoclass starts applying, and endCallback when it stops applying
+	        // parameter - the parameter passed to the pseudoclass (e.g. in :not(:first-child), ":first-child" is the parameter)
+	    // kill - a function that cleans up any event listeners or anything else set up in the 'setup' function
+	    // processParameter - a function that processes the pseudoclass parameter and returns some object the 'setup' function will get as its 4th argument
+	        // if this is undefined, the pseudoclass will throw an exception for styles that have a parameter for it
+	    // emulated - if true, it means that there is a corresponding native pseudoclass that can be used if the style can be rendered with pure css
+	module.exports.addPseudoClass = function(name, options) {
+	    if(jsRenderedPseduoclasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
+	    // else
+	    jsRenderedPseduoclasses[name] = options
+	}
+	
+	
+	function nthChildCheck(component, testFn) {
+	    if(component.domNode.parentNode === null)
+	        return false
+	
+	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
+	    var index = Array.prototype.indexOf.call(children, component.domNode)
+	    return testFn(index)
+	}
+	
+	function nthLastChildCheck(component, parameter) {
+	    if(component.domNode.parentNode === null)
+	        return false
+	
+	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
+	    var index = children.length - parseInt(parameter)
+	    return children[index] === component.domNode
+	}
+	
+	var nthChildParameter = new RegExp(
+	    '^' // begin
+	        +'('
+	            +'('
+	                +'(-?\\d*)'        // constant
+	                +'(([+-]\\d*)n?)?' // first-order term
+	            +')|'
+	            +'('
+	                +'(-?\\d)*n?' // first-order term first
+	                +'([+-]\\d*)?' // then constant
+	            +')'
+	        +')'
+	    +'$' // the EYND
+	)
+	
+	// returns the variable and constnat parts of the parameter
+	function parseNthChildParameter(parameter) {
+	    var parts = parameter.replace(/\s/g, '').match(nthChildParameter)
+	    if(parts === null)
+	        throw new Error("nth-child parameter '"+parameter+"' isn't valid")
+	
+	    if(parts[2] !== undefined) {
+	        var constant = parts[3]
+	        var variable = parts[5]
+	    } else {
+	        var constant = parts[8]
+	        var variable = parts[7]
+	    }
+	
+	
+	
+	    if(constant === undefined) constant = 0
+	    else                       constant = parseInt(constant)
+	    if(variable === undefined) variable = 0
+	    else                       variable = parseInt(variable)
+	
+	    return {variable: variable, constant: constant}
+	}
+	
+	
+	// maps a style value to a css value
+	// style values that are numbers are mapped to strings, usually with px postfix
+	function cssValue(cssStyleName, value) {
+	    // If a number was passed in, add 'px' to the (except for certain CSS properties) [also taken from jquery's code]
+	    if(typeof(value) === "number" && cssNumber[cssStyleName] === undefined) {
+	        return value+"px"
+	    } else {
+	        return value.toString()
+	    }
+	}
+	
+	var pseudoClassRegex = new RegExp( // /^([^(]*)(\((.*)\))?$/
+	    "([^(]*)"        // anything that's not an open paren
+	    +"(\\((.*)\\))?" // optionally some arbitrary string inside parens
+	    +"$"             // THE EYND!
+	)
+	
+	// pulls apart the pseudoclass name from its (optional) parameter
+	// e.g. pulls out 'nth-child' and '2+3n' from 'nth-child(2+3n)'
+	function getPseudoClassParts(fullPsuedoClass) {
+	    var x = fullPsuedoClass.match(pseudoClassRegex)
+	    if(x === null) throw new Error("Pseudoclass '"+fullPsuedoClass+"' is invalid")
+	    return {class: x[1], parameter: x[3]}
+	}
+	
+	
+	// taken from jquery's code
+	var cssNumber = {
+	    "column-count": 1,
+	    "fill-opacity": 1,
+	    "flex-grow": 1,
+	    "flex-shrink": 1,
+	    "font-weight": 1,
+	    "line-height": 1,
+	    "opacity": 1,
+	    "order": 1,
+	    "orphans": 1,
+	    "widows": 1,
+	    "z-index": 1,
+	    "zoom": 1
+	}
+	
+	function isStyleObject(o) {
+	    return o !== undefined && o.componentStyleMap !== undefined
+	}
+	
+	
+	//var asciiA = 'A'.charCodeAt(0), asciiZ = 'Z'.charCodeAt(0), difference = 'a'.charCodeAt(0) - asciiA
+	function mapCamelCase(cssStyleName) {
+	    return cssStyleName.replace(/([A-Z])/g, function(match, submatch) {          // this is from jss
+	        return '-' + submatch.toLowerCase();
+	    })
+	
+	    /*for(var n=0; n<cssStyleName.length; n++) {
+	        var ascii = cssStyleName.charCodeAt(n)
+	        if(asciiA <= ascii && ascii <= asciiZ) { // found capital letter
+	            cssStyleName = cssStyleName.slice(0, n) + '-'+String.fromCharCode(ascii+difference) + cssStyleName.slice(n+1)
+	            n++ // increment a second time for the dash
+	        }
+	    }
+	
+	    return cssStyleName*/
+	}
+	
+	// maps all the styles that are inherited by descendant nodes to their default values
+	// source: http://stackoverflow.com/questions/5612302/which-css-styles-are-inherited
+	var defaultStyleValues = {
+	    'azimuth': 'center',
+	    'border-collapse': 'separate',
+	    'border-spacing': '0',
+	    'box-sizing': 'border-box',
+	    'caption-side': 'top',
+	    //'color': 'black',         // let this inherit
+	    //'cursor': 'auto',         // let this one inherit - its weird otherwise
+	    'direction': 'ltr',
+	     display: 'inline-block', // changes the default display to inline-block
+	    'elevation': '',
+	    'empty-cells': 'show',
+	    // 'font-family': '',       // let this inherit
+	    // 'font-size': 'medium',   // let this inherit
+	    //'font-style': 'normal',   // let this inherit
+	    //'font-variant': 'normal', // let this inherit
+	    //'font-weight': 'normal',  // let this inherit
+	    'letter-spacing': 'normal',
+	    'line-height': 'normal',
+	    'list-style-image': 'none',
+	    'list-style-position': 'outside',
+	    'list-style-type': 'disc',
+	    'orphans': '2',
+	    'pitch-range': '',
+	    'pitch': '',
+	     position: 'relative', // changes the default positioning so that absolute is relative to its parent by default
+	    'quotes': '',
+	    'richness': '',
+	    'speak-header': '',
+	    'speak-numeral': '',
+	    'speak-punctuation': '',
+	    'speak': '',
+	    'speak-rate': '',
+	    'stress': '',
+	    'text-align': 'left',
+	    'text-indent': '0',
+	    'text-transform': 'none',
+	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
+	    'voice-family': '',
+	    'volume': '',
+	    'white-space': 'normal',
+	    'widows': '2',
+	    'word-spacing': 'normal'
+	}
+	
+	
+	
+	
+	// returns index of the passed css classname, or undefined if sheet containing that class isn't found
+	function cssClassSheetIndex(classname) {
+	    var result = undefined
+	
+	    var styleNodes = document.querySelectorAll("style")
+	    for(var n=0; n<styleNodes.length; n++) {
+	        var sheet = styleNodes[n].sheet
+	        jssModule.defaultSheet = sheet
+	
+	        var defaultStyleMaybe = jssModule.get(classname)
+	        if(Object.keys(defaultStyleMaybe).length > 0) {
+	            result = n
+	            break
+	        }
+	    }
+	
+	    jssModule.defaultSheet = undefined
+	    return result
+	}
+	
+	
+	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
+	var jss = jssModule.forDocument(document)
+	
+	var defaultClassSheetIndex = cssClassSheetIndex('.'+Style.defaultClassName)
+	if(defaultClassSheetIndex === undefined) {
+	    defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
+	
+	    jss.defaultSheet = jss._createSheet()
+	} else {
+	    // if the default styleclass *already* exists, it probably means that blocks.js is being loaded twice
+	    console.log("Warning: the default-styles class name for blocks.js looks like its already in use. This probably means you have two versions of blocks.js loaded. If so, Gem.js will continue to work, but your app will be a bit bloated. If something other than block.js created that class, blocks.js may break that style.")
+	
+	    var styleNodes = document.querySelectorAll("style")
+	    defaultJss.defaultSheet = styleNodes[defaultClassSheetIndex].sheet
+	    jss.defaultSheet = styleNodes[defaultClassSheetIndex+1].sheet
+	
+	    // make sure the baseClassName isn't already taken
+	    var dedupNumber = 0
+	    while(true) {
+	        var testBaseClassName = baseClassName+dedupNumber
+	        if(cssClassSheetIndex('.'+testBaseClassName+dedupNumber+0) !== undefined) {
+	            dedupNumber++
+	        } else {
+	            break;
+	        }
+	    }
+	
+	    baseClassName = testBaseClassName+dedupNumber
+	}
+	
+	defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
+	
+	defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
+	    cursor: 'inherit'
+	})
+	defaultJss.set('img', { // images should retain content-box sizing, since pixel perfect width on images is important so you avoid resizing the image
+	    'box-sizing': 'content-box'
+	})
+	
+	
+	/*private*/ module.exports.isDev; // should be set by Gem
 
 
 /***/ },
-/* 20 */
+/* 7 */
 /*!************************!*\
   !*** ./~/testUtils.js ***!
   \************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 45)
-	var Style = __webpack_require__(/*! Style */ 5)
-	var Block = __webpack_require__(/*! Components/Block */ 7)
+	var Future = __webpack_require__(/*! async-future */ 38)
+	var Style = __webpack_require__(/*! Style */ 6)
+	var Block = __webpack_require__(/*! Components/Block */ 9)
 	
 	// compares arrays and objects for value equality (all elements and members must match)
 	exports.equal = function(a,b) {
@@ -4067,1491 +3086,1006 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 21 */
-/*!**************************!*\
-  !*** ../external/jss.js ***!
-  \**************************/
+/* 8 */
+/*!*********************************!*\
+  !*** ../~/Components/Canvas.js ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/*
-	 * JSS v0.6 - JavaScript Stylesheets
-	 * https://github.com/Box9/jss
-	 *
-	 * Copyright (c) 2011, David Tang
-	 * MIT Licensed (http://www.opensource.org/licenses/mit-license.php)
-	 */
-	var jss = (function() {
-	    var adjSelAttrRegex = /((?:\.|#)[^\.\s#]+)((?:\.|#)[^\.\s#]+)/g;
-	    var doubleColonPseudoElRegex = /(::)(before|after|first-line|first-letter|selection)/;
-	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
-	    var singleColonForPseudoElements; // flag for older browsers
+	var Gem = __webpack_require__(/*! Gem */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
-	    function getSelectorsAndRules(sheet) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var results = {};
-	        for (var i = 0; i < rules.length; i++) {
-	            // Older browsers and FF report pseudo element selectors in an outdated format
-	            var selectorText = toDoubleColonPseudoElements(rules[i].selectorText);
-	            if (!results[selectorText]) {
-	                results[selectorText] = [];
-	            }
-	            results[selectorText].push({
-	                sheet: sheet,
-	                index: i,
-	                style: rules[i].style
-	            });
-	        }
-	        return results;
-	    }
+	module.exports = proto(Gem, function(superclass) {
 	
-	    function getRules(sheet, selector) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var results = [];
-	        // Browsers report selectors in lowercase
-	        selector = selector.toLowerCase();
-	        for (var i = 0; i < rules.length; i++) {
-	            var selectorText = rules[i].selectorText;
-	            // Note - certain rules (e.g. @rules) don't have selectorText
-	            if (selectorText && (selectorText == selector || selectorText == swapAdjSelAttr(selector) || selectorText == swapPseudoElSyntax(selector))) {
-	                results.push({
-	                    sheet: sheet,
-	                    index: i,
-	                    style: rules[i].style
-	                });
-	            }
-	        }
-	        return results;
-	    }
+	    //static properties
 	
-	    function addRule(sheet, selector) {
-	        var rules = sheet.cssRules || sheet.rules || [];
-	        var index = rules.length;
-	        var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
+	    this.name = 'Canvas'
 	
-	        if (!pseudoElementRule) {
-	            addRuleToSheet(sheet, selector, index);
-	        }
-	
-	        return {
-	            sheet: sheet,
-	            index: index,
-	            style: rules[index].style
-	        };
-	    };
-	
-	    function addRuleToSheet(sheet, selector, index) {
-	        if (sheet.insertRule) {
-	            sheet.insertRule(selector + ' { }', index);
+	    this.init = function(/*[label,] height, width*/) {
+	        if(arguments.length === 2) {
+	            var height = arguments[0]
+	            var width = arguments[1]
 	        } else {
-	            sheet.addRule(selector, null, index);
-	        }
-	    }
-	
-	    // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
-	    function addPseudoElementRule(sheet, selector, rules, index) {
-	        var doubleColonSelector;
-	        var singleColonSelector;
-	
-	        if (doubleColonPseudoElRegex.exec(selector)) {
-	            doubleColonSelector = selector;
-	            singleColonSelector = toSingleColonPseudoElements(selector);
-	        } else if (singleColonPseudoElRegex.exec(selector)) {
-	            doubleColonSelector = toDoubleColonPseudoElements(selector);
-	            singleColonSelector = selector;
-	        } else {
-	            return false; // Not dealing with a pseudo element
+	            var label = arguments[0]
+	            var height = arguments[1]
+	            var width = arguments[2]
 	        }
 	
-	        if (!singleColonForPseudoElements) {
-	            // Assume modern browser and then check if successful
-	            addRuleToSheet(sheet, doubleColonSelector, index);
-	            if (rules.length <= index) {
-	                singleColonForPseudoElements = true;
-	            }
-	        }
-	        if (singleColonForPseudoElements) {
-	            addRuleToSheet(sheet, singleColonSelector, index);
-	        }
+	        this.domNode = document.createElement('canvas') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
 	
-	        return true;
+	        this.label = label
+	        this.height = height
+	        this.width = width
 	    }
 	
-	    function toDoubleColonPseudoElements(selector) {
-	        return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
-	            return submatch1 + '::' + submatch3;
-	        });
-	    }
-	
-	    function toSingleColonPseudoElements(selector) {
-	        return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
-	            return ':' + submatch2;
-	        })
-	    }
-	
-	    function removeRule(rule) {
-	        var sheet = rule.sheet;
-	        if (sheet.deleteRule) {
-	            sheet.deleteRule(rule.index);
-	        } else if (sheet.removeRule) {
-	            sheet.removeRule(rule.index);
-	        }
-	    }
-	
-	    function extend(dest, src) {
-	        for (var key in src) {
-	            if (!src.hasOwnProperty(key))
-	                continue;
-	            dest[key] = src[key];
-	        }
-	        return dest;
-	    }
-	
-	    function aggregateStyles(rules) {
-	        var aggregate = {};
-	        for (var i = 0; i < rules.length; i++) {
-	            extend(aggregate, declaredProperties(rules[i].style));
-	        }
-	        return aggregate;
-	    }
-	
-	    function declaredProperties(style) {
-	        var declared = {};
-	        for (var i = 0; i < style.length; i++) {
-	            declared[style[i]] = style[toCamelCase(style[i])];
-	        }
-	        return declared;
-	    }
-	
-	    // IE9 stores rules with attributes (classes or ID's) adjacent in the opposite order as defined
-	    // causing them to not be found, so this method swaps [#|.]sel1[#|.]sel2 to become [#|.]sel2[#|.]sel1
-	    function swapAdjSelAttr(selector) {
-	        var swap = '';
-	        var lastIndex = 0;
-	
-	        while ((match = adjSelAttrRegex.exec(selector)) != null) {
-	            if (match[0] === '')
-	                break;
-	            swap += selector.substring(lastIndex, match.index);
-	            swap += selector.substr(match.index + match[1].length, match[2].length);
-	            swap += selector.substr(match.index, match[1].length);
-	            lastIndex = match.index + match[0].length;
-	        }
-	        swap += selector.substr(lastIndex);
-	
-	        return swap;
-	    };
-	
-	    // FF and older browsers store rules with pseudo elements using single-colon syntax
-	    function swapPseudoElSyntax(selector) {
-	        if (doubleColonPseudoElRegex.exec(selector)) {
-	            return toSingleColonPseudoElements(selector);
-	        }
-	        return selector;
-	    }
-	
-	    function setStyleProperties(rule, properties) {
-	        for (var key in properties) {
-	            var value = properties[key];
-	            var importantIndex = value.indexOf(' !important');
-	
-	            // Modern browsers seem to handle overrides fine, but IE9 doesn't
-	            rule.style.removeProperty(key);
-	            if (importantIndex > 0) {
-	                rule.style.setProperty(key, value.substr(0, importantIndex), 'important');
-	            } else {
-	                rule.style.setProperty(key, value);
-	            }
-	        }
-	    }
-	
-	    function toCamelCase(str) {
-	        return str.replace(/-([a-z])/g, function (match, submatch) {
-	            return submatch.toUpperCase();
-	        });
-	    }
-	
-	    function transformCamelCasedPropertyNames(oldProps) {
-	        var newProps = {};
-	        for (var key in oldProps) {
-	            newProps[unCamelCase(key)] = oldProps[key];
-	        }
-	        return newProps;
-	    }
-	
-	    function unCamelCase(str) {
-	        return str.replace(/([A-Z])/g, function(match, submatch) {
-	            return '-' + submatch.toLowerCase();
-	        });
-	    }
-	
-	    var Jss = function(doc) {
-	        this.doc = doc;
-	        this.head = this.doc.head || this.doc.getElementsByTagName('head')[0];
-	        this.sheets = this.doc.styleSheets || [];
-	    };
-	
-	    Jss.prototype = {
-	        // Returns JSS rules (selector is optional)
-	        get: function(selector) {
-	            if (!this.defaultSheet) {
-	                return {};
-	            }
-	            if (selector) {
-	                return aggregateStyles(getRules(this.defaultSheet, selector));
-	            }
-	            var rules = getSelectorsAndRules(this.defaultSheet);
-	            for (selector in rules) {
-	                rules[selector] = aggregateStyles(rules[selector]);
-	            }
-	            return rules;
-	        },
-	        // Returns all rules (selector is required)
-	        getAll: function(selector) {
-	            var properties = {};
-	            for (var i = 0; i < this.sheets.length; i++) {
-	                extend(properties, aggregateStyles(getRules(this.sheets[i], selector)));
-	            }
-	            return properties;
-	        },
-	        // Adds JSS rules for the selector based on the given properties
-	        set: function(selector, properties) {
-	            if (!this.defaultSheet) {
-	                this.defaultSheet = this._createSheet();
-	            }
-	            properties = transformCamelCasedPropertyNames(properties);
-	            var rules = getRules(this.defaultSheet, selector);
-	            if (!rules.length) {
-	                rules = [addRule(this.defaultSheet, selector)];
-	            }
-	            for (var i = 0; i < rules.length; i++) {
-	                setStyleProperties(rules[i], properties);
-	            }
-	        },
-	        // Removes JSS rules (selector is optional)
-	        remove: function(selector) {
-	            if (!this.defaultSheet)
-	                return;
-	            if (!selector) {
-	                this._removeSheet(this.defaultSheet);
-	                delete this.defaultSheet;
-	                return;
-	            }
-	            var rules = getRules(this.defaultSheet, selector);
-	            for (var i = 0; i < rules.length; i++) {
-	                removeRule(rules[i]);
-	            }
-	            return rules.length;
-	        },
-	        _createSheet: function() {
-	            var styleNode = this.doc.createElement('style');
-	            styleNode.type = 'text/css';
-	            styleNode.rel = 'stylesheet';
-	            this.head.appendChild(styleNode);
-	            return styleNode.sheet;
-	        },
-	        _removeSheet: function(sheet) {
-	            var node = sheet.ownerNode;
-	            node.parentNode.removeChild(node);
-	        }
-	    };
-	
-	    var exports = new Jss(document);
-	    exports.forDocument = function(doc) {
-	        return new Jss(doc);
-	    };
-	    return exports;
-	})();
-	
-	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
-
-/***/ },
-/* 22 */
-/*!*********************!*\
-  !*** ../~/utils.js ***!
-  \*********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	//require('hashmap') // here to mark hashmapMerge's dependency on this module
-	var path = __webpack_require__(/*! path */ 50)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	// merges two hashmaps together just like merge does for regular objects
-	// non-deep merge
-	exports.hashmapMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    obj2.forEach(function(value, key) {
-	        obj1.set(key, obj2.get(key))
-	    })
-	
-	    if(arguments.length > 2) {
-	        var newObjects = [obj1].concat(Array.prototype.slice.call(arguments, 2))
-	        return exports.hashmapMerge.apply(this, newObjects)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
-	exports.objectConjunction = function(a, b) {
-	    var objectCopy = {}
-	    merge(objectCopy, a)
-	    merge(objectCopy, b)
-	    return objectCopy
-	}
-	
-	// turns an array of values into a an object where those values are all keys that point to 'true'
-	exports.arrayToMap = function(array) {
-	    var result = {}
-	    array.forEach(function(v) {
-	        result[v] = true
-	    })
-	    return result
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       //if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       //}
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 23 */
-/*!************************!*\
-  !*** ../~/domUtils.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	// the property that should be used to get and set text (this is different on chrome vs firefox for some dumb reason)
-	exports.textProperty = 'textContent' //document.createElement("div").textContent != undefined ? 'textContent' : 'innerText'
-	
-	// creates a dom element optionally with a class and attributes
-	 var node = exports.node = function(type, className, options) {
-	    var elem = document.createElement(type)
-	
-	    if(options !== undefined) {
-	        if(options.attr !== undefined) {
-	            for(var attribute in options.attr) {
-	                setAttribute(elem, attribute, options.attr[attribute])
-	            }
-	        }
-	        if(options.textContent !== undefined) {
-	            elem.textContent = options.textContent
-	        }
-	    }
-	
-	    if(className !== undefined)
-	        elem.className = className
-	
-	    return elem
-	}
-	
-	// convenience function for creating a div
-	exports.div = function(className, options) {
-	    return node('div', className, options)
-	}
-	
-	
-	// adds an attribute to a domNode
-	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
-	    if (arguments.length === 2) {
-	        var domNode = this.domNode;
-	        var type = arguments[0];
-	        var value = arguments[1];
-	    } else if (arguments.length === 3) {
-	        var domNode = arguments[0];
-	        var type = arguments[1];
-	        var value = arguments[2];
-	    } else {
-	        throw new Error("This function expects arguments to be: [domNode,] type, value");
-	    }
-	    var attr = document.createAttribute(type)
-	    attr.value = value
-	    domNode.setAttributeNode(attr)
-	}
-	
-	// sets the selection
-	//
-	// works for contenteditable elements
-	exports.setSelectionRange = function(containerEl, start, end) {
-	
-	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
-	        containerEl.setSelectionRange(start, end)
-	    } else {
-	        var charIndex = 0, range = document.createRange();
-	        range.setStart(containerEl, 0);
-	        range.collapse(true);
-	        var foundStart = false;
-	
-	        iterateThroughLeafNodes(containerEl, function(node) {
-	            var hiddenCharacters = findHiddenCharacters(node, node.length)
-	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
-	
-	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-	                var nodeIndex = start-charIndex
-	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
-	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
-	                foundStart = true;
-	            }
-	
-	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
-	                var nodeIndex = end-charIndex
-	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
-	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
-	                return true; // stop the iteration - we're done here
-	            }
-	
-	            charIndex = nextCharIndex
-	        })
-	
-	        var sel = window.getSelection();
-	        sel.removeAllRanges();
-	        sel.addRange(range);
-	    }
-	}
-	
-	// gets the character offsets of a selection within a particular dom node
-	// returns undefined if there is no selection in the element
-	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
-	exports.getSelectionRange = function (element) {
-	
-	    var selection = window.getSelection()
-	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
-	
-	    for(var n=0; n<selection.rangeCount; n++) {
-	        var range = selection.getRangeAt(0)
-	        if(isInputOrArea) {
-	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
-	                return [element.selectionStart, element.selectionEnd]
-	            }
-	        } else {
-	            var startsInElement = element.contains(range.startContainer)
-	            if(startsInElement) {
-	                var elementToIterateThrough = element
-	                var startFound = true
-	            } else {
-	                var elementToIterateThrough = range.commonAncestorContainer
-	                var startFound = false
-	                var startContainerFound = false
-	            }
-	
-	            var visibleCharacterOffset = 0, start, end;
-	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
-	                if(!startFound) {
-	                    if(leaf === range.startContainer) {
-	                        startContainerFound = true
-	                    }
-	
-	                    if(!element.contains(leaf) || !startContainerFound)
-	                        return; // continue
-	                    else if(startContainerFound)
-	                       startFound = true
-	                } else if(!startsInElement && !element.contains(leaf)) {
-	                    return true // done!
-	                }
-	
-	                if(leaf === range.startContainer) {
-	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
-	                }
-	                if(leaf === range.endContainer) {
-	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
-	                    return true // done!
-	                }
-	
-	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
-	            })
-	
-	            if(start === undefined && !startFound) {
-	                return undefined
-	            } else {
-	                if(start === undefined) {
-	                    start = 0 // start is at the beginning
-	                }
-	                if(end === undefined) {
-	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
-	                }
-	
-	                return [start, end]
-	            }
-	        }
-	    }
-	}
-	
-	
-	// iterate through the leaf nodes inside element
-	// callback(node) - a function called for each leaf node
-	    // returning true from this ends the iteration
-	function iterateThroughLeafNodes(element, callback) {
-	    var nodeStack = [element], node;
-	
-	    while (node = nodeStack.pop()) {
-	        if (node.nodeType == 3) {
-	            if(callback(node) === true)
-	                break;
-	        } else {
-	            var i = node.childNodes.length;
-	            while (i--) {
-	                nodeStack.push(node.childNodes[i]);
-	            }
-	        }
-	    }
-	}
-	
-	function findHiddenCharacters(node, beforeCaretIndex) {
-	    var hiddenCharacters = 0
-	    var lastCharWasWhiteSpace=true
-	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
-	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
-	            if(lastCharWasWhiteSpace)
-	                hiddenCharacters++
-	            else
-	                lastCharWasWhiteSpace = true
-	        } else {
-	            lastCharWasWhiteSpace = false
-	        }
-	    }
-	
-	    return hiddenCharacters
-	}
-
-/***/ },
-/* 24 */
-/*!*******************************!*\
-  !*** ../~/blockStyleUtils.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// some functionality that is needed by Gem.js but is related to styling (some things are also needed by Style.js)
-	
-	var HashMap = __webpack_require__(/*! hashmap */ 38)
-	
-	var Style = __webpack_require__(/*! ./Style */ 5)
-	var utils = __webpack_require__(/*! ./utils */ 22)
-	
-	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
-	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
-	
-	
-	// gets the right style from the styleMap, depending on the gem's `name` and `label` (`label` styles take precedence)
-	// takes the component's inheritance tree into account (relies on the gem.constructor.parent property)
-	var getStyleMapEntryForGem = exports.getStyleForComponent = function (styleMap, gem) {
-	    if(styleMap === undefined)
-	        return undefined
-	
-	    return getStyleForLabel(styleMap, gem) || getStyleForGemName(styleMap, gem)
-	}
-	
-	var getStyleForLabel = exports.getStyleForLabel = function(styleMap, gem) {
-	    if(gem.label !== undefined && '$'+gem.label in styleMap) {
-	        return styleMap['$'+gem.label]
-	    }
-	}
-	var getStyleForGemName = exports.getStyleForBlockName = function(styleMap, gem) {
-	    var constructor = gem.constructor
-	    while(constructor !== undefined) {
-	        var style = styleMap[constructor.name]
-	        if(style !== undefined) {
-	            return style
-	        } else {
-	            constructor = constructor.parent
-	        }
-	    }
-	}
-	
-	// gets the possibly inheriting style from the styleMap for `gem`
-	// gem - the gem to get the style for
-	// ancestor - the gem to get the computedStyleMap from
-	var getInheritingStyle = exports.getInheritingStyle = function(gem) {
-	    var ancestor = gem.parent
-	    if(ancestor === undefined || ancestor.computedStyleMap === undefined) return undefined
-	
-	    if(gem.label !== undefined) {
-	        var styleMapKey = '$'+gem.label
-	        var nextContructor = gem.constructor
-	    } else {
-	        var styleMapKey = gem.constructor.name
-	        var nextContructor = gem.constructor.parent
-	    }
-	
-	    var nextAncestorToSearchFrom = ancestor
-	    var styles = [], inherit = true
-	    while(nextAncestorToSearchFrom !== undefined) {    // find styles from the most specific name to the least specific
-	        var stylesForKey = findStylesForStyleMapKey(nextAncestorToSearchFrom, styleMapKey)
-	        styles = styles.concat(stylesForKey.styles)
-	        nextAncestorToSearchFrom = stylesForKey.nextAncestorToSearchFrom
-	        inherit = stylesForKey.inherit
-	
-	        if(nextContructor === undefined || !inherit) {
-	            break
-	        } else {
-	            if(styleMapKey === 'Gem') {
-	                break // we're done - no need to check anything higher in the prototype chain than Gem
-	            }
-	
-	            styleMapKey = nextContructor.name
-	            nextContructor = nextContructor.parent
-	        }
-	    }
-	
-	    var reversedStyles = styles.reverse() // reverse so later styles override earlier styles
-	    var styleToReturn = reversedStyles[0]
-	    for(var n=1; n<reversedStyles.length; n++) {
-	        styleToReturn = styleToReturn.mix(reversedStyles[n])
-	    }
-	
-	    return styleToReturn
-	
-	
-	    function findStylesForStyleMapKey(startAncestor, key) {
-	        var styles = [], inherit = true
-	        var curAncestor = startAncestor, nextAncestorToSearchFrom = startAncestor
-	        while(curAncestor !== undefined) {                                // find styles from the closest parent to the farthest
-	            if(curAncestor.computedStyleMap !== undefined) {
-	                var style = curAncestor.computedStyleMap[key]
-	            }
-	            if(style !== undefined) {
-	                if(styles.indexOf(style) === -1) {
-	                    styles.push(style)
-	                }
-	                nextAncestorToSearchFrom = curAncestor
-	
-	                inherit = style.inherit
-	                if(!inherit) {
-	                    break
-	                }
-	            }
-	
-	            curAncestor = curAncestor.parent
-	        }
-	
-	        return {styles:styles, nextAncestorToSearchFrom: nextAncestorToSearchFrom, inherit:inherit}
-	    }
-	}
-	
-	// returns the conjunction of two style maps
-	// gets it from the computedStyles cache if its already in there
-	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
-	    if(secondaryStyleMap === undefined) return primaryStyleMap
-	    if(primaryStyleMap === undefined) return secondaryStyleMap
-	
-	    var cachedStyleMap = computedStyles.get([secondaryStyleMap, primaryStyleMap])
-	    if(cachedStyleMap === undefined) {
-	        if(secondaryStyleMap  === undefined) {
-	            cachedStyleMap = primaryStyleMap
-	        } else if(primaryStyleMap === undefined) {
-	            cachedStyleMap = secondaryStyleMap
-	        } else {
-	            var overridingProperties = {}, atLeastOne = false
-	            for(var key in primaryStyleMap) {
-	                if(secondaryStyleMap[key] !== primaryStyleMap[key]) {
-	                    overridingProperties[key] = primaryStyleMap[key]
-	                    atLeastOne = true
-	                }
-	            }
-	
-	            if(atLeastOne) {
-	                cachedStyleMap = utils.objectConjunction(secondaryStyleMap, overridingProperties)
-	            } else { // the styleMaps are different objects, but contain the same thing
-	                cachedStyleMap = secondaryStyleMap
-	            }
-	        }
-	
-	        if(cachedStyleMap === undefined) cachedStyleMap = false // switch it out with false so it can be recognized
-	        computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
-	    }
-	
-	    if(cachedStyleMap === false) {
-	        return undefined
-	    }
-	    return cachedStyleMap
-	}
-	
-	
-	
-	exports.getDefaultStyle = function(gem)  {
-	    // attempt to get from the cache
-	    var defaultGemStyle = defaultStyleMap.get(gem.constructor)
-	    if(defaultGemStyle === undefined) {
-	        defaultGemStyle = createDefaultGemStyle(gem)
-	        if(defaultGemStyle === undefined) defaultGemStyle = false
-	        defaultStyleMap.set(gem.constructor, defaultGemStyle)
-	    }
-	
-	    if(defaultGemStyle === false) {
-	        return undefined
-	    }
-	    return defaultGemStyle
-	}
-	
-	// returns a new style with style b mixed into style a (works even if they're both undefined)
-	var mixStyles = exports.mixStyles = function(a,b) {
-	    if(a === undefined)
-	        return b
-	    else
-	        return a.mix(b)
-	}
-	
-	
-	
-	
-	
-	// sets the currentStyle of a gem and makes all the appropriate changes to render a new active style for the gem and its children
-	exports.setCurrentStyle = function(gem, newCurrentStyle, defaultStyle) {
-	
-	    var current$state = gem._currentStyle === undefined? undefined: gem._currentStyle.stateHandler
-	    var newCurrentStyle$state = newCurrentStyle === undefined? undefined: newCurrentStyle.stateHandler
-	    if(current$state !== newCurrentStyle$state) {     // if the $state function remains the same, we don't gotta do nothin (about switching state functions at least)
-	        if(gem._stateChangeHandler !== undefined) {  // remove the old handler if necessary
-	            gem.state.removeListener('change', gem._stateChangeHandler)
-	            gem._stateChangeHandler = undefined
-	        }
-	
-	        if(newCurrentStyle$state !== undefined) {     // add a new handler if necessary
-	            gem.state.on('change', gem._stateChangeHandler = function() {
-	                var rawStateStyle = getStateStyle(gem._currentStyle, gem.state.subject)
-	                setMixedStateStyle(gem, mixStyles(gem._currentStyle, rawStateStyle))
-	            })
-	        }
-	    }
-	
-	    gem._currentStyle = newCurrentStyle
-	    var rawStateStyle = getStateStyle(newCurrentStyle, gem.state.subject)
-	
-	    var newMixedStateStyle = mixStyles(newCurrentStyle, rawStateStyle)
-	    setMixedStateStyle(gem, newMixedStateStyle, defaultStyle)
-	}
-	
-	
-	// handles reseting a gem's active style when its state style changes
-	// renders the pseudoclass style
-	function setMixedStateStyle(gem, mixedStateStyle, defaultStyle) {
-	    var psuedoclassState = {}
-	
-	    // if a pseudoclass can no longer apply, undo its setup
-	    for(var pseudoClass in gem._styleSetupInfo) {
-	        if(mixedStateStyle === undefined || !(pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo)) {
-	            var setupInfo = gem._styleSetupInfo[pseudoClass]
-	            setupInfo.kill(gem, setupInfo.state)
-	            delete gem._styleSetupInfo[pseudoClass]
-	        }
-	    }
-	
-	    // setup new pseudoclasses
-	    if(mixedStateStyle !== undefined) {
-	        for(var pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo) {
-	            if(!(pseudoClass in gem._styleSetupInfo)) {                     // if this exact pseudoclass is already setup, no need to do anything
-	                ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
-	                    var setupState = emulationInfo.fns.setup(gem, function() { // start
-	                        var changed = psuedoclassState[pseudoClass] !== true
-	                        if(changed) {
-	                            psuedoclassState[pseudoClass] = true
-	                            changeStyleIfNecessary()
-	                        }
-	                    }, function() { // end
-	                        var changed = psuedoclassState[pseudoClass] !== false
-	                        if(changed) {
-	                            psuedoclassState[pseudoClass] = false
-	                            changeStyleIfNecessary()
-	                        }
-	                    }, emulationInfo.parameter)
-	
-	                    gem._styleSetupInfo[pseudoClass] = {state: setupState, kill: emulationInfo.fns.kill}
-	
-	                })(pseudoClass, mixedStateStyle.pseudoclasses.emulatedInfo[pseudoClass])
-	            }
-	        }
-	    }
-	
-	    // build up the pseudoclass state - depending on what pseudoclasses might become applicable
-	    if(mixedStateStyle !== undefined) {
-	        for(var pseudoclassKey in mixedStateStyle.pseudoclasses.emulatedInfo) {
-	            var info = mixedStateStyle.pseudoclasses.emulatedInfo[pseudoclassKey]
-	            psuedoclassState[pseudoclassKey] = info.fns.check(gem, info.parameter)
-	        }
-	    }
-	
-	    // set current pseudoclass style
-	    changeStyleIfNecessary()
-	
-	
-	    function changeStyleIfNecessary() {
-	        var pseudoclassStyleInfo = getPseudoclassStyleFor(mixedStateStyle, psuedoclassState)
-	        var newPreStyleMapStyle = mixStyles(mixedStateStyle, pseudoclassStyleInfo.style)
-	        setPreStyleMapStyle(gem, newPreStyleMapStyle, pseudoclassStyleInfo.index, defaultStyle)
-	    }
-	}
-	
-	// sets the style before being modified by the gem's parent's computedStyleMap
-	// handles removing the state listener and calling $kill on the old activeStyle
-	function setPreStyleMapStyle(gem, newPreStyleMapStyle, jsRenderedPseudoclassIndex, defaultStyle) {
-	    if(gem.parent !== undefined && newPreStyleMapStyle !== undefined)
-	        var newComputedStyleMap = styleMapConjunction(gem.parent.computedStyleMap, newPreStyleMapStyle.componentStyleMap)
-	    else if(gem.parent !== undefined)
-	        var newComputedStyleMap = gem.parent.computedStyleMap
-	    else if(newPreStyleMapStyle !== undefined)
-	        var newComputedStyleMap = newPreStyleMapStyle.componentStyleMap
-	    else
-	        var newComputedStyleMap = undefined
-	
-	    var newActiveStyle = undefined // can be changed below
-	    var cancel = false
-	    if(newPreStyleMapStyle !== undefined) {
-	        if(gem.parent !== undefined) var nativePseudoclassMap = gem.parent._nativePseudoclassMap
-	        else                           var nativePseudoclassMap = {}
-	
-	        var nativePseudoclassSelectorMap = getStyleMapEntryForGem(nativePseudoclassMap, gem)
-	        var nativeCssInfo = newPreStyleMapStyle.createNativeCssInfo(newComputedStyleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
-	
-	        if(nativeCssInfo.cancel) {
-	            cancel = true
-	            setMixedStateStyle(gem, nativeCssInfo.retryStyle)
-	
-	        } else {
-	            newActiveStyle = nativeCssInfo.style
-	            newComputedStyleMap = nativeCssInfo.styleMap // even newer!
-	            gem._nativePseudoclassMap = nativeCssInfo.nativePseudoclassMap
-	        }
-	    }
-	
-	    if(!cancel) {
-	        setActiveStyle(gem, newActiveStyle, newComputedStyleMap)
-	    }
-	}
-	
-	// sets the active style on the gem and on the gem's children
-	// also sets the gem's new computedStyleMap
-	function setActiveStyle(gem, newActiveStyle, newComputedStyleMap) {
-	    var activeStyleChanged = newActiveStyle !== gem._activeStyle
-	    var computedStyleMapChanged = gem.computedStyleMap !== newComputedStyleMap
-	
-	    if(activeStyleChanged) {
-	        setStyleClass(gem, newActiveStyle)
-	
-	        var curActiveStyle$setup = gem._activeStyle === undefined? undefined: gem._activeStyle.setup
-	        var newActiveStyle$setup = newActiveStyle === undefined? undefined: newActiveStyle.setup
-	        if(curActiveStyle$setup !== newActiveStyle$setup) {
-	            applyStyleKillFunction(gem)
-	            applyStyleSetupFunction(gem, newActiveStyle)
-	        }
-	
-	        gem._activeStyle = newActiveStyle
-	    }
-	
-	
-	    gem.computedStyleMap = newComputedStyleMap
-	
-	    // propogate styles to children
-	    gem.children.forEach(function(child) {
-	        if(computedStyleMapChanged || !child.attached) {
-	            child.attached = true
-	            child.style = child.style  // force a re-render on each child
+	    // instance properties
+	
+	    Object.defineProperty(this, 'width', {
+	        get: function() {
+	            return this.domNode.width
+	        }, set: function(v) {
+	            this.domNode.width = v
 	        }
 	    })
-	}
-	
-	
-	
-	// given a style and an object representing some state, returns the state given by the style's $state function
-	// returns undefined if it doesn't have a state function
-	// handles caching state styles (an optimization)
-	function getStateStyle(currentStyle, stateParameter) {
-	    if(currentStyle === undefined || currentStyle.stateHandler === undefined) return undefined
-	
-	    var returnedStyle = currentStyle.stateHandler(stateParameter)
-	
-	    // todo: figure out if this style has been returned before, and if so, use the already-generated style (mostly so that that style can take advantage of other cached combinations)
-	
-	    return returnedStyle
-	}
-	
-	// returns an object with the properties:
-	    // style - the jsRendered pseudoclass style for the gem's relevant pseudoclass state
-	    // index - the index of the pseudoclass (jsRenderedPseudoclassIndex)
-	// returns undefined if no emulated pseudoclass style applies or if only native pseudoclass stylings apply
-	// state - an object that will be mutated with the current state for each pseudoclass
-	function getPseudoclassStyleFor(style, state) {
-	    if(style === undefined) return {index:0}
-	
-	    var index = 0, result={index:0}
-	    style.pseudoclasses.classes.forEach(function(psuedoclassStyle, compoundKey) {
-	        if(!psuedoclassStyle.pureNative) {
-	            for(var j=0; j<compoundKey.length; j++) {
-	                var pseudoclass = compoundKey[j]
-	                if(!state[pseudoclass]) {
-	                    break;
-	                }
-	            }
-	
-	            if(j === compoundKey.length) {
-	                result = {index: index, style: psuedoclassStyle}
-	            }
+	    Object.defineProperty(this, 'height', {
+	        get: function() {
+	            return this.domNode.height
+	        }, set: function(v) {
+	            this.domNode.height = v
 	        }
-	
-	        index++
 	    })
 	
-	    return result
-	}
-	
-	
-	
-	// finds the default style for a gem, mixes it with the appropriate ancestor styles, and returns the result
-	function createDefaultGemStyle(that) {
-	    if(that.defaultStyle !== undefined) {
-	        validateDefaultStyle(that.defaultStyle)
+	    this.context = function() {
+	        return this.domNode.getContext.apply(this.domNode, arguments)
 	    }
 	
-	    // get list of default styles
-	    var defaultStyles = []
-	    var nextConstructor = that.constructor
-	    while(nextConstructor !== undefined) {
-	        if(nextConstructor.defaultStyle !== undefined) {
-	            defaultStyles.push(nextConstructor.defaultStyle)
-	        }
-	        nextConstructor = nextConstructor.parent
+	    this.toImg = this.toDataURL = function() {
+	        return this.domNode.toDataURL()
 	    }
-	
-	    // generate merged default style
-	    var reversedDefaults = defaultStyles.reverse()
-	    var mergedDefaultStyle = reversedDefaults[0]
-	    for(var n=1; n<reversedDefaults.length; n++) {
-	        mergedDefaultStyle = mergedDefaultStyle.mix(reversedDefaults[n])
-	    }
-	
-	    return mergedDefaultStyle
-	}
-	
-	
-	// applies setup appropriately
-	function applyStyleSetupFunction(component, style) {
-	    if(style !== undefined && style.setup !== undefined) {
-	        component._styleSetupObject = style.setup(component, style) // call setup on the component
-	    } else {
-	        component._styleSetupObject = undefined
-	    }
-	}
-	// applies kill appropriately
-	function applyStyleKillFunction(component) {
-	    var activeStyle = component._activeStyle
-	    if(activeStyle !== undefined && activeStyle.setup !== undefined) {
-	        if(activeStyle.kill === undefined)
-	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
-	
-	        activeStyle.kill(component, component._styleSetupObject)
-	    }
-	}
-	
-	
-	// sets the style, replacing one if one already exists
-	function setStyleClass(component, style) {
-	    var activeStyle = component._activeStyle
-	
-	    //var newStyle = component.domNode.className
-	    if(activeStyle !== undefined) {
-	        component.domNode.classList.remove(activeStyle.className)
-	        // newStyle = newStyle.replace(new RegExp(" ?\\b"+activeStyle.className+"\\b"),'') // remove the previous css class
-	    }
-	    if(style !== undefined) {
-	        component.domNode.classList.add(style.className)
-	        //newStyle = style.className+' '+newStyle.trim() // note that the order of classes doesn't matter
-	    }
-	
-	    //component.domNode.className = newStyle
-	}
-	
-	function validateDefaultStyle(defaultStyle) {
-	    if(!isStyleObject(defaultStyle)) {
-	        throw new Error("defaultStyle property must be a Style object")
-	    }
-	}
-	
-	// if you load two different instances of gems, its necessary to do a bit of duck typing
-	function isStyleObject(x) {
-	    return x.className !== undefined && x.componentStyleMap !== undefined && x.mix !== undefined
-	}
+	});
+
 
 /***/ },
-/* 25 */
-/*!*****************************!*\
-  !*** ../~/EventEmitterB.js ***!
-  \*****************************/
+/* 9 */
+/*!********************************!*\
+  !*** ../~/Components/Block.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitter = __webpack_require__(/*! events */ 34).EventEmitter
-	var proto = __webpack_require__(/*! proto */ 37)
-	var utils = __webpack_require__(/*! utils */ 22)
-	
-	module.exports = proto(EventEmitter, function(superclass) {
-	
-	    this.init = function() {
-	        superclass.apply(this, arguments)
-	
-	        this.ifonHandlers = {}
-	        this.ifoffHandlers = {}
-	        this.ifonAllHandlers = []
-	        this.ifoffAllHandlers = []
-	    }
-	
-	    // callback will be triggered immediately if there is already a listener attached, or
-	    // callback will be triggered when the first listener for the event is added
-	    // (regardless of whether its done through on or once)
-	    // parameters can be:
-	        // event, callback - attach an ifon handler for the passed event
-	        // callback - attach an ifon handler for all events
-	    this.ifon = function(event, callback) {
-	        if(event instanceof Function) {     // event not passed, only a callback
-	            callback = event // fix the argument
-	            for(var eventName in this._events) {
-	                if(this.listeners(eventName).length > 0) {
-	                    callback(eventName)
-	                }
-	            }
-	        } else if(this.listeners(event).length > 0) {
-	            callback(event)
-	        }
-	
-	        addHandlerToList(this, 'ifonHandlers', event, callback)
-	    }
-	
-	    // removes either:
-	        // removeIfon() - all ifon handlers (if no arguments are passed), or
-	        // removeIfon(event) - all ifon handlers for the passed event, or
-	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
-	        // removeIfon(event, callback) - the specific passed callback for the passed event
-	    this.removeIfon = function(event, callback) {
-	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
-	    }
-	
-	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
-	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
-	    // parameters can be:
-	        // event, callback - attach an ifoff handler for the passed event
-	        // callback - attach an ifoff handler for all events
-	    this.ifoff = function(event, callback) {
-	        addHandlerToList(this, 'ifoffHandlers', event, callback)
-	    }
-	
-	    // removes either:
-	        // removeIfoff() - all ifoff handlers (if no arguments are passed), or
-	        // removeIfoff(event) - all ifoff handlers for the passed event, or
-	        // removeIfoff(callback) - the passed ifoff-all handler (if the first parameter is the callback)
-	        // removeIfoff(event, callback) - the specific passed callback for the passed event
-	    this.removeIfoff = function(event, callback) {
-	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
-	    }
-	
-	    // emitter is the emitter to proxy handler binding to
-	    // options can have one of the following properties:
-	        // only - an array of events to proxy
-	        // except - an array of events to *not* proxy
-	    this.proxy = function(emitter, options) {
-	        if(options === undefined) options = {}
-	        if(options.except !== undefined) {
-	            var except = utils.arrayToMap(options.except)
-	            var handleIt = function(event){return !(event in except)}
-	        } else if(options.only !== undefined) {
-	            var only = utils.arrayToMap(options.only)
-	            var handleIt = function(event){return event in only}
-	        } else {
-	            var handleIt = function(){return true}
-	        }
-	
-	        var that = this, handler;
-	        this.ifon(function(event) {
-	            if(handleIt(event)) {
-	                emitter.on(event, handler = function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        this.ifoff(function(event) {
-	            if(handleIt(event))
-	                emitter.off(event, handler)
-	        })
-	    }
-	
-	    /*override*/ this.on = this.addListener = function(event, callback) {
-	        var triggerIfOn = this.listeners(event).length === 0
-	        superclass.prototype.on.apply(this,arguments)
-	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
-	    }
-	
-	    /*override*/ this.off = this.removeListener = function(event, callback) {
-	        var triggerIfOff = this.listeners(event).length === 1
-	        superclass.prototype.removeListener.apply(this,arguments)
-	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
-	    }
-	    /*override*/ this.removeAllListeners = function(event) {
-	        var triggerIfOffForEvents = []
-	        if(event !== undefined) {
-	            if(this.listeners(event).length > 0) {
-	                triggerIfOffForEvents.push(event)
-	            }
-	        } else {
-	            for(var event in this._events) {
-	                if(this.listeners(event).length > 0) {
-	                    triggerIfOffForEvents.push(event)
-	                }
-	            }
-	        }
-	
-	        superclass.prototype.removeAllListeners.apply(this,arguments)
-	
-	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
-	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
-	        }
-	    }
-	
-	})
-	
-	
-	// triggers the if handlers from the normal list and the "all" list
-	function triggerIfHandlers(that, handlerListName, event) {
-	    triggerIfHandlerList(that[handlerListName][event], event)
-	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
-	}
-	
-	
-	// triggers the if handlers from a specific list
-	// ya these names are confusing, sorry : (
-	function triggerIfHandlerList(handlerList, event) {
-	    if(handlerList !== undefined) {
-	        for(var n=0; n<handlerList.length; n++) {
-	            handlerList[n](event)
-	        }
-	    }
-	}
-	
-	function addHandlerToList(that, handlerListName, event, callback) {
-	    if(event instanceof Function) {
-	        // correct arguments
-	        callback = event
-	        event = undefined
-	    }
-	
-	    if(event !== undefined && callback !== undefined) {
-	        var handlerList = that[handlerListName][event]
-	        if(handlerList === undefined) {
-	            handlerList = that[handlerListName][event] = []
-	        }
-	
-	        handlerList.push(callback)
-	    } else {
-	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
-	    }
-	}
-	
-	function removeFromHandlerList(that, handlerListName, event, callback) {
-	    if(event instanceof Function) {
-	        // correct arguments
-	        callback = event
-	        event = undefined
-	    }
-	
-	    if(event !== undefined && callback !== undefined) {
-	        removeCallbackFromList(that[handlerListName][event], callback)
-	    } else if(event !== undefined) {
-	        delete that[handlerListName][event]
-	    } else if(callback !== undefined) {
-	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
-	        removeCallbackFromList(that[allHandlerListName], callback)
-	    } else {
-	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
-	        that[handlerListName] = {}
-	        that[allHandlerListName] = []
-	    }
-	}
-	
-	function normalHandlerToAllHandlerProperty(handlerListName) {
-	    if(handlerListName === 'ifonHandlers')
-	        return 'ifonAllHandlers'
-	    if(handlerListName === 'ifoffHandlers')
-	        return 'ifoffAllHandlers'
-	}
-	
-	function removeCallbackFromList(list, callback) {
-	    var index = list.indexOf(callback)
-	    list.splice(index,1)
-	}
-
-/***/ },
-/* 26 */
-/*!*******************************!*\
-  !*** ../~/Components/Item.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! Gem */ 4)
-	var proto = __webpack_require__(/*! proto */ 37)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var Gem = __webpack_require__(/*! ../Gem */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
 		// static properties
 	
-		this.name = 'ListItem'
+	    this.name = 'Block'
 	
-	    this.defaultStyle = Style({
-	        display: 'list-item'
-	    })
 	
 		// instance properties
 	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
+		this.init = function (/*[label,] content*/) {
+	        if(typeof(arguments[0]) !== 'string') {
+	            var contentArgs = arguments
 	        } else {
 	            var label = arguments[0]
-	            var contents = arguments[1]
+	            var contentArgs = Array.prototype.slice.call(arguments, 1)
 	        }
 	
-	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
+	        superclass.init.call(this) // superclass constructor
 	
-	        if(contents instanceof Gem) {
-				this.add(contents)
-			} else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
+	        this.label = label
+	
+			if(contentArgs !== undefined)
+	            this.add.apply(this,contentArgs)
 		}
+	})
+
+
+/***/ },
+/* 10 */
+/*!*********************************!*\
+  !*** ../~/Components/Button.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! Gem */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+	    // static variables
+	
+	    this.name = 'Button'
+	
+	
+	    // instance properties
+	
+		this.init = function(/*[label,] text*/) {
+	        if(arguments.length >= 2) {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        } else {
+	            var text = arguments[0]
+	        }
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+			this.attr('type','button');
+			this.text = text
+		}
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.attr('value')
+	        },
+	        set: function(text) {
+	            this.attr('value', text)
+	        }
+	    })
+	
+	})
+
+
+/***/ },
+/* 11 */
+/*!***********************************!*\
+  !*** ../~/Components/CheckBox.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! Gem */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
+	
+	module.exports = proto(Gem, function(superclass) {
+		// static variables
+	    this.name = 'CheckBox'
+	
+		// instance methods
+		this.init = function(label) {
+	        var that = this
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+			this.attr('type','checkbox')
+		}
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the checkbox is checked
+	        get: function() {
+	            return this.domNode.checked
+	        },
+	        // sets the value of the checkbox to the passed value (true for checked)
+	        set: function(checked) {
+	            var newValue = checked === true
+	            var curValue = this.domNode.checked
+	            if(curValue === newValue) return;  // do nothing if nothing's changing
+	
+	            this.domNode.checked = newValue
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	        }
+	    })
+	})
+
+
+/***/ },
+/* 12 */
+/*!********************************!*\
+  !*** ../~/Components/Image.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! Gem */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Image'
+	
+	    this.init = function(/*[label,] imageSource*/) {
+	        if(arguments.length === 1) {
+	            var imageSource = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var imageSource = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement('img') // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        var that = this
+	
+	        this.label = label
+	        if(imageSource !==  undefined) this.src = imageSource
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'src', {
+	        get: function() {
+	            return this.domNode.src
+	        }, set: function(v) {
+	            this.domNode.src = v
+	        }
+	    })
 	});
 
 
 /***/ },
-/* 27 */
-/*!*********************************!*\
-  !*** ../~/Components/Header.js ***!
-  \*********************************/
+/* 13 */
+/*!*******************************!*\
+  !*** ../~/Components/List.js ***!
+  \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
+	var proto = __webpack_require__(/*! proto */ 39)
 	
+	var Gem = __webpack_require__(/*! Gem */ 5)
+	var Style = __webpack_require__(/*! Style */ 6)
 	
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 39);
+	var Item = __webpack_require__(/*! ./Item */ 30);
 	
-	module.exports = RowlikeGenerator('th', "TableHeader")
-
-/***/ },
-/* 28 */
-/*!*********************************!*\
-  !*** ../~/Components/Option.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// note: this is  not intended to be used directly - only through Select and MultiSelect
-	
-	var proto = __webpack_require__(/*! proto */ 37)
-	
-	var Gem = __webpack_require__(/*! Gem */ 4)
-	var Style = __webpack_require__(/*! Style */ 5)
-	var domUtils = __webpack_require__(/*! domUtils */ 23)
-	
-	// emits a 'change' event when its 'selected' value changes
 	module.exports = proto(Gem, function(superclass) {
 	
-	    // staic members
+		// static properties
 	
-	    this.name = 'Option'
+		this.Item = Item
 	
-	    this.defaultStyle = Style({
-	        display: 'block'
+	    this.name = 'List'
+	
+		// instance properties
+	
+		this.init = function(/*[label,] [ordered,] listInit*/) {
+			if(arguments[0] instanceof Array) {
+	            var listInit = arguments[0]
+	        } else {
+	            if(arguments[1] instanceof Array) {
+	                var listInit = arguments[1]
+	            } else if(arguments[2] instanceof Array) {
+	                var listInit = arguments[2]
+	            }
+	
+	            if(typeof(arguments[0]) === 'boolean') {
+	                var ordered = arguments[0]
+	            } else {
+	                if(typeof(arguments[1]) === 'boolean') {
+	                    var ordered = arguments[1]
+	                } else {
+	                    var ordered = false // default
+	                }
+	
+	                if(typeof(arguments[0]) === 'string') {
+	                    var label = arguments[0]
+	                }
+	            }
+	        }
+	
+	        if(ordered) {
+	            var type = 'ol'
+	        } else {
+	            var type = 'ul'
+	            this.defaultStyle = Style({
+	                listStyleType: 'decimal'
+	            })
+	        }
+	
+	
+	        this.domNode = document.createElement(type) // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	        this.label = label
+	
+	        if(listInit !== undefined) {
+	            for(var n=0; n<listInit.length; n++) {
+	                this.item(listInit[n])
+	            }
+	        }
+		}
+	
+		this.item = function() {
+			var item = Item.apply(this, arguments)
+	        this.add(item)
+	        return item
+		}
+	});
+
+/***/ },
+/* 14 */
+/*!********************************!*\
+  !*** ../~/Components/Radio.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 39)
+	var EventEmitter = __webpack_require__(/*! events */ 40).EventEmitter
+	
+	var Gem = __webpack_require__(/*! ../Gem */ 5)
+	
+	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
+	
+	// A group of radio buttons
+	module.exports = proto(EventEmitter, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'Radio'
+	
+		// instance properties
+	
+	
+	    // required - If true, a radio button must always be selected. Otherwise, radio buttons can be deselected by clicking on them.
+		this.init = function(required) {
+	        //this.selected
+	        this.required = required === true || required === undefined
+	        this.buttons = {} // maps values to the buttons that have each value
+	        this.randomStart = randomStart++
+		}
+	
+	    // returns a new radio button
+	    this.button = function(/*[label,] value*/) {
+	        if(arguments.length >= 2) {
+	            var label = arguments[0]
+	            var value = arguments[1]
+	        } else {
+	            var value = arguments[0]
+	        }
+	
+	        if(this.buttons[value] !== undefined) {
+	            throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
+	        }
+	
+	        var button = RadioButton(this, label, value, "_radioblock"+this.randomStart)
+	        this.buttons[value] = button
+	
+	        if(this.required && this._selected === undefined) {
+	            button.selected = true
+	        }
+	
+	        return button
+	    }
+	
+	    // returns the RadioButton in the group that's selected (or undefined if none are selected)
+	    Object.defineProperty(this, 'selected', {
+	        get: function() {
+	            return this._selected
+	        },
+	        set: function() {
+	            throw new Error("Can't set selected on a Radio object")
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the selected radio button in the group (undefined if none are selected)
+	        get: function() {
+	            var selected = this._selected
+	            if(selected === undefined) return undefined
+	            // else
+	            return selected.attr('value')
+	        },
+	
+	        // sets the value of the checkbox to the passed value (true for checked)
+	        // throws an exception if none of the radio buttons have that value
+	        // throws an exception if an unset is attempted for a required Radio set
+	        set: function(value) {
+	            if(value === undefined) {
+	                var selected = this._selected
+	                if(selected !== undefined) {
+	                    selected.selected = false
+	                }
+	            } else {
+	                var button = this.buttons[value]
+	                if(button === undefined) throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
+	
+	                button.selected = true
+	            }
+	        }
 	    })
 	
 	
-	    // instance members
+	    // arguments can be one of the following:
+	        // RadioButton, RadioButton, RadioButton, ...
+	        // value, value, value, ... - each value is the value of the RadioButton to remove
+	        // arrayOfRadioButtons
+	        // arrayOfValues
+	    this.remove = function() {
+	        if(arguments[0] instanceof Array) {
+	            var removals = arguments[0]
+	        } else {
+	            var removals = arguments
+	        }
 	
-	    this.init = function(/*[label,] value, text*/) {
-	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	        superclass.init.call(this) // superclass constructor
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
 	
-	        if(arguments.length===2) {
-	            this.val = arguments[0]
-	            this.text = arguments[1]
-	        } else { // 3
-	            this.label = arguments[0]
-	            this.val = arguments[1]
-	            this.text = arguments[2]
+	            if(r instanceof RadioButton) {
+	                var button = r
+	                var value = r.val
+	
+	                if(this.buttons[value] !== r) {
+	                    throw new Error("The button passed at index "+n+" is not part of the group.")
+	                }
+	            } else {
+	                var button = this.buttons[r]
+	                var value = r
+	
+	                if(button === undefined) {
+	                    throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
+	                }
+	            }
+	
+	            var originalSelected = this.selected
+	            if(this.selected === button) {
+	                this._selected = undefined
+	            }
+	
+	            this.buttons[value].group = undefined // fully remove it from the group
+	            delete this.buttons[value]
+	        }
+	
+	        if(this.required && this.selected === undefined) {
+	            for(var v in this.buttons) {
+	                this.buttons[v].selected = true // just select the first one
+	                break; // yes this doesn't loop
+	            }
+	        } else if(originalSelected !== this.selected) {
+	            this.emit('change')
 	        }
 	    }
 	
+	})
+	
+	var RadioButton = proto(Gem, function(superclass) {
+	    this.name = 'RadioButton'
+	
+	    this.init = function(radioGroup, label, value, name) {
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	        this.group = radioGroup
+	
+	        this.attr('type', 'radio')
+	        this.attr('name', name) // the name is needed so that using tab to move through page elements can tab between different radio groups
+	        this.val = value
+	
+	        var that = this
+			this.on("mousedown",function(event) {
+	            event.preventDefault()           // this needs to be here otherwise the radio button can't be changed
+	
+				if(that.group.required) {
+	                if(that.selected === false) {
+	                    that.selected = true
+	                }
+	            } else {
+	                that.selected = !that.selected // toggle
+	            }
+			})
+	        this.on("click",function(event) {
+	            event.preventDefault()         // this needs to be here otherwise the radio button can't be *unset*
+	        })
+	        this.on("keydown",function(event) {
+	            if(event.keyCode === 40 || event.keyCode === 39) { // down or right
+	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                that.selectNext()
+	            } else if(event.keyCode === 38 || event.keyCode === 37) { // up or left
+	                event.preventDefault()         // this needs to be here otherwise the radio button strangely calls the click handler which causes things to mess up
+	                that.selectPrevious()
+	            }
+	        })
+	    }
+	
 	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
+	        // returns the value attribute of the checkbox
 	        get: function() {
-	            return this._value
+	            return this.attr('value')
 	        },
 	
-	        // sets the value of the Option
+	        // sets the value attribute of the checkbox
 	        set: function(value) {
-	            if(this.parent !== undefined) {
-	                if(this.parent.options[value] !== undefined) {
-	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: "+JSON.stringify(value)+")")
-	                }
-	
-	                if(this.val !== null) {
-	                    delete this.parent.options[this.val]
-	                }
-	
-	                this.parent.options[value] = this
+	            if(this.group.buttons[value] !== undefined) {
+	                throw new Error("Can't give a RadioButton the same value as another in the group (value: '"+value+"')")
 	            }
 	
-	            this._value = value
-	
+	            var oldValue = this.val
+	            this.attr('value', value)
+	            if(oldValue !== undefined) delete this.group.buttons[oldValue]
+	            this.group.buttons[value] = this
 	        }
 	    })
 	
 	
 	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the option is selected
+	        // returns whether or not the checkbox is checked
 	        get: function() {
-	            return this.domNode.selected
+	            return this.domNode.checked
 	        },
 	
-	        // sets the selected state of the option to the passed value (true for selected)
+	        // sets the selected state of the checkbox to the passed value (true for checked)
 	        set: function(value) {
 	            var booleanValue = value === true
-	            if(this.selected === booleanValue) return false; // ignore if there's no change
+	            if(this.selected === value) return; // ignore if there's no change
 	
-	            if(this.parent !== undefined)
-	                this.parent.prepareForValueChange([this.val])
-	
-	            this.setSelectedQuiet(booleanValue)
-	
-	            if(this.parent !== undefined)
-	                this.parent.emit('change')
+	            if(booleanValue) {
+	                var previouslySelected = this.group.selected
+	                setButtonInGroup(this.group, this)
+	                if(previouslySelected !== undefined)
+	                    previouslySelected.emit('change')
+	            } else {
+	                if(this.group.required) throw new Error("Can't unset this Radio set, a value is required.")
+	                this.domNode.checked = false
+	                this.group._selected = undefined
+	            }
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	            this.group.emit('change')
 	        }
 	    })
 	
-	    Object.defineProperty(this, 'text', {
+	    this.selectNext = function() {
+	        selectSibling(this,1)
+	    }
+	    this.selectPrevious = function() {
+	        selectSibling(this,-1)
+	    }
+	
+	})
+	
+	// direction can be +1 or -1
+	function selectSibling(button, direction) {
+	    var buttons = button.group.buttons
+	    var values = Object.keys(buttons)
+	    var index = values.indexOf(button.attr('value'))
+	    if(direction === 1 && index === values.length-1) {
+	        var buttonToSelect = buttons[values[0]]
+	    } else if(direction === -1 && index === 0) {
+	        var buttonToSelect = buttons[values[values.length-1]]
+	
+	    } else {
+	        var buttonToSelect = buttons[values[index+direction]]
+	    }
+	
+	    buttonToSelect.selected = true
+	    buttonToSelect.focus()
+	}
+	
+	function setButtonInGroup(group, button) {
+	    var selected = group._selected
+	    if(selected !== undefined) selected.domNode.checked = false
+	    button.domNode.checked = true
+	    group._selected = button
+	}
+	
+	function getRandomInt(min, max) {
+	  return Math.floor(Math.random() * (max - min)) + min;
+	}
+
+/***/ },
+/* 15 */
+/*!*********************************!*\
+  !*** ../~/Components/Select.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! ../Gem */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
+	
+	var Option = __webpack_require__(/*! Components/Option */ 29)
+	
+	// emits a 'change' event when its 'val' changes
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static variables
+	
+	    this.name = 'Select'
+	
+	    this.Option = Option
+	
+		this.init = function(/*[label,] options*/) {
+	        if(arguments[0] instanceof Object) {
+	            var options = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var options = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("select") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	        this.label = label
+	
+	        this.options = {}
+	
+			for(var value in options) {
+				this.option(value, options[value])
+			}
+		}
+	
+	
+		// instance methods
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value that is selected
 	        get: function() {
-	            return this.domNode[domUtils.textProperty]
+	            for(var value in this.options) {
+	                if(this.options[value].selected) {
+	                    return this.options[value].val
+	                }
+	            }
 	        },
 	
-	        set: function(text) {
-	            this.domNode[domUtils.textProperty] = text
+	        set: function(value) {
+	            var option = this.options[value]
+	            if(option === undefined || option.val !== value) throw new Error("There is no Option in the Select with the value: '"+value+"'")
+	            option.selected = true
 	        }
 	    })
+		
+		this.option = function(/*[label,] value,text*/) {
+	        if(arguments.length === 2) {
+	            var value = arguments[0]
+	            var text = arguments[1]
+	        } else if(arguments.length === 3) {
+	            var label = arguments[0]
+	            var value = arguments[1]
+	            var text = arguments[2]
+	        } else {
+	            throw new Error("Invalid number of arguments")
+	        }
+	
+	        var newOption = Option(label, value,text)
+	        this.add(newOption)
+	
+	        return newOption
+	
+		}
+	
+	    // same interface as Gem.addAt
+	    /*override*/ this.addAt = function(index/*, nodes...*/) {
+	        var that = this
+	
+	        var nodesToAdd = Gem.normalizeAddAtArguments.apply(this, arguments)
+	
+	        // validation first
+	        nodesToAdd.forEach(function(option) {
+	            if(that.options[option.val] !== undefined) {
+	                throw new Error("Can't give an Option the same value as another in the Select (value: '"+option.val+"')")
+	            }
+	        })
+	
+	        superclass.addAt.call(this, index, nodesToAdd)
+	
+	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var anyWereSelected = false
+	        nodesToAdd.forEach(function(option) {
+	            if(option.selected) anyWereSelected = true
+	            that.options[option.val] = option
+	
+	            // set up Select events
+	            // todo: remove events when the Option is removed
+	
+	            option.on("mousedown",function(event) {
+	                option.parent.val = option.val      // select this one
+	            })
+	        })
+	
+	        if(anyWereSelected) {
+	            this.emit('change')
+	        }
+	    }
+	
+	    // same interface as Gem.remove
+	    /*override*/ this.remove = function() {
+	        var that = this
+	
+	        var removalIndexes = Gem.normalizeRemoveArguments.apply(this, arguments)
+	        var removals = removalIndexes.map(function(index) {
+	            return that.children[index]
+	        })
+	
+	        superclass.remove.call(this, removalIndexes)
+	
+	        // Select specific state modifications - this must be done after the superclass call in case an error is thrown from it
+	        var theSelectedWasRemoved = false
+	        removals.forEach(function(option) {
+	            if(option.selected) theSelectedWasRemoved = true
+	            delete that.options[option.val]
+	        })
+	
+	        if(theSelectedWasRemoved) {
+	            //this.children[0].selected = true // I think the browser does this automatically??
+	            this.emit('change')
+	        }
+	    }
 	
 	
 	    // private
 	
-	    // does everything for setting the selected state except emit the parent's change event
-	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
-	        if(this.selected === booleanValue) return; // ignore if there's no change
+	    this.prepareForValueChange = function(values) {
+	        var value = values[0]
 	
-	        this.domNode.selected = booleanValue
-	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	        for(var optionValue in this.options) {
+	            if(optionValue !== value) {
+	                var option = this.options[optionValue]
+	                if(option.selected === true) {
+	                    option.setSelectedQuiet(false)
+	                }
+	            }
+	        }
 	    }
 	})
+	
+
 
 /***/ },
-/* 29 */
+/* 16 */
 /*!******************************!*\
-  !*** ../~/Components/Row.js ***!
+  !*** ../~/Components/Svg.js ***!
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 39);
+	var proto = __webpack_require__(/*! proto */ 39)
+	var Gem = __webpack_require__(/*! ../Gem */ 5)
 	
-	module.exports = RowlikeGenerator('tr', "TableRow")
-
+	module.exports = proto(Gem, function(superclass) {
+		// static variables
+	    this.name = 'Svg'
+	
+		// instance methods
+		this.build = function(/*[label,] svgXml*/) {
+	        if(arguments.length === 1) {
+	            var svgXml = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var svgXml = arguments[1]
+	        }
+	
+	        var div = document.createElement('div')
+	        div.innerHTML = svgXml
+	        this.domNode = div.firstChild
+	
+	        this.label = label
+		}
+	})
 
 /***/ },
-/* 30 */
-/*!*******************************!*\
-  !*** ../~/Components/Cell.js ***!
-  \*******************************/
+/* 17 */
+/*!********************************!*\
+  !*** ../~/Components/Table.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! ../Gem */ 4)
-	var proto = __webpack_require__(/*! proto */ 37)
-	var Style = __webpack_require__(/*! Style */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
+	
+	var Gem = __webpack_require__(/*! ../Gem */ 5)
+	var Style = __webpack_require__(/*! Style */ 6)
+	
+	var Header = __webpack_require__(/*! ./Header */ 31);
+	var Row = __webpack_require__(/*! ./Row */ 32);
+	var Cell = __webpack_require__(/*! ./Cell */ 33);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
 		// static properties
 	
-		this.name = 'TableCell'
+	    this.name = 'Table'
 	
 	    this.defaultStyle = Style({
-	        display: 'table-cell'
+	        borderSpacing: 0
 	    })
-		
+	
+	    this.Row = Row
+		this.Header = Header
+	    this.Cell = Cell
+	
 	
 		// instance properties
 	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
+		this.init = function(/*[label,] tableInit*/) {
+			if(arguments[0] instanceof Array) {
+	            var tableInit = arguments[0]
 	        } else {
 	            var label = arguments[0]
-	            var contents = arguments[1]
+	            var tableInit = arguments[1]
 	        }
 	
-	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
+	        this.domNode = document.createElement("table") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	        this.label = label
+	
+	        if(tableInit !== undefined) {
+	            for(var n=0; n<tableInit.length; n++) {
+	                this.row(tableInit[n])
+	            }
+	        }
+		}
+		
+		this.header = function(/*[]label,] listOfBlocksOrText*/) {
+	        return headerOrRegularRow(this, Header, arguments)
+		}
+	
+		this.row = function() {
+			return headerOrRegularRow(this, Row, arguments)
+		}
+	});
+	
+	function headerOrRegularRow(that, Prototype, args) {
+	    var row = Prototype.apply(undefined, args)
+	    that.add(row)
+	    return row
+	}
+
+/***/ },
+/* 18 */
+/*!***********************************!*\
+  !*** ../~/Components/TextArea.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! ../Gem */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static variables
+	
+	    this.name = 'TextArea'
+	
+		this.init = function(label) {
+	        this.domNode = document.createElement("textarea") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
 			this.label = label
+		}
 	
-	        if(contents instanceof Gem || typeof(contents) !== 'string') {
-	            this.add(contents)
-	        } else if(contents !== undefined) {
-	            this.domNode.textContent = contents
+	
+		// instance properties
+	
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.domNode.value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.val === value) return; // do nothing if there's no change
+	
+	            this.domNode.value = value
+	            this.emit('change')
 	        }
-		}
-	
-		this.colspan = function(cols) {
-			this.attr('colspan',cols);
-		}
+	    })
 	});
 
 
 /***/ },
-/* 31 */
+/* 19 */
+/*!************************************!*\
+  !*** ../~/Components/TextField.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! ../Gem */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
+	
+	var domUtils = __webpack_require__(/*! ../domUtils */ 26)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'TextField'
+	
+		this.init = function(/*[label,] password*/) {
+	        if(arguments.length === 1) {
+	            var password = arguments[0]
+	        } else if(arguments.length > 1) {
+	            var label = arguments[0]
+	            var password = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+			this.label = label
+			//domUtils.setAttribute(this.domNode,'type','text');  // NOTE: IE fucks this up, and since 'text' is the default type for an input node, lets just forget abat it
+	        if(password)
+	            domUtils.setAttribute(this.domNode, 'type', 'password')
+		}
+	
+	
+		// instance properties
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this.domNode.value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.val === value) return; // do nothing if there's no change
+	
+	            this.domNode.value = value
+	            this.emit('change')
+	        }
+	    })
+	
+	});
+
+
+/***/ },
+/* 20 */
+/*!*******************************!*\
+  !*** ../~/Components/Text.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var proto = __webpack_require__(/*! proto */ 39)
+	
+	var Gem = __webpack_require__(/*! Gem */ 5)
+	var Style = __webpack_require__(/*! Style */ 6)
+	
+	var domUtils = __webpack_require__(/*! domUtils */ 26)
+	
+	
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Text'
+	
+	    this.defaultStyle = Style({
+	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
+	    })
+	
+	    this.init = function(/*[label,] text*/) {
+	        if(arguments.length === 1) {
+	            var text = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        }
+	
+	        if (text === undefined) text = '';
+	
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	        this.text = text
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode[domUtils.textProperty]
+	        }, set: function(v) {
+	             this.domNode[domUtils.textProperty] = v
+	        }
+	    })
+	});
+	
+	
+
+
+/***/ },
+/* 21 */
 /*!*********************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/defaultFormats.js ***!
   \*********************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 47)
+	var Future = __webpack_require__(/*! async-future */ 41)
 	
-	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 48)
-	var indent = __webpack_require__(/*! ./indent */ 49)
-	var utils = __webpack_require__(/*! ./utils */ 33)
+	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 43)
+	var indent = __webpack_require__(/*! ./indent */ 44)
+	var utils = __webpack_require__(/*! ./utils */ 23)
 	
 	// unitTest is a deadunit-core UnitTest object
 	// if consoleColoring is true, the string will contain console color annotations
@@ -5985,7 +4519,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 32 */
+/* 22 */
 /*!************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/deadunit.internal.js ***!
   \************************************************************************************/
@@ -5998,10 +4532,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var exports = {}
 	
 	    var deadunitCore = options.deadunitCore
-	    var proto = __webpack_require__(/*! proto */ 46)
+	    var proto = __webpack_require__(/*! proto */ 42)
 	
-	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 31)
-	    exports.format = __webpack_require__(/*! ./basicFormatter */ 48)
+	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 21)
+	    exports.format = __webpack_require__(/*! ./basicFormatter */ 43)
 	
 	    exports.error = deadunitCore.error
 	
@@ -6028,14 +4562,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 33 */
+/* 23 */
 /*!************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/utils.js ***!
   \************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var util = __webpack_require__(/*! util */ 52)
+	var util = __webpack_require__(/*! util */ 50)
 	
 	exports.plural = function (num, plural, singular) {
 		var plur = num!==1;
@@ -6132,7 +4666,1670 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
+/* 24 */
+/*!*****************************!*\
+  !*** ../~/EventEmitterB.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitter = __webpack_require__(/*! events */ 40).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 39)
+	var utils = __webpack_require__(/*! utils */ 25)
+	
+	module.exports = proto(EventEmitter, function(superclass) {
+	
+	    this.init = function() {
+	        superclass.apply(this, arguments)
+	
+	        this.ifonHandlers = {}
+	        this.ifoffHandlers = {}
+	        this.ifonAllHandlers = []
+	        this.ifoffAllHandlers = []
+	    }
+	
+	    // callback will be triggered immediately if there is already a listener attached, or
+	    // callback will be triggered when the first listener for the event is added
+	    // (regardless of whether its done through on or once)
+	    // parameters can be:
+	        // event, callback - attach an ifon handler for the passed event
+	        // callback - attach an ifon handler for all events
+	    this.ifon = function(event, callback) {
+	        if(event instanceof Function) {     // event not passed, only a callback
+	            callback = event // fix the argument
+	            for(var eventName in this._events) {
+	                if(this.listeners(eventName).length > 0) {
+	                    callback(eventName)
+	                }
+	            }
+	        } else if(this.listeners(event).length > 0) {
+	            callback(event)
+	        }
+	
+	        addHandlerToList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfon() - all ifon handlers (if no arguments are passed), or
+	        // removeIfon(event) - all ifon handlers for the passed event, or
+	        // removeIfon(callback) - the passed ifon-all handler (if the first parameter is the callback)
+	        // removeIfon(event, callback) - the specific passed callback for the passed event
+	    this.removeIfon = function(event, callback) {
+	        removeFromHandlerList(this, 'ifonHandlers', event, callback)
+	    }
+	
+	    // callback will be triggered when the last listener for the 'click' event is removed (will not trigger immediately if there is no event listeners on call of ifoff)
+	    // (regardless of whether this is done through removeListener or as a result of 'once' being fulfilled)
+	    // parameters can be:
+	        // event, callback - attach an ifoff handler for the passed event
+	        // callback - attach an ifoff handler for all events
+	    this.ifoff = function(event, callback) {
+	        addHandlerToList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // removes either:
+	        // removeIfoff() - all ifoff handlers (if no arguments are passed), or
+	        // removeIfoff(event) - all ifoff handlers for the passed event, or
+	        // removeIfoff(callback) - the passed ifoff-all handler (if the first parameter is the callback)
+	        // removeIfoff(event, callback) - the specific passed callback for the passed event
+	    this.removeIfoff = function(event, callback) {
+	        removeFromHandlerList(this, 'ifoffHandlers', event, callback)
+	    }
+	
+	    // emitter is the emitter to proxy handler binding to
+	    // options can have one of the following properties:
+	        // only - an array of events to proxy
+	        // except - an array of events to *not* proxy
+	    this.proxy = function(emitter, options) {
+	        if(options === undefined) options = {}
+	        if(options.except !== undefined) {
+	            var except = utils.arrayToMap(options.except)
+	            var handleIt = function(event){return !(event in except)}
+	        } else if(options.only !== undefined) {
+	            var only = utils.arrayToMap(options.only)
+	            var handleIt = function(event){return event in only}
+	        } else {
+	            var handleIt = function(){return true}
+	        }
+	
+	        var that = this, handler;
+	        this.ifon(function(event) {
+	            if(handleIt(event)) {
+	                emitter.on(event, handler = function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        this.ifoff(function(event) {
+	            if(handleIt(event))
+	                emitter.off(event, handler)
+	        })
+	    }
+	
+	    /*override*/ this.on = this.addListener = function(event, callback) {
+	        var triggerIfOn = this.listeners(event).length === 0
+	        superclass.prototype.on.apply(this,arguments)
+	        if(triggerIfOn) triggerIfHandlers(this, 'ifonHandlers', event)
+	    }
+	
+	    /*override*/ this.off = this.removeListener = function(event, callback) {
+	        var triggerIfOff = this.listeners(event).length === 1
+	        superclass.prototype.removeListener.apply(this,arguments)
+	        if(triggerIfOff) triggerIfHandlers(this, 'ifoffHandlers', event)
+	    }
+	    /*override*/ this.removeAllListeners = function(event) {
+	        var triggerIfOffForEvents = []
+	        if(event !== undefined) {
+	            if(this.listeners(event).length > 0) {
+	                triggerIfOffForEvents.push(event)
+	            }
+	        } else {
+	            for(var event in this._events) {
+	                if(this.listeners(event).length > 0) {
+	                    triggerIfOffForEvents.push(event)
+	                }
+	            }
+	        }
+	
+	        superclass.prototype.removeAllListeners.apply(this,arguments)
+	
+	        for(var n=0; n<triggerIfOffForEvents.length; n++) {
+	            triggerIfHandlers(this, 'ifoffHandlers', triggerIfOffForEvents[n])
+	        }
+	    }
+	
+	})
+	
+	
+	// triggers the if handlers from the normal list and the "all" list
+	function triggerIfHandlers(that, handlerListName, event) {
+	    triggerIfHandlerList(that[handlerListName][event], event)
+	    triggerIfHandlerList(that[normalHandlerToAllHandlerProperty(handlerListName)], event)
+	}
+	
+	
+	// triggers the if handlers from a specific list
+	// ya these names are confusing, sorry : (
+	function triggerIfHandlerList(handlerList, event) {
+	    if(handlerList !== undefined) {
+	        for(var n=0; n<handlerList.length; n++) {
+	            handlerList[n](event)
+	        }
+	    }
+	}
+	
+	function addHandlerToList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        var handlerList = that[handlerListName][event]
+	        if(handlerList === undefined) {
+	            handlerList = that[handlerListName][event] = []
+	        }
+	
+	        handlerList.push(callback)
+	    } else {
+	        that[normalHandlerToAllHandlerProperty(handlerListName)].push(callback)
+	    }
+	}
+	
+	function removeFromHandlerList(that, handlerListName, event, callback) {
+	    if(event instanceof Function) {
+	        // correct arguments
+	        callback = event
+	        event = undefined
+	    }
+	
+	    if(event !== undefined && callback !== undefined) {
+	        removeCallbackFromList(that[handlerListName][event], callback)
+	    } else if(event !== undefined) {
+	        delete that[handlerListName][event]
+	    } else if(callback !== undefined) {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        removeCallbackFromList(that[allHandlerListName], callback)
+	    } else {
+	        var allHandlerListName = normalHandlerToAllHandlerProperty(handlerListName)
+	        that[handlerListName] = {}
+	        that[allHandlerListName] = []
+	    }
+	}
+	
+	function normalHandlerToAllHandlerProperty(handlerListName) {
+	    if(handlerListName === 'ifonHandlers')
+	        return 'ifonAllHandlers'
+	    if(handlerListName === 'ifoffHandlers')
+	        return 'ifoffAllHandlers'
+	}
+	
+	function removeCallbackFromList(list, callback) {
+	    var index = list.indexOf(callback)
+	    list.splice(index,1)
+	}
+
+/***/ },
+/* 25 */
+/*!*********************!*\
+  !*** ../~/utils.js ***!
+  \*********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	//require('hashmap') // here to mark hashmapMerge's dependency on this module
+	var path = __webpack_require__(/*! path */ 51)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	// merges two hashmaps together just like merge does for regular objects
+	// non-deep merge
+	exports.hashmapMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    obj2.forEach(function(value, key) {
+	        obj1.set(key, obj2.get(key))
+	    })
+	
+	    if(arguments.length > 2) {
+	        var newObjects = [obj1].concat(Array.prototype.slice.call(arguments, 2))
+	        return exports.hashmapMerge.apply(this, newObjects)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
+	exports.objectConjunction = function(a, b) {
+	    var objectCopy = {}
+	    merge(objectCopy, a)
+	    merge(objectCopy, b)
+	    return objectCopy
+	}
+	
+	// turns an array of values into a an object where those values are all keys that point to 'true'
+	exports.arrayToMap = function(array) {
+	    var result = {}
+	    array.forEach(function(v) {
+	        result[v] = true
+	    })
+	    return result
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       //if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       //}
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 26 */
+/*!************************!*\
+  !*** ../~/domUtils.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	// the property that should be used to get and set text (this is different on chrome vs firefox for some dumb reason)
+	exports.textProperty = 'textContent' //document.createElement("div").textContent != undefined ? 'textContent' : 'innerText'
+	
+	// creates a dom element optionally with a class and attributes
+	 var node = exports.node = function(type, className, options) {
+	    var elem = document.createElement(type)
+	
+	    if(options !== undefined) {
+	        if(options.attr !== undefined) {
+	            for(var attribute in options.attr) {
+	                setAttribute(elem, attribute, options.attr[attribute])
+	            }
+	        }
+	        if(options.textContent !== undefined) {
+	            elem.textContent = options.textContent
+	        }
+	    }
+	
+	    if(className !== undefined)
+	        elem.className = className
+	
+	    return elem
+	}
+	
+	// convenience function for creating a div
+	exports.div = function(className, options) {
+	    return node('div', className, options)
+	}
+	
+	
+	// adds an attribute to a domNode
+	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
+	    if (arguments.length === 2) {
+	        var domNode = this.domNode;
+	        var type = arguments[0];
+	        var value = arguments[1];
+	    } else if (arguments.length === 3) {
+	        var domNode = arguments[0];
+	        var type = arguments[1];
+	        var value = arguments[2];
+	    } else {
+	        throw new Error("This function expects arguments to be: [domNode,] type, value");
+	    }
+	    var attr = document.createAttribute(type)
+	    attr.value = value
+	    domNode.setAttributeNode(attr)
+	}
+	
+	// sets the selection
+	//
+	// works for contenteditable elements
+	exports.setSelectionRange = function(containerEl, start, end) {
+	
+	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
+	        containerEl.setSelectionRange(start, end)
+	    } else {
+	        var charIndex = 0, range = document.createRange();
+	        range.setStart(containerEl, 0);
+	        range.collapse(true);
+	        var foundStart = false;
+	
+	        iterateThroughLeafNodes(containerEl, function(node) {
+	            var hiddenCharacters = findHiddenCharacters(node, node.length)
+	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
+	
+	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+	                var nodeIndex = start-charIndex
+	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
+	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
+	                foundStart = true;
+	            }
+	
+	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
+	                var nodeIndex = end-charIndex
+	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
+	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
+	                return true; // stop the iteration - we're done here
+	            }
+	
+	            charIndex = nextCharIndex
+	        })
+	
+	        var sel = window.getSelection();
+	        sel.removeAllRanges();
+	        sel.addRange(range);
+	    }
+	}
+	
+	// gets the character offsets of a selection within a particular dom node
+	// returns undefined if there is no selection in the element
+	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
+	exports.getSelectionRange = function (element) {
+	
+	    var selection = window.getSelection()
+	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
+	
+	    for(var n=0; n<selection.rangeCount; n++) {
+	        var range = selection.getRangeAt(0)
+	        if(isInputOrArea) {
+	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
+	                return [element.selectionStart, element.selectionEnd]
+	            }
+	        } else {
+	            var startsInElement = element.contains(range.startContainer)
+	            if(startsInElement) {
+	                var elementToIterateThrough = element
+	                var startFound = true
+	            } else {
+	                var elementToIterateThrough = range.commonAncestorContainer
+	                var startFound = false
+	                var startContainerFound = false
+	            }
+	
+	            var visibleCharacterOffset = 0, start, end;
+	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
+	                if(!startFound) {
+	                    if(leaf === range.startContainer) {
+	                        startContainerFound = true
+	                    }
+	
+	                    if(!element.contains(leaf) || !startContainerFound)
+	                        return; // continue
+	                    else if(startContainerFound)
+	                       startFound = true
+	                } else if(!startsInElement && !element.contains(leaf)) {
+	                    return true // done!
+	                }
+	
+	                if(leaf === range.startContainer) {
+	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
+	                }
+	                if(leaf === range.endContainer) {
+	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
+	                    return true // done!
+	                }
+	
+	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
+	            })
+	
+	            if(start === undefined && !startFound) {
+	                return undefined
+	            } else {
+	                if(start === undefined) {
+	                    start = 0 // start is at the beginning
+	                }
+	                if(end === undefined) {
+	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
+	                }
+	
+	                return [start, end]
+	            }
+	        }
+	    }
+	}
+	
+	
+	// iterate through the leaf nodes inside element
+	// callback(node) - a function called for each leaf node
+	    // returning true from this ends the iteration
+	function iterateThroughLeafNodes(element, callback) {
+	    var nodeStack = [element], node;
+	
+	    while (node = nodeStack.pop()) {
+	        if (node.nodeType == 3) {
+	            if(callback(node) === true)
+	                break;
+	        } else {
+	            var i = node.childNodes.length;
+	            while (i--) {
+	                nodeStack.push(node.childNodes[i]);
+	            }
+	        }
+	    }
+	}
+	
+	function findHiddenCharacters(node, beforeCaretIndex) {
+	    var hiddenCharacters = 0
+	    var lastCharWasWhiteSpace=true
+	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
+	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
+	            if(lastCharWasWhiteSpace)
+	                hiddenCharacters++
+	            else
+	                lastCharWasWhiteSpace = true
+	        } else {
+	            lastCharWasWhiteSpace = false
+	        }
+	    }
+	
+	    return hiddenCharacters
+	}
+
+/***/ },
+/* 27 */
+/*!*******************************!*\
+  !*** ../~/blockStyleUtils.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// some functionality that is needed by Gem.js but is related to styling (some things are also needed by Style.js)
+	
+	var HashMap = __webpack_require__(/*! hashmap */ 48)
+	
+	var Style = __webpack_require__(/*! ./Style */ 6)
+	var utils = __webpack_require__(/*! ./utils */ 25)
+	
+	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
+	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
+	
+	
+	// gets the right style from the styleMap, depending on the gem's `name` and `label` (`label` styles take precedence)
+	// takes the component's inheritance tree into account (relies on the gem.constructor.parent property)
+	var getStyleMapEntryForGem = exports.getStyleForComponent = function (styleMap, gem) {
+	    if(styleMap === undefined)
+	        return undefined
+	
+	    return getStyleForLabel(styleMap, gem) || getStyleForGemName(styleMap, gem)
+	}
+	
+	var getStyleForLabel = exports.getStyleForLabel = function(styleMap, gem) {
+	    if(gem.label !== undefined && '$'+gem.label in styleMap) {
+	        return styleMap['$'+gem.label]
+	    }
+	}
+	var getStyleForGemName = exports.getStyleForBlockName = function(styleMap, gem) {
+	    var constructor = gem.constructor
+	    while(constructor !== undefined) {
+	        var style = styleMap[constructor.name]
+	        if(style !== undefined) {
+	            return style
+	        } else {
+	            constructor = constructor.parent
+	        }
+	    }
+	}
+	
+	// gets the possibly inheriting style from the styleMap for `gem`
+	// gem - the gem to get the style for
+	// ancestor - the gem to get the computedStyleMap from
+	var getInheritingStyle = exports.getInheritingStyle = function(gem) {
+	    var ancestor = gem.parent
+	    if(ancestor === undefined || ancestor.computedStyleMap === undefined) return undefined
+	
+	    if(gem.label !== undefined) {
+	        var styleMapKey = '$'+gem.label
+	        var nextContructor = gem.constructor
+	    } else {
+	        var styleMapKey = gem.constructor.name
+	        var nextContructor = gem.constructor.parent
+	    }
+	
+	    var nextAncestorToSearchFrom = ancestor
+	    var styles = [], inherit = true
+	    while(nextAncestorToSearchFrom !== undefined) {    // find styles from the most specific name to the least specific
+	        var stylesForKey = findStylesForStyleMapKey(nextAncestorToSearchFrom, styleMapKey)
+	        styles = styles.concat(stylesForKey.styles)
+	        nextAncestorToSearchFrom = stylesForKey.nextAncestorToSearchFrom
+	        inherit = stylesForKey.inherit
+	
+	        if(nextContructor === undefined || !inherit) {
+	            break
+	        } else {
+	            if(styleMapKey === 'Gem') {
+	                break // we're done - no need to check anything higher in the prototype chain than Gem
+	            }
+	
+	            styleMapKey = nextContructor.name
+	            nextContructor = nextContructor.parent
+	        }
+	    }
+	
+	    var reversedStyles = styles.reverse() // reverse so later styles override earlier styles
+	    var styleToReturn = reversedStyles[0]
+	    for(var n=1; n<reversedStyles.length; n++) {
+	        styleToReturn = styleToReturn.mix(reversedStyles[n], false)
+	    }
+	
+	    return styleToReturn
+	
+	
+	    function findStylesForStyleMapKey(startAncestor, key) {
+	        var styles = [], inherit = true
+	        var curAncestor = startAncestor, nextAncestorToSearchFrom = startAncestor
+	        while(curAncestor !== undefined) {                                // find styles from the closest parent to the farthest
+	            if(curAncestor.computedStyleMap !== undefined) {
+	                var style = curAncestor.computedStyleMap[key]
+	            }
+	            if(style !== undefined) {
+	                if(styles.indexOf(style) === -1) {
+	                    styles.push(style)
+	                }
+	                nextAncestorToSearchFrom = curAncestor
+	
+	                inherit = style.inherit
+	                if(!inherit) {
+	                    break
+	                }
+	            }
+	
+	            curAncestor = curAncestor.parent
+	        }
+	
+	        return {styles:styles, nextAncestorToSearchFrom: nextAncestorToSearchFrom, inherit:inherit}
+	    }
+	}
+	
+	// returns the conjunction of two style maps
+	// gets it from the computedStyles cache if its already in there
+	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
+	    if(secondaryStyleMap === undefined) return primaryStyleMap
+	    if(primaryStyleMap === undefined) return secondaryStyleMap
+	
+	    var cachedStyleMap = computedStyles.get([secondaryStyleMap, primaryStyleMap])
+	    if(cachedStyleMap === undefined) {
+	        if(secondaryStyleMap  === undefined) {
+	            cachedStyleMap = primaryStyleMap
+	        } else if(primaryStyleMap === undefined) {
+	            cachedStyleMap = secondaryStyleMap
+	        } else {
+	            var overridingProperties = {}, atLeastOne = false
+	            for(var key in primaryStyleMap) {
+	                if(secondaryStyleMap[key] !== primaryStyleMap[key]) {
+	                    overridingProperties[key] = primaryStyleMap[key]
+	                    atLeastOne = true
+	                }
+	            }
+	
+	            if(atLeastOne) {
+	                cachedStyleMap = utils.objectConjunction(secondaryStyleMap, overridingProperties)
+	            } else { // the styleMaps are different objects, but contain the same thing
+	                cachedStyleMap = secondaryStyleMap
+	            }
+	        }
+	
+	        if(cachedStyleMap === undefined) cachedStyleMap = false // switch it out with false so it can be recognized
+	        computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
+	    }
+	
+	    if(cachedStyleMap === false) {
+	        return undefined
+	    }
+	    return cachedStyleMap
+	}
+	
+	
+	
+	exports.getDefaultStyle = function(gem)  {
+	    // attempt to get from the cache
+	    var defaultGemStyle = defaultStyleMap.get(gem.constructor)
+	    if(defaultGemStyle === undefined) {
+	        defaultGemStyle = createDefaultGemStyle(gem)
+	        if(defaultGemStyle === undefined) defaultGemStyle = false
+	        defaultStyleMap.set(gem.constructor, defaultGemStyle)
+	    }
+	
+	    if(defaultGemStyle === false) {
+	        return undefined
+	    }
+	    return defaultGemStyle
+	}
+	
+	// returns a new style with style b mixed into style a (works even if they're both undefined)
+	var mixStyles = exports.mixStyles = function(a,b) {
+	    if(a === undefined)
+	        return b
+	    else
+	        return a.mix(b, false)
+	}
+	
+	
+	
+	
+	
+	// sets the currentStyle of a gem and makes all the appropriate changes to render a new active style for the gem and its children
+	exports.setCurrentStyle = function(gem, newCurrentStyle, defaultStyle) {
+	
+	    var current$state = gem._currentStyle === undefined? undefined: gem._currentStyle.stateHandler
+	    var newCurrentStyle$state = newCurrentStyle === undefined? undefined: newCurrentStyle.stateHandler
+	    if(current$state !== newCurrentStyle$state) {     // if the $state function remains the same, we don't gotta do nothin (about switching state functions at least)
+	        if(gem._stateChangeHandler !== undefined) {  // remove the old handler if necessary
+	            gem.state.removeListener('change', gem._stateChangeHandler)
+	            gem._stateChangeHandler = undefined
+	        }
+	
+	        if(newCurrentStyle$state !== undefined) {     // add a new handler if necessary
+	            gem.state.on('change', gem._stateChangeHandler = function() {
+	                var rawStateStyle = getStateStyle(gem._currentStyle, gem.state.subject)
+	                setMixedStateStyle(gem, mixStyles(gem._currentStyle, rawStateStyle))
+	            })
+	        }
+	    }
+	
+	    gem._currentStyle = newCurrentStyle
+	    var rawStateStyle = getStateStyle(newCurrentStyle, gem.state.subject)
+	
+	    var newMixedStateStyle = mixStyles(newCurrentStyle, rawStateStyle)
+	    setMixedStateStyle(gem, newMixedStateStyle, defaultStyle)
+	}
+	
+	
+	// handles reseting a gem's active style when its state style changes
+	// renders the pseudoclass style
+	function setMixedStateStyle(gem, mixedStateStyle, defaultStyle) {
+	    var psuedoclassState = {}
+	
+	    // if a pseudoclass can no longer apply, undo its setup
+	    for(var pseudoClass in gem._styleSetupInfo) {
+	        if(mixedStateStyle === undefined || !(pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo)) {
+	            var setupInfo = gem._styleSetupInfo[pseudoClass]
+	            setupInfo.kill(gem, setupInfo.state)
+	            delete gem._styleSetupInfo[pseudoClass]
+	        }
+	    }
+	
+	    // setup new pseudoclasses
+	    if(mixedStateStyle !== undefined) {
+	        for(var pseudoClass in mixedStateStyle.pseudoclasses.emulatedInfo) {
+	            if(!(pseudoClass in gem._styleSetupInfo)) {                     // if this exact pseudoclass is already setup, no need to do anything
+	                ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
+	                    var setupState = emulationInfo.fns.setup(gem, function() { // start
+	                        var changed = psuedoclassState[pseudoClass] !== true
+	                        if(changed) {
+	                            psuedoclassState[pseudoClass] = true
+	                            changeStyleIfNecessary()
+	                        }
+	                    }, function() { // end
+	                        var changed = psuedoclassState[pseudoClass] !== false
+	                        if(changed) {
+	                            psuedoclassState[pseudoClass] = false
+	                            changeStyleIfNecessary()
+	                        }
+	                    }, emulationInfo.parameter)
+	
+	                    gem._styleSetupInfo[pseudoClass] = {state: setupState, kill: emulationInfo.fns.kill}
+	
+	                })(pseudoClass, mixedStateStyle.pseudoclasses.emulatedInfo[pseudoClass])
+	            }
+	        }
+	    }
+	
+	    // build up the pseudoclass state - depending on what pseudoclasses might become applicable
+	    if(mixedStateStyle !== undefined) {
+	        for(var pseudoclassKey in mixedStateStyle.pseudoclasses.emulatedInfo) {
+	            var info = mixedStateStyle.pseudoclasses.emulatedInfo[pseudoclassKey]
+	            psuedoclassState[pseudoclassKey] = info.fns.check(gem, info.parameter)
+	        }
+	    }
+	
+	    // set current pseudoclass style
+	    changeStyleIfNecessary()
+	
+	
+	    function changeStyleIfNecessary() {
+	        var pseudoclassStyleInfo = getPseudoclassStyleFor(mixedStateStyle, psuedoclassState)
+	//        if(pseudoclassStyleInfo.style !== undefined && pseudoclassStyleInfo.style.inherit) {
+	//            pseudoclassStyleInfo.style = getInheritingStyle(gem).mix(pseudoclassStyleInfo.style, false)
+	//        }
+	
+	        var newPreStyleMapStyle = mixStyles(mixedStateStyle, pseudoclassStyleInfo.style)
+	        setPreStyleMapStyle(gem, newPreStyleMapStyle, pseudoclassStyleInfo.index, defaultStyle)
+	    }
+	}
+	
+	// sets the style before being modified by the gem's parent's computedStyleMap
+	// handles removing the state listener and calling $kill on the old activeStyle
+	function setPreStyleMapStyle(gem, newPreStyleMapStyle, jsRenderedPseudoclassIndex, defaultStyle) {
+	    if(gem.parent !== undefined && newPreStyleMapStyle !== undefined)
+	        var newComputedStyleMap = styleMapConjunction(gem.parent.computedStyleMap, newPreStyleMapStyle.componentStyleMap)
+	    else if(gem.parent !== undefined)
+	        var newComputedStyleMap = gem.parent.computedStyleMap
+	    else if(newPreStyleMapStyle !== undefined)
+	        var newComputedStyleMap = newPreStyleMapStyle.componentStyleMap
+	    else
+	        var newComputedStyleMap = undefined
+	
+	    var newActiveStyle = undefined // can be changed below
+	    var cancel = false
+	    if(newPreStyleMapStyle !== undefined) {
+	        if(gem.parent !== undefined) var nativePseudoclassMap = gem.parent._nativePseudoclassMap
+	        else                           var nativePseudoclassMap = {}
+	
+	        var nativePseudoclassSelectorMap = getStyleMapEntryForGem(nativePseudoclassMap, gem)
+	        var nativeCssInfo = newPreStyleMapStyle.createNativeCssInfo(gem, newComputedStyleMap, nativePseudoclassSelectorMap, jsRenderedPseudoclassIndex, defaultStyle)
+	
+	        if(nativeCssInfo.cancel) {
+	            cancel = true
+	            setMixedStateStyle(gem, nativeCssInfo.retryStyle)
+	
+	        } else {
+	            newActiveStyle = nativeCssInfo.style
+	            newComputedStyleMap = nativeCssInfo.styleMap // even newer!
+	            gem._nativePseudoclassMap = nativeCssInfo.nativePseudoclassMap
+	        }
+	    }
+	
+	    if(!cancel) {
+	        setActiveStyle(gem, newActiveStyle, newComputedStyleMap)
+	    }
+	}
+	
+	// sets the active style on the gem and on the gem's children
+	// also sets the gem's new computedStyleMap
+	function setActiveStyle(gem, newActiveStyle, newComputedStyleMap) {
+	    var activeStyleChanged = newActiveStyle !== gem._activeStyle
+	    var computedStyleMapChanged = gem.computedStyleMap !== newComputedStyleMap
+	
+	    if(activeStyleChanged) {
+	        setStyleClass(gem, newActiveStyle)
+	
+	        var curActiveStyle$setup = gem._activeStyle === undefined? undefined: gem._activeStyle.setup
+	        var newActiveStyle$setup = newActiveStyle === undefined? undefined: newActiveStyle.setup
+	        if(curActiveStyle$setup !== newActiveStyle$setup) {
+	            applyStyleKillFunction(gem)
+	            applyStyleSetupFunction(gem, newActiveStyle)
+	        }
+	
+	        gem._activeStyle = newActiveStyle
+	    }
+	
+	
+	    gem.computedStyleMap = newComputedStyleMap
+	
+	    // propogate styles to children
+	    gem.children.forEach(function(child) {
+	        if(computedStyleMapChanged || !child.attached) {
+	            child.attached = true
+	            child.style = child.style  // force a re-render on each child
+	        }
+	    })
+	}
+	
+	
+	
+	// given a style and an object representing some state, returns the state given by the style's $state function
+	// returns undefined if it doesn't have a state function
+	// handles caching state styles (an optimization)
+	function getStateStyle(currentStyle, stateParameter) {
+	    if(currentStyle === undefined || currentStyle.stateHandler === undefined) return undefined
+	
+	    var returnedStyle = currentStyle.stateHandler(stateParameter)
+	
+	    // todo: figure out if this style has been returned before, and if so, use the already-generated style (mostly so that that style can take advantage of other cached combinations)
+	
+	    return returnedStyle
+	}
+	
+	// returns an object with the properties:
+	    // style - the jsRendered pseudoclass style for the gem's relevant pseudoclass state
+	    // index - the index of the pseudoclass (jsRenderedPseudoclassIndex)
+	// returns undefined if no emulated pseudoclass style applies or if only native pseudoclass stylings apply
+	// state - an object that will be mutated with the current state for each pseudoclass
+	function getPseudoclassStyleFor(style, state) {
+	    if(style === undefined) return {index:0}
+	
+	    var index = 0, result={index:0}
+	    style.pseudoclasses.classes.forEach(function(psuedoclassStyle, compoundKey) {
+	        if(!psuedoclassStyle.pureNative) {
+	            for(var j=0; j<compoundKey.length; j++) {
+	                var pseudoclass = compoundKey[j]
+	                if(!state[pseudoclass]) {
+	                    break;
+	                }
+	            }
+	
+	            if(j === compoundKey.length) {
+	                result = {index: index, style: psuedoclassStyle}
+	            }
+	        }
+	
+	        index++
+	    })
+	
+	    return result
+	}
+	
+	
+	
+	// finds the default style for a gem, mixes it with the appropriate ancestor styles, and returns the result
+	function createDefaultGemStyle(that) {
+	    if(that.defaultStyle !== undefined) {
+	        validateDefaultStyle(that.defaultStyle)
+	    }
+	
+	    // get list of default styles
+	    var defaultStyles = []
+	    var nextConstructor = that.constructor
+	    while(nextConstructor !== undefined) {
+	        if(nextConstructor.defaultStyle !== undefined) {
+	            defaultStyles.push(nextConstructor.defaultStyle)
+	        }
+	        nextConstructor = nextConstructor.parent
+	    }
+	
+	    // generate merged default style
+	    var reversedDefaults = defaultStyles.reverse()
+	    var mergedDefaultStyle = reversedDefaults[0]
+	    for(var n=1; n<reversedDefaults.length; n++) {
+	        mergedDefaultStyle = mergedDefaultStyle.mix(reversedDefaults[n], false)
+	    }
+	
+	    return mergedDefaultStyle
+	}
+	
+	
+	// applies setup appropriately
+	function applyStyleSetupFunction(component, style) {
+	    if(style !== undefined && style.setup !== undefined) {
+	        component._styleSetupObject = style.setup(component, style) // call setup on the component
+	    } else {
+	        component._styleSetupObject = undefined
+	    }
+	}
+	// applies kill appropriately
+	function applyStyleKillFunction(component) {
+	    var activeStyle = component._activeStyle
+	    if(activeStyle !== undefined && activeStyle.setup !== undefined) {
+	        if(activeStyle.kill === undefined)
+	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
+	
+	        activeStyle.kill(component, component._styleSetupObject)
+	    }
+	}
+	
+	
+	// sets the style, replacing one if one already exists
+	function setStyleClass(component, style) {
+	    var activeStyle = component._activeStyle
+	
+	    //var newStyle = component.domNode.className
+	    if(activeStyle !== undefined) {
+	        component.domNode.classList.remove(activeStyle.className)
+	        // newStyle = newStyle.replace(new RegExp(" ?\\b"+activeStyle.className+"\\b"),'') // remove the previous css class
+	    }
+	    if(style !== undefined) {
+	        component.domNode.classList.add(style.className)
+	        //newStyle = style.className+' '+newStyle.trim() // note that the order of classes doesn't matter
+	    }
+	
+	    //component.domNode.className = newStyle
+	}
+	
+	function validateDefaultStyle(defaultStyle) {
+	    if(!isStyleObject(defaultStyle)) {
+	        throw new Error("defaultStyle property must be a Style object")
+	    }
+	}
+	
+	// if you load two different instances of gems, its necessary to do a bit of duck typing
+	function isStyleObject(x) {
+	    return x.className !== undefined && x.componentStyleMap !== undefined && x.mix !== undefined
+	}
+
+/***/ },
+/* 28 */
+/*!**************************!*\
+  !*** ../external/jss.js ***!
+  \**************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	 * JSS v0.6 - JavaScript Stylesheets
+	 * https://github.com/Box9/jss
+	 *
+	 * Copyright (c) 2011, David Tang
+	 * MIT Licensed (http://www.opensource.org/licenses/mit-license.php)
+	 */
+	var jss = (function() {
+	    var adjSelAttrRegex = /((?:\.|#)[^\.\s#]+)((?:\.|#)[^\.\s#]+)/g;
+	    var doubleColonPseudoElRegex = /(::)(before|after|first-line|first-letter|selection)/;
+	    var singleColonPseudoElRegex = /([^:])(:)(before|after|first-line|first-letter|selection)/;
+	    var singleColonForPseudoElements; // flag for older browsers
+	
+	    function getSelectorsAndRules(sheet) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var results = {};
+	        for (var i = 0; i < rules.length; i++) {
+	            // Older browsers and FF report pseudo element selectors in an outdated format
+	            var selectorText = toDoubleColonPseudoElements(rules[i].selectorText);
+	            if (!results[selectorText]) {
+	                results[selectorText] = [];
+	            }
+	            results[selectorText].push({
+	                sheet: sheet,
+	                index: i,
+	                style: rules[i].style
+	            });
+	        }
+	        return results;
+	    }
+	
+	    function getRules(sheet, selector) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var results = [];
+	        // Browsers report selectors in lowercase
+	        selector = selector.toLowerCase();
+	        for (var i = 0; i < rules.length; i++) {
+	            var selectorText = rules[i].selectorText;
+	            // Note - certain rules (e.g. @rules) don't have selectorText
+	            if (selectorText && (selectorText == selector || selectorText == swapAdjSelAttr(selector) || selectorText == swapPseudoElSyntax(selector))) {
+	                results.push({
+	                    sheet: sheet,
+	                    index: i,
+	                    style: rules[i].style
+	                });
+	            }
+	        }
+	        return results;
+	    }
+	
+	    function addRule(sheet, selector) {
+	        var rules = sheet.cssRules || sheet.rules || [];
+	        var index = rules.length;
+	        var pseudoElementRule = addPseudoElementRule(sheet, selector, rules, index);
+	
+	        if (!pseudoElementRule) {
+	            addRuleToSheet(sheet, selector, index);
+	        }
+	
+	        return {
+	            sheet: sheet,
+	            index: index,
+	            style: rules[index].style
+	        };
+	    };
+	
+	    function addRuleToSheet(sheet, selector, index) {
+	        if (sheet.insertRule) {
+	            sheet.insertRule(selector + ' { }', index);
+	        } else {
+	            sheet.addRule(selector, null, index);
+	        }
+	    }
+	
+	    // Handles single colon syntax for older browsers and bugzilla.mozilla.org/show_bug.cgi?id=949651
+	    function addPseudoElementRule(sheet, selector, rules, index) {
+	        var doubleColonSelector;
+	        var singleColonSelector;
+	
+	        if (doubleColonPseudoElRegex.exec(selector)) {
+	            doubleColonSelector = selector;
+	            singleColonSelector = toSingleColonPseudoElements(selector);
+	        } else if (singleColonPseudoElRegex.exec(selector)) {
+	            doubleColonSelector = toDoubleColonPseudoElements(selector);
+	            singleColonSelector = selector;
+	        } else {
+	            return false; // Not dealing with a pseudo element
+	        }
+	
+	        if (!singleColonForPseudoElements) {
+	            // Assume modern browser and then check if successful
+	            addRuleToSheet(sheet, doubleColonSelector, index);
+	            if (rules.length <= index) {
+	                singleColonForPseudoElements = true;
+	            }
+	        }
+	        if (singleColonForPseudoElements) {
+	            addRuleToSheet(sheet, singleColonSelector, index);
+	        }
+	
+	        return true;
+	    }
+	
+	    function toDoubleColonPseudoElements(selector) {
+	        return selector.replace(singleColonPseudoElRegex, function (match, submatch1, submatch2, submatch3) {
+	            return submatch1 + '::' + submatch3;
+	        });
+	    }
+	
+	    function toSingleColonPseudoElements(selector) {
+	        return selector.replace(doubleColonPseudoElRegex, function(match, submatch1, submatch2) {
+	            return ':' + submatch2;
+	        })
+	    }
+	
+	    function removeRule(rule) {
+	        var sheet = rule.sheet;
+	        if (sheet.deleteRule) {
+	            sheet.deleteRule(rule.index);
+	        } else if (sheet.removeRule) {
+	            sheet.removeRule(rule.index);
+	        }
+	    }
+	
+	    function extend(dest, src) {
+	        for (var key in src) {
+	            if (!src.hasOwnProperty(key))
+	                continue;
+	            dest[key] = src[key];
+	        }
+	        return dest;
+	    }
+	
+	    function aggregateStyles(rules) {
+	        var aggregate = {};
+	        for (var i = 0; i < rules.length; i++) {
+	            extend(aggregate, declaredProperties(rules[i].style));
+	        }
+	        return aggregate;
+	    }
+	
+	    function declaredProperties(style) {
+	        var declared = {};
+	        for (var i = 0; i < style.length; i++) {
+	            declared[style[i]] = style[toCamelCase(style[i])];
+	        }
+	        return declared;
+	    }
+	
+	    // IE9 stores rules with attributes (classes or ID's) adjacent in the opposite order as defined
+	    // causing them to not be found, so this method swaps [#|.]sel1[#|.]sel2 to become [#|.]sel2[#|.]sel1
+	    function swapAdjSelAttr(selector) {
+	        var swap = '';
+	        var lastIndex = 0;
+	
+	        while ((match = adjSelAttrRegex.exec(selector)) != null) {
+	            if (match[0] === '')
+	                break;
+	            swap += selector.substring(lastIndex, match.index);
+	            swap += selector.substr(match.index + match[1].length, match[2].length);
+	            swap += selector.substr(match.index, match[1].length);
+	            lastIndex = match.index + match[0].length;
+	        }
+	        swap += selector.substr(lastIndex);
+	
+	        return swap;
+	    };
+	
+	    // FF and older browsers store rules with pseudo elements using single-colon syntax
+	    function swapPseudoElSyntax(selector) {
+	        if (doubleColonPseudoElRegex.exec(selector)) {
+	            return toSingleColonPseudoElements(selector);
+	        }
+	        return selector;
+	    }
+	
+	    function setStyleProperties(rule, properties) {
+	        for (var key in properties) {
+	            var value = properties[key];
+	            var importantIndex = value.indexOf(' !important');
+	
+	            // Modern browsers seem to handle overrides fine, but IE9 doesn't
+	            rule.style.removeProperty(key);
+	            if (importantIndex > 0) {
+	                rule.style.setProperty(key, value.substr(0, importantIndex), 'important');
+	            } else {
+	                rule.style.setProperty(key, value);
+	            }
+	        }
+	    }
+	
+	    function toCamelCase(str) {
+	        return str.replace(/-([a-z])/g, function (match, submatch) {
+	            return submatch.toUpperCase();
+	        });
+	    }
+	
+	    function transformCamelCasedPropertyNames(oldProps) {
+	        var newProps = {};
+	        for (var key in oldProps) {
+	            newProps[unCamelCase(key)] = oldProps[key];
+	        }
+	        return newProps;
+	    }
+	
+	    function unCamelCase(str) {
+	        return str.replace(/([A-Z])/g, function(match, submatch) {
+	            return '-' + submatch.toLowerCase();
+	        });
+	    }
+	
+	    var Jss = function(doc) {
+	        this.doc = doc;
+	        this.head = this.doc.head || this.doc.getElementsByTagName('head')[0];
+	        this.sheets = this.doc.styleSheets || [];
+	    };
+	
+	    Jss.prototype = {
+	        // Returns JSS rules (selector is optional)
+	        get: function(selector) {
+	            if (!this.defaultSheet) {
+	                return {};
+	            }
+	            if (selector) {
+	                return aggregateStyles(getRules(this.defaultSheet, selector));
+	            }
+	            var rules = getSelectorsAndRules(this.defaultSheet);
+	            for (selector in rules) {
+	                rules[selector] = aggregateStyles(rules[selector]);
+	            }
+	            return rules;
+	        },
+	        // Returns all rules (selector is required)
+	        getAll: function(selector) {
+	            var properties = {};
+	            for (var i = 0; i < this.sheets.length; i++) {
+	                extend(properties, aggregateStyles(getRules(this.sheets[i], selector)));
+	            }
+	            return properties;
+	        },
+	        // Adds JSS rules for the selector based on the given properties
+	        set: function(selector, properties) {
+	            if (!this.defaultSheet) {
+	                this.defaultSheet = this._createSheet();
+	            }
+	            properties = transformCamelCasedPropertyNames(properties);
+	            var rules = getRules(this.defaultSheet, selector);
+	            if (!rules.length) {
+	                rules = [addRule(this.defaultSheet, selector)];
+	            }
+	            for (var i = 0; i < rules.length; i++) {
+	                setStyleProperties(rules[i], properties);
+	            }
+	        },
+	        // Removes JSS rules (selector is optional)
+	        remove: function(selector) {
+	            if (!this.defaultSheet)
+	                return;
+	            if (!selector) {
+	                this._removeSheet(this.defaultSheet);
+	                delete this.defaultSheet;
+	                return;
+	            }
+	            var rules = getRules(this.defaultSheet, selector);
+	            for (var i = 0; i < rules.length; i++) {
+	                removeRule(rules[i]);
+	            }
+	            return rules.length;
+	        },
+	        _createSheet: function() {
+	            var styleNode = this.doc.createElement('style');
+	            styleNode.type = 'text/css';
+	            styleNode.rel = 'stylesheet';
+	            this.head.appendChild(styleNode);
+	            return styleNode.sheet;
+	        },
+	        _removeSheet: function(sheet) {
+	            var node = sheet.ownerNode;
+	            node.parentNode.removeChild(node);
+	        }
+	    };
+	
+	    var exports = new Jss(document);
+	    exports.forDocument = function(doc) {
+	        return new Jss(doc);
+	    };
+	    return exports;
+	})();
+	
+	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
+
+/***/ },
+/* 29 */
+/*!*********************************!*\
+  !*** ../~/Components/Option.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// note: this is  not intended to be used directly - only through Select and MultiSelect
+	
+	var proto = __webpack_require__(/*! proto */ 39)
+	
+	var Gem = __webpack_require__(/*! Gem */ 5)
+	var Style = __webpack_require__(/*! Style */ 6)
+	var domUtils = __webpack_require__(/*! domUtils */ 26)
+	
+	// emits a 'change' event when its 'selected' value changes
+	module.exports = proto(Gem, function(superclass) {
+	
+	    // staic members
+	
+	    this.name = 'Option'
+	
+	    this.defaultStyle = Style({
+	        display: 'block'
+	    })
+	
+	
+	    // instance members
+	
+	    this.init = function(/*[label,] value, text*/) {
+	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	        superclass.init.call(this) // superclass constructor
+	
+	        if(arguments.length===2) {
+	            this.val = arguments[0]
+	            this.text = arguments[1]
+	        } else { // 3
+	            this.label = arguments[0]
+	            this.val = arguments[1]
+	            this.text = arguments[2]
+	        }
+	    }
+	
+	    Object.defineProperty(this, 'val', {
+	        // returns the value of the Option
+	        get: function() {
+	            return this._value
+	        },
+	
+	        // sets the value of the Option
+	        set: function(value) {
+	            if(this.parent !== undefined) {
+	                if(this.parent.options[value] !== undefined) {
+	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: "+JSON.stringify(value)+")")
+	                }
+	
+	                if(this.val !== null) {
+	                    delete this.parent.options[this.val]
+	                }
+	
+	                this.parent.options[value] = this
+	            }
+	
+	            this._value = value
+	
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'selected', {
+	        // returns whether or not the option is selected
+	        get: function() {
+	            return this.domNode.selected
+	        },
+	
+	        // sets the selected state of the option to the passed value (true for selected)
+	        set: function(value) {
+	            var booleanValue = value === true
+	            if(this.selected === booleanValue) return false; // ignore if there's no change
+	
+	            if(this.parent !== undefined)
+	                this.parent.prepareForValueChange([this.val])
+	
+	            this.setSelectedQuiet(booleanValue)
+	
+	            if(this.parent !== undefined)
+	                this.parent.emit('change')
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode[domUtils.textProperty]
+	        },
+	
+	        set: function(text) {
+	            this.domNode[domUtils.textProperty] = text
+	        }
+	    })
+	
+	
+	    // private
+	
+	    // does everything for setting the selected state except emit the parent's change event
+	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
+	        if(this.selected === booleanValue) return; // ignore if there's no change
+	
+	        this.domNode.selected = booleanValue
+	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	    }
+	})
+
+/***/ },
+/* 30 */
+/*!*******************************!*\
+  !*** ../~/Components/Item.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! Gem */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
+	var Style = __webpack_require__(/*! Style */ 6)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'ListItem'
+	
+	    this.defaultStyle = Style({
+	        display: 'list-item'
+	    })
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Gem) {
+				this.add(contents)
+			} else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	});
+
+
+/***/ },
+/* 31 */
+/*!*********************************!*\
+  !*** ../~/Components/Header.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 49);
+	
+	module.exports = RowlikeGenerator('th', "TableHeader")
+
+/***/ },
+/* 32 */
+/*!******************************!*\
+  !*** ../~/Components/Row.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 49);
+	
+	module.exports = RowlikeGenerator('tr', "TableRow")
+
+
+/***/ },
+/* 33 */
+/*!*******************************!*\
+  !*** ../~/Components/Cell.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! ../Gem */ 5)
+	var proto = __webpack_require__(/*! proto */ 39)
+	var Style = __webpack_require__(/*! Style */ 6)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'TableCell'
+	
+	    this.defaultStyle = Style({
+	        display: 'table-cell'
+	    })
+		
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Gem || typeof(contents) !== 'string') {
+	            this.add(contents)
+	        } else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	
+		this.colspan = function(cols) {
+			this.attr('colspan',cols);
+		}
+	});
+
+
+/***/ },
 /* 34 */
+/*!****************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Container.js ***!
+  \****************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Container')
+	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 54)
+
+/***/ },
+/* 35 */
+/*!***********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Text.js ***!
+  \***********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Text')
+	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 55)
+
+/***/ },
+/* 36 */
+/*!************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Block.js ***!
+  \************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
+	module.exports = __webpack_require__(/*! ./src/~/Block */ 53)
+
+/***/ },
+/* 37 */
+/*!************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Style.js ***!
+  \************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
+	module.exports = __webpack_require__(/*! ./src/~/Style */ 52)
+
+/***/ },
+/* 38 */
+/*!**********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/async-future/asyncFuture.js ***!
+  \**********************************************************************************/
+[110, 61],
+/* 39 */
+/*!*********************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/proto/proto.js ***!
+  \*********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                },
+	                configurable: true // so you can change it if you want
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 40 */
 /*!********************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/events/events.js ***!
   \********************************************************/
@@ -6442,7 +6639,342 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 35 */
+/* 41 */
+/*!*********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/async-future/asyncFuture.js ***!
+  \*********************************************************************************************/
+[109, 62],
+/* 42 */
+/*!********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/proto/proto.js ***!
+  \********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var noop = function() {}
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {init: noop}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}    // name used only for Error Objects
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    var constructorName = prototype.name?prototype.name:''
+	    if(prototype[init] === undefined || prototype[init] === noop) {
+	        var ProtoObjectFactory = new Function('F',
+	            "return function " + constructorName + "(){" +
+	                "return new F()" +
+	            "}"
+	        )(F)
+	    } else {
+	        // dynamically creating this function cause there's no other way to dynamically name a function
+	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
+	            "return function " + constructorName + "(){ " +
+	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
+	                "if(r===n)\n" +
+	                    "return x\n" +
+	                "else if(r===u)\n" +
+	                    "return n\n" +
+	                "else\n" +
+	                    "return r\n" +
+	            "}"
+	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
+	    }
+	
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet
+	    for(var n in parent) {
+	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                }
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	
+	    var IntermediateInheritor = function() {}
+	        IntermediateInheritor.prototype = ErrorObject.prototype
+	    NormalizedError.prototype = new IntermediateInheritor()
+	
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
+/* 43 */
+/*!*********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/basicFormatter.js ***!
+  \*********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 41)
+	
+	// built in test formatting helper
+	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
+	    if(arguments.length === 3) {
+	        var format = arguments[2]
+	    } else /* if(arguments.length > 3) */{
+	        var color = arguments[2]
+	        var format = arguments[3]
+	    }
+	
+	    var dotText = '.'
+	    if(color !== undefined) {
+	        dotText = color.green('.')
+	    }
+	
+	    var result = new Future
+	
+	    var lastPrintWasDot = false
+	    var printDot = function(dot) {
+	        if(dot) {
+	            process.stdout.write(dotText)
+	        } else if(lastPrintWasDot) {
+	            process.stdout.write('\n')
+	        }
+	
+	        lastPrintWasDot = dot
+	    }
+	
+	    var ended = false
+	    var events = {
+	        end: function(e) {
+	            ended = true
+	            if(printOnTheFly) printDot(false)
+	
+	            var results = unitTest.results()
+	            result.return(formatGroup(results, format, 0).result)
+	
+	            if(format.end !== undefined)
+	                format.end()
+	        }
+	    }
+	
+	    if(printOnTheFly) {
+	        var groups = {}
+	        events.assert = function(e) {
+	            printDot(e.success && !ended)
+	            if(e.success) {
+	                groups[e.parent].testSuccesses++
+	                groups[e.parent].assertSuccesses++
+	            } else {
+	                groups[e.parent].testFailures++
+	                groups[e.parent].assertFailures++
+	            }
+	
+	            if(!e.success || ended) {
+	                console.log(format.assert(e, undefined, true))
+	            }
+	        }
+	        events.exception = function(e) {
+	            printDot(false)
+	            groups[e.parent].exceptions++
+	
+	            console.log(format.exception(e.error, true))
+	        }
+	        events.log = function(e) {
+	            printDot(false)
+	            console.log(format.log(e.values, true))
+	        }
+	        events.group = function(g) {
+	            groups[g.id] = {parent: g.parent, name: g.name, testSuccesses: 0, testFailures: 0, assertSuccesses: 0, assertFailures: 0, exceptions: 0}
+	        }
+	        events.groupEnd = function(g) {
+	            var parent = groups[g.id].parent
+	            if(parent !== undefined) {
+	                printDot(false)
+	                if(groups[g.id].testFailures === 0 && groups[g.id].assertFailures === 0 && groups[g.id].exceptions === 0) {
+	                    groups[parent].testSuccesses++
+	                } else {
+	                    groups[parent].testFailures++
+	                }
+	
+	                console.log(format.group(groups[g.id].name, undefined, groups[g.id].testSuccesses,groups[g.id].testFailures,groups[g.id].assertSuccesses,groups[g.id].assertFailures,
+	                                        groups[g.id].exceptions, [], [], 1, false, true))
+	            }
+	        }
+	    }
+	
+	    unitTest.events(events)
+	
+	    return result
+	}
+	
+	function formatGroup(testResults, format, nestingLevel) {
+	    var assertSuccesses = 0
+	    var assertFailures = 0
+	    var exceptions = 0
+	
+	    var testCaseSuccesses= 0, testCaseFailures=0;
+	
+	    var results = []
+	    testResults.results.forEach(function(result) {
+	        if(result.type === 'assert') {
+	            if(result.success) {
+	                testCaseSuccesses++
+	                assertSuccesses ++
+	            } else {
+	                testCaseFailures++
+	                assertFailures++
+	            }
+	
+	            results.push(format.assert(result, testResults.name, false))
+	
+	        } else if(result.type === 'group') {
+	            var group = formatGroup(result, format, nestingLevel+1)
+	            exceptions+= group.exceptions
+	
+	            if(group.failures === 0 && group.exceptions === 0)
+	                testCaseSuccesses++
+	            else
+	                testCaseFailures++
+	
+	            results.push(group.result)
+	            assertSuccesses+= group.assertSuccesses
+	            assertFailures+= group.assertFailures
+	
+	        } else if(result.type === 'log') {
+	            results.push(format.log(result.values, false))
+	        } else {
+	            throw new Error("Unknown result type: "+result.type)
+	        }
+	    })
+	
+	    var exceptionResults = []
+	    testResults.exceptions.forEach(function(e) {
+	        exceptionResults.push(format.exception(e, false))
+	    })
+	
+	    exceptions+= testResults.exceptions.length
+	
+	    var formattedGroup = format.group(testResults.name, testResults.duration,
+	                                      testCaseSuccesses, testCaseFailures,
+	                                      assertSuccesses, assertFailures, exceptions,
+	                                      results, exceptionResults, nestingLevel, testResults.timeout, false)
+	    return {result: formattedGroup,
+	            successes: testCaseSuccesses,
+	            failures: testCaseFailures,
+	            assertSuccesses: assertSuccesses,
+	            assertFailures: assertFailures,
+	            exceptions: exceptions
+	    }
+	}
+	
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 59)))
+
+/***/ },
+/* 44 */
+/*!*************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/indent.js ***!
+  \*************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = function(i, str) {
+	    return i+str.split("\n")       // get all lines
+	              .join("\n"+i)      // join all lines with an indent
+	}
+
+/***/ },
+/* 45 */
+/*!***********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
+  \***********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 56)
+	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 57)
+	
+	module.exports = deadunitCore(browserConfig())
+
+/***/ },
+/* 46 */
 /*!*************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/trimArguments/trimArguments.js ***!
   \*************************************************************************************/
@@ -6466,15 +6998,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 36 */
+/* 47 */
 /*!*************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/observe.js ***!
   \*************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 60)
-	var EventEmitter = __webpack_require__(/*! events */ 34).EventEmitter
-	var utils = __webpack_require__(/*! ./utils */ 51)
+	var proto = __webpack_require__(/*! proto */ 69)
+	var EventEmitter = __webpack_require__(/*! events */ 40).EventEmitter
+	var utils = __webpack_require__(/*! ./utils */ 58)
 	
 	
 	// emits the event:
@@ -6944,147 +7476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 37 */
-/*!*********************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/proto/proto.js ***!
-  \*********************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                },
-	                configurable: true // so you can change it if you want
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
-/* 38 */
+/* 48 */
 /*!*************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/hashmap/hashmap.js ***!
   \*************************************************************************/
@@ -7280,17 +7672,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 39 */
+/* 49 */
 /*!*******************************************!*\
   !*** ../~/Components/RowlikeGenerator.js ***!
   \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 37)
+	var proto = __webpack_require__(/*! proto */ 39)
 	
-	var Gem = __webpack_require__(/*! Gem */ 4)
-	var Style = __webpack_require__(/*! Style */ 5)
-	var Cell = __webpack_require__(/*! ./Cell */ 30);
+	var Gem = __webpack_require__(/*! Gem */ 5)
+	var Style = __webpack_require__(/*! Style */ 6)
+	var Cell = __webpack_require__(/*! ./Cell */ 33);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -7337,673 +7729,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 40 */
-/*!****************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Container.js ***!
-  \****************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Container')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Container */ 57)
-
-/***/ },
-/* 41 */
-/*!***********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Text.js ***!
-  \***********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Text')
-	module.exports = __webpack_require__(/*! ./src/~/Components/Text */ 58)
-
-/***/ },
-/* 42 */
-/*!************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Block.js ***!
-  \************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Block */ 55)
-
-/***/ },
-/* 43 */
-/*!************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Style.js ***!
-  \************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Style */ 56)
-
-/***/ },
-/* 44 */
-/*!***********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
-  \***********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 53)
-	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 54)
-	
-	module.exports = deadunitCore(browserConfig())
-
-/***/ },
-/* 45 */
-/*!**********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/async-future/asyncFuture.js ***!
-  \**********************************************************************************/
-[142, 64],
-/* 46 */
-/*!********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/proto/proto.js ***!
-  \********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var noop = function() {}
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {init: noop}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}    // name used only for Error Objects
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    var constructorName = prototype.name?prototype.name:''
-	    if(prototype[init] === undefined || prototype[init] === noop) {
-	        var ProtoObjectFactory = new Function('F',
-	            "return function " + constructorName + "(){" +
-	                "return new F()" +
-	            "}"
-	        )(F)
-	    } else {
-	        // dynamically creating this function cause there's no other way to dynamically name a function
-	        var ProtoObjectFactory = new Function('F','i','u','n', // shitty variables cause minifiers aren't gonna minify my function string here
-	            "return function " + constructorName + "(){ " +
-	                "var x=new F(),r=i.apply(x,arguments)\n" +    // populate object via the constructor
-	                "if(r===n)\n" +
-	                    "return x\n" +
-	                "else if(r===u)\n" +
-	                    "return n\n" +
-	                "else\n" +
-	                    "return r\n" +
-	            "}"
-	        )(F, prototype[init], proto[protoUndefined]) // note that n is undefined
-	    }
-	
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet
-	    for(var n in parent) {
-	        if(ownProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory.parent = parent;            // special parent property only available on the returned proto class
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                }
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	
-	    var IntermediateInheritor = function() {}
-	        IntermediateInheritor.prototype = ErrorObject.prototype
-	    NormalizedError.prototype = new IntermediateInheritor()
-	
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
-/* 47 */
-/*!*********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/async-future/asyncFuture.js ***!
-  \*********************************************************************************************/
-[141, 69],
-/* 48 */
-/*!*********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/basicFormatter.js ***!
-  \*********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {var Future = __webpack_require__(/*! async-future */ 47)
-	
-	// built in test formatting helper
-	module.exports = function(unitTest, printOnTheFly/*, [consoleColors,] format*/) {
-	    if(arguments.length === 3) {
-	        var format = arguments[2]
-	    } else /* if(arguments.length > 3) */{
-	        var color = arguments[2]
-	        var format = arguments[3]
-	    }
-	
-	    var dotText = '.'
-	    if(color !== undefined) {
-	        dotText = color.green('.')
-	    }
-	
-	    var result = new Future
-	
-	    var lastPrintWasDot = false
-	    var printDot = function(dot) {
-	        if(dot) {
-	            process.stdout.write(dotText)
-	        } else if(lastPrintWasDot) {
-	            process.stdout.write('\n')
-	        }
-	
-	        lastPrintWasDot = dot
-	    }
-	
-	    var ended = false
-	    var events = {
-	        end: function(e) {
-	            ended = true
-	            if(printOnTheFly) printDot(false)
-	
-	            var results = unitTest.results()
-	            result.return(formatGroup(results, format, 0).result)
-	
-	            if(format.end !== undefined)
-	                format.end()
-	        }
-	    }
-	
-	    if(printOnTheFly) {
-	        var groups = {}
-	        events.assert = function(e) {
-	            printDot(e.success && !ended)
-	            if(e.success) {
-	                groups[e.parent].testSuccesses++
-	                groups[e.parent].assertSuccesses++
-	            } else {
-	                groups[e.parent].testFailures++
-	                groups[e.parent].assertFailures++
-	            }
-	
-	            if(!e.success || ended) {
-	                console.log(format.assert(e, undefined, true))
-	            }
-	        }
-	        events.exception = function(e) {
-	            printDot(false)
-	            groups[e.parent].exceptions++
-	
-	            console.log(format.exception(e.error, true))
-	        }
-	        events.log = function(e) {
-	            printDot(false)
-	            console.log(format.log(e.values, true))
-	        }
-	        events.group = function(g) {
-	            groups[g.id] = {parent: g.parent, name: g.name, testSuccesses: 0, testFailures: 0, assertSuccesses: 0, assertFailures: 0, exceptions: 0}
-	        }
-	        events.groupEnd = function(g) {
-	            var parent = groups[g.id].parent
-	            if(parent !== undefined) {
-	                printDot(false)
-	                if(groups[g.id].testFailures === 0 && groups[g.id].assertFailures === 0 && groups[g.id].exceptions === 0) {
-	                    groups[parent].testSuccesses++
-	                } else {
-	                    groups[parent].testFailures++
-	                }
-	
-	                console.log(format.group(groups[g.id].name, undefined, groups[g.id].testSuccesses,groups[g.id].testFailures,groups[g.id].assertSuccesses,groups[g.id].assertFailures,
-	                                        groups[g.id].exceptions, [], [], 1, false, true))
-	            }
-	        }
-	    }
-	
-	    unitTest.events(events)
-	
-	    return result
-	}
-	
-	function formatGroup(testResults, format, nestingLevel) {
-	    var assertSuccesses = 0
-	    var assertFailures = 0
-	    var exceptions = 0
-	
-	    var testCaseSuccesses= 0, testCaseFailures=0;
-	
-	    var results = []
-	    testResults.results.forEach(function(result) {
-	        if(result.type === 'assert') {
-	            if(result.success) {
-	                testCaseSuccesses++
-	                assertSuccesses ++
-	            } else {
-	                testCaseFailures++
-	                assertFailures++
-	            }
-	
-	            results.push(format.assert(result, testResults.name, false))
-	
-	        } else if(result.type === 'group') {
-	            var group = formatGroup(result, format, nestingLevel+1)
-	            exceptions+= group.exceptions
-	
-	            if(group.failures === 0 && group.exceptions === 0)
-	                testCaseSuccesses++
-	            else
-	                testCaseFailures++
-	
-	            results.push(group.result)
-	            assertSuccesses+= group.assertSuccesses
-	            assertFailures+= group.assertFailures
-	
-	        } else if(result.type === 'log') {
-	            results.push(format.log(result.values, false))
-	        } else {
-	            throw new Error("Unknown result type: "+result.type)
-	        }
-	    })
-	
-	    var exceptionResults = []
-	    testResults.exceptions.forEach(function(e) {
-	        exceptionResults.push(format.exception(e, false))
-	    })
-	
-	    exceptions+= testResults.exceptions.length
-	
-	    var formattedGroup = format.group(testResults.name, testResults.duration,
-	                                      testCaseSuccesses, testCaseFailures,
-	                                      assertSuccesses, assertFailures, exceptions,
-	                                      results, exceptionResults, nestingLevel, testResults.timeout, false)
-	    return {result: formattedGroup,
-	            successes: testCaseSuccesses,
-	            failures: testCaseFailures,
-	            assertSuccesses: assertSuccesses,
-	            assertFailures: assertFailures,
-	            exceptions: exceptions
-	    }
-	}
-	
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 59)))
-
-/***/ },
-/* 49 */
-/*!*************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/indent.js ***!
-  \*************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = function(i, str) {
-	    return i+str.split("\n")       // get all lines
-	              .join("\n"+i)      // join all lines with an indent
-	}
-
-/***/ },
 /* 50 */
-/*!****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/path-browserify/index.js ***!
-  \****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	// resolves . and .. elements in a path array with directory names there
-	// must be no slashes, empty elements, or device names (c:\) in the array
-	// (so also no leading and trailing slashes - it does not distinguish
-	// relative and absolute paths)
-	function normalizeArray(parts, allowAboveRoot) {
-	  // if the path tries to go above the root, `up` ends up > 0
-	  var up = 0;
-	  for (var i = parts.length - 1; i >= 0; i--) {
-	    var last = parts[i];
-	    if (last === '.') {
-	      parts.splice(i, 1);
-	    } else if (last === '..') {
-	      parts.splice(i, 1);
-	      up++;
-	    } else if (up) {
-	      parts.splice(i, 1);
-	      up--;
-	    }
-	  }
-	
-	  // if the path is allowed to go above the root, restore leading ..s
-	  if (allowAboveRoot) {
-	    for (; up--; up) {
-	      parts.unshift('..');
-	    }
-	  }
-	
-	  return parts;
-	}
-	
-	// Split a filename into [root, dir, basename, ext], unix version
-	// 'root' is just a slash, or nothing.
-	var splitPathRe =
-	    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-	var splitPath = function(filename) {
-	  return splitPathRe.exec(filename).slice(1);
-	};
-	
-	// path.resolve([from ...], to)
-	// posix version
-	exports.resolve = function() {
-	  var resolvedPath = '',
-	      resolvedAbsolute = false;
-	
-	  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-	    var path = (i >= 0) ? arguments[i] : process.cwd();
-	
-	    // Skip empty and invalid entries
-	    if (typeof path !== 'string') {
-	      throw new TypeError('Arguments to path.resolve must be strings');
-	    } else if (!path) {
-	      continue;
-	    }
-	
-	    resolvedPath = path + '/' + resolvedPath;
-	    resolvedAbsolute = path.charAt(0) === '/';
-	  }
-	
-	  // At this point the path should be resolved to a full absolute path, but
-	  // handle relative paths to be safe (might happen when process.cwd() fails)
-	
-	  // Normalize the path
-	  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
-	    return !!p;
-	  }), !resolvedAbsolute).join('/');
-	
-	  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
-	};
-	
-	// path.normalize(path)
-	// posix version
-	exports.normalize = function(path) {
-	  var isAbsolute = exports.isAbsolute(path),
-	      trailingSlash = substr(path, -1) === '/';
-	
-	  // Normalize the path
-	  path = normalizeArray(filter(path.split('/'), function(p) {
-	    return !!p;
-	  }), !isAbsolute).join('/');
-	
-	  if (!path && !isAbsolute) {
-	    path = '.';
-	  }
-	  if (path && trailingSlash) {
-	    path += '/';
-	  }
-	
-	  return (isAbsolute ? '/' : '') + path;
-	};
-	
-	// posix version
-	exports.isAbsolute = function(path) {
-	  return path.charAt(0) === '/';
-	};
-	
-	// posix version
-	exports.join = function() {
-	  var paths = Array.prototype.slice.call(arguments, 0);
-	  return exports.normalize(filter(paths, function(p, index) {
-	    if (typeof p !== 'string') {
-	      throw new TypeError('Arguments to path.join must be strings');
-	    }
-	    return p;
-	  }).join('/'));
-	};
-	
-	
-	// path.relative(from, to)
-	// posix version
-	exports.relative = function(from, to) {
-	  from = exports.resolve(from).substr(1);
-	  to = exports.resolve(to).substr(1);
-	
-	  function trim(arr) {
-	    var start = 0;
-	    for (; start < arr.length; start++) {
-	      if (arr[start] !== '') break;
-	    }
-	
-	    var end = arr.length - 1;
-	    for (; end >= 0; end--) {
-	      if (arr[end] !== '') break;
-	    }
-	
-	    if (start > end) return [];
-	    return arr.slice(start, end - start + 1);
-	  }
-	
-	  var fromParts = trim(from.split('/'));
-	  var toParts = trim(to.split('/'));
-	
-	  var length = Math.min(fromParts.length, toParts.length);
-	  var samePartsLength = length;
-	  for (var i = 0; i < length; i++) {
-	    if (fromParts[i] !== toParts[i]) {
-	      samePartsLength = i;
-	      break;
-	    }
-	  }
-	
-	  var outputParts = [];
-	  for (var i = samePartsLength; i < fromParts.length; i++) {
-	    outputParts.push('..');
-	  }
-	
-	  outputParts = outputParts.concat(toParts.slice(samePartsLength));
-	
-	  return outputParts.join('/');
-	};
-	
-	exports.sep = '/';
-	exports.delimiter = ':';
-	
-	exports.dirname = function(path) {
-	  var result = splitPath(path),
-	      root = result[0],
-	      dir = result[1];
-	
-	  if (!root && !dir) {
-	    // No dirname whatsoever
-	    return '.';
-	  }
-	
-	  if (dir) {
-	    // It has a dirname, strip trailing slash
-	    dir = dir.substr(0, dir.length - 1);
-	  }
-	
-	  return root + dir;
-	};
-	
-	
-	exports.basename = function(path, ext) {
-	  var f = splitPath(path)[2];
-	  // TODO: make this comparison case-insensitive on windows?
-	  if (ext && f.substr(-1 * ext.length) === ext) {
-	    f = f.substr(0, f.length - ext.length);
-	  }
-	  return f;
-	};
-	
-	
-	exports.extname = function(path) {
-	  return splitPath(path)[3];
-	};
-	
-	function filter (xs, f) {
-	    if (xs.filter) return xs.filter(f);
-	    var res = [];
-	    for (var i = 0; i < xs.length; i++) {
-	        if (f(xs[i], i, xs)) res.push(xs[i]);
-	    }
-	    return res;
-	}
-	
-	// String.prototype.substr - negative index don't work in IE8
-	var substr = 'ab'.substr(-1) === 'b'
-	    ? function (str, start, len) { return str.substr(start, len) }
-	    : function (str, start, len) {
-	        if (start < 0) start = str.length + start;
-	        return str.substr(start, len);
-	    }
-	;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 59)))
-
-/***/ },
-/* 51 */
-/*!***********************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/utils.js ***!
-  \***********************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	var path = __webpack_require__(/*! path */ 50)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       }
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 52 */
 /*!****************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/util/util.js ***!
   \****************************************************/
@@ -8534,7 +8260,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 61);
+	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 60);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -8599,7 +8325,1652 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 59)))
 
 /***/ },
+/* 51 */
+/*!****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/path-browserify/index.js ***!
+  \****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	// resolves . and .. elements in a path array with directory names there
+	// must be no slashes, empty elements, or device names (c:\) in the array
+	// (so also no leading and trailing slashes - it does not distinguish
+	// relative and absolute paths)
+	function normalizeArray(parts, allowAboveRoot) {
+	  // if the path tries to go above the root, `up` ends up > 0
+	  var up = 0;
+	  for (var i = parts.length - 1; i >= 0; i--) {
+	    var last = parts[i];
+	    if (last === '.') {
+	      parts.splice(i, 1);
+	    } else if (last === '..') {
+	      parts.splice(i, 1);
+	      up++;
+	    } else if (up) {
+	      parts.splice(i, 1);
+	      up--;
+	    }
+	  }
+	
+	  // if the path is allowed to go above the root, restore leading ..s
+	  if (allowAboveRoot) {
+	    for (; up--; up) {
+	      parts.unshift('..');
+	    }
+	  }
+	
+	  return parts;
+	}
+	
+	// Split a filename into [root, dir, basename, ext], unix version
+	// 'root' is just a slash, or nothing.
+	var splitPathRe =
+	    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+	var splitPath = function(filename) {
+	  return splitPathRe.exec(filename).slice(1);
+	};
+	
+	// path.resolve([from ...], to)
+	// posix version
+	exports.resolve = function() {
+	  var resolvedPath = '',
+	      resolvedAbsolute = false;
+	
+	  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+	    var path = (i >= 0) ? arguments[i] : process.cwd();
+	
+	    // Skip empty and invalid entries
+	    if (typeof path !== 'string') {
+	      throw new TypeError('Arguments to path.resolve must be strings');
+	    } else if (!path) {
+	      continue;
+	    }
+	
+	    resolvedPath = path + '/' + resolvedPath;
+	    resolvedAbsolute = path.charAt(0) === '/';
+	  }
+	
+	  // At this point the path should be resolved to a full absolute path, but
+	  // handle relative paths to be safe (might happen when process.cwd() fails)
+	
+	  // Normalize the path
+	  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+	    return !!p;
+	  }), !resolvedAbsolute).join('/');
+	
+	  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+	};
+	
+	// path.normalize(path)
+	// posix version
+	exports.normalize = function(path) {
+	  var isAbsolute = exports.isAbsolute(path),
+	      trailingSlash = substr(path, -1) === '/';
+	
+	  // Normalize the path
+	  path = normalizeArray(filter(path.split('/'), function(p) {
+	    return !!p;
+	  }), !isAbsolute).join('/');
+	
+	  if (!path && !isAbsolute) {
+	    path = '.';
+	  }
+	  if (path && trailingSlash) {
+	    path += '/';
+	  }
+	
+	  return (isAbsolute ? '/' : '') + path;
+	};
+	
+	// posix version
+	exports.isAbsolute = function(path) {
+	  return path.charAt(0) === '/';
+	};
+	
+	// posix version
+	exports.join = function() {
+	  var paths = Array.prototype.slice.call(arguments, 0);
+	  return exports.normalize(filter(paths, function(p, index) {
+	    if (typeof p !== 'string') {
+	      throw new TypeError('Arguments to path.join must be strings');
+	    }
+	    return p;
+	  }).join('/'));
+	};
+	
+	
+	// path.relative(from, to)
+	// posix version
+	exports.relative = function(from, to) {
+	  from = exports.resolve(from).substr(1);
+	  to = exports.resolve(to).substr(1);
+	
+	  function trim(arr) {
+	    var start = 0;
+	    for (; start < arr.length; start++) {
+	      if (arr[start] !== '') break;
+	    }
+	
+	    var end = arr.length - 1;
+	    for (; end >= 0; end--) {
+	      if (arr[end] !== '') break;
+	    }
+	
+	    if (start > end) return [];
+	    return arr.slice(start, end - start + 1);
+	  }
+	
+	  var fromParts = trim(from.split('/'));
+	  var toParts = trim(to.split('/'));
+	
+	  var length = Math.min(fromParts.length, toParts.length);
+	  var samePartsLength = length;
+	  for (var i = 0; i < length; i++) {
+	    if (fromParts[i] !== toParts[i]) {
+	      samePartsLength = i;
+	      break;
+	    }
+	  }
+	
+	  var outputParts = [];
+	  for (var i = samePartsLength; i < fromParts.length; i++) {
+	    outputParts.push('..');
+	  }
+	
+	  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+	
+	  return outputParts.join('/');
+	};
+	
+	exports.sep = '/';
+	exports.delimiter = ':';
+	
+	exports.dirname = function(path) {
+	  var result = splitPath(path),
+	      root = result[0],
+	      dir = result[1];
+	
+	  if (!root && !dir) {
+	    // No dirname whatsoever
+	    return '.';
+	  }
+	
+	  if (dir) {
+	    // It has a dirname, strip trailing slash
+	    dir = dir.substr(0, dir.length - 1);
+	  }
+	
+	  return root + dir;
+	};
+	
+	
+	exports.basename = function(path, ext) {
+	  var f = splitPath(path)[2];
+	  // TODO: make this comparison case-insensitive on windows?
+	  if (ext && f.substr(-1 * ext.length) === ext) {
+	    f = f.substr(0, f.length - ext.length);
+	  }
+	  return f;
+	};
+	
+	
+	exports.extname = function(path) {
+	  return splitPath(path)[3];
+	};
+	
+	function filter (xs, f) {
+	    if (xs.filter) return xs.filter(f);
+	    var res = [];
+	    for (var i = 0; i < xs.length; i++) {
+	        if (f(xs[i], i, xs)) res.push(xs[i]);
+	    }
+	    return res;
+	}
+	
+	// String.prototype.substr - negative index don't work in IE8
+	var substr = 'ab'.substr(-1) === 'b'
+	    ? function (str, start, len) { return str.substr(start, len) }
+	    : function (str, start, len) {
+	        if (start < 0) start = str.length + start;
+	        return str.substr(start, len);
+	    }
+	;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 59)))
+
+/***/ },
+/* 52 */
+/*!******************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Style.js ***!
+  \******************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var jssModule = __webpack_require__(/*! ../external/jss */ 63)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var HashMap = __webpack_require__(/*! hashmap */ 73)
+	
+	var utils = __webpack_require__(/*! ./utils */ 64)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 65)
+	
+	var baseClassName = '_ComponentStyle_' // the base name for generated class names
+	var nextClassNumber = 0
+	
+	// creates a style object
+	var Style = module.exports = proto(function() {
+	
+	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
+	
+	    // styleDefinition is an object where key-value pairs can be any of the following:
+	    // <cssPropertyName>: the value should be a valid css value for that style attribute
+	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
+	    // $setup: the value is a function to be run on a component when the style is applied to it
+	    // $kill: the value is a function to be run on a component when a style is removed from it
+	    // $state: the value should be a state handler function
+	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
+	    this.init = function(styleDefinition, privateOptions) {
+	        if(privateOptions === undefined) privateOptions = {}
+	        if(privateOptions.inLabel===undefined) inLabel = false
+	
+	        this.className = baseClassName+nextClassNumber
+	        nextClassNumber++
+	
+	        this.componentStyleMap = {}
+	        this.labelStyleMap = {}
+	
+	        var labelStyles = {}
+	        var pseudoClassStyles = {}
+	        var cssProperties = {}
+	        for(var key in styleDefinition) {
+	            var value = styleDefinition[key]
+	
+	            if(key === '$setup') {
+	                if(!(value instanceof Function)) throw new Error("$setup key must be a function ('setup' can't be used as a label)")
+	                this.setup = value
+	
+	            } else if(key === '$kill') {
+	                if(!(value instanceof Function)) throw new Error("$kill key must be a function ('kill' can't be used as a label)")
+	                this.kill = value
+	
+	            } else if(key === '$state') {
+	                if(!(value instanceof Function)) throw new Error("$state key must be a function ('$state' can't be used as a label)")
+	                this.stateHandler = value
+	
+	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
+	                var pseudoClass = mapCamelCase(key.substr(2))
+	                if(pseudoClass === '') {
+	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
+	                }
+	
+	                utils.merge(pseudoClassStyles, flattenPseudoClassStyles(pseudoClass, value))
+	
+	            } else if(key.indexOf('$') === 0) {   // label style
+	                if(privateOptions.inLabel)
+	                    throw new Error("Can't create nested label style "+key+" because components can only have one label")
+	
+	                var label = key.substr(1)
+	                if(label === '') {
+	                    throw new Error("Empty label name not valid (style key '$')")
+	                }
+	
+	                labelStyles[label] = value
+	
+	            } else if(isStyleObject(value)) {
+	                this.componentStyleMap[key] = value
+	
+	            } else if(value instanceof Object) {
+	                this.componentStyleMap[key] = Style(value)  // turn the object description into a full fledged style object
+	            } else {
+	                var cssStyle = key
+	                var cssStyleName = mapCamelCase(cssStyle)
+	                cssProperties[cssStyleName] = cssValue(cssStyleName, value)
+	            }
+	        }
+	
+	        // create the css class
+	        if(privateOptions.default) {
+	            var jssSheet = defaultJss
+	        } else {
+	            var jssSheet = jss
+	        }
+	
+	        jssSheet.set('.'+this.className, cssProperties)
+	
+	        //if(module.exports.isDev) {
+	            this.styleDefinitions = {}
+	            this.styleDefinitions['.'+this.className] = cssProperties
+	        //}
+	
+	        // create label styles
+	        if(Object.keys(labelStyles).length > 0) {
+	            var baseStyle = utils.merge({}, cssProperties, this.componentStyleMap)
+	
+	            for(var label in labelStyles) {
+	                if(isStyleObject(labelStyles[label])) {
+	                    this.labelStyleMap[label] = labelStyles[label]
+	                } else {
+	                    var mergedStyle = utils.merge({}, baseStyle, labelStyles[label])
+	                    this.labelStyleMap[label] = Style(mergedStyle, {inLabel:true})
+	                }
+	            }
+	        }
+	
+	        // create pseudoclass styles
+	        if(Object.keys(pseudoClassStyles).length > 0) {
+	
+	            var tieredPseudoClasses = createTieredPseudoClasses(this, pseudoClassStyles)
+	            pseudoclassCombinations(tieredPseudoClasses) // mutates tieredPseudoClasses
+	
+	            // turn the emulatable pseudo classes into Style objects
+	            // also build up the set of psuedoclasses that will be emulated
+	            // also build up a map of pseudoclasses-to-emulate to the emulation functions for those pseudoclasses
+	            var pseudoClasesToEmulate = []
+	            var preSplitPseudoClasses = [] // a list where each element looks like: [pseudoClassList, styleObject]  (this is primarily for performance - so we don't have to split the key every time we check for state changes)
+	            var pseudoClassesToEmulationInfo = {}
+	            for(var key in tieredPseudoClasses) {
+	                if(isStyleObject(tieredPseudoClasses[key])) {
+	                    tieredPseudoClasses[key] = tieredPseudoClasses[key]
+	                } else {
+	                    var newStyle = Style(utils.merge({}, cssProperties, tieredPseudoClasses[key])) // pseudoClassStyles merged with parent css styles
+	
+	                    // merge in componentStyleMap and labelStyleMap
+	                    for(var k in this.componentStyleMap) {
+	                        if(newStyle.componentStyleMap[k] === undefined)
+	                            newStyle.componentStyleMap[k] = this.componentStyleMap[k]
+	                    }
+	                    for(var k in this.labelStyleMap) {
+	                        if(newStyle.labelStyleMap[k] === undefined)
+	                            newStyle.labelStyleMap[k] = this.labelStyleMap[k]
+	                    }
+	
+	                    tieredPseudoClasses[key] = newStyle
+	                }
+	
+	
+	                var pseudoClassList = key.split(":")
+	                for(var n=0; n<pseudoClassList.length; n++) {
+	                    var pseudoClass = pseudoClassList[n]
+	                    if(pseudoClasesToEmulate.indexOf(pseudoClass) === -1) {
+	                        pseudoClasesToEmulate.push(pseudoClass)
+	
+	                        var pseudoClassParts = getPseudoClassParts(pseudoClass)
+	                        var fns = emulatedPseudoClasses[pseudoClassParts.class]
+	                        var info = {fns: fns}
+	                        if(fns.processParameter !== undefined) {
+	                            info.parameter = fns.processParameter(pseudoClassParts.parameter)
+	                        }
+	                        pseudoClassesToEmulationInfo[pseudoClass] = info
+	                    }
+	                }
+	
+	                preSplitPseudoClasses.push([pseudoClassList, tieredPseudoClasses[key]])
+	            }
+	
+	            // create functions that initialize and keep track of state
+	            var initializeState = function(component) {
+	                var state = {}
+	                for(var n=0; n<pseudoClasesToEmulate.length; n++) {
+	                    var pseudoClass = pseudoClasesToEmulate[n]
+	                    var pseudoClassEmulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
+	                    state[pseudoClass] = pseudoClassEmulationInfo.fns.check(component, pseudoClassEmulationInfo.parameter)
+	                }
+	
+	                return state
+	            }
+	
+	            var that = this
+	            var changeStyleIfNecessary = function(currentStyle, component, state) {
+	                var longestMatchingLength = 0;
+	                var mostSpecificMatchingStyle = that; // if nothing else matches, change back to the base style object
+	                for(var n=0; n<preSplitPseudoClasses.length; n++) {
+	                    var pseudoClassList = preSplitPseudoClasses[n][0]
+	                    for(var j=0; j<pseudoClassList.length; j++) {
+	                        if(!state[pseudoClassList[j]]) {
+	                            break;
+	                        }
+	                    }
+	
+	                    if(j === pseudoClassList.length && j > longestMatchingLength) {
+	                        longestMatchingLength = j
+	                        mostSpecificMatchingStyle = preSplitPseudoClasses[n][1]
+	                    }
+	                }
+	
+	                if(mostSpecificMatchingStyle !== currentStyle) {
+	                    component.style = mostSpecificMatchingStyle
+	
+	                    //blockStyleUtils.setCurrentStyle(component, mostSpecificMatchingStyle)
+	                    //blockStyleUtils.propogateStyleSet(component.children, component.computedStyleMap) // propogate styles to children
+	                }
+	            }
+	
+	            // setup pseudoclass emulation with $setup and $kill handlers
+	
+	            var wrapSetupAndKill = function(style) {
+	                var originalSetup = style.setup
+	                style.setup = function(component) {
+	                    var that = this
+	
+	                    this._styleSetupStates = {} // maps pseudoClass to setupState
+	                    var state = initializeState(component)
+	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
+	                        ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
+	                            that._styleSetupStates[pseudoClass] = emulationInfo.fns.setup(component, function() { // start
+	                                state[pseudoClass] = true
+	                                changeStyleIfNecessary(that, component, state)
+	                            }, function() { // end
+	                                state[pseudoClass] = false
+	                                changeStyleIfNecessary(that, component, state)
+	                            }, emulationInfo.parameter)
+	
+	                        })(pseudoClass, pseudoClassesToEmulationInfo[pseudoClass])
+	                    }
+	
+	                    changeStyleIfNecessary(that, component, state)
+	
+	                    if(originalSetup !== undefined) {
+	                        originalSetup.apply(this, arguments)
+	                    }
+	                }
+	
+	                var originalKill = style.kill
+	                style.kill = function(component) {
+	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
+	                        var emulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
+	                        emulationInfo.fns.kill(component, this._styleSetupStates[pseudoClass])
+	                    }
+	
+	                    if(originalKill !== undefined) {
+	                        originalKill.apply(this, arguments)
+	                    }
+	                }
+	            }
+	
+	            // wrap all the setup and kill functions
+	
+	            for(var key in tieredPseudoClasses) {
+	                var style = tieredPseudoClasses[key]
+	                wrapSetupAndKill(style)
+	            }
+	
+	            wrapSetupAndKill(this)
+	        }
+	    }
+	
+	    // instance properties
+	
+	    this.className          // the css classname for this style
+	    this.componentStyleMap; // maps a Component name to a Style object for that component
+	    this.labelStyleMap;     // maps a label name to a Style object for that label
+	    this.setup;             // run some javascript on any element this class is applied to
+	    this.kill;              // a function to run on removal of the style (should reverse setup)
+	
+	    // gets the style object for a component based on the current style object (takes into account whether the component has a label
+	    this.get = function(component) {
+	        if(component.label !== undefined) {
+	            var labelStyle = this.labelStyleMap[component.label]
+	            if(labelStyle !==  undefined) {
+	                return labelStyle
+	            }
+	        }
+	        // else
+	        return this
+	    }
+	})
+	
+	
+	// private
+	
+	
+	// returns a two-level map where the top-level keys are emulatable psuedo classes, and non-emulatable pseudo classes are at the second level
+	// the classes will also be sorted and deduped
+	// Example return value: {"hover:lastChild": {color:'red', "$$visited:disabled": {fontWeight: 'bold'}}, }
+	// parameters:
+	    // style - the style object being created
+	    // pseudoClassStyles - a flat object where each key is a list of pseudoclasses separated by colons (e.g. "hover" or "hover:focus") and the value is an object of styles that don't contain pseudoclasses
+	function createTieredPseudoClasses(style, pseudoClassStyles) {
+	    var tieredPseudoClasses = {} // the two-level map
+	    for(var key in pseudoClassStyles) {
+	        var value = pseudoClassStyles[key]
+	
+	        // split key into pseudoclass list
+	        var pseudoClassList = key.split(":")
+	        var emulatablePseudoClasses = []
+	        var nonEmulatablePseudoClasses = []
+	        for(var n in pseudoClassList) {
+	            var pseudoClass = pseudoClassList[n]
+	            var pseudoClassParts = getPseudoClassParts(pseudoClass)
+	            if(pseudoClassParts.class in emulatedPseudoClasses) {
+	                emulatablePseudoClasses.push(pseudoClass)
+	            } else {
+	                nonEmulatablePseudoClasses.push(pseudoClass)
+	            }
+	        }
+	
+	        // todo: add a third branch as an optimization: if the Style can be rendered without emulation - do that
+	        if(emulatablePseudoClasses.length === 0) { // if none of the pseudoclasses can be emulated using javascript
+	            validatePurePseudoClassStyles(key, value)                        // then validate the value and
+	            createPseudoClassRules(style, key, '.'+style.className+":"+key, value)   // create pseudoClassRules
+	
+	        } else { // if some of the pseudoclasses can be emulated using javascript
+	
+	            emulatablePseudoClasses.sort()
+	            var emulatablePseudoClassKey = emulatablePseudoClasses.join(':')
+	            if(tieredPseudoClasses[emulatablePseudoClassKey] === undefined)
+	                tieredPseudoClasses[emulatablePseudoClassKey] = {}
+	
+	            if(nonEmulatablePseudoClasses.length === 0) {
+	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], value)
+	            } else {
+	                nonEmulatablePseudoClasses.sort()
+	                var nonEmulatablePsuedoClassKey = nonEmulatablePseudoClasses.join(':')
+	
+	                var secondTier = {}
+	                secondTier['$$'+nonEmulatablePsuedoClassKey] = value
+	
+	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], secondTier)
+	            }
+	        }
+	    }
+	
+	    return tieredPseudoClasses
+	}
+	
+	
+	
+	// make combinations of the emulatable pseudoclasses, so that they combine like the non-emulated ones do
+	// info about mathematical combination: https://en.wikipedia.org/wiki/Combination
+	// mutates tieredPseudoClasses
+	function pseudoclassCombinations(tieredPseudoClasses) {
+	    var tieredPseudoClassesKeys = Object.keys(tieredPseudoClasses).reverse().map(function(v) {    // reverse first so that more specific pseudoclasses go first
+	        return {key: v, parts: v.split(':')} // so it doesn't have to split every time
+	    })
+	
+	    for(var n=0; n<tieredPseudoClassesKeys.length; n++) {
+	        var keyA = tieredPseudoClassesKeys[n]
+	        for(var k=2; k <= tieredPseudoClassesKeys.length; k++) { // k is the number of psuedoclasses to combine
+	            for(var j=n+1; j<tieredPseudoClassesKeys.length-(k-2); j++) {
+	                var result = combinePseudoclasses(tieredPseudoClasses, [keyA].concat(tieredPseudoClassesKeys.slice(j, k)))
+	                if(result.key in tieredPseudoClasses) {
+	                    utils.merge(tieredPseudoClasses[result.key], result.value)
+	                } else { // new key
+	                    tieredPseudoClasses[result.key] = result.value
+	                }
+	            }
+	        }
+	    }
+	}
+	
+	
+	
+	// keys is a list of objects where each object has the members:
+	    // key - the original string key
+	    // parts - the key split by ":"
+	// returns an object with the following members:
+	    // key - the new combined key
+	    // value - the new merged value
+	var combinePseudoclasses = function(pseudoclasses, keys) {
+	    var resultKeyParts = keys[0].parts
+	    var resultValue = utils.merge({}, pseudoclasses[keys[0].key]) // make a copy
+	    for(var n=1; n<keys.length; n++) {
+	        var key = keys[n]
+	        // merge all psuedoclasses that don't already exist into the resultKey
+	        for(var j=0; j<key.parts.length; j++) {
+	            var part = key.parts[j]
+	            if(resultKeyParts.indexOf(part) === -1) {
+	                resultKeyParts.push(part)
+	            }
+	        }
+	
+	        // merge the value into resultValue
+	        utils.merge(resultValue, pseudoclasses[key.key])
+	    }
+	
+	    return {key: resultKeyParts.join(':'), value: resultValue}
+	}
+	
+	// a map of pseudoclass names and how they are emulated with javascript
+	// each pseudoclass sets up the following functions:
+	    // check - a function that checks if that pseudoclass currently applies to the component when its called
+	    // setup - calls a callback when the pseudoClass starts and stops applying
+	        // should return an object that will be passed to the kill function (as its 'state' parameter)
+	    // kill - cleans up anything set up in the 'setup' function
+	    // processParameter - takes the pseudoclass parameter and returns some object representing it that will be used by the setup and check functions
+	var emulatedPseudoClasses = {
+	    hover: {
+	        check: function(component) {
+	            var nodes = document.querySelectorAll( ":hover" )
+	            for(var n=0; n<nodes.length; n++) {
+	                if(nodes[n] === component.domNode) {
+	                    return true
+	                }
+	            }
+	            return false
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            component.on("mouseover", function() {
+	                startCallback()
+	            })
+	            component.on("mouseout", endCallback)
+	
+	            return {start: startCallback, end: endCallback}
+	        },
+	        kill: function(component, state) {
+	            component.off("mouseover", state.start)
+	            component.off("mouseout", state.end)
+	        }
+	    },
+	    checked: {
+	        check: function(component) {
+	            return component.selected
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var setupState = {}
+	            component.on("change", setupState.listener = function() {
+	                if(component.selected) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            return setupState
+	        },
+	        kill: function(component, state) {
+	            component.removeListener("change", state.listener)
+	        }
+	    },
+	    required: {
+	        check: function(component) {
+	            return component.attr('required') !== undefined
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var observer = new MutationObserver(function() {
+	                if(component.attr('required') !== undefined) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            observer.observe(component.domNode, {attributes: true})
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        }
+	    },
+	    'last-child': {
+	        check: function(component) {
+	            return nthLastChildCheck(component, '1')
+	        },
+	        setup: function(component, startCallback, endCallback) {
+	            var observer = new MutationObserver(function() {
+	                if(nthLastChildCheck(component, '1')) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            })
+	
+	            var setupObserver = function() {
+	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
+	                observer.observe(component.parent.domNode, {childList: true})
+	            }
+	
+	            if(component.parent !== undefined) {
+	                setupObserver()
+	            }
+	
+	            component.on('newParent', function() {
+	                setupObserver()
+	            })
+	            component.on('parentRemoved', function() {
+	                observer.disconnect()
+	            })
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        }
+	    },
+	    'nth-child': {
+	        // todo: support full an+b parameters for nth-child https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
+	        check: function(component, parameterCheck) {
+	            return nthChildCheck(component, parameterCheck)
+	        },
+	        setup: function(component, startCallback, endCallback, parameterCheck) {
+	
+	            var checkAndCallCallbacks = function() {
+	                if(nthChildCheck(component, parameterCheck)) {
+	                    startCallback()
+	                } else {
+	                    endCallback()
+	                }
+	            }
+	
+	            var observer = new MutationObserver(function() {
+	                checkAndCallCallbacks()
+	            })
+	
+	            var setupObserver = function() {
+	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
+	                observer.observe(component.parent.domNode, {childList: true})
+	            }
+	
+	            if(component.parent !== undefined) {
+	                setupObserver()
+	            }
+	
+	            component.on('newParent', function() {
+	                setupObserver()
+	                checkAndCallCallbacks()
+	            })
+	            component.on('parentRemoved', function() {
+	                observer.disconnect()
+	                checkAndCallCallbacks()
+	            })
+	
+	            return {observer: observer}
+	        },
+	        kill: function(component, state) {
+	            state.observer.disconnect()
+	        },
+	        processParameter: function(parameter) {
+	            return nthChildParameterFn(parameter)
+	        }
+	    },
+	
+	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
+	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
+	    /*not: {
+	        check: function() {
+	
+	        },
+	    }*/
+	}
+	
+	// name is the name of the new pseudoclass
+	// fns is an object with the members:
+	    // check(component) - returns true if the pseudoclass applies to the component
+	    // setup(component, startCallback, endCallback, parameter) - a function that should call startCallback when the pseudoclass starts applying, and endCallback when it stops applying
+	        // parameter - the parameter passed to the pseudoclass (e.g. in :not(:first-child), ":first-child" is the parameter)
+	    // kill - a function that cleans up any event listeners or anything else set up in the 'setup' function
+	module.exports.addPseudoClass = function(name, fns) {
+	    if(emulatedPseudoClasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
+	    // else
+	    emulatedPseudoClasses[name] = fns
+	}
+	
+	
+	function nthChildCheck(component, testFn) {
+	    if(component.domNode.parentNode === null)
+	        return false
+	
+	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
+	    var index = Array.prototype.indexOf.call(children, component.domNode)
+	    return testFn(index)
+	}
+	
+	function nthLastChildCheck(component, parameter) {
+	    if(component.domNode.parentNode === null)
+	        return false
+	
+	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
+	    var index = children.length - parseInt(parameter)
+	    return children[index] === component.domNode
+	}
+	
+	// returns a function that takes an index and tell you if that index applies to the nthChildParameter
+	var nthChildParameter = /^(((-?\d*)(([+-]\d*)n?)?)|((-?\d)*n?([+-]\d*)?))$/
+	function nthChildParameterFn(parameter) {
+	    var parts = parameter.match(nthChildParameter)
+	    if(parts === null)
+	        throw new Error("nth-child parameter '"+parameter+"' isn't valid")
+	
+	    if(parts[2] !== undefined) {
+	        var constant = parts[3]
+	        var variable = parts[5]
+	    } else {
+	        var constant = parts[8]
+	        var variable = parts[7]
+	    }
+	
+	    if(constant === undefined) constant = 0
+	    else                       constant = parseInt(constant)
+	    if(variable === undefined) variable = 0
+	    else                       variable = parseInt(variable)
+	
+	    if(variable === 0) {
+	        return function(index) {
+	            return index+1 === constant
+	        }
+	    } else {
+	        return function(index) {
+	            return ((index+1-constant)/variable) % 1 === 0
+	        }
+	    }
+	
+	}
+	
+	// maps a style value to a css value
+	// style values that are numbers are mapped to strings, usually with px postfix
+	function cssValue(cssStyleName, value) {
+	    // If a number was passed in, add 'px' to the (except for certain CSS properties) [also taken from jquery's code]
+	    if(typeof(value) === "number" && cssNumber[cssStyleName] === undefined) {
+	        return value+"px"
+	    } else {
+	        return value.toString()
+	    }
+	}
+	
+	function createPseudoClassRules(that, pseudoClass, selector, pseudoClassStyle) {
+	
+	    var pseudoClassCss = {}
+	    for(var key in pseudoClassStyle) {
+	        var value = pseudoClassStyle[key]
+	
+	        if(!(value instanceof Object)) {
+	            var cssStyle = key
+	            var cssStyleName = mapCamelCase(cssStyle)
+	            pseudoClassCss[cssStyleName] = cssValue(cssStyleName, value)
+	        } else {
+	            throw new Error("All properties within the pseudoclasses '"+pseudoClass+"' must be css styles")
+	        }
+	    }
+	
+	    // create immediate pseudo class style
+	    defaultJss.set(selector, pseudoClassCss) // create the css class with the pseudoClass
+	
+	    //if(module.exports.isDev) {
+	        that.styleDefinitions = {}
+	        that.styleDefinitions[selector] = pseudoClassCss
+	    //}
+	}
+	
+	// throws exceptions for various style configurations that are unsupported by pure pseudo classes (ones that can't be emulated usuing javascript)
+	function validatePurePseudoClassStyles(pseudoClass, pseudoClassStyles) {
+	    for(var key in pseudoClassStyles) {
+	        var value = pseudoClassStyles[key]
+	
+	        if(isStyleObject(value)) {
+	            throw new Error("Can't set the pseudoclasses '"+pseudoClass+"' to a Style object")
+	        } else if(key === '$setup') {
+	            throw new Error("$setup can't be used within the pseudoclasses '"+pseudoClass+"'")
+	        } else if(key === '$kill') {
+	            throw new Error("$kill can't be used within the pseudoclasses '"+pseudoClass+"'")
+	        } else if(key.indexOf('$') === 0) {   // label style
+	            throw new Error("Block labels can't be used within the pseudoclasses '"+pseudoClass+"'")
+	        }
+	    }
+	}
+	
+	// e.g. pulls out 'nth-child' and '2+3n' from 'nth-child(2+3n)'
+	var pseudoClassRegex = /^([^(]*)(\((.*)\))?$/
+	function getPseudoClassParts(fullPsuedoClass) {
+	    var x = fullPsuedoClass.match(pseudoClassRegex)
+	    if(x === null) throw new Error("Pseudoclass '"+fullPsuedoClass+"' is invalid")
+	    return {class: x[1], parameter: x[3]}
+	}
+	
+	
+	// takes in a list of pseudoClassRules and changes any nesting like {hover: {focus: {}}} into something like {hover: {}, "hover:focus": {}}
+	// also does some validation
+	function flattenPseudoClassStyles(pseudoClass, pseudoClassStyle) {
+	    var nonPseudoClassStyles = {}
+	    var subpseudoClasses = {}
+	    for(var key in pseudoClassStyle) {
+	        var value = pseudoClassStyle[key]
+	
+	        if(key.indexOf('$$') === 0) { // pseudo-class style
+	            var subPseudoClass = key.substr(2)
+	            if(subPseudoClass === '') {
+	                throw new Error("Empty pseudo-class name not valid (style key '$$')")
+	            }
+	
+	            subpseudoClasses[subPseudoClass] = value
+	        } else {
+	            nonPseudoClassStyles[key] = value
+	        }
+	    }
+	
+	    // create flattened styles (with merged in styles from its parent pseudoclass
+	    var flattenedStyles = {}
+	    for(var subPseudoClass in subpseudoClasses) {
+	        var value = subpseudoClasses[subPseudoClass]
+	
+	        if(isStyleObject(value)) {
+	            flattenedStyles[pseudoClass+":"+subPseudoClass] =  value
+	        } else {
+	            utils.merge(flattenedStyles, flattenPseudoClassStyles(pseudoClass+":"+subPseudoClass, utils.merge({}, nonPseudoClassStyles, value)))
+	        }
+	    }
+	
+	    // write the top-level pseudoClass
+	    flattenedStyles[pseudoClass] = nonPseudoClassStyles
+	
+	    return flattenedStyles
+	}
+	
+	
+	// taken from jquery's code
+	var cssNumber = {
+	    "column-count": 1,
+	    "fill-opacity": 1,
+	    "flex-grow": 1,
+	    "flex-shrink": 1,
+	    "font-weight": 1,
+	    "line-height": 1,
+	    "opacity": 1,
+	    "order": 1,
+	    "orphans": 1,
+	    "widows": 1,
+	    "z-index": 1,
+	    "zoom": 1
+	}
+	
+	function isStyleObject(o) {
+	    return o.componentStyleMap !== undefined
+	}
+	
+	
+	var asciiA = 'A'.charCodeAt(0), asciiZ = 'Z'.charCodeAt(0), difference = 'a'.charCodeAt(0) - asciiA
+	function mapCamelCase(cssStyleName) {
+	    for(var n=0; n<cssStyleName.length; n++) {
+	        var ascii = cssStyleName.charCodeAt(n)
+	        if(asciiA <= ascii && ascii <= asciiZ) { // found capital letter
+	            cssStyleName = cssStyleName.slice(0, n) + '-'+String.fromCharCode(ascii+difference) + cssStyleName.slice(n+1)
+	            n++ // increment a second time for the dash
+	        }
+	    }
+	
+	    return cssStyleName
+	}
+	
+	// maps all the styles that are inherited by descendant nodes to their default values
+	// source: http://stackoverflow.com/questions/5612302/which-css-styles-are-inherited
+	var defaultStyleValues = {
+	    'azimuth': 'center',
+	    'border-collapse': 'separate',
+	    'border-spacing': '0',
+	    'caption-side': 'top',
+	    //'color': 'black',         // let this inherit
+	    //'cursor': 'auto',         // let this one inherit - its weird otherwise
+	    'direction': 'ltr',
+	     display: 'inline-block', // changes the default display to inline-block
+	    'elevation': '',
+	    'empty-cells': 'show',
+	    // 'font-family': '',       // let this inherit
+	    // 'font-size': 'medium',   // let this inherit
+	    //'font-style': 'normal',   // let this inherit
+	    //'font-variant': 'normal', // let this inherit
+	    //'font-weight': 'normal',  // let this inherit
+	    'letter-spacing': 'normal',
+	    'line-height': 'normal',
+	    'list-style-image': 'none',
+	    'list-style-position': 'outside',
+	    'list-style-type': 'disc',
+	    'orphans': '2',
+	    'pitch-range': '',
+	    'pitch': '',
+	     position: 'relative', // changes the default positioning so that absolute is relative to its parent by default
+	    'quotes': '',
+	    'richness': '',
+	    'speak-header': '',
+	    'speak-numeral': '',
+	    'speak-punctuation': '',
+	    'speak': '',
+	    'speak-rate': '',
+	    'stress': '',
+	    'text-align': 'left',
+	    'text-indent': '0',
+	    'text-transform': 'none',
+	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
+	    'voice-family': '',
+	    'volume': '',
+	    'white-space': 'normal',
+	    'widows': '2',
+	    'word-spacing': 'normal'
+	}
+	
+	
+	
+	// returns index of the passed css classname, or undefined if sheet containing that class isn't found
+	function cssClassSheetIndex(classname) {
+	    var result = undefined
+	
+	    var styleNodes = document.querySelectorAll("style")
+	    for(var n=0; n<styleNodes.length; n++) {
+	        var sheet = styleNodes[n].sheet
+	        jssModule.defaultSheet = sheet
+	
+	        var defaultStyleMaybe = jssModule.get(classname)
+	        if(Object.keys(defaultStyleMaybe).length > 0) {
+	            result = n
+	            break
+	        }
+	    }
+	
+	    jssModule.defaultSheet = undefined
+	    return result
+	}
+	
+	
+	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
+	var jss = jssModule.forDocument(document)
+	
+	var defaultClassSheetIndex = cssClassSheetIndex('.'+Style.defaultClassName)
+	if(defaultClassSheetIndex === undefined) {
+	    defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
+	
+	    jss.defaultSheet = jss._createSheet()
+	
+	    defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
+	
+	    defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
+	        cursor: 'inherit'
+	    })
+	} else {
+	    // if the default styleclass *already* exists, it probably means that blocks.js is being loaded twice
+	    console.log("Warning: the default-styles class name for blocks.js looks like its already in use. This probably means you have two versions of blocks.js loaded. If so, Blocks.js will continue to work, but your app will be a bit bloated. If something other than block.js created that class, blocks.js may break that style.")
+	
+	    var styleNodes = document.querySelectorAll("style")
+	    defaultJss.defaultSheet = styleNodes[defaultClassSheetIndex].sheet
+	    jss.defaultSheet = styleNodes[defaultClassSheetIndex+1].sheet
+	
+	    // make sure the baseClassName isn't already taken
+	    var dedupNumber = 0
+	    while(true) {
+	        var testBaseClassName = baseClassName+dedupNumber
+	        if(cssClassSheetIndex('.'+testBaseClassName+dedupNumber+0) !== undefined) {
+	            dedupNumber++
+	        } else {
+	            break;
+	        }
+	    }
+	
+	    baseClassName = testBaseClassName+dedupNumber
+	}
+	
+	
+	/*private*/ module.exports.isDev; // should be set by Block
+	
+	var computedStyles = module.exports.computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
+	
+
+
+/***/ },
 /* 53 */
+/*!******************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
+  \******************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 70)
+	var proto = __webpack_require__(/*! proto */ 42);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 46)
+	var observe = __webpack_require__(/*! observe */ 74)
+	
+	var utils = __webpack_require__(/*! ./utils */ 64)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 68)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 65)
+	
+	var Style = __webpack_require__(/*! ./Style */ 52)
+	Style.isDev = function() {return module.exports.dev}
+	
+	var components = {};
+	
+	var setOfBrowserEvents = utils.arrayToMap([
+	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
+	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
+	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
+	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
+	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
+	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
+	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
+	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
+	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
+	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
+	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
+	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
+	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
+	])
+	
+	// events:
+	    // newParent - emits this when a component gets a new parent
+	    // parentRemoved - emits this when a component is detached from its parent
+	var Block = module.exports = proto(EventEmitterB,function(superclass) {
+	
+	    // static properties
+	
+	    // constructor
+		this.init = function() {
+	        var that = this
+	
+	        if(this.name === undefined) {
+	            throw new Error("The 'name' property is required for Blocks")
+	        }
+	
+	        var defaultBlockStyle = blockStyleUtils.defaultStyleMap.get(this.constructor)
+	        if(defaultBlockStyle === undefined) {
+	            defaultBlockStyle = blockStyleUtils.createDefaultBlockStyle(this)
+	        }
+	
+	        superclass.init.call(this)
+	
+	        this.children = []
+	        this.state = observe({})
+	        this.parent = undefined;
+	
+			if (this.id !== undefined) {
+				components[this.id] = this;
+			}
+	
+	        if(this.domNode === undefined) {
+	            this.domNode = domUtils.div()
+	        }
+	
+	        this.build.apply(this, arguments)
+	
+	        //if(module.exports.dev) {
+	            this.attr('blkName', this.name)
+	        //}
+	
+	        var classList = [this.domNode.className]
+	        if(defaultBlockStyle !== false) classList.push(defaultBlockStyle.className)
+	        classList.push(Style.defaultClassName)
+	        this.domNode.className = classList.join(' ') // note that the order of classes doesn't matter
+	
+	        // set up dom event handlers
+	        var ifonHandlers={}
+	        that.ifon(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        that.ifoff(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.removeEventListener(event,ifonHandlers[event])
+	            }
+	        })
+		}
+	
+	    // sub-constructor - called by the constructor
+	    // parameters:
+	        // label - (Optional) A label that can be used to style a component differently.
+	                   // Intended to be some string describing what the component is being used for.
+	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
+	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
+	    this.build = function(/*[label,] domNode*/) {
+	        if(arguments.length === 1) {
+	            this.domNode = arguments[0]
+	        } else if(arguments.length >= 2) {
+	            this.label = arguments[0]
+	            this.domNode = arguments[1]
+	        }
+	    }
+		
+	
+		// instance properties
+	
+		
+		this.domNode;
+	    this.label;
+	    this.excludeDomEvents;
+	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
+	
+	
+	    Object.defineProperty(this, 'label', {
+	        get: function() {
+	            return this._label
+	        }, set: function(v) {
+	            if(this._label === undefined) {
+	                this._label = v
+	
+	                if(module.exports.dev) {
+	                    this.attr('label', this._label)
+	                }
+	            } else {
+	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
+	            }
+	        }
+	    })
+	
+	    // adds elements to the components main domNode
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.add = function() {
+	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
+		}
+	
+	    // adds nodes at a particular index
+	    // nodes can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addAt = function(index/*, nodes...*/) {
+	        var nodes = normalizeAddAtArguments.apply(this, arguments)
+	
+	        for (var i=0;i<nodes.length;i++) {
+				var node = nodes[i];
+	            this.children.splice(index+i, 0, node)
+	
+	            if(!isBlock(node)) {
+	                throw new Error("node is not a Block")
+	            }
+	
+	            node.parent = undefined
+	            node.emit('parentRemoved')
+	
+	            var beforeChild = this.children[1+i+index]
+	            if(beforeChild === undefined) {
+	                this.domNode.appendChild(node.domNode)
+	            } else {
+	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
+	            }
+	
+	            node.parent = this;
+	            node.emit('newParent')
+	
+	            // apply styles
+	            //if(itsaBlock) { // its always a component now
+	                var that = this
+	                node.getParentStyleMap = function() {return that.computedStyleMap}
+	                blockStyleUtils.propogateStyleSet([node], this.computedStyleMap)
+	            //}
+			}
+	    }
+	
+		// add a list of nodes before a particular node
+	    // if beforeChild is undefined, this will append the given nodes
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addBefore = this.addBeforeNode = function(beforeChild) {
+	        var nodes = trimArguments(arguments).slice(1)
+	        if(beforeChild === undefined) {
+	            this.add.apply(this, nodes)
+	        } else {
+	            var index = this.children.indexOf(beforeChild)
+	            this.addAt.apply(this, [index].concat(nodes))
+	        }
+	    }
+	
+	
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // index, index, index, ... - each index is the numerical index to remove
+	        // arrayOfComponents
+	        // arrayOfIndexes
+	    this.remove = function() {
+	        var removals = normalizeRemoveArguments.apply(this, arguments)
+	        removals = removals.sort(function(a,b) {
+	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
+	        })
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	            var c = this.children[r]
+	
+	            if(c === undefined) {
+	                throw new Error("There is no child at index "+r)
+	            }
+	
+	            c.parent = undefined
+	            this.children.splice(r, 1)
+	            this.domNode.removeChild(this.domNode.childNodes[r])
+	
+	            c.emit('parentRemoved')
+	        }
+	    }
+	
+	    // sets or gets an attribute on the components domNode
+	    // parameter sets:
+	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
+	    // if there are two arguments passed, the attribute is set
+	        // if 'value' is undefined, the attribute is removed
+	    this.attr = function(/*attribute, value OR attributeObject*/) {
+	        if(arguments.length === 1) {
+	            if(arguments[0] instanceof Object) {
+	                var attributes = arguments[0]
+	                for(var attribute in attributes) {
+	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
+	                }
+	            } else {
+	                var attribute = this.domNode.getAttribute(arguments[0])
+	                if(attribute === null) {
+	                    return undefined // screw null
+	                } else {
+	                    return attribute
+	                }
+	            }
+	        } else {
+	            var attribute = arguments[0]
+	            if(arguments[1] !== undefined) {
+	                var value = arguments[1]
+	                domUtils.setAttribute(this.domNode, arguments[0], value)
+	            } else {
+	                this.domNode.removeAttribute(attribute)
+	            }
+	        }
+	    }
+	
+	    Object.defineProperty(this, 'visible', {
+	        // returns true if the element is visible
+	        get: function() {
+	            return this.domNode.style.display !== 'none';
+	
+	        // sets whether or not the element is visible
+	        }, set: function(setToVisible) {
+	            if(setToVisible) {
+	                if (this._displayStyle !== undefined) {
+	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
+	                    this._displayStyle = undefined
+	                } else {
+	                    this.domNode.style.display = ''
+	                }
+	            } else {
+	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
+	                    this._displayStyle = this.domNode.style.display
+	                }
+	
+	                this.domNode.style.display = 'none'
+	            }
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'focus', {
+	        // returns true if the element is in focus
+	        get: function() {
+	            return document.activeElement === this.domNode
+	
+	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
+	        }, set: function(setToInFocus) {
+	            if(setToInFocus) {
+	                this.domNode.focus()
+	            } else {
+	                this.domNode.blur()
+	            }
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'style', {
+	        get: function() {
+	            return this._style
+	
+	        // sets the style, replacing one if one already exists
+	        }, set: function(styleObject) {
+	            if(styleObject === undefined) {
+	                var styleMap = this.getParentStyleMap()
+	                if(styleMap !== undefined) {
+	                    blockStyleUtils.setCurrentStyle(this, blockStyleUtils.getStyleForComponent(styleMap, this))
+	                } else {
+	                    blockStyleUtils.setCurrentStyle(this, undefined)
+	                }
+	
+	                this.computedStyleMap = styleMap
+	
+	            } else {
+	                blockStyleUtils.setCurrentStyle(this, styleObject)
+	                var specificStyle = styleObject.get(this)
+	                if(this.getParentStyleMap() !== undefined) {
+	                    this.computedStyleMap = blockStyleUtils.styleMapConjunction(this.getParentStyleMap(), specificStyle.componentStyleMap)
+	                } else {
+	                    this.computedStyleMap = specificStyle.componentStyleMap
+	                }
+	            }
+	
+	            this._style = styleObject
+	            blockStyleUtils.propogateStyleSet(this.children, this.computedStyleMap) // propogate styles to children
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'selectionRange', {
+	        // returns the visible character selection range inside the element
+	        // returns an array like [offsetStart, offsetEnd]
+	        get: function() {
+	            return domUtils.getSelectionRange(this.domNode)
+	
+	        // sets the visible character selection range
+	        }, set: function(selection) {
+	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
+	        }
+	    })
+	
+	    this.attach = function() {
+	        attach(this)
+	    }
+	    this.detach = function() {
+	        detach(this)
+	    }
+	
+	
+		// private instance variables/functions
+	
+	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
+	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
+	
+		this._style;              // the object's explicit Style object (undefined if it inherits a style)
+	    this.currentStyle;       // the object's current Style (inherited or explicit)
+	    this._displayStyle;      // temporariliy stores an inline display style while the element is hidden (for use when 'show' is called)
+	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
+	});
+	
+	
+	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
+	
+	
+	// appends components to the body
+	var attach = module.exports.attach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
+	    }
+	
+	    if(document.body === null) throw new Error("Your document does not have a body.")
+	
+	    for(var n=0; n<components.length; n++) {
+	        document.body.appendChild(components[n].domNode)
+	    }
+	}
+	// removes components from the body
+	var detach = module.exports.detach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        document.body.removeChild(components[n].domNode)
+	    }
+	}
+	
+	// creates a body tag (only call this if document.body is null)
+	
+	module.exports.createBody = function(callback) {
+	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+	    var body = dom.createElement("body")
+	    dom.documentElement.appendChild(body)
+	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
+	        callback()
+	    },0)
+	}
+	
+	
+	
+	
+	// returns a list of indexes to remove from Block.remove's arguments
+	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
+	    var that = this
+	
+	    if(arguments[0] instanceof Array) {
+	        var removals = arguments[0]
+	    } else {
+	        var removals = Array.prototype.slice.call(arguments)
+	    }
+	
+	    return removals.map(function(removal, parameterIndex) {
+	        if(isBlock(removal)) {
+	            var index = that.children.indexOf(removal)
+	            if(index === -1) {
+	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
+	            }
+	            return index
+	        } else {
+	            return removal
+	        }
+	
+	    })
+	}
+	
+	// returns a list of nodes to add
+	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
+	    if(arguments.length === 2) {
+	        if(arguments[1] instanceof Array) {
+	            return arguments[1]
+	        } else {
+	            return [arguments[1]]
+	        }
+	    } else { // > 2
+	        return trimArguments(arguments).slice(1)
+	    }
+	}
+	
+	function isBlock(c) {
+	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
+	}
+	function isDomNode(node) {
+	    return node.nodeName !== undefined
+	}
+
+/***/ },
+/* 54 */
+/*!*********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Components/Container.js ***!
+  \*********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 53)
+	var proto = __webpack_require__(/*! proto */ 42)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'Container'
+	
+	
+		// instance properties
+	
+		this.init = function (/*[label,] content*/) {
+	        if(typeof(arguments[0]) !== 'string') {
+	            var contentArgs = arguments
+	        } else {
+	            var label = arguments[0]
+	            var contentArgs = Array.prototype.slice.call(arguments, 1)
+	        }
+	
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	
+			if(contentArgs !== undefined)
+	            this.add.apply(this,contentArgs)
+		}
+	})
+
+
+/***/ },
+/* 55 */
+/*!****************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Components/Text.js ***!
+  \****************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Block = __webpack_require__(/*! ../Block */ 53)
+	var proto = __webpack_require__(/*! proto */ 42)
+	var Style = __webpack_require__(/*! Style */ 52)
+	
+	module.exports = proto(Block, function(superclass) {
+	
+	    //static properties
+	
+	    this.name = 'Text'
+	
+	    this.defaultStyle = Style({
+	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
+	    })
+	
+	    this.init = function(/*[label,] text*/) {
+	        if(arguments.length === 1) {
+	            var text = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        }
+	
+	        if (text === undefined) text = '';
+	
+	        superclass.init.call(this) // superclass constructor
+	
+	        var that = this
+	
+	        this.label = label
+	        this.text = text
+	
+	        this.on("input",function(data) {
+	            var eventData = {newText:data.srcElement.textContent,oldText:that.oldText};
+	            that.oldText = eventData.newText;
+	            //that.emit("input",eventData);
+	        });
+	
+	        this.on("blur",function(data) {
+	            var eventData = {newText:data.srcElement.textContent,oldText:that.lastFocus};
+	            that.lastFocus = eventData.newText;
+	            //that.emit("blur",eventData);
+	        });
+	    }
+	
+	    // instance properties
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode.textContent
+	        }, set: function(v) {
+	            this.domNode.innerText = v   // apparently textContent can't be set or something
+	        }
+	    })
+	});
+
+
+/***/ },
+/* 56 */
 /*!***************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.js ***!
   \***************************************************************************************************/
@@ -8608,15 +9979,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(/*! path */ 50)
+	var path = __webpack_require__(/*! path */ 51)
 	var Url = __webpack_require__(/*! url */ 71)
 	
-	var proto = __webpack_require__(/*! proto */ 74)
+	var proto = __webpack_require__(/*! proto */ 75)
 	var Future = __webpack_require__(/*! async-future */ 76)
 	var SourceMapConsumer = __webpack_require__(/*! source-map */ 77).SourceMapConsumer
 	
-	var processResults = __webpack_require__(/*! ./processResults */ 63)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 62)
+	var processResults = __webpack_require__(/*! ./processResults */ 66)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 67)
 	
 	// returns a module intended for a specific environment (that environment being described by the options)
 	// options can contain:
@@ -9517,7 +10888,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 54 */
+/* 57 */
 /*!*****************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.browserConfig.js ***!
   \*****************************************************************************************************************/
@@ -9526,16 +10897,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
-	var path = __webpack_require__(/*! path */ 50);
+	var path = __webpack_require__(/*! path */ 51);
 	
 	var Future = __webpack_require__(/*! async-future */ 76)
-	var proto = __webpack_require__(/*! proto */ 74)
+	var proto = __webpack_require__(/*! proto */ 75)
 	var stackinfo = __webpack_require__(/*! stackinfo */ 78)
-	var ajax = __webpack_require__(/*! ajax */ 73)
-	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 75).resolveSourceMap)
+	var ajax = __webpack_require__(/*! ajax */ 80)
+	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 79).resolveSourceMap)
 	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 53)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 62)
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 56)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 67)
 	
 	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
 	
@@ -9694,1414 +11065,55 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 55 */
-/*!******************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
-  \******************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 70)
-	var proto = __webpack_require__(/*! proto */ 46);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 35)
-	var observe = __webpack_require__(/*! observe */ 79)
-	
-	var utils = __webpack_require__(/*! ./utils */ 65)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 66)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 67)
-	
-	var Style = __webpack_require__(/*! ./Style */ 56)
-	Style.isDev = function() {return module.exports.dev}
-	
-	var components = {};
-	
-	var setOfBrowserEvents = utils.arrayToMap([
-	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
-	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
-	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
-	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
-	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
-	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
-	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
-	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
-	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
-	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
-	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
-	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
-	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
-	])
-	
-	// events:
-	    // newParent - emits this when a component gets a new parent
-	    // parentRemoved - emits this when a component is detached from its parent
-	var Block = module.exports = proto(EventEmitterB,function(superclass) {
-	
-	    // static properties
-	
-	    // constructor
-		this.init = function() {
-	        var that = this
-	
-	        if(this.name === undefined) {
-	            throw new Error("The 'name' property is required for Blocks")
-	        }
-	
-	        var defaultBlockStyle = blockStyleUtils.defaultStyleMap.get(this.constructor)
-	        if(defaultBlockStyle === undefined) {
-	            defaultBlockStyle = blockStyleUtils.createDefaultBlockStyle(this)
-	        }
-	
-	        superclass.init.call(this)
-	
-	        this.children = []
-	        this.state = observe({})
-	        this.parent = undefined;
-	
-			if (this.id !== undefined) {
-				components[this.id] = this;
-			}
-	
-	        if(this.domNode === undefined) {
-	            this.domNode = domUtils.div()
-	        }
-	
-	        this.build.apply(this, arguments)
-	
-	        //if(module.exports.dev) {
-	            this.attr('blkName', this.name)
-	        //}
-	
-	        var classList = [this.domNode.className]
-	        if(defaultBlockStyle !== false) classList.push(defaultBlockStyle.className)
-	        classList.push(Style.defaultClassName)
-	        this.domNode.className = classList.join(' ') // note that the order of classes doesn't matter
-	
-	        // set up dom event handlers
-	        var ifonHandlers={}
-	        that.ifon(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        that.ifoff(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.removeEventListener(event,ifonHandlers[event])
-	            }
-	        })
-		}
-	
-	    // sub-constructor - called by the constructor
-	    // parameters:
-	        // label - (Optional) A label that can be used to style a component differently.
-	                   // Intended to be some string describing what the component is being used for.
-	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
-	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
-	    this.build = function(/*[label,] domNode*/) {
-	        if(arguments.length === 1) {
-	            this.domNode = arguments[0]
-	        } else if(arguments.length >= 2) {
-	            this.label = arguments[0]
-	            this.domNode = arguments[1]
-	        }
-	    }
-		
-	
-		// instance properties
-	
-		
-		this.domNode;
-	    this.label;
-	    this.excludeDomEvents;
-	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
-	
-	
-	    Object.defineProperty(this, 'label', {
-	        get: function() {
-	            return this._label
-	        }, set: function(v) {
-	            if(this._label === undefined) {
-	                this._label = v
-	
-	                if(module.exports.dev) {
-	                    this.attr('label', this._label)
-	                }
-	            } else {
-	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
-	            }
-	        }
-	    })
-	
-	    // adds elements to the components main domNode
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.add = function() {
-	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
-		}
-	
-	    // adds nodes at a particular index
-	    // nodes can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addAt = function(index/*, nodes...*/) {
-	        var nodes = normalizeAddAtArguments.apply(this, arguments)
-	
-	        for (var i=0;i<nodes.length;i++) {
-				var node = nodes[i];
-	            this.children.splice(index+i, 0, node)
-	
-	            if(!isBlock(node)) {
-	                throw new Error("node is not a Block")
-	            }
-	
-	            node.parent = undefined
-	            node.emit('parentRemoved')
-	
-	            var beforeChild = this.children[1+i+index]
-	            if(beforeChild === undefined) {
-	                this.domNode.appendChild(node.domNode)
-	            } else {
-	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
-	            }
-	
-	            node.parent = this;
-	            node.emit('newParent')
-	
-	            // apply styles
-	            //if(itsaBlock) { // its always a component now
-	                var that = this
-	                node.getParentStyleMap = function() {return that.computedStyleMap}
-	                blockStyleUtils.propogateStyleSet([node], this.computedStyleMap)
-	            //}
-			}
-	    }
-	
-		// add a list of nodes before a particular node
-	    // if beforeChild is undefined, this will append the given nodes
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addBefore = this.addBeforeNode = function(beforeChild) {
-	        var nodes = trimArguments(arguments).slice(1)
-	        if(beforeChild === undefined) {
-	            this.add.apply(this, nodes)
-	        } else {
-	            var index = this.children.indexOf(beforeChild)
-	            this.addAt.apply(this, [index].concat(nodes))
-	        }
-	    }
-	
-	
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // index, index, index, ... - each index is the numerical index to remove
-	        // arrayOfComponents
-	        // arrayOfIndexes
-	    this.remove = function() {
-	        var removals = normalizeRemoveArguments.apply(this, arguments)
-	        removals = removals.sort(function(a,b) {
-	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
-	        })
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	            var c = this.children[r]
-	
-	            if(c === undefined) {
-	                throw new Error("There is no child at index "+r)
-	            }
-	
-	            c.parent = undefined
-	            this.children.splice(r, 1)
-	            this.domNode.removeChild(this.domNode.childNodes[r])
-	
-	            c.emit('parentRemoved')
-	        }
-	    }
-	
-	    // sets or gets an attribute on the components domNode
-	    // parameter sets:
-	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
-	    // if there are two arguments passed, the attribute is set
-	        // if 'value' is undefined, the attribute is removed
-	    this.attr = function(/*attribute, value OR attributeObject*/) {
-	        if(arguments.length === 1) {
-	            if(arguments[0] instanceof Object) {
-	                var attributes = arguments[0]
-	                for(var attribute in attributes) {
-	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
-	                }
-	            } else {
-	                var attribute = this.domNode.getAttribute(arguments[0])
-	                if(attribute === null) {
-	                    return undefined // screw null
-	                } else {
-	                    return attribute
-	                }
-	            }
-	        } else {
-	            var attribute = arguments[0]
-	            if(arguments[1] !== undefined) {
-	                var value = arguments[1]
-	                domUtils.setAttribute(this.domNode, arguments[0], value)
-	            } else {
-	                this.domNode.removeAttribute(attribute)
-	            }
-	        }
-	    }
-	
-	    Object.defineProperty(this, 'visible', {
-	        // returns true if the element is visible
-	        get: function() {
-	            return this.domNode.style.display !== 'none';
-	
-	        // sets whether or not the element is visible
-	        }, set: function(setToVisible) {
-	            if(setToVisible) {
-	                if (this._displayStyle !== undefined) {
-	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
-	                    this._displayStyle = undefined
-	                } else {
-	                    this.domNode.style.display = ''
-	                }
-	            } else {
-	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
-	                    this._displayStyle = this.domNode.style.display
-	                }
-	
-	                this.domNode.style.display = 'none'
-	            }
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'focus', {
-	        // returns true if the element is in focus
-	        get: function() {
-	            return document.activeElement === this.domNode
-	
-	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
-	        }, set: function(setToInFocus) {
-	            if(setToInFocus) {
-	                this.domNode.focus()
-	            } else {
-	                this.domNode.blur()
-	            }
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'style', {
-	        get: function() {
-	            return this._style
-	
-	        // sets the style, replacing one if one already exists
-	        }, set: function(styleObject) {
-	            if(styleObject === undefined) {
-	                var styleMap = this.getParentStyleMap()
-	                if(styleMap !== undefined) {
-	                    blockStyleUtils.setCurrentStyle(this, blockStyleUtils.getStyleForComponent(styleMap, this))
-	                } else {
-	                    blockStyleUtils.setCurrentStyle(this, undefined)
-	                }
-	
-	                this.computedStyleMap = styleMap
-	
-	            } else {
-	                blockStyleUtils.setCurrentStyle(this, styleObject)
-	                var specificStyle = styleObject.get(this)
-	                if(this.getParentStyleMap() !== undefined) {
-	                    this.computedStyleMap = blockStyleUtils.styleMapConjunction(this.getParentStyleMap(), specificStyle.componentStyleMap)
-	                } else {
-	                    this.computedStyleMap = specificStyle.componentStyleMap
-	                }
-	            }
-	
-	            this._style = styleObject
-	            blockStyleUtils.propogateStyleSet(this.children, this.computedStyleMap) // propogate styles to children
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'selectionRange', {
-	        // returns the visible character selection range inside the element
-	        // returns an array like [offsetStart, offsetEnd]
-	        get: function() {
-	            return domUtils.getSelectionRange(this.domNode)
-	
-	        // sets the visible character selection range
-	        }, set: function(selection) {
-	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
-	        }
-	    })
-	
-	    this.attach = function() {
-	        attach(this)
-	    }
-	    this.detach = function() {
-	        detach(this)
-	    }
-	
-	
-		// private instance variables/functions
-	
-	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
-	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
-	
-		this._style;              // the object's explicit Style object (undefined if it inherits a style)
-	    this.currentStyle;       // the object's current Style (inherited or explicit)
-	    this._displayStyle;      // temporariliy stores an inline display style while the element is hidden (for use when 'show' is called)
-	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
-	});
-	
-	
-	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
-	
-	
-	// appends components to the body
-	var attach = module.exports.attach = function(/*component,component,.. or components*/) {
-	    if(arguments[0] instanceof Array) {
-	        var components = arguments[0]
-	    } else {
-	        var components = arguments
-	    }
-	
-	    if(document.body === null) throw new Error("Your document does not have a body.")
-	
-	    for(var n=0; n<components.length; n++) {
-	        document.body.appendChild(components[n].domNode)
-	    }
-	}
-	// removes components from the body
-	var detach = module.exports.detach = function(/*component,component,.. or components*/) {
-	    if(arguments[0] instanceof Array) {
-	        var components = arguments[0]
-	    } else {
-	        var components = arguments
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        document.body.removeChild(components[n].domNode)
-	    }
-	}
-	
-	// creates a body tag (only call this if document.body is null)
-	
-	module.exports.createBody = function(callback) {
-	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-	    var body = dom.createElement("body")
-	    dom.documentElement.appendChild(body)
-	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
-	        callback()
-	    },0)
-	}
-	
-	
-	
-	
-	// returns a list of indexes to remove from Block.remove's arguments
-	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
-	    var that = this
-	
-	    if(arguments[0] instanceof Array) {
-	        var removals = arguments[0]
-	    } else {
-	        var removals = Array.prototype.slice.call(arguments)
-	    }
-	
-	    return removals.map(function(removal, parameterIndex) {
-	        if(isBlock(removal)) {
-	            var index = that.children.indexOf(removal)
-	            if(index === -1) {
-	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
-	            }
-	            return index
-	        } else {
-	            return removal
-	        }
-	
-	    })
-	}
-	
-	// returns a list of nodes to add
-	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
-	    if(arguments.length === 2) {
-	        if(arguments[1] instanceof Array) {
-	            return arguments[1]
-	        } else {
-	            return [arguments[1]]
-	        }
-	    } else { // > 2
-	        return trimArguments(arguments).slice(1)
-	    }
-	}
-	
-	function isBlock(c) {
-	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
-	}
-	function isDomNode(node) {
-	    return node.nodeName !== undefined
-	}
-
-/***/ },
-/* 56 */
-/*!******************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Style.js ***!
-  \******************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var jssModule = __webpack_require__(/*! ../external/jss */ 68)
-	var proto = __webpack_require__(/*! proto */ 46)
-	var HashMap = __webpack_require__(/*! hashmap */ 80)
-	
-	var utils = __webpack_require__(/*! ./utils */ 65)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 67)
-	
-	var baseClassName = '_ComponentStyle_' // the base name for generated class names
-	var nextClassNumber = 0
-	
-	// creates a style object
-	var Style = module.exports = proto(function() {
-	
-	    this.defaultClassName = '_default_'     // the name of the default class (used to prevent style inheritance)
-	
-	    // styleDefinition is an object where key-value pairs can be any of the following:
-	    // <cssPropertyName>: the value should be a valid css value for that style attribute
-	    // <ComponentName>: the value can either be a Style object or a nested styleDefinition object
-	    // $setup: the value is a function to be run on a component when the style is applied to it
-	    // $kill: the value is a function to be run on a component when a style is removed from it
-	    // $state: the value should be a state handler function
-	    // $<label>: the value should be a nested styleDefinition object that does not contain any label styles.
-	    this.init = function(styleDefinition, privateOptions) {
-	        if(privateOptions === undefined) privateOptions = {}
-	        if(privateOptions.inLabel===undefined) inLabel = false
-	
-	        this.className = baseClassName+nextClassNumber
-	        nextClassNumber++
-	
-	        this.componentStyleMap = {}
-	        this.labelStyleMap = {}
-	
-	        var labelStyles = {}
-	        var pseudoClassStyles = {}
-	        var cssProperties = {}
-	        for(var key in styleDefinition) {
-	            var value = styleDefinition[key]
-	
-	            if(key === '$setup') {
-	                if(!(value instanceof Function)) throw new Error("$setup key must be a function ('setup' can't be used as a label)")
-	                this.setup = value
-	
-	            } else if(key === '$kill') {
-	                if(!(value instanceof Function)) throw new Error("$kill key must be a function ('kill' can't be used as a label)")
-	                this.kill = value
-	
-	            } else if(key === '$state') {
-	                if(!(value instanceof Function)) throw new Error("$state key must be a function ('$state' can't be used as a label)")
-	                this.stateHandler = value
-	
-	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
-	                var pseudoClass = mapCamelCase(key.substr(2))
-	                if(pseudoClass === '') {
-	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
-	                }
-	
-	                utils.merge(pseudoClassStyles, flattenPseudoClassStyles(pseudoClass, value))
-	
-	            } else if(key.indexOf('$') === 0) {   // label style
-	                if(privateOptions.inLabel)
-	                    throw new Error("Can't create nested label style "+key+" because components can only have one label")
-	
-	                var label = key.substr(1)
-	                if(label === '') {
-	                    throw new Error("Empty label name not valid (style key '$')")
-	                }
-	
-	                labelStyles[label] = value
-	
-	            } else if(isStyleObject(value)) {
-	                this.componentStyleMap[key] = value
-	
-	            } else if(value instanceof Object) {
-	                this.componentStyleMap[key] = Style(value)  // turn the object description into a full fledged style object
-	            } else {
-	                var cssStyle = key
-	                var cssStyleName = mapCamelCase(cssStyle)
-	                cssProperties[cssStyleName] = cssValue(cssStyleName, value)
-	            }
-	        }
-	
-	        // create the css class
-	        if(privateOptions.default) {
-	            var jssSheet = defaultJss
-	        } else {
-	            var jssSheet = jss
-	        }
-	
-	        jssSheet.set('.'+this.className, cssProperties)
-	
-	        //if(module.exports.isDev) {
-	            this.styleDefinitions = {}
-	            this.styleDefinitions['.'+this.className] = cssProperties
-	        //}
-	
-	        // create label styles
-	        if(Object.keys(labelStyles).length > 0) {
-	            var baseStyle = utils.merge({}, cssProperties, this.componentStyleMap)
-	
-	            for(var label in labelStyles) {
-	                if(isStyleObject(labelStyles[label])) {
-	                    this.labelStyleMap[label] = labelStyles[label]
-	                } else {
-	                    var mergedStyle = utils.merge({}, baseStyle, labelStyles[label])
-	                    this.labelStyleMap[label] = Style(mergedStyle, {inLabel:true})
-	                }
-	            }
-	        }
-	
-	        // create pseudoclass styles
-	        if(Object.keys(pseudoClassStyles).length > 0) {
-	
-	            var tieredPseudoClasses = createTieredPseudoClasses(this, pseudoClassStyles)
-	            pseudoclassCombinations(tieredPseudoClasses) // mutates tieredPseudoClasses
-	
-	            // turn the emulatable pseudo classes into Style objects
-	            // also build up the set of psuedoclasses that will be emulated
-	            // also build up a map of pseudoclasses-to-emulate to the emulation functions for those pseudoclasses
-	            var pseudoClasesToEmulate = []
-	            var preSplitPseudoClasses = [] // a list where each element looks like: [pseudoClassList, styleObject]  (this is primarily for performance - so we don't have to split the key every time we check for state changes)
-	            var pseudoClassesToEmulationInfo = {}
-	            for(var key in tieredPseudoClasses) {
-	                if(isStyleObject(tieredPseudoClasses[key])) {
-	                    tieredPseudoClasses[key] = tieredPseudoClasses[key]
-	                } else {
-	                    var newStyle = Style(utils.merge({}, cssProperties, tieredPseudoClasses[key])) // pseudoClassStyles merged with parent css styles
-	
-	                    // merge in componentStyleMap and labelStyleMap
-	                    for(var k in this.componentStyleMap) {
-	                        if(newStyle.componentStyleMap[k] === undefined)
-	                            newStyle.componentStyleMap[k] = this.componentStyleMap[k]
-	                    }
-	                    for(var k in this.labelStyleMap) {
-	                        if(newStyle.labelStyleMap[k] === undefined)
-	                            newStyle.labelStyleMap[k] = this.labelStyleMap[k]
-	                    }
-	
-	                    tieredPseudoClasses[key] = newStyle
-	                }
-	
-	
-	                var pseudoClassList = key.split(":")
-	                for(var n=0; n<pseudoClassList.length; n++) {
-	                    var pseudoClass = pseudoClassList[n]
-	                    if(pseudoClasesToEmulate.indexOf(pseudoClass) === -1) {
-	                        pseudoClasesToEmulate.push(pseudoClass)
-	
-	                        var pseudoClassParts = getPseudoClassParts(pseudoClass)
-	                        var fns = emulatedPseudoClasses[pseudoClassParts.class]
-	                        var info = {fns: fns}
-	                        if(fns.processParameter !== undefined) {
-	                            info.parameter = fns.processParameter(pseudoClassParts.parameter)
-	                        }
-	                        pseudoClassesToEmulationInfo[pseudoClass] = info
-	                    }
-	                }
-	
-	                preSplitPseudoClasses.push([pseudoClassList, tieredPseudoClasses[key]])
-	            }
-	
-	            // create functions that initialize and keep track of state
-	            var initializeState = function(component) {
-	                var state = {}
-	                for(var n=0; n<pseudoClasesToEmulate.length; n++) {
-	                    var pseudoClass = pseudoClasesToEmulate[n]
-	                    var pseudoClassEmulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
-	                    state[pseudoClass] = pseudoClassEmulationInfo.fns.check(component, pseudoClassEmulationInfo.parameter)
-	                }
-	
-	                return state
-	            }
-	
-	            var that = this
-	            var changeStyleIfNecessary = function(currentStyle, component, state) {
-	                var longestMatchingLength = 0;
-	                var mostSpecificMatchingStyle = that; // if nothing else matches, change back to the base style object
-	                for(var n=0; n<preSplitPseudoClasses.length; n++) {
-	                    var pseudoClassList = preSplitPseudoClasses[n][0]
-	                    for(var j=0; j<pseudoClassList.length; j++) {
-	                        if(!state[pseudoClassList[j]]) {
-	                            break;
-	                        }
-	                    }
-	
-	                    if(j === pseudoClassList.length && j > longestMatchingLength) {
-	                        longestMatchingLength = j
-	                        mostSpecificMatchingStyle = preSplitPseudoClasses[n][1]
-	                    }
-	                }
-	
-	                if(mostSpecificMatchingStyle !== currentStyle) {
-	                    component.style = mostSpecificMatchingStyle
-	
-	                    //blockStyleUtils.setCurrentStyle(component, mostSpecificMatchingStyle)
-	                    //blockStyleUtils.propogateStyleSet(component.children, component.computedStyleMap) // propogate styles to children
-	                }
-	            }
-	
-	            // setup pseudoclass emulation with $setup and $kill handlers
-	
-	            var wrapSetupAndKill = function(style) {
-	                var originalSetup = style.setup
-	                style.setup = function(component) {
-	                    var that = this
-	
-	                    this._styleSetupStates = {} // maps pseudoClass to setupState
-	                    var state = initializeState(component)
-	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
-	                        ;(function(pseudoClass, emulationInfo){   // close over those variables (so they keep the value they had when the function was setup)
-	                            that._styleSetupStates[pseudoClass] = emulationInfo.fns.setup(component, function() { // start
-	                                state[pseudoClass] = true
-	                                changeStyleIfNecessary(that, component, state)
-	                            }, function() { // end
-	                                state[pseudoClass] = false
-	                                changeStyleIfNecessary(that, component, state)
-	                            }, emulationInfo.parameter)
-	
-	                        })(pseudoClass, pseudoClassesToEmulationInfo[pseudoClass])
-	                    }
-	
-	                    changeStyleIfNecessary(that, component, state)
-	
-	                    if(originalSetup !== undefined) {
-	                        originalSetup.apply(this, arguments)
-	                    }
-	                }
-	
-	                var originalKill = style.kill
-	                style.kill = function(component) {
-	                    for(var pseudoClass in pseudoClassesToEmulationInfo) {
-	                        var emulationInfo = pseudoClassesToEmulationInfo[pseudoClass]
-	                        emulationInfo.fns.kill(component, this._styleSetupStates[pseudoClass])
-	                    }
-	
-	                    if(originalKill !== undefined) {
-	                        originalKill.apply(this, arguments)
-	                    }
-	                }
-	            }
-	
-	            // wrap all the setup and kill functions
-	
-	            for(var key in tieredPseudoClasses) {
-	                var style = tieredPseudoClasses[key]
-	                wrapSetupAndKill(style)
-	            }
-	
-	            wrapSetupAndKill(this)
-	        }
-	    }
-	
-	    // instance properties
-	
-	    this.className          // the css classname for this style
-	    this.componentStyleMap; // maps a Component name to a Style object for that component
-	    this.labelStyleMap;     // maps a label name to a Style object for that label
-	    this.setup;             // run some javascript on any element this class is applied to
-	    this.kill;              // a function to run on removal of the style (should reverse setup)
-	
-	    // gets the style object for a component based on the current style object (takes into account whether the component has a label
-	    this.get = function(component) {
-	        if(component.label !== undefined) {
-	            var labelStyle = this.labelStyleMap[component.label]
-	            if(labelStyle !==  undefined) {
-	                return labelStyle
-	            }
-	        }
-	        // else
-	        return this
-	    }
-	})
-	
-	
-	// private
-	
-	
-	// returns a two-level map where the top-level keys are emulatable psuedo classes, and non-emulatable pseudo classes are at the second level
-	// the classes will also be sorted and deduped
-	// Example return value: {"hover:lastChild": {color:'red', "$$visited:disabled": {fontWeight: 'bold'}}, }
-	// parameters:
-	    // style - the style object being created
-	    // pseudoClassStyles - a flat object where each key is a list of pseudoclasses separated by colons (e.g. "hover" or "hover:focus") and the value is an object of styles that don't contain pseudoclasses
-	function createTieredPseudoClasses(style, pseudoClassStyles) {
-	    var tieredPseudoClasses = {} // the two-level map
-	    for(var key in pseudoClassStyles) {
-	        var value = pseudoClassStyles[key]
-	
-	        // split key into pseudoclass list
-	        var pseudoClassList = key.split(":")
-	        var emulatablePseudoClasses = []
-	        var nonEmulatablePseudoClasses = []
-	        for(var n in pseudoClassList) {
-	            var pseudoClass = pseudoClassList[n]
-	            var pseudoClassParts = getPseudoClassParts(pseudoClass)
-	            if(pseudoClassParts.class in emulatedPseudoClasses) {
-	                emulatablePseudoClasses.push(pseudoClass)
-	            } else {
-	                nonEmulatablePseudoClasses.push(pseudoClass)
-	            }
-	        }
-	
-	        // todo: add a third branch as an optimization: if the Style can be rendered without emulation - do that
-	        if(emulatablePseudoClasses.length === 0) { // if none of the pseudoclasses can be emulated using javascript
-	            validatePurePseudoClassStyles(key, value)                        // then validate the value and
-	            createPseudoClassRules(style, key, '.'+style.className+":"+key, value)   // create pseudoClassRules
-	
-	        } else { // if some of the pseudoclasses can be emulated using javascript
-	
-	            emulatablePseudoClasses.sort()
-	            var emulatablePseudoClassKey = emulatablePseudoClasses.join(':')
-	            if(tieredPseudoClasses[emulatablePseudoClassKey] === undefined)
-	                tieredPseudoClasses[emulatablePseudoClassKey] = {}
-	
-	            if(nonEmulatablePseudoClasses.length === 0) {
-	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], value)
-	            } else {
-	                nonEmulatablePseudoClasses.sort()
-	                var nonEmulatablePsuedoClassKey = nonEmulatablePseudoClasses.join(':')
-	
-	                var secondTier = {}
-	                secondTier['$$'+nonEmulatablePsuedoClassKey] = value
-	
-	                utils.merge(tieredPseudoClasses[emulatablePseudoClassKey], secondTier)
-	            }
-	        }
-	    }
-	
-	    return tieredPseudoClasses
-	}
-	
-	
-	
-	// make combinations of the emulatable pseudoclasses, so that they combine like the non-emulated ones do
-	// info about mathematical combination: https://en.wikipedia.org/wiki/Combination
-	// mutates tieredPseudoClasses
-	function pseudoclassCombinations(tieredPseudoClasses) {
-	    var tieredPseudoClassesKeys = Object.keys(tieredPseudoClasses).reverse().map(function(v) {    // reverse first so that more specific pseudoclasses go first
-	        return {key: v, parts: v.split(':')} // so it doesn't have to split every time
-	    })
-	
-	    for(var n=0; n<tieredPseudoClassesKeys.length; n++) {
-	        var keyA = tieredPseudoClassesKeys[n]
-	        for(var k=2; k <= tieredPseudoClassesKeys.length; k++) { // k is the number of psuedoclasses to combine
-	            for(var j=n+1; j<tieredPseudoClassesKeys.length-(k-2); j++) {
-	                var result = combinePseudoclasses(tieredPseudoClasses, [keyA].concat(tieredPseudoClassesKeys.slice(j, k)))
-	                if(result.key in tieredPseudoClasses) {
-	                    utils.merge(tieredPseudoClasses[result.key], result.value)
-	                } else { // new key
-	                    tieredPseudoClasses[result.key] = result.value
-	                }
-	            }
-	        }
-	    }
-	}
-	
-	
-	
-	// keys is a list of objects where each object has the members:
-	    // key - the original string key
-	    // parts - the key split by ":"
-	// returns an object with the following members:
-	    // key - the new combined key
-	    // value - the new merged value
-	var combinePseudoclasses = function(pseudoclasses, keys) {
-	    var resultKeyParts = keys[0].parts
-	    var resultValue = utils.merge({}, pseudoclasses[keys[0].key]) // make a copy
-	    for(var n=1; n<keys.length; n++) {
-	        var key = keys[n]
-	        // merge all psuedoclasses that don't already exist into the resultKey
-	        for(var j=0; j<key.parts.length; j++) {
-	            var part = key.parts[j]
-	            if(resultKeyParts.indexOf(part) === -1) {
-	                resultKeyParts.push(part)
-	            }
-	        }
-	
-	        // merge the value into resultValue
-	        utils.merge(resultValue, pseudoclasses[key.key])
-	    }
-	
-	    return {key: resultKeyParts.join(':'), value: resultValue}
-	}
-	
-	// a map of pseudoclass names and how they are emulated with javascript
-	// each pseudoclass sets up the following functions:
-	    // check - a function that checks if that pseudoclass currently applies to the component when its called
-	    // setup - calls a callback when the pseudoClass starts and stops applying
-	        // should return an object that will be passed to the kill function (as its 'state' parameter)
-	    // kill - cleans up anything set up in the 'setup' function
-	    // processParameter - takes the pseudoclass parameter and returns some object representing it that will be used by the setup and check functions
-	var emulatedPseudoClasses = {
-	    hover: {
-	        check: function(component) {
-	            var nodes = document.querySelectorAll( ":hover" )
-	            for(var n=0; n<nodes.length; n++) {
-	                if(nodes[n] === component.domNode) {
-	                    return true
-	                }
-	            }
-	            return false
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            component.on("mouseover", function() {
-	                startCallback()
-	            })
-	            component.on("mouseout", endCallback)
-	
-	            return {start: startCallback, end: endCallback}
-	        },
-	        kill: function(component, state) {
-	            component.off("mouseover", state.start)
-	            component.off("mouseout", state.end)
-	        }
-	    },
-	    checked: {
-	        check: function(component) {
-	            return component.selected
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var setupState = {}
-	            component.on("change", setupState.listener = function() {
-	                if(component.selected) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            return setupState
-	        },
-	        kill: function(component, state) {
-	            component.removeListener("change", state.listener)
-	        }
-	    },
-	    required: {
-	        check: function(component) {
-	            return component.attr('required') !== undefined
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var observer = new MutationObserver(function() {
-	                if(component.attr('required') !== undefined) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            observer.observe(component.domNode, {attributes: true})
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        }
-	    },
-	    'last-child': {
-	        check: function(component) {
-	            return nthLastChildCheck(component, '1')
-	        },
-	        setup: function(component, startCallback, endCallback) {
-	            var observer = new MutationObserver(function() {
-	                if(nthLastChildCheck(component, '1')) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            })
-	
-	            var setupObserver = function() {
-	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
-	                observer.observe(component.parent.domNode, {childList: true})
-	            }
-	
-	            if(component.parent !== undefined) {
-	                setupObserver()
-	            }
-	
-	            component.on('newParent', function() {
-	                setupObserver()
-	            })
-	            component.on('parentRemoved', function() {
-	                observer.disconnect()
-	            })
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        }
-	    },
-	    'nth-child': {
-	        // todo: support full an+b parameters for nth-child https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
-	        check: function(component, parameterCheck) {
-	            return nthChildCheck(component, parameterCheck)
-	        },
-	        setup: function(component, startCallback, endCallback, parameterCheck) {
-	
-	            var checkAndCallCallbacks = function() {
-	                if(nthChildCheck(component, parameterCheck)) {
-	                    startCallback()
-	                } else {
-	                    endCallback()
-	                }
-	            }
-	
-	            var observer = new MutationObserver(function() {
-	                checkAndCallCallbacks()
-	            })
-	
-	            var setupObserver = function() {
-	                // note that since this uses the component parent rather than domNode.parentNode, this won't work for components added to non-component nodes (and there's no good way to do it, because you would have to poll for parent changes)
-	                observer.observe(component.parent.domNode, {childList: true})
-	            }
-	
-	            if(component.parent !== undefined) {
-	                setupObserver()
-	            }
-	
-	            component.on('newParent', function() {
-	                setupObserver()
-	                checkAndCallCallbacks()
-	            })
-	            component.on('parentRemoved', function() {
-	                observer.disconnect()
-	                checkAndCallCallbacks()
-	            })
-	
-	            return {observer: observer}
-	        },
-	        kill: function(component, state) {
-	            state.observer.disconnect()
-	        },
-	        processParameter: function(parameter) {
-	            return nthChildParameterFn(parameter)
-	        }
-	    },
-	
-	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
-	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
-	    /*not: {
-	        check: function() {
-	
-	        },
-	    }*/
-	}
-	
-	// name is the name of the new pseudoclass
-	// fns is an object with the members:
-	    // check(component) - returns true if the pseudoclass applies to the component
-	    // setup(component, startCallback, endCallback, parameter) - a function that should call startCallback when the pseudoclass starts applying, and endCallback when it stops applying
-	        // parameter - the parameter passed to the pseudoclass (e.g. in :not(:first-child), ":first-child" is the parameter)
-	    // kill - a function that cleans up any event listeners or anything else set up in the 'setup' function
-	module.exports.addPseudoClass = function(name, fns) {
-	    if(emulatedPseudoClasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
-	    // else
-	    emulatedPseudoClasses[name] = fns
-	}
-	
-	
-	function nthChildCheck(component, testFn) {
-	    if(component.domNode.parentNode === null)
-	        return false
-	
-	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
-	    var index = Array.prototype.indexOf.call(children, component.domNode)
-	    return testFn(index)
-	}
-	
-	function nthLastChildCheck(component, parameter) {
-	    if(component.domNode.parentNode === null)
-	        return false
-	
-	    var children = component.domNode.parentNode.children                    // must be domNode.parentNode, because child nodes may not be Components
-	    var index = children.length - parseInt(parameter)
-	    return children[index] === component.domNode
-	}
-	
-	// returns a function that takes an index and tell you if that index applies to the nthChildParameter
-	var nthChildParameter = /^(((-?\d*)(([+-]\d*)n?)?)|((-?\d)*n?([+-]\d*)?))$/
-	function nthChildParameterFn(parameter) {
-	    var parts = parameter.match(nthChildParameter)
-	    if(parts === null)
-	        throw new Error("nth-child parameter '"+parameter+"' isn't valid")
-	
-	    if(parts[2] !== undefined) {
-	        var constant = parts[3]
-	        var variable = parts[5]
-	    } else {
-	        var constant = parts[8]
-	        var variable = parts[7]
-	    }
-	
-	    if(constant === undefined) constant = 0
-	    else                       constant = parseInt(constant)
-	    if(variable === undefined) variable = 0
-	    else                       variable = parseInt(variable)
-	
-	    if(variable === 0) {
-	        return function(index) {
-	            return index+1 === constant
-	        }
-	    } else {
-	        return function(index) {
-	            return ((index+1-constant)/variable) % 1 === 0
-	        }
-	    }
-	
-	}
-	
-	// maps a style value to a css value
-	// style values that are numbers are mapped to strings, usually with px postfix
-	function cssValue(cssStyleName, value) {
-	    // If a number was passed in, add 'px' to the (except for certain CSS properties) [also taken from jquery's code]
-	    if(typeof(value) === "number" && cssNumber[cssStyleName] === undefined) {
-	        return value+"px"
-	    } else {
-	        return value.toString()
-	    }
-	}
-	
-	function createPseudoClassRules(that, pseudoClass, selector, pseudoClassStyle) {
-	
-	    var pseudoClassCss = {}
-	    for(var key in pseudoClassStyle) {
-	        var value = pseudoClassStyle[key]
-	
-	        if(!(value instanceof Object)) {
-	            var cssStyle = key
-	            var cssStyleName = mapCamelCase(cssStyle)
-	            pseudoClassCss[cssStyleName] = cssValue(cssStyleName, value)
-	        } else {
-	            throw new Error("All properties within the pseudoclasses '"+pseudoClass+"' must be css styles")
-	        }
-	    }
-	
-	    // create immediate pseudo class style
-	    defaultJss.set(selector, pseudoClassCss) // create the css class with the pseudoClass
-	
-	    //if(module.exports.isDev) {
-	        that.styleDefinitions = {}
-	        that.styleDefinitions[selector] = pseudoClassCss
-	    //}
-	}
-	
-	// throws exceptions for various style configurations that are unsupported by pure pseudo classes (ones that can't be emulated usuing javascript)
-	function validatePurePseudoClassStyles(pseudoClass, pseudoClassStyles) {
-	    for(var key in pseudoClassStyles) {
-	        var value = pseudoClassStyles[key]
-	
-	        if(isStyleObject(value)) {
-	            throw new Error("Can't set the pseudoclasses '"+pseudoClass+"' to a Style object")
-	        } else if(key === '$setup') {
-	            throw new Error("$setup can't be used within the pseudoclasses '"+pseudoClass+"'")
-	        } else if(key === '$kill') {
-	            throw new Error("$kill can't be used within the pseudoclasses '"+pseudoClass+"'")
-	        } else if(key.indexOf('$') === 0) {   // label style
-	            throw new Error("Block labels can't be used within the pseudoclasses '"+pseudoClass+"'")
-	        }
-	    }
-	}
-	
-	// e.g. pulls out 'nth-child' and '2+3n' from 'nth-child(2+3n)'
-	var pseudoClassRegex = /^([^(]*)(\((.*)\))?$/
-	function getPseudoClassParts(fullPsuedoClass) {
-	    var x = fullPsuedoClass.match(pseudoClassRegex)
-	    if(x === null) throw new Error("Pseudoclass '"+fullPsuedoClass+"' is invalid")
-	    return {class: x[1], parameter: x[3]}
-	}
-	
-	
-	// takes in a list of pseudoClassRules and changes any nesting like {hover: {focus: {}}} into something like {hover: {}, "hover:focus": {}}
-	// also does some validation
-	function flattenPseudoClassStyles(pseudoClass, pseudoClassStyle) {
-	    var nonPseudoClassStyles = {}
-	    var subpseudoClasses = {}
-	    for(var key in pseudoClassStyle) {
-	        var value = pseudoClassStyle[key]
-	
-	        if(key.indexOf('$$') === 0) { // pseudo-class style
-	            var subPseudoClass = key.substr(2)
-	            if(subPseudoClass === '') {
-	                throw new Error("Empty pseudo-class name not valid (style key '$$')")
-	            }
-	
-	            subpseudoClasses[subPseudoClass] = value
-	        } else {
-	            nonPseudoClassStyles[key] = value
-	        }
-	    }
-	
-	    // create flattened styles (with merged in styles from its parent pseudoclass
-	    var flattenedStyles = {}
-	    for(var subPseudoClass in subpseudoClasses) {
-	        var value = subpseudoClasses[subPseudoClass]
-	
-	        if(isStyleObject(value)) {
-	            flattenedStyles[pseudoClass+":"+subPseudoClass] =  value
-	        } else {
-	            utils.merge(flattenedStyles, flattenPseudoClassStyles(pseudoClass+":"+subPseudoClass, utils.merge({}, nonPseudoClassStyles, value)))
-	        }
-	    }
-	
-	    // write the top-level pseudoClass
-	    flattenedStyles[pseudoClass] = nonPseudoClassStyles
-	
-	    return flattenedStyles
-	}
-	
-	
-	// taken from jquery's code
-	var cssNumber = {
-	    "column-count": 1,
-	    "fill-opacity": 1,
-	    "flex-grow": 1,
-	    "flex-shrink": 1,
-	    "font-weight": 1,
-	    "line-height": 1,
-	    "opacity": 1,
-	    "order": 1,
-	    "orphans": 1,
-	    "widows": 1,
-	    "z-index": 1,
-	    "zoom": 1
-	}
-	
-	function isStyleObject(o) {
-	    return o.componentStyleMap !== undefined
-	}
-	
-	
-	var asciiA = 'A'.charCodeAt(0), asciiZ = 'Z'.charCodeAt(0), difference = 'a'.charCodeAt(0) - asciiA
-	function mapCamelCase(cssStyleName) {
-	    for(var n=0; n<cssStyleName.length; n++) {
-	        var ascii = cssStyleName.charCodeAt(n)
-	        if(asciiA <= ascii && ascii <= asciiZ) { // found capital letter
-	            cssStyleName = cssStyleName.slice(0, n) + '-'+String.fromCharCode(ascii+difference) + cssStyleName.slice(n+1)
-	            n++ // increment a second time for the dash
-	        }
-	    }
-	
-	    return cssStyleName
-	}
-	
-	// maps all the styles that are inherited by descendant nodes to their default values
-	// source: http://stackoverflow.com/questions/5612302/which-css-styles-are-inherited
-	var defaultStyleValues = {
-	    'azimuth': 'center',
-	    'border-collapse': 'separate',
-	    'border-spacing': '0',
-	    'caption-side': 'top',
-	    //'color': 'black',         // let this inherit
-	    //'cursor': 'auto',         // let this one inherit - its weird otherwise
-	    'direction': 'ltr',
-	     display: 'inline-block', // changes the default display to inline-block
-	    'elevation': '',
-	    'empty-cells': 'show',
-	    // 'font-family': '',       // let this inherit
-	    // 'font-size': 'medium',   // let this inherit
-	    //'font-style': 'normal',   // let this inherit
-	    //'font-variant': 'normal', // let this inherit
-	    //'font-weight': 'normal',  // let this inherit
-	    'letter-spacing': 'normal',
-	    'line-height': 'normal',
-	    'list-style-image': 'none',
-	    'list-style-position': 'outside',
-	    'list-style-type': 'disc',
-	    'orphans': '2',
-	    'pitch-range': '',
-	    'pitch': '',
-	     position: 'relative', // changes the default positioning so that absolute is relative to its parent by default
-	    'quotes': '',
-	    'richness': '',
-	    'speak-header': '',
-	    'speak-numeral': '',
-	    'speak-punctuation': '',
-	    'speak': '',
-	    'speak-rate': '',
-	    'stress': '',
-	    'text-align': 'left',
-	    'text-indent': '0',
-	    'text-transform': 'none',
-	    //'visibility': 'visible',    // let this inherit - otherwise you just hide the container and not the contents
-	    'voice-family': '',
-	    'volume': '',
-	    'white-space': 'normal',
-	    'widows': '2',
-	    'word-spacing': 'normal'
-	}
-	
-	
-	
-	// returns index of the passed css classname, or undefined if sheet containing that class isn't found
-	function cssClassSheetIndex(classname) {
-	    var result = undefined
-	
-	    var styleNodes = document.querySelectorAll("style")
-	    for(var n=0; n<styleNodes.length; n++) {
-	        var sheet = styleNodes[n].sheet
-	        jssModule.defaultSheet = sheet
-	
-	        var defaultStyleMaybe = jssModule.get(classname)
-	        if(Object.keys(defaultStyleMaybe).length > 0) {
-	            result = n
-	            break
-	        }
-	    }
-	
-	    jssModule.defaultSheet = undefined
-	    return result
-	}
-	
-	
-	var defaultJss = jssModule.forDocument(document) // must be created before the jss object (so that the styles there override the styles in the default sheet)
-	var jss = jssModule.forDocument(document)
-	
-	var defaultClassSheetIndex = cssClassSheetIndex('.'+Style.defaultClassName)
-	if(defaultClassSheetIndex === undefined) {
-	    defaultJss.defaultSheet = defaultJss._createSheet() // create its sheet first (before the regular jss sheet)
-	
-	    jss.defaultSheet = jss._createSheet()
-	
-	    defaultJss.set('.'+Style.defaultClassName, defaultStyleValues) // creates default css class in order to prevent inheritance
-	
-	    defaultJss.set('input', { // chrome and firefox user agent stylesheets mess with this otherwise
-	        cursor: 'inherit'
-	    })
-	} else {
-	    // if the default styleclass *already* exists, it probably means that blocks.js is being loaded twice
-	    console.log("Warning: the default-styles class name for blocks.js looks like its already in use. This probably means you have two versions of blocks.js loaded. If so, Blocks.js will continue to work, but your app will be a bit bloated. If something other than block.js created that class, blocks.js may break that style.")
-	
-	    var styleNodes = document.querySelectorAll("style")
-	    defaultJss.defaultSheet = styleNodes[defaultClassSheetIndex].sheet
-	    jss.defaultSheet = styleNodes[defaultClassSheetIndex+1].sheet
-	
-	    // make sure the baseClassName isn't already taken
-	    var dedupNumber = 0
-	    while(true) {
-	        var testBaseClassName = baseClassName+dedupNumber
-	        if(cssClassSheetIndex('.'+testBaseClassName+dedupNumber+0) !== undefined) {
-	            dedupNumber++
-	        } else {
-	            break;
-	        }
-	    }
-	
-	    baseClassName = testBaseClassName+dedupNumber
-	}
-	
-	
-	/*private*/ module.exports.isDev; // should be set by Block
-	
-	var computedStyles = module.exports.computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
-	
-
-
-/***/ },
-/* 57 */
-/*!*********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Components/Container.js ***!
-  \*********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Block = __webpack_require__(/*! ../Block */ 55)
-	var proto = __webpack_require__(/*! proto */ 46)
-	
-	module.exports = proto(Block, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Container'
-	
-	
-		// instance properties
-	
-		this.init = function (/*[label,] content*/) {
-	        if(typeof(arguments[0]) !== 'string') {
-	            var contentArgs = arguments
-	        } else {
-	            var label = arguments[0]
-	            var contentArgs = Array.prototype.slice.call(arguments, 1)
-	        }
-	
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	
-			if(contentArgs !== undefined)
-	            this.add.apply(this,contentArgs)
-		}
-	})
-
-
-/***/ },
 /* 58 */
-/*!****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Components/Text.js ***!
-  \****************************************************************************************************/
+/*!***********************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/utils.js ***!
+  \***********************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 55)
-	var proto = __webpack_require__(/*! proto */ 46)
-	var Style = __webpack_require__(/*! Style */ 56)
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
 	
-	module.exports = proto(Block, function(superclass) {
+	var path = __webpack_require__(/*! path */ 51)
 	
-	    //static properties
 	
-	    this.name = 'Text'
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
 	
-	    this.defaultStyle = Style({
-	        whiteSpace: 'pre-wrap' // so whitespace is displayed (e.g. multiple spaces don't collapse)
-	    })
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
 	
-	    this.init = function(/*[label,] text*/) {
-	        if(arguments.length === 1) {
-	            var text = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var text = arguments[1]
-	        }
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
 	
-	        if (text === undefined) text = '';
-	
-	        superclass.init.call(this) // superclass constructor
-	
-	        var that = this
-	
-	        this.label = label
-	        this.text = text
-	
-	        this.on("input",function(data) {
-	            var eventData = {newText:data.srcElement.textContent,oldText:that.oldText};
-	            that.oldText = eventData.newText;
-	            //that.emit("input",eventData);
-	        });
-	
-	        this.on("blur",function(data) {
-	            var eventData = {newText:data.srcElement.textContent,oldText:that.lastFocus};
-	            that.lastFocus = eventData.newText;
-	            //that.emit("blur",eventData);
-	        });
+	    for(var key in obj2){
+	       if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       }
 	    }
 	
-	    // instance properties
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
 	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode.textContent
-	        }, set: function(v) {
-	            this.domNode.innerText = v   // apparently textContent can't be set or something
-	        }
-	    })
-	});
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
 
 
 /***/ },
@@ -11201,133 +11213,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 60 */
-/*!*******************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/~/proto/proto.js ***!
-  \*******************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
-	function proto() {
-	    var args = arguments // minifiable variables
-	
-	    if(args.length == 1) {
-	        var parent = {}
-	        var prototypeBuilder = args[0]
-	
-	    } else { // length == 2
-	        var parent = args[0]
-	        var prototypeBuilder = args[1]
-	    }
-	
-	    // special handling for Error objects
-	    var namePointer = {}
-	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
-	        parent = normalizeErrorObject(parent, namePointer)
-	    }
-	
-	    // set up the parent into the prototype chain if a parent is passed
-	    var parentIsFunction = typeof(parent) === "function"
-	    if(parentIsFunction) {
-	        prototypeBuilder[prototypeName] = parent[prototypeName]
-	    } else {
-	        prototypeBuilder[prototypeName] = parent
-	    }
-	
-	    // the prototype that will be used to make instances
-	    var prototype = new prototypeBuilder(parent)
-	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
-	    namePointer.name = prototype.name
-	
-	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
-	    if(!prototype[init] && parentIsFunction) {
-	        prototype[init] = function() {
-	            parent.apply(this, arguments)
-	        }
-	    }
-	
-	    // constructor for empty object which will be populated via the constructor
-	    var F = function() {}
-	        F[prototypeName] = prototype    // set the prototype for created instances
-	
-	    function ProtoObjectFactory() {     // result object factory
-	        var x = new F()                 // empty object
-	
-	        if(prototype[init]) {
-	            var result = prototype[init].apply(x, arguments)    // populate object via the constructor
-	            if(result === proto[protoUndefined])
-	                return undefined
-	            else if(result !== undefined)
-	                return result
-	            else
-	                return x
-	        } else {
-	            return x
-	        }
-	    }
-	
-	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
-	    for(var n in prototype) {
-	        addProperty(ProtoObjectFactory, prototype, n)
-	    }
-	
-	    // add properties from parent that don't exist in the static class object yet (to get thing in like
-	    for(var n in parent) {
-	        if(Object.hasOwnProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
-	            addProperty(ProtoObjectFactory, parent, n)
-	        }
-	    }
-	
-	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
-	
-	    return ProtoObjectFactory;
-	}
-	
-	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
-	
-	module.exports = proto
-	
-	function normalizeErrorObject(ErrorObject, namePointer) {
-	    function NormalizedError() {
-	        var tmp = new ErrorObject(arguments[0])
-	        tmp.name = namePointer.name
-	
-	        this.message = tmp.message
-	        if(Object.defineProperty) {
-	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
-	                get: function() {
-	                    return tmp.stack
-	                }
-	            })
-	        } else {
-	            this.stack = tmp.stack
-	        }
-	
-	        return this
-	    }
-	        var IntermediateInheritor = function() {}
-	            IntermediateInheritor.prototype = ErrorObject.prototype
-	        NormalizedError.prototype = new IntermediateInheritor()
-	    return NormalizedError
-	}
-	
-	function addProperty(factoryObject, prototype, property) {
-	    try {
-	        var info = Object.getOwnPropertyDescriptor(prototype, property)
-	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
-	            Object.defineProperty(factoryObject, property, info)
-	        } else {
-	            factoryObject[property] = prototype[property]
-	        }
-	    } catch(e) {
-	        // do nothing, if a property (like `name`) can't be set, just ignore it
-	    }
-	}
-
-/***/ },
-/* 61 */
 /*!***********************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
   \***********************************************************************/
@@ -11341,159 +11226,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 62 */
-/*!*************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
-  \*************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var path = __webpack_require__(/*! path */ 50)
-	
-	module.exports = function isRelative(p) {
-	    var normal = path.normalize(p)
-	    var absolute = path.resolve(p)
-	    return normal != absolute && p.indexOf('://') === -1// second part for urls
-	}
-
-/***/ },
-/* 63 */
-/*!*****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/processResults.js ***!
-  \*****************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function returnResults(unitTestObject) {
-	
-	    var results;
-	    var groups = {}
-	    var groupMetadata = {}
-	
-	    var primaryGroup;
-	    var ended = false
-	
-	    unitTestObject.events({
-	        group: function(e) {
-	            var g = {
-	               parent: e.parent,
-	               id: e.id,              // a unique id for the test group
-	               type: 'group',         // indicates a test group (either a `Unit.test` call or `this.test`)
-	               name: e.name,          // the name of the test
-	               results: [],           // An array of test results, which can be of an `UnitTest` Result Types
-	               exceptions: [],        // An array of uncaught exceptions thrown in the test,
-	               time: e.time,
-	               duration: 0            // the duration of the test from its start til the last test action (assert, log, etc)
-	               //                       including asynchronous parts and including subtests
-	               //syncDuration: _,      // the synchronous duration of the test (not including any asynchronous parts)
-	               //totalSyncDuration: _  // syncDuration plus the before and after (if applicable)
-	            }
-	
-	            if(primaryGroup === undefined) primaryGroup = g
-	
-	            groups[e.id] = g
-	            groupMetadata[e.id] = {}
-	            if(e.parent === undefined) {
-	                results = g
-	            } else {
-	                groups[e.parent].results.push(g)
-	            }
-	        },
-	        assert: function(e) {
-	            e.type = 'assert'
-	            groups[e.parent].results.push(e)
-	            setGroupDuration(e.parent, e.time)
-	        },
-	        count: function(e) {
-	            e.type = 'assert'
-	            setGroupDuration(e.parent, e.time)
-	
-	            groupMetadata[e.parent].countInfo = e
-	        },
-	        exception: function(e) {
-	            groups[e.parent].exceptions.push(e.error)
-	            setGroupDuration(e.parent, e.time)
-	        },
-	        log: function(e) {
-	            e.type = 'log'
-	            groups[e.parent].results.push(e)
-	            setGroupDuration(e.parent, e.time)
-	        },
-	        before: function(e) {
-	            groups[e.parent].beforeStart = e.time
-	        },
-	        after: function(e) {
-	            groups[e.parent].afterStart = e.time
-	        },
-	        beforeEnd: function(e) {
-	            groups[e.parent].beforeDuration = e.time - groups[e.parent].beforeStart
-	        },
-	        afterEnd: function(e) {
-	            groups[e.parent].afterDuration = e.time - groups[e.parent].afterStart
-	        },
-	        groupEnd: function(e) {
-	            setGroupDuration(e.id, e.time)
-	        },
-	        end: function(e) {
-	            primaryGroup.timeout = e.type === 'timeout'
-	            setGroupDuration(primaryGroup.id, e.time)
-	
-	            // make the count assertions
-	            eachTest(primaryGroup, function(subtest, parenttest) {
-	                var countInfo = groupMetadata[subtest.id].countInfo
-	                if(countInfo !== undefined) {
-	                    var info = countInfo
-	                    var actualCount = 0
-	                    subtest.results.forEach(function(a) {
-	                        if(a.type === 'assert' || a.type === 'group')
-	                            actualCount++
-	                    })
-	
-	                    subtest.results.splice(0,0,{
-	                        parent: subtest.id,
-	                        type: 'assert',
-	                        success: actualCount === info.expected,
-	                        time: info.time,
-	                        sourceLines: info.sourceLines,
-	                        file: info.file,
-	                        line: info.line,
-	                        column: info.column,
-	                        expected: info.expected,
-	                        actual: actualCount
-	                    })
-	                }
-	            })
-	
-	            ended = true
-	        }
-	    })
-	
-	    function setGroupDuration(groupid, time) {
-	        var newDuration = time - groups[groupid].time
-	        if(newDuration > groups[groupid].duration) {
-	            groups[groupid].duration = newDuration
-	        }
-	
-	        if(groups[groupid].parent) {
-	            setGroupDuration(groups[groupid].parent, time)
-	        }
-	    }
-	
-	    return results
-	}
-	
-	
-	// iterates through the tests and subtests leaves first (depth first)
-	function eachTest(test, callback, parent) {
-	    test.results.forEach(function(result) {
-	        if(result.type === 'group') {
-	            eachTest(result, callback, test)
-	        }
-	    })
-	
-	    callback(test, parent)
-	}
-
-/***/ },
-/* 64 */
+/* 61 */
 /*!****************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/async-future/~/trimArguments/trimArguments.js ***!
   \****************************************************************************************************/
@@ -11515,463 +11248,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 65 */
-/*!******************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/utils.js ***!
-  \******************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	var path = __webpack_require__(/*! path */ 50)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
-	exports.objectConjunction = function(a, b) {
-	    var objectCopy = {}
-	    merge(objectCopy, a)
-	    merge(objectCopy, b)
-	    return objectCopy
-	}
-	
-	// turns an array of values into a an object where those values are all keys that point to 'true'
-	exports.arrayToMap = function(array) {
-	    var result = {}
-	    array.forEach(function(v) {
-	        result[v] = true
-	    })
-	    return result
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       }
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 66 */
-/*!*********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/domUtils.js ***!
-  \*********************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	// creates a dom element optionally with a class and attributes
-	 var node = module.exports.node = function(type, className, options) {
-	    var elem = document.createElement(type)
-	
-	    if(options !== undefined) {
-	        if(options.attr !== undefined) {
-	            for(var attribute in options.attr) {
-	                createAttribute(elem, attribute, options.attr[attribute])
-	            }
-	        }
-	        if(options.textContent !== undefined) {
-	            elem.textContent = options.textContent
-	        }
-	    }
-	
-	    if(className !== undefined)
-	        elem.className = className
-	
-	    return elem
-	}
-	
-	// convenience function for creating a div
-	module.exports.div = function(className, options) {
-	    return node('div', className, options)
-	}
-	
-	// adds an attribute to a domNode
-	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
-	    if (arguments.length === 2) {
-	        var domNode = this.domNode;
-	        var type = arguments[0];
-	        var value = arguments[1];
-	    } else if (arguments.length === 3) {
-	        var domNode = arguments[0];
-	        var type = arguments[1];
-	        var value = arguments[2];
-	    } else {
-	        throw new Error("This function expects arguments to be: [domNode,] type, value");
-	    }
-	    var attr = document.createAttribute(type)
-	    attr.value = value
-	    domNode.setAttributeNode(attr)
-	}
-	
-	
-	// sets the selection
-	//
-	// works for contenteditable elements
-	exports.setSelectionRange = function(containerEl, start, end) {
-	
-	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
-	        containerEl.setSelectionRange(start, end)
-	    } else {
-	        var charIndex = 0, range = document.createRange();
-	        range.setStart(containerEl, 0);
-	        range.collapse(true);
-	        var foundStart = false;
-	
-	        iterateThroughLeafNodes(containerEl, function(node) {
-	            var hiddenCharacters = findHiddenCharacters(node, node.length)
-	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
-	
-	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-	                var nodeIndex = start-charIndex
-	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
-	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
-	                foundStart = true;
-	            }
-	
-	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
-	                var nodeIndex = end-charIndex
-	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
-	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
-	                return true; // stop the iteration - we're done here
-	            }
-	
-	            charIndex = nextCharIndex
-	        })
-	
-	        var sel = window.getSelection();
-	        sel.removeAllRanges();
-	        sel.addRange(range);
-	    }
-	}
-	
-	// gets the character offsets of a selection within a particular dom node
-	// returns undefined if there is no selection in the element
-	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
-	exports.getSelectionRange = function (element) {
-	
-	    var selection = window.getSelection()
-	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
-	
-	    for(var n=0; n<selection.rangeCount; n++) {
-	        var range = selection.getRangeAt(0)
-	        if(isInputOrArea) {
-	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
-	                return [element.selectionStart, element.selectionEnd]
-	            }
-	        } else {
-	            var startsInElement = element.contains(range.startContainer)
-	            if(startsInElement) {
-	                var elementToIterateThrough = element
-	                var startFound = true
-	            } else {
-	                var elementToIterateThrough = range.commonAncestorContainer
-	                var startFound = false
-	                var startContainerFound = false
-	            }
-	
-	            var visibleCharacterOffset = 0, start, end;
-	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
-	                if(!startFound) {
-	                    if(leaf === range.startContainer) {
-	                        startContainerFound = true
-	                    }
-	
-	                    if(!element.contains(leaf) || !startContainerFound)
-	                        return; // continue
-	                    else if(startContainerFound)
-	                       startFound = true
-	                } else if(!startsInElement && !element.contains(leaf)) {
-	                    return true // done!
-	                }
-	
-	                if(leaf === range.startContainer) {
-	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
-	                }
-	                if(leaf === range.endContainer) {
-	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
-	                    return true // done!
-	                }
-	
-	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
-	            })
-	
-	            if(start === undefined && !startFound) {
-	                return undefined
-	            } else {
-	                if(start === undefined) {
-	                    start = 0 // start is at the beginning
-	                }
-	                if(end === undefined) {
-	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
-	                }
-	
-	                return [start, end]
-	            }
-	        }
-	    }
-	}
-	
-	
-	// iterate through the leaf nodes inside element
-	// callback(node) - a function called for each leaf node
-	    // returning true from this ends the iteration
-	function iterateThroughLeafNodes(element, callback) {
-	    var nodeStack = [element], node;
-	
-	    while (node = nodeStack.pop()) {
-	        if (node.nodeType == 3) {
-	            if(callback(node) === true)
-	                break;
-	        } else {
-	            var i = node.childNodes.length;
-	            while (i--) {
-	                nodeStack.push(node.childNodes[i]);
-	            }
-	        }
-	    }
-	}
-	
-	function findHiddenCharacters(node, beforeCaretIndex) {
-	    var hiddenCharacters = 0
-	    var lastCharWasWhiteSpace=true
-	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
-	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
-	            if(lastCharWasWhiteSpace)
-	                hiddenCharacters++
-	            else
-	                lastCharWasWhiteSpace = true
-	        } else {
-	            lastCharWasWhiteSpace = false
-	        }
-	    }
-	
-	    return hiddenCharacters
-	}
-
-/***/ },
-/* 67 */
-/*!****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
-  \****************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
-	
-	var HashMap = __webpack_require__(/*! hashmap */ 80)
-	
-	var Style = __webpack_require__(/*! ./Style */ 56)
-	var utils = __webpack_require__(/*! ./utils */ 65)
-	
-	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
-	
-	// propogates a style-set change to a set of components
-	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
-	var propogateStyleSet = exports.propogateStyleSet = function (components, styleMap) {
-	    for(var n=0; n<components.length; n++) {
-	        var c = components[n]
-	
-	        // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
-	        if(c._style === undefined) {
-	            if(styleMap === undefined) {
-	                setCurrentStyle(c, undefined)
-	            } else {
-	                var styleFromMap = getStyleForComponent(styleMap, c)
-	                if(styleFromMap !== undefined) {
-	                    setCurrentStyle(c, styleFromMap)
-	                }
-	            }
-	        }
-	
-	        // set the computed style set
-	        var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
-	        if(c._style !== undefined) {
-	            mainStyle = c._style.get(c)
-	        } else if(styleMap !== undefined) {
-	            mainStyle = getStyleForComponent(styleMap, c)
-	            if(mainStyle !== undefined) {
-	                mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
-	            }
-	        }
-	
-	        if(mainStyle !== undefined) {
-	            if(styleMap !== undefined) {
-	                c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
-	            } else {
-	                c.computedStyleMap = mainStyle.componentStyleMap
-	            }
-	        } else {
-	            c.computedStyleMap = styleMap
-	        }
-	
-	        propogateStyleSet(c.children, c.computedStyleMap)
-	    }
-	}
-	
-	// gets the right style from the styleMap
-	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
-	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
-	    var constructor = block.constructor
-	    while(constructor !== undefined) {
-	        var style = styleMap[constructor.name]
-	        if(style !== undefined) {
-	            return style
-	        } else {
-	            constructor = constructor.parent
-	        }
-	    }
-	}
-	
-	// returns the conjunction of two style maps
-	// gets it from the computedStyles cache if its already in there
-	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
-	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
-	    if(cachedStyleMap === undefined) {
-	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
-	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
-	    }
-	
-	    return cachedStyleMap
-	}
-	
-	// takes labels into account
-	var setCurrentStyle = exports.setCurrentStyle = function (component, style) {
-	    if(style === component.currentStyle) return; // do nothing
-	
-	    if(style !== undefined)
-	        var specificStyle = style.get(component)
-	    else
-	        var specificStyle = style
-	
-	    setStyleClass(component, specificStyle)
-	    applyStyleKillFunction(component)
-	    component.currentStyle = specificStyle
-	    applyStyleSetupFunction(component, specificStyle)
-	    applyStateHandler(component, specificStyle)
-	}
-	
-	
-	exports.createDefaultBlockStyle = function (that) {
-	    if(that.defaultStyle !== undefined) {
-	        validateDefaultStyle(that.defaultStyle)
-	    }
-	
-	    // get list of default styles
-	    var defaultStyles = []
-	    var nextConstructor = that.constructor
-	    while(nextConstructor !== undefined) {
-	        if(nextConstructor.defaultStyle !== undefined) {
-	            defaultStyles.push(nextConstructor.defaultStyle)
-	        }
-	        nextConstructor = nextConstructor.parent
-	    }
-	
-	    // generate merged default style
-	    var defaultStyleSet = {}
-	    defaultStyles.reverse().forEach(function(style) {
-	        for(var k in style.styleDefinitions) {
-	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
-	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
-	        }
-	
-	    })
-	
-	    if(Object.keys(defaultStyleSet).length > 0)
-	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
-	    else
-	        var defaultBlockStyle = false // no special default
-	
-	    exports.defaultStyleMap.set(that.constructor, defaultBlockStyle)
-	    return defaultBlockStyle
-	}
-	
-	
-	// applies setup appropriately
-	function applyStyleSetupFunction(component, style) {
-	    if(style !== undefined && style.setup !== undefined) {
-	        component._styleSetupObject = style.setup(component) // call setup on the component
-	    } else {
-	        component._styleSetupObject = undefined
-	    }
-	}
-	// applies kill appropriately
-	function applyStyleKillFunction(component) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
-	        if(currentStyle.kill === undefined)
-	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
-	
-	        currentStyle.kill(component, component._styleSetupObject)
-	    }
-	}
-	
-	// initializes and sets up state-change handler
-	function applyStateHandler(component, style) {
-	    if(style !== undefined && style.stateHandler !== undefined) {
-	        // todo: using setCurrentStyle is a stopgap until I can implement better style application for $state and pseudoclasses (which probably will require a rewrite of much of the style logic)
-	        setCurrentStyle(component, style.stateHandler(component.state.subject))
-	        component.state.on('change', function() {
-	            setCurrentStyle(component, style.stateHandler(component.state.subject))
-	        })
-	    }
-	}
-	
-	// sets the style, replacing one if one already exists
-	function setStyleClass(component, style) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined) {
-	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
-	    }
-	    if(style !== undefined) {
-	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
-	    }
-	}
-	
-	function validateDefaultStyle(defaultStyle) {
-	    if(!(defaultStyle instanceof Style)) {
-	        throw new Error("defaultStyle property must be a Style object")
-	    } else if(
-	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
-	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
-	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
-	    ) {
-	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-	    }
-	}
-
-/***/ },
-/* 68 */
+/* 62 */
+/*!***************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
+  \***************************************************************************************************************/
+61,
+/* 63 */
 /*!***********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
   \***********************************************************************************************/
@@ -12269,20 +11551,750 @@ return /******/ (function(modules) { // webpackBootstrap
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
 
 /***/ },
+/* 64 */
+/*!******************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/utils.js ***!
+  \******************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	var path = __webpack_require__(/*! path */ 51)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
+	exports.objectConjunction = function(a, b) {
+	    var objectCopy = {}
+	    merge(objectCopy, a)
+	    merge(objectCopy, b)
+	    return objectCopy
+	}
+	
+	// turns an array of values into a an object where those values are all keys that point to 'true'
+	exports.arrayToMap = function(array) {
+	    var result = {}
+	    array.forEach(function(v) {
+	        result[v] = true
+	    })
+	    return result
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       }
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 65 */
+/*!****************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
+  \****************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
+	
+	var HashMap = __webpack_require__(/*! hashmap */ 73)
+	
+	var Style = __webpack_require__(/*! ./Style */ 52)
+	var utils = __webpack_require__(/*! ./utils */ 64)
+	
+	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
+	
+	// propogates a style-set change to a set of components
+	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
+	var propogateStyleSet = exports.propogateStyleSet = function (components, styleMap) {
+	    for(var n=0; n<components.length; n++) {
+	        var c = components[n]
+	
+	        // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
+	        if(c._style === undefined) {
+	            if(styleMap === undefined) {
+	                setCurrentStyle(c, undefined)
+	            } else {
+	                var styleFromMap = getStyleForComponent(styleMap, c)
+	                if(styleFromMap !== undefined) {
+	                    setCurrentStyle(c, styleFromMap)
+	                }
+	            }
+	        }
+	
+	        // set the computed style set
+	        var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
+	        if(c._style !== undefined) {
+	            mainStyle = c._style.get(c)
+	        } else if(styleMap !== undefined) {
+	            mainStyle = getStyleForComponent(styleMap, c)
+	            if(mainStyle !== undefined) {
+	                mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
+	            }
+	        }
+	
+	        if(mainStyle !== undefined) {
+	            if(styleMap !== undefined) {
+	                c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
+	            } else {
+	                c.computedStyleMap = mainStyle.componentStyleMap
+	            }
+	        } else {
+	            c.computedStyleMap = styleMap
+	        }
+	
+	        propogateStyleSet(c.children, c.computedStyleMap)
+	    }
+	}
+	
+	// gets the right style from the styleMap
+	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
+	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
+	    var constructor = block.constructor
+	    while(constructor !== undefined) {
+	        var style = styleMap[constructor.name]
+	        if(style !== undefined) {
+	            return style
+	        } else {
+	            constructor = constructor.parent
+	        }
+	    }
+	}
+	
+	// returns the conjunction of two style maps
+	// gets it from the computedStyles cache if its already in there
+	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
+	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
+	    if(cachedStyleMap === undefined) {
+	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
+	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
+	    }
+	
+	    return cachedStyleMap
+	}
+	
+	// takes labels into account
+	var setCurrentStyle = exports.setCurrentStyle = function (component, style) {
+	    if(style === component.currentStyle) return; // do nothing
+	
+	    if(style !== undefined)
+	        var specificStyle = style.get(component)
+	    else
+	        var specificStyle = style
+	
+	    setStyleClass(component, specificStyle)
+	    applyStyleKillFunction(component)
+	    component.currentStyle = specificStyle
+	    applyStyleSetupFunction(component, specificStyle)
+	    applyStateHandler(component, specificStyle)
+	}
+	
+	
+	exports.createDefaultBlockStyle = function (that) {
+	    if(that.defaultStyle !== undefined) {
+	        validateDefaultStyle(that.defaultStyle)
+	    }
+	
+	    // get list of default styles
+	    var defaultStyles = []
+	    var nextConstructor = that.constructor
+	    while(nextConstructor !== undefined) {
+	        if(nextConstructor.defaultStyle !== undefined) {
+	            defaultStyles.push(nextConstructor.defaultStyle)
+	        }
+	        nextConstructor = nextConstructor.parent
+	    }
+	
+	    // generate merged default style
+	    var defaultStyleSet = {}
+	    defaultStyles.reverse().forEach(function(style) {
+	        for(var k in style.styleDefinitions) {
+	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
+	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
+	        }
+	
+	    })
+	
+	    if(Object.keys(defaultStyleSet).length > 0)
+	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
+	    else
+	        var defaultBlockStyle = false // no special default
+	
+	    exports.defaultStyleMap.set(that.constructor, defaultBlockStyle)
+	    return defaultBlockStyle
+	}
+	
+	
+	// applies setup appropriately
+	function applyStyleSetupFunction(component, style) {
+	    if(style !== undefined && style.setup !== undefined) {
+	        component._styleSetupObject = style.setup(component) // call setup on the component
+	    } else {
+	        component._styleSetupObject = undefined
+	    }
+	}
+	// applies kill appropriately
+	function applyStyleKillFunction(component) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
+	        if(currentStyle.kill === undefined)
+	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
+	
+	        currentStyle.kill(component, component._styleSetupObject)
+	    }
+	}
+	
+	// initializes and sets up state-change handler
+	function applyStateHandler(component, style) {
+	    if(style !== undefined && style.stateHandler !== undefined) {
+	        // todo: using setCurrentStyle is a stopgap until I can implement better style application for $state and pseudoclasses (which probably will require a rewrite of much of the style logic)
+	        setCurrentStyle(component, style.stateHandler(component.state.subject))
+	        component.state.on('change', function() {
+	            setCurrentStyle(component, style.stateHandler(component.state.subject))
+	        })
+	    }
+	}
+	
+	// sets the style, replacing one if one already exists
+	function setStyleClass(component, style) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined) {
+	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
+	    }
+	    if(style !== undefined) {
+	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
+	    }
+	}
+	
+	function validateDefaultStyle(defaultStyle) {
+	    if(!(defaultStyle instanceof Style)) {
+	        throw new Error("defaultStyle property must be a Style object")
+	    } else if(
+	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
+	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
+	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
+	    ) {
+	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+	    }
+	}
+
+/***/ },
+/* 66 */
+/*!*****************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/processResults.js ***!
+  \*****************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function returnResults(unitTestObject) {
+	
+	    var results;
+	    var groups = {}
+	    var groupMetadata = {}
+	
+	    var primaryGroup;
+	    var ended = false
+	
+	    unitTestObject.events({
+	        group: function(e) {
+	            var g = {
+	               parent: e.parent,
+	               id: e.id,              // a unique id for the test group
+	               type: 'group',         // indicates a test group (either a `Unit.test` call or `this.test`)
+	               name: e.name,          // the name of the test
+	               results: [],           // An array of test results, which can be of an `UnitTest` Result Types
+	               exceptions: [],        // An array of uncaught exceptions thrown in the test,
+	               time: e.time,
+	               duration: 0            // the duration of the test from its start til the last test action (assert, log, etc)
+	               //                       including asynchronous parts and including subtests
+	               //syncDuration: _,      // the synchronous duration of the test (not including any asynchronous parts)
+	               //totalSyncDuration: _  // syncDuration plus the before and after (if applicable)
+	            }
+	
+	            if(primaryGroup === undefined) primaryGroup = g
+	
+	            groups[e.id] = g
+	            groupMetadata[e.id] = {}
+	            if(e.parent === undefined) {
+	                results = g
+	            } else {
+	                groups[e.parent].results.push(g)
+	            }
+	        },
+	        assert: function(e) {
+	            e.type = 'assert'
+	            groups[e.parent].results.push(e)
+	            setGroupDuration(e.parent, e.time)
+	        },
+	        count: function(e) {
+	            e.type = 'assert'
+	            setGroupDuration(e.parent, e.time)
+	
+	            groupMetadata[e.parent].countInfo = e
+	        },
+	        exception: function(e) {
+	            groups[e.parent].exceptions.push(e.error)
+	            setGroupDuration(e.parent, e.time)
+	        },
+	        log: function(e) {
+	            e.type = 'log'
+	            groups[e.parent].results.push(e)
+	            setGroupDuration(e.parent, e.time)
+	        },
+	        before: function(e) {
+	            groups[e.parent].beforeStart = e.time
+	        },
+	        after: function(e) {
+	            groups[e.parent].afterStart = e.time
+	        },
+	        beforeEnd: function(e) {
+	            groups[e.parent].beforeDuration = e.time - groups[e.parent].beforeStart
+	        },
+	        afterEnd: function(e) {
+	            groups[e.parent].afterDuration = e.time - groups[e.parent].afterStart
+	        },
+	        groupEnd: function(e) {
+	            setGroupDuration(e.id, e.time)
+	        },
+	        end: function(e) {
+	            primaryGroup.timeout = e.type === 'timeout'
+	            setGroupDuration(primaryGroup.id, e.time)
+	
+	            // make the count assertions
+	            eachTest(primaryGroup, function(subtest, parenttest) {
+	                var countInfo = groupMetadata[subtest.id].countInfo
+	                if(countInfo !== undefined) {
+	                    var info = countInfo
+	                    var actualCount = 0
+	                    subtest.results.forEach(function(a) {
+	                        if(a.type === 'assert' || a.type === 'group')
+	                            actualCount++
+	                    })
+	
+	                    subtest.results.splice(0,0,{
+	                        parent: subtest.id,
+	                        type: 'assert',
+	                        success: actualCount === info.expected,
+	                        time: info.time,
+	                        sourceLines: info.sourceLines,
+	                        file: info.file,
+	                        line: info.line,
+	                        column: info.column,
+	                        expected: info.expected,
+	                        actual: actualCount
+	                    })
+	                }
+	            })
+	
+	            ended = true
+	        }
+	    })
+	
+	    function setGroupDuration(groupid, time) {
+	        var newDuration = time - groups[groupid].time
+	        if(newDuration > groups[groupid].duration) {
+	            groups[groupid].duration = newDuration
+	        }
+	
+	        if(groups[groupid].parent) {
+	            setGroupDuration(groups[groupid].parent, time)
+	        }
+	    }
+	
+	    return results
+	}
+	
+	
+	// iterates through the tests and subtests leaves first (depth first)
+	function eachTest(test, callback, parent) {
+	    test.results.forEach(function(result) {
+	        if(result.type === 'group') {
+	            eachTest(result, callback, test)
+	        }
+	    })
+	
+	    callback(test, parent)
+	}
+
+/***/ },
+/* 67 */
+/*!*************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
+  \*************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var path = __webpack_require__(/*! path */ 51)
+	
+	module.exports = function isRelative(p) {
+	    var normal = path.normalize(p)
+	    var absolute = path.resolve(p)
+	    return normal != absolute && p.indexOf('://') === -1// second part for urls
+	}
+
+/***/ },
+/* 68 */
+/*!*********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/domUtils.js ***!
+  \*********************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	// creates a dom element optionally with a class and attributes
+	 var node = module.exports.node = function(type, className, options) {
+	    var elem = document.createElement(type)
+	
+	    if(options !== undefined) {
+	        if(options.attr !== undefined) {
+	            for(var attribute in options.attr) {
+	                createAttribute(elem, attribute, options.attr[attribute])
+	            }
+	        }
+	        if(options.textContent !== undefined) {
+	            elem.textContent = options.textContent
+	        }
+	    }
+	
+	    if(className !== undefined)
+	        elem.className = className
+	
+	    return elem
+	}
+	
+	// convenience function for creating a div
+	module.exports.div = function(className, options) {
+	    return node('div', className, options)
+	}
+	
+	// adds an attribute to a domNode
+	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
+	    if (arguments.length === 2) {
+	        var domNode = this.domNode;
+	        var type = arguments[0];
+	        var value = arguments[1];
+	    } else if (arguments.length === 3) {
+	        var domNode = arguments[0];
+	        var type = arguments[1];
+	        var value = arguments[2];
+	    } else {
+	        throw new Error("This function expects arguments to be: [domNode,] type, value");
+	    }
+	    var attr = document.createAttribute(type)
+	    attr.value = value
+	    domNode.setAttributeNode(attr)
+	}
+	
+	
+	// sets the selection
+	//
+	// works for contenteditable elements
+	exports.setSelectionRange = function(containerEl, start, end) {
+	
+	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
+	        containerEl.setSelectionRange(start, end)
+	    } else {
+	        var charIndex = 0, range = document.createRange();
+	        range.setStart(containerEl, 0);
+	        range.collapse(true);
+	        var foundStart = false;
+	
+	        iterateThroughLeafNodes(containerEl, function(node) {
+	            var hiddenCharacters = findHiddenCharacters(node, node.length)
+	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
+	
+	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+	                var nodeIndex = start-charIndex
+	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
+	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
+	                foundStart = true;
+	            }
+	
+	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
+	                var nodeIndex = end-charIndex
+	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
+	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
+	                return true; // stop the iteration - we're done here
+	            }
+	
+	            charIndex = nextCharIndex
+	        })
+	
+	        var sel = window.getSelection();
+	        sel.removeAllRanges();
+	        sel.addRange(range);
+	    }
+	}
+	
+	// gets the character offsets of a selection within a particular dom node
+	// returns undefined if there is no selection in the element
+	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
+	exports.getSelectionRange = function (element) {
+	
+	    var selection = window.getSelection()
+	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
+	
+	    for(var n=0; n<selection.rangeCount; n++) {
+	        var range = selection.getRangeAt(0)
+	        if(isInputOrArea) {
+	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
+	                return [element.selectionStart, element.selectionEnd]
+	            }
+	        } else {
+	            var startsInElement = element.contains(range.startContainer)
+	            if(startsInElement) {
+	                var elementToIterateThrough = element
+	                var startFound = true
+	            } else {
+	                var elementToIterateThrough = range.commonAncestorContainer
+	                var startFound = false
+	                var startContainerFound = false
+	            }
+	
+	            var visibleCharacterOffset = 0, start, end;
+	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
+	                if(!startFound) {
+	                    if(leaf === range.startContainer) {
+	                        startContainerFound = true
+	                    }
+	
+	                    if(!element.contains(leaf) || !startContainerFound)
+	                        return; // continue
+	                    else if(startContainerFound)
+	                       startFound = true
+	                } else if(!startsInElement && !element.contains(leaf)) {
+	                    return true // done!
+	                }
+	
+	                if(leaf === range.startContainer) {
+	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
+	                }
+	                if(leaf === range.endContainer) {
+	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
+	                    return true // done!
+	                }
+	
+	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
+	            })
+	
+	            if(start === undefined && !startFound) {
+	                return undefined
+	            } else {
+	                if(start === undefined) {
+	                    start = 0 // start is at the beginning
+	                }
+	                if(end === undefined) {
+	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
+	                }
+	
+	                return [start, end]
+	            }
+	        }
+	    }
+	}
+	
+	
+	// iterate through the leaf nodes inside element
+	// callback(node) - a function called for each leaf node
+	    // returning true from this ends the iteration
+	function iterateThroughLeafNodes(element, callback) {
+	    var nodeStack = [element], node;
+	
+	    while (node = nodeStack.pop()) {
+	        if (node.nodeType == 3) {
+	            if(callback(node) === true)
+	                break;
+	        } else {
+	            var i = node.childNodes.length;
+	            while (i--) {
+	                nodeStack.push(node.childNodes[i]);
+	            }
+	        }
+	    }
+	}
+	
+	function findHiddenCharacters(node, beforeCaretIndex) {
+	    var hiddenCharacters = 0
+	    var lastCharWasWhiteSpace=true
+	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
+	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
+	            if(lastCharWasWhiteSpace)
+	                hiddenCharacters++
+	            else
+	                lastCharWasWhiteSpace = true
+	        } else {
+	            lastCharWasWhiteSpace = false
+	        }
+	    }
+	
+	    return hiddenCharacters
+	}
+
+/***/ },
 /* 69 */
-/*!***************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
-  \***************************************************************************************************************/
-64,
+/*!*******************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/~/proto/proto.js ***!
+  \*******************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var prototypeName='prototype', undefined, protoUndefined='undefined', init='init', ownProperty=({}).hasOwnProperty; // minifiable variables
+	function proto() {
+	    var args = arguments // minifiable variables
+	
+	    if(args.length == 1) {
+	        var parent = {}
+	        var prototypeBuilder = args[0]
+	
+	    } else { // length == 2
+	        var parent = args[0]
+	        var prototypeBuilder = args[1]
+	    }
+	
+	    // special handling for Error objects
+	    var namePointer = {}
+	    if([Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError].indexOf(parent) !== -1) {
+	        parent = normalizeErrorObject(parent, namePointer)
+	    }
+	
+	    // set up the parent into the prototype chain if a parent is passed
+	    var parentIsFunction = typeof(parent) === "function"
+	    if(parentIsFunction) {
+	        prototypeBuilder[prototypeName] = parent[prototypeName]
+	    } else {
+	        prototypeBuilder[prototypeName] = parent
+	    }
+	
+	    // the prototype that will be used to make instances
+	    var prototype = new prototypeBuilder(parent)
+	    prototype.constructor = ProtoObjectFactory;    // set the constructor property on the prototype
+	    namePointer.name = prototype.name
+	
+	    // if there's no init, assume its inheriting a non-proto class, so default to applying the superclass's constructor.
+	    if(!prototype[init] && parentIsFunction) {
+	        prototype[init] = function() {
+	            parent.apply(this, arguments)
+	        }
+	    }
+	
+	    // constructor for empty object which will be populated via the constructor
+	    var F = function() {}
+	        F[prototypeName] = prototype    // set the prototype for created instances
+	
+	    function ProtoObjectFactory() {     // result object factory
+	        var x = new F()                 // empty object
+	
+	        if(prototype[init]) {
+	            var result = prototype[init].apply(x, arguments)    // populate object via the constructor
+	            if(result === proto[protoUndefined])
+	                return undefined
+	            else if(result !== undefined)
+	                return result
+	            else
+	                return x
+	        } else {
+	            return x
+	        }
+	    }
+	
+	    // add all the prototype properties onto the static class as well (so you can access that class when you want to reference superclass properties)
+	    for(var n in prototype) {
+	        addProperty(ProtoObjectFactory, prototype, n)
+	    }
+	
+	    // add properties from parent that don't exist in the static class object yet (to get thing in like
+	    for(var n in parent) {
+	        if(Object.hasOwnProperty.call(parent, n) && ProtoObjectFactory[n] === undefined) {
+	            addProperty(ProtoObjectFactory, parent, n)
+	        }
+	    }
+	
+	    ProtoObjectFactory[prototypeName] = prototype  // set the prototype on the object factory
+	
+	    return ProtoObjectFactory;
+	}
+	
+	proto[protoUndefined] = {} // a special marker for when you want to return undefined from a constructor
+	
+	module.exports = proto
+	
+	function normalizeErrorObject(ErrorObject, namePointer) {
+	    function NormalizedError() {
+	        var tmp = new ErrorObject(arguments[0])
+	        tmp.name = namePointer.name
+	
+	        this.message = tmp.message
+	        if(Object.defineProperty) {
+	            /*this.stack = */Object.defineProperty(this, 'stack', { // getter for more optimizy goodness
+	                get: function() {
+	                    return tmp.stack
+	                }
+	            })
+	        } else {
+	            this.stack = tmp.stack
+	        }
+	
+	        return this
+	    }
+	        var IntermediateInheritor = function() {}
+	            IntermediateInheritor.prototype = ErrorObject.prototype
+	        NormalizedError.prototype = new IntermediateInheritor()
+	    return NormalizedError
+	}
+	
+	function addProperty(factoryObject, prototype, property) {
+	    try {
+	        var info = Object.getOwnPropertyDescriptor(prototype, property)
+	        if(info.get !== undefined || info.get !== undefined && Object.defineProperty !== undefined) {
+	            Object.defineProperty(factoryObject, property, info)
+	        } else {
+	            factoryObject[property] = prototype[property]
+	        }
+	    } catch(e) {
+	        // do nothing, if a property (like `name`) can't be set, just ignore it
+	    }
+	}
+
+/***/ },
 /* 70 */
 /*!**************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/EventEmitterB.js ***!
   \**************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var EventEmitter = __webpack_require__(/*! events */ 34).EventEmitter
-	var proto = __webpack_require__(/*! proto */ 46)
-	var utils = __webpack_require__(/*! utils */ 65)
+	var EventEmitter = __webpack_require__(/*! events */ 40).EventEmitter
+	var proto = __webpack_require__(/*! proto */ 42)
+	var utils = __webpack_require__(/*! utils */ 64)
 	
 	module.exports = proto(EventEmitter, function(superclass) {
 	
@@ -12505,7 +12517,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var punycode = __webpack_require__(/*! punycode */ 85);
+	var punycode = __webpack_require__(/*! punycode */ 87);
 	
 	exports.parse = urlParse;
 	exports.resolve = urlResolve;
@@ -12577,7 +12589,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'gopher:': true,
 	      'file:': true
 	    },
-	    querystring = __webpack_require__(/*! querystring */ 84);
+	    querystring = __webpack_require__(/*! querystring */ 88);
 	
 	function urlParse(url, parseQueryString, slashesDenoteHost) {
 	  if (url && isObject(url) && url instanceof Url) return url;
@@ -13227,483 +13239,210 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 73 */
-/*!**********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
-  \**********************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/hashmap/hashmap.js ***!
+  \************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Future = __webpack_require__(/*! async-future */ 97)
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * HashMap - HashMap Class for JavaScript
+	 * @author Ariel Flesler <aflesler@gmail.com>
+	 * @version 2.0.1
+	 * Homepage: https://github.com/flesler/hashmap
+	 */
 	
-	// returns the XHR function or equivalent for use with ajax
-	// memoizes the function for faster repeated use
-	var createXMLHTTPObject = function() {
-	    var versions = ["Msxml2.XMLHTTP",
-	                    "Msxml3.XMLHTTP",
-	                    "Microsoft.XMLHTTP",
-	                    "MSXML2.XmlHttp.6.0",
-	                    "MSXML2.XmlHttp.5.0",
-	                    "MSXML2.XmlHttp.4.0",
-	                    "MSXML2.XmlHttp.3.0",
-	                    "MSXML2.XmlHttp.2.0"
-	    ]
+	(function(factory) {
+		if (true) {
+			// AMD. Register as an anonymous module.
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module === 'object') {
+			// Node js environment
+			var HashMap = module.exports = factory();
+			// Keep it backwards compatible
+			HashMap.HashMap = HashMap;
+		} else {
+			// Browser globals (this is window)
+			this.HashMap = factory();
+		}
+	}(function() {
 	
-	    if(XMLHttpRequest !== undefined) {  // For non-IE browsers
-	        createXMLHTTPObject = function() {  // Use memoization to cache the factory
-	            return new XMLHttpRequest()
-	        }
-	        return createXMLHTTPObject()
+		function HashMap(other) {
+			this.clear();
+			switch (arguments.length) {
+				case 0: break;
+				case 1: this.copy(other); break;
+				default: multi(this, arguments); break;
+			}
+		}
 	
-	    } else { // IE
-	        for(var i=0, n=versions.length; i<n; i++) {
-	            try {
-	                var version = versions[i]
-	                var fn = function() {
-	                    return new ActiveXObject(version)
-	                }
-	                createXMLHTTPObject = fn   // Use memoization to cache the factory
-	                return createXMLHTTPObject()
+		var proto = HashMap.prototype = {
+			constructor:HashMap,
 	
-	            } catch(e) {   }
-	        }
-	    }
+			get:function(key) {
+				var data = this._data[this.hash(key)];
+				return data && data[1];
+			},
 	
-	    throw new Error('Cant get XmlHttpRequest object')
-	}
+			set:function(key, value) {
+				// Store original key as well (for iteration)
+				this._data[this.hash(key)] = [key, value];
+			},
 	
+			multi:function() {
+				multi(this, arguments);
+			},
 	
+			copy:function(other) {
+				for (var key in other._data) {
+					this._data[key] = other._data[key];
+				}
+			},
 	
-	var HEADER = "([^\\s]+): (.*)"
+			has:function(key) {
+				return this.hash(key) in this._data;
+			},
 	
-	// returns the contents and headers from a given URL
-	exports = module.exports = function(url) {
-	    if(getFromCache(url))
-	        return getFromCache(url)
+			search:function(value) {
+				for (var key in this._data) {
+					if (this._data[key][1] === value) {
+						return this._data[key][0];
+					}
+				}
 	
-	    var futureResult = new Future
-	    setOnCache(url, futureResult)
+				return null;
+			},
 	
-	    var req = createXMLHTTPObject()
-	    req.onreadystatechange = function() {
-	        if( req.readyState === 4 ) {
-	            if( req.status === 200 ) {
-	                var headers = {}
-	                req.getAllResponseHeaders().split('\n').forEach(function(line) {
-	                    var match = line.match(HEADER)
-	                    if(match !== null) {
-	                        var name = match[1]
-	                        var value = match[2]
+			remove:function(key) {
+				delete this._data[this.hash(key)];
+			},
 	
-	                        headers[name] = value
-	                    }
-	                })
+			type:function(key) {
+				var str = Object.prototype.toString.call(key);
+				var type = str.slice(8, -1).toLowerCase();
+				// Some browsers yield DOMWindow for null and undefined, works fine on Node
+				if (type === 'domwindow' && !key) {
+					return key + '';
+				}
+				return type;
+			},
 	
-	                futureResult.return({text: req.responseText, headers: headers})
+			keys:function() {
+				var keys = [];
+				this.forEach(function(value, key) { keys.push(key); });
+				return keys;
+			},
 	
-	            } else {
-	                var error = new Error('Error in request: Status '+req.status)
-	                error.status = req.status
-	                futureResult.throw(error)
-	            }
-	        }
-	    }
+			values:function() {
+				var values = [];
+				this.forEach(function(value) { values.push(value); });
+				return values;
+			},
 	
-	    req.onerror = function(e) {
-	        futureResult.throw(e)
-	    }
+			count:function() {
+				return this.keys().length;
+			},
 	
+			clear:function() {
+				// TODO: Would Object.create(null) make any difference
+				this._data = {};
+			},
 	
-	    req.open('GET', url, asynchronous)
-	    try {
-	        req.send()
-	    } catch(e) {
-	        futureResult.throw(e)
-	    }
+			clone:function() {
+				return new HashMap(this);
+			},
 	
-	    return futureResult
-	}
+			hash:function(key) {
+				switch (this.type(key)) {
+					case 'undefined':
+					case 'null':
+					case 'boolean':
+					case 'number':
+					case 'regexp':
+						return key + '';
 	
-	var cache = {}
-	var getFromCache = function(url) {
-	    return cache[url]
-	}
-	var setOnCache = function(url, futureResponse) {
-	    cache[url] = futureResponse
-	}
+					case 'date':
+						return ':' + key.getTime();
 	
-	var asynchronous = true
-	exports.setSynchronous = function(synchronous) { // this is here so I can work around this bug in chrome: https://code.google.com/p/chromium/issues/detail?id=368444
-	    asynchronous = !synchronous
-	}
+					case 'string':
+						return '"' + key;
 	
-	exports.cacheGet = function(fn) {
-	    getFromCache = fn
-	}
-	exports.cacheSet = function(fn) {
-	    setOnCache = fn
-	}
+					case 'array':
+						var hashes = [];
+						for (var i = 0; i < key.length; i++) {
+							hashes[i] = this.hash(key[i]);
+						}
+						return '[' + hashes.join('|');
+	
+					default:
+						// TODO: Don't use expandos when Object.defineProperty is not available?
+						if (!key._hmuid_) {
+							key._hmuid_ = ++HashMap.uid;
+							hide(key, '_hmuid_');
+						}
+	
+						return '{' + key._hmuid_;
+				}
+			},
+	
+			forEach:function(func) {
+				for (var key in this._data) {
+					var data = this._data[key];
+					func.call(this, data[1], data[0]);
+				}
+			}
+		};
+	
+		HashMap.uid = 0;
+	
+		//- Automatically add chaining to some methods
+	
+		for (var method in proto) {
+			// Skip constructor, valueOf, toString and any other built-in method
+			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
+				continue;
+			}
+			var fn = proto[method];
+			if (fn.toString().indexOf('return ') === -1) {
+				proto[method] = chain(fn);
+			}
+		}
+	
+		//- Utils
+	
+		function multi(map, args) {
+			for (var i = 0; i < args.length; i += 2) {
+				map.set(args[i], args[i+1]);
+			}
+		}
+	
+		function chain(fn) {
+			return function() {
+				fn.apply(this, arguments);
+				return this;
+			};
+		}
+	
+		function hide(obj, prop) {
+			// Make non iterable if supported
+			if (Object.defineProperty) {
+				Object.defineProperty(obj, prop, {enumerable:false});
+			}
+		}
+	
+		return HashMap;
+	}));
+
 
 /***/ },
 /* 74 */
-/*!************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
-  \************************************************************************************************/
-37,
-/* 75 */
-/*!**************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/source-map-resolve.js ***!
-  \**************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(setImmediate) {// Copyright 2014 Simon Lydell
-	// X11 (“MIT”) Licensed. (See LICENSE.)
-	
-	// Note: source-map-resolve.js is generated from source-map-resolve-node.js and
-	// source-map-resolve-template.js. Only edit the two latter files, _not_
-	// source-map-resolve.js!
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 98), __webpack_require__(/*! resolve-url */ 99)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    var sourceMappingURL = require("source-map-url")
-	    var resolveUrl = require("resolve-url")
-	    module.exports = factory(sourceMappingURL, resolveUrl)
-	  } else {
-	    root.sourceMapResolve = factory(root.sourceMappingURL, root.resolveUrl)
-	  }
-	}(this, function(sourceMappingURL, resolveUrl) {
-	
-	  function callbackAsync(callback, error, result) {
-	    setImmediate(function() { callback(error, result) })
-	  }
-	
-	  function sig(name, codeOrMap, url, read, callback) {
-	    var type = (name.indexOf("Sources") >= 0 ? "map" : "code")
-	
-	    var throwError = function(num, what, got) {
-	      throw new Error(
-	        name + " requires argument " + num + " to be " + what + ". Got:\n" + got
-	      )
-	    }
-	
-	    if (type === "map") {
-	      if (typeof codeOrMap !== "object" || codeOrMap === null) {
-	        throwError(1, "a source map", codeOrMap)
-	      }
-	    } else {
-	      if (typeof codeOrMap !== "string") {
-	        throwError(1, "some code", codeOrMap)
-	      }
-	    }
-	    if (typeof url !== "string") {
-	      throwError(2, "the " + type + " url", url)
-	    }
-	    if (typeof read !== "function") {
-	      throwError(3, "a reading function", read)
-	    }
-	    if (arguments.length === 1 + 4 && typeof callback !== "function") {
-	      throwError(4, "a callback function", callback)
-	    }
-	  }
-	
-	  function parseMapToJSON(string) {
-	    return JSON.parse(string.replace(/^\)\]\}'/, ""))
-	  }
-	
-	
-	
-	  function resolveSourceMap(code, codeUrl, read, callback) {
-	    sig("resolveSourceMap", code, codeUrl, read, callback)
-	    var mapData
-	    try {
-	      mapData = resolveSourceMapHelper(code, codeUrl)
-	    } catch (error) {
-	      return callbackAsync(callback, error)
-	    }
-	    if (!mapData || mapData.map) {
-	      return callbackAsync(callback, null, mapData)
-	    }
-	    read(mapData.url, function(error, result) {
-	      if (error) {
-	        return callback(error)
-	      }
-	      try {
-	        mapData.map = parseMapToJSON(String(result))
-	      } catch (error) {
-	        return callback(error)
-	      }
-	      callback(null, mapData)
-	    })
-	  }
-	
-	  function resolveSourceMapSync(code, codeUrl, read) {
-	    sig("resolveSourceMapSync", code, codeUrl, read)
-	    var mapData = resolveSourceMapHelper(code, codeUrl)
-	    if (!mapData || mapData.map) {
-	      return mapData
-	    }
-	    mapData.map = parseMapToJSON(String(read(mapData.url)))
-	    return mapData
-	  }
-	
-	  var dataUriRegex = /^data:([^,;]*)(;[^,;]*)*(?:,(.*))?$/
-	  var jsonMimeTypeRegex = /^(?:application|text)\/json$/
-	
-	  function resolveSourceMapHelper(code, codeUrl) {
-	    var url = sourceMappingURL.get(code)
-	    if (!url) {
-	      return null
-	    }
-	
-	    var dataUri = url.match(dataUriRegex)
-	    if (dataUri) {
-	      var mimeType = dataUri[1]
-	      var lastParameter = dataUri[2]
-	      var encoded = dataUri[3]
-	      if (!jsonMimeTypeRegex.test(mimeType)) {
-	        throw new Error("Unuseful data uri mime type: " + (mimeType || "text/plain"))
-	      }
-	      return {
-	        sourceMappingURL: url,
-	        url: null,
-	        sourcesRelativeTo: codeUrl,
-	        map: parseMapToJSON(lastParameter === ";base64" ? atob(encoded) : decodeURIComponent(encoded))
-	      }
-	    }
-	
-	    var mapUrl = resolveUrl(codeUrl, url)
-	    return {
-	      sourceMappingURL: url,
-	      url: mapUrl,
-	      sourcesRelativeTo: mapUrl,
-	      map: null
-	    }
-	  }
-	
-	
-	
-	  function resolveSources(map, mapUrl, read, callback) {
-	    sig("resolveSources", map, mapUrl, read, callback)
-	    var pending = map.sources.length
-	    var errored = false
-	    var sources = []
-	
-	    var done = function(error) {
-	      if (errored) {
-	        return
-	      }
-	      if (error) {
-	        errored = true
-	        return callback(error)
-	      }
-	      pending--
-	      if (pending === 0) {
-	        callback(null, sources)
-	      }
-	    }
-	
-	    resolveSourcesHelper(map, mapUrl, function(fullUrl, sourceContent, index) {
-	      if (typeof sourceContent === "string") {
-	        sources[index] = sourceContent
-	        callbackAsync(done, null)
-	      } else {
-	        read(fullUrl, function(error, result) {
-	          sources[index] = String(result)
-	          done(error)
-	        })
-	      }
-	    })
-	  }
-	
-	  function resolveSourcesSync(map, mapUrl, read) {
-	    sig("resolveSourcesSync", map, mapUrl, read)
-	    var sources = []
-	    resolveSourcesHelper(map, mapUrl, function(fullUrl, sourceContent, index) {
-	      if (typeof sourceContent === "string") {
-	        sources[index] = sourceContent
-	      } else {
-	        sources[index] = String(read(fullUrl))
-	      }
-	    })
-	    return sources
-	  }
-	
-	  var endingSlash = /\/?$/
-	
-	  function resolveSourcesHelper(map, mapUrl, fn) {
-	    var fullUrl
-	    var sourceContent
-	    for (var index = 0, len = map.sources.length; index < len; index++) {
-	      if (map.sourceRoot) {
-	        // Make sure that the sourceRoot ends with a slash, so that `/scripts/subdir` becomes
-	        // `/scripts/subdir/<source>`, not `/scripts/<source>`. Pointing to a file as source root
-	        // does not make sense.
-	        fullUrl = resolveUrl(mapUrl, map.sourceRoot.replace(endingSlash, "/"), map.sources[index])
-	      } else {
-	        fullUrl = resolveUrl(mapUrl, map.sources[index])
-	      }
-	      sourceContent = (map.sourceContents || [])[index]
-	      fn(fullUrl, sourceContent, index)
-	    }
-	  }
-	
-	
-	
-	  function resolve(code, codeUrl, read, callback) {
-	    sig("resolve", code, codeUrl, read, callback)
-	    resolveSourceMap(code, codeUrl, read, function(error, mapData) {
-	      if (error) {
-	        return callback(error)
-	      }
-	      if (!mapData) {
-	        return callback(null, null)
-	      }
-	      resolveSources(mapData.map, mapData.sourcesRelativeTo, read, function(error, sources) {
-	        if (error) {
-	          return callback(error)
-	        }
-	        mapData.sources = sources
-	        callback(null, mapData)
-	      })
-	    })
-	  }
-	
-	  function resolveSync(code, codeUrl, read) {
-	    sig("resolveSync", code, codeUrl, read)
-	    var mapData = resolveSourceMapSync(code, codeUrl, read)
-	    if (!mapData) {
-	      return null
-	    }
-	    mapData.sources = resolveSourcesSync(mapData.map, mapData.sourcesRelativeTo, read)
-	    return mapData
-	  }
-	
-	
-	
-	  return {
-	    resolveSourceMap:     resolveSourceMap,
-	    resolveSourceMapSync: resolveSourceMapSync,
-	    resolveSources:       resolveSources,
-	    resolveSourcesSync:   resolveSourcesSync,
-	    resolve:              resolve,
-	    resolveSync:          resolveSync
-	  }
-	
-	}));
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 89).setImmediate))
-
-/***/ },
-/* 76 */
-/*!*************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
-  \*************************************************************************************************************/
-[142, 96],
-/* 77 */
-/*!**************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
-  \**************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * Copyright 2009-2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE.txt or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 81).SourceMapGenerator;
-	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 83).SourceMapConsumer;
-	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 82).SourceNode;
-
-
-/***/ },
-/* 78 */
-/*!********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
-  \********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 100)
-	var parsers = __webpack_require__(/*! ./tracelineParser */ 86)
-	var mode = __webpack_require__(/*! ./exceptionMode */ 87)
-	
-	module.exports = function(ex) {
-	    if(parsers[mode] === undefined)
-	        throw new Error("browser "+mode+" not supported")
-	
-	    var options = undefined
-	    if(ex !== undefined) {
-	        if(mode === 'ie' && ex.number === undefined)
-	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
-	        options = {e:ex, guess: true}
-	    }
-	    var trace = printStackTrace(options)
-	
-	    if(ex === undefined) {
-	        trace.splice(0,4) // strip stacktrace-js internals
-	    }
-	
-	    return parseStacktrace(trace)
-	}
-	
-	function TraceInfo(traceline) {
-	    this.traceline = traceline
-	}
-	TraceInfo.prototype = {
-	    get file() {
-	        return getInfo(this).file
-	    },
-	    get function() {
-	        return getInfo(this).function
-	    },
-	    get line() {
-	        return getInfo(this).line
-	    },
-	    get column() {
-	        return getInfo(this).column
-	    },
-	    get info() {
-	        return getInfo(this)
-	    }
-	}
-	
-	function getInfo(traceInfo) {
-	    if(traceInfo.cache === undefined) {
-	        var info = parsers[mode](traceInfo.traceline)
-	        if(info.line !== undefined)
-	            info.line = parseInt(info.line, 10)
-	        if(info.column !== undefined)
-	            info.column = parseInt(info.column, 10)
-	
-	        traceInfo.cache = info
-	    }
-	
-	    return traceInfo.cache
-	}
-	
-	function parseStacktrace(trace) {
-	    var results = []
-	    for(var n = 0; n<trace.length; n++) {
-	        results.push(new TraceInfo(trace[n]))
-	    }
-	    return results
-	}
-	
-	// here because i'm lazy, they're here for testing only
-	module.exports.parsers = parsers
-	module.exports.mode = mode
-	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
-
-
-/***/ },
-/* 79 */
 /*!************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/observe.js ***!
   \************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var proto = __webpack_require__(/*! proto */ 101)
-	var EventEmitter = __webpack_require__(/*! events */ 34).EventEmitter
-	var utils = __webpack_require__(/*! ./utils */ 88)
+	var proto = __webpack_require__(/*! proto */ 94)
+	var EventEmitter = __webpack_require__(/*! events */ 40).EventEmitter
+	var utils = __webpack_require__(/*! ./utils */ 84)
 	
 	
 	// emits the event:
@@ -14119,200 +13858,473 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 80 */
+/* 75 */
 /*!************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/hashmap/hashmap.js ***!
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
   \************************************************************************************************/
+39,
+/* 76 */
+/*!*************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
+  \*************************************************************************************************************/
+[110, 98],
+/* 77 */
+/*!**************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
+  \**************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
-	 * HashMap - HashMap Class for JavaScript
-	 * @author Ariel Flesler <aflesler@gmail.com>
-	 * @version 2.0.1
-	 * Homepage: https://github.com/flesler/hashmap
+	/*
+	 * Copyright 2009-2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE.txt or:
+	 * http://opensource.org/licenses/BSD-3-Clause
 	 */
-	
-	(function(factory) {
-		if (true) {
-			// AMD. Register as an anonymous module.
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else if (typeof module === 'object') {
-			// Node js environment
-			var HashMap = module.exports = factory();
-			// Keep it backwards compatible
-			HashMap.HashMap = HashMap;
-		} else {
-			// Browser globals (this is window)
-			this.HashMap = factory();
-		}
-	}(function() {
-	
-		function HashMap(other) {
-			this.clear();
-			switch (arguments.length) {
-				case 0: break;
-				case 1: this.copy(other); break;
-				default: multi(this, arguments); break;
-			}
-		}
-	
-		var proto = HashMap.prototype = {
-			constructor:HashMap,
-	
-			get:function(key) {
-				var data = this._data[this.hash(key)];
-				return data && data[1];
-			},
-	
-			set:function(key, value) {
-				// Store original key as well (for iteration)
-				this._data[this.hash(key)] = [key, value];
-			},
-	
-			multi:function() {
-				multi(this, arguments);
-			},
-	
-			copy:function(other) {
-				for (var key in other._data) {
-					this._data[key] = other._data[key];
-				}
-			},
-	
-			has:function(key) {
-				return this.hash(key) in this._data;
-			},
-	
-			search:function(value) {
-				for (var key in this._data) {
-					if (this._data[key][1] === value) {
-						return this._data[key][0];
-					}
-				}
-	
-				return null;
-			},
-	
-			remove:function(key) {
-				delete this._data[this.hash(key)];
-			},
-	
-			type:function(key) {
-				var str = Object.prototype.toString.call(key);
-				var type = str.slice(8, -1).toLowerCase();
-				// Some browsers yield DOMWindow for null and undefined, works fine on Node
-				if (type === 'domwindow' && !key) {
-					return key + '';
-				}
-				return type;
-			},
-	
-			keys:function() {
-				var keys = [];
-				this.forEach(function(value, key) { keys.push(key); });
-				return keys;
-			},
-	
-			values:function() {
-				var values = [];
-				this.forEach(function(value) { values.push(value); });
-				return values;
-			},
-	
-			count:function() {
-				return this.keys().length;
-			},
-	
-			clear:function() {
-				// TODO: Would Object.create(null) make any difference
-				this._data = {};
-			},
-	
-			clone:function() {
-				return new HashMap(this);
-			},
-	
-			hash:function(key) {
-				switch (this.type(key)) {
-					case 'undefined':
-					case 'null':
-					case 'boolean':
-					case 'number':
-					case 'regexp':
-						return key + '';
-	
-					case 'date':
-						return ':' + key.getTime();
-	
-					case 'string':
-						return '"' + key;
-	
-					case 'array':
-						var hashes = [];
-						for (var i = 0; i < key.length; i++) {
-							hashes[i] = this.hash(key[i]);
-						}
-						return '[' + hashes.join('|');
-	
-					default:
-						// TODO: Don't use expandos when Object.defineProperty is not available?
-						if (!key._hmuid_) {
-							key._hmuid_ = ++HashMap.uid;
-							hide(key, '_hmuid_');
-						}
-	
-						return '{' + key._hmuid_;
-				}
-			},
-	
-			forEach:function(func) {
-				for (var key in this._data) {
-					var data = this._data[key];
-					func.call(this, data[1], data[0]);
-				}
-			}
-		};
-	
-		HashMap.uid = 0;
-	
-		//- Automatically add chaining to some methods
-	
-		for (var method in proto) {
-			// Skip constructor, valueOf, toString and any other built-in method
-			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
-				continue;
-			}
-			var fn = proto[method];
-			if (fn.toString().indexOf('return ') === -1) {
-				proto[method] = chain(fn);
-			}
-		}
-	
-		//- Utils
-	
-		function multi(map, args) {
-			for (var i = 0; i < args.length; i += 2) {
-				map.set(args[i], args[i+1]);
-			}
-		}
-	
-		function chain(fn) {
-			return function() {
-				fn.apply(this, arguments);
-				return this;
-			};
-		}
-	
-		function hide(obj, prop) {
-			// Make non iterable if supported
-			if (Object.defineProperty) {
-				Object.defineProperty(obj, prop, {enumerable:false});
-			}
-		}
-	
-		return HashMap;
-	}));
+	exports.SourceMapGenerator = __webpack_require__(/*! ./source-map/source-map-generator */ 81).SourceMapGenerator;
+	exports.SourceMapConsumer = __webpack_require__(/*! ./source-map/source-map-consumer */ 82).SourceMapConsumer;
+	exports.SourceNode = __webpack_require__(/*! ./source-map/source-node */ 83).SourceNode;
 
+
+/***/ },
+/* 78 */
+/*!********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
+  \********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 96)
+	var parsers = __webpack_require__(/*! ./tracelineParser */ 85)
+	var mode = __webpack_require__(/*! ./exceptionMode */ 86)
+	
+	module.exports = function(ex) {
+	    if(parsers[mode] === undefined)
+	        throw new Error("browser "+mode+" not supported")
+	
+	    var options = undefined
+	    if(ex !== undefined) {
+	        if(mode === 'ie' && ex.number === undefined)
+	            ex.number = 1    // work around for this: https://github.com/stacktracejs/stacktrace.js/issues/80
+	        options = {e:ex, guess: true}
+	    }
+	    var trace = printStackTrace(options)
+	
+	    if(ex === undefined) {
+	        trace.splice(0,4) // strip stacktrace-js internals
+	    }
+	
+	    return parseStacktrace(trace)
+	}
+	
+	function TraceInfo(traceline) {
+	    this.traceline = traceline
+	}
+	TraceInfo.prototype = {
+	    get file() {
+	        return getInfo(this).file
+	    },
+	    get function() {
+	        return getInfo(this).function
+	    },
+	    get line() {
+	        return getInfo(this).line
+	    },
+	    get column() {
+	        return getInfo(this).column
+	    },
+	    get info() {
+	        return getInfo(this)
+	    }
+	}
+	
+	function getInfo(traceInfo) {
+	    if(traceInfo.cache === undefined) {
+	        var info = parsers[mode](traceInfo.traceline)
+	        if(info.line !== undefined)
+	            info.line = parseInt(info.line, 10)
+	        if(info.column !== undefined)
+	            info.column = parseInt(info.column, 10)
+	
+	        traceInfo.cache = info
+	    }
+	
+	    return traceInfo.cache
+	}
+	
+	function parseStacktrace(trace) {
+	    var results = []
+	    for(var n = 0; n<trace.length; n++) {
+	        results.push(new TraceInfo(trace[n]))
+	    }
+	    return results
+	}
+	
+	// here because i'm lazy, they're here for testing only
+	module.exports.parsers = parsers
+	module.exports.mode = mode
+	module.exports.sourceCache = printStackTrace.implementation.prototype.sourceCache // expose this so you can consolidate caches together from different libraries
+
+
+/***/ },
+/* 79 */
+/*!**************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/source-map-resolve.js ***!
+  \**************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(setImmediate) {// Copyright 2014 Simon Lydell
+	// X11 (“MIT”) Licensed. (See LICENSE.)
+	
+	// Note: source-map-resolve.js is generated from source-map-resolve-node.js and
+	// source-map-resolve-template.js. Only edit the two latter files, _not_
+	// source-map-resolve.js!
+	
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 95), __webpack_require__(/*! resolve-url */ 97)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    var sourceMappingURL = require("source-map-url")
+	    var resolveUrl = require("resolve-url")
+	    module.exports = factory(sourceMappingURL, resolveUrl)
+	  } else {
+	    root.sourceMapResolve = factory(root.sourceMappingURL, root.resolveUrl)
+	  }
+	}(this, function(sourceMappingURL, resolveUrl) {
+	
+	  function callbackAsync(callback, error, result) {
+	    setImmediate(function() { callback(error, result) })
+	  }
+	
+	  function sig(name, codeOrMap, url, read, callback) {
+	    var type = (name.indexOf("Sources") >= 0 ? "map" : "code")
+	
+	    var throwError = function(num, what, got) {
+	      throw new Error(
+	        name + " requires argument " + num + " to be " + what + ". Got:\n" + got
+	      )
+	    }
+	
+	    if (type === "map") {
+	      if (typeof codeOrMap !== "object" || codeOrMap === null) {
+	        throwError(1, "a source map", codeOrMap)
+	      }
+	    } else {
+	      if (typeof codeOrMap !== "string") {
+	        throwError(1, "some code", codeOrMap)
+	      }
+	    }
+	    if (typeof url !== "string") {
+	      throwError(2, "the " + type + " url", url)
+	    }
+	    if (typeof read !== "function") {
+	      throwError(3, "a reading function", read)
+	    }
+	    if (arguments.length === 1 + 4 && typeof callback !== "function") {
+	      throwError(4, "a callback function", callback)
+	    }
+	  }
+	
+	  function parseMapToJSON(string) {
+	    return JSON.parse(string.replace(/^\)\]\}'/, ""))
+	  }
+	
+	
+	
+	  function resolveSourceMap(code, codeUrl, read, callback) {
+	    sig("resolveSourceMap", code, codeUrl, read, callback)
+	    var mapData
+	    try {
+	      mapData = resolveSourceMapHelper(code, codeUrl)
+	    } catch (error) {
+	      return callbackAsync(callback, error)
+	    }
+	    if (!mapData || mapData.map) {
+	      return callbackAsync(callback, null, mapData)
+	    }
+	    read(mapData.url, function(error, result) {
+	      if (error) {
+	        return callback(error)
+	      }
+	      try {
+	        mapData.map = parseMapToJSON(String(result))
+	      } catch (error) {
+	        return callback(error)
+	      }
+	      callback(null, mapData)
+	    })
+	  }
+	
+	  function resolveSourceMapSync(code, codeUrl, read) {
+	    sig("resolveSourceMapSync", code, codeUrl, read)
+	    var mapData = resolveSourceMapHelper(code, codeUrl)
+	    if (!mapData || mapData.map) {
+	      return mapData
+	    }
+	    mapData.map = parseMapToJSON(String(read(mapData.url)))
+	    return mapData
+	  }
+	
+	  var dataUriRegex = /^data:([^,;]*)(;[^,;]*)*(?:,(.*))?$/
+	  var jsonMimeTypeRegex = /^(?:application|text)\/json$/
+	
+	  function resolveSourceMapHelper(code, codeUrl) {
+	    var url = sourceMappingURL.get(code)
+	    if (!url) {
+	      return null
+	    }
+	
+	    var dataUri = url.match(dataUriRegex)
+	    if (dataUri) {
+	      var mimeType = dataUri[1]
+	      var lastParameter = dataUri[2]
+	      var encoded = dataUri[3]
+	      if (!jsonMimeTypeRegex.test(mimeType)) {
+	        throw new Error("Unuseful data uri mime type: " + (mimeType || "text/plain"))
+	      }
+	      return {
+	        sourceMappingURL: url,
+	        url: null,
+	        sourcesRelativeTo: codeUrl,
+	        map: parseMapToJSON(lastParameter === ";base64" ? atob(encoded) : decodeURIComponent(encoded))
+	      }
+	    }
+	
+	    var mapUrl = resolveUrl(codeUrl, url)
+	    return {
+	      sourceMappingURL: url,
+	      url: mapUrl,
+	      sourcesRelativeTo: mapUrl,
+	      map: null
+	    }
+	  }
+	
+	
+	
+	  function resolveSources(map, mapUrl, read, callback) {
+	    sig("resolveSources", map, mapUrl, read, callback)
+	    var pending = map.sources.length
+	    var errored = false
+	    var sources = []
+	
+	    var done = function(error) {
+	      if (errored) {
+	        return
+	      }
+	      if (error) {
+	        errored = true
+	        return callback(error)
+	      }
+	      pending--
+	      if (pending === 0) {
+	        callback(null, sources)
+	      }
+	    }
+	
+	    resolveSourcesHelper(map, mapUrl, function(fullUrl, sourceContent, index) {
+	      if (typeof sourceContent === "string") {
+	        sources[index] = sourceContent
+	        callbackAsync(done, null)
+	      } else {
+	        read(fullUrl, function(error, result) {
+	          sources[index] = String(result)
+	          done(error)
+	        })
+	      }
+	    })
+	  }
+	
+	  function resolveSourcesSync(map, mapUrl, read) {
+	    sig("resolveSourcesSync", map, mapUrl, read)
+	    var sources = []
+	    resolveSourcesHelper(map, mapUrl, function(fullUrl, sourceContent, index) {
+	      if (typeof sourceContent === "string") {
+	        sources[index] = sourceContent
+	      } else {
+	        sources[index] = String(read(fullUrl))
+	      }
+	    })
+	    return sources
+	  }
+	
+	  var endingSlash = /\/?$/
+	
+	  function resolveSourcesHelper(map, mapUrl, fn) {
+	    var fullUrl
+	    var sourceContent
+	    for (var index = 0, len = map.sources.length; index < len; index++) {
+	      if (map.sourceRoot) {
+	        // Make sure that the sourceRoot ends with a slash, so that `/scripts/subdir` becomes
+	        // `/scripts/subdir/<source>`, not `/scripts/<source>`. Pointing to a file as source root
+	        // does not make sense.
+	        fullUrl = resolveUrl(mapUrl, map.sourceRoot.replace(endingSlash, "/"), map.sources[index])
+	      } else {
+	        fullUrl = resolveUrl(mapUrl, map.sources[index])
+	      }
+	      sourceContent = (map.sourceContents || [])[index]
+	      fn(fullUrl, sourceContent, index)
+	    }
+	  }
+	
+	
+	
+	  function resolve(code, codeUrl, read, callback) {
+	    sig("resolve", code, codeUrl, read, callback)
+	    resolveSourceMap(code, codeUrl, read, function(error, mapData) {
+	      if (error) {
+	        return callback(error)
+	      }
+	      if (!mapData) {
+	        return callback(null, null)
+	      }
+	      resolveSources(mapData.map, mapData.sourcesRelativeTo, read, function(error, sources) {
+	        if (error) {
+	          return callback(error)
+	        }
+	        mapData.sources = sources
+	        callback(null, mapData)
+	      })
+	    })
+	  }
+	
+	  function resolveSync(code, codeUrl, read) {
+	    sig("resolveSync", code, codeUrl, read)
+	    var mapData = resolveSourceMapSync(code, codeUrl, read)
+	    if (!mapData) {
+	      return null
+	    }
+	    mapData.sources = resolveSourcesSync(mapData.map, mapData.sourcesRelativeTo, read)
+	    return mapData
+	  }
+	
+	
+	
+	  return {
+	    resolveSourceMap:     resolveSourceMap,
+	    resolveSourceMapSync: resolveSourceMapSync,
+	    resolveSources:       resolveSources,
+	    resolveSourcesSync:   resolveSourcesSync,
+	    resolve:              resolve,
+	    resolveSync:          resolveSync
+	  }
+	
+	}));
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/timers-browserify/main.js */ 89).setImmediate))
+
+/***/ },
+/* 80 */
+/*!**********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/ajax.js ***!
+  \**********************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(/*! async-future */ 99)
+	
+	// returns the XHR function or equivalent for use with ajax
+	// memoizes the function for faster repeated use
+	var createXMLHTTPObject = function() {
+	    var versions = ["Msxml2.XMLHTTP",
+	                    "Msxml3.XMLHTTP",
+	                    "Microsoft.XMLHTTP",
+	                    "MSXML2.XmlHttp.6.0",
+	                    "MSXML2.XmlHttp.5.0",
+	                    "MSXML2.XmlHttp.4.0",
+	                    "MSXML2.XmlHttp.3.0",
+	                    "MSXML2.XmlHttp.2.0"
+	    ]
+	
+	    if(XMLHttpRequest !== undefined) {  // For non-IE browsers
+	        createXMLHTTPObject = function() {  // Use memoization to cache the factory
+	            return new XMLHttpRequest()
+	        }
+	        return createXMLHTTPObject()
+	
+	    } else { // IE
+	        for(var i=0, n=versions.length; i<n; i++) {
+	            try {
+	                var version = versions[i]
+	                var fn = function() {
+	                    return new ActiveXObject(version)
+	                }
+	                createXMLHTTPObject = fn   // Use memoization to cache the factory
+	                return createXMLHTTPObject()
+	
+	            } catch(e) {   }
+	        }
+	    }
+	
+	    throw new Error('Cant get XmlHttpRequest object')
+	}
+	
+	
+	
+	var HEADER = "([^\\s]+): (.*)"
+	
+	// returns the contents and headers from a given URL
+	exports = module.exports = function(url) {
+	    if(getFromCache(url))
+	        return getFromCache(url)
+	
+	    var futureResult = new Future
+	    setOnCache(url, futureResult)
+	
+	    var req = createXMLHTTPObject()
+	    req.onreadystatechange = function() {
+	        if( req.readyState === 4 ) {
+	            if( req.status === 200 ) {
+	                var headers = {}
+	                req.getAllResponseHeaders().split('\n').forEach(function(line) {
+	                    var match = line.match(HEADER)
+	                    if(match !== null) {
+	                        var name = match[1]
+	                        var value = match[2]
+	
+	                        headers[name] = value
+	                    }
+	                })
+	
+	                futureResult.return({text: req.responseText, headers: headers})
+	
+	            } else {
+	                var error = new Error('Error in request: Status '+req.status)
+	                error.status = req.status
+	                futureResult.throw(error)
+	            }
+	        }
+	    }
+	
+	    req.onerror = function(e) {
+	        futureResult.throw(e)
+	    }
+	
+	
+	    req.open('GET', url, asynchronous)
+	    try {
+	        req.send()
+	    } catch(e) {
+	        futureResult.throw(e)
+	    }
+	
+	    return futureResult
+	}
+	
+	var cache = {}
+	var getFromCache = function(url) {
+	    return cache[url]
+	}
+	var setOnCache = function(url, futureResponse) {
+	    cache[url] = futureResponse
+	}
+	
+	var asynchronous = true
+	exports.setSynchronous = function(synchronous) { // this is here so I can work around this bug in chrome: https://code.google.com/p/chromium/issues/detail?id=368444
+	    asynchronous = !synchronous
+	}
+	
+	exports.cacheGet = function(fn) {
+	    getFromCache = fn
+	}
+	exports.cacheSet = function(fn) {
+	    setOnCache = fn
+	}
 
 /***/ },
 /* 81 */
@@ -14722,402 +14734,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 82 */
-/*!**************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
-  \**************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 81).SourceMapGenerator;
-	  var util = __webpack_require__(/*! ./util */ 90);
-	
-	  /**
-	   * SourceNodes provide a way to abstract over interpolating/concatenating
-	   * snippets of generated JavaScript source code while maintaining the line and
-	   * column information associated with the original source code.
-	   *
-	   * @param aLine The original line number.
-	   * @param aColumn The original column number.
-	   * @param aSource The original source's filename.
-	   * @param aChunks Optional. An array of strings which are snippets of
-	   *        generated JS, or other SourceNodes.
-	   * @param aName The original identifier.
-	   */
-	  function SourceNode(aLine, aColumn, aSource, aChunks, aName) {
-	    this.children = [];
-	    this.sourceContents = {};
-	    this.line = aLine === undefined ? null : aLine;
-	    this.column = aColumn === undefined ? null : aColumn;
-	    this.source = aSource === undefined ? null : aSource;
-	    this.name = aName === undefined ? null : aName;
-	    if (aChunks != null) this.add(aChunks);
-	  }
-	
-	  /**
-	   * Creates a SourceNode from generated code and a SourceMapConsumer.
-	   *
-	   * @param aGeneratedCode The generated code
-	   * @param aSourceMapConsumer The SourceMap for the generated code
-	   */
-	  SourceNode.fromStringWithSourceMap =
-	    function SourceNode_fromStringWithSourceMap(aGeneratedCode, aSourceMapConsumer) {
-	      // The SourceNode we want to fill with the generated code
-	      // and the SourceMap
-	      var node = new SourceNode();
-	
-	      // The generated code
-	      // Processed fragments are removed from this array.
-	      var remainingLines = aGeneratedCode.split('\n');
-	
-	      // We need to remember the position of "remainingLines"
-	      var lastGeneratedLine = 1, lastGeneratedColumn = 0;
-	
-	      // The generate SourceNodes we need a code range.
-	      // To extract it current and last mapping is used.
-	      // Here we store the last mapping.
-	      var lastMapping = null;
-	
-	      aSourceMapConsumer.eachMapping(function (mapping) {
-	        if (lastMapping !== null) {
-	          // We add the code from "lastMapping" to "mapping":
-	          // First check if there is a new line in between.
-	          if (lastGeneratedLine < mapping.generatedLine) {
-	            var code = "";
-	            // Associate first line with "lastMapping"
-	            addMappingWithCode(lastMapping, remainingLines.shift() + "\n");
-	            lastGeneratedLine++;
-	            lastGeneratedColumn = 0;
-	            // The remaining code is added without mapping
-	          } else {
-	            // There is no new line in between.
-	            // Associate the code between "lastGeneratedColumn" and
-	            // "mapping.generatedColumn" with "lastMapping"
-	            var nextLine = remainingLines[0];
-	            var code = nextLine.substr(0, mapping.generatedColumn -
-	                                          lastGeneratedColumn);
-	            remainingLines[0] = nextLine.substr(mapping.generatedColumn -
-	                                                lastGeneratedColumn);
-	            lastGeneratedColumn = mapping.generatedColumn;
-	            addMappingWithCode(lastMapping, code);
-	            // No more remaining code, continue
-	            lastMapping = mapping;
-	            return;
-	          }
-	        }
-	        // We add the generated code until the first mapping
-	        // to the SourceNode without any mapping.
-	        // Each line is added as separate string.
-	        while (lastGeneratedLine < mapping.generatedLine) {
-	          node.add(remainingLines.shift() + "\n");
-	          lastGeneratedLine++;
-	        }
-	        if (lastGeneratedColumn < mapping.generatedColumn) {
-	          var nextLine = remainingLines[0];
-	          node.add(nextLine.substr(0, mapping.generatedColumn));
-	          remainingLines[0] = nextLine.substr(mapping.generatedColumn);
-	          lastGeneratedColumn = mapping.generatedColumn;
-	        }
-	        lastMapping = mapping;
-	      }, this);
-	      // We have processed all mappings.
-	      if (remainingLines.length > 0) {
-	        if (lastMapping) {
-	          // Associate the remaining code in the current line with "lastMapping"
-	          var lastLine = remainingLines.shift();
-	          if (remainingLines.length > 0) lastLine += "\n";
-	          addMappingWithCode(lastMapping, lastLine);
-	        }
-	        // and add the remaining lines without any mapping
-	        node.add(remainingLines.join("\n"));
-	      }
-	
-	      // Copy sourcesContent into SourceNode
-	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
-	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-	        if (content) {
-	          node.setSourceContent(sourceFile, content);
-	        }
-	      });
-	
-	      return node;
-	
-	      function addMappingWithCode(mapping, code) {
-	        if (mapping === null || mapping.source === undefined) {
-	          node.add(code);
-	        } else {
-	          node.add(new SourceNode(mapping.originalLine,
-	                                  mapping.originalColumn,
-	                                  mapping.source,
-	                                  code,
-	                                  mapping.name));
-	        }
-	      }
-	    };
-	
-	  /**
-	   * Add a chunk of generated JS to this source node.
-	   *
-	   * @param aChunk A string snippet of generated JS code, another instance of
-	   *        SourceNode, or an array where each member is one of those things.
-	   */
-	  SourceNode.prototype.add = function SourceNode_add(aChunk) {
-	    if (Array.isArray(aChunk)) {
-	      aChunk.forEach(function (chunk) {
-	        this.add(chunk);
-	      }, this);
-	    }
-	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
-	      if (aChunk) {
-	        this.children.push(aChunk);
-	      }
-	    }
-	    else {
-	      throw new TypeError(
-	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
-	      );
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Add a chunk of generated JS to the beginning of this source node.
-	   *
-	   * @param aChunk A string snippet of generated JS code, another instance of
-	   *        SourceNode, or an array where each member is one of those things.
-	   */
-	  SourceNode.prototype.prepend = function SourceNode_prepend(aChunk) {
-	    if (Array.isArray(aChunk)) {
-	      for (var i = aChunk.length-1; i >= 0; i--) {
-	        this.prepend(aChunk[i]);
-	      }
-	    }
-	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
-	      this.children.unshift(aChunk);
-	    }
-	    else {
-	      throw new TypeError(
-	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
-	      );
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Walk over the tree of JS snippets in this node and its children. The
-	   * walking function is called once for each snippet of JS and is passed that
-	   * snippet and the its original associated source's line/column location.
-	   *
-	   * @param aFn The traversal function.
-	   */
-	  SourceNode.prototype.walk = function SourceNode_walk(aFn) {
-	    var chunk;
-	    for (var i = 0, len = this.children.length; i < len; i++) {
-	      chunk = this.children[i];
-	      if (chunk instanceof SourceNode) {
-	        chunk.walk(aFn);
-	      }
-	      else {
-	        if (chunk !== '') {
-	          aFn(chunk, { source: this.source,
-	                       line: this.line,
-	                       column: this.column,
-	                       name: this.name });
-	        }
-	      }
-	    }
-	  };
-	
-	  /**
-	   * Like `String.prototype.join` except for SourceNodes. Inserts `aStr` between
-	   * each of `this.children`.
-	   *
-	   * @param aSep The separator.
-	   */
-	  SourceNode.prototype.join = function SourceNode_join(aSep) {
-	    var newChildren;
-	    var i;
-	    var len = this.children.length;
-	    if (len > 0) {
-	      newChildren = [];
-	      for (i = 0; i < len-1; i++) {
-	        newChildren.push(this.children[i]);
-	        newChildren.push(aSep);
-	      }
-	      newChildren.push(this.children[i]);
-	      this.children = newChildren;
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Call String.prototype.replace on the very right-most source snippet. Useful
-	   * for trimming whitespace from the end of a source node, etc.
-	   *
-	   * @param aPattern The pattern to replace.
-	   * @param aReplacement The thing to replace the pattern with.
-	   */
-	  SourceNode.prototype.replaceRight = function SourceNode_replaceRight(aPattern, aReplacement) {
-	    var lastChild = this.children[this.children.length - 1];
-	    if (lastChild instanceof SourceNode) {
-	      lastChild.replaceRight(aPattern, aReplacement);
-	    }
-	    else if (typeof lastChild === 'string') {
-	      this.children[this.children.length - 1] = lastChild.replace(aPattern, aReplacement);
-	    }
-	    else {
-	      this.children.push(''.replace(aPattern, aReplacement));
-	    }
-	    return this;
-	  };
-	
-	  /**
-	   * Set the source content for a source file. This will be added to the SourceMapGenerator
-	   * in the sourcesContent field.
-	   *
-	   * @param aSourceFile The filename of the source file
-	   * @param aSourceContent The content of the source file
-	   */
-	  SourceNode.prototype.setSourceContent =
-	    function SourceNode_setSourceContent(aSourceFile, aSourceContent) {
-	      this.sourceContents[util.toSetString(aSourceFile)] = aSourceContent;
-	    };
-	
-	  /**
-	   * Walk over the tree of SourceNodes. The walking function is called for each
-	   * source file content and is passed the filename and source content.
-	   *
-	   * @param aFn The traversal function.
-	   */
-	  SourceNode.prototype.walkSourceContents =
-	    function SourceNode_walkSourceContents(aFn) {
-	      for (var i = 0, len = this.children.length; i < len; i++) {
-	        if (this.children[i] instanceof SourceNode) {
-	          this.children[i].walkSourceContents(aFn);
-	        }
-	      }
-	
-	      var sources = Object.keys(this.sourceContents);
-	      for (var i = 0, len = sources.length; i < len; i++) {
-	        aFn(util.fromSetString(sources[i]), this.sourceContents[sources[i]]);
-	      }
-	    };
-	
-	  /**
-	   * Return the string representation of this source node. Walks over the tree
-	   * and concatenates all the various snippets together to one string.
-	   */
-	  SourceNode.prototype.toString = function SourceNode_toString() {
-	    var str = "";
-	    this.walk(function (chunk) {
-	      str += chunk;
-	    });
-	    return str;
-	  };
-	
-	  /**
-	   * Returns the string representation of this source node along with a source
-	   * map.
-	   */
-	  SourceNode.prototype.toStringWithSourceMap = function SourceNode_toStringWithSourceMap(aArgs) {
-	    var generated = {
-	      code: "",
-	      line: 1,
-	      column: 0
-	    };
-	    var map = new SourceMapGenerator(aArgs);
-	    var sourceMappingActive = false;
-	    var lastOriginalSource = null;
-	    var lastOriginalLine = null;
-	    var lastOriginalColumn = null;
-	    var lastOriginalName = null;
-	    this.walk(function (chunk, original) {
-	      generated.code += chunk;
-	      if (original.source !== null
-	          && original.line !== null
-	          && original.column !== null) {
-	        if(lastOriginalSource !== original.source
-	           || lastOriginalLine !== original.line
-	           || lastOriginalColumn !== original.column
-	           || lastOriginalName !== original.name) {
-	          map.addMapping({
-	            source: original.source,
-	            original: {
-	              line: original.line,
-	              column: original.column
-	            },
-	            generated: {
-	              line: generated.line,
-	              column: generated.column
-	            },
-	            name: original.name
-	          });
-	        }
-	        lastOriginalSource = original.source;
-	        lastOriginalLine = original.line;
-	        lastOriginalColumn = original.column;
-	        lastOriginalName = original.name;
-	        sourceMappingActive = true;
-	      } else if (sourceMappingActive) {
-	        map.addMapping({
-	          generated: {
-	            line: generated.line,
-	            column: generated.column
-	          }
-	        });
-	        lastOriginalSource = null;
-	        sourceMappingActive = false;
-	      }
-	      chunk.split('').forEach(function (ch, idx, array) {
-	        if (ch === '\n') {
-	          generated.line++;
-	          generated.column = 0;
-	          // Mappings end at eol
-	          if (idx + 1 === array.length) {
-	            lastOriginalSource = null;
-	            sourceMappingActive = false;
-	          } else if (sourceMappingActive) {
-	            map.addMapping({
-	              source: original.source,
-	              original: {
-	                line: original.line,
-	                column: original.column
-	              },
-	              generated: {
-	                line: generated.line,
-	                column: generated.column
-	              },
-	              name: original.name
-	            });
-	          }
-	        } else {
-	          generated.column++;
-	        }
-	      });
-	    });
-	    this.walkSourceContents(function (sourceFile, sourceContent) {
-	      map.setSourceContent(sourceFile, sourceContent);
-	    });
-	
-	    return { code: generated.code, map: map };
-	  };
-	
-	  exports.SourceNode = SourceNode;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 83 */
 /*!**********************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-map-consumer.js ***!
   \**********************************************************************************************************************************/
@@ -15604,20 +15220,571 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 84 */
-/*!****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/index.js ***!
-  \****************************************************************/
+/* 83 */
+/*!**************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/source-node.js ***!
+  \**************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 94);
-	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 95);
+	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 81).SourceMapGenerator;
+	  var util = __webpack_require__(/*! ./util */ 90);
+	
+	  /**
+	   * SourceNodes provide a way to abstract over interpolating/concatenating
+	   * snippets of generated JavaScript source code while maintaining the line and
+	   * column information associated with the original source code.
+	   *
+	   * @param aLine The original line number.
+	   * @param aColumn The original column number.
+	   * @param aSource The original source's filename.
+	   * @param aChunks Optional. An array of strings which are snippets of
+	   *        generated JS, or other SourceNodes.
+	   * @param aName The original identifier.
+	   */
+	  function SourceNode(aLine, aColumn, aSource, aChunks, aName) {
+	    this.children = [];
+	    this.sourceContents = {};
+	    this.line = aLine === undefined ? null : aLine;
+	    this.column = aColumn === undefined ? null : aColumn;
+	    this.source = aSource === undefined ? null : aSource;
+	    this.name = aName === undefined ? null : aName;
+	    if (aChunks != null) this.add(aChunks);
+	  }
+	
+	  /**
+	   * Creates a SourceNode from generated code and a SourceMapConsumer.
+	   *
+	   * @param aGeneratedCode The generated code
+	   * @param aSourceMapConsumer The SourceMap for the generated code
+	   */
+	  SourceNode.fromStringWithSourceMap =
+	    function SourceNode_fromStringWithSourceMap(aGeneratedCode, aSourceMapConsumer) {
+	      // The SourceNode we want to fill with the generated code
+	      // and the SourceMap
+	      var node = new SourceNode();
+	
+	      // The generated code
+	      // Processed fragments are removed from this array.
+	      var remainingLines = aGeneratedCode.split('\n');
+	
+	      // We need to remember the position of "remainingLines"
+	      var lastGeneratedLine = 1, lastGeneratedColumn = 0;
+	
+	      // The generate SourceNodes we need a code range.
+	      // To extract it current and last mapping is used.
+	      // Here we store the last mapping.
+	      var lastMapping = null;
+	
+	      aSourceMapConsumer.eachMapping(function (mapping) {
+	        if (lastMapping !== null) {
+	          // We add the code from "lastMapping" to "mapping":
+	          // First check if there is a new line in between.
+	          if (lastGeneratedLine < mapping.generatedLine) {
+	            var code = "";
+	            // Associate first line with "lastMapping"
+	            addMappingWithCode(lastMapping, remainingLines.shift() + "\n");
+	            lastGeneratedLine++;
+	            lastGeneratedColumn = 0;
+	            // The remaining code is added without mapping
+	          } else {
+	            // There is no new line in between.
+	            // Associate the code between "lastGeneratedColumn" and
+	            // "mapping.generatedColumn" with "lastMapping"
+	            var nextLine = remainingLines[0];
+	            var code = nextLine.substr(0, mapping.generatedColumn -
+	                                          lastGeneratedColumn);
+	            remainingLines[0] = nextLine.substr(mapping.generatedColumn -
+	                                                lastGeneratedColumn);
+	            lastGeneratedColumn = mapping.generatedColumn;
+	            addMappingWithCode(lastMapping, code);
+	            // No more remaining code, continue
+	            lastMapping = mapping;
+	            return;
+	          }
+	        }
+	        // We add the generated code until the first mapping
+	        // to the SourceNode without any mapping.
+	        // Each line is added as separate string.
+	        while (lastGeneratedLine < mapping.generatedLine) {
+	          node.add(remainingLines.shift() + "\n");
+	          lastGeneratedLine++;
+	        }
+	        if (lastGeneratedColumn < mapping.generatedColumn) {
+	          var nextLine = remainingLines[0];
+	          node.add(nextLine.substr(0, mapping.generatedColumn));
+	          remainingLines[0] = nextLine.substr(mapping.generatedColumn);
+	          lastGeneratedColumn = mapping.generatedColumn;
+	        }
+	        lastMapping = mapping;
+	      }, this);
+	      // We have processed all mappings.
+	      if (remainingLines.length > 0) {
+	        if (lastMapping) {
+	          // Associate the remaining code in the current line with "lastMapping"
+	          var lastLine = remainingLines.shift();
+	          if (remainingLines.length > 0) lastLine += "\n";
+	          addMappingWithCode(lastMapping, lastLine);
+	        }
+	        // and add the remaining lines without any mapping
+	        node.add(remainingLines.join("\n"));
+	      }
+	
+	      // Copy sourcesContent into SourceNode
+	      aSourceMapConsumer.sources.forEach(function (sourceFile) {
+	        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+	        if (content) {
+	          node.setSourceContent(sourceFile, content);
+	        }
+	      });
+	
+	      return node;
+	
+	      function addMappingWithCode(mapping, code) {
+	        if (mapping === null || mapping.source === undefined) {
+	          node.add(code);
+	        } else {
+	          node.add(new SourceNode(mapping.originalLine,
+	                                  mapping.originalColumn,
+	                                  mapping.source,
+	                                  code,
+	                                  mapping.name));
+	        }
+	      }
+	    };
+	
+	  /**
+	   * Add a chunk of generated JS to this source node.
+	   *
+	   * @param aChunk A string snippet of generated JS code, another instance of
+	   *        SourceNode, or an array where each member is one of those things.
+	   */
+	  SourceNode.prototype.add = function SourceNode_add(aChunk) {
+	    if (Array.isArray(aChunk)) {
+	      aChunk.forEach(function (chunk) {
+	        this.add(chunk);
+	      }, this);
+	    }
+	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
+	      if (aChunk) {
+	        this.children.push(aChunk);
+	      }
+	    }
+	    else {
+	      throw new TypeError(
+	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
+	      );
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Add a chunk of generated JS to the beginning of this source node.
+	   *
+	   * @param aChunk A string snippet of generated JS code, another instance of
+	   *        SourceNode, or an array where each member is one of those things.
+	   */
+	  SourceNode.prototype.prepend = function SourceNode_prepend(aChunk) {
+	    if (Array.isArray(aChunk)) {
+	      for (var i = aChunk.length-1; i >= 0; i--) {
+	        this.prepend(aChunk[i]);
+	      }
+	    }
+	    else if (aChunk instanceof SourceNode || typeof aChunk === "string") {
+	      this.children.unshift(aChunk);
+	    }
+	    else {
+	      throw new TypeError(
+	        "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
+	      );
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Walk over the tree of JS snippets in this node and its children. The
+	   * walking function is called once for each snippet of JS and is passed that
+	   * snippet and the its original associated source's line/column location.
+	   *
+	   * @param aFn The traversal function.
+	   */
+	  SourceNode.prototype.walk = function SourceNode_walk(aFn) {
+	    var chunk;
+	    for (var i = 0, len = this.children.length; i < len; i++) {
+	      chunk = this.children[i];
+	      if (chunk instanceof SourceNode) {
+	        chunk.walk(aFn);
+	      }
+	      else {
+	        if (chunk !== '') {
+	          aFn(chunk, { source: this.source,
+	                       line: this.line,
+	                       column: this.column,
+	                       name: this.name });
+	        }
+	      }
+	    }
+	  };
+	
+	  /**
+	   * Like `String.prototype.join` except for SourceNodes. Inserts `aStr` between
+	   * each of `this.children`.
+	   *
+	   * @param aSep The separator.
+	   */
+	  SourceNode.prototype.join = function SourceNode_join(aSep) {
+	    var newChildren;
+	    var i;
+	    var len = this.children.length;
+	    if (len > 0) {
+	      newChildren = [];
+	      for (i = 0; i < len-1; i++) {
+	        newChildren.push(this.children[i]);
+	        newChildren.push(aSep);
+	      }
+	      newChildren.push(this.children[i]);
+	      this.children = newChildren;
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Call String.prototype.replace on the very right-most source snippet. Useful
+	   * for trimming whitespace from the end of a source node, etc.
+	   *
+	   * @param aPattern The pattern to replace.
+	   * @param aReplacement The thing to replace the pattern with.
+	   */
+	  SourceNode.prototype.replaceRight = function SourceNode_replaceRight(aPattern, aReplacement) {
+	    var lastChild = this.children[this.children.length - 1];
+	    if (lastChild instanceof SourceNode) {
+	      lastChild.replaceRight(aPattern, aReplacement);
+	    }
+	    else if (typeof lastChild === 'string') {
+	      this.children[this.children.length - 1] = lastChild.replace(aPattern, aReplacement);
+	    }
+	    else {
+	      this.children.push(''.replace(aPattern, aReplacement));
+	    }
+	    return this;
+	  };
+	
+	  /**
+	   * Set the source content for a source file. This will be added to the SourceMapGenerator
+	   * in the sourcesContent field.
+	   *
+	   * @param aSourceFile The filename of the source file
+	   * @param aSourceContent The content of the source file
+	   */
+	  SourceNode.prototype.setSourceContent =
+	    function SourceNode_setSourceContent(aSourceFile, aSourceContent) {
+	      this.sourceContents[util.toSetString(aSourceFile)] = aSourceContent;
+	    };
+	
+	  /**
+	   * Walk over the tree of SourceNodes. The walking function is called for each
+	   * source file content and is passed the filename and source content.
+	   *
+	   * @param aFn The traversal function.
+	   */
+	  SourceNode.prototype.walkSourceContents =
+	    function SourceNode_walkSourceContents(aFn) {
+	      for (var i = 0, len = this.children.length; i < len; i++) {
+	        if (this.children[i] instanceof SourceNode) {
+	          this.children[i].walkSourceContents(aFn);
+	        }
+	      }
+	
+	      var sources = Object.keys(this.sourceContents);
+	      for (var i = 0, len = sources.length; i < len; i++) {
+	        aFn(util.fromSetString(sources[i]), this.sourceContents[sources[i]]);
+	      }
+	    };
+	
+	  /**
+	   * Return the string representation of this source node. Walks over the tree
+	   * and concatenates all the various snippets together to one string.
+	   */
+	  SourceNode.prototype.toString = function SourceNode_toString() {
+	    var str = "";
+	    this.walk(function (chunk) {
+	      str += chunk;
+	    });
+	    return str;
+	  };
+	
+	  /**
+	   * Returns the string representation of this source node along with a source
+	   * map.
+	   */
+	  SourceNode.prototype.toStringWithSourceMap = function SourceNode_toStringWithSourceMap(aArgs) {
+	    var generated = {
+	      code: "",
+	      line: 1,
+	      column: 0
+	    };
+	    var map = new SourceMapGenerator(aArgs);
+	    var sourceMappingActive = false;
+	    var lastOriginalSource = null;
+	    var lastOriginalLine = null;
+	    var lastOriginalColumn = null;
+	    var lastOriginalName = null;
+	    this.walk(function (chunk, original) {
+	      generated.code += chunk;
+	      if (original.source !== null
+	          && original.line !== null
+	          && original.column !== null) {
+	        if(lastOriginalSource !== original.source
+	           || lastOriginalLine !== original.line
+	           || lastOriginalColumn !== original.column
+	           || lastOriginalName !== original.name) {
+	          map.addMapping({
+	            source: original.source,
+	            original: {
+	              line: original.line,
+	              column: original.column
+	            },
+	            generated: {
+	              line: generated.line,
+	              column: generated.column
+	            },
+	            name: original.name
+	          });
+	        }
+	        lastOriginalSource = original.source;
+	        lastOriginalLine = original.line;
+	        lastOriginalColumn = original.column;
+	        lastOriginalName = original.name;
+	        sourceMappingActive = true;
+	      } else if (sourceMappingActive) {
+	        map.addMapping({
+	          generated: {
+	            line: generated.line,
+	            column: generated.column
+	          }
+	        });
+	        lastOriginalSource = null;
+	        sourceMappingActive = false;
+	      }
+	      chunk.split('').forEach(function (ch, idx, array) {
+	        if (ch === '\n') {
+	          generated.line++;
+	          generated.column = 0;
+	          // Mappings end at eol
+	          if (idx + 1 === array.length) {
+	            lastOriginalSource = null;
+	            sourceMappingActive = false;
+	          } else if (sourceMappingActive) {
+	            map.addMapping({
+	              source: original.source,
+	              original: {
+	                line: original.line,
+	                column: original.column
+	              },
+	              generated: {
+	                line: generated.line,
+	                column: generated.column
+	              },
+	              name: original.name
+	            });
+	          }
+	        } else {
+	          generated.column++;
+	        }
+	      });
+	    });
+	    this.walkSourceContents(function (sourceFile, sourceContent) {
+	      map.setSourceContent(sourceFile, sourceContent);
+	    });
+	
+	    return { code: generated.code, map: map };
+	  };
+	
+	  exports.SourceNode = SourceNode;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
 /***/ },
+/* 84 */
+/*!**********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/utils.js ***!
+  \**********************************************************************************************/
+58,
 /* 85 */
+/*!**************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
+  \**************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = {
+	    chrome: function(line) {
+	        var m = line.match(CHROME_STACK_LINE);
+	        if (m) {
+	            var file = m[9] || m[18] || m[26]
+	            var fn = m[4] || m[7] || m[14] || m[23]
+	            var lineNumber = m[11] || m[20]
+	            var column = m[13] || m[22]
+	        } else {
+	            //throw new Error("Couldn't parse exception line: "+line)
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    firefox: function(line) {
+	        var m = line.match(FIREFOX_STACK_LINE);
+	        if (m) {
+	            var file = m[8]
+	            var fn = m[1]
+	            var lineNumber = m[10]
+	            var column = m[12]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    },
+	    
+	    ie: function(line) {
+	        var m = line.match(IE_STACK_LINE);
+	        if (m) {
+	            var file = m[3] || m[10]
+	            var fn = m[2] || m[9]
+	            var lineNumber = m[5] || m[12]
+	            var column = m[7] || m[14]
+	        }
+	        
+	        return {
+	            file: file,
+	            function: fn,
+	            line: lineNumber,
+	            column: column
+	        }
+	    }
+	}
+	
+	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
+	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
+	var IDENTIFIER_PATTERN_ = '[\\w$]*';
+	// RegExp pattern for an URL + position inside the file.
+	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
+	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
+	
+	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
+	
+	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
+	
+	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
+	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
+	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
+	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
+	
+	// output from stacktrace.js is: "name()@..." instead of "name (...)"
+	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
+	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
+	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
+	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
+	
+	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
+	
+	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
+	
+	
+	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
+	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
+	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
+	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
+	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
+	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
+	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
+	
+	var IE_WHITESPACE = '[\\w \\t]'
+	var IE_FILE_AND_LINE = FILE_AND_LINE
+	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
+	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
+	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
+	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
+
+/***/ },
+/* 86 */
+/*!************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
+  \************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	module.exports = exceptionMode(createException()) // basically what browser this is
+	
+	// verbatim from `mode` in stacktrace.js as of 2014-01-23
+	function exceptionMode(e) {
+	    if (e['arguments'] && e.stack) {
+	        return 'chrome';
+	    } else if (e.stack && e.sourceURL) {
+	        return 'safari';
+	    } else if (e.stack && e.number) {
+	        return 'ie';
+	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
+	        // e.message.indexOf("Backtrace:") > -1 -> opera
+	        // !e.stacktrace -> opera
+	        if (!e.stacktrace) {
+	            return 'opera9'; // use e.message
+	        }
+	        // 'opera#sourceloc' in e -> opera9, opera10a
+	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
+	            return 'opera9'; // use e.message
+	        }
+	        // e.stacktrace && !e.stack -> opera10a
+	        if (!e.stack) {
+	            return 'opera10a'; // use e.stacktrace
+	        }
+	        // e.stacktrace && e.stack -> opera10b
+	        if (e.stacktrace.indexOf("called from line") < 0) {
+	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
+	        }
+	        // e.stacktrace && e.stack -> opera11
+	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
+	    } else if (e.stack && !e.fileName) {
+	        // Chrome 27 does not have e.arguments as earlier versions,
+	        // but still does not have e.fileName as Firefox
+	        return 'chrome';
+	    } else if (e.stack) {
+	        return 'firefox';
+	    }
+	    return 'other';
+	}
+	
+	function createException() {
+	    try {
+	        this.undef();
+	    } catch (e) {
+	        return e;
+	    }
+	}
+
+
+/***/ },
+/* 87 */
 /*!************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
   \************************************************************/
@@ -16155,174 +16322,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/buildin/module.js */ 102)(module), (function() { return this; }())))
 
 /***/ },
-/* 86 */
-/*!**************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/tracelineParser.js ***!
-  \**************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = {
-	    chrome: function(line) {
-	        var m = line.match(CHROME_STACK_LINE);
-	        if (m) {
-	            var file = m[9] || m[18] || m[26]
-	            var fn = m[4] || m[7] || m[14] || m[23]
-	            var lineNumber = m[11] || m[20]
-	            var column = m[13] || m[22]
-	        } else {
-	            //throw new Error("Couldn't parse exception line: "+line)
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    firefox: function(line) {
-	        var m = line.match(FIREFOX_STACK_LINE);
-	        if (m) {
-	            var file = m[8]
-	            var fn = m[1]
-	            var lineNumber = m[10]
-	            var column = m[12]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    },
-	    
-	    ie: function(line) {
-	        var m = line.match(IE_STACK_LINE);
-	        if (m) {
-	            var file = m[3] || m[10]
-	            var fn = m[2] || m[9]
-	            var lineNumber = m[5] || m[12]
-	            var column = m[7] || m[14]
-	        }
-	        
-	        return {
-	            file: file,
-	            function: fn,
-	            line: lineNumber,
-	            column: column
-	        }
-	    }
-	}
-	
-	// The following 2 regex patterns were originally taken from google closure library: https://code.google.com/p/closure-library/source/browse/closure/goog/testing/stacktrace.js
-	// RegExp pattern for JavaScript identifiers. We don't support Unicode identifiers defined in ECMAScript v3.
-	var IDENTIFIER_PATTERN_ = '[\\w$]*';
-	// RegExp pattern for an URL + position inside the file.
-	var URL_PATTERN_ = '((?:http|https|file)://[^\\s)]+?|javascript:.*)';
-	var FILE_AND_LINE = URL_PATTERN_+'(:(\\d*)(:(\\d*))?)'
-	
-	var STACKTRACE_JS_GETSOURCE_FAILURE = 'getSource failed with url'
-	
-	var CHROME_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'
-	
-	var CHROME_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'(:(\\d*):(\\d*))'
-	var CHROME_IDENTIFIER_PATTERN = '\\<?'+IDENTIFIER_PATTERN_+'\\>?'
-	var CHROME_COMPOUND_IDENTIFIER = "((new )?"+CHROME_IDENTIFIER_PATTERN+'(\\.'+CHROME_IDENTIFIER_PATTERN+')*)( \\[as '+IDENTIFIER_PATTERN_+'])?'
-	var CHROME_UNKNOWN_IDENTIFIER = "(\\(\\?\\))"
-	
-	// output from stacktrace.js is: "name()@..." instead of "name (...)"
-	var CHROME_ANONYMOUS_FUNCTION = '('+CHROME_STACKTRACE_JS_GETSOURCE_FAILURE+'|'+CHROME_COMPOUND_IDENTIFIER+'|'+CHROME_UNKNOWN_IDENTIFIER+')'
-	                                    +'\\(\\)'+'@'+CHROME_FILE_AND_LINE
-	var CHROME_NORMAL_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' \\('+CHROME_FILE_AND_LINE+'\\)'
-	var CHROME_NATIVE_FUNCTION = CHROME_COMPOUND_IDENTIFIER+' (\\(native\\))'
-	
-	var CHROME_FUNCTION_CALL = '('+CHROME_ANONYMOUS_FUNCTION+"|"+CHROME_NORMAL_FUNCTION+"|"+CHROME_NATIVE_FUNCTION+')'
-	
-	var CHROME_STACK_LINE = new RegExp('^'+CHROME_FUNCTION_CALL+'$')  // precompile them so its faster
-	
-	
-	var FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE = STACKTRACE_JS_GETSOURCE_FAILURE+'((?!'+'\\(\\)@'+').)*'+'\\(\\)'
-	var FIREFOX_FILE_AND_LINE = FILE_AND_LINE//URL_PATTERN_+'((:(\\d*):(\\d*))|(:(\\d*)))'
-	var FIREFOX_ARRAY_PART = '\\[\\d*\\]'
-	var FIREFOX_WEIRD_PART = '\\(\\?\\)'
-	var FIREFOX_COMPOUND_IDENTIFIER = '(('+IDENTIFIER_PATTERN_+'|'+FIREFOX_ARRAY_PART+'|'+FIREFOX_WEIRD_PART+')((\\(\\))?|(\\.|\\<|/)*))*'
-	var FIREFOX_FUNCTION_CALL = '('+FIREFOX_COMPOUND_IDENTIFIER+'|'+FIREFOX_STACKTRACE_JS_GETSOURCE_FAILURE+')@'+FIREFOX_FILE_AND_LINE
-	var FIREFOX_STACK_LINE = new RegExp('^'+FIREFOX_FUNCTION_CALL+'$')
-	
-	var IE_WHITESPACE = '[\\w \\t]'
-	var IE_FILE_AND_LINE = FILE_AND_LINE
-	var IE_ANONYMOUS = '('+IE_WHITESPACE+'*({anonymous}\\(\\)))@\\('+IE_FILE_AND_LINE+'\\)'
-	var IE_NORMAL_FUNCTION = '('+IDENTIFIER_PATTERN_+')@'+IE_FILE_AND_LINE
-	var IE_FUNCTION_CALL = '('+IE_NORMAL_FUNCTION+'|'+IE_ANONYMOUS+')'+IE_WHITESPACE+'*'
-	var IE_STACK_LINE = new RegExp('^'+IE_FUNCTION_CALL+'$')
-
-/***/ },
-/* 87 */
-/*!************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/exceptionMode.js ***!
-  \************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	module.exports = exceptionMode(createException()) // basically what browser this is
-	
-	// verbatim from `mode` in stacktrace.js as of 2014-01-23
-	function exceptionMode(e) {
-	    if (e['arguments'] && e.stack) {
-	        return 'chrome';
-	    } else if (e.stack && e.sourceURL) {
-	        return 'safari';
-	    } else if (e.stack && e.number) {
-	        return 'ie';
-	    } else if (typeof e.message === 'string' && typeof window !== 'undefined' && window.opera) {
-	        // e.message.indexOf("Backtrace:") > -1 -> opera
-	        // !e.stacktrace -> opera
-	        if (!e.stacktrace) {
-	            return 'opera9'; // use e.message
-	        }
-	        // 'opera#sourceloc' in e -> opera9, opera10a
-	        if (e.message.indexOf('\n') > -1 && e.message.split('\n').length > e.stacktrace.split('\n').length) {
-	            return 'opera9'; // use e.message
-	        }
-	        // e.stacktrace && !e.stack -> opera10a
-	        if (!e.stack) {
-	            return 'opera10a'; // use e.stacktrace
-	        }
-	        // e.stacktrace && e.stack -> opera10b
-	        if (e.stacktrace.indexOf("called from line") < 0) {
-	            return 'opera10b'; // use e.stacktrace, format differs from 'opera10a'
-	        }
-	        // e.stacktrace && e.stack -> opera11
-	        return 'opera11'; // use e.stacktrace, format differs from 'opera10a', 'opera10b'
-	    } else if (e.stack && !e.fileName) {
-	        // Chrome 27 does not have e.arguments as earlier versions,
-	        // but still does not have e.fileName as Firefox
-	        return 'chrome';
-	    } else if (e.stack) {
-	        return 'firefox';
-	    }
-	    return 'other';
-	}
-	
-	function createException() {
-	    try {
-	        this.undef();
-	    } catch (e) {
-	        return e;
-	    }
-	}
-
-
-/***/ },
 /* 88 */
-/*!**********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/utils.js ***!
-  \**********************************************************************************************/
-51,
+/*!****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/index.js ***!
+  \****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 100);
+	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 101);
+
+
+/***/ },
 /* 89 */
 /*!*****************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/timers-browserify/main.js ***!
@@ -17047,203 +17059,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 94 */
-/*!*****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
-  \*****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	'use strict';
-	
-	// If obj.hasOwnProperty has been overridden, then calling
-	// obj.hasOwnProperty(prop) will break.
-	// See: https://github.com/joyent/node/issues/1707
-	function hasOwnProperty(obj, prop) {
-	  return Object.prototype.hasOwnProperty.call(obj, prop);
-	}
-	
-	module.exports = function(qs, sep, eq, options) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  var obj = {};
-	
-	  if (typeof qs !== 'string' || qs.length === 0) {
-	    return obj;
-	  }
-	
-	  var regexp = /\+/g;
-	  qs = qs.split(sep);
-	
-	  var maxKeys = 1000;
-	  if (options && typeof options.maxKeys === 'number') {
-	    maxKeys = options.maxKeys;
-	  }
-	
-	  var len = qs.length;
-	  // maxKeys <= 0 means that we should not limit keys count
-	  if (maxKeys > 0 && len > maxKeys) {
-	    len = maxKeys;
-	  }
-	
-	  for (var i = 0; i < len; ++i) {
-	    var x = qs[i].replace(regexp, '%20'),
-	        idx = x.indexOf(eq),
-	        kstr, vstr, k, v;
-	
-	    if (idx >= 0) {
-	      kstr = x.substr(0, idx);
-	      vstr = x.substr(idx + 1);
-	    } else {
-	      kstr = x;
-	      vstr = '';
-	    }
-	
-	    k = decodeURIComponent(kstr);
-	    v = decodeURIComponent(vstr);
-	
-	    if (!hasOwnProperty(obj, k)) {
-	      obj[k] = v;
-	    } else if (isArray(obj[k])) {
-	      obj[k].push(v);
-	    } else {
-	      obj[k] = [obj[k], v];
-	    }
-	  }
-	
-	  return obj;
-	};
-	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
-
-
-/***/ },
+/*!******************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/~/proto/proto.js ***!
+  \******************************************************************************************************/
+69,
 /* 95 */
-/*!*****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
-  \*****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	'use strict';
-	
-	var stringifyPrimitive = function(v) {
-	  switch (typeof v) {
-	    case 'string':
-	      return v;
-	
-	    case 'boolean':
-	      return v ? 'true' : 'false';
-	
-	    case 'number':
-	      return isFinite(v) ? v : '';
-	
-	    default:
-	      return '';
-	  }
-	};
-	
-	module.exports = function(obj, sep, eq, name) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  if (obj === null) {
-	    obj = undefined;
-	  }
-	
-	  if (typeof obj === 'object') {
-	    return map(objectKeys(obj), function(k) {
-	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-	      if (isArray(obj[k])) {
-	        return map(obj[k], function(v) {
-	          return ks + encodeURIComponent(stringifyPrimitive(v));
-	        }).join(sep);
-	      } else {
-	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-	      }
-	    }).join(sep);
-	
-	  }
-	
-	  if (!name) return '';
-	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-	         encodeURIComponent(stringifyPrimitive(obj));
-	};
-	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
-	
-	function map (xs, f) {
-	  if (xs.map) return xs.map(f);
-	  var res = [];
-	  for (var i = 0; i < xs.length; i++) {
-	    res.push(f(xs[i], i));
-	  }
-	  return res;
-	}
-	
-	var objectKeys = Object.keys || function (obj) {
-	  var res = [];
-	  for (var key in obj) {
-	    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-	  }
-	  return res;
-	};
-
-
-/***/ },
-/* 96 */
-/*!*******************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
-  \*******************************************************************************************************************************/
-64,
-/* 97 */
-/*!********************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
-  \********************************************************************************************************************/
-[141, 105],
-/* 98 */
 /*!***************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
   \***************************************************************************************************************************************/
@@ -17330,63 +17150,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 99 */
-/*!*********************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
-  \*********************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
-	// X11 (“MIT”) Licensed. (See LICENSE.)
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    module.exports = factory()
-	  } else {
-	    root.resolveUrl = factory()
-	  }
-	}(this, function() {
-	
-	  function resolveUrl(/* ...urls */) {
-	    var numUrls = arguments.length
-	
-	    if (numUrls === 0) {
-	      throw new Error("resolveUrl requires at least one argument; got none.")
-	    }
-	
-	    var base = document.createElement("base")
-	    base.href = arguments[0]
-	
-	    if (numUrls === 1) {
-	      return base.href
-	    }
-	
-	    var head = document.getElementsByTagName("head")[0]
-	    head.insertBefore(base, head.firstChild)
-	
-	    var a = document.createElement("a")
-	    var resolved
-	
-	    for (var index = 1; index < numUrls; index++) {
-	      a.href = arguments[index]
-	      resolved = a.href
-	      base.href = resolved
-	    }
-	
-	    head.removeChild(base)
-	
-	    return resolved
-	  }
-	
-	  return resolveUrl
-	
-	}));
-
-
-/***/ },
-/* 100 */
+/* 96 */
 /*!*************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/~/stacktrace-js/stacktrace.js ***!
   \*************************************************************************************************************************/
@@ -17856,11 +17620,259 @@ return /******/ (function(modules) { // webpackBootstrap
 	}));
 
 /***/ },
+/* 97 */
+/*!*********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
+  \*********************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
+	// X11 (“MIT”) Licensed. (See LICENSE.)
+	
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    module.exports = factory()
+	  } else {
+	    root.resolveUrl = factory()
+	  }
+	}(this, function() {
+	
+	  function resolveUrl(/* ...urls */) {
+	    var numUrls = arguments.length
+	
+	    if (numUrls === 0) {
+	      throw new Error("resolveUrl requires at least one argument; got none.")
+	    }
+	
+	    var base = document.createElement("base")
+	    base.href = arguments[0]
+	
+	    if (numUrls === 1) {
+	      return base.href
+	    }
+	
+	    var head = document.getElementsByTagName("head")[0]
+	    head.insertBefore(base, head.firstChild)
+	
+	    var a = document.createElement("a")
+	    var resolved
+	
+	    for (var index = 1; index < numUrls; index++) {
+	      a.href = arguments[index]
+	      resolved = a.href
+	      base.href = resolved
+	    }
+	
+	    head.removeChild(base)
+	
+	    return resolved
+	  }
+	
+	  return resolveUrl
+	
+	}));
+
+
+/***/ },
+/* 98 */
+/*!*******************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
+  \*******************************************************************************************************************************/
+61,
+/* 99 */
+/*!********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
+  \********************************************************************************************************************/
+[109, 105],
+/* 100 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	// If obj.hasOwnProperty has been overridden, then calling
+	// obj.hasOwnProperty(prop) will break.
+	// See: https://github.com/joyent/node/issues/1707
+	function hasOwnProperty(obj, prop) {
+	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	}
+	
+	module.exports = function(qs, sep, eq, options) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  var obj = {};
+	
+	  if (typeof qs !== 'string' || qs.length === 0) {
+	    return obj;
+	  }
+	
+	  var regexp = /\+/g;
+	  qs = qs.split(sep);
+	
+	  var maxKeys = 1000;
+	  if (options && typeof options.maxKeys === 'number') {
+	    maxKeys = options.maxKeys;
+	  }
+	
+	  var len = qs.length;
+	  // maxKeys <= 0 means that we should not limit keys count
+	  if (maxKeys > 0 && len > maxKeys) {
+	    len = maxKeys;
+	  }
+	
+	  for (var i = 0; i < len; ++i) {
+	    var x = qs[i].replace(regexp, '%20'),
+	        idx = x.indexOf(eq),
+	        kstr, vstr, k, v;
+	
+	    if (idx >= 0) {
+	      kstr = x.substr(0, idx);
+	      vstr = x.substr(idx + 1);
+	    } else {
+	      kstr = x;
+	      vstr = '';
+	    }
+	
+	    k = decodeURIComponent(kstr);
+	    v = decodeURIComponent(vstr);
+	
+	    if (!hasOwnProperty(obj, k)) {
+	      obj[k] = v;
+	    } else if (isArray(obj[k])) {
+	      obj[k].push(v);
+	    } else {
+	      obj[k] = [obj[k], v];
+	    }
+	  }
+	
+	  return obj;
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+
+
+/***/ },
 /* 101 */
-/*!******************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/~/proto/proto.js ***!
-  \******************************************************************************************************/
-60,
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	var stringifyPrimitive = function(v) {
+	  switch (typeof v) {
+	    case 'string':
+	      return v;
+	
+	    case 'boolean':
+	      return v ? 'true' : 'false';
+	
+	    case 'number':
+	      return isFinite(v) ? v : '';
+	
+	    default:
+	      return '';
+	  }
+	};
+	
+	module.exports = function(obj, sep, eq, name) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  if (obj === null) {
+	    obj = undefined;
+	  }
+	
+	  if (typeof obj === 'object') {
+	    return map(objectKeys(obj), function(k) {
+	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+	      if (isArray(obj[k])) {
+	        return map(obj[k], function(v) {
+	          return ks + encodeURIComponent(stringifyPrimitive(v));
+	        }).join(sep);
+	      } else {
+	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+	      }
+	    }).join(sep);
+	
+	  }
+	
+	  if (!name) return '';
+	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+	         encodeURIComponent(stringifyPrimitive(obj));
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+	
+	function map (xs, f) {
+	  if (xs.map) return xs.map(f);
+	  var res = [];
+	  for (var i = 0; i < xs.length; i++) {
+	    res.push(f(xs[i], i));
+	  }
+	  return res;
+	}
+	
+	var objectKeys = Object.keys || function (obj) {
+	  var res = [];
+	  for (var key in obj) {
+	    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+	  }
+	  return res;
+	};
+
+
+/***/ },
 /* 102 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
@@ -18001,45 +18013,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /*!**************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/~/trimArguments/trimArguments.js ***!
   \**************************************************************************************************************************************/
-64,
+61,
 /* 106 */,
 /* 107 */,
 /* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */,
-/* 130 */,
-/* 131 */,
-/* 132 */,
-/* 133 */,
-/* 134 */,
-/* 135 */,
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */
+/* 109 */
 /*!***********************************!*\
-  !*** template of 47 referencing  ***!
+  !*** template of 41 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
@@ -18344,7 +18324,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 142 */
+/* 110 */
 /*!***********************************!*\
   !*** template of 76 referencing  ***!
   \***********************************/

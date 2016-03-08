@@ -23,7 +23,6 @@ module.exports = function(t) {
 
 
 
-
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -1755,6 +1754,90 @@ module.exports = function(t) {
             this.eq(innerNode.css('backgroundColor'), 'rgb(12, 14, 19)')
             this.eq(innerNode.css('color'), 'rgb(15, 25, 35)')
             this.eq(innerNode.css('width'), '12px')   // default (isn't affected)
+        })
+
+        this.test("inheriting from inside a pseudoclass", function() {
+
+            var inner1, inner2, outer
+            var x = Block('a',[
+                Block('b', inner1=Text('something', "hi ")),
+                Block('b', inner2=Text('something', "der ")),
+                outer=Text('something', 'yo'),
+            ])
+
+            x.style = Gem.Style({
+                $b: {
+                    $$firstChild: {
+                        $something: {
+                            $inherit: true,
+                            backgroundColor: 'rgb(123, 150, 190)'
+                        }
+                    }
+                },
+                $something: {
+                    color: 'rgb(12, 15, 19)'
+                }
+            })
+
+            window.moose = inner1
+
+            testUtils.demo("inheriting from inside a pseudoclass", x)
+
+            var innerNode1 = $(inner1.domNode)
+            var innerNode2 = $(inner2.domNode)
+            var outerNode = $(outer.domNode)
+
+            this.eq(innerNode1.css('color'), 'rgb(12, 15, 19)')
+            this.eq(innerNode1.css('backgroundColor'), 'rgb(123, 150, 190)')
+
+            this.eq(innerNode2.css('color'), 'rgb(12, 15, 19)')
+            this.eq(innerNode2.css('backgroundColor'), 'rgba(0, 0, 0, 0)')      // the default
+
+            this.eq(outerNode.css('color'), 'rgb(12, 15, 19)')
+            this.eq(outerNode.css('backgroundColor'), 'rgba(0, 0, 0, 0)')       // the default
+        })
+
+        this.test("inheriting from inside an emulated pseudoclass", function() {
+
+            var inner1, inner2, outer
+            var x = Block('a',[
+                outer=Text('something', 'hi'),
+                Block('b', inner1=Text('something', "der ")),
+                Block('b', inner2=Text('something', "yo ")),
+            ])
+
+            x.style = Gem.Style({
+                $b: {
+                    $$lastChild: {
+                        $setup: function(){}, // requires emulation
+
+                        $something: {
+                            $inherit: true,
+                            backgroundColor: 'rgb(123, 150, 190)'
+                        }
+                    }
+                },
+                $something: {
+                    color: 'rgb(12, 15, 19)'
+                }
+            })
+
+            window.moose = inner1
+
+            testUtils.demo("inheriting from inside a pseudoclass", x)
+
+            var innerNode1 = $(inner1.domNode)
+            var innerNode2 = $(inner2.domNode)
+            var outerNode = $(outer.domNode)
+
+            this.eq(outerNode.css('color'), 'rgb(12, 15, 19)')
+            this.eq(outerNode.css('backgroundColor'), 'rgba(0, 0, 0, 0)')       // the default
+
+            this.eq(innerNode1.css('color'), 'rgb(12, 15, 19)')
+            this.eq(innerNode1.css('backgroundColor'), 'rgba(0, 0, 0, 0)')
+
+            this.eq(innerNode2.css('color'), 'rgb(12, 15, 19)')
+            this.eq(innerNode2.css('backgroundColor'), 'rgb(123, 150, 190)')      // the default
         })
     })
 
