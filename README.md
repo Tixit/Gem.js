@@ -1275,6 +1275,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.1.1 - Fixing missing event when selected option value is changed, and adding a couple bug tests that aren't fixed yet
 * 2.1.0
     * Changing the `mixInherit` paramter for `Style.mix` to default to true, and documenting that parameter
     * Fixing a bug where style inheriting from a psuedoclass wasn't working correctly

@@ -29,7 +29,7 @@ module.exports = function() {
 
 
         this.test("events", function(t) {
-            this.count(43)
+            this.count(45)
 
             s1.on('change', function() {
                 event('change','s1')
@@ -73,6 +73,12 @@ module.exports = function() {
                 t.eq(type, 'change')
                 t.eq(element, 's1')
                 t.eq(s1.val.length, 2)
+
+            // change value of selected option
+
+            },function(type,element) {
+                t.eq(type, 'change')
+                t.eq(element, 's1')
 
             // change 3
             },function(type, element) {

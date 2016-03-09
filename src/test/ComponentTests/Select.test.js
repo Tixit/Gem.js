@@ -30,7 +30,7 @@ module.exports = function() {
 
 
         this.test("events", function(t) {
-            this.count(27)
+            this.count(29)
 
             s1.on('change', function() {
                 event('change','s1')
@@ -67,6 +67,11 @@ module.exports = function() {
                 t.eq(type, 'change')
                 t.eq(element, 's1')
                 t.eq(s1.val, '5')
+
+            // change selected option value
+            }, function(type,element) {
+                t.eq(type, 'change')
+                t.eq(element, 's1')
 
             // change 3
             },function(type, element) {
@@ -330,5 +335,21 @@ module.exports = function() {
         } catch(e) {
             this.eq(e.message, "The Gem passed at argument index 0 is not a child of this Gem.")
         }
+    })
+
+    this.test("former bugs", function() {
+        this.test("If you change the value of the selected Option via `option.val`, no change event was emitted", function() {
+            this.count(1)
+
+            var select = Select()
+            var option0 = select.option("option0", "zero"), option1 = select.option("option1", "one")
+            select.val = 'option0'
+
+            select.on("change", function() {
+                this.eq(select.val, 'optionNew')
+            }.bind(this))
+
+            option0.val = 'optionNew'
+        })
     })
 };

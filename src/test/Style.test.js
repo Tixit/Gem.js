@@ -23,6 +23,8 @@ module.exports = function(t) {
 
 
 
+
+
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -2222,6 +2224,112 @@ module.exports = function(t) {
             testUtils.demo("something", component)
 
             // the point of this test is just to not throw an exception
+        })
+
+//        // todo:
+//        this.test("inherit inside a mixed in style wasn't inheriting properly", function() {
+//            var rightFirst
+//            var x = Block([
+//                Block('left',
+//                    Block('icon', Text('something', "der")),
+//                    Block('icon', Text('something', " kamiser"))
+//                ),
+//                Block('right',
+//                    rightFirst = Block('icon', Text('something', "der")),
+//                    Block('icon', Text('something', " kamiser"))
+//                )
+//            ])
+//
+//            var firstStyle = {
+//                color: 'rgb(0,128,0)',
+//
+//                $icon: {
+//                    backgroundColor: 'yellow',
+//                },
+//
+//                $$firstChild: {
+//                    $icon: {
+//                        $inherit: true,
+//                        border: '1px solid rgb(128, 0, 0)'
+//                    }
+//                },
+//            }
+//
+//            x.style = Style({
+//                $left: firstStyle,
+//                $right: Style(firstStyle).mix({
+//                    $icon: Style(firstStyle.$icon).mix({
+//                        backgroundColor: 'rgb(0, 0, 128)'
+//                    }),
+//                    $$firstChild: firstStyle.$$firstChild
+//                })
+//            })
+//
+//            testUtils.demo("inherit inside a mixed in style wasn't inheriting properly", x)
+//
+//            var rightFirstNode = $(rightFirst.domNode)
+//            this.eq(rightFirstNode.css('border'), '1px solid rgb(128, 0, 0)')
+//            this.eq(rightFirstNode.css('backgroundColor'), 'rgb(0, 0, 128)')
+//        })
+//
+//        // todo:
+//        this.test('Inheriting from an inner style in a defaultStyle wasnt working', function(t) {
+//
+//            var X = proto(Block, function() {
+//               this.name = 'X'
+//               this.defaultStyle = Style({
+//                 $a: {
+//                   color: 'rgb(100, 200, 250)'
+//                 }
+//               })
+//            })
+//
+//            var x = X()
+//            x.style = Style({
+//              $a: {
+//                 inherit: true
+//               }
+//            })
+//
+//            var text = Text('a','hi')
+//            x.add(text)
+//
+//            x.attach()
+//
+//            testUtils.demo('Inheriting from an inner style in a defaultStyle wasnt working', x)
+//
+//            t.eq($(text.domNode).css('color'), 'rgb(100, 200, 250)')
+//            t.eq($(text.domNode).css('display'), 'inline-block') // should be the base default value
+//        })
+
+        this.test('$inherit directly inside a pseudoclass was? working', function(t) {
+
+            var innerText
+            var x = Block(
+                Text("a", "red"),
+                Block('b', innerText=Text('a', 'redAndGreen'))
+            )
+            x.style = Style({
+                $a: {
+                  $$firstChild: {
+                    color: 'rgb(128, 0, 0)'
+                  }
+                },
+                $b: {
+                  $a: {
+                    $inherit: true,
+                    $$firstChild: {
+                      $inherit: true, // doesn't inherit color: red
+                      backgroundColor: 'rgb(0, 128, 0)'
+                    }
+                  }
+                }
+            })
+
+            testUtils.demo('$inherit directly inside a pseudoclass wasnt working', x)
+
+            t.eq($(innerText.domNode).css('color'), 'rgb(128, 0, 0)')
+            t.eq($(innerText.domNode).css('backgroundColor'), 'rgb(0, 128, 0)')
         })
 
         this.test("Svg styling throws an error because className is used differently for svg", function() {
