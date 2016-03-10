@@ -16,17 +16,17 @@ Gem.js is here to change that. Finally, modern application development for the b
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Example](#example)
-- [Why use `Gem.js`?](#why-use-gemsjs)
+- [Why use `Gem.js`?](#why-use-gemjs)
 - [Comparisons](#comparisons)
 - [Install](#install)
 - [Usage](#usage)
   - [`Gem`](#gem)
-    - [Loading](#loading)
     - [Static properties and methods](#static-properties-and-methods)
     - [Instance properties and methods](#instance-properties-and-methods)
-      - [Instance properties inherited from `EventEmitter`](#instance-properties-inherited-from-eventemitter)
+      - [Instance properties inherited from [`EventEmitter`](http://nodejs.org/api/events.html)](#instance-properties-inherited-from-eventemitterhttpnodejsorgapieventshtml)
       - [Instance properties inherited from EventEmitterB](#instance-properties-inherited-from-eventemitterb)
         - [`ifon`](#ifon)
         - [`proxy`](#proxy)
@@ -44,7 +44,7 @@ Gem.js is here to change that. Finally, modern application development for the b
     - [Block](#block)
     - [Image](#image)
     - [List](#list)
-    - [Radio](#radio---not-a-gem)
+    - [Radio - Not a `Gem`](#radio---not-a-gem)
     - [Select](#select)
     - [Svg](#svg)
     - [Table](#table)
@@ -54,21 +54,27 @@ Gem.js is here to change that. Finally, modern application development for the b
   - [`Style` objects](#style-objects)
     - [`Style` constructor](#style-constructor)
       - [`<cssPropertyName>`](#csspropertyname)
-      - [`$setup` and `$kill`](#setup-and-kill)
-      - [`$state`](#state)
+      - [`$setup` and `$kill`](#$setup-and-$kill)
+      - [`$state`](#$state)
       - [`<GemName>`](#gemname)
-      - [`$<label>`](#label)
-      - [`$$<pseudoclass>`](#pseudoclass)
-      - [`$inherit`](#inherit)
+      - [`$<label>`](#$label)
+      - [`$$<pseudoclass>`](#$$pseudoclass)
+      - [`$inherit`](#$inherit)
       - [Combining them together](#combining-them-together)
     - [`styleObject.mix`](#styleobjectmix)
     - [`styleObject.copy()`](#styleobjectcopy)
     - [`Style.addPseudoClass`](#styleaddpseudoclass)
+    - [`styleObject.toString`](#styleobjecttostring)
+    - [`Style.fromString`](#stylefromstring)
+    - [`styleObject.toObject`](#styleobjecttoobject)
     - [Standard Pseudoclasses](#standard-pseudoclasses)
-    - [Built-in Pseudoclasses](#built-in-js-rendered-pseudoclasses)
+    - [Built-in JS Rendered Pseudoclasses](#built-in-js-rendered-pseudoclasses)
     - [Default style](#default-style)
+  - [Tips and Recommendations](#tips-and-recommendations)
+    - [Don't Create a node until you need it](#dont-create-a-node-until-you-need-it)
 - [Decisions](#decisions)
 - [What `Gem.js` is ***not***](#what-gemjs-is-not)
+- [Contributors](#contributors)
 - [Todo](#todo)
 - [Changelog](#changelog)
 - [How to Contribute!](#how-to-contribute)
@@ -1119,7 +1125,7 @@ var newStyle2 = oldStyle.mix(anotherStyle)
 
 ### `styleObject.copy()`
 
-Returns a new style that is a copy of the calling style object but has a new `className`. **Written for internal use.**
+Returns a new style that is a copy of the calling style object but has a new `className`. *This was written mainly for internal use.*
 
 ### `Style.addPseudoClass`
 
@@ -1135,13 +1141,19 @@ Returns a new style that is a copy of the calling style object but has a new `cl
     * `parameterTransform(parameter)` - (Optional) Returns a modified version of the passed parameter. This is useful in cases where native pseudoclass parameter parsing is unnecessarily strict (eg. nth-child parameters)
 
 
-### `styleObject.toString()` - Outputs a serialized representation of the style as a string. Note that $state, $setup, and $kill functions are serialized by using their function's `toString` method.
+### `styleObject.toString`
 
-### `Style.fromString(styleString, context)` - Converts `styleString` into a Style object.
+`styleObject.toString()` - Outputs a serialized representation of the style as a string. Note that $state, $setup, and $kill functions are serialized by using their function's `toString` method.
+
+### `Style.fromString`
+
+`Style.fromString(styleString, context)` - Converts `styleString` into a Style object.
 * `styleString` - Should have originally been output from `styleObject.toString()`
 * `context` - An object where each key is a variable name that will be available in any $state, $setup, or $kill functions, and each value is the value that variable will have. Note that the variable `Style` is already defined for you if you don't specify it in the context.
 
-### `styleObject.toObject()` - Outputs a regular javascript object representing the Style object. If passed back into the `Style` constructor, will render the same style.
+### `styleObject.toObject`
+
+`styleObject.toObject()` - Outputs a regular javascript object representing the Style object. If passed back into the `Style` constructor, will render the same style.
 
 ### Standard Pseudoclasses
 
