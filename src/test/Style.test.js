@@ -1843,6 +1843,104 @@ module.exports = function(t) {
         })
     })
 
+    this.test('Style toObject and toString',function(t) {
+        this.test("basic", function() {
+            var styleObj = {
+                color: 'rgb(0, 128, 0)',
+                backgroundColor: "blue",
+                $inherit: true,
+
+                $$hover: {
+                    color: 'orange'
+                },
+
+                A: {
+                    color: "green",
+                    AA: {
+                        color: "yellow"
+                    }
+                },
+                $B: {
+                    color: 'red'
+                }
+            }
+
+            var S = Style(styleObj)
+
+            // hyphenate test object values
+            var testObj = {}
+            for(var p in styleObj) {
+                testObj[p] = styleObj[p]
+            }
+            testObj['background-color'] = testObj.backgroundColor
+            delete testObj.backgroundColor
+
+
+            this.ok(testUtils.equal(S.toObject(), testObj), S.toObject())
+            this.ok(testUtils.equal(S.fromString(S+'').toObject(), testObj), S+"")
+        })
+
+        this.test('functions', function() {
+            var styleObj = {
+                $state: function() {
+                    return Style({
+                        color: 'red'
+                    })
+                },
+
+                $setup: function() {
+                    return blippityBlue
+                },
+                $kill: function() {
+                    return Style({
+                        color: 'green'
+                    })
+                },
+            }
+
+            var S = Style(styleObj)
+
+            this.ok(testUtils.equal(S.toObject(), styleObj), S.toObject())
+
+            var resultObj = S.fromString(S+'', {blippityBlue:'blue'}).toObject()
+            this.eq(resultObj.$state+'', styleObj.$state+'')
+            this.eq(resultObj.$setup+'', styleObj.$setup+'')
+            this.eq(resultObj.$kill+'', styleObj.$kill+'')
+
+            // Style should be a defined object
+            this.ok(testUtils.equal(resultObj.$state().toObject().color, 'red'), resultObj.$state().toObject())
+            this.ok(testUtils.equal(resultObj.$setup(), 'blue'), resultObj.$setup())
+        })
+
+        this.test("nested pseudoclasses", function() {
+            var styleObj = {
+                $$firstChild: {
+                    color: 'green',
+                    $$visited: {
+                        backgroundColor: 'red',
+                    }
+                }
+            }
+
+            var S = Style(styleObj)
+
+            var expectedResult = {
+                '$$first-child': {
+                    color: 'green',
+                    $$visited: {
+                        color: 'green',
+                        'background-color': 'red',
+                    }
+                }
+            }
+
+            this.ok(testUtils.equal(S.toObject(), expectedResult), S.toObject())
+
+            var resultObj = S.fromString(S+'').toObject()
+            this.ok(testUtils.equal(resultObj, expectedResult), resultObj)
+        })
+    })
+
     this.test('former bugs', function() {
         this.test('propogating inner style wasnt working', function() {
             var S = Style({

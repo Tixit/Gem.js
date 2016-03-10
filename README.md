@@ -1134,6 +1134,15 @@ Returns a new style that is a copy of the calling style object but has a new `cl
     * `processParameter(parameter)` - (Optional) Takes the pseudoclass parameter and returns some object representing it that will be used by the `setup` and `check` functions.
     * `parameterTransform(parameter)` - (Optional) Returns a modified version of the passed parameter. This is useful in cases where native pseudoclass parameter parsing is unnecessarily strict (eg. nth-child parameters)
 
+
+### `styleObject.toString()` - Outputs a serialized representation of the style as a string. Note that $state, $setup, and $kill functions are serialized by using their function's `toString` method.
+
+### `Style.fromString(styleString, context)` - Converts `styleString` into a Style object.
+* `styleString` - Should have originally been output from `styleObject.toString()`
+* `context` - An object where each key is a variable name that will be available in any $state, $setup, or $kill functions, and each value is the value that variable will have. Note that the variable `Style` is already defined for you if you don't specify it in the context.
+
+### `styleObject.toObject()` - Outputs a regular javascript object representing the Style object. If passed back into the `Style` constructor, will render the same style.
+
 ### Standard Pseudoclasses
 
 Any pseudoclass that exists in standard css can be used by gem.js, even if it isn't build-in with a js-rendered emulation. The catch is that their use is limited. The following things aren't supported for these:
@@ -1275,6 +1284,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.1.2 - Adding `styleObject.toString`, `Style.fromString`, and `styleObject.toObject`
 * 2.1.1 - Fixing missing event when selected option value is changed, and adding a couple bug tests that aren't fixed yet
 * 2.1.0
     * Changing the `mixInherit` paramter for `Style.mix` to default to true, and documenting that parameter
