@@ -16,7 +16,6 @@ Gem.js is here to change that. Finally, modern application development for the b
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Example](#example)
 - [Why use `Gem.js`?](#why-use-gemjs)
