@@ -25,6 +25,8 @@ module.exports = function(t) {
 
 
 
+
+
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -2200,6 +2202,33 @@ module.exports = function(t) {
             t.eq($(thing.domNode).css('display'), 'block') // should be the set value
             t.eq($(thing.domNode).css('minHeight'), '22px')
             t.eq($(thing.domNode).css('borderBottom'), '0px none rgb(0, 0, 0)')   // this is what you get back for "none"
+        })
+
+        this.test('native pseudoclass style not using "inherit" for color, fontSize, etc when overriding a selector', function(t) {
+
+            var text = Text('hi')
+            var textContainer = Block(text)
+            var parent = Block(textContainer)
+
+            textContainer.style = Style({
+                Text: {
+                    color: 'rgb(100, 0, 0)',
+                    display: 'flex',
+                },
+                '$$nthChild(1)': {
+                    color: 'rgb(0, 100, 0)',
+                    display: 'block',          // here to make sure display doesn't get 'inherit'
+                    Text: {
+                        // color should be set to 'inherit' here
+                        // display should be set to 'initial'
+                    }
+                }
+            })
+
+            testUtils.demo('native pseudoclass style not using "inherit" for color, fontSize, etc when overriding a selector', parent)
+
+            t.eq($(text.domNode).css('display'), 'inline-block') // should be the initial value
+            t.eq($(text.domNode).css('color'), 'rgb(0, 100, 0)')
         })
 
         this.test('native pseudoclass style not overriding competing psuedoclass styles', function(t) {

@@ -1295,6 +1295,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.1.3 - Fixing bug where pseudoclasses were giving the wrong overriding value for css properties that should inherit by default (like color)
 * 2.1.2 - Adding `styleObject.toString`, `Style.fromString`, and `styleObject.toObject`
 * 2.1.1 - Fixing missing event when selected option value is changed, and adding a couple bug tests that aren't fixed yet
 * 2.1.0
