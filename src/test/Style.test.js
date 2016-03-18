@@ -27,6 +27,8 @@ module.exports = function(t) {
 
 
 
+
+
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -2492,6 +2494,31 @@ module.exports = function(t) {
             this.ok(thing.computedStyleMap.Block !== undefined)
             this.eq(Object.keys(inner1.computedStyleMap).length, 2)
             this.ok(inner1.computedStyleMap.$textLabel !== undefined)
+        })
+
+        this.test("pseudoclass parameters with capitals were being transformed into dashes", function(t) {
+            this.count(1)
+
+            Style.addPseudoClass("testPseudoclass11", {   // the psuedoclass here should be parsed
+                check: function(block, parameter) {
+                    t.eq(parameter, 'SomeParameter')
+                },
+                setup: function() {
+
+                },
+                kill: function() {
+
+                }
+            })
+
+            var x = Block()
+            x.style = Style({
+                '$$testPseudoclass11(SomeParameter)': {  // the parameter here should *not* be parsed
+                    color: 'red'
+                }
+            })
+
+            testUtils.demo("pseudoclass parameters with capitals were being transformed into dashes", x)
         })
 
     })

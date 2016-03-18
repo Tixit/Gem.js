@@ -91,9 +91,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.timeout(750*1000) // chrissake its taking a long time now
 	
 	
-	        //*
-	        t.test('EventEmitterB',__webpack_require__(/*! ./EventEmitterB.test */ 177)).complete.then(function(){
-	            return t.test('Gem',__webpack_require__(/*! ./Gem.test */ 178)).complete
+	        //\*
+	        t.test('EventEmitterB',__webpack_require__(/*! ./EventEmitterB.test */ 132)).complete.then(function(){
+	            return t.test('Gem',__webpack_require__(/*! ./Gem.test */ 133)).complete
 	        }).then(function(){
 	            return t.test('Style',__webpack_require__(/*! ./Style.test */ 2)).complete
 	        }).then(function() {
@@ -101,30 +101,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	                t.count(13)
 	
 	                // it seems a bit faster when the tests are run sequentially
-	                t.test('Button',__webpack_require__(/*! ./ComponentTests/Button.test */ 179)).complete.then(function() {
-	                    return t.test('Canvas',__webpack_require__(/*! ./ComponentTests/Canvas.test */ 180)).complete
+	                t.test('Button',__webpack_require__(/*! ./ComponentTests/Button.test */ 134)).complete.then(function() {
+	                    return t.test('Canvas',__webpack_require__(/*! ./ComponentTests/Canvas.test */ 135)).complete
 	                }).then(function() {
-	                    return t.test('CheckBox',__webpack_require__(/*! ./ComponentTests/CheckBox.test */ 181)).complete
+	                    return t.test('CheckBox',__webpack_require__(/*! ./ComponentTests/CheckBox.test */ 136)).complete
 	                }).then(function() {
-	                    return t.test('Block',__webpack_require__(/*! ./ComponentTests/Block.test */ 182)).complete
+	                    return t.test('Block',__webpack_require__(/*! ./ComponentTests/Block.test */ 137)).complete
 	                }).then(function() {
-	                    return t.test('Image',__webpack_require__(/*! ./ComponentTests/Image.test */ 183)).complete
+	                    return t.test('Image',__webpack_require__(/*! ./ComponentTests/Image.test */ 138)).complete
 	                }).then(function() {
-	                    return t.test('List',__webpack_require__(/*! ./ComponentTests/List.test */ 184)).complete
+	                    return t.test('List',__webpack_require__(/*! ./ComponentTests/List.test */ 139)).complete
 	                }).then(function() {
-	                    return t.test('MultiSelect',__webpack_require__(/*! ./ComponentTests/MultiSelect.test */ 185)).complete
+	                    return t.test('MultiSelect',__webpack_require__(/*! ./ComponentTests/MultiSelect.test */ 140)).complete
 	                }).then(function() {
-	                    return t.test('Radio',__webpack_require__(/*! ./ComponentTests/Radio.test */ 186)).complete
+	                    return t.test('Radio',__webpack_require__(/*! ./ComponentTests/Radio.test */ 141)).complete
 	                }).then(function() {
-	                    return t.test('Select',__webpack_require__(/*! ./ComponentTests/Select.test */ 187)).complete
+	                    return t.test('Select',__webpack_require__(/*! ./ComponentTests/Select.test */ 142)).complete
 	                }).then(function() {
-	                    return t.test('table',__webpack_require__(/*! ./ComponentTests/Table.test */ 188)).complete
+	                    return t.test('table',__webpack_require__(/*! ./ComponentTests/Table.test */ 143)).complete
 	                }).then(function() {
-	                    return t.test('text',__webpack_require__(/*! ./ComponentTests/Text.test */ 189)).complete
+	                    return t.test('text',__webpack_require__(/*! ./ComponentTests/Text.test */ 144)).complete
 	                }).then(function() {
-	                    return t.test('textarea',__webpack_require__(/*! ./ComponentTests/TextArea.test */ 190)).complete
+	                    return t.test('textarea',__webpack_require__(/*! ./ComponentTests/TextArea.test */ 145)).complete
 	                }).then(function() {
-	                    return t.test('textfield',__webpack_require__(/*! ./ComponentTests/TextField.test */ 191)).complete
+	                    return t.test('textfield',__webpack_require__(/*! ./ComponentTests/TextField.test */ 146)).complete
 	                })
 	            }).complete
 	        }).done()
@@ -147,11 +147,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var exports = module.exports = __webpack_require__(/*! Gem */ 8)
-	exports.Style = __webpack_require__(/*! Style */ 4)
+	exports.Style = __webpack_require__(/*! Style */ 7)
 	
 	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 9)
-	exports.Block = __webpack_require__(/*! Components/Block */ 11)
-	exports.Button = __webpack_require__(/*! Components/Button */ 10)
+	exports.Block = __webpack_require__(/*! Components/Block */ 10)
+	exports.Button = __webpack_require__(/*! Components/Button */ 11)
 	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 12)
 	exports.Image = __webpack_require__(/*! Components/Image */ 13)
 	exports.List = __webpack_require__(/*! Components/List */ 14)
@@ -173,10 +173,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var proto = __webpack_require__(/*! proto */ 22)
 	
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
 	var Gem = __webpack_require__(/*! ../Gem.browser */ 1)
-	var domUtils = __webpack_require__(/*! domUtils */ 6)
-	var syn = __webpack_require__(/*! fsyn */ 7)
+	var domUtils = __webpack_require__(/*! domUtils */ 5)
+	var syn = __webpack_require__(/*! fsyn */ 6)
 	
 	var Style = Gem.Style
 	var Text = Gem.Text
@@ -192,6 +192,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	     // todo:
 	        // test mix and copy
+	
+	
+	
+	
 	
 	
 	
@@ -2375,6 +2379,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	            t.eq($(thing.domNode).css('borderBottom'), '0px none rgb(0, 0, 0)')   // this is what you get back for "none"
 	        })
 	
+	        this.test('native pseudoclass style not using "inherit" for color, fontSize, etc when overriding a selector', function(t) {
+	
+	            var text = Text('hi')
+	            var textContainer = Block(text)
+	            var parent = Block(textContainer)
+	
+	            textContainer.style = Style({
+	                Text: {
+	                    color: 'rgb(100, 0, 0)',
+	                    display: 'flex',
+	                },
+	                '$$nthChild(1)': {
+	                    color: 'rgb(0, 100, 0)',
+	                    display: 'block',          // here to make sure display doesn't get 'inherit'
+	                    Text: {
+	                        // color should be set to 'inherit' here
+	                        // display should be set to 'initial'
+	                    }
+	                }
+	            })
+	
+	            testUtils.demo('native pseudoclass style not using "inherit" for color, fontSize, etc when overriding a selector', parent)
+	
+	            t.eq($(text.domNode).css('display'), 'inline-block') // should be the initial value
+	            t.eq($(text.domNode).css('color'), 'rgb(0, 100, 0)')
+	        })
+	
 	        this.test('native pseudoclass style not overriding competing psuedoclass styles', function(t) {
 	
 	            var C = proto(Block, function(superclass) {
@@ -2638,6 +2669,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.ok(inner1.computedStyleMap.$textLabel !== undefined)
 	        })
 	
+	        this.test("pseudoclass parameters with capitals were being transformed into dashes", function(t) {
+	            this.count(1)
+	
+	            Style.addPseudoClass("testPseudoclass11", {   // the psuedoclass here should be parsed
+	                check: function(block, parameter) {
+	                    t.eq(parameter, 'SomeParameter')
+	                },
+	                setup: function() {
+	
+	                },
+	                kill: function() {
+	
+	                }
+	            })
+	
+	            var x = Block()
+	            x.style = Style({
+	                '$$testPseudoclass11(SomeParameter)': {  // the parameter here should *not* be parsed
+	                    color: 'red'
+	                }
+	            })
+	
+	            testUtils.demo("pseudoclass parameters with capitals were being transformed into dashes", x)
+	        })
+	
 	    })
 	    //*/
 	}
@@ -2653,8 +2709,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
 	
 	var Future = __webpack_require__(/*! async-future */ 48)
-	var proto = __webpack_require__(/*! proto */ 45)
-	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 26)
+	var proto = __webpack_require__(/*! proto */ 47)
+	var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 23)
 	
 	var Container = __webpack_require__(/*! blocks.js/Container */ 39)
 	var OriginalText = __webpack_require__(/*! blocks.js/Text */ 40)
@@ -2662,12 +2718,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	Block.dev = true
 	var Style = __webpack_require__(/*! blocks.js/Style */ 42)
 	
-	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 27)
-	var utils = __webpack_require__(/*! ./utils */ 28)
+	var deadunitInternal = __webpack_require__(/*! ./deadunit.internal */ 24)
+	var utils = __webpack_require__(/*! ./utils */ 25)
 	
 	
 	module.exports = deadunitInternal({
-	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 47),
+	    deadunitCore: __webpack_require__(/*! deadunit-core/src/deadunitCore.browser */ 44),
 	
 	    environmentSpecificMethods: function() {
 	        var red = 'rgb(200,30,30)'
@@ -3329,16 +3385,477 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
+/*!************************!*\
+  !*** ./~/testUtils.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(/*! async-future */ 43)
+	var Style = __webpack_require__(/*! Style */ 7)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
+	
+	// compares arrays and objects for value equality (all elements and members must match)
+	exports.equal = function(a,b) {
+	    if(a instanceof Array) {
+	        if(!(b instanceof Array))
+	            return false
+	        if(a.length !== b.length) {
+	            return false
+	        } else {
+	            return a.reduce(function(previousValue, currentValue, index) {
+	                return previousValue && exports.equal(currentValue,b[index])
+	            }, true)
+	        }
+	    } else if(a instanceof Object) {
+	        if(!(b instanceof Object))
+	            return false
+	
+	        var aKeys = Object.keys(a)
+	        var bKeys = Object.keys(b)
+	
+	        if(aKeys.length !== bKeys.length) {
+	            return false
+	        } else {
+	            for(var n=0; n<aKeys.length; n++) {
+	                var key = aKeys[n]
+	                var aVal = a[key]
+	                var bVal = b[key]
+	
+	                if(!exports.equal(aVal,bVal)) {
+	                    return false
+	                }
+	            }
+	            // else
+	            return true
+	        }
+	    } else {
+	        return a===b
+	    }
+	}
+	
+	
+	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
+	// returns a function that, each time its called, calls the next function in the list with the passed argument
+	// example:
+	/*
+	var sequenceX = testUtils.seq(
+	 function(x) {
+	     t.ok(x === 'a')
+	 },
+	 function(x) {
+	     t.ok(x === 'b')
+	 },
+	 function(x) {
+	     t.ok(x === 'c')
+	})
+	
+	 var obj = {a:1,b:2,c:3}
+	 for(var x in obj) {
+	     sequenceX(x)
+	 }
+	 */
+	exports.seq = function (/*functions*/) {
+	    var n=-1
+	    var fns = arguments
+	    return function() {
+	        n++
+	        if(n>=fns.length)
+	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
+	        // else
+	        fns[n].apply(this,arguments)
+	    }
+	}
+	
+	
+	exports.demo = function(name, component) {
+	    var header = document.createElement("h2")
+	        header.textContent = name
+	
+	    $("#demos").append(header);
+	    component.attach($("#demos")[0])
+	
+	    return [header, component]
+	}
+	exports.cleanupDemo = function(nodes) {
+	    $(nodes[0]).remove()
+	    nodes[1].detach()
+	}
+	exports.manualDemo = function(name, component) {
+	    var header = document.createElement("h2")
+	        header.textContent = name
+	
+	    $("#manualDemos").append(header);
+	    component.attach($("#manualDemos")[0])
+	}
+	exports.textOutput = function(name, textContent) {
+	    var header = document.createElement("h2")
+	        header.textContent = name
+	
+	    var text = document.createElement("div")
+	        text.textContent = textContent
+	
+	    $("#results").append([header, text]);
+	}
+	
+	// future wraps a function like: function(result) {}
+	exports.wrapSingleParameter = function() {
+	    if(arguments.length === 1) {
+	        var fn = arguments[0]
+	    } else {
+	        var object = arguments[0]
+	        var method = arguments[1]
+	        var fn = object[method]
+	    }
+	
+	    return function() {
+	        var args = Array.prototype.slice.call(arguments)
+			var future = new Future
+			args.push(function(result) {
+			    future.return(result)
+			})
+			var me = this
+	        if(object) me = object
+	        fn.apply(me, args)
+			return future
+	    }
+	}
+	
+	exports.performanceTest = function(name, testDefinition) {
+	    setTimeout(function() {
+	        var times = []
+	        var totalTime = 0
+	        while(totalTime < 2000) {
+	            var time = oneIteration()
+	            times.push(time)
+	            totalTime += time
+	        }
+	
+	        var averageTime = totalTime/times.length
+	        var stdDeviationPercentage = standardDeviation(times)/averageTime
+	
+	        //console.log(mean(times)+ ' vs '+averageTime) // these should be equal and looks like they are
+	        exports.textOutput(name, Math.round(averageTime)+'ms (averaged over '+times.length+" iterations) - standard deviation: "+Math.round(stdDeviationPercentage*100)/100+'%')
+	
+	
+	        function oneIteration() {
+	            var time;
+	            testDefinition.call({
+	                time: function(testFn) {
+	                    var start = performance.now()
+	                    testFn()
+	                    time = performance.now() - start // ms
+	                }
+	            })
+	
+	            return time
+	        }
+	    },0)
+	}
+	
+	function standardDeviation(numberSet) {
+	    return Math.sqrt(variance(numberSet))
+	}
+	
+	function variance(numberSet) {
+	    var theMean = mean(numberSet)
+	    var sumOfDifferenceSquares = numberSet.reduce(function(acc,x) {
+	        var difference = x-theMean
+	        return acc + difference*difference
+	    },0)
+	
+	    return sumOfDifferenceSquares / (numberSet.length-1)
+	}
+	
+	function mean(numberSet) {
+	    var sum = numberSet.reduce(function(acc,x) {
+	        return acc+x
+	    },0)
+	
+	    return sum/numberSet.length
+	}
+	
+	
+	exports.buildNestedStructure = function (nestings) {
+	    var innerMost = Block()
+	    var cur = innerMost
+	    for(var n=0; n<nestings; n++) {
+	        cur = Block('moose', [cur])
+	    }
+	    return {innerMost:innerMost, top: cur}
+	}
+	
+	exports.buildNestedStyle = function(nestings) {
+	    var styleObject = {};
+	    for(var n=0; n<nestings; n++) {
+	        styleObject = {color: 'red', Block: styleObject}
+	    }
+	
+	    return Style(styleObject)
+	}
+
+/***/ },
+/* 5 */
+/*!************************!*\
+  !*** ../~/domUtils.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	// the property that should be used to get and set text (this is different on chrome vs firefox for some dumb reason)
+	exports.textProperty = 'textContent' //document.createElement("div").textContent != undefined ? 'textContent' : 'innerText'
+	
+	// creates a dom element optionally with a class and attributes
+	 var node = exports.node = function(type, className, options) {
+	    var elem = document.createElement(type)
+	
+	    if(options !== undefined) {
+	        if(options.attr !== undefined) {
+	            for(var attribute in options.attr) {
+	                setAttribute(elem, attribute, options.attr[attribute])
+	            }
+	        }
+	        if(options.textContent !== undefined) {
+	            elem.textContent = options.textContent
+	        }
+	    }
+	
+	    if(className !== undefined)
+	        elem.className = className
+	
+	    return elem
+	}
+	
+	// convenience function for creating a div
+	exports.div = function(className, options) {
+	    return node('div', className, options)
+	}
+	
+	
+	// adds an attribute to a domNode
+	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
+	    if (arguments.length === 2) {
+	        var domNode = this.domNode;
+	        var type = arguments[0];
+	        var value = arguments[1];
+	    } else if (arguments.length === 3) {
+	        var domNode = arguments[0];
+	        var type = arguments[1];
+	        var value = arguments[2];
+	    } else {
+	        throw new Error("This function expects arguments to be: [domNode,] type, value");
+	    }
+	    var attr = document.createAttribute(type)
+	    attr.value = value
+	    domNode.setAttributeNode(attr)
+	}
+	
+	// sets the selection
+	//
+	// works for contenteditable elements
+	exports.setSelectionRange = function(containerEl, start, end) {
+	
+	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
+	        containerEl.setSelectionRange(start, end)
+	    } else {
+	        var charIndex = 0, range = document.createRange();
+	        range.setStart(containerEl, 0);
+	        range.collapse(true);
+	        var foundStart = false;
+	
+	        iterateThroughLeafNodes(containerEl, function(node) {
+	            var hiddenCharacters = findHiddenCharacters(node, node.length)
+	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
+	
+	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+	                var nodeIndex = start-charIndex
+	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
+	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
+	                foundStart = true;
+	            }
+	
+	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
+	                var nodeIndex = end-charIndex
+	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
+	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
+	                return true; // stop the iteration - we're done here
+	            }
+	
+	            charIndex = nextCharIndex
+	        })
+	
+	        var sel = window.getSelection();
+	        sel.removeAllRanges();
+	        sel.addRange(range);
+	    }
+	}
+	
+	// gets the character offsets of a selection within a particular dom node
+	// returns undefined if there is no selection in the element
+	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
+	exports.getSelectionRange = function (element) {
+	
+	    var selection = window.getSelection()
+	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
+	
+	    for(var n=0; n<selection.rangeCount; n++) {
+	        var range = selection.getRangeAt(0)
+	        if(isInputOrArea) {
+	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
+	                return [element.selectionStart, element.selectionEnd]
+	            }
+	        } else {
+	            var startsInElement = element.contains(range.startContainer)
+	            if(startsInElement) {
+	                var elementToIterateThrough = element
+	                var startFound = true
+	            } else {
+	                var elementToIterateThrough = range.commonAncestorContainer
+	                var startFound = false
+	                var startContainerFound = false
+	            }
+	
+	            var visibleCharacterOffset = 0, start, end;
+	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
+	                if(!startFound) {
+	                    if(leaf === range.startContainer) {
+	                        startContainerFound = true
+	                    }
+	
+	                    if(!element.contains(leaf) || !startContainerFound)
+	                        return; // continue
+	                    else if(startContainerFound)
+	                       startFound = true
+	                } else if(!startsInElement && !element.contains(leaf)) {
+	                    return true // done!
+	                }
+	
+	                if(leaf === range.startContainer) {
+	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
+	                }
+	                if(leaf === range.endContainer) {
+	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
+	                    return true // done!
+	                }
+	
+	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
+	            })
+	
+	            if(start === undefined && !startFound) {
+	                return undefined
+	            } else {
+	                if(start === undefined) {
+	                    start = 0 // start is at the beginning
+	                }
+	                if(end === undefined) {
+	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
+	                }
+	
+	                return [start, end]
+	            }
+	        }
+	    }
+	}
+	
+	
+	// iterate through the leaf nodes inside element
+	// callback(node) - a function called for each leaf node
+	    // returning true from this ends the iteration
+	function iterateThroughLeafNodes(element, callback) {
+	    var nodeStack = [element], node;
+	
+	    while (node = nodeStack.pop()) {
+	        if (node.nodeType == 3) {
+	            if(callback(node) === true)
+	                break;
+	        } else {
+	            var i = node.childNodes.length;
+	            while (i--) {
+	                nodeStack.push(node.childNodes[i]);
+	            }
+	        }
+	    }
+	}
+	
+	function findHiddenCharacters(node, beforeCaretIndex) {
+	    var hiddenCharacters = 0
+	    var lastCharWasWhiteSpace=true
+	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
+	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
+	            if(lastCharWasWhiteSpace)
+	                hiddenCharacters++
+	            else
+	                lastCharWasWhiteSpace = true
+	        } else {
+	            lastCharWasWhiteSpace = false
+	        }
+	    }
+	
+	    return hiddenCharacters
+	}
+
+/***/ },
+/* 6 */
+/*!*******************!*\
+  !*** ./~/fsyn.js ***!
+  \*******************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// requires: syn (loaded as a global variable from an html script tag)
+	
+	var Future = __webpack_require__(/*! async-future */ 43)
+	
+	exports.click = wrap(syn.click)
+	exports.rightClick = wrap(syn.rightClick)
+	exports.dblClick = wrap(syn.dblClick)
+	exports.move = wrap(syn.move)
+	exports.type = wrap(syn.type)
+	exports.key = wrap(syn.key)
+	
+	
+	
+	function wrap(fn) {
+	    return function() {
+	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
+	
+	        // for chaining
+	        var target = arguments[0]
+	        resultFuture.click = function() {
+	            exports.click.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.rightClick = function() {
+	            exports.rightClick.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.dblClick = function() {
+	            exports.dblClick.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.move = function() {
+	            exports.move.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.type = function() {
+	            exports.type.apply(this, [target].concat(arguments))
+	        }
+	        resultFuture.key = function() {
+	            exports.key.apply(this, [target].concat(arguments))
+	        }
+	
+	        return resultFuture
+	    }
+	}
+	
+
+
+/***/ },
+/* 7 */
 /*!*********************!*\
   !*** ../~/Style.js ***!
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 23)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 26)
 	var proto = __webpack_require__(/*! proto */ 22)
-	var HashMap = __webpack_require__(/*! hashmap */ 36)
+	var HashMap = __webpack_require__(/*! hashmap */ 38)
 	
-	var utils = __webpack_require__(/*! ./utils */ 25)
+	var utils = __webpack_require__(/*! ./utils */ 28)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
 	var nextClassNumber = 0
@@ -3431,7 +3948,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.inherit = true
 	
 	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
-	                var pseudoClass = mapCamelCase(key.substr(2))
+	                var parts = getPseudoClassParts(key.substr(2))
+	                var pseudoClass = mapCamelCase(parts.class)
+	                if(parts.parameter !== undefined) {
+	                    pseudoClass+='('+parts.parameter+")"
+	                }
+	
 	                if(pseudoClass === '') {
 	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
 	                }
@@ -4178,7 +4700,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            index++
 	        })
 	
-	        var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 24)
+	        var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 27)
 	        for(var selector in nativePseudoclassSelectorMap) {
 	            var pseudoclassStyle = nativePseudoclassSelectorMap[selector]
 	            if(pseudoclassStyle.inherit) {
@@ -4231,7 +4753,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            var defaultStyleProperty = defaultStyle.basicProperties[key]
 	                        }
 	
-	                        var initialStyle = defaultStyleProperty || defaultStyleValues[key] || 'initial' // todo: write a function to calculate the inital value, since 'initial' isn't supported in IE (of course) - tho it will be eventually since its becoming apart of css3
+	                        var initialStyle = defaultStyleProperty || defaultStyleValues[key]
+	                                           || (key in stylesThatInheritByDefault ? 'inherit' : 'initial') // todo: write a function to calculate the inital value, since 'initial' isn't supported in IE (of course) - tho it will be eventually since its becoming apart of css3
 	                        pseudoClassCss[key] = initialStyle
 	                    }
 	                }
@@ -4436,7 +4959,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // returns a function that takes an index and tell you if that index applies to the nthChildParameter
 	        processParameter: function(parameter) {
 	            var parts = parseNthChildParameter(parameter)
-	
 	            if(parts.variable === 0) {
 	                return function(index) {
 	                    return index+1 === parts.constant
@@ -4449,13 +4971,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    },
 	
-	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
+	    // not's parameter is a statement consisting of pseudoclasses separated either by : or ,
 	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
-	    /*not: {
-	        check: function() {
-	
+	    not: {
+	        emulated: true,
+	        parameterTransform: function(parameter) {
+	            var orParts = parameter.split(',')
+	            return orParts.map(function(part) {
+	                var andParts = part.split(':')
+	                return andParts.map(function(part) {
+	                    var parts = getPseudoClassParts(part)
+	                    var mappedName = mapCamelCase(parts.class)
+	                    if(parts.parameter !== undefined) {
+	                        return mappedName+'('+parts.parameter+')'
+	                    } else {
+	                        return mappedName
+	                    }
+	                }).join(':')
+	            }).join(',')
 	        },
-	    }*/
+	
+	        check: function(component, parameterCheck) {
+	            throw new Error("The 'not' psuedoclass can only be used in Style objects that can be rendered in native css as of yet")
+	        },
+	        setup: function(component, startCallback, endCallback, parameterCheck) {
+	            throw new Error("The 'not' psuedoclass can only be used in Style objects that can be rendered in native css as of yet")
+	        },
+	        kill: function(component, state) {
+	            throw new Error("The 'not' psuedoclass can only be used in Style objects that can be rendered in native css as of yet")
+	        },
+	
+	        // returns a function that takes an index and tell you if that index applies to the nthChildParameter
+	        processParameter: function(parameter) {
+	            throw new Error("The 'not' psuedoclass can only be used in Style objects that can be rendered in native css as of yet")
+	        }
+	    }
 	}
 	
 	// name is the name of the new pseudoclass
@@ -4468,9 +5018,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // if this is undefined, the pseudoclass will throw an exception for styles that have a parameter for it
 	    // emulated - if true, it means that there is a corresponding native pseudoclass that can be used if the style can be rendered with pure css
 	module.exports.addPseudoClass = function(name, options) {
-	    if(jsRenderedPseduoclasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
+	    var mappedName = mapCamelCase(name)
+	    if(jsRenderedPseduoclasses[mappedName] !== undefined) {
+	        var nameForError = '"'+mappedName+'"'
+	        if(mappedName !== name) {
+	            nameForError+= " (mapped from '"+name+"')"
+	        }
+	        throw new Error("The pseudoclass "+nameForError+" is already defined.")
+	    }
 	    // else
-	    jsRenderedPseduoclasses[name] = options
+	    jsRenderedPseduoclasses[mappedName] = options
 	}
 	
 	
@@ -4643,6 +5200,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'word-spacing': 'normal'
 	}
 	
+	var stylesThatInheritByDefault = {
+	    'font-family':1, 'font-size':1, 'font-style':1, 'font-variant':1, 'font-weight':1, 'visibility':1, 'color':1, 'cursor':1
+	}
+	
 	
 	
 	
@@ -4711,467 +5272,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
-/*!************************!*\
-  !*** ./~/testUtils.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Future = __webpack_require__(/*! async-future */ 43)
-	var Style = __webpack_require__(/*! Style */ 4)
-	var Block = __webpack_require__(/*! Components/Block */ 11)
-	
-	// compares arrays and objects for value equality (all elements and members must match)
-	exports.equal = function(a,b) {
-	    if(a instanceof Array) {
-	        if(!(b instanceof Array))
-	            return false
-	        if(a.length !== b.length) {
-	            return false
-	        } else {
-	            return a.reduce(function(previousValue, currentValue, index) {
-	                return previousValue && exports.equal(currentValue,b[index])
-	            }, true)
-	        }
-	    } else if(a instanceof Object) {
-	        if(!(b instanceof Object))
-	            return false
-	
-	        var aKeys = Object.keys(a)
-	        var bKeys = Object.keys(b)
-	
-	        if(aKeys.length !== bKeys.length) {
-	            return false
-	        } else {
-	            for(var n=0; n<aKeys.length; n++) {
-	                var key = aKeys[n]
-	                var aVal = a[key]
-	                var bVal = b[key]
-	
-	                if(!exports.equal(aVal,bVal)) {
-	                    return false
-	                }
-	            }
-	            // else
-	            return true
-	        }
-	    } else {
-	        return a===b
-	    }
-	}
-	
-	
-	// slightly better than sequence, you define the functions up front, and when you call the return value, it passes the arguments you call it with to the functions in sequence
-	// returns a function that, each time its called, calls the next function in the list with the passed argument
-	// example:
-	/*
-	var sequenceX = testUtils.seq(
-	 function(x) {
-	     t.ok(x === 'a')
-	 },
-	 function(x) {
-	     t.ok(x === 'b')
-	 },
-	 function(x) {
-	     t.ok(x === 'c')
-	})
-	
-	 var obj = {a:1,b:2,c:3}
-	 for(var x in obj) {
-	     sequenceX(x)
-	 }
-	 */
-	exports.seq = function (/*functions*/) {
-	    var n=-1
-	    var fns = arguments
-	    return function() {
-	        n++
-	        if(n>=fns.length)
-	            throw new Error("Unexpected call "+n+". Arguments: "+Array.prototype.slice.call(arguments))
-	        // else
-	        fns[n].apply(this,arguments)
-	    }
-	}
-	
-	
-	exports.demo = function(name, component) {
-	    var header = document.createElement("h2")
-	        header.textContent = name
-	
-	    $("#demos").append(header);
-	    component.attach($("#demos")[0])
-	
-	    return [header, component]
-	}
-	exports.cleanupDemo = function(nodes) {
-	    $(nodes[0]).remove()
-	    nodes[1].detach()
-	}
-	exports.manualDemo = function(name, component) {
-	    var header = document.createElement("h2")
-	        header.textContent = name
-	
-	    $("#manualDemos").append(header);
-	    component.attach($("#manualDemos")[0])
-	}
-	exports.textOutput = function(name, textContent) {
-	    var header = document.createElement("h2")
-	        header.textContent = name
-	
-	    var text = document.createElement("div")
-	        text.textContent = textContent
-	
-	    $("#results").append([header, text]);
-	}
-	
-	// future wraps a function like: function(result) {}
-	exports.wrapSingleParameter = function() {
-	    if(arguments.length === 1) {
-	        var fn = arguments[0]
-	    } else {
-	        var object = arguments[0]
-	        var method = arguments[1]
-	        var fn = object[method]
-	    }
-	
-	    return function() {
-	        var args = Array.prototype.slice.call(arguments)
-			var future = new Future
-			args.push(function(result) {
-			    future.return(result)
-			})
-			var me = this
-	        if(object) me = object
-	        fn.apply(me, args)
-			return future
-	    }
-	}
-	
-	exports.performanceTest = function(name, testDefinition) {
-	    setTimeout(function() {
-	        var times = []
-	        var totalTime = 0
-	        while(totalTime < 2000) {
-	            var time = oneIteration()
-	            times.push(time)
-	            totalTime += time
-	        }
-	
-	        var averageTime = totalTime/times.length
-	        var stdDeviationPercentage = standardDeviation(times)/averageTime
-	
-	        //console.log(mean(times)+ ' vs '+averageTime) // these should be equal and looks like they are
-	        exports.textOutput(name, Math.round(averageTime)+'ms (averaged over '+times.length+" iterations) - standard deviation: "+Math.round(stdDeviationPercentage*100)/100+'%')
-	
-	
-	        function oneIteration() {
-	            var time;
-	            testDefinition.call({
-	                time: function(testFn) {
-	                    var start = performance.now()
-	                    testFn()
-	                    time = performance.now() - start // ms
-	                }
-	            })
-	
-	            return time
-	        }
-	    },0)
-	}
-	
-	function standardDeviation(numberSet) {
-	    return Math.sqrt(variance(numberSet))
-	}
-	
-	function variance(numberSet) {
-	    var theMean = mean(numberSet)
-	    var sumOfDifferenceSquares = numberSet.reduce(function(acc,x) {
-	        var difference = x-theMean
-	        return acc + difference*difference
-	    },0)
-	
-	    return sumOfDifferenceSquares / (numberSet.length-1)
-	}
-	
-	function mean(numberSet) {
-	    var sum = numberSet.reduce(function(acc,x) {
-	        return acc+x
-	    },0)
-	
-	    return sum/numberSet.length
-	}
-	
-	
-	exports.buildNestedStructure = function (nestings) {
-	    var innerMost = Block()
-	    var cur = innerMost
-	    for(var n=0; n<nestings; n++) {
-	        cur = Block('moose', [cur])
-	    }
-	    return {innerMost:innerMost, top: cur}
-	}
-	
-	exports.buildNestedStyle = function(nestings) {
-	    var styleObject = {};
-	    for(var n=0; n<nestings; n++) {
-	        styleObject = {color: 'red', Block: styleObject}
-	    }
-	
-	    return Style(styleObject)
-	}
-
-/***/ },
-/* 6 */
-/*!************************!*\
-  !*** ../~/domUtils.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	// the property that should be used to get and set text (this is different on chrome vs firefox for some dumb reason)
-	exports.textProperty = 'textContent' //document.createElement("div").textContent != undefined ? 'textContent' : 'innerText'
-	
-	// creates a dom element optionally with a class and attributes
-	 var node = exports.node = function(type, className, options) {
-	    var elem = document.createElement(type)
-	
-	    if(options !== undefined) {
-	        if(options.attr !== undefined) {
-	            for(var attribute in options.attr) {
-	                setAttribute(elem, attribute, options.attr[attribute])
-	            }
-	        }
-	        if(options.textContent !== undefined) {
-	            elem.textContent = options.textContent
-	        }
-	    }
-	
-	    if(className !== undefined)
-	        elem.className = className
-	
-	    return elem
-	}
-	
-	// convenience function for creating a div
-	exports.div = function(className, options) {
-	    return node('div', className, options)
-	}
-	
-	
-	// adds an attribute to a domNode
-	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
-	    if (arguments.length === 2) {
-	        var domNode = this.domNode;
-	        var type = arguments[0];
-	        var value = arguments[1];
-	    } else if (arguments.length === 3) {
-	        var domNode = arguments[0];
-	        var type = arguments[1];
-	        var value = arguments[2];
-	    } else {
-	        throw new Error("This function expects arguments to be: [domNode,] type, value");
-	    }
-	    var attr = document.createAttribute(type)
-	    attr.value = value
-	    domNode.setAttributeNode(attr)
-	}
-	
-	// sets the selection
-	//
-	// works for contenteditable elements
-	exports.setSelectionRange = function(containerEl, start, end) {
-	
-	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
-	        containerEl.setSelectionRange(start, end)
-	    } else {
-	        var charIndex = 0, range = document.createRange();
-	        range.setStart(containerEl, 0);
-	        range.collapse(true);
-	        var foundStart = false;
-	
-	        iterateThroughLeafNodes(containerEl, function(node) {
-	            var hiddenCharacters = findHiddenCharacters(node, node.length)
-	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
-	
-	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-	                var nodeIndex = start-charIndex
-	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
-	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
-	                foundStart = true;
-	            }
-	
-	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
-	                var nodeIndex = end-charIndex
-	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
-	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
-	                return true; // stop the iteration - we're done here
-	            }
-	
-	            charIndex = nextCharIndex
-	        })
-	
-	        var sel = window.getSelection();
-	        sel.removeAllRanges();
-	        sel.addRange(range);
-	    }
-	}
-	
-	// gets the character offsets of a selection within a particular dom node
-	// returns undefined if there is no selection in the element
-	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
-	exports.getSelectionRange = function (element) {
-	
-	    var selection = window.getSelection()
-	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
-	
-	    for(var n=0; n<selection.rangeCount; n++) {
-	        var range = selection.getRangeAt(0)
-	        if(isInputOrArea) {
-	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
-	                return [element.selectionStart, element.selectionEnd]
-	            }
-	        } else {
-	            var startsInElement = element.contains(range.startContainer)
-	            if(startsInElement) {
-	                var elementToIterateThrough = element
-	                var startFound = true
-	            } else {
-	                var elementToIterateThrough = range.commonAncestorContainer
-	                var startFound = false
-	                var startContainerFound = false
-	            }
-	
-	            var visibleCharacterOffset = 0, start, end;
-	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
-	                if(!startFound) {
-	                    if(leaf === range.startContainer) {
-	                        startContainerFound = true
-	                    }
-	
-	                    if(!element.contains(leaf) || !startContainerFound)
-	                        return; // continue
-	                    else if(startContainerFound)
-	                       startFound = true
-	                } else if(!startsInElement && !element.contains(leaf)) {
-	                    return true // done!
-	                }
-	
-	                if(leaf === range.startContainer) {
-	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
-	                }
-	                if(leaf === range.endContainer) {
-	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
-	                    return true // done!
-	                }
-	
-	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
-	            })
-	
-	            if(start === undefined && !startFound) {
-	                return undefined
-	            } else {
-	                if(start === undefined) {
-	                    start = 0 // start is at the beginning
-	                }
-	                if(end === undefined) {
-	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
-	                }
-	
-	                return [start, end]
-	            }
-	        }
-	    }
-	}
-	
-	
-	// iterate through the leaf nodes inside element
-	// callback(node) - a function called for each leaf node
-	    // returning true from this ends the iteration
-	function iterateThroughLeafNodes(element, callback) {
-	    var nodeStack = [element], node;
-	
-	    while (node = nodeStack.pop()) {
-	        if (node.nodeType == 3) {
-	            if(callback(node) === true)
-	                break;
-	        } else {
-	            var i = node.childNodes.length;
-	            while (i--) {
-	                nodeStack.push(node.childNodes[i]);
-	            }
-	        }
-	    }
-	}
-	
-	function findHiddenCharacters(node, beforeCaretIndex) {
-	    var hiddenCharacters = 0
-	    var lastCharWasWhiteSpace=true
-	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
-	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
-	            if(lastCharWasWhiteSpace)
-	                hiddenCharacters++
-	            else
-	                lastCharWasWhiteSpace = true
-	        } else {
-	            lastCharWasWhiteSpace = false
-	        }
-	    }
-	
-	    return hiddenCharacters
-	}
-
-/***/ },
-/* 7 */
-/*!*******************!*\
-  !*** ./~/fsyn.js ***!
-  \*******************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// requires: syn (loaded as a global variable from an html script tag)
-	
-	var Future = __webpack_require__(/*! async-future */ 43)
-	
-	exports.click = wrap(syn.click)
-	exports.rightClick = wrap(syn.rightClick)
-	exports.dblClick = wrap(syn.dblClick)
-	exports.move = wrap(syn.move)
-	exports.type = wrap(syn.type)
-	exports.key = wrap(syn.key)
-	
-	
-	
-	function wrap(fn) {
-	    return function() {
-	        var resultFuture = Future.wrapSingleParameter(fn).apply(this,arguments)
-	
-	        // for chaining
-	        var target = arguments[0]
-	        resultFuture.click = function() {
-	            exports.click.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.rightClick = function() {
-	            exports.rightClick.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.dblClick = function() {
-	            exports.dblClick.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.move = function() {
-	            exports.move.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.type = function() {
-	            exports.type.apply(this, [target].concat(arguments))
-	        }
-	        resultFuture.key = function() {
-	            exports.key.apply(this, [target].concat(arguments))
-	        }
-	
-	        return resultFuture
-	    }
-	}
-	
-
-
-/***/ },
 /* 8 */
 /*!*******************!*\
   !*** ../~/Gem.js ***!
@@ -5180,14 +5280,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 29)
 	var proto = __webpack_require__(/*! proto */ 22);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 37)
-	var observe = __webpack_require__(/*! observe */ 38)
+	var trimArguments = __webpack_require__(/*! trimArguments */ 36)
+	var observe = __webpack_require__(/*! observe */ 37)
 	
-	var utils = __webpack_require__(/*! ./utils */ 25)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 6)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 24)
+	var utils = __webpack_require__(/*! ./utils */ 28)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 5)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 27)
 	
-	var Style = __webpack_require__(/*! ./Style */ 4)
+	var Style = __webpack_require__(/*! ./Style */ 7)
 	Style.isDev = function() {return module.exports.dev}
 	
 	var components = {};
@@ -5680,7 +5780,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Gem = __webpack_require__(/*! Gem */ 8)
 	var proto = __webpack_require__(/*! proto */ 22)
-	var Style = __webpack_require__(/*! Style */ 4)
+	var Style = __webpack_require__(/*! Style */ 7)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -5735,6 +5835,43 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 10 */
+/*!********************************!*\
+  !*** ../~/Components/Block.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! ../Gem */ 8)
+	var proto = __webpack_require__(/*! proto */ 22)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+	    this.name = 'Block'
+	
+	
+		// instance properties
+	
+		this.init = function (/*[label,] content*/) {
+	        if(typeof(arguments[0]) !== 'string' && arguments[0] !== undefined) {
+	            var contentArgs = arguments
+	        } else {
+	            var label = arguments[0]
+	            var contentArgs = Array.prototype.slice.call(arguments, 1)
+	        }
+	
+	        superclass.init.call(this) // superclass constructor
+	
+	        this.label = label
+	
+			if(contentArgs !== undefined)
+	            this.add.apply(this,contentArgs)
+		}
+	})
+
+
+/***/ },
+/* 11 */
 /*!*********************************!*\
   !*** ../~/Components/Button.js ***!
   \*********************************/
@@ -5777,43 +5914,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    })
 	
-	})
-
-
-/***/ },
-/* 11 */
-/*!********************************!*\
-  !*** ../~/Components/Block.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! ../Gem */ 8)
-	var proto = __webpack_require__(/*! proto */ 22)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-	    this.name = 'Block'
-	
-	
-		// instance properties
-	
-		this.init = function (/*[label,] content*/) {
-	        if(typeof(arguments[0]) !== 'string') {
-	            var contentArgs = arguments
-	        } else {
-	            var label = arguments[0]
-	            var contentArgs = Array.prototype.slice.call(arguments, 1)
-	        }
-	
-	        superclass.init.call(this) // superclass constructor
-	
-	        this.label = label
-	
-			if(contentArgs !== undefined)
-	            this.add.apply(this,contentArgs)
-		}
 	})
 
 
@@ -5915,7 +6015,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var proto = __webpack_require__(/*! proto */ 22)
 	
 	var Gem = __webpack_require__(/*! Gem */ 8)
-	var Style = __webpack_require__(/*! Style */ 4)
+	var Style = __webpack_require__(/*! Style */ 7)
 	
 	var Item = __webpack_require__(/*! ./Item */ 30);
 	
@@ -6448,11 +6548,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var proto = __webpack_require__(/*! proto */ 22)
 	
 	var Gem = __webpack_require__(/*! ../Gem */ 8)
-	var Style = __webpack_require__(/*! Style */ 4)
+	var Style = __webpack_require__(/*! Style */ 7)
 	
 	var Header = __webpack_require__(/*! ./Header */ 32);
-	var Row = __webpack_require__(/*! ./Row */ 33);
-	var Cell = __webpack_require__(/*! ./Cell */ 34);
+	var Row = __webpack_require__(/*! ./Row */ 34);
+	var Cell = __webpack_require__(/*! ./Cell */ 33);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -6558,7 +6658,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Gem = __webpack_require__(/*! ../Gem */ 8)
 	var proto = __webpack_require__(/*! proto */ 22)
 	
-	var domUtils = __webpack_require__(/*! ../domUtils */ 6)
+	var domUtils = __webpack_require__(/*! ../domUtils */ 5)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -6614,9 +6714,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var proto = __webpack_require__(/*! proto */ 22)
 	
 	var Gem = __webpack_require__(/*! Gem */ 8)
-	var Style = __webpack_require__(/*! Style */ 4)
+	var Style = __webpack_require__(/*! Style */ 7)
 	
-	var domUtils = __webpack_require__(/*! domUtils */ 6)
+	var domUtils = __webpack_require__(/*! domUtils */ 5)
 	
 	
 	
@@ -6802,6 +6902,597 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 23 */
+/*!*********************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/defaultFormats.js ***!
+  \*********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Future = __webpack_require__(/*! async-future */ 48)
+	
+	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 45)
+	var indent = __webpack_require__(/*! ./indent */ 46)
+	var utils = __webpack_require__(/*! ./utils */ 25)
+	
+	// unitTest is a deadunit-core UnitTest object
+	// if consoleColoring is true, the string will contain console color annotations
+	// if printOnTheFly is true, test results will be printed to the screen in addition to being returned
+	// returns a future containing a string with the final results
+	exports.text = function textOutput(unitTest, consoleColors, printOnTheFly, printLateEvents) {
+	    if(printLateEvents === undefined) printLateEvents = true
+	
+	    function color(theColor, theString) {
+	        if(consoleColors !== undefined)
+	            return consoleColors[theColor](theString.toString())
+	        else
+	            return theString.toString()
+	    }
+	
+	    var warningHasBeenPrinted = false
+	    function lateEventsWarning() {
+	        if(ended && !warningHasBeenPrinted && printLateEvents) {
+	            warningHasBeenPrinted = true
+	
+	            return color('red',
+	                'Test results were accessed before asynchronous parts of tests were fully complete'
+	                +" If you have tests with asynchronous parts, make sure to use `this.count` to declare how many assertions you're waiting for."
+	            )+'\n\n'
+	        } else {
+	            return ''
+	        }
+	    }
+	
+	
+	    var ended = false
+	    return formatBasic(unitTest, printOnTheFly, consoleColors, {
+	        group: function(name, totalDuration, testSuccesses, testFailures,
+	                              assertSuccesses, assertFailures, exceptions,
+	                              testResults, exceptionResults, nestingLevel, timedOut, onTheFly) {
+	
+	            var total = testSuccesses+testFailures
+	
+	            var addResults = function() {
+	                var result = ''
+	                if(testResults.length > 0)
+	                    result += '\n'+indent('   ', testResults.join('\n'))
+	                if(exceptionResults.length > 0)
+	                    result += '\n'+indent('   ', exceptionResults.join('\n'))
+	                return result
+	            }
+	
+	
+	            var testColor, exceptionColor, failColor, finalColor
+	            testColor = exceptionColor = failColor = finalColor = 'green'
+	            if(testFailures > 0) {
+	                testColor = failColor = finalColor = 'red'
+	            }
+	            if(exceptions > 0) {
+	                finalColor = 'red'
+	                exceptionColor = 'magenta'
+	            }
+	
+	            var durationText = utils.timeText(totalDuration)
+	
+	            if(nestingLevel === 0) {
+	                var resultsLine = ''
+	
+	                if(name) resultsLine += color('cyan', name+' - ')
+	
+	
+	
+	                resultsLine += color(finalColor, testSuccesses+'/'+(testSuccesses+testFailures)+' successful tests. ')+
+	                        color('green', assertSuccesses+' pass'+utils.plural(assertSuccesses,"es",""))+
+	                        ', '+color(failColor, assertFailures+' fail'+utils.plural(assertFailures))+
+	                        ', and '+color(exceptionColor, exceptions+' exception'+utils.plural(exceptions))+"."
+	                        +color('grey', " Took "+durationText+".")
+	
+	                var result = ''
+	                if(name) result += color('cyan', name)+'\n'
+	                result += addResults()
+	                result += '\n\n'+resultsLine
+	
+	                if(timedOut) {
+	                    result += color('red', '\n    The test timed out')
+	                }
+	            } else {
+	                if(!name) name = "<unnamed test>"
+	                var result = color(finalColor, name)+':           '
+	                                +color(testColor, testSuccesses+'/'+total)
+	                                +" and "+color(exceptionColor, exceptionResults.length+" exception"+utils.plural(exceptionResults.length))
+	                                +color('grey', " took "+durationText)
+	                result += addResults()
+	            }
+	
+	            return lateEventsWarning()+result
+	        },
+	        assert: function(result, test, onTheFly) {
+	            if(result.success) {
+	                var word = "Ok!  ";
+	                var c = 'green'
+	            } else {
+	                var word = "Fail:";
+	                var c = 'red'
+	            }
+	
+	            var linesDisplay = result.sourceLines
+	            if(result.sourceLines.indexOf("\n") !== -1) {
+	                linesDisplay = "\n"+linesDisplay;
+	            }
+	
+	            var expectations = ""
+	            if(!result.success && (result.actual !== undefined || result.expected !== undefined)) {
+	                var things = []
+	                if(result.expected !== undefined)
+	                    things.push("Expected "+utils.valueToMessage(result.expected))
+	                if(result.actual !== undefined)
+	                    things.push("Got "+utils.valueToMessage(result.actual))
+	
+	                expectations = " - "+things.join(', ')
+	            }
+	
+	            var column = ''
+	            if(result.column !== undefined) {
+	                column = color('grey', ":"+result.column)
+	            }
+	
+	            return lateEventsWarning()+color(c, word)+" ["+color('grey', result.file)+" "+result.line+column+"] "
+	                        +color(c, linesDisplay)
+	                        +expectations
+	        },
+	        exception: function(e, onTheFly) {
+	            return lateEventsWarning()+color('red', 'Exception: ')
+	                        +color('magenta', utils.errorToString(e))
+	        },
+	        log: function(values, onTheFly) {
+	            return lateEventsWarning()+values.map(function(v) {
+	                return utils.valueToString(v)
+	            }).join(', ')
+	        },
+	        end: function() {
+	            ended = true
+	        }
+	    })
+	}
+	
+	
+	var htmlColors = exports.htmlColors = {
+	    red: 'rgb(200,30,30)',
+	    darkRed: 'rgb(90,0,0)',
+	    lightRed: 'rgb(255,210,230)',
+	
+	    black: 'rgb(20,20,20)',
+	    white: 'rgb(240,220,220)',
+	    gray: 'rgb(185, 180, 180)',
+	
+	    green: 'rgb(0,100,20)',
+	    brightGreen: 'rgb(0,200,50)',
+	
+	    purple: 'rgb(190,0,160)',
+	    brightPurple: 'rgb(255,126,255)',
+	
+	    blue: 'rgb(0, 158, 173)',
+	    brightBlue: 'rgb(0, 233, 255)',
+	
+	    yellow: 'rgb(210,182,0)',
+	    darkYellow: 'rgb(106,93,0)'
+	}
+	
+	var red = htmlColors.red
+	var darkRed = htmlColors.darkRed
+	var lightRed = htmlColors.lightRed
+	var black = htmlColors.black
+	var white = htmlColors.white
+	var green = htmlColors.green
+	var brightGreen = htmlColors.brightGreen
+	var purple = htmlColors.purple
+	var brightPurple = htmlColors.brightPurple
+	var blue = htmlColors.blue
+	var brightBlue = htmlColors.brightBlue
+	var gray = htmlColors.gray
+	
+	
+	exports.html = function(unitTest, printLateEvents) {
+	    if(printLateEvents === undefined) printLateEvents = true
+	
+	    var getTestDisplayer = function() {
+	        return {
+	            onToggle: function(displayNone, $bgcolor, innerSelector, outerSelector) {
+	                if(displayNone == true) {
+	                    $(innerSelector).css({"display":""});
+	                    if(outerSelector != undefined) {
+	                        $(outerSelector).css({"border":"1px solid "+$bgcolor});
+	                    }
+	                } else {
+	                    $(innerSelector).css({"display":"none"});
+	                    if(outerSelector != undefined) {
+	                        $(outerSelector).css({"border":""});
+	                    }
+	                }
+	            }
+	        }
+	    }
+	
+	
+	    var formattedTestHtml = formatBasic(unitTest, false, {
+	        group: function(name, totalDuration, testSuccesses, testFailures,
+	                          assertSuccesses, assertFailures, exceptions,
+	                          testResults, exceptionResults, nestingLevel, timedOut) {
+	
+	            var total = testSuccesses+testFailures
+	            var mainId = getMainId(name)
+	
+	            if(testFailures > 0 || exceptions > 0) {
+	                var bgcolor=red;
+	                var show = "true";
+	                var foregroundColor = lightRed
+	            } else {
+	                var bgcolor=green;
+	                var show = "false";
+	                var foregroundColor = brightGreen
+	            }
+	
+	            var durationText = utils.timeText(totalDuration)
+	
+	            if(nestingLevel === 0) {
+	
+	                var initTestGroup = function(mainId, bgcolor, show) {
+	                    $(function()
+	                    {	$('#'+mainId).css({"border-color":"'+bgcolor+'"});
+	                        TestDisplayer.onToggle(show, bgcolor, '#'+mainId);
+	
+	                        $('#'+mainId+'_final').click(function()
+	                        {	TestDisplayer.onToggle($('#'+mainId).css("display") == "none", bgcolor, '#'+mainId);
+	                        });
+	                    });
+	                }
+	
+	                var nameLine = "", titleLine = ''
+	                if(name) {
+	                    titleLine = '<h1 class="primaryTitle">'+name+'</h1>'
+	                    nameLine = name+' - '
+	                }
+	
+	                var timeoutNote = ""
+	                if(timedOut) {
+	                    timeoutNote = 'The test timed out'
+	                }
+	
+	                return titleLine+
+	                       '<div class="testResultsArea" id="'+mainId+'">'+
+	                            testResults.join('\n')+
+	                            exceptionResults.join('\n')+"\n"+
+	                            '<div style="color:'+red+'">'+timeoutNote+'</div>'+
+	                       '</div>'+
+	                       '<div class="testResultsBar link" style="border:2px solid '+bgcolor+';" id="'+mainId+'_final">'+
+	                            '<div class="testResultsBarInner" style="background-color:'+bgcolor+';">'+
+	                                '<div style="float:right;"><i>click on this bar</i></div>'+
+	                                '<div><span class="testResultsName">'+nameLine+'</span>' + testSuccesses+'/'+total+' successful tests. '+
+	                                '<span style="color:'+brightGreen+'">'+assertSuccesses+' pass'+utils.plural(assertSuccesses,"es","")+'</span>'+
+	                                ', <span style="color:'+darkRed+'">'+assertFailures+' fail'+utils.plural(assertFailures)+'</span>'+
+	                                ', and <span style="color:'+brightPurple+'">'+exceptions+' exception'+utils.plural(exceptions)+'</span>'+
+	                                '. <span style="color: '+white+'">Took '+durationText+".</span>"+
+	                            '</div>'+
+	                       '</div>'+
+	
+	                       '<script>;('+initTestGroup+')("'+mainId+'", "'+bgcolor+'", '+show+')</script>'+
+	                       '</div>'
+	
+	            } else {
+	                var n = getNewNumber()
+	
+	                var testId = mainId+n
+	
+	                var initTest = function(mainId, bgcolor, show, n) {
+	                    $(function()
+	                    {	$('#'+mainId).css({borderColor:bgcolor});
+	                        TestDisplayer.onToggle(show, bgcolor, '#'+mainId+n+'_inner', '#'+mainId+n);
+	
+	                        $('.'+mainId+n+'_status').click(function()
+	                        {	TestDisplayer.onToggle
+	                            (	$('#'+mainId+n+'_inner').css("display") == "none",
+	                                bgcolor,
+	                                '#'+mainId+n+'_inner',
+	                                '#'+mainId+n+''
+	                            );
+	                        });
+	                    });
+	                }
+	
+	                if(!name) name = "<unnamed test>"
+	
+	                return '<div class="resultsArea" id="'+mainId+n+'">'+
+	                            '<div class="resultsBar link '+mainId+n+'_status" style="background-color:'+bgcolor+';color:'+foregroundColor+'">'+
+	                                name+': &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+	                                testSuccesses+'/'+total+" and "+exceptions+" exception"+utils.plural(exceptions)
+	                                +' <span style="color: white">took '+durationText+'</span>'+
+	                            '</div>'+
+	                            '<div class="resultsAreaInner" id="'+testId+'_inner">'+
+	                                '<h2 class="'+testId+'_status link" style="color:'+bgcolor+';">'+name+'</h2>'+
+	                                testResults.join('\n')+"\n"+
+	                                exceptionResults.join('\n')+"\n"+
+	                            '</div>'+
+	                            '<script>;('+initTest+')("'+mainId+'", "'+bgcolor+'", '+show+', '+n+')</script>'+
+	                      '</div>';
+	            }
+	        },
+	        assert: function(result) {
+	            if(false === result.success) {
+	                var color = red;
+	                var word = "Fail:";
+	            } else {
+	                var color = green;
+	                var word = "Ok!";
+	            }
+	
+	            var linesDisplay = "<i>"+utils.textToHtml(result.sourceLines)+"</i>";
+	            if(result.sourceLines.indexOf("\n") !== -1) {
+	                linesDisplay = "<br>\n"+linesDisplay;
+	            }
+	
+	            var expectations = ""
+	            if(!result.success && (result.actual !== undefined || result.expected !== undefined)) {
+	                var things = []
+	                if(result.expected !== undefined)
+	                    things.push("Expected "+utils.textToHtml(utils.valueToMessage(result.expected)))
+	                if(result.actual !== undefined)
+	                    things.push("Got "+utils.textToHtml(utils.valueToMessage(result.actual)))
+	
+	                expectations = " - "+things.join(', ')
+	            }
+	
+	            var column = ''
+	            if(result.column !== undefined) {
+	                column = ":"+result.column
+	            }
+	
+	            return '<div style="color:'+color+';"><span >'+word+'</span>'+
+	                        " <span class='locationOuter'>[<span class='locationInner'>"
+	                                +result.file+" line <span class='lineNumber'>"+result.line+"</span>"+column+"</span>]"
+	                        +"</span> "
+	                    +linesDisplay
+	                    +' <span class="expectations">'+expectations+'</span>'
+	            +"</div>"
+	        },
+	        exception: function(exception) {
+	            var formattedException = utils.textToHtml(utils.errorToString(exception))
+	            return '<div style="color:'+purple+';">Exception: '+formattedException+'</div>'
+	        },
+	        log: function(values) {
+	            return '<div>'
+	                +values.map(function(v) {
+	                    return utils.textToHtml(utils.valueToString(v))
+	                }).join(', ')
+	            +'</div>'
+	
+	        }
+	    })
+	
+	    return formattedTestHtml.then(function(formattedHtml) {
+	        return Future('<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>'+
+	        '<style>\
+	            body{\
+	                background-color: '+black+';\
+	                color: '+white+';\
+	            }\
+	            h2{\
+	                margin-bottom: 5px;\
+	                margin-top: 10px;\
+	            }\
+	            .green\
+	            {   color: '+green+';\
+	            }\
+	            .link\
+	            {   cursor:pointer;\
+	            }\
+	            .primaryTitle {\
+	                color: '+blue+';\
+	            }\
+	            .testResultsName {\
+	                color: '+brightBlue+';\
+	            }\
+	            .asyncTime {\
+	                color: '+gray+';\
+	            }\
+	            .resultsArea{\
+	                margin:1px;\
+	                margin-bottom: 5px;\
+	            }\
+	                .resultsAreaInner{\
+	                    padding:0 8px;\
+	                }\
+	                .resultsBar{\
+	                    color:white;\
+	                    margin-bottom:4px;\
+	                    padding: 1px 3px;\
+	                }\
+	            .testResultsArea{\
+	                padding:0 8px;\
+	            }\
+	            .testResultsBar{\
+	                background-color:'+black+';color:white;margin:4px 0;\
+	            }\
+	                .testResultsBarInner{\
+	                    color:white;margin:1px;padding: 1px 3px;\
+	                }\
+	                \
+	            .locationOuter{\
+	                color:'+white+';\
+	            }\
+	            .locationInner, .expectations {\
+	                color:'+gray+';\
+	            }\
+	            .lineNumber{\
+	                color:'+white+';\
+	            }\
+	         </style>'+
+	        '<script type="text/javascript">                      \
+	             var TestDisplayer = ('+getTestDisplayer+')() \
+	          </script>'
+	        +formattedHtml)
+	    })
+	}
+	
+	var nextId = 0
+	var getMainId = function(name) {
+	    nextId++
+	    return 'unitTest_'+nextId//+name.replace(/[^a-zA-Z]/g, "") // get rid of all characters except letters
+	}
+	var getNewNumber = function() {
+	    getNewNumber.n++
+	    return getNewNumber.n
+	}
+	getNewNumber.n = 0
+	
+
+
+/***/ },
+/* 24 */
+/*!************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/deadunit.internal.js ***!
+  \************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	module.exports = function(options) {
+	    var exports = {}
+	
+	    var deadunitCore = options.deadunitCore
+	    var proto = __webpack_require__(/*! proto */ 47)
+	
+	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 23)
+	    exports.format = __webpack_require__(/*! ./basicFormatter */ 45)
+	
+	    exports.error = deadunitCore.error
+	
+	    exports.test = proto(deadunitCore.test, function() {
+	        this.string = function() {
+	            return defaultFormats.text(this, undefined, /*printOnTheFly=*/false, /*printLateEvents=*/false)
+	        }
+	
+	        this.html = function() {
+	            return defaultFormats.html(this, false)
+	        }
+	
+	        this.results = function() {
+	            arguments[0] = false
+	            return deadunitCore.test.results.apply(this, arguments)
+	        }
+	
+	        options.environmentSpecificMethods.call(this)
+	    })
+	
+	    return exports
+	}
+	
+
+
+/***/ },
+/* 25 */
+/*!************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/utils.js ***!
+  \************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	var util = __webpack_require__(/*! util */ 51)
+	
+	exports.plural = function (num, plural, singular) {
+		var plur = num!==1;
+	
+	    if(singular === undefined) {
+	    	if(plur)	return "s"
+	        else        return ""
+	    } else {
+	    	if(plur)	return plural
+	        else		return singular
+	    }
+	}
+	
+	
+	exports.textToHtml = function(text) {
+	    return htmlEscape(text)
+	            .replace(/ /g, '&nbsp;')
+	            .replace(/\n/g, "<br>\n")
+	            .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
+	}
+	
+	exports.timeText = function (ms) {
+	    if(ms < 2000)
+	        return ms+"ms"
+	    else
+	        return Number(ms/1000).toPrecision(3)+'s'
+	}
+	
+	
+	exports.valueToMessage = function(value) {
+	    if(value instanceof Error) {
+	        return exports.errorToString(value)
+	    } else {
+	        return prettyPrint(value)
+	    }
+	}
+	
+	exports.errorToString = function(err) {
+	    if(err instanceof Error) {
+	        var otherProperties = []
+	        for(var n in err) {
+	            if(Object.hasOwnProperty.call(err, n) && n !== 'message' && n !== 'stack') {
+	                otherProperties.push(exports.valueToString(err[n]))
+	            }
+	        }
+	
+	        var properties = ''
+	        if(otherProperties.length > 0)
+	            properties = '\n'+otherProperties.join("\n")
+	
+	
+	        if(err.stack !== undefined) {
+	            if(err.stack.indexOf(err.message) !== -1) { // chrome
+	                return err.stack+properties
+	            } else { // firefox (others?)
+	                return err.message+'\n'+err.stack+properties
+	            }
+	        } else {
+	            return err.toString()+properties
+	        }
+	    } else {
+	        return err
+	    }
+	}
+	
+	exports.valueToString = function(v) {
+	    if(v instanceof Error) {
+	        return exports.errorToString(v)
+	
+	    } else if(typeof(v) === 'string') {
+	        return v
+	    } else {
+	        return prettyPrint(v)
+	    }
+	}
+	
+	function prettyPrint(value) {
+	    try {
+	        return util.inspect(value)       // I've seen this throw an error if the value contains a radio button dom object
+	    } catch(e) {
+	        console.log(e)
+	        return "<error printing value>"
+	    }
+	}
+	
+	
+	function htmlEscape(str) {
+	    return String(str)
+	            .replace(/&/g, '&amp;')
+	            .replace(/"/g, '&quot;')
+	            .replace(/'/g, '&#39;')
+	            .replace(/</g, '&lt;')
+	            .replace(/>/g, '&gt;')
+	}
+
+/***/ },
+/* 26 */
 /*!**************************!*\
   !*** ../external/jss.js ***!
   \**************************/
@@ -7099,7 +7790,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
 
 /***/ },
-/* 24 */
+/* 27 */
 /*!*******************************!*\
   !*** ../~/blockStyleUtils.js ***!
   \*******************************/
@@ -7107,10 +7798,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// some functionality that is needed by Gem.js but is related to styling (some things are also needed by Style.js)
 	
-	var HashMap = __webpack_require__(/*! hashmap */ 36)
+	var HashMap = __webpack_require__(/*! hashmap */ 38)
 	
-	var Style = __webpack_require__(/*! ./Style */ 4)
-	var utils = __webpack_require__(/*! ./utils */ 25)
+	var Style = __webpack_require__(/*! ./Style */ 7)
+	var utils = __webpack_require__(/*! ./utils */ 28)
 	
 	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
 	var computedStyles = new HashMap() // stores a map from styleMap components, to the combined style map
@@ -7559,7 +8250,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 25 */
+/* 28 */
 /*!*********************!*\
   !*** ../~/utils.js ***!
   \*********************/
@@ -7645,597 +8336,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 26 */
-/*!*********************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/defaultFormats.js ***!
-  \*********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Future = __webpack_require__(/*! async-future */ 48)
-	
-	var formatBasic = __webpack_require__(/*! ./basicFormatter */ 44)
-	var indent = __webpack_require__(/*! ./indent */ 46)
-	var utils = __webpack_require__(/*! ./utils */ 28)
-	
-	// unitTest is a deadunit-core UnitTest object
-	// if consoleColoring is true, the string will contain console color annotations
-	// if printOnTheFly is true, test results will be printed to the screen in addition to being returned
-	// returns a future containing a string with the final results
-	exports.text = function textOutput(unitTest, consoleColors, printOnTheFly, printLateEvents) {
-	    if(printLateEvents === undefined) printLateEvents = true
-	
-	    function color(theColor, theString) {
-	        if(consoleColors !== undefined)
-	            return consoleColors[theColor](theString.toString())
-	        else
-	            return theString.toString()
-	    }
-	
-	    var warningHasBeenPrinted = false
-	    function lateEventsWarning() {
-	        if(ended && !warningHasBeenPrinted && printLateEvents) {
-	            warningHasBeenPrinted = true
-	
-	            return color('red',
-	                'Test results were accessed before asynchronous parts of tests were fully complete'
-	                +" If you have tests with asynchronous parts, make sure to use `this.count` to declare how many assertions you're waiting for."
-	            )+'\n\n'
-	        } else {
-	            return ''
-	        }
-	    }
-	
-	
-	    var ended = false
-	    return formatBasic(unitTest, printOnTheFly, consoleColors, {
-	        group: function(name, totalDuration, testSuccesses, testFailures,
-	                              assertSuccesses, assertFailures, exceptions,
-	                              testResults, exceptionResults, nestingLevel, timedOut, onTheFly) {
-	
-	            var total = testSuccesses+testFailures
-	
-	            var addResults = function() {
-	                var result = ''
-	                if(testResults.length > 0)
-	                    result += '\n'+indent('   ', testResults.join('\n'))
-	                if(exceptionResults.length > 0)
-	                    result += '\n'+indent('   ', exceptionResults.join('\n'))
-	                return result
-	            }
-	
-	
-	            var testColor, exceptionColor, failColor, finalColor
-	            testColor = exceptionColor = failColor = finalColor = 'green'
-	            if(testFailures > 0) {
-	                testColor = failColor = finalColor = 'red'
-	            }
-	            if(exceptions > 0) {
-	                finalColor = 'red'
-	                exceptionColor = 'magenta'
-	            }
-	
-	            var durationText = utils.timeText(totalDuration)
-	
-	            if(nestingLevel === 0) {
-	                var resultsLine = ''
-	
-	                if(name) resultsLine += color('cyan', name+' - ')
-	
-	
-	
-	                resultsLine += color(finalColor, testSuccesses+'/'+(testSuccesses+testFailures)+' successful tests. ')+
-	                        color('green', assertSuccesses+' pass'+utils.plural(assertSuccesses,"es",""))+
-	                        ', '+color(failColor, assertFailures+' fail'+utils.plural(assertFailures))+
-	                        ', and '+color(exceptionColor, exceptions+' exception'+utils.plural(exceptions))+"."
-	                        +color('grey', " Took "+durationText+".")
-	
-	                var result = ''
-	                if(name) result += color('cyan', name)+'\n'
-	                result += addResults()
-	                result += '\n\n'+resultsLine
-	
-	                if(timedOut) {
-	                    result += color('red', '\n    The test timed out')
-	                }
-	            } else {
-	                if(!name) name = "<unnamed test>"
-	                var result = color(finalColor, name)+':           '
-	                                +color(testColor, testSuccesses+'/'+total)
-	                                +" and "+color(exceptionColor, exceptionResults.length+" exception"+utils.plural(exceptionResults.length))
-	                                +color('grey', " took "+durationText)
-	                result += addResults()
-	            }
-	
-	            return lateEventsWarning()+result
-	        },
-	        assert: function(result, test, onTheFly) {
-	            if(result.success) {
-	                var word = "Ok!  ";
-	                var c = 'green'
-	            } else {
-	                var word = "Fail:";
-	                var c = 'red'
-	            }
-	
-	            var linesDisplay = result.sourceLines
-	            if(result.sourceLines.indexOf("\n") !== -1) {
-	                linesDisplay = "\n"+linesDisplay;
-	            }
-	
-	            var expectations = ""
-	            if(!result.success && (result.actual !== undefined || result.expected !== undefined)) {
-	                var things = []
-	                if(result.expected !== undefined)
-	                    things.push("Expected "+utils.valueToMessage(result.expected))
-	                if(result.actual !== undefined)
-	                    things.push("Got "+utils.valueToMessage(result.actual))
-	
-	                expectations = " - "+things.join(', ')
-	            }
-	
-	            var column = ''
-	            if(result.column !== undefined) {
-	                column = color('grey', ":"+result.column)
-	            }
-	
-	            return lateEventsWarning()+color(c, word)+" ["+color('grey', result.file)+" "+result.line+column+"] "
-	                        +color(c, linesDisplay)
-	                        +expectations
-	        },
-	        exception: function(e, onTheFly) {
-	            return lateEventsWarning()+color('red', 'Exception: ')
-	                        +color('magenta', utils.errorToString(e))
-	        },
-	        log: function(values, onTheFly) {
-	            return lateEventsWarning()+values.map(function(v) {
-	                return utils.valueToString(v)
-	            }).join(', ')
-	        },
-	        end: function() {
-	            ended = true
-	        }
-	    })
-	}
-	
-	
-	var htmlColors = exports.htmlColors = {
-	    red: 'rgb(200,30,30)',
-	    darkRed: 'rgb(90,0,0)',
-	    lightRed: 'rgb(255,210,230)',
-	
-	    black: 'rgb(20,20,20)',
-	    white: 'rgb(240,220,220)',
-	    gray: 'rgb(185, 180, 180)',
-	
-	    green: 'rgb(0,100,20)',
-	    brightGreen: 'rgb(0,200,50)',
-	
-	    purple: 'rgb(190,0,160)',
-	    brightPurple: 'rgb(255,126,255)',
-	
-	    blue: 'rgb(0, 158, 173)',
-	    brightBlue: 'rgb(0, 233, 255)',
-	
-	    yellow: 'rgb(210,182,0)',
-	    darkYellow: 'rgb(106,93,0)'
-	}
-	
-	var red = htmlColors.red
-	var darkRed = htmlColors.darkRed
-	var lightRed = htmlColors.lightRed
-	var black = htmlColors.black
-	var white = htmlColors.white
-	var green = htmlColors.green
-	var brightGreen = htmlColors.brightGreen
-	var purple = htmlColors.purple
-	var brightPurple = htmlColors.brightPurple
-	var blue = htmlColors.blue
-	var brightBlue = htmlColors.brightBlue
-	var gray = htmlColors.gray
-	
-	
-	exports.html = function(unitTest, printLateEvents) {
-	    if(printLateEvents === undefined) printLateEvents = true
-	
-	    var getTestDisplayer = function() {
-	        return {
-	            onToggle: function(displayNone, $bgcolor, innerSelector, outerSelector) {
-	                if(displayNone == true) {
-	                    $(innerSelector).css({"display":""});
-	                    if(outerSelector != undefined) {
-	                        $(outerSelector).css({"border":"1px solid "+$bgcolor});
-	                    }
-	                } else {
-	                    $(innerSelector).css({"display":"none"});
-	                    if(outerSelector != undefined) {
-	                        $(outerSelector).css({"border":""});
-	                    }
-	                }
-	            }
-	        }
-	    }
-	
-	
-	    var formattedTestHtml = formatBasic(unitTest, false, {
-	        group: function(name, totalDuration, testSuccesses, testFailures,
-	                          assertSuccesses, assertFailures, exceptions,
-	                          testResults, exceptionResults, nestingLevel, timedOut) {
-	
-	            var total = testSuccesses+testFailures
-	            var mainId = getMainId(name)
-	
-	            if(testFailures > 0 || exceptions > 0) {
-	                var bgcolor=red;
-	                var show = "true";
-	                var foregroundColor = lightRed
-	            } else {
-	                var bgcolor=green;
-	                var show = "false";
-	                var foregroundColor = brightGreen
-	            }
-	
-	            var durationText = utils.timeText(totalDuration)
-	
-	            if(nestingLevel === 0) {
-	
-	                var initTestGroup = function(mainId, bgcolor, show) {
-	                    $(function()
-	                    {	$('#'+mainId).css({"border-color":"'+bgcolor+'"});
-	                        TestDisplayer.onToggle(show, bgcolor, '#'+mainId);
-	
-	                        $('#'+mainId+'_final').click(function()
-	                        {	TestDisplayer.onToggle($('#'+mainId).css("display") == "none", bgcolor, '#'+mainId);
-	                        });
-	                    });
-	                }
-	
-	                var nameLine = "", titleLine = ''
-	                if(name) {
-	                    titleLine = '<h1 class="primaryTitle">'+name+'</h1>'
-	                    nameLine = name+' - '
-	                }
-	
-	                var timeoutNote = ""
-	                if(timedOut) {
-	                    timeoutNote = 'The test timed out'
-	                }
-	
-	                return titleLine+
-	                       '<div class="testResultsArea" id="'+mainId+'">'+
-	                            testResults.join('\n')+
-	                            exceptionResults.join('\n')+"\n"+
-	                            '<div style="color:'+red+'">'+timeoutNote+'</div>'+
-	                       '</div>'+
-	                       '<div class="testResultsBar link" style="border:2px solid '+bgcolor+';" id="'+mainId+'_final">'+
-	                            '<div class="testResultsBarInner" style="background-color:'+bgcolor+';">'+
-	                                '<div style="float:right;"><i>click on this bar</i></div>'+
-	                                '<div><span class="testResultsName">'+nameLine+'</span>' + testSuccesses+'/'+total+' successful tests. '+
-	                                '<span style="color:'+brightGreen+'">'+assertSuccesses+' pass'+utils.plural(assertSuccesses,"es","")+'</span>'+
-	                                ', <span style="color:'+darkRed+'">'+assertFailures+' fail'+utils.plural(assertFailures)+'</span>'+
-	                                ', and <span style="color:'+brightPurple+'">'+exceptions+' exception'+utils.plural(exceptions)+'</span>'+
-	                                '. <span style="color: '+white+'">Took '+durationText+".</span>"+
-	                            '</div>'+
-	                       '</div>'+
-	
-	                       '<script>;('+initTestGroup+')("'+mainId+'", "'+bgcolor+'", '+show+')</script>'+
-	                       '</div>'
-	
-	            } else {
-	                var n = getNewNumber()
-	
-	                var testId = mainId+n
-	
-	                var initTest = function(mainId, bgcolor, show, n) {
-	                    $(function()
-	                    {	$('#'+mainId).css({borderColor:bgcolor});
-	                        TestDisplayer.onToggle(show, bgcolor, '#'+mainId+n+'_inner', '#'+mainId+n);
-	
-	                        $('.'+mainId+n+'_status').click(function()
-	                        {	TestDisplayer.onToggle
-	                            (	$('#'+mainId+n+'_inner').css("display") == "none",
-	                                bgcolor,
-	                                '#'+mainId+n+'_inner',
-	                                '#'+mainId+n+''
-	                            );
-	                        });
-	                    });
-	                }
-	
-	                if(!name) name = "<unnamed test>"
-	
-	                return '<div class="resultsArea" id="'+mainId+n+'">'+
-	                            '<div class="resultsBar link '+mainId+n+'_status" style="background-color:'+bgcolor+';color:'+foregroundColor+'">'+
-	                                name+': &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
-	                                testSuccesses+'/'+total+" and "+exceptions+" exception"+utils.plural(exceptions)
-	                                +' <span style="color: white">took '+durationText+'</span>'+
-	                            '</div>'+
-	                            '<div class="resultsAreaInner" id="'+testId+'_inner">'+
-	                                '<h2 class="'+testId+'_status link" style="color:'+bgcolor+';">'+name+'</h2>'+
-	                                testResults.join('\n')+"\n"+
-	                                exceptionResults.join('\n')+"\n"+
-	                            '</div>'+
-	                            '<script>;('+initTest+')("'+mainId+'", "'+bgcolor+'", '+show+', '+n+')</script>'+
-	                      '</div>';
-	            }
-	        },
-	        assert: function(result) {
-	            if(false === result.success) {
-	                var color = red;
-	                var word = "Fail:";
-	            } else {
-	                var color = green;
-	                var word = "Ok!";
-	            }
-	
-	            var linesDisplay = "<i>"+utils.textToHtml(result.sourceLines)+"</i>";
-	            if(result.sourceLines.indexOf("\n") !== -1) {
-	                linesDisplay = "<br>\n"+linesDisplay;
-	            }
-	
-	            var expectations = ""
-	            if(!result.success && (result.actual !== undefined || result.expected !== undefined)) {
-	                var things = []
-	                if(result.expected !== undefined)
-	                    things.push("Expected "+utils.textToHtml(utils.valueToMessage(result.expected)))
-	                if(result.actual !== undefined)
-	                    things.push("Got "+utils.textToHtml(utils.valueToMessage(result.actual)))
-	
-	                expectations = " - "+things.join(', ')
-	            }
-	
-	            var column = ''
-	            if(result.column !== undefined) {
-	                column = ":"+result.column
-	            }
-	
-	            return '<div style="color:'+color+';"><span >'+word+'</span>'+
-	                        " <span class='locationOuter'>[<span class='locationInner'>"
-	                                +result.file+" line <span class='lineNumber'>"+result.line+"</span>"+column+"</span>]"
-	                        +"</span> "
-	                    +linesDisplay
-	                    +' <span class="expectations">'+expectations+'</span>'
-	            +"</div>"
-	        },
-	        exception: function(exception) {
-	            var formattedException = utils.textToHtml(utils.errorToString(exception))
-	            return '<div style="color:'+purple+';">Exception: '+formattedException+'</div>'
-	        },
-	        log: function(values) {
-	            return '<div>'
-	                +values.map(function(v) {
-	                    return utils.textToHtml(utils.valueToString(v))
-	                }).join(', ')
-	            +'</div>'
-	
-	        }
-	    })
-	
-	    return formattedTestHtml.then(function(formattedHtml) {
-	        return Future('<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>'+
-	        '<style>\
-	            body{\
-	                background-color: '+black+';\
-	                color: '+white+';\
-	            }\
-	            h2{\
-	                margin-bottom: 5px;\
-	                margin-top: 10px;\
-	            }\
-	            .green\
-	            {   color: '+green+';\
-	            }\
-	            .link\
-	            {   cursor:pointer;\
-	            }\
-	            .primaryTitle {\
-	                color: '+blue+';\
-	            }\
-	            .testResultsName {\
-	                color: '+brightBlue+';\
-	            }\
-	            .asyncTime {\
-	                color: '+gray+';\
-	            }\
-	            .resultsArea{\
-	                margin:1px;\
-	                margin-bottom: 5px;\
-	            }\
-	                .resultsAreaInner{\
-	                    padding:0 8px;\
-	                }\
-	                .resultsBar{\
-	                    color:white;\
-	                    margin-bottom:4px;\
-	                    padding: 1px 3px;\
-	                }\
-	            .testResultsArea{\
-	                padding:0 8px;\
-	            }\
-	            .testResultsBar{\
-	                background-color:'+black+';color:white;margin:4px 0;\
-	            }\
-	                .testResultsBarInner{\
-	                    color:white;margin:1px;padding: 1px 3px;\
-	                }\
-	                \
-	            .locationOuter{\
-	                color:'+white+';\
-	            }\
-	            .locationInner, .expectations {\
-	                color:'+gray+';\
-	            }\
-	            .lineNumber{\
-	                color:'+white+';\
-	            }\
-	         </style>'+
-	        '<script type="text/javascript">                      \
-	             var TestDisplayer = ('+getTestDisplayer+')() \
-	          </script>'
-	        +formattedHtml)
-	    })
-	}
-	
-	var nextId = 0
-	var getMainId = function(name) {
-	    nextId++
-	    return 'unitTest_'+nextId//+name.replace(/[^a-zA-Z]/g, "") // get rid of all characters except letters
-	}
-	var getNewNumber = function() {
-	    getNewNumber.n++
-	    return getNewNumber.n
-	}
-	getNewNumber.n = 0
-	
-
-
-/***/ },
-/* 27 */
-/*!************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/deadunit.internal.js ***!
-  \************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2013 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	module.exports = function(options) {
-	    var exports = {}
-	
-	    var deadunitCore = options.deadunitCore
-	    var proto = __webpack_require__(/*! proto */ 45)
-	
-	    var defaultFormats = __webpack_require__(/*! ./defaultFormats */ 26)
-	    exports.format = __webpack_require__(/*! ./basicFormatter */ 44)
-	
-	    exports.error = deadunitCore.error
-	
-	    exports.test = proto(deadunitCore.test, function() {
-	        this.string = function() {
-	            return defaultFormats.text(this, undefined, /*printOnTheFly=*/false, /*printLateEvents=*/false)
-	        }
-	
-	        this.html = function() {
-	            return defaultFormats.html(this, false)
-	        }
-	
-	        this.results = function() {
-	            arguments[0] = false
-	            return deadunitCore.test.results.apply(this, arguments)
-	        }
-	
-	        options.environmentSpecificMethods.call(this)
-	    })
-	
-	    return exports
-	}
-	
-
-
-/***/ },
-/* 28 */
-/*!************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/utils.js ***!
-  \************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	var util = __webpack_require__(/*! util */ 51)
-	
-	exports.plural = function (num, plural, singular) {
-		var plur = num!==1;
-	
-	    if(singular === undefined) {
-	    	if(plur)	return "s"
-	        else        return ""
-	    } else {
-	    	if(plur)	return plural
-	        else		return singular
-	    }
-	}
-	
-	
-	exports.textToHtml = function(text) {
-	    return htmlEscape(text)
-	            .replace(/ /g, '&nbsp;')
-	            .replace(/\n/g, "<br>\n")
-	            .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
-	}
-	
-	exports.timeText = function (ms) {
-	    if(ms < 2000)
-	        return ms+"ms"
-	    else
-	        return Number(ms/1000).toPrecision(3)+'s'
-	}
-	
-	
-	exports.valueToMessage = function(value) {
-	    if(value instanceof Error) {
-	        return exports.errorToString(value)
-	    } else {
-	        return prettyPrint(value)
-	    }
-	}
-	
-	exports.errorToString = function(err) {
-	    if(err instanceof Error) {
-	        var otherProperties = []
-	        for(var n in err) {
-	            if(Object.hasOwnProperty.call(err, n) && n !== 'message' && n !== 'stack') {
-	                otherProperties.push(exports.valueToString(err[n]))
-	            }
-	        }
-	
-	        var properties = ''
-	        if(otherProperties.length > 0)
-	            properties = '\n'+otherProperties.join("\n")
-	
-	
-	        if(err.stack !== undefined) {
-	            if(err.stack.indexOf(err.message) !== -1) { // chrome
-	                return err.stack+properties
-	            } else { // firefox (others?)
-	                return err.message+'\n'+err.stack+properties
-	            }
-	        } else {
-	            return err.toString()+properties
-	        }
-	    } else {
-	        return err
-	    }
-	}
-	
-	exports.valueToString = function(v) {
-	    if(v instanceof Error) {
-	        return exports.errorToString(v)
-	
-	    } else if(typeof(v) === 'string') {
-	        return v
-	    } else {
-	        return prettyPrint(v)
-	    }
-	}
-	
-	function prettyPrint(value) {
-	    try {
-	        return util.inspect(value)       // I've seen this throw an error if the value contains a radio button dom object
-	    } catch(e) {
-	        console.log(e)
-	        return "<error printing value>"
-	    }
-	}
-	
-	
-	function htmlEscape(str) {
-	    return String(str)
-	            .replace(/&/g, '&amp;')
-	            .replace(/"/g, '&quot;')
-	            .replace(/'/g, '&#39;')
-	            .replace(/</g, '&lt;')
-	            .replace(/>/g, '&gt;')
-	}
-
-/***/ },
 /* 29 */
 /*!*****************************!*\
   !*** ../~/EventEmitterB.js ***!
@@ -8244,7 +8344,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var EventEmitter = __webpack_require__(/*! events */ 35).EventEmitter
 	var proto = __webpack_require__(/*! proto */ 22)
-	var utils = __webpack_require__(/*! utils */ 25)
+	var utils = __webpack_require__(/*! utils */ 28)
 	
 	module.exports = proto(EventEmitter, function(superclass) {
 	
@@ -8448,7 +8548,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Gem = __webpack_require__(/*! Gem */ 8)
 	var proto = __webpack_require__(/*! proto */ 22)
-	var Style = __webpack_require__(/*! Style */ 4)
+	var Style = __webpack_require__(/*! Style */ 7)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -8495,8 +8595,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var proto = __webpack_require__(/*! proto */ 22)
 	
 	var Gem = __webpack_require__(/*! Gem */ 8)
-	var Style = __webpack_require__(/*! Style */ 4)
-	var domUtils = __webpack_require__(/*! domUtils */ 6)
+	var Style = __webpack_require__(/*! Style */ 7)
+	var domUtils = __webpack_require__(/*! domUtils */ 5)
 	
 	// emits a 'change' event when its 'selected' value changes
 	module.exports = proto(Gem, function(superclass) {
@@ -8613,18 +8713,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 33 */
-/*!******************************!*\
-  !*** ../~/Components/Row.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 49);
-	
-	module.exports = RowlikeGenerator('tr', "TableRow")
-
-
-/***/ },
-/* 34 */
 /*!*******************************!*\
   !*** ../~/Components/Cell.js ***!
   \*******************************/
@@ -8632,7 +8720,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Gem = __webpack_require__(/*! ../Gem */ 8)
 	var proto = __webpack_require__(/*! proto */ 22)
-	var Style = __webpack_require__(/*! Style */ 4)
+	var Style = __webpack_require__(/*! Style */ 7)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -8670,6 +8758,18 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.attr('colspan',cols);
 		}
 	});
+
+
+/***/ },
+/* 34 */
+/*!******************************!*\
+  !*** ../~/Components/Row.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 49);
+	
+	module.exports = RowlikeGenerator('tr', "TableRow")
 
 
 /***/ },
@@ -8984,202 +9084,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 36 */
-/*!*************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/hashmap/hashmap.js ***!
-  \*************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
-	 * HashMap - HashMap Class for JavaScript
-	 * @author Ariel Flesler <aflesler@gmail.com>
-	 * @version 2.0.3
-	 * Homepage: https://github.com/flesler/hashmap
-	 */
-	
-	(function(factory) {
-		if (true) {
-			// AMD. Register as an anonymous module.
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else if (typeof module === 'object') {
-			// Node js environment
-			var HashMap = module.exports = factory();
-			// Keep it backwards compatible
-			HashMap.HashMap = HashMap;
-		} else {
-			// Browser globals (this is window)
-			this.HashMap = factory();
-		}
-	}(function() {
-	
-		function HashMap(other) {
-			this.clear();
-			switch (arguments.length) {
-				case 0: break;
-				case 1: this.copy(other); break;
-				default: multi(this, arguments); break;
-			}
-		}
-	
-		var proto = HashMap.prototype = {
-			constructor:HashMap,
-	
-			get:function(key) {
-				var data = this._data[this.hash(key)];
-				return data && data[1];
-			},
-	
-			set:function(key, value) {
-				// Store original key as well (for iteration)
-				this._data[this.hash(key)] = [key, value];
-			},
-	
-			multi:function() {
-				multi(this, arguments);
-			},
-	
-			copy:function(other) {
-				for (var key in other._data) {
-					this._data[key] = other._data[key];
-				}
-			},
-	
-			has:function(key) {
-				return this.hash(key) in this._data;
-			},
-	
-			search:function(value) {
-				for (var key in this._data) {
-					if (this._data[key][1] === value) {
-						return this._data[key][0];
-					}
-				}
-	
-				return null;
-			},
-	
-			remove:function(key) {
-				delete this._data[this.hash(key)];
-			},
-	
-			type:function(key) {
-				var str = Object.prototype.toString.call(key);
-				var type = str.slice(8, -1).toLowerCase();
-				// Some browsers yield DOMWindow for null and undefined, works fine on Node
-				if (type === 'domwindow' && !key) {
-					return key + '';
-				}
-				return type;
-			},
-	
-			keys:function() {
-				var keys = [];
-				this.forEach(function(value, key) { keys.push(key); });
-				return keys;
-			},
-	
-			values:function() {
-				var values = [];
-				this.forEach(function(value) { values.push(value); });
-				return values;
-			},
-	
-			count:function() {
-				return this.keys().length;
-			},
-	
-			clear:function() {
-				// TODO: Would Object.create(null) make any difference
-				this._data = {};
-			},
-	
-			clone:function() {
-				return new HashMap(this);
-			},
-	
-			hash:function(key) {
-				switch (this.type(key)) {
-					case 'undefined':
-					case 'null':
-					case 'boolean':
-					case 'number':
-					case 'regexp':
-						return key + '';
-	
-					case 'date':
-						return '♣' + key.getTime();
-	
-					case 'string':
-						return '♠' + key;
-	
-					case 'array':
-						var hashes = [];
-						for (var i = 0; i < key.length; i++) {
-							hashes[i] = this.hash(key[i]);
-						}
-						return '♥' + hashes.join('⁞');
-	
-					default:
-						// TODO: Don't use expandos when Object.defineProperty is not available?
-						if (!key.hasOwnProperty('_hmuid_')) {
-							key._hmuid_ = ++HashMap.uid;
-							hide(key, '_hmuid_');
-						}
-	
-						return '♦' + key._hmuid_;
-				}
-			},
-	
-			forEach:function(func, ctx) {
-				for (var key in this._data) {
-					var data = this._data[key];
-					func.call(ctx || this, data[1], data[0]);
-				}
-			}
-		};
-	
-		HashMap.uid = 0;
-	
-		//- Automatically add chaining to some methods
-	
-		for (var method in proto) {
-			// Skip constructor, valueOf, toString and any other built-in method
-			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
-				continue;
-			}
-			var fn = proto[method];
-			if (fn.toString().indexOf('return ') === -1) {
-				proto[method] = chain(fn);
-			}
-		}
-	
-		//- Utils
-	
-		function multi(map, args) {
-			for (var i = 0; i < args.length; i += 2) {
-				map.set(args[i], args[i+1]);
-			}
-		}
-	
-		function chain(fn) {
-			return function() {
-				fn.apply(this, arguments);
-				return this;
-			};
-		}
-	
-		function hide(obj, prop) {
-			// Make non iterable if supported
-			if (Object.defineProperty) {
-				Object.defineProperty(obj, prop, {enumerable:false});
-			}
-		}
-	
-		return HashMap;
-	}));
-
-
-/***/ },
-/* 37 */
 /*!*************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/trimArguments/trimArguments.js ***!
   \*************************************************************************************/
@@ -9203,7 +9107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 38 */
+/* 37 */
 /*!*************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/observe/observe.js ***!
   \*************************************************************************/
@@ -9681,6 +9585,202 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
+/* 38 */
+/*!*************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/hashmap/hashmap.js ***!
+  \*************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * HashMap - HashMap Class for JavaScript
+	 * @author Ariel Flesler <aflesler@gmail.com>
+	 * @version 2.0.3
+	 * Homepage: https://github.com/flesler/hashmap
+	 */
+	
+	(function(factory) {
+		if (true) {
+			// AMD. Register as an anonymous module.
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module === 'object') {
+			// Node js environment
+			var HashMap = module.exports = factory();
+			// Keep it backwards compatible
+			HashMap.HashMap = HashMap;
+		} else {
+			// Browser globals (this is window)
+			this.HashMap = factory();
+		}
+	}(function() {
+	
+		function HashMap(other) {
+			this.clear();
+			switch (arguments.length) {
+				case 0: break;
+				case 1: this.copy(other); break;
+				default: multi(this, arguments); break;
+			}
+		}
+	
+		var proto = HashMap.prototype = {
+			constructor:HashMap,
+	
+			get:function(key) {
+				var data = this._data[this.hash(key)];
+				return data && data[1];
+			},
+	
+			set:function(key, value) {
+				// Store original key as well (for iteration)
+				this._data[this.hash(key)] = [key, value];
+			},
+	
+			multi:function() {
+				multi(this, arguments);
+			},
+	
+			copy:function(other) {
+				for (var key in other._data) {
+					this._data[key] = other._data[key];
+				}
+			},
+	
+			has:function(key) {
+				return this.hash(key) in this._data;
+			},
+	
+			search:function(value) {
+				for (var key in this._data) {
+					if (this._data[key][1] === value) {
+						return this._data[key][0];
+					}
+				}
+	
+				return null;
+			},
+	
+			remove:function(key) {
+				delete this._data[this.hash(key)];
+			},
+	
+			type:function(key) {
+				var str = Object.prototype.toString.call(key);
+				var type = str.slice(8, -1).toLowerCase();
+				// Some browsers yield DOMWindow for null and undefined, works fine on Node
+				if (type === 'domwindow' && !key) {
+					return key + '';
+				}
+				return type;
+			},
+	
+			keys:function() {
+				var keys = [];
+				this.forEach(function(value, key) { keys.push(key); });
+				return keys;
+			},
+	
+			values:function() {
+				var values = [];
+				this.forEach(function(value) { values.push(value); });
+				return values;
+			},
+	
+			count:function() {
+				return this.keys().length;
+			},
+	
+			clear:function() {
+				// TODO: Would Object.create(null) make any difference
+				this._data = {};
+			},
+	
+			clone:function() {
+				return new HashMap(this);
+			},
+	
+			hash:function(key) {
+				switch (this.type(key)) {
+					case 'undefined':
+					case 'null':
+					case 'boolean':
+					case 'number':
+					case 'regexp':
+						return key + '';
+	
+					case 'date':
+						return '♣' + key.getTime();
+	
+					case 'string':
+						return '♠' + key;
+	
+					case 'array':
+						var hashes = [];
+						for (var i = 0; i < key.length; i++) {
+							hashes[i] = this.hash(key[i]);
+						}
+						return '♥' + hashes.join('⁞');
+	
+					default:
+						// TODO: Don't use expandos when Object.defineProperty is not available?
+						if (!key.hasOwnProperty('_hmuid_')) {
+							key._hmuid_ = ++HashMap.uid;
+							hide(key, '_hmuid_');
+						}
+	
+						return '♦' + key._hmuid_;
+				}
+			},
+	
+			forEach:function(func, ctx) {
+				for (var key in this._data) {
+					var data = this._data[key];
+					func.call(ctx || this, data[1], data[0]);
+				}
+			}
+		};
+	
+		HashMap.uid = 0;
+	
+		//- Automatically add chaining to some methods
+	
+		for (var method in proto) {
+			// Skip constructor, valueOf, toString and any other built-in method
+			if (method === 'constructor' || !proto.hasOwnProperty(method)) {
+				continue;
+			}
+			var fn = proto[method];
+			if (fn.toString().indexOf('return ') === -1) {
+				proto[method] = chain(fn);
+			}
+		}
+	
+		//- Utils
+	
+		function multi(map, args) {
+			for (var i = 0; i < args.length; i += 2) {
+				map.set(args[i], args[i+1]);
+			}
+		}
+	
+		function chain(fn) {
+			return function() {
+				fn.apply(this, arguments);
+				return this;
+			};
+		}
+	
+		function hide(obj, prop) {
+			// Make non iterable if supported
+			if (Object.defineProperty) {
+				Object.defineProperty(obj, prop, {enumerable:false});
+			}
+		}
+	
+		return HashMap;
+	}));
+
+
+/***/ },
 /* 39 */
 /*!****************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/Container.js ***!
@@ -9708,7 +9808,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Block */ 55)
+	module.exports = __webpack_require__(/*! ./src/~/Block */ 56)
 
 /***/ },
 /* 42 */
@@ -9718,15 +9818,30 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file just contains a proxies to the actual source file, so that you can access standard blocks via require('blocks/Select')
-	module.exports = __webpack_require__(/*! ./src/~/Style */ 56)
+	module.exports = __webpack_require__(/*! ./src/~/Style */ 55)
 
 /***/ },
 /* 43 */
 /*!**********************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/async-future/asyncFuture.js ***!
   \**********************************************************************************/
-[195, 61],
+[149, 63],
 /* 44 */
+/*!***********************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
+  \***********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 54)
+	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 53)
+	
+	module.exports = deadunitCore(browserConfig())
+
+/***/ },
+/* 45 */
 /*!*********************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/basicFormatter.js ***!
   \*********************************************************************************/
@@ -9889,7 +10004,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 59)))
 
 /***/ },
-/* 45 */
+/* 46 */
+/*!*************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/indent.js ***!
+  \*************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	module.exports = function(i, str) {
+	    return i+str.split("\n")       // get all lines
+	              .join("\n"+i)      // join all lines with an indent
+	}
+
+/***/ },
+/* 47 */
 /*!********************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/proto/proto.js ***!
   \********************************************************************************/
@@ -10028,39 +10156,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 46 */
-/*!*************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/indent.js ***!
-  \*************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	module.exports = function(i, str) {
-	    return i+str.split("\n")       // get all lines
-	              .join("\n"+i)      // join all lines with an indent
-	}
-
-/***/ },
-/* 47 */
-/*!***********************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.browser.js ***!
-  \***********************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 53)
-	var browserConfig = __webpack_require__(/*! ./deadunitCore.browserConfig */ 54)
-	
-	module.exports = deadunitCore(browserConfig())
-
-/***/ },
 /* 48 */
 /*!*********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/async-future/asyncFuture.js ***!
   \*********************************************************************************************/
-[194, 70],
+[148, 70],
 /* 49 */
 /*!*******************************************!*\
   !*** ../~/Components/RowlikeGenerator.js ***!
@@ -10070,8 +10170,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var proto = __webpack_require__(/*! proto */ 22)
 	
 	var Gem = __webpack_require__(/*! Gem */ 8)
-	var Style = __webpack_require__(/*! Style */ 4)
-	var Cell = __webpack_require__(/*! ./Cell */ 34);
+	var Style = __webpack_require__(/*! Style */ 7)
+	var Cell = __webpack_require__(/*! ./Cell */ 33);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -11001,6 +11101,183 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 53 */
+/*!*****************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.browserConfig.js ***!
+  \*****************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
+	
+	var path = __webpack_require__(/*! path */ 50);
+	
+	var Future = __webpack_require__(/*! async-future */ 75)
+	var proto = __webpack_require__(/*! proto */ 76)
+	var stackinfo = __webpack_require__(/*! stackinfo */ 74)
+	var ajax = __webpack_require__(/*! ajax */ 78)
+	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 77).resolveSourceMap)
+	
+	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 54)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 61)
+	
+	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
+	
+	// add sourceFile contents into stacktrace.js's cache
+	var sourceCache = {}
+	var cacheGet = function(url) {
+	    return sourceCache[url]
+	}
+	var cacheSet = function(url, responseFuture) {
+	    sourceCache[url] = responseFuture
+	    if(stackinfo.sourceCache[url] === undefined) {
+	        responseFuture.then(function(response) {
+	            stackinfo.sourceCache[url] = response.text.split('\n')
+	        }).done()
+	    }
+	}
+	
+	// source-map-resolve assumed the availability of setImmediate
+	if(window.setImmediate === undefined) {
+	    window.setImmediate = function(fn, params) {
+	        setTimeout(function() {
+	            fn.apply(this,params)
+	        },0)
+	    }
+	}
+	
+	ajax.cacheGet(cacheGet)
+	ajax.cacheSet(cacheSet)
+	
+	
+	var config = module.exports = proto(function() {
+	    this.init = function() {
+	        var that = this
+	        // node.js errback style readFile
+	        /*private*/ this.readFile = function(url, callback) {
+	            that.ajax(url).then(function(response) { // need to use 'that' because readFile will not be called with this config object as the context
+	                callback(undefined, response.text)
+	            }).catch(callback).done()
+	        }
+	    }
+	
+	    this.ajax = ajax
+	
+	    this.initialize = function() {}
+	
+	    this.initializeMainTest = function(testState) {
+	        //testState.active = true // make sure
+	
+	        testState.oldOnerror = window.onerror
+	        testState.newOnerror = window.onerror = function(errorMessage, filename, line, column) {
+	            if(column === undefined) var columnText = ''
+	            else                     var columnText = "/"+column
+	
+	            try {
+	                throw new Error("Uncaught error in "+filename+" line "+line+columnText+": "+errorMessage) // IE needs the exception to actually be thrown before it will have a stack trace
+	            } catch(e) {
+	                testState.unhandledErrorHandler(e, true)
+	                if(testState.oldOnerror)
+	                    testState.oldOnerror.apply(this, arguments)
+	            }
+	        }
+	    }
+	    this.mainTestDone= function(testState) {
+	        //testState.active = false // make sure the test-specific onerror code is no longer run
+	        /*if(testState.newOnerror === window.onerror) {
+	            window.onerror = testState.oldOnerror // otherwise something else has overwritten onerror, so don't mess with it
+	        }*/
+	    }
+	
+	    this.getDomain= function() {
+	        return undefined // domains don't exist in-browser
+	    }
+	
+	    this.runTestGroup= function(deadunitState, tester, runTest, handleError, handleUnhandledError) {
+	        runTest()
+	    }
+	    this.getScriptSourceLines= function(path) {
+	        if(stackinfo.sourceCache[path] !== undefined) {
+	            return Future(stackinfo.sourceCache[path])
+	        } else {
+	            return this.ajax(path).then(function(response) {
+	                return Future(response.text.split('\n'))
+	            })
+	        }
+	
+	    }
+	    this.getSourceMapObject = function(url, warningHandler) {
+	        var that = this
+	        return this.ajax(url).then(function(response) {
+	            var headers = response.headers
+	            if(headers['SourceMap'] !== undefined) {
+	                var headerSourceMap = headers['SourceMap']
+	            } else if(headers['X-SourceMap']) {
+	                var headerSourceMap = headers['X-SourceMap']
+	            }
+	
+	            if(headerSourceMap !== undefined) {
+	                if(isRelative(headerSourceMap)) {
+	                    headerSourceMap = path.join(path.dirname(url),headerSourceMap)
+	                }
+	
+	                return that.ajax(headerSourceMap).then(function(response) {
+	                    return Future(JSON.parse(response.text))
+	                })
+	
+	            } else {
+	                return resolveSourceMap(response.text, url, that.readFile).catch(function(e){
+	                    warningHandler(e)
+	                    return Future(null)
+	
+	                }).then(function(sourceMapObject) {
+	                    if(sourceMapObject !== null) {
+	                        return Future(sourceMapObject.map)
+	                    } else {
+	                        return Future(undefined)
+	                    }
+	                })
+	            }
+	        })
+	    }
+	
+	    this.defaultUnhandledErrorHandler= function(e) {
+	        //if(e !== undefined)
+	            setTimeout(function() {
+	                if(e.stack)
+	                    console.log(e.stack)
+	                else
+	                    console.log(e)
+	            },0)
+	    }
+	    this.defaultTestErrorHandler= function(tester) {
+	        return function(e) {
+	            tester.manager.emit('exception', {
+	                parent: tester.mainSubTest.id,
+	                time: (new Date()).getTime(),
+	                error: e
+	            })
+	        }
+	    }
+	
+	    this.getLineInfo= function(stackIncrease) {
+	        return Future(stackinfo()[3+stackIncrease])
+	    }
+	
+	    this.getExceptionInfo= function(e) {
+	        return Future(stackinfo(e))
+	    }
+	
+	    this.throwAsyncException = function(e) {
+	        setTimeout(function() {
+	            if(e.stack !== undefined) throw e.stack
+	            else                      throw e
+	        },0)
+	    }
+	})
+
+
+/***/ },
+/* 54 */
 /*!***************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.js ***!
   \***************************************************************************************************/
@@ -11013,11 +11290,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Url = __webpack_require__(/*! url */ 71)
 	
 	var proto = __webpack_require__(/*! proto */ 76)
-	var Future = __webpack_require__(/*! async-future */ 73)
-	var SourceMapConsumer = __webpack_require__(/*! source-map */ 74).SourceMapConsumer
+	var Future = __webpack_require__(/*! async-future */ 75)
+	var SourceMapConsumer = __webpack_require__(/*! source-map */ 73).SourceMapConsumer
 	
-	var processResults = __webpack_require__(/*! ./processResults */ 63)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 62)
+	var processResults = __webpack_require__(/*! ./processResults */ 62)
+	var isRelative = __webpack_require__(/*! ./isRelative */ 61)
 	
 	// returns a module intended for a specific environment (that environment being described by the options)
 	// options can contain:
@@ -11918,643 +12195,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 54 */
-/*!*****************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/deadunitCore.browserConfig.js ***!
-  \*****************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/* Copyright (c) 2014 Billy Tetrud - Free to use for any purpose: MIT License*/
-	
-	var path = __webpack_require__(/*! path */ 50);
-	
-	var Future = __webpack_require__(/*! async-future */ 73)
-	var proto = __webpack_require__(/*! proto */ 76)
-	var stackinfo = __webpack_require__(/*! stackinfo */ 75)
-	var ajax = __webpack_require__(/*! ajax */ 78)
-	var resolveSourceMap = Future.wrap(__webpack_require__(/*! source-map-resolve */ 77).resolveSourceMap)
-	
-	var deadunitCore = __webpack_require__(/*! ./deadunitCore */ 53)
-	var isRelative = __webpack_require__(/*! ./isRelative */ 62)
-	
-	ajax.setSynchronous(true) // todo: REMOVE THIS once this chrome bug is fixed in a public release: https://code.google.com/p/chromium/issues/detail?id=368444
-	
-	// add sourceFile contents into stacktrace.js's cache
-	var sourceCache = {}
-	var cacheGet = function(url) {
-	    return sourceCache[url]
-	}
-	var cacheSet = function(url, responseFuture) {
-	    sourceCache[url] = responseFuture
-	    if(stackinfo.sourceCache[url] === undefined) {
-	        responseFuture.then(function(response) {
-	            stackinfo.sourceCache[url] = response.text.split('\n')
-	        }).done()
-	    }
-	}
-	
-	// source-map-resolve assumed the availability of setImmediate
-	if(window.setImmediate === undefined) {
-	    window.setImmediate = function(fn, params) {
-	        setTimeout(function() {
-	            fn.apply(this,params)
-	        },0)
-	    }
-	}
-	
-	ajax.cacheGet(cacheGet)
-	ajax.cacheSet(cacheSet)
-	
-	
-	var config = module.exports = proto(function() {
-	    this.init = function() {
-	        var that = this
-	        // node.js errback style readFile
-	        /*private*/ this.readFile = function(url, callback) {
-	            that.ajax(url).then(function(response) { // need to use 'that' because readFile will not be called with this config object as the context
-	                callback(undefined, response.text)
-	            }).catch(callback).done()
-	        }
-	    }
-	
-	    this.ajax = ajax
-	
-	    this.initialize = function() {}
-	
-	    this.initializeMainTest = function(testState) {
-	        //testState.active = true // make sure
-	
-	        testState.oldOnerror = window.onerror
-	        testState.newOnerror = window.onerror = function(errorMessage, filename, line, column) {
-	            if(column === undefined) var columnText = ''
-	            else                     var columnText = "/"+column
-	
-	            try {
-	                throw new Error("Uncaught error in "+filename+" line "+line+columnText+": "+errorMessage) // IE needs the exception to actually be thrown before it will have a stack trace
-	            } catch(e) {
-	                testState.unhandledErrorHandler(e, true)
-	                if(testState.oldOnerror)
-	                    testState.oldOnerror.apply(this, arguments)
-	            }
-	        }
-	    }
-	    this.mainTestDone= function(testState) {
-	        //testState.active = false // make sure the test-specific onerror code is no longer run
-	        /*if(testState.newOnerror === window.onerror) {
-	            window.onerror = testState.oldOnerror // otherwise something else has overwritten onerror, so don't mess with it
-	        }*/
-	    }
-	
-	    this.getDomain= function() {
-	        return undefined // domains don't exist in-browser
-	    }
-	
-	    this.runTestGroup= function(deadunitState, tester, runTest, handleError, handleUnhandledError) {
-	        runTest()
-	    }
-	    this.getScriptSourceLines= function(path) {
-	        if(stackinfo.sourceCache[path] !== undefined) {
-	            return Future(stackinfo.sourceCache[path])
-	        } else {
-	            return this.ajax(path).then(function(response) {
-	                return Future(response.text.split('\n'))
-	            })
-	        }
-	
-	    }
-	    this.getSourceMapObject = function(url, warningHandler) {
-	        var that = this
-	        return this.ajax(url).then(function(response) {
-	            var headers = response.headers
-	            if(headers['SourceMap'] !== undefined) {
-	                var headerSourceMap = headers['SourceMap']
-	            } else if(headers['X-SourceMap']) {
-	                var headerSourceMap = headers['X-SourceMap']
-	            }
-	
-	            if(headerSourceMap !== undefined) {
-	                if(isRelative(headerSourceMap)) {
-	                    headerSourceMap = path.join(path.dirname(url),headerSourceMap)
-	                }
-	
-	                return that.ajax(headerSourceMap).then(function(response) {
-	                    return Future(JSON.parse(response.text))
-	                })
-	
-	            } else {
-	                return resolveSourceMap(response.text, url, that.readFile).catch(function(e){
-	                    warningHandler(e)
-	                    return Future(null)
-	
-	                }).then(function(sourceMapObject) {
-	                    if(sourceMapObject !== null) {
-	                        return Future(sourceMapObject.map)
-	                    } else {
-	                        return Future(undefined)
-	                    }
-	                })
-	            }
-	        })
-	    }
-	
-	    this.defaultUnhandledErrorHandler= function(e) {
-	        //if(e !== undefined)
-	            setTimeout(function() {
-	                if(e.stack)
-	                    console.log(e.stack)
-	                else
-	                    console.log(e)
-	            },0)
-	    }
-	    this.defaultTestErrorHandler= function(tester) {
-	        return function(e) {
-	            tester.manager.emit('exception', {
-	                parent: tester.mainSubTest.id,
-	                time: (new Date()).getTime(),
-	                error: e
-	            })
-	        }
-	    }
-	
-	    this.getLineInfo= function(stackIncrease) {
-	        return Future(stackinfo()[3+stackIncrease])
-	    }
-	
-	    this.getExceptionInfo= function(e) {
-	        return Future(stackinfo(e))
-	    }
-	
-	    this.throwAsyncException = function(e) {
-	        setTimeout(function() {
-	            if(e.stack !== undefined) throw e.stack
-	            else                      throw e
-	        },0)
-	    }
-	})
-
-
-/***/ },
 /* 55 */
-/*!******************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
-  \******************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 69)
-	var proto = __webpack_require__(/*! proto */ 45);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 37)
-	var observe = __webpack_require__(/*! observe */ 80)
-	
-	var utils = __webpack_require__(/*! ./utils */ 64)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 65)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 66)
-	
-	var Style = __webpack_require__(/*! ./Style */ 56)
-	Style.isDev = function() {return module.exports.dev}
-	
-	var components = {};
-	
-	var setOfBrowserEvents = utils.arrayToMap([
-	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
-	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
-	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
-	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
-	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
-	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
-	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
-	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
-	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
-	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
-	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
-	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
-	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
-	])
-	
-	// events:
-	    // newParent - emits this when a component gets a new parent
-	    // parentRemoved - emits this when a component is detached from its parent
-	var Block = module.exports = proto(EventEmitterB,function(superclass) {
-	
-	    // static properties
-	
-	    // constructor
-		this.init = function() {
-	        var that = this
-	
-	        if(this.name === undefined) {
-	            throw new Error("The 'name' property is required for Blocks")
-	        }
-	
-	        var defaultBlockStyle = blockStyleUtils.defaultStyleMap.get(this.constructor)
-	        if(defaultBlockStyle === undefined) {
-	            defaultBlockStyle = blockStyleUtils.createDefaultBlockStyle(this)
-	        }
-	
-	        superclass.init.call(this)
-	
-	        this.children = []
-	        this.state = observe({})
-	        this.parent = undefined;
-	
-			if (this.id !== undefined) {
-				components[this.id] = this;
-			}
-	
-	        if(this.domNode === undefined) {
-	            this.domNode = domUtils.div()
-	        }
-	
-	        this.build.apply(this, arguments)
-	
-	        //if(module.exports.dev) {
-	            this.attr('blkName', this.name)
-	        //}
-	
-	        var classList = [this.domNode.className]
-	        if(defaultBlockStyle !== false) classList.push(defaultBlockStyle.className)
-	        classList.push(Style.defaultClassName)
-	        this.domNode.className = classList.join(' ') // note that the order of classes doesn't matter
-	
-	        // set up dom event handlers
-	        var ifonHandlers={}
-	        that.ifon(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
-	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
-	                })
-	            }
-	        })
-	        that.ifoff(function(event) {
-	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	                that.domNode.removeEventListener(event,ifonHandlers[event])
-	            }
-	        })
-		}
-	
-	    // sub-constructor - called by the constructor
-	    // parameters:
-	        // label - (Optional) A label that can be used to style a component differently.
-	                   // Intended to be some string describing what the component is being used for.
-	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
-	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
-	    this.build = function(/*[label,] domNode*/) {
-	        if(arguments.length === 1) {
-	            this.domNode = arguments[0]
-	        } else if(arguments.length >= 2) {
-	            this.label = arguments[0]
-	            this.domNode = arguments[1]
-	        }
-	    }
-		
-	
-		// instance properties
-	
-		
-		this.domNode;
-	    this.label;
-	    this.excludeDomEvents;
-	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
-	
-	
-	    Object.defineProperty(this, 'label', {
-	        get: function() {
-	            return this._label
-	        }, set: function(v) {
-	            if(this._label === undefined) {
-	                this._label = v
-	
-	                if(module.exports.dev) {
-	                    this.attr('label', this._label)
-	                }
-	            } else {
-	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
-	            }
-	        }
-	    })
-	
-	    // adds elements to the components main domNode
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.add = function() {
-	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
-		}
-	
-	    // adds nodes at a particular index
-	    // nodes can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addAt = function(index/*, nodes...*/) {
-	        var nodes = normalizeAddAtArguments.apply(this, arguments)
-	
-	        for (var i=0;i<nodes.length;i++) {
-				var node = nodes[i];
-	            this.children.splice(index+i, 0, node)
-	
-	            if(!isBlock(node)) {
-	                throw new Error("node is not a Block")
-	            }
-	
-	            node.parent = undefined
-	            node.emit('parentRemoved')
-	
-	            var beforeChild = this.children[1+i+index]
-	            if(beforeChild === undefined) {
-	                this.domNode.appendChild(node.domNode)
-	            } else {
-	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
-	            }
-	
-	            node.parent = this;
-	            node.emit('newParent')
-	
-	            // apply styles
-	            //if(itsaBlock) { // its always a component now
-	                var that = this
-	                node.getParentStyleMap = function() {return that.computedStyleMap}
-	                blockStyleUtils.propogateStyleSet([node], this.computedStyleMap)
-	            //}
-			}
-	    }
-	
-		// add a list of nodes before a particular node
-	    // if beforeChild is undefined, this will append the given nodes
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfBlocks
-	    this.addBefore = this.addBeforeNode = function(beforeChild) {
-	        var nodes = trimArguments(arguments).slice(1)
-	        if(beforeChild === undefined) {
-	            this.add.apply(this, nodes)
-	        } else {
-	            var index = this.children.indexOf(beforeChild)
-	            this.addAt.apply(this, [index].concat(nodes))
-	        }
-	    }
-	
-	
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // index, index, index, ... - each index is the numerical index to remove
-	        // arrayOfComponents
-	        // arrayOfIndexes
-	    this.remove = function() {
-	        var removals = normalizeRemoveArguments.apply(this, arguments)
-	        removals = removals.sort(function(a,b) {
-	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
-	        })
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	            var c = this.children[r]
-	
-	            if(c === undefined) {
-	                throw new Error("There is no child at index "+r)
-	            }
-	
-	            c.parent = undefined
-	            this.children.splice(r, 1)
-	            this.domNode.removeChild(this.domNode.childNodes[r])
-	
-	            c.emit('parentRemoved')
-	        }
-	    }
-	
-	    // sets or gets an attribute on the components domNode
-	    // parameter sets:
-	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
-	    // if there are two arguments passed, the attribute is set
-	        // if 'value' is undefined, the attribute is removed
-	    this.attr = function(/*attribute, value OR attributeObject*/) {
-	        if(arguments.length === 1) {
-	            if(arguments[0] instanceof Object) {
-	                var attributes = arguments[0]
-	                for(var attribute in attributes) {
-	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
-	                }
-	            } else {
-	                var attribute = this.domNode.getAttribute(arguments[0])
-	                if(attribute === null) {
-	                    return undefined // screw null
-	                } else {
-	                    return attribute
-	                }
-	            }
-	        } else {
-	            var attribute = arguments[0]
-	            if(arguments[1] !== undefined) {
-	                var value = arguments[1]
-	                domUtils.setAttribute(this.domNode, arguments[0], value)
-	            } else {
-	                this.domNode.removeAttribute(attribute)
-	            }
-	        }
-	    }
-	
-	    Object.defineProperty(this, 'visible', {
-	        // returns true if the element is visible
-	        get: function() {
-	            return this.domNode.style.display !== 'none';
-	
-	        // sets whether or not the element is visible
-	        }, set: function(setToVisible) {
-	            if(setToVisible) {
-	                if (this._displayStyle !== undefined) {
-	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
-	                    this._displayStyle = undefined
-	                } else {
-	                    this.domNode.style.display = ''
-	                }
-	            } else {
-	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
-	                    this._displayStyle = this.domNode.style.display
-	                }
-	
-	                this.domNode.style.display = 'none'
-	            }
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'focus', {
-	        // returns true if the element is in focus
-	        get: function() {
-	            return document.activeElement === this.domNode
-	
-	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
-	        }, set: function(setToInFocus) {
-	            if(setToInFocus) {
-	                this.domNode.focus()
-	            } else {
-	                this.domNode.blur()
-	            }
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'style', {
-	        get: function() {
-	            return this._style
-	
-	        // sets the style, replacing one if one already exists
-	        }, set: function(styleObject) {
-	            if(styleObject === undefined) {
-	                var styleMap = this.getParentStyleMap()
-	                if(styleMap !== undefined) {
-	                    blockStyleUtils.setCurrentStyle(this, blockStyleUtils.getStyleForComponent(styleMap, this))
-	                } else {
-	                    blockStyleUtils.setCurrentStyle(this, undefined)
-	                }
-	
-	                this.computedStyleMap = styleMap
-	
-	            } else {
-	                blockStyleUtils.setCurrentStyle(this, styleObject)
-	                var specificStyle = styleObject.get(this)
-	                if(this.getParentStyleMap() !== undefined) {
-	                    this.computedStyleMap = blockStyleUtils.styleMapConjunction(this.getParentStyleMap(), specificStyle.componentStyleMap)
-	                } else {
-	                    this.computedStyleMap = specificStyle.componentStyleMap
-	                }
-	            }
-	
-	            this._style = styleObject
-	            blockStyleUtils.propogateStyleSet(this.children, this.computedStyleMap) // propogate styles to children
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'selectionRange', {
-	        // returns the visible character selection range inside the element
-	        // returns an array like [offsetStart, offsetEnd]
-	        get: function() {
-	            return domUtils.getSelectionRange(this.domNode)
-	
-	        // sets the visible character selection range
-	        }, set: function(selection) {
-	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
-	        }
-	    })
-	
-	    this.attach = function() {
-	        attach(this)
-	    }
-	    this.detach = function() {
-	        detach(this)
-	    }
-	
-	
-		// private instance variables/functions
-	
-	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
-	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
-	
-		this._style;              // the object's explicit Style object (undefined if it inherits a style)
-	    this.currentStyle;       // the object's current Style (inherited or explicit)
-	    this._displayStyle;      // temporariliy stores an inline display style while the element is hidden (for use when 'show' is called)
-	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
-	});
-	
-	
-	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
-	
-	
-	// appends components to the body
-	var attach = module.exports.attach = function(/*component,component,.. or components*/) {
-	    if(arguments[0] instanceof Array) {
-	        var components = arguments[0]
-	    } else {
-	        var components = arguments
-	    }
-	
-	    if(document.body === null) throw new Error("Your document does not have a body.")
-	
-	    for(var n=0; n<components.length; n++) {
-	        document.body.appendChild(components[n].domNode)
-	    }
-	}
-	// removes components from the body
-	var detach = module.exports.detach = function(/*component,component,.. or components*/) {
-	    if(arguments[0] instanceof Array) {
-	        var components = arguments[0]
-	    } else {
-	        var components = arguments
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        document.body.removeChild(components[n].domNode)
-	    }
-	}
-	
-	// creates a body tag (only call this if document.body is null)
-	
-	module.exports.createBody = function(callback) {
-	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-	    var body = dom.createElement("body")
-	    dom.documentElement.appendChild(body)
-	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
-	        callback()
-	    },0)
-	}
-	
-	
-	
-	
-	// returns a list of indexes to remove from Block.remove's arguments
-	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
-	    var that = this
-	
-	    if(arguments[0] instanceof Array) {
-	        var removals = arguments[0]
-	    } else {
-	        var removals = Array.prototype.slice.call(arguments)
-	    }
-	
-	    return removals.map(function(removal, parameterIndex) {
-	        if(isBlock(removal)) {
-	            var index = that.children.indexOf(removal)
-	            if(index === -1) {
-	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
-	            }
-	            return index
-	        } else {
-	            return removal
-	        }
-	
-	    })
-	}
-	
-	// returns a list of nodes to add
-	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
-	    if(arguments.length === 2) {
-	        if(arguments[1] instanceof Array) {
-	            return arguments[1]
-	        } else {
-	            return [arguments[1]]
-	        }
-	    } else { // > 2
-	        return trimArguments(arguments).slice(1)
-	    }
-	}
-	
-	function isBlock(c) {
-	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
-	}
-	function isDomNode(node) {
-	    return node.nodeName !== undefined
-	}
-
-/***/ },
-/* 56 */
 /*!******************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Style.js ***!
   \******************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jssModule = __webpack_require__(/*! ../external/jss */ 67)
-	var proto = __webpack_require__(/*! proto */ 45)
+	var jssModule = __webpack_require__(/*! ../external/jss */ 64)
+	var proto = __webpack_require__(/*! proto */ 47)
 	var HashMap = __webpack_require__(/*! hashmap */ 79)
 	
-	var utils = __webpack_require__(/*! ./utils */ 64)
+	var utils = __webpack_require__(/*! ./utils */ 65)
 	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 66)
 	
 	var baseClassName = '_ComponentStyle_' // the base name for generated class names
@@ -13406,15 +13057,464 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 56 */
+/*!******************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Block.js ***!
+  \******************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 69)
+	var proto = __webpack_require__(/*! proto */ 47);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 36)
+	var observe = __webpack_require__(/*! observe */ 80)
+	
+	var utils = __webpack_require__(/*! ./utils */ 65)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 67)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 66)
+	
+	var Style = __webpack_require__(/*! ./Style */ 55)
+	Style.isDev = function() {return module.exports.dev}
+	
+	var components = {};
+	
+	var setOfBrowserEvents = utils.arrayToMap([
+	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
+	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
+	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
+	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
+	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
+	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
+	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
+	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
+	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
+	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
+	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
+	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
+	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
+	])
+	
+	// events:
+	    // newParent - emits this when a component gets a new parent
+	    // parentRemoved - emits this when a component is detached from its parent
+	var Block = module.exports = proto(EventEmitterB,function(superclass) {
+	
+	    // static properties
+	
+	    // constructor
+		this.init = function() {
+	        var that = this
+	
+	        if(this.name === undefined) {
+	            throw new Error("The 'name' property is required for Blocks")
+	        }
+	
+	        var defaultBlockStyle = blockStyleUtils.defaultStyleMap.get(this.constructor)
+	        if(defaultBlockStyle === undefined) {
+	            defaultBlockStyle = blockStyleUtils.createDefaultBlockStyle(this)
+	        }
+	
+	        superclass.init.call(this)
+	
+	        this.children = []
+	        this.state = observe({})
+	        this.parent = undefined;
+	
+			if (this.id !== undefined) {
+				components[this.id] = this;
+			}
+	
+	        if(this.domNode === undefined) {
+	            this.domNode = domUtils.div()
+	        }
+	
+	        this.build.apply(this, arguments)
+	
+	        //if(module.exports.dev) {
+	            this.attr('blkName', this.name)
+	        //}
+	
+	        var classList = [this.domNode.className]
+	        if(defaultBlockStyle !== false) classList.push(defaultBlockStyle.className)
+	        classList.push(Style.defaultClassName)
+	        this.domNode.className = classList.join(' ') // note that the order of classes doesn't matter
+	
+	        // set up dom event handlers
+	        var ifonHandlers={}
+	        that.ifon(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.addEventListener(event, ifonHandlers[event]=function() {
+	                    that.emit.apply(that, [event].concat(Array.prototype.slice.call(arguments)))
+	                })
+	            }
+	        })
+	        that.ifoff(function(event) {
+	            if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	                that.domNode.removeEventListener(event,ifonHandlers[event])
+	            }
+	        })
+		}
+	
+	    // sub-constructor - called by the constructor
+	    // parameters:
+	        // label - (Optional) A label that can be used to style a component differently.
+	                   // Intended to be some string describing what the component is being used for.
+	                   // Note, tho, that labels are not dynamic - changing the label won't affect styling until a new style is applied to the component)
+	        // domNode - (Optional) A domNode to be used as the container domNode instead of the default (a div)
+	    this.build = function(/*[label,] domNode*/) {
+	        if(arguments.length === 1) {
+	            this.domNode = arguments[0]
+	        } else if(arguments.length >= 2) {
+	            this.label = arguments[0]
+	            this.domNode = arguments[1]
+	        }
+	    }
+		
+	
+		// instance properties
+	
+		
+		this.domNode;
+	    this.label;
+	    this.excludeDomEvents;
+	    this.children;     // a list of child components that are a part of a Block object (these are used so Styles can be propogated down to child components)
+	
+	
+	    Object.defineProperty(this, 'label', {
+	        get: function() {
+	            return this._label
+	        }, set: function(v) {
+	            if(this._label === undefined) {
+	                this._label = v
+	
+	                if(module.exports.dev) {
+	                    this.attr('label', this._label)
+	                }
+	            } else {
+	                throw new Error("A Block's label can only be set once (was already set to: "+this._label+")")
+	            }
+	        }
+	    })
+	
+	    // adds elements to the components main domNode
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.add = function() {
+	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
+		}
+	
+	    // adds nodes at a particular index
+	    // nodes can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addAt = function(index/*, nodes...*/) {
+	        var nodes = normalizeAddAtArguments.apply(this, arguments)
+	
+	        for (var i=0;i<nodes.length;i++) {
+				var node = nodes[i];
+	            this.children.splice(index+i, 0, node)
+	
+	            if(!isBlock(node)) {
+	                throw new Error("node is not a Block")
+	            }
+	
+	            node.parent = undefined
+	            node.emit('parentRemoved')
+	
+	            var beforeChild = this.children[1+i+index]
+	            if(beforeChild === undefined) {
+	                this.domNode.appendChild(node.domNode)
+	            } else {
+	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
+	            }
+	
+	            node.parent = this;
+	            node.emit('newParent')
+	
+	            // apply styles
+	            //if(itsaBlock) { // its always a component now
+	                var that = this
+	                node.getParentStyleMap = function() {return that.computedStyleMap}
+	                blockStyleUtils.propogateStyleSet([node], this.computedStyleMap)
+	            //}
+			}
+	    }
+	
+		// add a list of nodes before a particular node
+	    // if beforeChild is undefined, this will append the given nodes
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfBlocks
+	    this.addBefore = this.addBeforeNode = function(beforeChild) {
+	        var nodes = trimArguments(arguments).slice(1)
+	        if(beforeChild === undefined) {
+	            this.add.apply(this, nodes)
+	        } else {
+	            var index = this.children.indexOf(beforeChild)
+	            this.addAt.apply(this, [index].concat(nodes))
+	        }
+	    }
+	
+	
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // index, index, index, ... - each index is the numerical index to remove
+	        // arrayOfComponents
+	        // arrayOfIndexes
+	    this.remove = function() {
+	        var removals = normalizeRemoveArguments.apply(this, arguments)
+	        removals = removals.sort(function(a,b) {
+	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
+	        })
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	            var c = this.children[r]
+	
+	            if(c === undefined) {
+	                throw new Error("There is no child at index "+r)
+	            }
+	
+	            c.parent = undefined
+	            this.children.splice(r, 1)
+	            this.domNode.removeChild(this.domNode.childNodes[r])
+	
+	            c.emit('parentRemoved')
+	        }
+	    }
+	
+	    // sets or gets an attribute on the components domNode
+	    // parameter sets:
+	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
+	    // if there are two arguments passed, the attribute is set
+	        // if 'value' is undefined, the attribute is removed
+	    this.attr = function(/*attribute, value OR attributeObject*/) {
+	        if(arguments.length === 1) {
+	            if(arguments[0] instanceof Object) {
+	                var attributes = arguments[0]
+	                for(var attribute in attributes) {
+	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
+	                }
+	            } else {
+	                var attribute = this.domNode.getAttribute(arguments[0])
+	                if(attribute === null) {
+	                    return undefined // screw null
+	                } else {
+	                    return attribute
+	                }
+	            }
+	        } else {
+	            var attribute = arguments[0]
+	            if(arguments[1] !== undefined) {
+	                var value = arguments[1]
+	                domUtils.setAttribute(this.domNode, arguments[0], value)
+	            } else {
+	                this.domNode.removeAttribute(attribute)
+	            }
+	        }
+	    }
+	
+	    Object.defineProperty(this, 'visible', {
+	        // returns true if the element is visible
+	        get: function() {
+	            return this.domNode.style.display !== 'none';
+	
+	        // sets whether or not the element is visible
+	        }, set: function(setToVisible) {
+	            if(setToVisible) {
+	                if (this._displayStyle !== undefined) {
+	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
+	                    this._displayStyle = undefined
+	                } else {
+	                    this.domNode.style.display = ''
+	                }
+	            } else {
+	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
+	                    this._displayStyle = this.domNode.style.display
+	                }
+	
+	                this.domNode.style.display = 'none'
+	            }
+	        }
+	    })
+	
+	
+	    Object.defineProperty(this, 'focus', {
+	        // returns true if the element is in focus
+	        get: function() {
+	            return document.activeElement === this.domNode
+	
+	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
+	        }, set: function(setToInFocus) {
+	            if(setToInFocus) {
+	                this.domNode.focus()
+	            } else {
+	                this.domNode.blur()
+	            }
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'style', {
+	        get: function() {
+	            return this._style
+	
+	        // sets the style, replacing one if one already exists
+	        }, set: function(styleObject) {
+	            if(styleObject === undefined) {
+	                var styleMap = this.getParentStyleMap()
+	                if(styleMap !== undefined) {
+	                    blockStyleUtils.setCurrentStyle(this, blockStyleUtils.getStyleForComponent(styleMap, this))
+	                } else {
+	                    blockStyleUtils.setCurrentStyle(this, undefined)
+	                }
+	
+	                this.computedStyleMap = styleMap
+	
+	            } else {
+	                blockStyleUtils.setCurrentStyle(this, styleObject)
+	                var specificStyle = styleObject.get(this)
+	                if(this.getParentStyleMap() !== undefined) {
+	                    this.computedStyleMap = blockStyleUtils.styleMapConjunction(this.getParentStyleMap(), specificStyle.componentStyleMap)
+	                } else {
+	                    this.computedStyleMap = specificStyle.componentStyleMap
+	                }
+	            }
+	
+	            this._style = styleObject
+	            blockStyleUtils.propogateStyleSet(this.children, this.computedStyleMap) // propogate styles to children
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'selectionRange', {
+	        // returns the visible character selection range inside the element
+	        // returns an array like [offsetStart, offsetEnd]
+	        get: function() {
+	            return domUtils.getSelectionRange(this.domNode)
+	
+	        // sets the visible character selection range
+	        }, set: function(selection) {
+	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
+	        }
+	    })
+	
+	    this.attach = function() {
+	        attach(this)
+	    }
+	    this.detach = function() {
+	        detach(this)
+	    }
+	
+	
+		// private instance variables/functions
+	
+	    this.getParentStyleMap = function() {/*default returns undefined*/}  // should be set to a function that returns the computedStyleMap of the component containing this one (so Styles objects can be inherited)
+	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
+	
+		this._style;              // the object's explicit Style object (undefined if it inherits a style)
+	    this.currentStyle;       // the object's current Style (inherited or explicit)
+	    this._displayStyle;      // temporariliy stores an inline display style while the element is hidden (for use when 'show' is called)
+	    this._styleSetupStates   // place to put states for setup functions (used for css pseudoclass emulation)
+	});
+	
+	
+	module.exports.dev = false // set to true to enable dom element naming (so you can see boundaries of components when inspecting the dom)
+	
+	
+	// appends components to the body
+	var attach = module.exports.attach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
+	    }
+	
+	    if(document.body === null) throw new Error("Your document does not have a body.")
+	
+	    for(var n=0; n<components.length; n++) {
+	        document.body.appendChild(components[n].domNode)
+	    }
+	}
+	// removes components from the body
+	var detach = module.exports.detach = function(/*component,component,.. or components*/) {
+	    if(arguments[0] instanceof Array) {
+	        var components = arguments[0]
+	    } else {
+	        var components = arguments
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        document.body.removeChild(components[n].domNode)
+	    }
+	}
+	
+	// creates a body tag (only call this if document.body is null)
+	
+	module.exports.createBody = function(callback) {
+	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+	    var body = dom.createElement("body")
+	    dom.documentElement.appendChild(body)
+	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
+	        callback()
+	    },0)
+	}
+	
+	
+	
+	
+	// returns a list of indexes to remove from Block.remove's arguments
+	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
+	    var that = this
+	
+	    if(arguments[0] instanceof Array) {
+	        var removals = arguments[0]
+	    } else {
+	        var removals = Array.prototype.slice.call(arguments)
+	    }
+	
+	    return removals.map(function(removal, parameterIndex) {
+	        if(isBlock(removal)) {
+	            var index = that.children.indexOf(removal)
+	            if(index === -1) {
+	                throw new Error("The Block passed at index "+parameterIndex+" is not a child of this Block.")
+	            }
+	            return index
+	        } else {
+	            return removal
+	        }
+	
+	    })
+	}
+	
+	// returns a list of nodes to add
+	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
+	    if(arguments.length === 2) {
+	        if(arguments[1] instanceof Array) {
+	            return arguments[1]
+	        } else {
+	            return [arguments[1]]
+	        }
+	    } else { // > 2
+	        return trimArguments(arguments).slice(1)
+	    }
+	}
+	
+	function isBlock(c) {
+	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
+	}
+	function isDomNode(node) {
+	    return node.nodeName !== undefined
+	}
+
+/***/ },
 /* 57 */
 /*!****************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/Components/Text.js ***!
   \****************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 55)
-	var proto = __webpack_require__(/*! proto */ 45)
-	var Style = __webpack_require__(/*! Style */ 56)
+	var Block = __webpack_require__(/*! ../Block */ 56)
+	var proto = __webpack_require__(/*! proto */ 47)
+	var Style = __webpack_require__(/*! Style */ 55)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -13475,8 +13575,8 @@ return /******/ (function(modules) { // webpackBootstrap
   \*********************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Block = __webpack_require__(/*! ../Block */ 55)
-	var proto = __webpack_require__(/*! proto */ 45)
+	var Block = __webpack_require__(/*! ../Block */ 56)
+	var proto = __webpack_require__(/*! proto */ 47)
 	
 	module.exports = proto(Block, function(superclass) {
 	
@@ -13729,28 +13829,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 61 */
-/*!****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/async-future/~/trimArguments/trimArguments.js ***!
-  \****************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	    }
-	    args.splice(-0, count)
-	    return args
-	}
-
-/***/ },
-/* 62 */
 /*!*************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/isRelative.js ***!
   \*************************************************************************************************/
@@ -13765,7 +13843,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 63 */
+/* 62 */
 /*!*****************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/src/processResults.js ***!
   \*****************************************************************************************************/
@@ -13902,463 +13980,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 64 */
-/*!******************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/utils.js ***!
-  \******************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
-	
-	var path = __webpack_require__(/*! path */ 50)
-	
-	
-	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-	// any number of objects can be passed into the function and will be merged into the first argument in order
-	// returns obj1 (now mutated)
-	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
-	    return mergeInternal(arrayify(arguments), false)
-	}
-	
-	// like merge, but traverses the whole object tree
-	// the result is undefined for objects with circular references
-	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
-	    return mergeInternal(arrayify(arguments), true)
-	}
-	
-	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
-	exports.objectConjunction = function(a, b) {
-	    var objectCopy = {}
-	    merge(objectCopy, a)
-	    merge(objectCopy, b)
-	    return objectCopy
-	}
-	
-	// turns an array of values into a an object where those values are all keys that point to 'true'
-	exports.arrayToMap = function(array) {
-	    var result = {}
-	    array.forEach(function(v) {
-	        result[v] = true
-	    })
-	    return result
-	}
-	
-	function mergeInternal(objects, deep) {
-	    var obj1 = objects[0]
-	    var obj2 = objects[1]
-	
-	    for(var key in obj2){
-	       if(Object.hasOwnProperty.call(obj2, key)) {
-	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
-	                mergeInternal([obj1[key], obj2[key]], true)
-	            } else {
-	                obj1[key] = obj2[key]
-	            }
-	       }
-	    }
-	
-	    if(objects.length > 2) {
-	        var newObjects = [obj1].concat(objects.slice(2))
-	        return mergeInternal(newObjects, deep)
-	    } else {
-	        return obj1
-	    }
-	}
-	
-	function arrayify(a) {
-	    return Array.prototype.slice.call(a, 0)
-	}
-
-
-/***/ },
-/* 65 */
-/*!*********************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/domUtils.js ***!
-  \*********************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	// creates a dom element optionally with a class and attributes
-	 var node = module.exports.node = function(type, className, options) {
-	    var elem = document.createElement(type)
-	
-	    if(options !== undefined) {
-	        if(options.attr !== undefined) {
-	            for(var attribute in options.attr) {
-	                createAttribute(elem, attribute, options.attr[attribute])
-	            }
-	        }
-	        if(options.textContent !== undefined) {
-	            elem.textContent = options.textContent
-	        }
-	    }
-	
-	    if(className !== undefined)
-	        elem.className = className
-	
-	    return elem
-	}
-	
-	// convenience function for creating a div
-	module.exports.div = function(className, options) {
-	    return node('div', className, options)
-	}
-	
-	// adds an attribute to a domNode
-	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
-	    if (arguments.length === 2) {
-	        var domNode = this.domNode;
-	        var type = arguments[0];
-	        var value = arguments[1];
-	    } else if (arguments.length === 3) {
-	        var domNode = arguments[0];
-	        var type = arguments[1];
-	        var value = arguments[2];
-	    } else {
-	        throw new Error("This function expects arguments to be: [domNode,] type, value");
-	    }
-	    var attr = document.createAttribute(type)
-	    attr.value = value
-	    domNode.setAttributeNode(attr)
-	}
-	
-	
-	// sets the selection
-	//
-	// works for contenteditable elements
-	exports.setSelectionRange = function(containerEl, start, end) {
-	
-	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
-	        containerEl.setSelectionRange(start, end)
-	    } else {
-	        var charIndex = 0, range = document.createRange();
-	        range.setStart(containerEl, 0);
-	        range.collapse(true);
-	        var foundStart = false;
-	
-	        iterateThroughLeafNodes(containerEl, function(node) {
-	            var hiddenCharacters = findHiddenCharacters(node, node.length)
-	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
-	
-	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-	                var nodeIndex = start-charIndex
-	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
-	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
-	                foundStart = true;
-	            }
-	
-	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
-	                var nodeIndex = end-charIndex
-	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
-	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
-	                return true; // stop the iteration - we're done here
-	            }
-	
-	            charIndex = nextCharIndex
-	        })
-	
-	        var sel = window.getSelection();
-	        sel.removeAllRanges();
-	        sel.addRange(range);
-	    }
-	}
-	
-	// gets the character offsets of a selection within a particular dom node
-	// returns undefined if there is no selection in the element
-	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
-	exports.getSelectionRange = function (element) {
-	
-	    var selection = window.getSelection()
-	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
-	
-	    for(var n=0; n<selection.rangeCount; n++) {
-	        var range = selection.getRangeAt(0)
-	        if(isInputOrArea) {
-	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
-	                return [element.selectionStart, element.selectionEnd]
-	            }
-	        } else {
-	            var startsInElement = element.contains(range.startContainer)
-	            if(startsInElement) {
-	                var elementToIterateThrough = element
-	                var startFound = true
-	            } else {
-	                var elementToIterateThrough = range.commonAncestorContainer
-	                var startFound = false
-	                var startContainerFound = false
-	            }
-	
-	            var visibleCharacterOffset = 0, start, end;
-	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
-	                if(!startFound) {
-	                    if(leaf === range.startContainer) {
-	                        startContainerFound = true
-	                    }
-	
-	                    if(!element.contains(leaf) || !startContainerFound)
-	                        return; // continue
-	                    else if(startContainerFound)
-	                       startFound = true
-	                } else if(!startsInElement && !element.contains(leaf)) {
-	                    return true // done!
-	                }
-	
-	                if(leaf === range.startContainer) {
-	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
-	                }
-	                if(leaf === range.endContainer) {
-	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
-	                    return true // done!
-	                }
-	
-	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
-	            })
-	
-	            if(start === undefined && !startFound) {
-	                return undefined
-	            } else {
-	                if(start === undefined) {
-	                    start = 0 // start is at the beginning
-	                }
-	                if(end === undefined) {
-	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
-	                }
-	
-	                return [start, end]
-	            }
-	        }
-	    }
-	}
-	
-	
-	// iterate through the leaf nodes inside element
-	// callback(node) - a function called for each leaf node
-	    // returning true from this ends the iteration
-	function iterateThroughLeafNodes(element, callback) {
-	    var nodeStack = [element], node;
-	
-	    while (node = nodeStack.pop()) {
-	        if (node.nodeType == 3) {
-	            if(callback(node) === true)
-	                break;
-	        } else {
-	            var i = node.childNodes.length;
-	            while (i--) {
-	                nodeStack.push(node.childNodes[i]);
-	            }
-	        }
-	    }
-	}
-	
-	function findHiddenCharacters(node, beforeCaretIndex) {
-	    var hiddenCharacters = 0
-	    var lastCharWasWhiteSpace=true
-	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
-	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
-	            if(lastCharWasWhiteSpace)
-	                hiddenCharacters++
-	            else
-	                lastCharWasWhiteSpace = true
-	        } else {
-	            lastCharWasWhiteSpace = false
-	        }
-	    }
-	
-	    return hiddenCharacters
-	}
-
-/***/ },
-/* 66 */
+/* 63 */
 /*!****************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/async-future/~/trimArguments/trimArguments.js ***!
   \****************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
 	
-	var HashMap = __webpack_require__(/*! hashmap */ 79)
-	
-	var Style = __webpack_require__(/*! ./Style */ 56)
-	var utils = __webpack_require__(/*! ./utils */ 64)
-	
-	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
-	
-	// propogates a style-set change to a set of components
-	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
-	var propogateStyleSet = exports.propogateStyleSet = function (components, styleMap) {
-	    for(var n=0; n<components.length; n++) {
-	        var c = components[n]
-	
-	        // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
-	        if(c._style === undefined) {
-	            if(styleMap === undefined) {
-	                setCurrentStyle(c, undefined)
-	            } else {
-	                var styleFromMap = getStyleForComponent(styleMap, c)
-	                if(styleFromMap !== undefined) {
-	                    setCurrentStyle(c, styleFromMap)
-	                }
-	            }
-	        }
-	
-	        // set the computed style set
-	        var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
-	        if(c._style !== undefined) {
-	            mainStyle = c._style.get(c)
-	        } else if(styleMap !== undefined) {
-	            mainStyle = getStyleForComponent(styleMap, c)
-	            if(mainStyle !== undefined) {
-	                mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
-	            }
-	        }
-	
-	        if(mainStyle !== undefined) {
-	            if(styleMap !== undefined) {
-	                c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
-	            } else {
-	                c.computedStyleMap = mainStyle.componentStyleMap
-	            }
-	        } else {
-	            c.computedStyleMap = styleMap
-	        }
-	
-	        propogateStyleSet(c.children, c.computedStyleMap)
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
 	    }
-	}
-	
-	// gets the right style from the styleMap
-	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
-	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
-	    var constructor = block.constructor
-	    while(constructor !== undefined) {
-	        var style = styleMap[constructor.name]
-	        if(style !== undefined) {
-	            return style
-	        } else {
-	            constructor = constructor.parent
-	        }
-	    }
-	}
-	
-	// returns the conjunction of two style maps
-	// gets it from the computedStyles cache if its already in there
-	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
-	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
-	    if(cachedStyleMap === undefined) {
-	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
-	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
-	    }
-	
-	    return cachedStyleMap
-	}
-	
-	// takes labels into account
-	var setCurrentStyle = exports.setCurrentStyle = function (component, style) {
-	    if(style === component.currentStyle) return; // do nothing
-	
-	    if(style !== undefined)
-	        var specificStyle = style.get(component)
-	    else
-	        var specificStyle = style
-	
-	    setStyleClass(component, specificStyle)
-	    applyStyleKillFunction(component)
-	    component.currentStyle = specificStyle
-	    applyStyleSetupFunction(component, specificStyle)
-	    applyStateHandler(component, specificStyle)
-	}
-	
-	
-	exports.createDefaultBlockStyle = function (that) {
-	    if(that.defaultStyle !== undefined) {
-	        validateDefaultStyle(that.defaultStyle)
-	    }
-	
-	    // get list of default styles
-	    var defaultStyles = []
-	    var nextConstructor = that.constructor
-	    while(nextConstructor !== undefined) {
-	        if(nextConstructor.defaultStyle !== undefined) {
-	            defaultStyles.push(nextConstructor.defaultStyle)
-	        }
-	        nextConstructor = nextConstructor.parent
-	    }
-	
-	    // generate merged default style
-	    var defaultStyleSet = {}
-	    defaultStyles.reverse().forEach(function(style) {
-	        for(var k in style.styleDefinitions) {
-	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
-	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
-	        }
-	
-	    })
-	
-	    if(Object.keys(defaultStyleSet).length > 0)
-	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
-	    else
-	        var defaultBlockStyle = false // no special default
-	
-	    exports.defaultStyleMap.set(that.constructor, defaultBlockStyle)
-	    return defaultBlockStyle
-	}
-	
-	
-	// applies setup appropriately
-	function applyStyleSetupFunction(component, style) {
-	    if(style !== undefined && style.setup !== undefined) {
-	        component._styleSetupObject = style.setup(component) // call setup on the component
-	    } else {
-	        component._styleSetupObject = undefined
-	    }
-	}
-	// applies kill appropriately
-	function applyStyleKillFunction(component) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
-	        if(currentStyle.kill === undefined)
-	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
-	
-	        currentStyle.kill(component, component._styleSetupObject)
-	    }
-	}
-	
-	// initializes and sets up state-change handler
-	function applyStateHandler(component, style) {
-	    if(style !== undefined && style.stateHandler !== undefined) {
-	        // todo: using setCurrentStyle is a stopgap until I can implement better style application for $state and pseudoclasses (which probably will require a rewrite of much of the style logic)
-	        setCurrentStyle(component, style.stateHandler(component.state.subject))
-	        component.state.on('change', function() {
-	            setCurrentStyle(component, style.stateHandler(component.state.subject))
-	        })
-	    }
-	}
-	
-	// sets the style, replacing one if one already exists
-	function setStyleClass(component, style) {
-	    var currentStyle = component.currentStyle
-	    if(currentStyle !== undefined) {
-	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
-	    }
-	    if(style !== undefined) {
-	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
-	    }
-	}
-	
-	function validateDefaultStyle(defaultStyle) {
-	    if(!(defaultStyle instanceof Style)) {
-	        throw new Error("defaultStyle property must be a Style object")
-	    } else if(
-	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
-	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
-	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
-	    ) {
-	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
-	    }
+	    args.splice(-0, count)
+	    return args
 	}
 
 /***/ },
-/* 67 */
+/* 64 */
 /*!***********************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/external/jss.js ***!
   \***********************************************************************************************/
@@ -14656,6 +14300,462 @@ return /******/ (function(modules) { // webpackBootstrap
 	typeof module !== 'undefined' && module.exports && (module.exports = jss); // CommonJS support
 
 /***/ },
+/* 65 */
+/*!******************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/utils.js ***!
+  \******************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// utilities needed by the configuration (excludes dependencies the configs don't need so the webpack bundle is lean)
+	
+	var path = __webpack_require__(/*! path */ 50)
+	
+	
+	// Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	// any number of objects can be passed into the function and will be merged into the first argument in order
+	// returns obj1 (now mutated)
+	var merge = exports.merge = function(obj1, obj2/*, moreObjects...*/){
+	    return mergeInternal(arrayify(arguments), false)
+	}
+	
+	// like merge, but traverses the whole object tree
+	// the result is undefined for objects with circular references
+	var deepMerge = exports.deepMerge = function(obj1, obj2/*, moreObjects...*/) {
+	    return mergeInternal(arrayify(arguments), true)
+	}
+	
+	// returns a new object where properties of b are merged onto a (a's properties may be overwritten)
+	exports.objectConjunction = function(a, b) {
+	    var objectCopy = {}
+	    merge(objectCopy, a)
+	    merge(objectCopy, b)
+	    return objectCopy
+	}
+	
+	// turns an array of values into a an object where those values are all keys that point to 'true'
+	exports.arrayToMap = function(array) {
+	    var result = {}
+	    array.forEach(function(v) {
+	        result[v] = true
+	    })
+	    return result
+	}
+	
+	function mergeInternal(objects, deep) {
+	    var obj1 = objects[0]
+	    var obj2 = objects[1]
+	
+	    for(var key in obj2){
+	       if(Object.hasOwnProperty.call(obj2, key)) {
+	            if(deep && obj1[key] instanceof Object && obj2[key] instanceof Object) {
+	                mergeInternal([obj1[key], obj2[key]], true)
+	            } else {
+	                obj1[key] = obj2[key]
+	            }
+	       }
+	    }
+	
+	    if(objects.length > 2) {
+	        var newObjects = [obj1].concat(objects.slice(2))
+	        return mergeInternal(newObjects, deep)
+	    } else {
+	        return obj1
+	    }
+	}
+	
+	function arrayify(a) {
+	    return Array.prototype.slice.call(a, 0)
+	}
+
+
+/***/ },
+/* 66 */
+/*!****************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/blockStyleUtils.js ***!
+  \****************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// some functionality that is needed by Block.js but is related to styling (some things are also needed by Style.js)
+	
+	var HashMap = __webpack_require__(/*! hashmap */ 79)
+	
+	var Style = __webpack_require__(/*! ./Style */ 55)
+	var utils = __webpack_require__(/*! ./utils */ 65)
+	
+	exports.defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
+	
+	// propogates a style-set change to a set of components
+	    // styleMap should be a *copy* of a Style's componentStyleMap property (because it will be modified)
+	var propogateStyleSet = exports.propogateStyleSet = function (components, styleMap) {
+	    for(var n=0; n<components.length; n++) {
+	        var c = components[n]
+	
+	        // object inherits style if its in the styleSet and if it doesn't have an explicitly set style
+	        if(c._style === undefined) {
+	            if(styleMap === undefined) {
+	                setCurrentStyle(c, undefined)
+	            } else {
+	                var styleFromMap = getStyleForComponent(styleMap, c)
+	                if(styleFromMap !== undefined) {
+	                    setCurrentStyle(c, styleFromMap)
+	                }
+	            }
+	        }
+	
+	        // set the computed style set
+	        var mainStyle; // the style directly given to a component, either its `style` property, or its inherited style
+	        if(c._style !== undefined) {
+	            mainStyle = c._style.get(c)
+	        } else if(styleMap !== undefined) {
+	            mainStyle = getStyleForComponent(styleMap, c)
+	            if(mainStyle !== undefined) {
+	                mainStyle = mainStyle.get(c) // get the specific style (taking into account any label)
+	            }
+	        }
+	
+	        if(mainStyle !== undefined) {
+	            if(styleMap !== undefined) {
+	                c.computedStyleMap = styleMapConjunction(styleMap, mainStyle.componentStyleMap)
+	            } else {
+	                c.computedStyleMap = mainStyle.componentStyleMap
+	            }
+	        } else {
+	            c.computedStyleMap = styleMap
+	        }
+	
+	        propogateStyleSet(c.children, c.computedStyleMap)
+	    }
+	}
+	
+	// gets the right style from the styleMap
+	// takes the component's inheritance tree into account (relies on the block.constructor.parent property)
+	var getStyleForComponent = exports.getStyleForComponent = function (styleMap, block) {
+	    var constructor = block.constructor
+	    while(constructor !== undefined) {
+	        var style = styleMap[constructor.name]
+	        if(style !== undefined) {
+	            return style
+	        } else {
+	            constructor = constructor.parent
+	        }
+	    }
+	}
+	
+	// returns the conjunction of two style maps
+	// gets it from the computedStyles cache if its already in there
+	var styleMapConjunction = exports.styleMapConjunction = function (secondaryStyleMap, primaryStyleMap) {
+	    var cachedStyleMap = Style.computedStyles.get([secondaryStyleMap, primaryStyleMap])
+	    if(cachedStyleMap === undefined) {
+	        cachedStyleMap = utils.objectConjunction(secondaryStyleMap, primaryStyleMap)
+	        Style.computedStyles.set([secondaryStyleMap, primaryStyleMap], cachedStyleMap)
+	    }
+	
+	    return cachedStyleMap
+	}
+	
+	// takes labels into account
+	var setCurrentStyle = exports.setCurrentStyle = function (component, style) {
+	    if(style === component.currentStyle) return; // do nothing
+	
+	    if(style !== undefined)
+	        var specificStyle = style.get(component)
+	    else
+	        var specificStyle = style
+	
+	    setStyleClass(component, specificStyle)
+	    applyStyleKillFunction(component)
+	    component.currentStyle = specificStyle
+	    applyStyleSetupFunction(component, specificStyle)
+	    applyStateHandler(component, specificStyle)
+	}
+	
+	
+	exports.createDefaultBlockStyle = function (that) {
+	    if(that.defaultStyle !== undefined) {
+	        validateDefaultStyle(that.defaultStyle)
+	    }
+	
+	    // get list of default styles
+	    var defaultStyles = []
+	    var nextConstructor = that.constructor
+	    while(nextConstructor !== undefined) {
+	        if(nextConstructor.defaultStyle !== undefined) {
+	            defaultStyles.push(nextConstructor.defaultStyle)
+	        }
+	        nextConstructor = nextConstructor.parent
+	    }
+	
+	    // generate merged default style
+	    var defaultStyleSet = {}
+	    defaultStyles.reverse().forEach(function(style) {
+	        for(var k in style.styleDefinitions) {
+	            utils.merge(defaultStyleSet, style.styleDefinitions[k])
+	            break; // just do first key (shouldn't be more than one key, because only simple stylings are allowed for default styles)
+	        }
+	
+	    })
+	
+	    if(Object.keys(defaultStyleSet).length > 0)
+	        var defaultBlockStyle = Style(defaultStyleSet, {default:true})
+	    else
+	        var defaultBlockStyle = false // no special default
+	
+	    exports.defaultStyleMap.set(that.constructor, defaultBlockStyle)
+	    return defaultBlockStyle
+	}
+	
+	
+	// applies setup appropriately
+	function applyStyleSetupFunction(component, style) {
+	    if(style !== undefined && style.setup !== undefined) {
+	        component._styleSetupObject = style.setup(component) // call setup on the component
+	    } else {
+	        component._styleSetupObject = undefined
+	    }
+	}
+	// applies kill appropriately
+	function applyStyleKillFunction(component) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined && currentStyle.setup !== undefined) {
+	        if(currentStyle.kill === undefined)
+	            throw new Error('style has been unset but does not have a "kill" function to undo its "setup" function')
+	
+	        currentStyle.kill(component, component._styleSetupObject)
+	    }
+	}
+	
+	// initializes and sets up state-change handler
+	function applyStateHandler(component, style) {
+	    if(style !== undefined && style.stateHandler !== undefined) {
+	        // todo: using setCurrentStyle is a stopgap until I can implement better style application for $state and pseudoclasses (which probably will require a rewrite of much of the style logic)
+	        setCurrentStyle(component, style.stateHandler(component.state.subject))
+	        component.state.on('change', function() {
+	            setCurrentStyle(component, style.stateHandler(component.state.subject))
+	        })
+	    }
+	}
+	
+	// sets the style, replacing one if one already exists
+	function setStyleClass(component, style) {
+	    var currentStyle = component.currentStyle
+	    if(currentStyle !== undefined) {
+	        component.domNode.className = component.domNode.className.replace(new RegExp(" ?\\b"+currentStyle.className+"\\b"),'') // remove the previous css class
+	    }
+	    if(style !== undefined) {
+	        component.domNode.className = style.className+' '+component.domNode.className.trim() // note that the order of classes doesn't matter
+	    }
+	}
+	
+	function validateDefaultStyle(defaultStyle) {
+	    if(!(defaultStyle instanceof Style)) {
+	        throw new Error("defaultStyle property must be a Style object")
+	    } else if(
+	        defaultStyle.setup !== undefined || defaultStyle.kill !== undefined || defaultStyle.stateHandler !== undefined ||
+	        Object.keys(defaultStyle.componentStyleMap).length > 0 || Object.keys(defaultStyle.labelStyleMap).length > 0 /*||
+	        Object.keys(defaultStyle.pseudoClassStyles).length > 0*/
+	    ) {
+	        throw new Error("A Block's defaultStyle can only contain basic css stylings, no Block, label, or pseudoclass stylings, nor run/kill javascript")
+	    }
+	}
+
+/***/ },
+/* 67 */
+/*!*********************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/src/~/domUtils.js ***!
+  \*********************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	// creates a dom element optionally with a class and attributes
+	 var node = module.exports.node = function(type, className, options) {
+	    var elem = document.createElement(type)
+	
+	    if(options !== undefined) {
+	        if(options.attr !== undefined) {
+	            for(var attribute in options.attr) {
+	                createAttribute(elem, attribute, options.attr[attribute])
+	            }
+	        }
+	        if(options.textContent !== undefined) {
+	            elem.textContent = options.textContent
+	        }
+	    }
+	
+	    if(className !== undefined)
+	        elem.className = className
+	
+	    return elem
+	}
+	
+	// convenience function for creating a div
+	module.exports.div = function(className, options) {
+	    return node('div', className, options)
+	}
+	
+	// adds an attribute to a domNode
+	var setAttribute = module.exports.setAttribute = function(/*[domNode,] type, value*/) {
+	    if (arguments.length === 2) {
+	        var domNode = this.domNode;
+	        var type = arguments[0];
+	        var value = arguments[1];
+	    } else if (arguments.length === 3) {
+	        var domNode = arguments[0];
+	        var type = arguments[1];
+	        var value = arguments[2];
+	    } else {
+	        throw new Error("This function expects arguments to be: [domNode,] type, value");
+	    }
+	    var attr = document.createAttribute(type)
+	    attr.value = value
+	    domNode.setAttributeNode(attr)
+	}
+	
+	
+	// sets the selection
+	//
+	// works for contenteditable elements
+	exports.setSelectionRange = function(containerEl, start, end) {
+	
+	    if(containerEl.nodeName === 'INPUT' || containerEl.nodeName === 'TEXTAREA') {
+	        containerEl.setSelectionRange(start, end)
+	    } else {
+	        var charIndex = 0, range = document.createRange();
+	        range.setStart(containerEl, 0);
+	        range.collapse(true);
+	        var foundStart = false;
+	
+	        iterateThroughLeafNodes(containerEl, function(node) {
+	            var hiddenCharacters = findHiddenCharacters(node, node.length)
+	            var nextCharIndex = charIndex + node.length - hiddenCharacters;
+	
+	            if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+	                var nodeIndex = start-charIndex
+	                var hiddenCharactersBeforeStart = findHiddenCharacters(node, nodeIndex)
+	                range.setStart(node, nodeIndex + hiddenCharactersBeforeStart);
+	                foundStart = true;
+	            }
+	
+	            if (foundStart && end >= charIndex && end <= nextCharIndex) {
+	                var nodeIndex = end-charIndex
+	                var hiddenCharactersBeforeEnd = findHiddenCharacters(node, nodeIndex)
+	                range.setEnd(node, nodeIndex + hiddenCharactersBeforeEnd);
+	                return true; // stop the iteration - we're done here
+	            }
+	
+	            charIndex = nextCharIndex
+	        })
+	
+	        var sel = window.getSelection();
+	        sel.removeAllRanges();
+	        sel.addRange(range);
+	    }
+	}
+	
+	// gets the character offsets of a selection within a particular dom node
+	// returns undefined if there is no selection in the element
+	// note: yes this code doesn't work in older versions of IE (or possibly any versions) - if you want it to work in IE, please use http://modernizr.com/ or a polyfill for ranges
+	exports.getSelectionRange = function (element) {
+	
+	    var selection = window.getSelection()
+	    var isInputOrArea = element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA'
+	
+	    for(var n=0; n<selection.rangeCount; n++) {
+	        var range = selection.getRangeAt(0)
+	        if(isInputOrArea) {
+	            if(range.startOffset === range.endOffset && range.startContainer.children[range.startOffset] === element /*|| range.startContainer === element || */) { // I don't think the input or textarea itself will ever be the startContainer
+	                return [element.selectionStart, element.selectionEnd]
+	            }
+	        } else {
+	            var startsInElement = element.contains(range.startContainer)
+	            if(startsInElement) {
+	                var elementToIterateThrough = element
+	                var startFound = true
+	            } else {
+	                var elementToIterateThrough = range.commonAncestorContainer
+	                var startFound = false
+	                var startContainerFound = false
+	            }
+	
+	            var visibleCharacterOffset = 0, start, end;
+	            iterateThroughLeafNodes(elementToIterateThrough, function(leaf) {
+	                if(!startFound) {
+	                    if(leaf === range.startContainer) {
+	                        startContainerFound = true
+	                    }
+	
+	                    if(!element.contains(leaf) || !startContainerFound)
+	                        return; // continue
+	                    else if(startContainerFound)
+	                       startFound = true
+	                } else if(!startsInElement && !element.contains(leaf)) {
+	                    return true // done!
+	                }
+	
+	                if(leaf === range.startContainer) {
+	                    start = visibleCharacterOffset + range.startOffset - findHiddenCharacters(leaf, range.startOffset)
+	                }
+	                if(leaf === range.endContainer) {
+	                    end = visibleCharacterOffset + range.endOffset - findHiddenCharacters(leaf, range.endOffset)
+	                    return true // done!
+	                }
+	
+	                visibleCharacterOffset += leaf.length - findHiddenCharacters(leaf, leaf.length)
+	            })
+	
+	            if(start === undefined && !startFound) {
+	                return undefined
+	            } else {
+	                if(start === undefined) {
+	                    start = 0 // start is at the beginning
+	                }
+	                if(end === undefined) {
+	                    end = visibleCharacterOffset // end is all the way at the end (the selection may continue in other elements)
+	                }
+	
+	                return [start, end]
+	            }
+	        }
+	    }
+	}
+	
+	
+	// iterate through the leaf nodes inside element
+	// callback(node) - a function called for each leaf node
+	    // returning true from this ends the iteration
+	function iterateThroughLeafNodes(element, callback) {
+	    var nodeStack = [element], node;
+	
+	    while (node = nodeStack.pop()) {
+	        if (node.nodeType == 3) {
+	            if(callback(node) === true)
+	                break;
+	        } else {
+	            var i = node.childNodes.length;
+	            while (i--) {
+	                nodeStack.push(node.childNodes[i]);
+	            }
+	        }
+	    }
+	}
+	
+	function findHiddenCharacters(node, beforeCaretIndex) {
+	    var hiddenCharacters = 0
+	    var lastCharWasWhiteSpace=true
+	    for(var n=0; n-hiddenCharacters<beforeCaretIndex &&n<node.length; n++) {
+	        if([' ','\n','\t','\r'].indexOf(node.textContent[n]) !== -1) {
+	            if(lastCharWasWhiteSpace)
+	                hiddenCharacters++
+	            else
+	                lastCharWasWhiteSpace = true
+	        } else {
+	            lastCharWasWhiteSpace = false
+	        }
+	    }
+	
+	    return hiddenCharacters
+	}
+
+/***/ },
 /* 68 */
 /*!***********************************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
@@ -14677,8 +14777,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var EventEmitter = __webpack_require__(/*! events */ 35).EventEmitter
-	var proto = __webpack_require__(/*! proto */ 45)
-	var utils = __webpack_require__(/*! utils */ 64)
+	var proto = __webpack_require__(/*! proto */ 47)
+	var utils = __webpack_require__(/*! utils */ 65)
 	
 	module.exports = proto(EventEmitter, function(superclass) {
 	
@@ -14878,7 +14978,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /*!***************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/async-future/~/trimArguments/trimArguments.js ***!
   \***************************************************************************************************************/
-61,
+63,
 /* 71 */
 /*!**************************************************!*\
   !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
@@ -15628,11 +15728,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 73 */
-/*!*************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
-  \*************************************************************************************************************/
-[195, 94],
-/* 74 */
 /*!**************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map.js ***!
   \**************************************************************************************************************/
@@ -15649,13 +15744,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 75 */
+/* 74 */
 /*!********************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/stackinfo.js ***!
   \********************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 100)
+	var printStackTrace = __webpack_require__(/*! stacktrace-js */ 94)
 	var parsers = __webpack_require__(/*! ./tracelineParser */ 84)
 	var mode = __webpack_require__(/*! ./exceptionMode */ 85)
 	
@@ -15728,6 +15823,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 75 */
+/*!*************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/asyncFuture.js ***!
+  \*************************************************************************************************************/
+[149, 96],
 /* 76 */
 /*!************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/proto/proto.js ***!
@@ -15748,7 +15848,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	void (function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 96), __webpack_require__(/*! resolve-url */ 97)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! source-map-url */ 97), __webpack_require__(/*! resolve-url */ 98)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
 	  } else if (typeof exports === "object") {
 	    var sourceMappingURL = require("source-map-url")
 	    var resolveUrl = require("resolve-url")
@@ -16733,9 +16833,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 92);
-	  var util = __webpack_require__(/*! ./util */ 91);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 90).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 93);
+	  var util = __webpack_require__(/*! ./util */ 90);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 91).ArraySet;
 	
 	  /**
 	   * An instance of the SourceMapGenerator represents a source map which is
@@ -17139,10 +17239,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
-	  var util = __webpack_require__(/*! ./util */ 91);
-	  var binarySearch = __webpack_require__(/*! ./binary-search */ 93);
-	  var ArraySet = __webpack_require__(/*! ./array-set */ 90).ArraySet;
-	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 92);
+	  var util = __webpack_require__(/*! ./util */ 90);
+	  var binarySearch = __webpack_require__(/*! ./binary-search */ 92);
+	  var ArraySet = __webpack_require__(/*! ./array-set */ 91).ArraySet;
+	  var base64VLQ = __webpack_require__(/*! ./base64-vlq */ 93);
 	
 	  /**
 	   * A SourceMapConsumer instance represents a parsed source map which we can
@@ -17627,7 +17727,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
 	
 	  var SourceMapGenerator = __webpack_require__(/*! ./source-map-generator */ 81).SourceMapGenerator;
-	  var util = __webpack_require__(/*! ./util */ 91);
+	  var util = __webpack_require__(/*! ./util */ 90);
 	
 	  /**
 	   * SourceNodes provide a way to abstract over interpolating/concatenating
@@ -18714,8 +18814,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 98);
-	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 99);
+	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 99);
+	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 100);
 
 
 /***/ },
@@ -18788,112 +18888,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 90 */
-/*!************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
-  \************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  var util = __webpack_require__(/*! ./util */ 91);
-	
-	  /**
-	   * A data structure which is a combination of an array and a set. Adding a new
-	   * member is O(1), testing for membership is O(1), and finding the index of an
-	   * element is O(1). Removing elements from the set is not supported. Only
-	   * strings are supported for membership.
-	   */
-	  function ArraySet() {
-	    this._array = [];
-	    this._set = {};
-	  }
-	
-	  /**
-	   * Static method for creating ArraySet instances from an existing array.
-	   */
-	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
-	    var set = new ArraySet();
-	    for (var i = 0, len = aArray.length; i < len; i++) {
-	      set.add(aArray[i], aAllowDuplicates);
-	    }
-	    return set;
-	  };
-	
-	  /**
-	   * Add the given string to this set.
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
-	    var isDuplicate = this.has(aStr);
-	    var idx = this._array.length;
-	    if (!isDuplicate || aAllowDuplicates) {
-	      this._array.push(aStr);
-	    }
-	    if (!isDuplicate) {
-	      this._set[util.toSetString(aStr)] = idx;
-	    }
-	  };
-	
-	  /**
-	   * Is the given string a member of this set?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.has = function ArraySet_has(aStr) {
-	    return Object.prototype.hasOwnProperty.call(this._set,
-	                                                util.toSetString(aStr));
-	  };
-	
-	  /**
-	   * What is the index of the given string in the array?
-	   *
-	   * @param String aStr
-	   */
-	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
-	    if (this.has(aStr)) {
-	      return this._set[util.toSetString(aStr)];
-	    }
-	    throw new Error('"' + aStr + '" is not in the set.');
-	  };
-	
-	  /**
-	   * What is the element at the given index?
-	   *
-	   * @param Number aIdx
-	   */
-	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
-	    if (aIdx >= 0 && aIdx < this._array.length) {
-	      return this._array[aIdx];
-	    }
-	    throw new Error('No element indexed by ' + aIdx);
-	  };
-	
-	  /**
-	   * Returns the array representation of this set (which has the proper indices
-	   * indicated by indexOf). Note that this is a copy of the internal array used
-	   * for storing the members so that no one can mess with internal state.
-	   */
-	  ArraySet.prototype.toArray = function ArraySet_toArray() {
-	    return this._array.slice();
-	  };
-	
-	  exports.ArraySet = ArraySet;
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 91 */
 /*!*******************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/util.js ***!
   \*******************************************************************************************************************/
@@ -19204,7 +19198,203 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 91 */
+/*!************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/array-set.js ***!
+  \************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  var util = __webpack_require__(/*! ./util */ 90);
+	
+	  /**
+	   * A data structure which is a combination of an array and a set. Adding a new
+	   * member is O(1), testing for membership is O(1), and finding the index of an
+	   * element is O(1). Removing elements from the set is not supported. Only
+	   * strings are supported for membership.
+	   */
+	  function ArraySet() {
+	    this._array = [];
+	    this._set = {};
+	  }
+	
+	  /**
+	   * Static method for creating ArraySet instances from an existing array.
+	   */
+	  ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
+	    var set = new ArraySet();
+	    for (var i = 0, len = aArray.length; i < len; i++) {
+	      set.add(aArray[i], aAllowDuplicates);
+	    }
+	    return set;
+	  };
+	
+	  /**
+	   * Add the given string to this set.
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
+	    var isDuplicate = this.has(aStr);
+	    var idx = this._array.length;
+	    if (!isDuplicate || aAllowDuplicates) {
+	      this._array.push(aStr);
+	    }
+	    if (!isDuplicate) {
+	      this._set[util.toSetString(aStr)] = idx;
+	    }
+	  };
+	
+	  /**
+	   * Is the given string a member of this set?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.has = function ArraySet_has(aStr) {
+	    return Object.prototype.hasOwnProperty.call(this._set,
+	                                                util.toSetString(aStr));
+	  };
+	
+	  /**
+	   * What is the index of the given string in the array?
+	   *
+	   * @param String aStr
+	   */
+	  ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
+	    if (this.has(aStr)) {
+	      return this._set[util.toSetString(aStr)];
+	    }
+	    throw new Error('"' + aStr + '" is not in the set.');
+	  };
+	
+	  /**
+	   * What is the element at the given index?
+	   *
+	   * @param Number aIdx
+	   */
+	  ArraySet.prototype.at = function ArraySet_at(aIdx) {
+	    if (aIdx >= 0 && aIdx < this._array.length) {
+	      return this._array[aIdx];
+	    }
+	    throw new Error('No element indexed by ' + aIdx);
+	  };
+	
+	  /**
+	   * Returns the array representation of this set (which has the proper indices
+	   * indicated by indexOf). Note that this is a copy of the internal array used
+	   * for storing the members so that no one can mess with internal state.
+	   */
+	  ArraySet.prototype.toArray = function ArraySet_toArray() {
+	    return this._array.slice();
+	  };
+	
+	  exports.ArraySet = ArraySet;
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
 /* 92 */
+/*!****************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
+  \****************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
+	/*
+	 * Copyright 2011 Mozilla Foundation and contributors
+	 * Licensed under the New BSD license. See LICENSE or:
+	 * http://opensource.org/licenses/BSD-3-Clause
+	 */
+	if (false) {
+	    var define = require('amdefine')(module, require);
+	}
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
+	
+	  /**
+	   * Recursive implementation of binary search.
+	   *
+	   * @param aLow Indices here and lower do not contain the needle.
+	   * @param aHigh Indices here and higher do not contain the needle.
+	   * @param aNeedle The element being searched for.
+	   * @param aHaystack The non-empty array being searched.
+	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
+	   */
+	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
+	    // This function terminates when one of the following is true:
+	    //
+	    //   1. We find the exact element we are looking for.
+	    //
+	    //   2. We did not find the exact element, but we can return the next
+	    //      closest element that is less than that element.
+	    //
+	    //   3. We did not find the exact element, and there is no next-closest
+	    //      element which is less than the one we are searching for, so we
+	    //      return null.
+	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
+	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
+	    if (cmp === 0) {
+	      // Found the element we are looking for.
+	      return aHaystack[mid];
+	    }
+	    else if (cmp > 0) {
+	      // aHaystack[mid] is greater than our needle.
+	      if (aHigh - mid > 1) {
+	        // The element is in the upper half.
+	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
+	      }
+	      // We did not find an exact match, return the next closest one
+	      // (termination case 2).
+	      return aHaystack[mid];
+	    }
+	    else {
+	      // aHaystack[mid] is less than our needle.
+	      if (mid - aLow > 1) {
+	        // The element is in the lower half.
+	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
+	      }
+	      // The exact needle element was not found in this haystack. Determine if
+	      // we are in termination case (2) or (3) and return the appropriate thing.
+	      return aLow < 0
+	        ? null
+	        : aHaystack[aLow];
+	    }
+	  }
+	
+	  /**
+	   * This is an implementation of binary search which will always try and return
+	   * the next lowest value checked if there is no exact hit. This is because
+	   * mappings between original and generated line/col pairs are single points,
+	   * and there is an implicit region between each of them, so a miss just means
+	   * that you aren't on the very start of a region.
+	   *
+	   * @param aNeedle The element you are looking for.
+	   * @param aHaystack The array that is being searched.
+	   * @param aCompare A function which takes the needle and an element in the
+	   *     array and returns -1, 0, or 1 depending on whether the needle is less
+	   *     than, equal to, or greater than the element, respectively.
+	   */
+	  exports.search = function search(aNeedle, aHaystack, aCompare) {
+	    return aHaystack.length > 0
+	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
+	      : null;
+	  };
+	
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 93 */
 /*!*************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/base64-vlq.js ***!
   \*************************************************************************************************************************/
@@ -19357,437 +19547,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 93 */
-/*!****************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map/lib/source-map/binary-search.js ***!
-  \****************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* -*- Mode: js; js-indent-level: 2; -*- */
-	/*
-	 * Copyright 2011 Mozilla Foundation and contributors
-	 * Licensed under the New BSD license. See LICENSE or:
-	 * http://opensource.org/licenses/BSD-3-Clause
-	 */
-	if (false) {
-	    var define = require('amdefine')(module, require);
-	}
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, module) {
-	
-	  /**
-	   * Recursive implementation of binary search.
-	   *
-	   * @param aLow Indices here and lower do not contain the needle.
-	   * @param aHigh Indices here and higher do not contain the needle.
-	   * @param aNeedle The element being searched for.
-	   * @param aHaystack The non-empty array being searched.
-	   * @param aCompare Function which takes two elements and returns -1, 0, or 1.
-	   */
-	  function recursiveSearch(aLow, aHigh, aNeedle, aHaystack, aCompare) {
-	    // This function terminates when one of the following is true:
-	    //
-	    //   1. We find the exact element we are looking for.
-	    //
-	    //   2. We did not find the exact element, but we can return the next
-	    //      closest element that is less than that element.
-	    //
-	    //   3. We did not find the exact element, and there is no next-closest
-	    //      element which is less than the one we are searching for, so we
-	    //      return null.
-	    var mid = Math.floor((aHigh - aLow) / 2) + aLow;
-	    var cmp = aCompare(aNeedle, aHaystack[mid], true);
-	    if (cmp === 0) {
-	      // Found the element we are looking for.
-	      return aHaystack[mid];
-	    }
-	    else if (cmp > 0) {
-	      // aHaystack[mid] is greater than our needle.
-	      if (aHigh - mid > 1) {
-	        // The element is in the upper half.
-	        return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare);
-	      }
-	      // We did not find an exact match, return the next closest one
-	      // (termination case 2).
-	      return aHaystack[mid];
-	    }
-	    else {
-	      // aHaystack[mid] is less than our needle.
-	      if (mid - aLow > 1) {
-	        // The element is in the lower half.
-	        return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare);
-	      }
-	      // The exact needle element was not found in this haystack. Determine if
-	      // we are in termination case (2) or (3) and return the appropriate thing.
-	      return aLow < 0
-	        ? null
-	        : aHaystack[aLow];
-	    }
-	  }
-	
-	  /**
-	   * This is an implementation of binary search which will always try and return
-	   * the next lowest value checked if there is no exact hit. This is because
-	   * mappings between original and generated line/col pairs are single points,
-	   * and there is an implicit region between each of them, so a miss just means
-	   * that you aren't on the very start of a region.
-	   *
-	   * @param aNeedle The element you are looking for.
-	   * @param aHaystack The array that is being searched.
-	   * @param aCompare A function which takes the needle and an element in the
-	   *     array and returns -1, 0, or 1 depending on whether the needle is less
-	   *     than, equal to, or greater than the element, respectively.
-	   */
-	  exports.search = function search(aNeedle, aHaystack, aCompare) {
-	    return aHaystack.length > 0
-	      ? recursiveSearch(-1, aHaystack.length, aNeedle, aHaystack, aCompare)
-	      : null;
-	  };
-	
-	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
 /* 94 */
-/*!*******************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
-  \*******************************************************************************************************************************/
-61,
-/* 95 */
-/*!********************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
-  \********************************************************************************************************************/
-[194, 105],
-/* 96 */
-/*!***************************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
-  \***************************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    module.exports = factory()
-	  } else {
-	    root.sourceMappingURL = factory()
-	  }
-	}(this, function(undefined) {
-	
-	  var innerRegex = /[#@] sourceMappingURL=([^\s'"]*)/
-	  var newlineRegex = /\r\n?|\n/
-	
-	  var regex = RegExp(
-	    "(^|(?:" + newlineRegex.source + "))" +
-	    "(?:" +
-	      "/\\*" +
-	      "(?:\\s*(?:" + newlineRegex.source + ")(?://)?)?" +
-	      "(?:" + innerRegex.source + ")" +
-	      "\\s*" +
-	      "\\*/" +
-	      "|" +
-	      "//(?:" + innerRegex.source + ")" +
-	    ")" +
-	    "\\s*$"
-	  )
-	
-	  function SourceMappingURL(commentSyntax) {
-	    this._commentSyntax = commentSyntax
-	  }
-	
-	  SourceMappingURL.prototype.regex = regex
-	  SourceMappingURL.prototype._innerRegex = innerRegex
-	  SourceMappingURL.prototype._newlineRegex = newlineRegex
-	
-	  SourceMappingURL.prototype.get = function(code) {
-	    var match = code.match(this.regex)
-	    if (!match) {
-	      return null
-	    }
-	    return match[2] || match[3] || ""
-	  }
-	
-	  SourceMappingURL.prototype.set = function(code, url, commentSyntax) {
-	    if (!commentSyntax) {
-	      commentSyntax = this._commentSyntax
-	    }
-	    // Use a newline present in the code, or fall back to '\n'.
-	    var newline = String(code.match(this._newlineRegex) || "\n")
-	    var open = commentSyntax[0], close = commentSyntax[1] || ""
-	    code = this.remove(code)
-	    return code + newline + open + "# sourceMappingURL=" + url + close
-	  }
-	
-	  SourceMappingURL.prototype.remove = function(code) {
-	    return code.replace(this.regex, "")
-	  }
-	
-	  SourceMappingURL.prototype.insertBefore = function(code, string) {
-	    var match = code.match(this.regex)
-	    if (match) {
-	      var hasNewline = Boolean(match[1])
-	      return code.slice(0, match.index) +
-	        string +
-	        (hasNewline ? "" : "\n") +
-	        code.slice(match.index)
-	    } else {
-	      return code + string
-	    }
-	  }
-	
-	  SourceMappingURL.prototype.SourceMappingURL = SourceMappingURL
-	
-	  return new SourceMappingURL(["/*", " */"])
-	
-	}));
-
-
-/***/ },
-/* 97 */
-/*!*********************************************************************************************************************************!*\
-  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
-  \*********************************************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
-	// X11 (“MIT”) Licensed. (See LICENSE.)
-	
-	void (function(root, factory) {
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-	  } else if (typeof exports === "object") {
-	    module.exports = factory()
-	  } else {
-	    root.resolveUrl = factory()
-	  }
-	}(this, function() {
-	
-	  function resolveUrl(/* ...urls */) {
-	    var numUrls = arguments.length
-	
-	    if (numUrls === 0) {
-	      throw new Error("resolveUrl requires at least one argument; got none.")
-	    }
-	
-	    var base = document.createElement("base")
-	    base.href = arguments[0]
-	
-	    if (numUrls === 1) {
-	      return base.href
-	    }
-	
-	    var head = document.getElementsByTagName("head")[0]
-	    head.insertBefore(base, head.firstChild)
-	
-	    var a = document.createElement("a")
-	    var resolved
-	
-	    for (var index = 1; index < numUrls; index++) {
-	      a.href = arguments[index]
-	      resolved = a.href
-	      base.href = resolved
-	    }
-	
-	    head.removeChild(base)
-	
-	    return resolved
-	  }
-	
-	  return resolveUrl
-	
-	}));
-
-
-/***/ },
-/* 98 */
-/*!*****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
-  \*****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	'use strict';
-	
-	// If obj.hasOwnProperty has been overridden, then calling
-	// obj.hasOwnProperty(prop) will break.
-	// See: https://github.com/joyent/node/issues/1707
-	function hasOwnProperty(obj, prop) {
-	  return Object.prototype.hasOwnProperty.call(obj, prop);
-	}
-	
-	module.exports = function(qs, sep, eq, options) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  var obj = {};
-	
-	  if (typeof qs !== 'string' || qs.length === 0) {
-	    return obj;
-	  }
-	
-	  var regexp = /\+/g;
-	  qs = qs.split(sep);
-	
-	  var maxKeys = 1000;
-	  if (options && typeof options.maxKeys === 'number') {
-	    maxKeys = options.maxKeys;
-	  }
-	
-	  var len = qs.length;
-	  // maxKeys <= 0 means that we should not limit keys count
-	  if (maxKeys > 0 && len > maxKeys) {
-	    len = maxKeys;
-	  }
-	
-	  for (var i = 0; i < len; ++i) {
-	    var x = qs[i].replace(regexp, '%20'),
-	        idx = x.indexOf(eq),
-	        kstr, vstr, k, v;
-	
-	    if (idx >= 0) {
-	      kstr = x.substr(0, idx);
-	      vstr = x.substr(idx + 1);
-	    } else {
-	      kstr = x;
-	      vstr = '';
-	    }
-	
-	    k = decodeURIComponent(kstr);
-	    v = decodeURIComponent(vstr);
-	
-	    if (!hasOwnProperty(obj, k)) {
-	      obj[k] = v;
-	    } else if (isArray(obj[k])) {
-	      obj[k].push(v);
-	    } else {
-	      obj[k] = [obj[k], v];
-	    }
-	  }
-	
-	  return obj;
-	};
-	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
-
-
-/***/ },
-/* 99 */
-/*!*****************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
-  \*****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	'use strict';
-	
-	var stringifyPrimitive = function(v) {
-	  switch (typeof v) {
-	    case 'string':
-	      return v;
-	
-	    case 'boolean':
-	      return v ? 'true' : 'false';
-	
-	    case 'number':
-	      return isFinite(v) ? v : '';
-	
-	    default:
-	      return '';
-	  }
-	};
-	
-	module.exports = function(obj, sep, eq, name) {
-	  sep = sep || '&';
-	  eq = eq || '=';
-	  if (obj === null) {
-	    obj = undefined;
-	  }
-	
-	  if (typeof obj === 'object') {
-	    return map(objectKeys(obj), function(k) {
-	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-	      if (isArray(obj[k])) {
-	        return map(obj[k], function(v) {
-	          return ks + encodeURIComponent(stringifyPrimitive(v));
-	        }).join(sep);
-	      } else {
-	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-	      }
-	    }).join(sep);
-	
-	  }
-	
-	  if (!name) return '';
-	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-	         encodeURIComponent(stringifyPrimitive(obj));
-	};
-	
-	var isArray = Array.isArray || function (xs) {
-	  return Object.prototype.toString.call(xs) === '[object Array]';
-	};
-	
-	function map (xs, f) {
-	  if (xs.map) return xs.map(f);
-	  var res = [];
-	  for (var i = 0; i < xs.length; i++) {
-	    res.push(f(xs[i], i));
-	  }
-	  return res;
-	}
-	
-	var objectKeys = Object.keys || function (obj) {
-	  var res = [];
-	  for (var key in obj) {
-	    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-	  }
-	  return res;
-	};
-
-
-/***/ },
-/* 100 */
 /*!*************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/stackinfo/~/stacktrace-js/stacktrace.js ***!
   \*************************************************************************************************************************/
@@ -20257,6 +20017,346 @@ return /******/ (function(modules) { // webpackBootstrap
 	}));
 
 /***/ },
+/* 95 */
+/*!********************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/asyncFuture.js ***!
+  \********************************************************************************************************************/
+[148, 105],
+/* 96 */
+/*!*******************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/async-future/~/trimArguments/trimArguments.js ***!
+  \*******************************************************************************************************************************/
+63,
+/* 97 */
+/*!***************************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/source-map-url/source-map-url.js ***!
+  \***************************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
+	
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    module.exports = factory()
+	  } else {
+	    root.sourceMappingURL = factory()
+	  }
+	}(this, function(undefined) {
+	
+	  var innerRegex = /[#@] sourceMappingURL=([^\s'"]*)/
+	  var newlineRegex = /\r\n?|\n/
+	
+	  var regex = RegExp(
+	    "(^|(?:" + newlineRegex.source + "))" +
+	    "(?:" +
+	      "/\\*" +
+	      "(?:\\s*(?:" + newlineRegex.source + ")(?://)?)?" +
+	      "(?:" + innerRegex.source + ")" +
+	      "\\s*" +
+	      "\\*/" +
+	      "|" +
+	      "//(?:" + innerRegex.source + ")" +
+	    ")" +
+	    "\\s*$"
+	  )
+	
+	  function SourceMappingURL(commentSyntax) {
+	    this._commentSyntax = commentSyntax
+	  }
+	
+	  SourceMappingURL.prototype.regex = regex
+	  SourceMappingURL.prototype._innerRegex = innerRegex
+	  SourceMappingURL.prototype._newlineRegex = newlineRegex
+	
+	  SourceMappingURL.prototype.get = function(code) {
+	    var match = code.match(this.regex)
+	    if (!match) {
+	      return null
+	    }
+	    return match[2] || match[3] || ""
+	  }
+	
+	  SourceMappingURL.prototype.set = function(code, url, commentSyntax) {
+	    if (!commentSyntax) {
+	      commentSyntax = this._commentSyntax
+	    }
+	    // Use a newline present in the code, or fall back to '\n'.
+	    var newline = String(code.match(this._newlineRegex) || "\n")
+	    var open = commentSyntax[0], close = commentSyntax[1] || ""
+	    code = this.remove(code)
+	    return code + newline + open + "# sourceMappingURL=" + url + close
+	  }
+	
+	  SourceMappingURL.prototype.remove = function(code) {
+	    return code.replace(this.regex, "")
+	  }
+	
+	  SourceMappingURL.prototype.insertBefore = function(code, string) {
+	    var match = code.match(this.regex)
+	    if (match) {
+	      var hasNewline = Boolean(match[1])
+	      return code.slice(0, match.index) +
+	        string +
+	        (hasNewline ? "" : "\n") +
+	        code.slice(match.index)
+	    } else {
+	      return code + string
+	    }
+	  }
+	
+	  SourceMappingURL.prototype.SourceMappingURL = SourceMappingURL
+	
+	  return new SourceMappingURL(["/*", " */"])
+	
+	}));
+
+
+/***/ },
+/* 98 */
+/*!*********************************************************************************************************************************!*\
+  !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/source-map-resolve/~/resolve-url/resolve-url.js ***!
+  \*********************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright 2014 Simon Lydell
+	// X11 (“MIT”) Licensed. (See LICENSE.)
+	
+	void (function(root, factory) {
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof exports === "object") {
+	    module.exports = factory()
+	  } else {
+	    root.resolveUrl = factory()
+	  }
+	}(this, function() {
+	
+	  function resolveUrl(/* ...urls */) {
+	    var numUrls = arguments.length
+	
+	    if (numUrls === 0) {
+	      throw new Error("resolveUrl requires at least one argument; got none.")
+	    }
+	
+	    var base = document.createElement("base")
+	    base.href = arguments[0]
+	
+	    if (numUrls === 1) {
+	      return base.href
+	    }
+	
+	    var head = document.getElementsByTagName("head")[0]
+	    head.insertBefore(base, head.firstChild)
+	
+	    var a = document.createElement("a")
+	    var resolved
+	
+	    for (var index = 1; index < numUrls; index++) {
+	      a.href = arguments[index]
+	      resolved = a.href
+	      base.href = resolved
+	    }
+	
+	    head.removeChild(base)
+	
+	    return resolved
+	  }
+	
+	  return resolveUrl
+	
+	}));
+
+
+/***/ },
+/* 99 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/decode.js ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	// If obj.hasOwnProperty has been overridden, then calling
+	// obj.hasOwnProperty(prop) will break.
+	// See: https://github.com/joyent/node/issues/1707
+	function hasOwnProperty(obj, prop) {
+	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	}
+	
+	module.exports = function(qs, sep, eq, options) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  var obj = {};
+	
+	  if (typeof qs !== 'string' || qs.length === 0) {
+	    return obj;
+	  }
+	
+	  var regexp = /\+/g;
+	  qs = qs.split(sep);
+	
+	  var maxKeys = 1000;
+	  if (options && typeof options.maxKeys === 'number') {
+	    maxKeys = options.maxKeys;
+	  }
+	
+	  var len = qs.length;
+	  // maxKeys <= 0 means that we should not limit keys count
+	  if (maxKeys > 0 && len > maxKeys) {
+	    len = maxKeys;
+	  }
+	
+	  for (var i = 0; i < len; ++i) {
+	    var x = qs[i].replace(regexp, '%20'),
+	        idx = x.indexOf(eq),
+	        kstr, vstr, k, v;
+	
+	    if (idx >= 0) {
+	      kstr = x.substr(0, idx);
+	      vstr = x.substr(idx + 1);
+	    } else {
+	      kstr = x;
+	      vstr = '';
+	    }
+	
+	    k = decodeURIComponent(kstr);
+	    v = decodeURIComponent(vstr);
+	
+	    if (!hasOwnProperty(obj, k)) {
+	      obj[k] = v;
+	    } else if (isArray(obj[k])) {
+	      obj[k].push(v);
+	    } else {
+	      obj[k] = [obj[k], v];
+	    }
+	  }
+	
+	  return obj;
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+
+
+/***/ },
+/* 100 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/querystring-es3/encode.js ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	'use strict';
+	
+	var stringifyPrimitive = function(v) {
+	  switch (typeof v) {
+	    case 'string':
+	      return v;
+	
+	    case 'boolean':
+	      return v ? 'true' : 'false';
+	
+	    case 'number':
+	      return isFinite(v) ? v : '';
+	
+	    default:
+	      return '';
+	  }
+	};
+	
+	module.exports = function(obj, sep, eq, name) {
+	  sep = sep || '&';
+	  eq = eq || '=';
+	  if (obj === null) {
+	    obj = undefined;
+	  }
+	
+	  if (typeof obj === 'object') {
+	    return map(objectKeys(obj), function(k) {
+	      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+	      if (isArray(obj[k])) {
+	        return map(obj[k], function(v) {
+	          return ks + encodeURIComponent(stringifyPrimitive(v));
+	        }).join(sep);
+	      } else {
+	        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+	      }
+	    }).join(sep);
+	
+	  }
+	
+	  if (!name) return '';
+	  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+	         encodeURIComponent(stringifyPrimitive(obj));
+	};
+	
+	var isArray = Array.isArray || function (xs) {
+	  return Object.prototype.toString.call(xs) === '[object Array]';
+	};
+	
+	function map (xs, f) {
+	  if (xs.map) return xs.map(f);
+	  var res = [];
+	  for (var i = 0; i < xs.length; i++) {
+	    res.push(f(xs[i], i));
+	  }
+	  return res;
+	}
+	
+	var objectKeys = Object.keys || function (obj) {
+	  var res = [];
+	  for (var key in obj) {
+	    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+	  }
+	  return res;
+	};
+
+
+/***/ },
 /* 101 */
 /*!******************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/blocks.js/~/observe/~/proto/proto.js ***!
@@ -20402,7 +20502,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /*!**************************************************************************************************************************************!*\
   !*** D:/billysFile/code/javascript/modules/Gem.js/~/deadunit/~/deadunit-core/~/ajax/~/async-future/~/trimArguments/trimArguments.js ***!
   \**************************************************************************************************************************************/
-61,
+63,
 /* 106 */,
 /* 107 */,
 /* 108 */,
@@ -20429,59 +20529,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 129 */,
 /* 130 */,
 /* 131 */,
-/* 132 */,
-/* 133 */,
-/* 134 */,
-/* 135 */,
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */,
-/* 142 */,
-/* 143 */,
-/* 144 */,
-/* 145 */,
-/* 146 */,
-/* 147 */,
-/* 148 */,
-/* 149 */,
-/* 150 */,
-/* 151 */,
-/* 152 */,
-/* 153 */,
-/* 154 */,
-/* 155 */,
-/* 156 */,
-/* 157 */,
-/* 158 */,
-/* 159 */,
-/* 160 */,
-/* 161 */,
-/* 162 */,
-/* 163 */,
-/* 164 */,
-/* 165 */,
-/* 166 */,
-/* 167 */,
-/* 168 */,
-/* 169 */,
-/* 170 */,
-/* 171 */,
-/* 172 */,
-/* 173 */,
-/* 174 */,
-/* 175 */,
-/* 176 */,
-/* 177 */
+/* 132 */
 /*!*******************************!*\
   !*** ./EventEmitterB.test.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var proto = __webpack_require__(/*! proto */ 22);
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
 	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 29);
 	
 	module.exports = function(t) {
@@ -21040,7 +21095,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 178 */
+/* 133 */
 /*!*********************!*\
   !*** ./Gem.test.js ***!
   \*********************/
@@ -21049,8 +21104,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var proto = __webpack_require__(/*! proto */ 22)
 	var Future = __webpack_require__(/*! async-future */ 43)
 	
-	var syn = __webpack_require__(/*! fsyn */ 7)
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
+	var syn = __webpack_require__(/*! fsyn */ 6)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
 	var Gem = __webpack_require__(/*! ../Gem.browser */ 1)
 	
 	var Text = Gem.Text
@@ -21754,16 +21809,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 179 */
+/* 134 */
 /*!***************************************!*\
   !*** ./ComponentTests/Button.test.js ***!
   \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var syn = __webpack_require__(/*! fsyn */ 7)
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
+	var syn = __webpack_require__(/*! fsyn */ 6)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
 	
-	var Button = __webpack_require__(/*! Components/Button */ 10)
+	var Button = __webpack_require__(/*! Components/Button */ 11)
 	
 	module.exports = function(t) {
 	    t.count(5)
@@ -21786,14 +21841,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 180 */
+/* 135 */
 /*!***************************************!*\
   !*** ./ComponentTests/Canvas.test.js ***!
   \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
-	var Block = __webpack_require__(/*! Components/Block */ 11)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
 	
 	var Canvas = __webpack_require__(/*! Components/Canvas */ 9);
 	
@@ -21832,14 +21887,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 181 */
+/* 136 */
 /*!*****************************************!*\
   !*** ./ComponentTests/CheckBox.test.js ***!
   \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var syn = __webpack_require__(/*! fsyn */ 7)
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
+	var syn = __webpack_require__(/*! fsyn */ 6)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
 	
 	var CheckBox = __webpack_require__(/*! Components/CheckBox */ 12)
 	
@@ -21890,16 +21945,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 182 */
+/* 137 */
 /*!**************************************!*\
   !*** ./ComponentTests/Block.test.js ***!
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var syn = __webpack_require__(/*! fsyn */ 7)
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
+	var syn = __webpack_require__(/*! fsyn */ 6)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
 	
-	var Block = __webpack_require__(/*! Components/Block */ 11)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
 	var Text = __webpack_require__(/*! Components/Text */ 21)
 	
 	module.exports = function() {
@@ -21979,14 +22034,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 183 */
+/* 138 */
 /*!**************************************!*\
   !*** ./ComponentTests/Image.test.js ***!
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
-	var Block = __webpack_require__(/*! Components/Block */ 11)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
 	
 	var Image = __webpack_require__(/*! Components/Image */ 13);
 	
@@ -22020,15 +22075,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 184 */
+/* 139 */
 /*!*************************************!*\
   !*** ./ComponentTests/List.test.js ***!
   \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
-	var Block = __webpack_require__(/*! Components/Block */ 11)
-	var domUtils = __webpack_require__(/*! domUtils */ 6)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
+	var domUtils = __webpack_require__(/*! domUtils */ 5)
 	
 	var Text = __webpack_require__(/*! Components/Text */ 21)
 	var List = __webpack_require__(/*! Components/List */ 14)
@@ -22150,19 +22205,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 185 */
+/* 140 */
 /*!********************************************!*\
   !*** ./ComponentTests/MultiSelect.test.js ***!
   \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
-	var syn = __webpack_require__(/*! fsyn */ 7)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
+	var syn = __webpack_require__(/*! fsyn */ 6)
 	
-	var Block = __webpack_require__(/*! Components/Block */ 11)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
 	var Text = __webpack_require__(/*! Components/Text */ 21)
 	
-	var MultiSelect = __webpack_require__(/*! Components/MultiSelect */ 192)
+	var MultiSelect = __webpack_require__(/*! Components/MultiSelect */ 147)
 	
 	module.exports = function() {
 	
@@ -22573,16 +22628,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 186 */
+/* 141 */
 /*!**************************************!*\
   !*** ./ComponentTests/Radio.test.js ***!
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
-	var syn = __webpack_require__(/*! fsyn */ 7)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
+	var syn = __webpack_require__(/*! fsyn */ 6)
 	
-	var Block = __webpack_require__(/*! Components/Block */ 11)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
 	var Text = __webpack_require__(/*! Components/Text */ 21)
 	
 	var Radio = __webpack_require__(/*! Components/Radio */ 15)
@@ -22859,17 +22914,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 187 */
+/* 142 */
 /*!***************************************!*\
   !*** ./ComponentTests/Select.test.js ***!
   \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
-	var syn = __webpack_require__(/*! fsyn */ 7)
-	var domUtils = __webpack_require__(/*! domUtils */ 6)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
+	var syn = __webpack_require__(/*! fsyn */ 6)
+	var domUtils = __webpack_require__(/*! domUtils */ 5)
 	
-	var Block = __webpack_require__(/*! Components/Block */ 11)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
 	var Text = __webpack_require__(/*! Components/Text */ 21)
 	
 	var Select = __webpack_require__(/*! Components/Select */ 16)
@@ -23223,15 +23278,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 188 */
+/* 143 */
 /*!**************************************!*\
   !*** ./ComponentTests/Table.test.js ***!
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
-	var Block = __webpack_require__(/*! Components/Block */ 11)
-	var domUtils = __webpack_require__(/*! domUtils */ 6)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
+	var domUtils = __webpack_require__(/*! domUtils */ 5)
 	
 	var Text = __webpack_require__(/*! Components/Text */ 21)
 	var Table = __webpack_require__(/*! Components/Table */ 18)
@@ -23464,15 +23519,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 189 */
+/* 144 */
 /*!*************************************!*\
   !*** ./ComponentTests/Text.test.js ***!
   \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
-	var Block = __webpack_require__(/*! Components/Block */ 11)
-	var domUtils = __webpack_require__(/*! domUtils */ 6)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
+	var domUtils = __webpack_require__(/*! domUtils */ 5)
 	
 	var Text = __webpack_require__(/*! Components/Text */ 21);
 	
@@ -23506,15 +23561,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 190 */
+/* 145 */
 /*!*****************************************!*\
   !*** ./ComponentTests/TextArea.test.js ***!
   \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
-	var Block = __webpack_require__(/*! Components/Block */ 11)
-	var syn = __webpack_require__(/*! fsyn */ 7)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
+	var syn = __webpack_require__(/*! fsyn */ 6)
 	
 	var TextArea = __webpack_require__(/*! Components/TextArea */ 19)
 	
@@ -23569,15 +23624,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 191 */
+/* 146 */
 /*!******************************************!*\
   !*** ./ComponentTests/TextField.test.js ***!
   \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var testUtils = __webpack_require__(/*! testUtils */ 5)
-	var Block = __webpack_require__(/*! Components/Block */ 11)
-	var syn = __webpack_require__(/*! fsyn */ 7)
+	var testUtils = __webpack_require__(/*! testUtils */ 4)
+	var Block = __webpack_require__(/*! Components/Block */ 10)
+	var syn = __webpack_require__(/*! fsyn */ 6)
 	
 	var TextField = __webpack_require__(/*! Components/TextField */ 20)
 	
@@ -23648,7 +23703,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 192 */
+/* 147 */
 /*!**************************************!*\
   !*** ../~/Components/MultiSelect.js ***!
   \**************************************/
@@ -23883,8 +23938,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 193 */,
-/* 194 */
+/* 148 */
 /*!***********************************!*\
   !*** template of 48 referencing  ***!
   \***********************************/
@@ -24191,9 +24245,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 195 */
+/* 149 */
 /*!***********************************!*\
-  !*** template of 73 referencing  ***!
+  !*** template of 75 referencing  ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 

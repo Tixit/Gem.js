@@ -1128,16 +1128,16 @@ Returns a new style that is a copy of the calling style object but has a new `cl
 
 ### `Style.addPseudoClass`
 
-`Style.addPseudoClass(name, fns)` - Creates a new pseudoclass that can be used in `Style` objects. This can be used to create all-new psuedoclasses no one's ever thought of before!
+`Style.addPseudoClass(name, options)` - Creates a new pseudoclass that can be used in `Style` objects. This can be used to create all-new psuedoclasses no one's ever thought of before!
 * `name` - The name of the new pseudoclass
-* `fns` - An object with the members:
+* `options` - An object with the members:
     * `check(gem, processedParameter)` - A function that returns true if the pseudoclass applies to passed `gem`
     * `setup(gem, startCallback, endCallback, processedParameter)` - A function that should call `startCallback()` when the pseudoclass starts applying, and `endCallback()` when it stops applying. Can return a `state` object that will be passed to the `kill` function.
         * `processedParameter` - The parameter passed to the pseudoclass (e.g. in `":not(:first-child)"`, ":first-child" is the parameter). If a `processParameter` function is given, this will be the return value of that function.
     * `kill(gem, state)` - A function that cleans up any event listeners or anything else set up in the `setup` function.
     * `emulated` - (Optional - default false) Set to true if this implements a native pseudoclass. If `true`, Gems will attempt optimize the pseudoclass using native css if possible.
     * `processParameter(parameter)` - (Optional) Takes the pseudoclass parameter and returns some object representing it that will be used by the `setup` and `check` functions.
-    * `parameterTransform(parameter)` - (Optional) Returns a modified version of the passed parameter. This is useful in cases where native pseudoclass parameter parsing is unnecessarily strict (eg. nth-child parameters)
+    * `parameterTransform(parameter)` - (Optional) Returns a modified version of the passed parameter that will be used in place of the given parameter in native-rendered psuedoclass styles. This is useful in cases where native pseudoclass parameter parsing is unnecessarily strict (eg. nth-child parameters)
 
 
 ### `styleObject.toString`
@@ -1295,6 +1295,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.1.4 - Fixing a bug where custom pseudoclass parameters were being improperly transformed
 * 2.1.3 - Fixing bug where pseudoclasses were giving the wrong overriding value for css properties that should inherit by default (like color)
 * 2.1.2 - Adding `styleObject.toString`, `Style.fromString`, and `styleObject.toObject`
 * 2.1.1 - Fixing missing event when selected option value is changed, and adding a couple bug tests that aren't fixed yet

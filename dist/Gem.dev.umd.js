@@ -84,7 +84,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 19)
 	var proto = __webpack_require__(/*! proto */ 27);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 30)
+	var trimArguments = __webpack_require__(/*! trimArguments */ 31)
 	var observe = __webpack_require__(/*! observe */ 29)
 	
 	var utils = __webpack_require__(/*! ./utils */ 17)
@@ -679,7 +679,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.inherit = true
 	
 	            } else if(key.indexOf('$$') === 0) { // pseudo-class style
-	                var pseudoClass = mapCamelCase(key.substr(2))
+	                var parts = getPseudoClassParts(key.substr(2))
+	                var pseudoClass = mapCamelCase(parts.class)
+	                if(parts.parameter !== undefined) {
+	                    pseudoClass+='('+parts.parameter+")"
+	                }
+	
 	                if(pseudoClass === '') {
 	                    throw new Error("Empty pseudo-class name not valid (style key '$$')")
 	                }
@@ -1479,7 +1484,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            var defaultStyleProperty = defaultStyle.basicProperties[key]
 	                        }
 	
-	                        var initialStyle = defaultStyleProperty || defaultStyleValues[key] || 'initial' // todo: write a function to calculate the inital value, since 'initial' isn't supported in IE (of course) - tho it will be eventually since its becoming apart of css3
+	                        var initialStyle = defaultStyleProperty || defaultStyleValues[key]
+	                                           || (key in stylesThatInheritByDefault ? 'inherit' : 'initial') // todo: write a function to calculate the inital value, since 'initial' isn't supported in IE (of course) - tho it will be eventually since its becoming apart of css3
 	                        pseudoClassCss[key] = initialStyle
 	                    }
 	                }
@@ -1684,7 +1690,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // returns a function that takes an index and tell you if that index applies to the nthChildParameter
 	        processParameter: function(parameter) {
 	            var parts = parseNthChildParameter(parameter)
-	
 	            if(parts.variable === 0) {
 	                return function(index) {
 	                    return index+1 === parts.constant
@@ -1697,13 +1702,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    },
 	
-	    // not's parameter is a statement consisting of pseudoclasses separated either by & or ,
+	    // not's parameter is a statement consisting of pseudoclasses separated either by : or ,
 	    // $$not(pseudoclass1&pseudoclass2,psuedoclass3) translates to the css :not(:pseudoclass1:pseudoclass2,:psuedoclass3)
-	    /*not: {
-	        check: function() {
-	
+	    not: {
+	        emulated: true,
+	        parameterTransform: function(parameter) {
+	            var orParts = parameter.split(',')
+	            return orParts.map(function(part) {
+	                var andParts = part.split(':')
+	                return andParts.map(function(part) {
+	                    var parts = getPseudoClassParts(part)
+	                    var mappedName = mapCamelCase(parts.class)
+	                    if(parts.parameter !== undefined) {
+	                        return mappedName+'('+parts.parameter+')'
+	                    } else {
+	                        return mappedName
+	                    }
+	                }).join(':')
+	            }).join(',')
 	        },
-	    }*/
+	
+	        check: function(component, parameterCheck) {
+	            throw new Error("The 'not' psuedoclass can only be used in Style objects that can be rendered in native css as of yet")
+	        },
+	        setup: function(component, startCallback, endCallback, parameterCheck) {
+	            throw new Error("The 'not' psuedoclass can only be used in Style objects that can be rendered in native css as of yet")
+	        },
+	        kill: function(component, state) {
+	            throw new Error("The 'not' psuedoclass can only be used in Style objects that can be rendered in native css as of yet")
+	        },
+	
+	        // returns a function that takes an index and tell you if that index applies to the nthChildParameter
+	        processParameter: function(parameter) {
+	            throw new Error("The 'not' psuedoclass can only be used in Style objects that can be rendered in native css as of yet")
+	        }
+	    }
 	}
 	
 	// name is the name of the new pseudoclass
@@ -1716,9 +1749,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // if this is undefined, the pseudoclass will throw an exception for styles that have a parameter for it
 	    // emulated - if true, it means that there is a corresponding native pseudoclass that can be used if the style can be rendered with pure css
 	module.exports.addPseudoClass = function(name, options) {
-	    if(jsRenderedPseduoclasses[name] !== undefined) throw new Error("The pseudoclass '"+name+"' is already defined.")
+	    var mappedName = mapCamelCase(name)
+	    if(jsRenderedPseduoclasses[mappedName] !== undefined) {
+	        var nameForError = '"'+mappedName+'"'
+	        if(mappedName !== name) {
+	            nameForError+= " (mapped from '"+name+"')"
+	        }
+	        throw new Error("The pseudoclass "+nameForError+" is already defined.")
+	    }
 	    // else
-	    jsRenderedPseduoclasses[name] = options
+	    jsRenderedPseduoclasses[mappedName] = options
 	}
 	
 	
@@ -1891,6 +1931,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'word-spacing': 'normal'
 	}
 	
+	var stylesThatInheritByDefault = {
+	    'font-family':1, 'font-size':1, 'font-style':1, 'font-variant':1, 'font-weight':1, 'visibility':1, 'color':1, 'cursor':1
+	}
+	
 	
 	
 	
@@ -2040,7 +2084,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		// instance properties
 	
 		this.init = function (/*[label,] content*/) {
-	        if(typeof(arguments[0]) !== 'string') {
+	        if(typeof(arguments[0]) !== 'string' && arguments[0] !== undefined) {
 	            var contentArgs = arguments
 	        } else {
 	            var label = arguments[0]
@@ -2548,7 +2592,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
 	var proto = __webpack_require__(/*! proto */ 27)
 	
-	var Option = __webpack_require__(/*! Components/Option */ 22)
+	var Option = __webpack_require__(/*! Components/Option */ 25)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Gem, function(superclass) {
@@ -2737,9 +2781,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
-	var Header = __webpack_require__(/*! ./Header */ 23);
-	var Row = __webpack_require__(/*! ./Row */ 24);
-	var Cell = __webpack_require__(/*! ./Cell */ 25);
+	var Header = __webpack_require__(/*! ./Header */ 22);
+	var Row = __webpack_require__(/*! ./Row */ 23);
+	var Cell = __webpack_require__(/*! ./Cell */ 24);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -4242,6 +4286,80 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 22 */
 /*!********************************!*\
+  !*** ./~/Components/Header.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 30);
+	
+	module.exports = RowlikeGenerator('th', "TableHeader")
+
+/***/ },
+/* 23 */
+/*!*****************************!*\
+  !*** ./~/Components/Row.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 30);
+	
+	module.exports = RowlikeGenerator('tr', "TableRow")
+
+
+/***/ },
+/* 24 */
+/*!******************************!*\
+  !*** ./~/Components/Cell.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	var proto = __webpack_require__(/*! proto */ 27)
+	var Style = __webpack_require__(/*! Style */ 2)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'TableCell'
+	
+	    this.defaultStyle = Style({
+	        display: 'table-cell'
+	    })
+		
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			superclass.init.call(this) // superclass constructor
+			this.label = label
+	
+	        if(contents instanceof Gem || typeof(contents) !== 'string') {
+	            this.add(contents)
+	        } else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+		}
+	
+		this.colspan = function(cols) {
+			this.attr('colspan',cols);
+		}
+	});
+
+
+/***/ },
+/* 25 */
+/*!********************************!*\
   !*** ./~/Components/Option.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
@@ -4353,80 +4471,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
 	    }
 	})
-
-/***/ },
-/* 23 */
-/*!********************************!*\
-  !*** ./~/Components/Header.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 31);
-	
-	module.exports = RowlikeGenerator('th', "TableHeader")
-
-/***/ },
-/* 24 */
-/*!*****************************!*\
-  !*** ./~/Components/Row.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 31);
-	
-	module.exports = RowlikeGenerator('tr', "TableRow")
-
-
-/***/ },
-/* 25 */
-/*!******************************!*\
-  !*** ./~/Components/Cell.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 27)
-	var Style = __webpack_require__(/*! Style */ 2)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-		this.name = 'TableCell'
-	
-	    this.defaultStyle = Style({
-	        display: 'table-cell'
-	    })
-		
-	
-		// instance properties
-	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("td") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			superclass.init.call(this) // superclass constructor
-			this.label = label
-	
-	        if(contents instanceof Gem || typeof(contents) !== 'string') {
-	            this.add(contents)
-	        } else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
-		}
-	
-		this.colspan = function(cols) {
-			this.attr('colspan',cols);
-		}
-	});
-
 
 /***/ },
 /* 26 */
@@ -5554,30 +5598,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 30 */
-/*!*******************************************!*\
-  !*** ../~/trimArguments/trimArguments.js ***!
-  \*******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	        else
-	            break
-	    }
-	    args.splice(args.length-count, count)
-	    return args
-	}
-
-/***/ },
-/* 31 */
 /*!******************************************!*\
   !*** ./~/Components/RowlikeGenerator.js ***!
   \******************************************/
@@ -5587,7 +5607,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Gem = __webpack_require__(/*! Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
-	var Cell = __webpack_require__(/*! ./Cell */ 25);
+	var Cell = __webpack_require__(/*! ./Cell */ 24);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -5631,6 +5651,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return cell;
 	        }
 	    })
+	}
+
+/***/ },
+/* 31 */
+/*!*******************************************!*\
+  !*** ../~/trimArguments/trimArguments.js ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
+	
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	        else
+	            break
+	    }
+	    args.splice(args.length-count, count)
+	    return args
 	}
 
 /***/ },
