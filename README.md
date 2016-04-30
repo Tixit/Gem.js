@@ -222,6 +222,8 @@ this `attach` function or a gem's `attach` method. Without this, styles won't be
 
 **`Gem.createBody(callback)`** - Dynamically creates the body tag. Calls `callback` when done.
 
+**`Gem.dev`** - (Default: false) - When set to true, certain debugging feature are enabled.
+
 ### Instance properties and methods
 
 **`gem.parent`** - The Gem's parent (which will also be a Gem)  
