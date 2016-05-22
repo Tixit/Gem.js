@@ -12,8 +12,7 @@ module.exports = function() {
         this.count(4)
         this.timeout(750*1000) // chrissake its taking a long time now
 
-
-        //\*
+        //*
         t.test('EventEmitterB',require('./EventEmitterB.test')).complete.then(function(){
             return t.test('Gem',require('./Gem.test')).complete
         }).then(function(){

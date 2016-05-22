@@ -1297,6 +1297,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.1.5 - Updating hashmap to include a bug fix for something that was happening in minified code
 * 2.1.4 - Fixing a bug where custom pseudoclass parameters were being improperly transformed
 * 2.1.3 - Fixing bug where pseudoclasses were giving the wrong overriding value for css properties that should inherit by default (like color)
 * 2.1.2 - Adding `styleObject.toString`, `Style.fromString`, and `styleObject.toObject`
