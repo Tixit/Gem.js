@@ -354,6 +354,8 @@ B.emit("click", "Ughh..") // console prints "hey hey heyyy! Ughh.."
 
 ### Instance events
 
+**`"attach"`** - Emitted when the gem is attached to the document.
+**`"detach"`** - Emitted when the gem is detached from the document.
 **`"newParent"`** - Emitted when a Gem gets a new parent. *Note: this event is used by `Style` objects, so don't prevent these events.*  
 **`"parentRemoved"`** - Emitted when a Gem is detached from its parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
 
@@ -1240,8 +1242,6 @@ Todo
     * Show the selector of the Style that went wrong in the error message
     * Show the name of the gem being styled/restyled to a style that caused the error
     * Even better would be to be able to some context, maybe show the path like "Gem<Main>.$inner.LayoutEditor.$wrapper.$$hover" so you can trace where exactly in your style objects things are going wrong
-* have an event a gem will emit when it or one of its ancestors becomes detached from the dom
-    * Think about what to do about event forwarding for such an event, and for the 'newParent' and "parentRemoved' events - they shouldn't be forwarded
 * consider adding vertical-align:top to the default css, since it solves weird issues with inline-blocks causing extra bottom-margin: http://stackoverflow.com/questions/20310690/overflowhidden-on-inline-block-adds-height-to-parent
 * Emulate the :not psuedoclass
 
@@ -1297,6 +1297,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.1.6 - Added the "attach" and "detach" events, and exclude "newParent" and "parentRemoved" event from gem event proxying.
 * 2.1.5 - Updating hashmap to include a bug fix for something that was happening in minified code
 * 2.1.4 - Fixing a bug where custom pseudoclass parameters were being improperly transformed
 * 2.1.3 - Fixing bug where pseudoclasses were giving the wrong overriding value for css properties that should inherit by default (like color)

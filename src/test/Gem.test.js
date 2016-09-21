@@ -673,6 +673,55 @@ module.exports = function(t) {
         b.detach()
         this.eq(c.domNode.parentNode, null)
         this.eq(b.domNode.parentNode, null)
+
+        this.test("attach and detach events", function(t) {
+            this.count(6)
+
+            var a = Gem.Block()
+            var b = Gem.Text("tach")
+
+            var count=0
+            a.on('attach', function() {
+                t.ok(true)
+                count++
+            })
+            a.on('detach', function() {
+                t.ok(true)
+                count++
+            })
+            b.on('attach', function() {
+                t.ok(true)
+                count++
+            })
+            b.on('detach', function() {
+                t.ok(true)
+                count++
+            })
+
+            a.add(b)
+            a.attach()
+
+            t.eq(count, 2)
+
+            a.detach()
+            t.eq(count, 4)
+        })
+    })
+
+    this.test("overridden proxy", function() {
+        var a = Gem.Text("Whatever")
+        var b = Gem.Text("Whatever2")
+
+        a.proxy(b)
+
+        b.on('newParent', function() {
+            this.ok(false)
+        })
+        b.on('parentRemoved', function() {
+            this.ok(false)
+        })
+
+        a.attach()
     })
 
     this.test("former bugs", function() {
