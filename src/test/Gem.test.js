@@ -20,6 +20,8 @@ module.exports = function(t) {
 
 
 
+
+
     //*
 
 	this.test('testEvent',function(t) {
@@ -675,7 +677,7 @@ module.exports = function(t) {
         this.eq(b.domNode.parentNode, null)
 
         this.test("attach and detach events", function(t) {
-            this.count(6)
+            this.count(8)
 
             var a = Gem.Block()
             var b = Gem.Text("tach")
@@ -701,10 +703,13 @@ module.exports = function(t) {
             a.add(b)
             a.attach()
 
-            t.eq(count, 2)
+            a.remove(b)
+            a.add(b)
+
+            t.eq(count, 4)
 
             a.detach()
-            t.eq(count, 4)
+            t.eq(count, 6)
         })
     })
 

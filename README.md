@@ -1297,6 +1297,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.1.8 - Fixing bug where detach event wasn't emitting when a gem is removed from its parent (but the parent is still attached to the dom)
 * 2.1.7 - Fixing a bug setting undefined styles and updating built-in Gems to fix an edge case that made impossible to set certain values in the overriding constructor
 * 2.1.6 - Added the "attach" and "detach" events, and exclude "newParent" and "parentRemoved" event from gem event proxying.
 * 2.1.5 - Updating hashmap to include a bug fix for something that was happening in minified code

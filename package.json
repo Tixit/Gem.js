@@ -4,7 +4,7 @@
      "web", "components", "html", "css", "style", "view", "react",
      "angular", "angularjs", "blocks", "application", "react", "backbone"
  ],
- "version":"2.1.7",
+ "version":"2.1.8",
  "main": "src/node_modules/Gem.js",
  "contributors": [
     "Billy Tetrud <bitetrudpublic@gmail.com> (https://github.com/fresheneesz/)",
