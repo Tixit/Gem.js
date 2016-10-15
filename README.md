@@ -354,10 +354,10 @@ B.emit("click", "Ughh..") // console prints "hey hey heyyy! Ughh.."
 
 ### Instance events
 
-**`"attach"`** - Emitted when the gem is attached to the document.
-**`"detach"`** - Emitted when the gem is detached from the document.
+**`"attach"`** - Emitted when the gem is attached to the document.  
+**`"detach"`** - Emitted when the gem is detached from the document.  
 **`"newParent"`** - Emitted when a Gem gets a new parent. *Note: this event is used by `Style` objects, so don't prevent these events.*  
-**`"parentRemoved"`** - Emitted when a Gem is detached from its parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
+**`"parentRemoved"`** - Emitted when a Gem is detached from its parent. *Note: this event is used by `Style` objects, so don't prevent these events.*  
 
 #### Dom Events
 
