@@ -258,6 +258,7 @@ IMPORTANT: only attach a gem to the dom via this `attach` function or a gem's `a
 **`gem.style`** - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Gem's children.  
 **`gem.visible`** - Setting this variable to false hides the gem using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state.  
 **`gem.focus`** - Setting this variable to true gives the gem focus on the page. Setting this variable to false `blur`s it. Accessing the variable returns whether or not the gem is the focused element on the page.
+**`gem.quiet.focus`** - Just like `gem.focus` but won't cause a "focus" or "blur" event.
 
 **`gem.selectionRange`** - Returns an array representing the selection range in terms of visible character offsets. E.g. a value of `[2,4]` means that the current element has 2 visible entities (usually characters) selected within it at offset 2 and 4 from the start. Note that if there are hidden characters like multiple spaces in a row, or newlines, or other non-visible characters (mostly only applies to contenteditable nodes), they are ignored.  
 **`gem.selectionRange = [offsetStart, offsetEnd]`** - Setting the `selectionRange` property sets the selection inside the Gem's domNode based on the given offsets.
@@ -270,7 +271,9 @@ x.attach()
 x.selectionRange = [0,6] // selects "You're"
 ```
 
-#### Instance properties inherited from [`EventEmitter`](http://nodejs.org/api/events.html)
+#### Event instance properties and methods
+
+*Most of these are inherited from [`EventEmitter`](http://nodejs.org/api/events.html).*
 
 All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.html) are inherited by `Gem`. The important ones:
 
@@ -282,19 +285,23 @@ All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.ht
     * the event is `in` the gem's `excludeDomEvents` property
 * `callback(data, data2, ...)` - the callback gets any arguments passed to `emit` after the event name.
 
+**`gem.onCapture(event, callback)`** - Just like `gem.on` but listens on the capture phase of native browser events. *Note: this doesn't currently listen on events that aren't native browser events.*
+
 **`gem.once(event, callback)`** - Like `on` but the `callback` will only be called the first time the event happens.
 
-**`gem.off(event, callback)`** - Removes a callback as an event handler (the `callback` won't be called for that event again).  
+**`gem.off(event, callback)`** - Removes a callback as an event handler (the `callback` won't be called for that event again).
 **`gem.removeListener(event,callback)`** - *Same as `off`.*
 
-**`this.removeAllListeners(event)`** - Removes all the callbacks for the passed `event`.  
-**`this.removeAllListeners()`** - Removes all callbacks.
+**`this.removeAllListeners(event)`** - Removes all the callbacks for the passed `event`, except capture handlers.
+**`this.removeAllListeners()`** - Removes all callbacks except capture handlers.
 
-#### Instance properties inherited from EventEmitterB
+**`gem.offCapture(event, callback)`** - Removes a capture handler.
 
 ##### `ifon`
 
-The `ifon` and related methods are useful primarily for performance reasons. They allow registering event listeners only when they're needed, so that the browser doesn't get overloaded with event handlers. Its recommended that `ifon` is used whenever possible. An example:
+The `ifon` and related methods are useful primarily for performance reasons. They allow registering event listeners only when they're needed, so that the browser doesn't get overloaded with event handlers. Its recommended that `ifon` is used whenever possible.
+
+An example:
 
 ```javascript
 var text = Text("CLICK ME")
@@ -1297,6 +1304,9 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.2.0
+    * Adding onCapture and offCapture
+    * Adding gem.quiet.focus
 * 2.1.8 - Fixing bug where detach event wasn't emitting when a gem is removed from its parent (but the parent is still attached to the dom)
 * 2.1.7 - Fixing a bug setting undefined styles and updating built-in Gems to fix an edge case that made impossible to set certain values in the overriding constructor
 * 2.1.6 - Added the "attach" and "detach" events, and exclude "newParent" and "parentRemoved" event from gem event proxying.

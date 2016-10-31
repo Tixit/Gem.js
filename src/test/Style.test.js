@@ -15,6 +15,7 @@ var Svg = Gem.Svg
 var defaultBackgroundColor = 'rgba(0, 0, 0, 0)'; var defaultBgColor = defaultBackgroundColor
 
 module.exports = function(t) {
+//    this.timeout(60*1000) ugh it looks like this isn't working properly
 
 
      // todo:

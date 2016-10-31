@@ -10,8 +10,7 @@ module.exports = function() {
 
     var tests = Unit.test("Testing Gem.js", function(t) {
         this.count(4)
-        this.timeout(700*1000)
-
+        this.timeout(700*1000) // for some reason this isn't working properly - the test is timing out when this is set to 20 seconds without 20 seconds between asserts
 
 
         //*
