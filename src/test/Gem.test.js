@@ -23,62 +23,8 @@ module.exports = function(t) {
 
 
 
-        this.test("browser events onCapture", function(t) {
-            this.count(8)
 
-            var a = Gem.Text("test")
-            var b = Gem.Block(a)
-            var c = Gem.Block(b)
-
-            var bCaptureHandler, bhandler2, chandler, cCaptureHandler;
-            var testEvent = testUtils.seq(function(eventName) {
-                t.eq(eventName, 'c capture')
-            },function(eventName) {
-                t.eq(eventName, 'b capture')
-            },function(eventName) {
-                t.eq(eventName, 'a')
-            },function(eventName) {
-                t.eq(eventName, 'b regular 1')
-            },function(eventName) {
-                t.eq(eventName, 'b regular 2')
-            },function(eventName) {
-                t.eq(eventName, 'c regular')
-
-                b.offCapture('click', bCaptureHandler)
-                b.off('click',bhandler2)
-                c.off('click',chandler)
-                c.offCapture('click', cCaptureHandler)
-            },function(eventName) {
-                t.eq(eventName, 'a')
-            },function(eventName) {
-                t.eq(eventName, 'b regular 1')
-            })
-
-            a.on('click', function() {
-                testEvent('a')
-            })
-            b.on('click', function() {
-                testEvent('b regular 1')
-            })
-            b.onCapture('click', bCaptureHandler=function() {
-                testEvent('b capture')
-            })
-            b.on('click', bhandler2=function() {
-                testEvent('b regular 2')
-            })
-            c.on('click', chandler=function() {
-                testEvent('c regular')
-            })
-            c.onCapture('click', cCaptureHandler=function() {
-                testEvent('c capture')
-            })
-
-            syn.click(a.domNode).then(function() {
-                return syn.click(a.domNode)
-            }).done()
-        })
-
-    /*
+    //*
 
 	this.test('testEvent',function(t) {
         this.count(2);
@@ -711,43 +657,63 @@ module.exports = function(t) {
             syn.click(e.domNode).done()
         })
 
-        this.test("browser events onCapture", function() {
+        this.test("browser events onCapture", function(t) {
+            this.count(8)
+
             var a = Gem.Text("test")
             var b = Gem.Block(a)
+            var c = Gem.Block(b)
 
+            var bCaptureHandler, bhandler2, chandler, cCaptureHandler;
             var testEvent = testUtils.seq(function(eventName) {
+                t.eq(eventName, 'c capture')
+            },function(eventName) {
                 t.eq(eventName, 'b capture')
             },function(eventName) {
-                t.eq(eventName, 'a regular 1')
+                t.eq(eventName, 'a')
             },function(eventName) {
-                t.eq(eventName, 'a regular 2')
+                t.eq(eventName, 'b regular 1')
             },function(eventName) {
-                t.eq(eventName, 'a regular 2')
+                t.eq(eventName, 'b regular 2')
             },function(eventName) {
-                t.eq(eventName, 'b regular')
+                t.eq(eventName, 'c regular')
+
+                b.offCapture('click', bCaptureHandler)
+                b.off('click',bhandler2)
+                c.off('click',chandler)
+                c.offCapture('click', cCaptureHandler)
+            },function(eventName) {
+                t.eq(eventName, 'a')
+            },function(eventName) {
+                t.eq(eventName, 'b regular 1')
             })
 
             a.on('click', function() {
-                testEvent('a regular 1')
-            })
-            a.onCapture('click', function() {
-                testEvent('a capture')
-            })
-            a.on('click', function() {
-                testEvent('a regular 2')
+                testEvent('a')
             })
             b.on('click', function() {
-                testEvent('b regular')
+                testEvent('b regular 1')
             })
-            b.onCapture('click', function() {
+            b.onCapture('click', bCaptureHandler=function() {
                 testEvent('b capture')
             })
+            b.on('click', bhandler2=function() {
+                testEvent('b regular 2')
+            })
+            c.on('click', chandler=function() {
+                testEvent('c regular')
+            })
+            c.onCapture('click', cCaptureHandler=function() {
+                testEvent('c capture')
+            })
 
-            syn.click(e.domNode).done()
+            syn.click(a.domNode).then(function() {
+                return syn.click(a.domNode)
+            }).done()
         })
     })
 
-    this.test("attach and detach", function() {
+    this.test("attach, attachBefore, and detach", function() {
         var a = Gem.Text("tach")
         a.attach()
         this.eq(a.domNode.parentNode, document.body)
@@ -773,6 +739,10 @@ module.exports = function(t) {
         var f = Gem.Text("tach6")
         Gem.attach(e.domNode, [f])
         this.eq(f.domNode.parentNode, e.domNode)
+
+        var g = Gem.Text("tach7")
+        Gem.attachBefore(e.domNode, g)
+        this.eq(g.domNode.parentNode, e.domNode.parentNode)
 
 
         Gem.detach(f)

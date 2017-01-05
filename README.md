@@ -215,8 +215,9 @@ All gems inherit from `Gem` - the basic building-block of the system. Gems are [
 **`Gem.name`** - The name of the Gem. Used both for naming dom elements for view in browser dev tools and for styling.
 
 **`Gem.attach(listOfGems)`** - Appends the passed gems to `document.body`. IMPORTANT: only attach a gem to the dom via
-this `attach` function or a gem's `attach` method. Without this, styles won't be rendered.  
-**`Gem.attach(domNode, listOfGems)`** - Appends the passed gems to the passed `domNode`.
+this `attach` function or a gem's `attach`/`attachBefore` method. Without this, styles won't be rendered.  
+**`Gem.attach(domNode, listOfGems)`** - Appends the passed gems to the passed `domNode`.  
+**`Gem.attachBefore(domNode, listOfGems)`** - Appends the passed gems before the passed `domNode` as a sibling.
 
 **`Gem.detach(listOfGems)`** - Removes the passed gems from their respective dom parents.
 
@@ -247,8 +248,8 @@ this `attach` function or a gem's `attach` method. Without this, styles won't be
 **`gem.remove(index, index, ...)`** - Removes, as children, the gems at the given `index`es in the `children` list.  
 **`gem.remove(listOfIndexes)`** - *Same as above, but `listOfIndexes` is an array of indexes to remove.*
 
-**`gem.attach(domNode=document.body)`** - Appends this `Gem`'s domNode to the passed domNode (default `document.body`).
-IMPORTANT: only attach a gem to the dom via this `attach` function or a gem's `attach` method. Without this, styles won't be rendered.  
+**`gem.attach(domNode=document.body)`** - Appends this `Gem`'s domNode to the passed domNode (default `document.body`). IMPORTANT: only attach a gem to the dom via the `attach` function or a gem's `attach`/`attachBefore` method. Without this, styles won't be rendered.  
+**`gem.attachBefore(domNode=document.body)`** - Appends this `Gem`'s domNode before the passed domNode (as a sibling). 
 **`gem.detach()`** - Removes this `Gem`'s domNode from its dom parent.
 
 **`gem.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Gem's domNode.  
@@ -1304,6 +1305,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.3.0 - Adding `a`
 * 2.2.0
     * Adding onCapture and offCapture
     * Adding gem.quiet.focus
