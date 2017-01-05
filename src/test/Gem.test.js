@@ -23,7 +23,6 @@ module.exports = function(t) {
 
 
 
-
     //*
 
 	this.test('testEvent',function(t) {
@@ -743,6 +742,18 @@ module.exports = function(t) {
         var g = Gem.Text("tach7")
         Gem.attachBefore(e.domNode, g)
         this.eq(g.domNode.parentNode, e.domNode.parentNode)
+        var childNodes = g.domNode.parentNode.childNodes
+        var eIndex = childNodes.indexOf(e.domNode)
+        var gIndex = childNodes.indexOf(g.domNode)
+        this.eq(gIndex+1, eIndex)
+
+        var h = Gem.Text("tach7")
+        h.attachBefore(e.domNode)
+        this.eq(h.domNode.parentNode, e.domNode.parentNode)
+        var childNodes = h.domNode.parentNode.childNodes
+        var eIndex = childNodes.indexOf(e.domNode)
+        var hIndex = childNodes.indexOf(h.domNode)
+        this.eq(hIndex+1, eIndex)
 
 
         Gem.detach(f)

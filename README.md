@@ -1305,7 +1305,7 @@ Optimization ideas:
 Changelog
 ========
 
-* 2.3.0 - Adding `a`
+* 2.3.1 - Adding `attachBefore`
 * 2.2.0
     * Adding onCapture and offCapture
     * Adding gem.quiet.focus

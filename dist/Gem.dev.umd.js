@@ -84,8 +84,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 16)
 	var proto = __webpack_require__(/*! proto */ 28);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 30)
-	var observe = __webpack_require__(/*! observe */ 29)
+	var trimArguments = __webpack_require__(/*! trimArguments */ 29)
+	var observe = __webpack_require__(/*! observe */ 30)
 	
 	var utils = __webpack_require__(/*! ./utils */ 17)
 	var domUtils = __webpack_require__(/*! ./domUtils */ 18)
@@ -406,6 +406,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            attach(domNode, this)
 	        else
 	            attach(this)
+	    }
+	    this.attachBefore = function(domNode) {
+	        if(domNode !== undefined)
+	            attachInternal([domNode,this], true)
+	        else
+	            attachInternal([this], true)
 	    }
 	    this.detach = function(domNode) {
 	        if(domNode !== undefined)
@@ -2317,7 +2323,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Gem = __webpack_require__(/*! Gem */ 1)
 	var Style = __webpack_require__(/*! Style */ 2)
 	
-	var Item = __webpack_require__(/*! ./Item */ 23);
+	var Item = __webpack_require__(/*! ./Item */ 22);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2663,7 +2669,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Gem = __webpack_require__(/*! ../Gem */ 1)
 	var proto = __webpack_require__(/*! proto */ 28)
 	
-	var Option = __webpack_require__(/*! Components/Option */ 22)
+	var Option = __webpack_require__(/*! Components/Option */ 23)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Gem, function(superclass) {
@@ -4365,6 +4371,52 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 22 */
+/*!******************************!*\
+  !*** ./~/Components/Item.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! Gem */ 1)
+	var proto = __webpack_require__(/*! proto */ 28)
+	var Style = __webpack_require__(/*! Style */ 2)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+		// static properties
+	
+		this.name = 'ListItem'
+	
+	    this.defaultStyle = Style({
+	        display: 'list-item'
+	    })
+	
+		// instance properties
+	
+		this.init = function(/*[label,] contents*/) {
+	        if(arguments.length <= 1) {
+	            var contents = arguments[0]
+	        } else {
+	            var label = arguments[0]
+	            var contents = arguments[1]
+	        }
+	
+	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+			this.label = label
+	
+	        this.children = [] // need children before calling add
+	        if(contents instanceof Gem) {
+				this.add(contents)
+			} else if(contents !== undefined) {
+	            this.domNode.textContent = contents
+	        }
+	
+	        superclass.init.apply(this, arguments) // superclass constructor
+		}
+	});
+
+
+/***/ },
+/* 23 */
 /*!********************************!*\
   !*** ./~/Components/Option.js ***!
   \********************************/
@@ -4478,52 +4530,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
 	    }
 	})
-
-/***/ },
-/* 23 */
-/*!******************************!*\
-  !*** ./~/Components/Item.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
-	var Style = __webpack_require__(/*! Style */ 2)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-		// static properties
-	
-		this.name = 'ListItem'
-	
-	    this.defaultStyle = Style({
-	        display: 'list-item'
-	    })
-	
-		// instance properties
-	
-		this.init = function(/*[label,] contents*/) {
-	        if(arguments.length <= 1) {
-	            var contents = arguments[0]
-	        } else {
-	            var label = arguments[0]
-	            var contents = arguments[1]
-	        }
-	
-	        this.domNode = document.createElement("li") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-			this.label = label
-	
-	        this.children = [] // need children before calling add
-	        if(contents instanceof Gem) {
-				this.add(contents)
-			} else if(contents !== undefined) {
-	            this.domNode.textContent = contents
-	        }
-	
-	        superclass.init.apply(this, arguments) // superclass constructor
-		}
-	});
-
 
 /***/ },
 /* 24 */
@@ -5053,6 +5059,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 29 */
+/*!*******************************************!*\
+  !*** ../~/trimArguments/trimArguments.js ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
+	
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	        else
+	            break
+	    }
+	    args.splice(args.length-count, count)
+	    return args
+	}
+
+/***/ },
+/* 30 */
 /*!*******************************!*\
   !*** ../~/observe/observe.js ***!
   \*******************************/
@@ -5527,30 +5557,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    return {couldRelocate: changeCouldRelocateInnerProperty, isWithin: changeIsWithinInnerProperty}
-	}
-
-/***/ },
-/* 30 */
-/*!*******************************************!*\
-  !*** ../~/trimArguments/trimArguments.js ***!
-  \*******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	        else
-	            break
-	    }
-	    args.splice(args.length-count, count)
-	    return args
 	}
 
 /***/ },
