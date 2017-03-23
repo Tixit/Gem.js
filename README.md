@@ -1305,6 +1305,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.3.3 - Minor fix to prevent invalid node from being added to a gem's children list and ensuring selection node has focus
 * 2.3.1 - Adding `attachBefore`
 * 2.2.0
     * Adding onCapture and offCapture

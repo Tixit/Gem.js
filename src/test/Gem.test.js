@@ -742,7 +742,7 @@ module.exports = function(t) {
         var g = Gem.Text("tach7")
         Gem.attachBefore(e.domNode, g)
         this.eq(g.domNode.parentNode, e.domNode.parentNode)
-        var childNodes = g.domNode.parentNode.childNodes
+        var childNodes = Array.prototype.slice.call(g.domNode.parentNode.childNodes,0)
         var eIndex = childNodes.indexOf(e.domNode)
         var gIndex = childNodes.indexOf(g.domNode)
         this.eq(gIndex+1, eIndex)
@@ -750,7 +750,7 @@ module.exports = function(t) {
         var h = Gem.Text("tach7")
         h.attachBefore(e.domNode)
         this.eq(h.domNode.parentNode, e.domNode.parentNode)
-        var childNodes = h.domNode.parentNode.childNodes
+        var childNodes = Array.prototype.slice.call(h.domNode.parentNode.childNodes,0)
         var eIndex = childNodes.indexOf(e.domNode)
         var hIndex = childNodes.indexOf(h.domNode)
         this.eq(hIndex+1, eIndex)
