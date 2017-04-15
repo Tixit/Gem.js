@@ -4,9 +4,7 @@
      "web", "components", "html", "css", "style", "view", "react",
      "angular", "angularjs", "blocks", "application", "react", "backbone"
  ],
- "version":"2.4.02.4.0
-	* Adding quiet.selected and quiet.val properties to the various gems that have normal `selected` and `val` properties
-	* Changing `radio.selected` to `radio.selectedOption` (deprecating `radio.selected` but leaving it in place)",
+ "version":"2.4.0",
  "main": "src/node_modules/Gem.js",
  "contributors": [
     "Billy Tetrud <bitetrudpublic@gmail.com> (https://github.com/fresheneesz/)",
