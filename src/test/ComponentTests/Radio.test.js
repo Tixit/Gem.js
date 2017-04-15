@@ -51,7 +51,7 @@ module.exports = function(t) {
                 t.eq(element, 'radio')
 
                 t.eq(radio.val, '2')
-                t.eq(radio.selected, button2)
+                t.eq(radio.selectedOption, button2)
             },function(type, element) {
                 t.eq(type, 'click')
                 t.eq(element, 'button2')
@@ -60,14 +60,14 @@ module.exports = function(t) {
             // for a required one, the first button created will be selected by default
             t.eq(button1.domNode.checked, true)
             t.eq(button2.domNode.checked, false)
-            t.eq(radio.selected, button1)
+            t.eq(radio.selectedOption, button1)
             t.eq(radio.val, "1")
 
             // nothing should happen if you click the selected one (for required)
             syn.click(button1.domNode).then(function() {
                 t.eq(button1.domNode.checked, true)
                 t.eq(button2.domNode.checked, false)
-                t.eq(radio.selected, button1)
+                t.eq(radio.selectedOption, button1)
                 t.eq(radio.val, "1")
 
                 // select the other one
@@ -195,7 +195,7 @@ module.exports = function(t) {
         // for a non-required Radio group, the group starts out without
         t.eq(button1.domNode.checked, false)
         t.eq(button2.domNode.checked, false)
-        t.eq(radio.selected, undefined)
+        t.eq(radio.selectedOption, undefined)
         t.eq(radio.val, undefined)
 
         radio.val = "1"
@@ -224,15 +224,37 @@ module.exports = function(t) {
             this.eq(button2.val, "3")
 
             radio.val = "3"
-            this.eq(radio.selected, button2)
+            this.eq(radio.selectedOption, button2)
             this.eq(radio.val, "3")
 
             var button3 = radio.button("2")
             radio.val = "2"
-            this.eq(radio.selected, button3)
+            this.eq(radio.selectedOption, button3)
             this.eq(radio.val, "2")
 
         })
+    })           
+    
+    this.test("quiet", function(t) {
+        var radio = Radio()        
+        var button1 = radio.button("1")
+        var button2 = radio.button("2")
+        
+        radio.on('change', function() {
+            t.ok(false)
+        })
+        button1.on('change', function() {
+            t.ok(false)
+        })
+        button2.on('change', function() {
+            t.ok(false)
+        })
+        
+        radio.quiet.val = "2"
+        this.eq(radio.val, "2")
+        
+        button1.quiet.selected = true
+        this.eq(radio.val, "1")        
     })
 
     this.test("errors", function() {

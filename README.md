@@ -258,7 +258,7 @@ this `attach` function or a gem's `attach`/`attachBefore` method. Without this, 
 
 **`gem.style`** - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Gem's children.  
 **`gem.visible`** - Setting this variable to false hides the gem using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state.  
-**`gem.focus`** - Setting this variable to true gives the gem focus on the page. Setting this variable to false `blur`s it. Accessing the variable returns whether or not the gem is the focused element on the page.
+**`gem.focus`** - Setting this variable to true gives the gem focus on the page. Setting this variable to false `blur`s it. Accessing the variable returns whether or not the gem is the focused element on the page.  
 **`gem.quiet.focus`** - Just like `gem.focus` but won't cause a "focus" or "blur" event.
 
 **`gem.selectionRange`** - Returns an array representing the selection range in terms of visible character offsets. E.g. a value of `[2,4]` means that the current element has 2 visible entities (usually characters) selected within it at offset 2 and 4 from the start. Note that if there are hidden characters like multiple spaces in a row, or newlines, or other non-visible characters (mostly only applies to contenteditable nodes), they are ignored.  
@@ -455,13 +455,13 @@ var Table = Gem.Table // if loading the umd bundle in a <script> tag
 There are some conventions that can help you learn to use standard Gems, and help make custom Gems you build more easily understood.
 These conventional properties, constructor parameters, and behavior are encouraged to be used in custom Gems built by you, especially if you're planning on open-sourcing them.
 
-Every standard Gem has an optional first parameter `label`.
-This makes it easy and non-intrusive to label parts of your custom Gems for easy styling.
+Every standard Gem has an optional first parameter `label`. This makes it easy and non-intrusive to label parts of your custom Gems for easy styling.
 
 In as many cases as possible, Gems will use properties defined with getters and setters rather than using methods. There are a few standard properties that some gems have:
-* **`text`** - Gets and sets some visual text that a Gem has. `Button`, `Text`, and `Select.Option` have this property.
+* **`text`** - Gets and sets some static visual text that a Gem has. `Button`, `Text`, and `Select.Option` have this property.
 * **`selected`** - Gets and sets the selected-state of the Gem. `CheckBox`, `Select.Option`, and `Radio.Button` have this property.
 * **`val`** - Gets and sets some value that a gem has. This will never be the same as either `text` or `selected`. `Radio`, `Select`, `TextArea`, and `TextField` all have this property.
+* **`quiet`** - Any gem that has a `selected` or `val` property will have a corresponding `quiet.selected` or `quiet.val` property that works in the same way, except that it doesn't emit any change events.
 
 This is a standard event that many gems can emit:
 * **`change`** - Emitted when an important value of a gem changes. This will always be either the gem's `val` property or its `selected` property (but never both). Change events won't have any information passed with them - you can access the object itself if you need data from it.
@@ -501,7 +501,8 @@ Your standard html `<input type="checkbox">`.
 **`CheckBox()`** - Returns a new unchecked CheckBox.  
 **`CheckBox(label)`**
 
-**`checkbox.selected`** - Sets and gets the checkbox's selected state (true for selected, false for unselected).
+**`checkbox.selected`** - Sets and gets the checkbox's selected state (true for selected, false for unselected).  
+**`checkbox.quiet.selected`** - Same as `selected` but emits no change event.
 
 ### Block
 
@@ -543,7 +544,7 @@ An `<ol>` or `<ul>` element.
 **`List.Item(contents)`** - same as `list.item` above, except doesn't append the item to any list.  
 **`List.Item(label, contents)`**
 
-### Radio - Not a `Gem`
+### Radio - (Not a `Gem)`
 
 A set of radio buttons. `Radio` itself is not a `Gem`, but rather contains a set of related `RadioButton`s (which are `Gem` objects).
 
@@ -553,8 +554,9 @@ A set of radio buttons. `Radio` itself is not a `Gem`, but rather contains a set
 **`radio.button(value)`** - Creates a new `RadioButton` with the passed string `value` that is a member of the `Radio` object.
 **`radio.button(label, value)`**
 
-**`radio.selected`** - Returns the `RadioButton` object that is selected.
-**`radio.val`**  - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis")
+**`radio.selectedOption`** - Returns the `RadioButton` object that is selected.  
+**`radio.val`**  - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis")  
+**`radio.quiet.val`** - Same as `val` but emits no change event.
 
 **`radio.remove(radioButton, radioButton, ...)`** - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Gem` contains the `RadioButton`s.
 **`radio.remove(arrayOfRadioButtons)`** - Same as above, except the argument is an array of the `RadioButtons` to remove.
@@ -563,39 +565,44 @@ A set of radio buttons. `Radio` itself is not a `Gem`, but rather contains a set
 
 **`Radio.Button`** - The `RadioButton` class.
 
-**`radioButton.val`** - Gets or sets the value of the radio button.
+**`radioButton.val`** - Gets or sets the value of the radio button.  
 **`radioButton.selected`** - Gets whether the radio button is selected or not. If set to true, selects the button. If set to false, deselects it.  
-**`radioButton.selectNext()`** - Sets the next radio button in the `Radio` object's set.
+**`radio.quiet.val`** - Same as `val` but emits no change event.
+**`radioButton.selectNext()`** - Sets the next radio button in the `Radio` object's set.  
 **`radioButton.selectPrevious()`** - Sets the previous radio button in the `Radio` object's set.
 
 ### Select
 
 Your standard `<select>` element.
 
-**`Select()`** - Returns a new empty selection list.
-**`Select(selections)`** - Returns a new populated selection list.
-**`Select(label, selections)`**
+**`Select()`** - Returns a new empty selection list.  
+**`Select(selections)`** - Returns a new populated selection list.  
+**`Select(label, selections)`**  
 * `selections` - An object with the structure `{optionValue: optionText, ...}`
 
-**`select.option(value, text)`** - Creates a new `Option` with the passed `value` and `text`, and appends it to the list.
+**`select.option(value, text)`** - Creates a new `Option` with the passed `value` and `text`, and appends it to the list.  
 **`select.option(label, value, text)`**
 
-**`select.val`** - Gets the value of the selected `Option`, or selects the `Option` with the set value (e.g. `select.val = 'moo'` selects the `Option` with the value 'moo').
+**`select.options`** - A map where each value is a Select.Option gem the Select instance contains, and each key is the value of that option.  
+**`select.val`** - Gets the value of the selected `Option`, or selects the `Option` with the set value (e.g. `select.val = 'moo'` selects the `Option` with the value 'moo').  
+**`select.quiet.val`** - Same as `val` but emits no change event.
 
 **`Select.Option`** - The `Option` class.
 
-**`Select.Option(value, text)`** - same as `select.option` above, except doesn't append the `Option` to any list.
+**`Select.Option(value, text)`** - same as `select.option` above, except doesn't append the `Option` to any list.  
 **`Select.Option(label, contents)`**
 
-**`option.selected`** - Gets or sets the selected state of the `Option`.
-**`option.text`** - Gets or sets the display text of the `Option`.
-**`option.val`** - Gets or sets the string value of the `Option`.
+**`option.selected`** - Gets or sets the selected state of the `Option`.  
+**`option.text`** - Gets or sets the display text of the `Option`.  
+**`option.val`** - Gets or sets the string value of the `Option`.  
+**`select.quiet.selected`** - Same as `selected` but emits no change event.  
+**`select.quiet.val`** - Same as `val` but emits no change event.
 
 ### Svg
 
 An `<svg>` element.
 
-**`Svg(svgXml)`** - Returns a new Svg image using the passed `svgXml`. The `svgXml` must include the `<svg>` tag at the top-level.
+**`Svg(svgXml)`** - Returns a new Svg image using the passed `svgXml`. The `svgXml` must include the `<svg>` tag at the top-level.  
 **`Svg(label, svgXml)`**
 
 ### Table
@@ -628,7 +635,7 @@ Your standard `<table>` element.
 **`header.cell(label, contents)`**
 * `contents` - Either a string (text content) or any value you could pass into `gem.add` (a Gem, a list of Gems, etc).
 
-**`Table.Cell(contents)`** - Same as `row.cell`, but doesn't append the cell to any row.
+**`Table.Cell(contents)`** - Same as `row.cell`, but doesn't append the cell to any row.  
 **`Table.Cell(label, contents)`**
 
 **`cell.colspan(columns)`** - Sets the column-span (`colspan` attribute) of the cell.
@@ -650,7 +657,8 @@ A  multi-line text input field. Your standard `<textarea>` element.
 **`TextArea()`** - Returns an empty TextArea.  
 **`TextArea(label)`**
 
-**`textArea.val`** - Gets or sets the testArea's value (the text inside the text box).
+**`textArea.val`** - Gets or sets the testArea's value (the text inside the text box).  
+**`textArea.quiet.val`** - Same as `val` but emits no change event.
 
 ### TextField
 
@@ -660,7 +668,8 @@ A one-line text input field. Your standard `<input type='text'>` element.
 **`TextField(password)`** - Returns an empty TextField with the `password` attribute, meaning any text inside the box will be displayed so that only the number of characters can be seen, and not the characters themselves.  
 **`TextField(label, password)`**
 
-**`textField.val`** - Gets or sets the textField's value (the text inside the text box).
+**`textField.val`** - Gets or sets the textField's value (the text inside the text box).  
+**`textArea.quiet.val`** - Same as `val` but emits no change event.
 
 
 `Style` objects
@@ -1305,6 +1314,9 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.4.0
+	* Adding quiet.selected and quiet.val properties to the various gems that have normal `selected` and `val` properties
+	* Changing `radio.selected` to `radio.selectedOption` (deprecating `radio.selected` but leaving it in place)
 * 2.3.3 - Minor fix to prevent invalid node from being added to a gem's children list and ensuring selection node has focus
 * 2.3.1 - Adding `attachBefore`
 * 2.2.0

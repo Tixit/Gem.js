@@ -12,6 +12,10 @@ module.exports = function() {
     var container = Block()
     testUtils.demo("Select", container)
 
+    
+    
+    
+    //*    
     this.test("basic usage", function(t) {
         this.count(34)
 
@@ -107,7 +111,6 @@ module.exports = function() {
                 t.eq(type, 'click')
                 t.eq(element, 'option57')
             })
-
         })
 
 
@@ -168,51 +171,49 @@ module.exports = function() {
     })
 
 
-    // todo:
-    /*
-    this.test("test keyboard events", function() {
-
-        this.test("basic changing selected options with the keyboard", function(t) {
-            var select1 = Select({1: 'one', 2: 'two', 3: 'three'})
-
-            container.add(Text("Another Group: "), select1)
-
-            select1.focus()
-            syn.key(option1A.domNode, "[down]").then(function() {
-                t.eq(document.activeElement, option1B)
-                t.eq(select1.val, "2")
-
-                return syn.key(option1A.domNode, "[down]")
-            })/*.then(function() {
-                t.eq(document.activeElement, option1C)
-                t.eq(select1.val, "3")
-
-                return key(option1A.domNode, "[left]")
-            }).then(function() {
-                t.eq(document.activeElement, option1B)
-                t.eq(select1.val, "2")
-
-                return key(option1A.domNode, "[up]")
-            }).then(function() {
-                t.eq(document.activeElement, option1A)
-                t.eq(select1.val, "1")
-
-                // test looping
-                return key(option1A.domNode, "[up]")
-            }).then(function() {
-                t.eq(document.activeElement, option1C)
-                t.eq(select1.val, "3")
-
-                // test looping
-                return key(option1A.domNode, "[down]")
-            }).then(function() {
-                t.eq(document.activeElement, option1A)
-                t.eq(select1.val, "1")
-            }).done()
-        })
-
-    })
-    */
+    // // todo:
+    // this.test("test keyboard events", function() {
+    //
+    //     this.test("basic changing selected options with the keyboard", function(t) {
+    //         var select1 = Select({1: 'one', 2: 'two', 3: 'three'})
+    //
+    //         container.add(Text("Another Group: "), select1)
+    //
+    //         select1.focus()
+    //         syn.key(option1A.domNode, "[down]").then(function() {
+    //             t.eq(document.activeElement, option1B)
+    //             t.eq(select1.val, "2")
+    //
+    //             return syn.key(option1A.domNode, "[down]")
+    //         })//.then(function() {
+    //         //     t.eq(document.activeElement, option1C)
+    //         //     t.eq(select1.val, "3")
+    //         //
+    //         //     return key(option1A.domNode, "[left]")
+    //         // }).then(function() {
+    //         //     t.eq(document.activeElement, option1B)
+    //         //     t.eq(select1.val, "2")
+    //         //
+    //         //     return key(option1A.domNode, "[up]")
+    //         // }).then(function() {
+    //         //     t.eq(document.activeElement, option1A)
+    //         //     t.eq(select1.val, "1")
+    //         //
+    //         //     // test looping
+    //         //     return key(option1A.domNode, "[up]")
+    //         // }).then(function() {
+    //         //     t.eq(document.activeElement, option1C)
+    //         //     t.eq(select1.val, "3")
+    //         //
+    //         //     // test looping
+    //         //     return key(option1A.domNode, "[down]")
+    //         // }).then(function() {
+    //         //     t.eq(document.activeElement, option1A)
+    //         //     t.eq(select1.val, "1")
+    //         // }).done()
+    //     })
+    //
+    // })
 
 
     this.test("labels", function(t) {
@@ -293,11 +294,28 @@ module.exports = function() {
     })
 
     // todo:
-    /*
-    this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
-        // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
+    // this.test("addAt", function() { // adding options that have been removed from this or other Selects should still work (even tho thats kinda weird)
+    //     // note that testing addAt means add and addBefore should work too, because those methods use addAt under the hood
+    // })     
+    
+    this.test("quiet", function(t) {
+        var obj = Select({4: 'Option 4', 5: "Option 5"})
+        obj.on('change', function() {
+            t.ok(false)
+        })
+        obj.options[4].on('change', function() {
+            t.ok(false)
+        })
+        obj.options[5].on('change', function() {
+            t.ok(false)
+        })
+        
+        obj.quiet.val = '5'
+        this.eq(obj.val, '5')
+        
+        obj.options[4].quiet.selected = true        
+        this.eq(obj.val, '4')
     })
-     */
 
     this.test("errors", function() {
         this.count(5)
@@ -352,4 +370,6 @@ module.exports = function() {
             option0.val = 'optionNew'
         })
     })
+    
+    //*/
 };

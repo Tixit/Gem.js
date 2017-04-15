@@ -56,6 +56,16 @@ module.exports = function() {
     this.test("label argument", function() {
         var t = TextField("label", false)
         this.eq(t.label, "label")
+    })        
+        
+    this.test("quiet", function(t) {
+        var obj = TextField()
+        obj.on('change', function() {
+            t.ok(false)
+        })
+        
+        obj.quiet.val = 'hi'
+        this.eq(obj.val, 'hi')
     })
 
     this.test("former bugs", function() {

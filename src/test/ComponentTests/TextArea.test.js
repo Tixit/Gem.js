@@ -51,4 +51,14 @@ module.exports = function(t) {
         var t = TextArea("label")
         this.eq(t.label, "label")
     })
+        
+    this.test("quiet", function(t) {
+        var obj = TextArea()
+        obj.on('change', function() {
+            t.ok(false)
+        })
+        
+        obj.quiet.val = 'hi'
+        this.eq(obj.val, 'hi')
+    })
 };

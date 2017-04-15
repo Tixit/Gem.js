@@ -4,8 +4,13 @@ var testUtils = require('testUtils')
 var CheckBox = require('Components/CheckBox')
 
 module.exports = function(t) {
-    t.count(14)
+    t.count(15)
 
+    
+    
+    
+    //*
+        
     var obj = new CheckBox()
     this.test("clicks", function(t) {
         this.count(2)
@@ -46,4 +51,18 @@ module.exports = function(t) {
         t.eq(obj.selected, false)
         t.eq(obj.domNode.checked, false)
     }).done()
+    
+    this.test("quiet", function(t) {
+        var obj = CheckBox()                  
+        obj.quiet.selected = 'moose'
+        
+        obj.on('change', function() {
+            t.ok(false)
+        })
+        
+        obj.quiet.selected = true
+        this.eq(obj.selected, true)
+    })
+    
+    // */
 };

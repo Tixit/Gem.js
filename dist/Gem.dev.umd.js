@@ -57,14 +57,14 @@ return /******/ (function(modules) { // webpackBootstrap
   \************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var exports = module.exports = __webpack_require__(/*! Gem */ 1)
-	exports.Style = __webpack_require__(/*! Style */ 2)
+	var exports = module.exports = __webpack_require__(/*! Gem */ 2)
+	exports.Style = __webpack_require__(/*! Style */ 1)
 	
 	exports.Canvas = __webpack_require__(/*! Components/Canvas */ 3)
 	exports.Block = __webpack_require__(/*! Components/Block */ 4)
-	exports.Button = __webpack_require__(/*! Components/Button */ 5)
-	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 6)
-	exports.Image = __webpack_require__(/*! Components/Image */ 7)
+	exports.Button = __webpack_require__(/*! Components/Button */ 7)
+	exports.CheckBox = __webpack_require__(/*! Components/CheckBox */ 5)
+	exports.Image = __webpack_require__(/*! Components/Image */ 6)
 	exports.List = __webpack_require__(/*! Components/List */ 8)
 	//exports.MultiSelect = require("Components/MultiSelect") // not ready yet
 	exports.Radio = __webpack_require__(/*! Components/Radio */ 9)
@@ -77,578 +77,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/*!******************!*\
-  !*** ./~/Gem.js ***!
-  \******************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 19)
-	var proto = __webpack_require__(/*! proto */ 28);
-	var trimArguments = __webpack_require__(/*! trimArguments */ 30)
-	var observe = __webpack_require__(/*! observe */ 31)
-	
-	var utils = __webpack_require__(/*! ./utils */ 17)
-	var domUtils = __webpack_require__(/*! ./domUtils */ 20)
-	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 18)
-	
-	var devFlag = __webpack_require__(/*! devFlag */ 21)
-	
-	var Style = __webpack_require__(/*! ./Style */ 2)
-	Style.isDev = function() {return devFlag.dev}
-	
-	var components = {};
-	
-	var setOfBrowserEvents = utils.arrayToMap([
-	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
-	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
-	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
-	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
-	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
-	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
-	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
-	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
-	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
-	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
-	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
-	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
-	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
-	])
-	
-	// events:
-	    // newParent - emits this when a component gets a new parent
-	    // parentRemoved - emits this when a component is detached from its parent
-	var Gem = module.exports = proto(EventEmitterB,function(superclass) {
-	
-	    // static properties
-	
-	    this.name = 'Gem'
-	
-	    // constructor
-		this.init = function() {
-	        var that = this
-	
-	        if(this.name === 'Gem') {
-	            throw new Error("The 'name' property is required for Gem (it must be set to something that isn't 'Gem')")
-	        }
-	
-	        superclass.init.call(this)
-	
-	        this.attached = false
-	        if(this.children === undefined) this.children = [] // allow inheriting objects to create their own children array before calling this constructor
-	        this.state = observe({})
-	        this.parent = undefined;
-	        this._styleSetupInfo = []
-	        this._nativePseudoclassMap = {}
-	
-			if (this.id !== undefined) {
-				components[this.id] = this;
-			}
-	
-	        if(this.domNode === undefined) {
-	            this.domNode = domUtils.div()
-	        }
-	
-	        this.build.apply(this, arguments)
-	
-	        //if(devFlag.dev) {
-	            this.attr('gem', this.name)
-	        //}
-	
-	
-	        this.domNode.className += ' '+Style.defaultClassName // add the default class
-	        /*if(this._style === undefined) { // if a style wasn't set by this.build
-	            this.style = undefined // initialize style to its gem or inherited default
-	        }*/
-	
-	        // set up dom event handlers
-	        var ifonHandlers={}
-	        that.ifon(function(event) {
-	            ifOnBrowserEvent(that, that, event, ifonHandlers)
-	        })
-	        that.ifoff(function(that, event) {
-	            ifOffBrowserEvent(that, event, ifonHandlers)
-	        })
-	
-	        this.ifonCaptureHandlers={}, this.ifonCaptureHandlerCounts={}
-	        this.captureEmitter = new EventEmitterB()
-	
-	        // quiet.focus property
-	        this.quiet = {}
-	        setupFocusProperty(this, this.quiet, true)
-		}
-	
-	    // sub-constructor - called by the constructor
-	    // can be overridden as a constructor that requires less boilerplate
-	    this.build = function() {}
-	
-	
-		// instance properties
-	
-	
-		this.domNode;
-	    this.label;        // a static label that can be used for styling
-	    this.excludeDomEvents;
-	    this.children;     // a list of child components that are a part of a Gem object (these are used so Styles can be propogated down to child components)
-	
-	
-	    Object.defineProperty(this, 'label', {
-	        get: function() {
-	            return this._label
-	        }, set: function(v) {
-	            if(this._label === undefined) {
-	                this._label = v
-	
-	                //if(devFlag.dev) {
-	                    this.attr('label', this._label)
-	                //}
-	            } else {
-	                throw new Error("A Gem's label can only be set once (was already set to: "+this._label+")")
-	            }
-	        }
-	    })
-	
-	    // adds elements to the components main domNode
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfGems
-	    this.add = function() {
-	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
-		}
-	
-	    // adds nodes at a particular index
-	    // nodes can be one of the following:
-	        // component, component, component, ...
-	        // listOfGems
-	    // todo: look into using document fragments to speed this up when multiple nodes are being added
-	    this.addAt = function(index/*, nodes...*/) {
-	        var nodes = normalizeAddAtArguments.apply(this, arguments)
-	
-	        for (var i=0;i<nodes.length;i++) {
-				var node = nodes[i];
-	
-	            // remove the node from its current parent if necessary
-	            if(node.parent !== undefined) {
-	                throw new Error('Node at index '+i+' already has a parent. Remove the node from its parent before adding it somewhere else.')
-	            }
-	            if(!isGem(node)) {
-	                throw new Error("node is not a Gem")
-	            }
-	                                     
-	            this.children.splice(index+i, 0, node)
-	            
-	            var beforeChild = this.children[1+i+index]
-	            if(beforeChild === undefined) {
-	                this.domNode.appendChild(node.domNode)
-	            } else {
-	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
-	            }
-	            
-	
-	            node.parent = this;
-	            node.emit('newParent')
-			}
-	
-	        if(this.attached) {
-	            for (var i=0;i<nodes.length;i++) {
-	                var node = nodes[i]
-	                blockStyleUtils.setAttachStatus(node,true) // must be done before setting the style (unsure why at the moment)
-	                node.style = node._style // rerender its style
-	            }
-	        }
-	    }
-	
-		// add a list of nodes before a particular node
-	    // if beforeChild is undefined, this will append the given nodes
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // listOfGems
-	    this.addBefore = this.addBeforeNode = function(beforeChild) {
-	        var nodes = trimArguments(arguments).slice(1)
-	        if(beforeChild === undefined) {
-	            this.add.apply(this, nodes)
-	        } else {
-	            var index = this.children.indexOf(beforeChild)
-	            this.addAt.apply(this, [index].concat(nodes))
-	        }
-	    }
-	
-	
-	    // arguments can be one of the following:
-	        // component, component, component, ...
-	        // index, index, index, ... - each index is the numerical index to remove
-	        // arrayOfComponents
-	        // arrayOfIndexes
-	    this.remove = function() {
-	        var removals = normalizeRemoveArguments.apply(this, arguments)
-	        removals = removals.sort(function(a,b) {
-	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
-	        })
-	
-	        for(var n=0; n<removals.length; n++) {
-	            var r = removals[n]
-	            var c = this.children[r]
-	
-	            if(c === undefined) {
-	                throw new Error("There is no child at index "+r)
-	            }
-	
-	            c.parent = undefined
-	            this.children.splice(r, 1)
-	            this.domNode.removeChild(this.domNode.childNodes[r])
-	
-	            c.emit('parentRemoved')
-	            if(this.attached) {
-	                c.emit("detach")
-	            }
-	        }
-	    }
-	
-	    // sets or gets an attribute on the components domNode
-	    // parameter sets:
-	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
-	    // if there are two arguments passed, the attribute is set
-	        // if 'value' is undefined, the attribute is removed
-	    this.attr = function(/*attribute, value OR attributeObject*/) {
-	        if(arguments.length === 1) {
-	            if(arguments[0] instanceof Object) {
-	                var attributes = arguments[0]
-	                for(var attribute in attributes) {
-	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
-	                }
-	            } else {
-	                var attribute = this.domNode.getAttribute(arguments[0])
-	                if(attribute === null) {
-	                    return undefined // screw null
-	                } else {
-	                    return attribute
-	                }
-	            }
-	        } else {
-	            var attribute = arguments[0]
-	            if(arguments[1] !== undefined) {
-	                var value = arguments[1]
-	                domUtils.setAttribute(this.domNode, arguments[0], value)
-	            } else {
-	                this.domNode.removeAttribute(attribute)
-	            }
-	        }
-	    }
-	
-	    Object.defineProperty(this, 'visible', {
-	        // returns true if the element is visible
-	        get: function() {
-	            return this.domNode.style.display !== 'none';
-	
-	        // sets whether or not the element is visible
-	        }, set: function(setToVisible) {
-	            if(setToVisible) {
-	                if (this._displayStyle !== undefined) {
-	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
-	                    this._displayStyle = undefined
-	                } else {
-	                    this.domNode.style.display = ''
-	                }
-	            } else {
-	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
-	                    this._displayStyle = this.domNode.style.display
-	                }
-	
-	                this.domNode.style.display = 'none'
-	            }
-	        }
-	    })
-	
-	    // focus property
-	    setupFocusProperty(this, this, false)
-	
-	    Object.defineProperty(this, 'style', {
-	        get: function() {
-	            return this._style
-	
-	        // sets the style, replacing one if one already exists
-	        }, set: function(style) {
-	            // get active style
-	                // mix the gem-default style with ..
-	                // .. the current style
-	                // .. style returned by the $state of current style
-	                // .. $$pseudoclasses of current + $state styles
-	
-	            if(style === undefined || blockStyleUtils.isStyleObject(style)) {
-	                this._style = style
-	            } else {
-	                this._style = Style(style)
-	            }
-	
-	            if(this.attached) {
-	                var newStyle = getStyle(this)  // must be called after setting _style
-	                var defaultStyle = this.getDefaultStyle()
-	
-	                var newCurrentStyle = blockStyleUtils.mixStyles(defaultStyle, newStyle)
-	                blockStyleUtils.setCurrentStyle(this, newCurrentStyle, defaultStyle)
-	            }
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'selectionRange', {
-	        // returns the visible character selection range inside the element
-	        // returns an array like [offsetStart, offsetEnd]
-	        get: function() {
-	            return domUtils.getSelectionRange(this.domNode)
-	
-	        // sets the visible character selection range
-	        }, set: function(selection) {
-	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
-	        }
-	    })
-	
-	    this.attach = function(domNode) {
-	        if(domNode !== undefined)
-	            attach(domNode, this)
-	        else
-	            attach(this)
-	    }
-	    this.attachBefore = function(domNode) {
-	        if(domNode !== undefined)
-	            attachInternal([domNode,this], true)
-	        else
-	            attachInternal([this], true)
-	    }
-	    this.detach = function(domNode) {
-	        if(domNode !== undefined)
-	            detach(domNode, this)
-	        else
-	            detach(this)
-	    }
-	
-	    this.onCapture = function(event, handler) {
-	        if(!(event in this.ifonCaptureHandlers)) {
-	            ifOnBrowserEvent(this, this.captureEmitter, event, this.ifonCaptureHandlers, true)
-	        }
-	
-	        this.ifonCaptureHandlerCounts[event]++
-	        this.captureEmitter.on(event, handler)
-	    }
-	    this.offCapture = function(event, handler) {
-	        this.ifonCaptureHandlerCounts[event]--
-	        this.captureEmitter.off(event, handler)
-	        if(this.ifonCaptureHandlerCounts[event] === 0) {
-	            ifoffBrowserEvent(this, event, this.ifonCaptureHandlers, true)
-	        }
-	    }
-	
-	    this.proxy = function(emitter, options) {
-	        if(options === undefined) options = {except:[]}
-	        if(options.except !== undefined) {
-	            options.except = options.except.concat(['newParent','parentRemoved'])
-	        }
-	
-	        return superclass.proxy.apply(this,[emitter,options])
-	    }
-	
-	
-		// private instance variables/functions
-	
-	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
-	    this._nativePseudoclassMap; // a map of Gem names to a set of native pseudoclass styles and their css selector base (eg: {GemA: {'.style1:required .style2': styleObject}}
-	
-		this._style;             // the object's explicit Style object (undefined if it inherits a style)
-	    this._currentStyle;      // the object's current Style that will only change if its parent's activeStyle changes, or if a style is explicitly reset on the gem
-	    this._activeStyle;       // the active style depending on pseudoclasses, $state, and defaultStyle
-	
-	    this._displayStyle;      // temporarily stores an inline display style while the element is hidden (for use when 'show' is called)
-	    this._styleSetupInfo   // place to put states for setup functions (used for css pseudoclass emulation)
-	    this._stateChangeHandler // the handler being used for $state style changes
-	
-	    this.attached           // set to true if the gem has been attached to the document (or if one of its ancestors has been)
-	
-	
-	    // returns the default style of the current Gem based on the 'defaultStyle' property set on its constructor (this.constructor)
-	    // if there is more than one default style, they are merged in order
-	    // if there is no default style, undefined is returned
-	    this.getDefaultStyle = function() {
-	        return blockStyleUtils.getDefaultStyle(this)
-	    }
-	
-	    // gets the high-level style of the gem, either from the gem's explicit style, or inherits from its parent's style map
-	    function getStyle(gem) {
-	        if(gem._style !== undefined) {            // use the gem's explicit style if possible
-	            if(gem._style.inherit) {
-	                var styleToInerit = blockStyleUtils.getInheritingStyle(gem)
-	                if(styleToInerit !== undefined)
-	                    return styleToInerit.mix(gem._style, false)
-	            }
-	            // else
-	            return gem._style
-	
-	        } else {     // otherwise use the parent's computedStyleMap
-	            return blockStyleUtils.getInheritingStyle(gem)
-	        }
-	    }
-	
-	    function setupFocusProperty(that, container, quiet) {
-	         // returns true if the element is in focus
-	        var getFn = function() {
-	            return document.activeElement === this.domNode
-	        }
-	
-	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
-	        var setFn = function(setToInFocus) {
-	            if(quiet)
-	                this.quietFocus = true
-	
-	            if(setToInFocus) {
-	                this.domNode.focus()
-	            } else {
-	                this.domNode.blur()
-	            }
-	        }
-	
-	        if(quiet) {
-	            var container = that.quiet
-	            getFn = getFn.bind(that)
-	            setFn = setFn.bind(that)
-	        } else {
-	            var container = that
-	        }
-	
-	        Object.defineProperty(container, 'focus', {get: getFn, set: setFn})
-	    }
-	
-	    // should only be called on the first 'on' for each event
-	    function ifOnBrowserEvent(that, emitter, event, handlerCache, capture) {
-	        if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	            that.domNode.addEventListener(event, handlerCache[event]=function() {
-	                if(event === 'focus' && that.quietFocus) return // shhh
-	                emitter.emit.apply(emitter, [event].concat(Array.prototype.slice.call(arguments)))
-	            },capture)
-	        }
-	    }
-	    // should only be called on the last 'off' for each event
-	    function ifOffBrowserEvent(that, event, handlerCache,capture) {
-	        if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
-	            that.domNode.removeEventListener(event,handlerCache[event],capture)
-	        }
-	    }
-	});
-	
-	
-	Object.defineProperty(module.exports, 'dev', {
-	    get: function() {
-	        return devFlag.dev
-	    }, set: function(v) {
-	        devFlag.dev = v
-	    }
-	})
-	
-	// appends components to the passed domNode (default: body)
-	var attach = module.exports.attach = function(/*[domNode,] component or components*/) {
-	    attachInternal(arguments, false)
-	}
-	
-	// appends components immediately before the passed domNode
-	module.exports.attachBefore = function(/*[domNode,] component or components*/) {
-	    attachInternal(arguments, true)
-	}
-	
-	// removes components from their parents
-	var detach = module.exports.detach = function(components) {
-	    if(!(components instanceof Array)) {
-	        components = [components]
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        var gem = components[n]
-	        gem.domNode.parentNode.removeChild(gem.domNode)
-	
-	        blockStyleUtils.setAttachStatus(gem, false)
-	    }
-	}
-	
-	// creates a body tag (only call this if document.body is null)
-	
-	module.exports.createBody = function(callback) {
-	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-	    var body = dom.createElement("body")
-	    dom.documentElement.appendChild(body)
-	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
-	        callback()
-	    },0)
-	}
-	
-	
-	function attachInternal(args, before) {
-	    if(args.length > 1) {
-	        var domNode = args[0]
-	        var components = args[1]
-	    } else {
-	        if(document.body === null) throw new Error("Your document does not have a body.")
-	        var domNode = document.body
-	        var components = args[0]
-	    }
-	
-	    if(!(components instanceof Array)) {
-	        var components = [components]
-	    }
-	
-	    for(var n=0; n<components.length; n++) {
-	        if(before) {
-	            domNode.parentNode.insertBefore(components[n].domNode, domNode)
-	        } else {
-	            domNode.appendChild(components[n].domNode)
-	        }
-	
-	        blockStyleUtils.setAttachStatus(components[n], true) // must be done before setting the style (unsure why at the moment)
-	        components[n].style = components[n]._style   // force style rendering
-	    }
-	}
-	
-	// returns a list of indexes to remove from Gem.remove's arguments
-	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
-	    var that = this
-	
-	    if(arguments[0] instanceof Array) {
-	        var removals = arguments[0]
-	    } else {
-	        var removals = Array.prototype.slice.call(arguments)
-	    }
-	
-	    return removals.map(function(removal, parameterIndex) {
-	        if(isGem(removal)) {
-	            var index = that.children.indexOf(removal)
-	            if(index === -1) {
-	                throw new Error("The Gem passed at argument index "+parameterIndex+" is not a child of this Gem.")
-	            }
-	            return index
-	        } else {
-	            return removal
-	        }
-	
-	    })
-	}
-	
-	// returns a list of nodes to add
-	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
-	    if(arguments.length === 2) {
-	        if(arguments[1] instanceof Array) {
-	            return arguments[1]
-	        } else {
-	            return [arguments[1]]
-	        }
-	    } else { // > 2
-	        return trimArguments(arguments).slice(1)
-	    }
-	}
-	
-	function isGem(c) {
-	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
-	}
-	function isDomNode(node) {
-	    return node.nodeName !== undefined
-	}
-
-
-/***/ },
-/* 2 */
 /*!********************!*\
   !*** ./~/Style.js ***!
   \********************/
@@ -2075,15 +1503,583 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 2 */
+/*!******************!*\
+  !*** ./~/Gem.js ***!
+  \******************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitterB = __webpack_require__(/*! EventEmitterB */ 19)
+	var proto = __webpack_require__(/*! proto */ 28);
+	var trimArguments = __webpack_require__(/*! trimArguments */ 32)
+	var observe = __webpack_require__(/*! observe */ 30)
+	
+	var utils = __webpack_require__(/*! ./utils */ 17)
+	var domUtils = __webpack_require__(/*! ./domUtils */ 20)
+	var blockStyleUtils = __webpack_require__(/*! ./blockStyleUtils */ 18)
+	
+	var devFlag = __webpack_require__(/*! devFlag */ 21)
+	
+	var Style = __webpack_require__(/*! ./Style */ 1)
+	Style.isDev = function() {return devFlag.dev}
+	
+	var components = {};
+	
+	var setOfBrowserEvents = utils.arrayToMap([
+	    'abort','afterprint','animationend','animationiteration','animationstart','audioprocess','beforeprint','beforeunload',
+	    'beginEvent','blocked','blur','cached','canplay','canplaythrough','change','chargingchange','chargingtimechange',
+	    'checking','click','close','compassneedscalibration','complete','compositionend','compositionstart','compositionupdate','contextmenu',
+	    'copy','cut','dblclick','decivelight','devicemotion','deviceorientation','deviceproximity','dischargingtimechange','DOMContentLoaded',
+	    'downloading','drag','dragend','dragenter','dragleave','dragover','dragstart','drop','durationchange','emptied','ended','endEvent',
+	    'error','focus','focusin','focusout','fullscreenchange','fullscreenerror','gamepadconnected','gamepaddisconnected','hashchange',
+	    'input','invalid','keydown','keypress','keyup','languagechange','levelchange','load','loadeddata','loadedmetadata','loadend',
+	    'loadstart','message','mousedown','mouseenter','mouseleave','mousemove','mouseout','mouseover','mouseup','noupdate','obsolete',
+	    'offline','online','open','orientationchange','pagehide','pageshow','paste','pause','pointerlockchange','pointerlockerror','play',
+	    'playing','popstate','progress','ratechange','readystatechange','repeatEvent','reset','resize','scroll','seeked','seeking','select',
+	    'show','stalled','storage','submit','success','suspend','SVGAbort','SVGError','SVGLoad','SVGResize','SVGScroll','SVGUnload','SVGZoom',
+	    'timeout','timeupdate','touchcancel','touchend','touchenter','touchleave','touchmove','touchstart','transitionend','unload',
+	    'updateready','upgradeneeded','userproximity','versionchange','visibilitychange','volumechange','waiting','wheel'
+	])
+	
+	// events:
+	    // newParent - emits this when a component gets a new parent
+	    // parentRemoved - emits this when a component is detached from its parent
+	var Gem = module.exports = proto(EventEmitterB,function(superclass) {
+	
+	    // static properties
+	
+	    this.name = 'Gem'
+	
+	    // constructor
+		this.init = function() {
+	        var that = this
+	
+	        if(this.name === 'Gem') {
+	            throw new Error("The 'name' property is required for Gem (it must be set to something that isn't 'Gem')")
+	        }
+	
+	        superclass.init.call(this)
+	
+	        this.attached = false
+	        if(this.children === undefined) this.children = [] // allow inheriting objects to create their own children array before calling this constructor
+	        this.state = observe({})
+	        this.parent = undefined;
+	        this._styleSetupInfo = []
+	        this._nativePseudoclassMap = {}
+	
+			if (this.id !== undefined) {
+				components[this.id] = this;
+			}
+	
+	        if(this.domNode === undefined) {
+	            this.domNode = domUtils.div()
+	        }
+	
+	        this.build.apply(this, arguments)
+	
+	        //if(devFlag.dev) {
+	            this.attr('gem', this.name)
+	        //}
+	
+	
+	        this.domNode.className += ' '+Style.defaultClassName // add the default class
+	        /*if(this._style === undefined) { // if a style wasn't set by this.build
+	            this.style = undefined // initialize style to its gem or inherited default
+	        }*/
+	
+	        // set up dom event handlers
+	        var ifonHandlers={}
+	        that.ifon(function(event) {
+	            ifOnBrowserEvent(that, that, event, ifonHandlers)
+	        })
+	        that.ifoff(function(that, event) {
+	            ifOffBrowserEvent(that, event, ifonHandlers)
+	        })
+	
+	        this.ifonCaptureHandlers={}, this.ifonCaptureHandlerCounts={}
+	        this.captureEmitter = new EventEmitterB()
+	
+	        // quiet.focus property
+	        this.quiet = {}
+	        setupFocusProperty(this, true)
+		}
+	
+	    // sub-constructor - called by the constructor
+	    // can be overridden as a constructor that requires less boilerplate
+	    this.build = function() {}
+	
+	
+		// instance properties
+	
+	
+		this.domNode;
+	    this.label;        // a static label that can be used for styling
+	    this.excludeDomEvents;
+	    this.children;     // a list of child components that are a part of a Gem object (these are used so Styles can be propogated down to child components)
+	
+	
+	    Object.defineProperty(this, 'label', {
+	        get: function() {
+	            return this._label
+	        }, set: function(v) {
+	            if(this._label === undefined) {
+	                this._label = v
+	
+	                //if(devFlag.dev) {
+	                    this.attr('label', this._label)
+	                //}
+	            } else {
+	                throw new Error("A Gem's label can only be set once (was already set to: "+this._label+")")
+	            }
+	        }
+	    })
+	
+	    // adds elements to the components main domNode
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfGems
+	    this.add = function() {
+	        this.addAt.apply(this, [this.domNode.children.length].concat(trimArguments(arguments)))
+		}
+	
+	    // adds nodes at a particular index
+	    // nodes can be one of the following:
+	        // component, component, component, ...
+	        // listOfGems
+	    // todo: look into using document fragments to speed this up when multiple nodes are being added
+	    this.addAt = function(index/*, nodes...*/) {
+	        var nodes = normalizeAddAtArguments.apply(this, arguments)
+	
+	        for (var i=0;i<nodes.length;i++) {
+				var node = nodes[i];
+	
+	            // remove the node from its current parent if necessary
+	            if(node.parent !== undefined) {
+	                throw new Error('Node at index '+i+' already has a parent. Remove the node from its parent before adding it somewhere else.')
+	            }
+	            if(!isGem(node)) {
+	                throw new Error("node is not a Gem")
+	            }
+	                                     
+	            this.children.splice(index+i, 0, node)
+	            
+	            var beforeChild = this.children[1+i+index]
+	            if(beforeChild === undefined) {
+	                this.domNode.appendChild(node.domNode)
+	            } else {
+	                this.domNode.insertBefore(node.domNode, beforeChild.domNode)
+	            }
+	            
+	
+	            node.parent = this;
+	            node.emit('newParent')
+			}
+	
+	        if(this.attached) {
+	            for (var i=0;i<nodes.length;i++) {
+	                var node = nodes[i]
+	                blockStyleUtils.setAttachStatus(node,true) // must be done before setting the style (unsure why at the moment)
+	                node.style = node._style // rerender its style
+	            }
+	        }
+	    }
+	
+		// add a list of nodes before a particular node
+	    // if beforeChild is undefined, this will append the given nodes
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // listOfGems
+	    this.addBefore = this.addBeforeNode = function(beforeChild) {
+	        var nodes = trimArguments(arguments).slice(1)
+	        if(beforeChild === undefined) {
+	            this.add.apply(this, nodes)
+	        } else {
+	            var index = this.children.indexOf(beforeChild)
+	            this.addAt.apply(this, [index].concat(nodes))
+	        }
+	    }
+	
+	
+	    // arguments can be one of the following:
+	        // component, component, component, ...
+	        // index, index, index, ... - each index is the numerical index to remove
+	        // arrayOfComponents
+	        // arrayOfIndexes
+	    this.remove = function() {
+	        var removals = normalizeRemoveArguments.apply(this, arguments)
+	        removals = removals.sort(function(a,b) {
+	            return b-a // reverse sort (so that removing multiple indexes doesn't mess up)
+	        })
+	
+	        for(var n=0; n<removals.length; n++) {
+	            var r = removals[n]
+	            var c = this.children[r]
+	
+	            if(c === undefined) {
+	                throw new Error("There is no child at index "+r)
+	            }
+	
+	            c.parent = undefined
+	            this.children.splice(r, 1)
+	            this.domNode.removeChild(this.domNode.childNodes[r])
+	
+	            c.emit('parentRemoved')
+	            if(this.attached) {
+	                c.emit("detach")
+	            }
+	        }
+	    }
+	
+	    // sets or gets an attribute on the components domNode
+	    // parameter sets:
+	    // if one argument is passed, the attribute's value is returned (if there is no attribute, undefined is returned)
+	    // if there are two arguments passed, the attribute is set
+	        // if 'value' is undefined, the attribute is removed
+	    this.attr = function(/*attribute, value OR attributeObject*/) {
+	        if(arguments.length === 1) {
+	            if(arguments[0] instanceof Object) {
+	                var attributes = arguments[0]
+	                for(var attribute in attributes) {
+	                    domUtils.setAttribute(this.domNode, attribute, arguments[0][attribute])
+	                }
+	            } else {
+	                var attribute = this.domNode.getAttribute(arguments[0])
+	                if(attribute === null) {
+	                    return undefined // screw null
+	                } else {
+	                    return attribute
+	                }
+	            }
+	        } else {
+	            var attribute = arguments[0]
+	            if(arguments[1] !== undefined) {
+	                var value = arguments[1]
+	                domUtils.setAttribute(this.domNode, arguments[0], value)
+	            } else {
+	                this.domNode.removeAttribute(attribute)
+	            }
+	        }
+	    }
+	
+	    Object.defineProperty(this, 'visible', {
+	        // returns true if the element is visible
+	        get: function() {
+	            return this.domNode.style.display !== 'none';
+	
+	        // sets whether or not the element is visible
+	        }, set: function(setToVisible) {
+	            if(setToVisible) {
+	                if (this._displayStyle !== undefined) {
+	                    this.domNode.style.display = this._displayStyle // set back to its previous inline style
+	                    this._displayStyle = undefined
+	                } else {
+	                    this.domNode.style.display = ''
+	                }
+	            } else {
+	                if(this.domNode.style.display !== '' && this.domNode.style.display !== 'none') { // domNode has inline style
+	                    this._displayStyle = this.domNode.style.display
+	                }
+	
+	                this.domNode.style.display = 'none'
+	            }
+	        }
+	    })
+	
+	    // focus property
+	    setupFocusProperty(this, false)
+	
+	    Object.defineProperty(this, 'style', {
+	        get: function() {
+	            return this._style
+	
+	        // sets the style, replacing one if one already exists
+	        }, set: function(style) {
+	            // get active style
+	                // mix the gem-default style with ..
+	                // .. the current style
+	                // .. style returned by the $state of current style
+	                // .. $$pseudoclasses of current + $state styles
+	
+	            if(style === undefined || blockStyleUtils.isStyleObject(style)) {
+	                this._style = style
+	            } else {
+	                this._style = Style(style)
+	            }
+	
+	            if(this.attached) {
+	                var newStyle = getStyle(this)  // must be called after setting _style
+	                var defaultStyle = this.getDefaultStyle()
+	
+	                var newCurrentStyle = blockStyleUtils.mixStyles(defaultStyle, newStyle)
+	                blockStyleUtils.setCurrentStyle(this, newCurrentStyle, defaultStyle)
+	            }
+	        }
+	    })
+	
+	    Object.defineProperty(this, 'selectionRange', {
+	        // returns the visible character selection range inside the element
+	        // returns an array like [offsetStart, offsetEnd]
+	        get: function() {
+	            return domUtils.getSelectionRange(this.domNode)
+	
+	        // sets the visible character selection range
+	        }, set: function(selection) {
+	            domUtils.setSelectionRange(this.domNode, selection[0], selection[1])
+	        }
+	    })
+	
+	    this.attach = function(domNode) {
+	        if(domNode !== undefined)
+	            attach(domNode, this)
+	        else
+	            attach(this)
+	    }
+	    this.attachBefore = function(domNode) {
+	        if(domNode !== undefined)
+	            attachInternal([domNode,this], true)
+	        else
+	            attachInternal([this], true)
+	    }
+	    this.detach = function(domNode) {
+	        if(domNode !== undefined)
+	            detach(domNode, this)
+	        else
+	            detach(this)
+	    }
+	
+	    this.onCapture = function(event, handler) {
+	        if(!(event in this.ifonCaptureHandlers)) {
+	            ifOnBrowserEvent(this, this.captureEmitter, event, this.ifonCaptureHandlers, true)
+	        }
+	
+	        this.ifonCaptureHandlerCounts[event]++
+	        this.captureEmitter.on(event, handler)
+	    }
+	    this.offCapture = function(event, handler) {
+	        this.ifonCaptureHandlerCounts[event]--
+	        this.captureEmitter.off(event, handler)
+	        if(this.ifonCaptureHandlerCounts[event] === 0) {
+	            ifoffBrowserEvent(this, event, this.ifonCaptureHandlers, true)
+	        }
+	    }
+	
+	    this.proxy = function(emitter, options) {
+	        if(options === undefined) options = {except:[]}
+	        if(options.except !== undefined) {
+	            options.except = options.except.concat(['newParent','parentRemoved'])
+	        }
+	
+	        return superclass.proxy.apply(this,[emitter,options])
+	    }
+	
+	
+		// private instance variables/functions
+	
+	    this.computedStyleMap;  // a map of style objects computed from the Styles set on a given component and its parent components
+	    this._nativePseudoclassMap; // a map of Gem names to a set of native pseudoclass styles and their css selector base (eg: {GemA: {'.style1:required .style2': styleObject}}
+	
+		this._style;             // the object's explicit Style object (undefined if it inherits a style)
+	    this._currentStyle;      // the object's current Style that will only change if its parent's activeStyle changes, or if a style is explicitly reset on the gem
+	    this._activeStyle;       // the active style depending on pseudoclasses, $state, and defaultStyle
+	
+	    this._displayStyle;      // temporarily stores an inline display style while the element is hidden (for use when 'show' is called)
+	    this._styleSetupInfo   // place to put states for setup functions (used for css pseudoclass emulation)
+	    this._stateChangeHandler // the handler being used for $state style changes
+	
+	    this.attached           // set to true if the gem has been attached to the document (or if one of its ancestors has been)
+	
+	
+	    // returns the default style of the current Gem based on the 'defaultStyle' property set on its constructor (this.constructor)
+	    // if there is more than one default style, they are merged in order
+	    // if there is no default style, undefined is returned
+	    this.getDefaultStyle = function() {
+	        return blockStyleUtils.getDefaultStyle(this)
+	    }
+	
+	    // gets the high-level style of the gem, either from the gem's explicit style, or inherits from its parent's style map
+	    function getStyle(gem) {
+	        if(gem._style !== undefined) {            // use the gem's explicit style if possible
+	            if(gem._style.inherit) {
+	                var styleToInerit = blockStyleUtils.getInheritingStyle(gem)
+	                if(styleToInerit !== undefined)
+	                    return styleToInerit.mix(gem._style, false)
+	            }
+	            // else
+	            return gem._style
+	
+	        } else {     // otherwise use the parent's computedStyleMap
+	            return blockStyleUtils.getInheritingStyle(gem)
+	        }
+	    }
+	
+	    function setupFocusProperty(that, quiet) {
+	         // returns true if the element is in focus
+	        var getFn = function() {
+	            return document.activeElement === this.domNode
+	        }
+	
+	        // sets whether or not the element is in focus (setting it to true gives it focus, setting it to false blurs it)
+	        var setFn = function(setToInFocus) {
+	            if(quiet)
+	                this.quietFocus = true
+	
+	            if(setToInFocus) {
+	                this.domNode.focus()
+	            } else {
+	                this.domNode.blur()
+	            }
+	        }
+	
+	        if(quiet) {
+	            var container = that.quiet
+	            getFn = getFn.bind(that)
+	            setFn = setFn.bind(that)
+	        } else {
+	            var container = that
+	        }
+	
+	        Object.defineProperty(container, 'focus', {get: getFn, set: setFn})
+	    }
+	
+	    // should only be called on the first 'on' for each event
+	    function ifOnBrowserEvent(that, emitter, event, handlerCache, capture) {
+	        if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	            that.domNode.addEventListener(event, handlerCache[event]=function() {
+	                if(event === 'focus' && that.quietFocus) return // shhh
+	                emitter.emit.apply(emitter, [event].concat(Array.prototype.slice.call(arguments)))
+	            },capture)
+	        }
+	    }
+	    // should only be called on the last 'off' for each event
+	    function ifOffBrowserEvent(that, event, handlerCache,capture) {
+	        if(event in setOfBrowserEvents && (that.excludeDomEvents === undefined || !(event in that.excludeDomEvents))) {
+	            that.domNode.removeEventListener(event,handlerCache[event],capture)
+	        }
+	    }
+	});
+	
+	
+	Object.defineProperty(module.exports, 'dev', {
+	    get: function() {
+	        return devFlag.dev
+	    }, set: function(v) {
+	        devFlag.dev = v
+	    }
+	})
+	
+	// appends components to the passed domNode (default: body)
+	var attach = module.exports.attach = function(/*[domNode,] component or components*/) {
+	    attachInternal(arguments, false)
+	}
+	
+	// appends components immediately before the passed domNode
+	module.exports.attachBefore = function(/*[domNode,] component or components*/) {
+	    attachInternal(arguments, true)
+	}
+	
+	// removes components from their parents
+	var detach = module.exports.detach = function(components) {
+	    if(!(components instanceof Array)) {
+	        components = [components]
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        var gem = components[n]
+	        gem.domNode.parentNode.removeChild(gem.domNode)
+	
+	        blockStyleUtils.setAttachStatus(gem, false)
+	    }
+	}
+	
+	// creates a body tag (only call this if document.body is null)
+	
+	module.exports.createBody = function(callback) {
+	    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+	    var body = dom.createElement("body")
+	    dom.documentElement.appendChild(body)
+	    setTimeout(function() {  // set timeout is needed because the body tag is only added after javascript goes back to the scheduler
+	        callback()
+	    },0)
+	}
+	
+	
+	function attachInternal(args, before) {
+	    if(args.length > 1) {
+	        var domNode = args[0]
+	        var components = args[1]
+	    } else {
+	        if(document.body === null) throw new Error("Your document does not have a body.")
+	        var domNode = document.body
+	        var components = args[0]
+	    }
+	
+	    if(!(components instanceof Array)) {
+	        var components = [components]
+	    }
+	
+	    for(var n=0; n<components.length; n++) {
+	        if(before) {
+	            domNode.parentNode.insertBefore(components[n].domNode, domNode)
+	        } else {
+	            domNode.appendChild(components[n].domNode)
+	        }
+	
+	        blockStyleUtils.setAttachStatus(components[n], true) // must be done before setting the style (unsure why at the moment)
+	        components[n].style = components[n]._style   // force style rendering
+	    }
+	}
+	
+	// returns a list of indexes to remove from Gem.remove's arguments
+	/*private*/ var normalizeRemoveArguments = module.exports.normalizeRemoveArguments = function() {
+	    var that = this
+	
+	    if(arguments[0] instanceof Array) {
+	        var removals = arguments[0]
+	    } else {
+	        var removals = Array.prototype.slice.call(arguments)
+	    }
+	
+	    return removals.map(function(removal, parameterIndex) {
+	        if(isGem(removal)) {
+	            var index = that.children.indexOf(removal)
+	            if(index === -1) {
+	                throw new Error("The Gem passed at argument index "+parameterIndex+" is not a child of this Gem.")
+	            }
+	            return index
+	        } else {
+	            return removal
+	        }
+	
+	    })
+	}
+	
+	// returns a list of nodes to add
+	/*private*/ var normalizeAddAtArguments = module.exports.normalizeAddAtArguments = function() {
+	    if(arguments.length === 2) {
+	        if(arguments[1] instanceof Array) {
+	            return arguments[1]
+	        } else {
+	            return [arguments[1]]
+	        }
+	    } else { // > 2
+	        return trimArguments(arguments).slice(1)
+	    }
+	}
+	
+	function isGem(c) {
+	    return c.add !== undefined && c.children instanceof Array && c.domNode !== undefined
+	}
+
+/***/ },
 /* 3 */
 /*!********************************!*\
   !*** ./~/Components/Canvas.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! Gem */ 1)
+	var Gem = __webpack_require__(/*! Gem */ 2)
 	var proto = __webpack_require__(/*! proto */ 28)
-	var Style = __webpack_require__(/*! Style */ 2)
+	var Style = __webpack_require__(/*! Style */ 1)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2144,7 +2140,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	var Gem = __webpack_require__(/*! ../Gem */ 2)
 	var proto = __webpack_require__(/*! proto */ 28)
 	
 	var domUtils = __webpack_require__(/*! domUtils */ 20)
@@ -2181,61 +2177,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 5 */
-/*!********************************!*\
-  !*** ./~/Components/Button.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var Gem = __webpack_require__(/*! Gem */ 1)
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	module.exports = proto(Gem, function(superclass) {
-	
-	    // static variables
-	
-	    this.name = 'Button'
-	
-	
-	    // instance properties
-	
-		this.init = function(/*[label,] text*/) {
-	        if(arguments.length >= 2) {
-	            var label = arguments[0]
-	            var text = arguments[1]
-	        } else {
-	            var text = arguments[0]
-	        }
-	
-	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	
-	        this.label = label
-			this.attr('type','button')
-			this.text = text
-	
-	        superclass.init.apply(this, arguments) // superclass constructor
-		}
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.attr('value')
-	        },
-	        set: function(text) {
-	            this.attr('value', text)
-	        }
-	    })
-	
-	})
-
-
-/***/ },
-/* 6 */
 /*!**********************************!*\
   !*** ./~/Components/CheckBox.js ***!
   \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! Gem */ 1)
+	var Gem = __webpack_require__(/*! Gem */ 2)
 	var proto = __webpack_require__(/*! proto */ 28)
+	var domUtils = __webpack_require__(/*! domUtils */ 20)
 	
 	module.exports = proto(Gem, function(superclass) {
 		// static variables
@@ -2246,36 +2195,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
 	        this.label = label
 			this.attr('type','checkbox')
-	
+	        
 	        superclass.init.apply(this, arguments) // superclass constructor
+	        
+	        domUtils.setupBoundProperty(this,this.quiet,'selected', {
+	            getFn: getSelected, 
+	            setFn: function(x) {
+	                setSelected.bind(this)(x, true)   
+	            }
+	        })
 		}
 	
 	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the checkbox is checked
-	        get: function() {
-	            return this.domNode.checked
-	        },
-	        // sets the value of the checkbox to the passed value (true for checked)
-	        set: function(checked) {
-	            var newValue = checked === true
-	            var curValue = this.domNode.checked
-	            if(curValue === newValue) return;  // do nothing if nothing's changing
-	
-	            this.domNode.checked = newValue
-	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	        }
-	    })
+	        get: getSelected,set: setSelected
+	    })    
 	})
+	
+	// returns whether or not the checkbox is checked
+	function getSelected() {
+	    return this.domNode.checked   
+	}
+	
+	// sets the value of the checkbox to the passed value (true for checked)
+	function setSelected(checked, quiet) {
+	    var newValue = checked === true
+	    var curValue = this.domNode.checked
+	    if(curValue === newValue) return;  // do nothing if nothing's changing
+	
+	    this.domNode.checked = newValue
+	    if(!quiet) this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	}
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /*!*******************************!*\
   !*** ./~/Components/Image.js ***!
   \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! Gem */ 1)
+	var Gem = __webpack_require__(/*! Gem */ 2)
 	var proto = __webpack_require__(/*! proto */ 28)
 	
 	module.exports = proto(Gem, function(superclass) {
@@ -2312,6 +2271,52 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 7 */
+/*!********************************!*\
+  !*** ./~/Components/Button.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var Gem = __webpack_require__(/*! Gem */ 2)
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	module.exports = proto(Gem, function(superclass) {
+	
+	    // static variables
+	
+	    this.name = 'Button'
+	
+	
+	    // instance properties
+	
+		this.init = function(/*[label,] text*/) {
+	        if(arguments.length >= 2) {
+	            var label = arguments[0]
+	            var text = arguments[1]
+	        } else {
+	            var text = arguments[0]
+	        }
+	
+	        this.domNode = document.createElement("input") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	
+	        this.label = label
+			this.attr('type','button')
+			this.text = text
+	
+	        superclass.init.apply(this, arguments) // superclass constructor
+		}
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.attr('value')
+	        },
+	        set: function(text) {
+	            this.attr('value', text)
+	        }
+	    })
+	})
+
+/***/ },
 /* 8 */
 /*!******************************!*\
   !*** ./~/Components/List.js ***!
@@ -2320,10 +2325,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var proto = __webpack_require__(/*! proto */ 28)
 	
-	var Gem = __webpack_require__(/*! Gem */ 1)
-	var Style = __webpack_require__(/*! Style */ 2)
+	var Gem = __webpack_require__(/*! Gem */ 2)
+	var Style = __webpack_require__(/*! Style */ 1)
 	
-	var Item = __webpack_require__(/*! ./Item */ 23);
+	var Item = __webpack_require__(/*! ./Item */ 22);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2400,7 +2405,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var proto = __webpack_require__(/*! proto */ 28)
 	var EventEmitter = __webpack_require__(/*! events */ 27).EventEmitter
 	
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	var Gem = __webpack_require__(/*! ../Gem */ 2)
+	var domUtils = __webpack_require__(/*! domUtils */ 20)
 	
 	var randomStart = getRandomInt(0,999999) // a random number used to start off the numbers given to radio button names (using a random number in case there are somehow two different instances of blocks.js on the page)
 	
@@ -2420,6 +2426,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.required = required === true || required === undefined
 	        this.buttons = {} // maps values to the buttons that have each value
 	        this.randomStart = randomStart++
+	        
+	        this.quiet = {}        
+	        domUtils.setupBoundProperty(this,this.quiet,'val', {
+	            getFn: getVal, 
+	            setFn: function(x) {
+	                setVal.bind(this)(x, true)   
+	            }
+	        })
 		}
 	
 	    // returns a new radio button
@@ -2446,42 +2460,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    // returns the RadioButton in the group that's selected (or undefined if none are selected)
-	    Object.defineProperty(this, 'selected', {
-	        get: function() {
-	            return this._selected
-	        },
-	        set: function() {
-	            throw new Error("Can't set selected on a Radio object")
-	        }
+	    Object.defineProperty(this, 'selectedOption', {
+	        get: getSelectedOption, set: setSelectedOption
+	    })
+	    Object.defineProperty(this, 'selected', { // deprecated
+	        get: getSelectedOption, set: setSelectedOption
 	    })
 	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the selected radio button in the group (undefined if none are selected)
-	        get: function() {
+	    function getSelectedOption() {
+	        return this._selected
+	    }    
+	    function setSelectedOption() {
+	        throw new Error("Can't set selected on a Radio object")
+	    }
+	
+	    Object.defineProperty(this, 'val', {        
+	        get: getVal, set: setVal
+	    })
+	
+	    // returns the value of the selected radio button in the group (undefined if none are selected)
+	    function getVal() {
+	        var selected = this._selected
+	        if(selected === undefined) return undefined
+	        // else
+	        return selected.attr('value')
+	    }    
+	    // sets the value of the checkbox to the passed value (true for checked)
+	    // throws an exception if none of the radio buttons have that value
+	    // throws an exception if an unset is attempted for a required Radio set
+	    function setVal(value, quiet) {
+	        if(value === undefined) {
 	            var selected = this._selected
-	            if(selected === undefined) return undefined
-	            // else
-	            return selected.attr('value')
-	        },
-	
-	        // sets the value of the checkbox to the passed value (true for checked)
-	        // throws an exception if none of the radio buttons have that value
-	        // throws an exception if an unset is attempted for a required Radio set
-	        set: function(value) {
-	            if(value === undefined) {
-	                var selected = this._selected
-	                if(selected !== undefined) {
-	                    selected.selected = false
-	                }
-	            } else {
-	                var button = this.buttons[value]
-	                if(button === undefined) throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
-	
-	                button.selected = true
+	            if(selected !== undefined) {
+	                if(quiet) selected = selected.quiet
+	                selected.selected = false
 	            }
-	        }
-	    })
+	        } else {
+	            var button = this.buttons[value]
+	            if(button === undefined) throw new Error("There is no RadioButton in the group with the value: '"+value+"'")
 	
+	            if(quiet) button = button.quiet
+	            button.selected = true
+	        }
+	    }
+	    
 	
 	    // arguments can be one of the following:
 	        // RadioButton, RadioButton, RadioButton, ...
@@ -2548,6 +2570,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.attr('type', 'radio')
 	        this.attr('name', name) // the name is needed so that using tab to move through page elements can tab between different radio groups
 	        this.val = value
+	                        
+	        domUtils.setupBoundProperty(this,this.quiet,'selected', {
+	            getFn: getSelected, 
+	            setFn: function(x) {
+	                setSelected.bind(this)(x, true)   
+	            }
+	        })    
+	        domUtils.setupBoundProperty(this,this.quiet,'val', { // this is here just for consistency, it isn't different than button.val because button.val doesn't emit a change event
+	            getFn: getSelected, setFn: setSelected
+	        })
 	
 	        var that = this
 			this.on("mousedown",function(event) {
@@ -2596,29 +2628,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the checkbox is checked
-	        get: function() {
-	            return this.domNode.checked
-	        },
-	
-	        // sets the selected state of the checkbox to the passed value (true for checked)
-	        set: function(value) {
-	            var booleanValue = value === true
-	            if(this.selected === value) return; // ignore if there's no change
-	
-	            if(booleanValue) {
-	                var previouslySelected = this.group.selected
-	                setButtonInGroup(this.group, this)
-	                if(previouslySelected !== undefined)
-	                    previouslySelected.emit('change')
-	            } else {
-	                if(this.group.required) throw new Error("Can't unset this Radio set, a value is required.")
-	                this.domNode.checked = false
-	                this.group._selected = undefined
-	            }
-	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	            this.group.emit('change')
-	        }
+	        get: getSelected, set: setSelected
 	    })
 	
 	    this.selectNext = function() {
@@ -2626,6 +2636,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    this.selectPrevious = function() {
 	        selectSibling(this,-1)
+	    }
+	    
+	    // returns whether or not the checkbox is checked
+	    function getSelected() {
+	        return this.domNode.checked
+	    }
+	    // sets the selected state of the checkbox to the passed value (true for checked)
+	    function setSelected(value, quiet) {
+	        var booleanValue = value === true
+	        if(this.selected === value) return; // ignore if there's no change
+	
+	        if(booleanValue) {
+	            var previouslySelected = this.group.selected
+	            setButtonInGroup(this.group, this)
+	            if(previouslySelected !== undefined && !quiet)
+	                previouslySelected.emit('change')
+	        } else {
+	            if(this.group.required) throw new Error("Can't unset this Radio set, a value is required.")
+	            this.domNode.checked = false
+	            this.group._selected = undefined
+	        }
+	        
+	        if(!quiet) {
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
+	            this.group.emit('change')                        
+	        }
 	    }
 	
 	})
@@ -2666,10 +2702,11 @@ return /******/ (function(modules) { // webpackBootstrap
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	var Gem = __webpack_require__(/*! ../Gem */ 2)
 	var proto = __webpack_require__(/*! proto */ 28)
 	
-	var Option = __webpack_require__(/*! Components/Option */ 22)
+	var domUtils= __webpack_require__(/*! domUtils */ 20)
+	var Option = __webpack_require__(/*! Components/Option */ 26)
 	
 	// emits a 'change' event when its 'val' changes
 	module.exports = proto(Gem, function(superclass) {
@@ -2697,28 +2734,36 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.option(value, options[value])
 			}
 	
-	        superclass.init.apply(this, arguments) // superclass constructor
+	        superclass.init.apply(this, arguments) // superclass constructor       
+	           
+	        domUtils.setupBoundProperty(this,this.quiet,'val', {
+	            getFn: getVal, 
+	            setFn: function(x) {
+	                setVal.bind(this)(x, true)   
+	            }
+	        })
 		}
 	
 	
 		// instance methods
 	
 	    Object.defineProperty(this, 'val', {
-	        // returns the value that is selected
-	        get: function() {
-	            for(var value in this.options) {
-	                if(this.options[value].selected) {
-	                    return this.options[value].val
-	                }
-	            }
-	        },
-	
-	        set: function(value) {
-	            var option = this.options[value]
-	            if(option === undefined || option.val !== value) throw new Error("There is no Option in the Select with the value: '"+value+"'")
-	            option.selected = true
-	        }
+	        get: getVal, set: setVal
 	    })
+	    // returns the value that is selected
+	    function getVal() {
+	        for(var value in this.options) {
+	            if(this.options[value].selected) {
+	                return this.options[value].val
+	            }
+	        }
+	    }
+	    function setVal(value, quiet) {
+	        var option = this.options[value]
+	        if(option === undefined || option.val !== value) throw new Error("There is no Option in the Select with the value: '"+value+"'")
+	        if(quiet) option = option.quiet
+	        option.selected = true
+	    }
 		
 		this.option = function(/*[label,] value,text*/) {
 	        if(arguments.length === 2) {
@@ -2800,14 +2845,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // private
 	
-	    this.prepareForValueChange = function(values) {
+	    this.prepareForValueChange = function(values, quiet) {
 	        var value = values[0]
 	
 	        for(var optionValue in this.options) {
 	            if(optionValue !== value) {
 	                var option = this.options[optionValue]
 	                if(option.selected === true) {
-	                    option.setSelectedQuiet(false)
+	                    option.domNode.selected = false
+	                    if(!quiet) option.emit('change')
 	                }
 	            }
 	        }
@@ -2824,7 +2870,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var proto = __webpack_require__(/*! proto */ 28)
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	var Gem = __webpack_require__(/*! ../Gem */ 2)
 	
 	module.exports = proto(Gem, function(superclass) {
 		// static variables
@@ -2858,12 +2904,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var proto = __webpack_require__(/*! proto */ 28)
 	
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
-	var Style = __webpack_require__(/*! Style */ 2)
+	var Gem = __webpack_require__(/*! ../Gem */ 2)
+	var Style = __webpack_require__(/*! Style */ 1)
 	
-	var Header = __webpack_require__(/*! ./Header */ 24);
-	var Row = __webpack_require__(/*! ./Row */ 25);
-	var Cell = __webpack_require__(/*! ./Cell */ 26);
+	var Header = __webpack_require__(/*! ./Header */ 23);
+	var Row = __webpack_require__(/*! ./Row */ 24);
+	var Cell = __webpack_require__(/*! ./Cell */ 25);
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2925,8 +2971,10 @@ return /******/ (function(modules) { // webpackBootstrap
   \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
 	var proto = __webpack_require__(/*! proto */ 28)
+	
+	var Gem = __webpack_require__(/*! ../Gem */ 2)
+	var domUtils = __webpack_require__(/*! domUtils */ 20)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -2939,28 +2987,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.label = label
 	
 	        superclass.init.apply(this, arguments) // superclass constructor
+	           
+	        domUtils.setupBoundProperty(this,this.quiet,'val', {
+	            getFn: getVal, 
+	            setFn: function(x) {
+	                setVal.bind(this)(x, true)   
+	            }
+	        })
 		}
 	
 	
 		// instance properties
 	
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.domNode.value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.val === value) return; // do nothing if there's no change
-	
-	            this.domNode.value = value
-	            this.emit('change')
-	        }
+	    Object.defineProperty(this, 'val', {        
+	        get: getVal, set: setVal
 	    })
-	});
-
+	    
+	    
+	    // returns the TextArea's value
+	    function getVal() {
+	        return this.domNode.value
+	    }
+	    // sets the value of the TextArea
+	    function setVal(value, quiet) {
+	        if(this.val === value) return; // do nothing if there's no change
+	
+	        this.domNode.value = value
+	        if(!quiet) this.emit('change')
+	    }
+	})
 
 /***/ },
 /* 14 */
@@ -2969,7 +3024,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	var Gem = __webpack_require__(/*! ../Gem */ 2)
 	var proto = __webpack_require__(/*! proto */ 28)
 	
 	var domUtils = __webpack_require__(/*! ../domUtils */ 20)
@@ -2995,26 +3050,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if(password)
 			    this.attr('type','password')
 	
-	        superclass.init.apply(this, arguments) // superclass constructor
+	        superclass.init.apply(this, arguments) // superclass constructor      
+	           
+	        domUtils.setupBoundProperty(this,this.quiet,'val', {
+	            getFn: getVal, 
+	            setFn: function(x) {
+	                setVal.bind(this)(x, true)   
+	            }
+	        })
 		}
 	
 	
 		// instance properties
 	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this.domNode.value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.val === value) return; // do nothing if there's no change
-	
-	            this.domNode.value = value
-	            this.emit('change')
-	        }
+	    Object.defineProperty(this, 'val', {       
+	        get: getVal, set: setVal
 	    })
+	    
+	    
+	    // returns the value of the field
+	    function getVal() {
+	        return this.domNode.value
+	    }
+	    // sets the value of the field
+	    function setVal(value, quiet) {
+	        if(this.val === value) return; // do nothing if there's no change
+	
+	        this.domNode.value = value
+	        if(!quiet) this.emit('change')
+	    }
 	
 	});
 
@@ -3028,8 +3092,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var proto = __webpack_require__(/*! proto */ 28)
 	
-	var Gem = __webpack_require__(/*! Gem */ 1)
-	var Style = __webpack_require__(/*! Style */ 2)
+	var Gem = __webpack_require__(/*! Gem */ 2)
+	var Style = __webpack_require__(/*! Style */ 1)
 	
 	var domUtils = __webpack_require__(/*! domUtils */ 20)
 	
@@ -3472,7 +3536,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var HashMap = __webpack_require__(/*! hashmap */ 29)
 	
-	var Style = __webpack_require__(/*! ./Style */ 2)
+	var Style = __webpack_require__(/*! ./Style */ 1)
 	var utils = __webpack_require__(/*! ./utils */ 17)
 	
 	var defaultStyleMap = new HashMap() // maps from a proto class to its computed default style
@@ -4325,6 +4389,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	}
 	
+	// sets a getter/setter property on a container object that uses 'instance' as the this-context 
+	exports.setupBoundProperty = function(instance, container, name, fns) {
+	    Object.defineProperty(container, name, {get: fns.getFn.bind(instance), set: fns.setFn.bind(instance)}) 
+	}
+	
 	
 	// iterate through the leaf nodes inside element
 	// callback(node) - a function called for each leaf node
@@ -4373,130 +4442,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 22 */
-/*!********************************!*\
-  !*** ./~/Components/Option.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// note: this is  not intended to be used directly - only through Select and MultiSelect
-	
-	var proto = __webpack_require__(/*! proto */ 28)
-	
-	var Gem = __webpack_require__(/*! Gem */ 1)
-	var Style = __webpack_require__(/*! Style */ 2)
-	var domUtils = __webpack_require__(/*! domUtils */ 20)
-	
-	// emits a 'change' event when its 'selected' value changes
-	module.exports = proto(Gem, function(superclass) {
-	
-	    // staic members
-	
-	    this.name = 'Option'
-	
-	    this.defaultStyle = Style({
-	        display: 'block'
-	    })
-	
-	
-	    // instance members
-	
-	    this.init = function(/*[label,] value, text*/) {
-	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
-	
-	        if(arguments.length===2) {
-	            this.val = arguments[0]
-	            this.text = arguments[1]
-	        } else { // 3
-	            this.label = arguments[0]
-	            this.val = arguments[1]
-	            this.text = arguments[2]
-	        }
-	
-	        superclass.init.apply(this, arguments) // superclass constructor
-	    }
-	
-	    Object.defineProperty(this, 'val', {
-	        // returns the value of the Option
-	        get: function() {
-	            return this._value
-	        },
-	
-	        // sets the value of the Option
-	        set: function(value) {
-	            if(this.parent !== undefined) {
-	                if(this.parent.options[value] !== undefined) {
-	                    throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: "+JSON.stringify(value)+")")
-	                }
-	
-	                if(this.val !== null) {
-	                    delete this.parent.options[this.val]
-	                }
-	
-	                this.parent.options[value] = this
-	            }
-	
-	            this._value = value
-	
-	            if(this.selected && this.parent !== undefined) {
-	                this.parent.emit('change')
-	            }
-	        }
-	    })
-	
-	
-	    Object.defineProperty(this, 'selected', {
-	        // returns whether or not the option is selected
-	        get: function() {
-	            return this.domNode.selected
-	        },
-	
-	        // sets the selected state of the option to the passed value (true for selected)
-	        set: function(value) {
-	            var booleanValue = value === true
-	            if(this.selected === booleanValue) return false; // ignore if there's no change
-	
-	            if(this.parent !== undefined)
-	                this.parent.prepareForValueChange([this.val])
-	
-	            this.setSelectedQuiet(booleanValue)
-	
-	            if(this.parent !== undefined)
-	                this.parent.emit('change')
-	        }
-	    })
-	
-	    Object.defineProperty(this, 'text', {
-	        get: function() {
-	            return this.domNode[domUtils.textProperty]
-	        },
-	
-	        set: function(text) {
-	            this.domNode[domUtils.textProperty] = text
-	        }
-	    })
-	
-	
-	    // private
-	
-	    // does everything for setting the selected state except emit the parent's change event
-	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
-	        if(this.selected === booleanValue) return; // ignore if there's no change
-	
-	        this.domNode.selected = booleanValue
-	        this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property
-	    }
-	})
-
-/***/ },
-/* 23 */
 /*!******************************!*\
   !*** ./~/Components/Item.js ***!
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! Gem */ 1)
+	var Gem = __webpack_require__(/*! Gem */ 2)
 	var proto = __webpack_require__(/*! proto */ 28)
-	var Style = __webpack_require__(/*! Style */ 2)
+	var Style = __webpack_require__(/*! Style */ 1)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -4534,7 +4487,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /*!********************************!*\
   !*** ./~/Components/Header.js ***!
   \********************************/
@@ -4542,32 +4495,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	
 	
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 32);
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 31);
 	
 	module.exports = RowlikeGenerator('th', "TableHeader")
 
 /***/ },
-/* 25 */
+/* 24 */
 /*!*****************************!*\
   !*** ./~/Components/Row.js ***!
   \*****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 32);
+	var RowlikeGenerator = __webpack_require__(/*! ./RowlikeGenerator */ 31);
 	
 	module.exports = RowlikeGenerator('tr', "TableRow")
 
 
 /***/ },
-/* 26 */
+/* 25 */
 /*!******************************!*\
   !*** ./~/Components/Cell.js ***!
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Gem = __webpack_require__(/*! ../Gem */ 1)
+	var Gem = __webpack_require__(/*! ../Gem */ 2)
 	var proto = __webpack_require__(/*! proto */ 28)
-	var Style = __webpack_require__(/*! Style */ 2)
+	var Style = __webpack_require__(/*! Style */ 1)
 	
 	module.exports = proto(Gem, function(superclass) {
 	
@@ -4608,6 +4561,138 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	});
 
+
+/***/ },
+/* 26 */
+/*!********************************!*\
+  !*** ./~/Components/Option.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// note: this is  not intended to be used directly - only through Select and MultiSelect
+	
+	var proto = __webpack_require__(/*! proto */ 28)
+	
+	var Gem = __webpack_require__(/*! Gem */ 2)
+	var Style = __webpack_require__(/*! Style */ 1)
+	var domUtils = __webpack_require__(/*! domUtils */ 20)
+	
+	// emits a 'change' event when its 'selected' value changes
+	module.exports = proto(Gem, function(superclass) {
+	
+	    // staic members
+	
+	    this.name = 'Option'
+	
+	    this.defaultStyle = Style({
+	        display: 'block'
+	    })
+	
+	
+	    // instance members
+	
+	    this.init = function(/*[label,] value, text*/) {
+	        this.domNode = document.createElement("option") // do this before calling the superclass constructor so that an extra useless domNode isn't created inside it
+	
+	        if(arguments.length===2) {
+	            this.val = arguments[0]
+	            this.text = arguments[1]
+	        } else { // 3
+	            this.label = arguments[0]
+	            this.val = arguments[1]
+	            this.text = arguments[2]
+	        }
+	
+	        superclass.init.apply(this, arguments) // superclass constructor   
+	           
+	        domUtils.setupBoundProperty(this,this.quiet,'selected', {
+	            getFn: getSelected, 
+	            setFn: function(x) {
+	                setSelected.bind(this)(x, true)   
+	            }
+	        })
+	        domUtils.setupBoundProperty(this,this.quiet,'val', {
+	            getFn: getVal, 
+	            setFn: function(x) {
+	                setVal.bind(this)(x, true)   
+	            }
+	        })
+	    }
+	
+	    Object.defineProperty(this, 'val', {
+	        get:getVal, set:setVal
+	    })
+	    // returns the value of the Option
+	    function getVal() {
+	        return this._value
+	    }
+	    // sets the value of the Option
+	    function setVal(value, quiet) {
+	        if(this.parent !== undefined) {
+	            if(this.parent.options[value] !== undefined) {
+	                throw new Error("Can't give an Option the same value as another in the Select or MultiSelect (value: "+JSON.stringify(value)+")")
+	            }
+	
+	            if(this.val !== null) {
+	                delete this.parent.options[this.val]
+	            }
+	
+	            this.parent.options[value] = this
+	        }
+	
+	        this._value = value
+	
+	        if(this.selected && this.parent !== undefined && !quiet) {
+	            this.parent.emit('change')
+	        }
+	    }
+	
+	
+	    Object.defineProperty(this, 'selected', {
+	        get: getSelected, set: setSelected  
+	    })
+	    // returns whether or not the option is selected
+	    function getSelected() {
+	        return this.domNode.selected
+	    }
+	    // sets the selected state of the option to the passed value (true for selected)
+	    function setSelected(value, quiet) {
+	        var booleanValue = value === true
+	        if(this.selected === booleanValue) return false; // ignore if there's no change
+	
+	        if(this.parent !== undefined)
+	            this.parent.prepareForValueChange([this.val], quiet)
+	
+	        if(this.selected === booleanValue) return; // ignore if there's no change
+	
+	        this.domNode.selected = booleanValue
+	        
+	        if(!quiet) {
+	            this.emit('change') // the browser has no listenable event that is triggered on change of the 'checked' property    
+	            if(this.parent !== undefined)
+	                this.parent.emit('change')
+	        }
+	    }
+	
+	    Object.defineProperty(this, 'text', {
+	        get: function() {
+	            return this.domNode[domUtils.textProperty]
+	        },
+	
+	        set: function(text) {
+	            this.domNode[domUtils.textProperty] = text
+	        }
+	    })
+	
+	
+	    // private
+	
+	    // deprecated
+	    // does everything for setting the selected state except emit the parent's change event
+	    this.setSelectedQuiet = function setOptionSelected(booleanValue) {
+	        this.quiet.selected = booleanValue  
+	    }
+	})
 
 /***/ },
 /* 27 */
@@ -5262,30 +5347,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 30 */
-/*!*******************************************!*\
-  !*** ../~/trimArguments/trimArguments.js ***!
-  \*******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// resolves varargs variable into more usable form
-	// args - should be a function arguments variable
-	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
-	module.exports = function(theArguments) {
-	    var args = Array.prototype.slice.call(theArguments, 0)
-	
-	    var count = 0;
-	    for(var n=args.length-1; n>=0; n--) {
-	        if(args[n] === undefined)
-	            count++
-	        else
-	            break
-	    }
-	    args.splice(args.length-count, count)
-	    return args
-	}
-
-/***/ },
-/* 31 */
 /*!*******************************!*\
   !*** ../~/observe/observe.js ***!
   \*******************************/
@@ -5763,7 +5824,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 32 */
+/* 31 */
 /*!******************************************!*\
   !*** ./~/Components/RowlikeGenerator.js ***!
   \******************************************/
@@ -5771,9 +5832,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var proto = __webpack_require__(/*! proto */ 28)
 	
-	var Gem = __webpack_require__(/*! Gem */ 1)
-	var Style = __webpack_require__(/*! Style */ 2)
-	var Cell = __webpack_require__(/*! ./Cell */ 26);
+	var Gem = __webpack_require__(/*! Gem */ 2)
+	var Style = __webpack_require__(/*! Style */ 1)
+	var Cell = __webpack_require__(/*! ./Cell */ 25);
 	
 	// generates either a Header or a Row, depending on what you pass in
 	// elementType should either be "tr" or "th
@@ -5819,6 +5880,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return cell;
 	        }
 	    })
+	}
+
+/***/ },
+/* 32 */
+/*!*******************************************!*\
+  !*** ../~/trimArguments/trimArguments.js ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// resolves varargs variable into more usable form
+	// args - should be a function arguments variable
+	// returns a javascript Array object of arguments that doesn't count trailing undefined values in the length
+	module.exports = function(theArguments) {
+	    var args = Array.prototype.slice.call(theArguments, 0)
+	
+	    var count = 0;
+	    for(var n=args.length-1; n>=0; n--) {
+	        if(args[n] === undefined)
+	            count++
+	        else
+	            break
+	    }
+	    args.splice(args.length-count, count)
+	    return args
 	}
 
 /***/ },
