@@ -22,7 +22,6 @@ module.exports = function(t) {
 
 
 
-
     //*
 
 	this.test('testEvent',function(t) {
@@ -841,6 +840,27 @@ module.exports = function(t) {
             e.off('click', clickHandler)
 
             syn.click(e.domNode)
+        })
+                    
+        this.test("ifoff for dom events wasn't being handled properly", function(t) {
+            this.count(1)
+
+            var EventWhore = proto(Gem,function(superclass) {
+                this.name = 'EventWhore'
+            })
+
+            var e = EventWhore()
+
+            var clickHandler, happendTimes = 0
+            e.on('click', clickHandler=function() {
+                happendTimes++
+                t.eq(happendTimes, 1)
+            })
+
+            e.off('click', clickHandler)
+            e.on('click', clickHandler)
+
+            syn.click(e.domNode)    
         })
     })
 
