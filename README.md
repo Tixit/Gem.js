@@ -1289,8 +1289,8 @@ Todo
             animationDuration: 300 // milliseconds
         })
         ```
-* Make sure its easy to dynamically create many-stepped animations, eg: http://www.joelambert.co.uk/morf/
-* http://stackoverflow.com/questions/18481550/how-to-dynamically-create-keyframe-css-animations
+    * Make sure its easy to dynamically create many-stepped animations, eg: http://www.joelambert.co.uk/morf/
+    * http://stackoverflow.com/questions/18481550/how-to-dynamically-create-keyframe-css-animations
 
 * Maybe if a gem has an explicit style set, it ignore's any styling from its parent (ie the componentStyleMap)
     * Similarly, maybe if a gem has an explicit style set, it shouldn't be able to inherit from anything
