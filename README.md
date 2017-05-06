@@ -109,13 +109,15 @@ var list = Block()
     list.add(toggleButton)
 })
 
-var greet = Button("send", "Send your Greetings") // labels like 'send' can differentiate otherwise identical types of gems
+var greet = Button("send", "Send your Greetings") // labels like 'send' can differentiate
+                                                  // otherwise identical types of gems
 list.add(greet)
 
 // create styles with style objects ..
 list.style = Style({
     border: '1px solid blue', // .. that use familiar css values,
-    marginRight: 34,          // .. camelCase css properties and integers interpreted as "px" values when appropriate,
+    marginRight: 34,          // .. camelCase css properties and integers interpreted
+                              //    as "px" values when appropriate,
 
     Button: {                 // .. sub-gem styles,
         $$firstChild: {       // .. pseudo-class styles,
@@ -139,7 +141,7 @@ list.attach()
 // custom gems (use your favorite javascript class library - here proto is being used)
 var NameInput = proto(Gem, function() { // inherit from Gem
     this.name = 'NameInput'
-    this.build = function(LabelText) {              // the `build` method initializes the custom Gem
+    this.build = function(LabelText) {  // the `build` method initializes the custom Gem
         this.nameField = TextField()
         this.add(Text(LabelText), this.nameField)
         this.nameField.on('change', function() {
@@ -1266,7 +1268,7 @@ Todo
 * Figure out how to support animations, @keyframes and that kind of thing
 * support css animations
     * Maybe syntax like this:
-        ```
+        ```javascript
         var animation = Style.Animation({
             name: 'slidein' // produces a css style like __defaultName__2_slidein
                             // to prevent name collisions
@@ -1282,12 +1284,13 @@ Todo
             to: someStyleObject
         })
         Style({
-            anim: animation,       // anim cause its short and animation is already taken by plain css
+            anim: animation,       // anim cause its short and animation
+                                   // is already taken by plain css
             animationDuration: 300 // milliseconds
         })
-    ```
-    * Make sure its easy to dynamically create many-stepped animations, eg: http://www.joelambert.co.uk/morf/
-    * http://stackoverflow.com/questions/18481550/how-to-dynamically-create-keyframe-css-animations
+        ```
+* Make sure its easy to dynamically create many-stepped animations, eg: http://www.joelambert.co.uk/morf/
+* http://stackoverflow.com/questions/18481550/how-to-dynamically-create-keyframe-css-animations
 
 * Maybe if a gem has an explicit style set, it ignore's any styling from its parent (ie the componentStyleMap)
     * Similarly, maybe if a gem has an explicit style set, it shouldn't be able to inherit from anything
