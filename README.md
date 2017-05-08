@@ -580,7 +580,7 @@ Your standard `<select>` element.
 
 **`Select()`** - Returns a new empty selection list. \
 **`Select(selections)`** - Returns a new populated selection list. \
-**`Select(label, selections)`** \
+**`Select(label, selections)`**
 * `selections` - An object with the structure `{optionValue: optionText, ...}`
 
 **`select.option(value, text)`** - Creates a new `Option` with the passed `value` and `text`, and appends it to the list. \
