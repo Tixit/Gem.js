@@ -217,8 +217,8 @@ All gems inherit from `Gem` - the basic building-block of the system. Gems are [
 **`Gem.name`** - The name of the Gem. Used both for naming dom elements for view in browser dev tools and for styling.
 
 **`Gem.attach(listOfGems)`** - Appends the passed gems to `document.body`. IMPORTANT: only attach a gem to the dom via
-this `attach` function or a gem's `attach`/`attachBefore` method. Without this, styles won't be rendered.
-**`Gem.attach(domNode, listOfGems)`** - Appends the passed gems to the passed `domNode`.
+this `attach` function or a gem's `attach`/`attachBefore` method. Without this, styles won't be rendered. \
+**`Gem.attach(domNode, listOfGems)`** - Appends the passed gems to the passed `domNode`. \
 **`Gem.attachBefore(domNode, listOfGems)`** - Appends the passed gems before the passed `domNode` as a sibling.
 
 **`Gem.detach(listOfGems)`** - Removes the passed gems from their respective dom parents.
@@ -229,41 +229,41 @@ this `attach` function or a gem's `attach`/`attachBefore` method. Without this, 
 
 ### Instance properties and methods
 
-**`gem.parent`** - The Gem's parent (which will also be a Gem)
-**`gem.children`** - An array of the Gem's children (which will all be Gems themselves).
-**`gem.domNode`** - The Gem's standard dom node object.
-**`gem.label`** - A string used for styling. Should be set once when the object is instantiated, and cannot change. *See the section on `Style` objects for details about how this is used*.
-**`gem.excludeDomEvents`** - A set of dom events to exclude from automatic registration. Will have the structure `{eventName1:1, eventName2:1, ...}`. See the documentation for `on` for more details.
+**`gem.parent`** - The Gem's parent (which will also be a Gem) \
+**`gem.children`** - An array of the Gem's children (which will all be Gems themselves). \
+**`gem.domNode`** - The Gem's standard dom node object. \
+**`gem.label`** - A string used for styling. Should be set once when the object is instantiated, and cannot change. *See the section on `Style` objects for details about how this is used*. \
+**`gem.excludeDomEvents`** - A set of dom events to exclude from automatic registration. Will have the structure `{eventName1:1, eventName2:1, ...}`. See the documentation for `on` for more details. \
 **`gem.state`** - An [observer](https://github.com/Tixit/observe) object that can be listened on for changes. Can be used for any purpose, but is intended for being used to create dynamically changing styles. *See the section on `Style` objects for an example*.
 
-**`gem.add(gem, gem, ...)`** - Appends gems as children to the calling gem. This causes the domNodes of the passed gems to be appended to the calling gem's dom node.
+**`gem.add(gem, gem, ...)`** - Appends gems as children to the calling gem. This causes the domNodes of the passed gems to be appended to the calling gem's dom node. \
 **`gem.add(listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
 
-**`gem.addAt(index, gem, gem, ...)`** - Adds gems as children to the calling gem at a particular index.
+**`gem.addAt(index, gem, gem, ...)`** - Adds gems as children to the calling gem at a particular index. \
 **`gem.addAt(index, listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
 
-**`gem.addBefore(beforeChild, gem, gem, ...)`** - Adds gems as children to the calling gem before a particular child. If `beforeChild` is undefined, this will append the given nodes.
+**`gem.addBefore(beforeChild, gem, gem, ...)`** - Adds gems as children to the calling gem before a particular child. If `beforeChild` is undefined, this will append the given nodes. \
 **`gem.addBefore(beforeChild, listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
 
-**`gem.remove(gem, gem, ...)`** - Removes the passed gems as children.
-**`gem.remove(listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.*
-**`gem.remove(index, index, ...)`** - Removes, as children, the gems at the given `index`es in the `children` list.
+**`gem.remove(gem, gem, ...)`** - Removes the passed gems as children. \
+**`gem.remove(listOfGems)`** - *Same as above, but `listOfGems` is an array of `Gem` objects.* \
+**`gem.remove(index, index, ...)`** - Removes, as children, the gems at the given `index`es in the `children` list. \
 **`gem.remove(listOfIndexes)`** - *Same as above, but `listOfIndexes` is an array of indexes to remove.*
 
-**`gem.attach(domNode=document.body)`** - Appends this `Gem`'s domNode to the passed domNode (default `document.body`). IMPORTANT: only attach a gem to the dom via the `attach` function or a gem's `attach`/`attachBefore` method. Without this, styles won't be rendered.
-**`gem.attachBefore(domNode=document.body)`** - Appends this `Gem`'s domNode before the passed domNode (as a sibling).
+**`gem.attach(domNode=document.body)`** - Appends this `Gem`'s domNode to the passed domNode (default `document.body`). IMPORTANT: only attach a gem to the dom via the `attach` function or a gem's `attach`/`attachBefore` method. Without this, styles won't be rendered. \
+**`gem.attachBefore(domNode=document.body)`** - Appends this `Gem`'s domNode before the passed domNode (as a sibling). 
 **`gem.detach()`** - Removes this `Gem`'s domNode from its dom parent.
 
-**`gem.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Gem's domNode.
-**`gem.attr(attributeName, value)`** - Sets the attribute to the passed `value`.
+**`gem.attr(attributeName)`** - Return the value of the attribute named `attributeName` on the Gem's domNode. \
+**`gem.attr(attributeName, value)`** - Sets the attribute to the passed `value`. \
 **`gem.attr(attributeObject)`** - Sets the attributes in the `attributeObject`, where `attributeObject` looks like: `{attribute1: value1, attribute2: value2, ...}`.
 
-**`gem.style`** - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Gem's children.
-**`gem.visible`** - Setting this variable to false hides the gem using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state.
-**`gem.focus`** - Setting this variable to true gives the gem focus on the page. Setting this variable to false `blur`s it. Accessing the variable returns whether or not the gem is the focused element on the page.
+**`gem.style`** - Holds the object's `Style` object. Starts out `undefined`, and can be set to `undefined` to remove a `Style` that has been set. Changing this property triggers style affects in the Gem's children. \
+**`gem.visible`** - Setting this variable to false hides the gem using "display: none;". Setting this variable to true unhides it. Accessing the variable will return its visibility state. \
+**`gem.focus`** - Setting this variable to true gives the gem focus on the page. Setting this variable to false `blur`s it. Accessing the variable returns whether or not the gem is the focused element on the page. \
 **`gem.quiet.focus`** - Just like `gem.focus` but won't cause a "focus" or "blur" event.
 
-**`gem.selectionRange`** - Returns an array representing the selection range in terms of visible character offsets. E.g. a value of `[2,4]` means that the current element has 2 visible entities (usually characters) selected within it at offset 2 and 4 from the start. Note that if there are hidden characters like multiple spaces in a row, or newlines, or other non-visible characters (mostly only applies to contenteditable nodes), they are ignored.
+**`gem.selectionRange`** - Returns an array representing the selection range in terms of visible character offsets. E.g. a value of `[2,4]` means that the current element has 2 visible entities (usually characters) selected within it at offset 2 and 4 from the start. Note that if there are hidden characters like multiple spaces in a row, or newlines, or other non-visible characters (mostly only applies to contenteditable nodes), they are ignored. \
 **`gem.selectionRange = [offsetStart, offsetEnd]`** - Setting the `selectionRange` property sets the selection inside the Gem's domNode based on the given offsets.
 
 Example of `selectionRange`:
@@ -282,7 +282,7 @@ All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.ht
 
 **`gem.emit(event, data, data2, ...)`** - Emits an event that triggers handlers setup via the Gem's `on` methods.
 
-**`gem.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Gem.
+**`gem.on(event, callback)`** - Registers a `callback` that will be called when the passed `event` is `emit`ted by the Gem. \
 * `event` - The string event name to listen for. If the passed event is one of the many standard dom events (e.g. 'click', 'mouseover', 'touchstart', etc), the passed handler will be registered as a dom event handler in one of three cases:
     * the gem's `excludeDomEvents` object is undefined
     * the event is `in` the gem's `excludeDomEvents` property
@@ -321,29 +321,29 @@ parent.ifoff('someoneClickedTheThing', function() {
 })
 ```
 
-**`gem.ifon(event, callback)`** - Registers a callback that will be called when a handler is registered for `event` if it had no handler registered previously. If there is already a listener attached to that event, `callback` is called immediately.
+**`gem.ifon(event, callback)`** - Registers a callback that will be called when a handler is registered for `event` if it had no handler registered previously. If there is already a listener attached to that event, `callback` is called immediately. \
 * `callback(event)` - The callback gets the newly registered event type as its argument.
 
-**`gem.ifoff(event, callback)`** - Registers a callback that will be called when the last handler for `event` is unregistered.
+**`gem.ifoff(event, callback)`** - Registers a callback that will be called when the last handler for `event` is unregistered. \
 **`gem.ifoff(callback)`** - Registers a callback that will be called when the last handler for any event is unregistered.
 * `callback(event)` - The callback gets the unregistered event type as its argument.
 
-**`gem.removeIfon()`** - Removes all `ifon` handlers.
-**`gem.removeIfon(event)`** - Removes all `ifon` handlers for the passed `event`.
-**`gem.removeIfon(callback)`** - Removes `callback` as an "all" `ifon` handler (a callback passed to `ifon` without an event).
+**`gem.removeIfon()`** - Removes all `ifon` handlers. \
+**`gem.removeIfon(event)`** - Removes all `ifon` handlers for the passed `event`. \
+**`gem.removeIfon(callback)`** - Removes `callback` as an "all" `ifon` handler (a callback passed to `ifon` without an event). \
 **`gem.removeIfon(event, callback)`** - Removes `callback` as an `ifon` handler for the passed `event`.
 
-**`gem.removeIfoff()`** - Removes all `ifoff` handlers.
-**`gem.removeIfoff(event)`** - Removes all `ifoff` handlers for the passed `event`.
-**`gem.removeIfoff(callback)`** - Removes `callback` as an "all" `ifoff` handler (a callback passed to `ifoff` without an event).
+**`gem.removeIfoff()`** - Removes all `ifoff` handlers. \
+**`gem.removeIfoff(event)`** - Removes all `ifoff` handlers for the passed `event`. \
+**`gem.removeIfoff(callback)`** - Removes `callback` as an "all" `ifoff` handler (a callback passed to `ifoff` without an event). \
 **`gem.removeIfoff(event, callback)`** - Removes `callback` as an `ifoff` handler for the passed `event`.
 
 ##### `proxy`
 
 The `proxy` method uses `ifon` and `ifoff` to minmize the number of event listeners that need to be attached in the system.
 
-**`gem.proxy(emitter, options)`** - Proxies event registration to `emitter`.
-* `emitter` - The emitter (usually a `Gem`) to proxy handler binding to
+**`gem.proxy(emitter, options)`** - Proxies event registration to `emitter`. \
+* `emitter` - The emitter (usually a `Gem`) to proxy handler binding to \
 * `options` - An object that defines what events are proxied. If `undefined`, all events are proxied. The object can have one of the following properties:
   * `only` - An array of events to proxy.
   * `except` - An array of events to *not* proxy. All other events are proxied.
@@ -364,10 +364,10 @@ B.emit("click", "Ughh..") // console prints "hey hey heyyy! Ughh.."
 
 ### Instance events
 
-**`"attach"`** - Emitted when the gem is attached to the document.
-**`"detach"`** - Emitted when the gem is detached from the document.
-**`"newParent"`** - Emitted when a Gem gets a new parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
-**`"parentRemoved"`** - Emitted when a Gem is detached from its parent. *Note: this event is used by `Style` objects, so don't prevent these events.*
+**`"attach"`** - Emitted when the gem is attached to the document. \
+**`"detach"`** - Emitted when the gem is detached from the document. \
+**`"newParent"`** - Emitted when a Gem gets a new parent. *Note: this event is used by `Style` objects, so don't prevent these events.* \
+**`"parentRemoved"`** - Emitted when a Gem is detached from its parent. *Note: this event is used by `Style` objects, so don't prevent these events.* \
 
 #### Dom Events
 
@@ -390,8 +390,8 @@ For example:
 var CustomGem = proto(Gem, function() {
     this.name = "CustomGem"
     this.defaultStyle = Style({
-       color: 'red',
-       fontWeight: 'bold'
+        color: 'red',
+        fontWeight: 'bold'
     })
 
     this.build = function(x) {
@@ -477,7 +477,7 @@ Some gems have sub-gems specifically related to them. For example, `Select` has 
 
 Your standard html `<button>`.
 
-**`Button(text)`** - Returns a new button that has the passed text.
+**`Button(text)`** - Returns a new button that has the passed text. \
 **`Button(label, text)`**
 
 **`button.text`** - Sets or gets the button's text.
@@ -486,42 +486,42 @@ Your standard html `<button>`.
 
 Your standard html `<canvas>`.
 
-**`Canvas(height, width)`** - Returns a new Canvas object that has the passed dimensions.
+**`Canvas(height, width)`** - Returns a new Canvas object that has the passed dimensions. \
 **`Canvas(label, height, width)`**
 
-**`canvas.height`** - Sets and gets the canvas's height.
+**`canvas.height`** - Sets and gets the canvas's height. \
 **`canvas.width`** - Sets and gets the canvas's width.
 
 **`canvas.context(type, attributes)`** - Returns a standard canvas context. The `type` and `attribute` parameters and return value are the same as the html-standard [`getContext`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext).
 
-**`canvas.toImg`** - Returns a data-url representing the image currently drawn on the canvas.
+**`canvas.toImg`** - Returns a data-url representing the image currently drawn on the canvas. \
 **`canvas.toDataURL`** - Same as `canvas.toImg`.
 
 ### CheckBox
 
 Your standard html `<input type="checkbox">`.
 
-**`CheckBox()`** - Returns a new unchecked CheckBox.
+**`CheckBox()`** - Returns a new unchecked CheckBox. \
 **`CheckBox(label)`**
 
-**`checkbox.selected`** - Sets and gets the checkbox's selected state (true for selected, false for unselected).
+**`checkbox.selected`** - Sets and gets the checkbox's selected state (true for selected, false for unselected). \
 **`checkbox.quiet.selected`** - Same as `selected` but emits no change event.
 
 ### Block
 
 A `<div>` that contains other gems.
 
-**`Block(gem, gem, ...)`** - Returns a new container with all the passed gems as children (in the passed order).
-**`Block(listOfGems)`** - Same as above except `listOfGems` is an array of gems.
-**`Block(label, gem, gem, ...)`**
+**`Block(gem, gem, ...)`** - Returns a new container with all the passed gems as children (in the passed order). \
+**`Block(listOfGems)`** - Same as above except `listOfGems` is an array of gems. \
+**`Block(label, gem, gem, ...)`** \
 **`Block(label, listOfGems)`**
 
 ### Image
 
 Your standard html `<img>`.
 
-**`Image()`** - Returns a new empty image.
-**`Image(imageSource)`** - Returns a new image with the passed `imageSource`.
+**`Image()`** - Returns a new empty image. \
+**`Image(imageSource)`** - Returns a new image with the passed `imageSource`. \
 **`Image(label, imageSource)`**
 
 **`image.src`** - Gets or changes the image's source.
@@ -530,21 +530,21 @@ Your standard html `<img>`.
 
 An `<ol>` or `<ul>` element.
 
-**`List()`** - Returns a new empty list.
-**`List(ordered)`** - Returns a new empty list. Is an ordered-list if `ordered` is true, and an unorderd-list otherwise.
-**`List(listInit)`** - Returns a new populated list. `listInit` is an array containing either `Gem` objects or strings to add as list items.
-**`List(ordered, listInit)`**
-**`List(label)`**
-**`List(label, ordered)`**
-**`List(label, listInit)`**
+**`List()`** - Returns a new empty list. \
+**`List(ordered)`** - Returns a new empty list. Is an ordered-list if `ordered` is true, and an unorderd-list otherwise. \
+**`List(listInit)`** - Returns a new populated list. `listInit` is an array containing either `Gem` objects or strings to add as list items. \
+**`List(ordered, listInit)`** \
+**`List(label)`** \
+**`List(label, ordered)`** \
+**`List(label, listInit)`** \
 **`List(label, ordered, listInit)`**
 
-**`list.item(contents)`** - Creates a new `ListItem` with the passed `contents` and appends it to the list, which can either be a `Gem` or a string.
+**`list.item(contents)`** - Creates a new `ListItem` with the passed `contents` and appends it to the list, which can either be a `Gem` or a string. \
 **`list.item(label, contents)`**
 
 **`List.Item`** - The `ListItem` class.
 
-**`List.Item(contents)`** - same as `list.item` above, except doesn't append the item to any list.
+**`List.Item(contents)`** - same as `list.item` above, except doesn't append the item to any list. \
 **`List.Item(label, contents)`**
 
 ### Radio - (Not a `Gem)`
@@ -557,8 +557,8 @@ A set of radio buttons. `Radio` itself is not a `Gem`, but rather contains a set
 **`radio.button(value)`** - Creates a new `RadioButton` with the passed string `value` that is a member of the `Radio` object.
 **`radio.button(label, value)`**
 
-**`radio.selectedOption`** - Returns the `RadioButton` object that is selected.
-**`radio.val`**  - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis")
+**`radio.selectedOption`** - Returns the `RadioButton` object that is selected. \
+**`radio.val`**  - Gets the value of the `RadioButton` that's selected, or selects the `RadioButton` that has the set value (e.g. `radio.val = 'elvis'` would select the radio button with the value "elvis") \
 **`radio.quiet.val`** - Same as `val` but emits no change event.
 
 **`radio.remove(radioButton, radioButton, ...)`** - Removes the passed radio buttons from the `Radio` object's set. Note that this will not remove the buttons from the page - that must be done separately for whatever `Gem` contains the `RadioButton`s.
@@ -568,77 +568,77 @@ A set of radio buttons. `Radio` itself is not a `Gem`, but rather contains a set
 
 **`Radio.Button`** - The `RadioButton` class.
 
-**`radioButton.val`** - Gets or sets the value of the radio button.
-**`radioButton.selected`** - Gets whether the radio button is selected or not. If set to true, selects the button. If set to false, deselects it.
+**`radioButton.val`** - Gets or sets the value of the radio button. \
+**`radioButton.selected`** - Gets whether the radio button is selected or not. If set to true, selects the button. If set to false, deselects it. \
 **`radio.quiet.val`** - Same as `val` but emits no change event.
-**`radioButton.selectNext()`** - Sets the next radio button in the `Radio` object's set.
+**`radioButton.selectNext()`** - Sets the next radio button in the `Radio` object's set. \
 **`radioButton.selectPrevious()`** - Sets the previous radio button in the `Radio` object's set.
 
 ### Select
 
 Your standard `<select>` element.
 
-**`Select()`** - Returns a new empty selection list.
-**`Select(selections)`** - Returns a new populated selection list.
-**`Select(label, selections)`**
+**`Select()`** - Returns a new empty selection list. \
+**`Select(selections)`** - Returns a new populated selection list. \
+**`Select(label, selections)`** \
 * `selections` - An object with the structure `{optionValue: optionText, ...}`
 
-**`select.option(value, text)`** - Creates a new `Option` with the passed `value` and `text`, and appends it to the list.
+**`select.option(value, text)`** - Creates a new `Option` with the passed `value` and `text`, and appends it to the list. \
 **`select.option(label, value, text)`**
 
-**`select.options`** - A map where each value is a Select.Option gem the Select instance contains, and each key is the value of that option.
-**`select.val`** - Gets the value of the selected `Option`, or selects the `Option` with the set value (e.g. `select.val = 'moo'` selects the `Option` with the value 'moo').
+**`select.options`** - A map where each value is a Select.Option gem the Select instance contains, and each key is the value of that option. \
+**`select.val`** - Gets the value of the selected `Option`, or selects the `Option` with the set value (e.g. `select.val = 'moo'` selects the `Option` with the value 'moo'). \
 **`select.quiet.val`** - Same as `val` but emits no change event.
 
 **`Select.Option`** - The `Option` class.
 
-**`Select.Option(value, text)`** - same as `select.option` above, except doesn't append the `Option` to any list.
+**`Select.Option(value, text)`** - same as `select.option` above, except doesn't append the `Option` to any list. \
 **`Select.Option(label, contents)`**
 
-**`option.selected`** - Gets or sets the selected state of the `Option`.
-**`option.text`** - Gets or sets the display text of the `Option`.
-**`option.val`** - Gets or sets the string value of the `Option`.
-**`select.quiet.selected`** - Same as `selected` but emits no change event.
+**`option.selected`** - Gets or sets the selected state of the `Option`. \
+**`option.text`** - Gets or sets the display text of the `Option`. \
+**`option.val`** - Gets or sets the string value of the `Option`. \
+**`select.quiet.selected`** - Same as `selected` but emits no change event. \
 **`select.quiet.val`** - Same as `val` but emits no change event.
 
 ### Svg
 
 An `<svg>` element.
 
-**`Svg(svgXml)`** - Returns a new Svg image using the passed `svgXml`. The `svgXml` must include the `<svg>` tag at the top-level.
+**`Svg(svgXml)`** - Returns a new Svg image using the passed `svgXml`. The `svgXml` must include the `<svg>` tag at the top-level. \
 **`Svg(label, svgXml)`**
 
 ### Table
 
 Your standard `<table>` element.
 
-**`Table()`** - Returns a new empty table.
-**`Table(tableInit)`** - Returns a new populated table.
+**`Table()`** - Returns a new empty table. \
+**`Table(tableInit)`** - Returns a new populated table. \
 **`Table(label,tableInit)`**
 * `tableInit` - A list where each element in the list represents a row. Each element itself should be a list where each element is a `Gem` or string to put in a table `Cell`. E.g. `Table([['a','b','c'],[Text('x'),Text('y')]])` is a table with two rows and three columns, where there are only two cells in the second row.
 
-**`table.row(rowInit)`** - Creates a new table `TableRow` (`<tr>`), and appends it to the table.
-**`table.row(label, rowInit)`**
-**`table.header(rowInit)`**  - Creates a new table `TableHeader` (`<th>`), and appends it to the table.
+**`table.row(rowInit)`** - Creates a new table `TableRow` (`<tr>`), and appends it to the table. \
+**`table.row(label, rowInit)`** \
+**`table.header(rowInit)`**  - Creates a new table `TableHeader` (`<th>`), and appends it to the table. \
 **`table.header(label, rowInit)`**
 * `rowInit` - A list where each element is a `Gem` or string to put in a table `TableCell`. E.g. `table.row(['a','b','c'])` is a row with three cells.
 
-**`Table.Row`** - The `TableRow` class.
-**`Table.Header`** - The `TableHeader` class.
+**`Table.Row`** - The `TableRow` class. \
+**`Table.Header`** - The `TableHeader` class. \
 **`Table.TableCell`** - The `TableCell` class.
 
-**`Table.Row(rowInit)`** - same as `table.row` above, except doesn't append the `TableRow` to any table.
-**`Table.Row(label, rowInit)`**
-**`Table.Header(rowInit)`** - same as `table.header` above, except doesn't append the `TableHeader` to any table.
+**`Table.Row(rowInit)`** - same as `table.row` above, except doesn't append the `TableRow` to any table. \
+**`Table.Row(label, rowInit)`** \
+**`Table.Header(rowInit)`** - same as `table.header` above, except doesn't append the `TableHeader` to any table. \
 **`Table.Header(label, rowInit)`**
 
-**`row.cell(contents)`** - Creates a new table `TableCell` (`<td>`) and appends it to the `TableRow`.
-**`row.cell(label, contents)`**
-**`header.cell(contents)`** - Creates a new table `TableCell` (`<td>`) and appends it to the `TableHeader`.
+**`row.cell(contents)`** - Creates a new table `TableCell` (`<td>`) and appends it to the `TableRow`. \
+**`row.cell(label, contents)`** \
+**`header.cell(contents)`** - Creates a new table `TableCell` (`<td>`) and appends it to the `TableHeader`. \
 **`header.cell(label, contents)`**
 * `contents` - Either a string (text content) or any value you could pass into `gem.add` (a Gem, a list of Gems, etc).
 
-**`Table.Cell(contents)`** - Same as `row.cell`, but doesn't append the cell to any row.
+**`Table.Cell(contents)`** - Same as `row.cell`, but doesn't append the cell to any row. \
 **`Table.Cell(label, contents)`**
 
 **`cell.colspan(columns)`** - Sets the column-span (`colspan` attribute) of the cell.
@@ -647,8 +647,8 @@ Your standard `<table>` element.
 
 A `<div>` with text in it.
 
-**`Text()`** - Returns an empty Text object.
-**`Text(text)`** - Returns a Text object populated with the passed string `text`.
+**`Text()`** - Returns an empty Text object. \
+**`Text(text)`** - Returns a Text object populated with the passed string `text`. \
 **`Text(label, text)`**
 
 **`text.text`** - Sets or gets the object's text.
@@ -657,21 +657,21 @@ A `<div>` with text in it.
 
 A  multi-line text input field. Your standard `<textarea>` element.
 
-**`TextArea()`** - Returns an empty TextArea.
+**`TextArea()`** - Returns an empty TextArea. \
 **`TextArea(label)`**
 
-**`textArea.val`** - Gets or sets the testArea's value (the text inside the text box).
+**`textArea.val`** - Gets or sets the testArea's value (the text inside the text box). \
 **`textArea.quiet.val`** - Same as `val` but emits no change event.
 
 ### TextField
 
 A one-line text input field. Your standard `<input type='text'>` element.
 
-**`TextField()`** - Returns an empty TextField.
-**`TextField(password)`** - Returns an empty TextField with the `password` attribute, meaning any text inside the box will be displayed so that only the number of characters can be seen, and not the characters themselves.
+**`TextField()`** - Returns an empty TextField. \
+**`TextField(password)`** - Returns an empty TextField with the `password` attribute, meaning any text inside the box will be displayed so that only the number of characters can be seen, and not the characters themselves. \
 **`TextField(label, password)`**
 
-**`textField.val`** - Gets or sets the textField's value (the text inside the text box).
+**`textField.val`** - Gets or sets the textField's value (the text inside the text box). \
 **`textArea.quiet.val`** - Same as `val` but emits no change event.
 
 
@@ -1027,7 +1027,7 @@ var topBarHeight = 100
 
 Style({
     marginTop: topBarHeight,
-
+    
     Button: {
         $setup: function(gem) {
             var handler;
@@ -1272,6 +1272,7 @@ Todo
         var animation = Style.Animation({
             name: 'slidein' // produces a css style like __defaultName__2_slidein
                             // to prevent name collisions
+
             from: {
                 margin-left: 100%,
                 width: 300%
