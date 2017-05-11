@@ -25,7 +25,7 @@ Gem.js is here to change that. Finally, modern application development for the b
   - [`Gem`](#gem)
     - [Static properties and methods](#static-properties-and-methods)
     - [Instance properties and methods](#instance-properties-and-methods)
-      - [Instance properties inherited from [`EventEmitter`](http://nodejs.org/api/events.html)](#instance-properties-inherited-from-eventemitterhttpnodejsorgapieventshtml)
+      - [Instance properties inherited from EventEmitter](#instance-properties-inherited-from-eventemitterhttpnodejsorgapieventshtml)
       - [Instance properties inherited from EventEmitterB](#instance-properties-inherited-from-eventemitterb)
         - [`ifon`](#ifon)
         - [`proxy`](#proxy)
