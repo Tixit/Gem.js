@@ -17,9 +17,7 @@ module.exports = function() {
         this.test("all", function(t) {
             this.count(4)
 
-            t.test('EventEmitterB',require('./EventEmitterB.test')).complete.then(function(){
-                return t.test('Gem',require('./Gem.test')).complete
-            }).then(function(){
+            t.test('Gem',require('./Gem.test')).complete.then(function(){
                 return t.test('Style',require('./Style.test')).complete
             }).then(function() {
                 return t.test("standard components", function(t) {

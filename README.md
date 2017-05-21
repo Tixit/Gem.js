@@ -293,8 +293,8 @@ All methods and properties from [`EventEmitter`](http://nodejs.org/api/events.ht
 **`gem.off(event, callback)`** - Removes a callback as an event handler (the `callback` won't be called for that event again).
 **`gem.removeListener(event,callback)`** - *Same as `off`.*
 
-**`this.removeAllListeners(event)`** - Removes all the callbacks for the passed `event`, except capture handlers.
-**`this.removeAllListeners()`** - Removes all callbacks except capture handlers.
+**`gem.removeAllListeners(event)`** - Removes all the callbacks for the passed `event`, except capture handlers.
+**`gem.removeAllListeners()`** - Removes all callbacks except capture handlers.
 
 **`gem.offCapture(event, callback)`** - Removes a capture handler.
 
@@ -320,7 +320,8 @@ parent.ifoff('someoneClickedTheThing', function() {
 ```
 
 **`gem.ifon(event, callback)`** - Registers a callback that will be called when a handler is registered for `event` if it had no handler registered previously. If there is already a listener attached to that event, `callback` is called immediately.  
-* `callback(event)` - The callback gets the newly registered event type as its argument.
+**`gem.ifon(callback)`** - Registers a callback that will be called when the first handler for any event is registered.
+* * `callback(event)` - The callback gets the newly registered event type as its argument.
 
 **`gem.ifoff(event, callback)`** - Registers a callback that will be called when the last handler for `event` is unregistered.  
 **`gem.ifoff(callback)`** - Registers a callback that will be called when the last handler for any event is unregistered.
@@ -353,8 +354,8 @@ var A = Text()
 var B = Text()
 
 A.proxy(B)
-A.on("click", function() {
-    console.log("hey hey heyyy! "+3)
+A.on("click", function(x) {
+    console.log("hey hey heyyy! "+x)
 })
 
 B.emit("click", "Ughh..") // console prints "hey hey heyyy! Ughh.."
