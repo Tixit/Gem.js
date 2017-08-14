@@ -172,6 +172,7 @@ Why use `Gem.js`?
 * **Works with your current javascript**. `Gems` give you direct access to their `domNode` so you can use the dom manipulation libraries you're used to.
 * **Fully separate style from structure**. By using [`$state`](#state), [`$setup`, and `$kill`](#setup-and-kill) javascript in your `Style` objects, you can include any javascript that is stylistic rather than structural.
 * Import `Gem` modules with real APIs that anyone can release online. HTML snippets are so 1995.
+* Lowers your risk of Cross-Site scripting. Data in Gem.js doesn't need to be escaped, and so you can cross that off your worry-list.
 * Unlike [HTML web components](http://robdodson.me/why-web-components/), `Gem.js` **works in modern browsers without polyfills**.
 * Also unlike HTML web components, [element name collision](https://groups.google.com/forum/#!topic/polymer-dev/90Dq_2bk8CU) isn't a problem.
 * Has a small footprint: **16.5KB minified and gzipped in umd format**
