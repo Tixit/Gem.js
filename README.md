@@ -52,12 +52,12 @@ Gem.js is here to change that. Finally, modern application development for the b
   - [`Style` objects](#style-objects)
     - [`Style` constructor](#style-constructor)
       - [`<cssPropertyName>`](#csspropertyname)
-      - [`$setup` and `$kill`](#$setup-and-$kill)
-      - [`$state`](#$state)
+      - [`$setup` and `$kill`](#setup-and-kill)
+      - [`$state`](#state)
       - [`<GemName>`](#gemname)
-      - [`$<label>`](#$label)
-      - [`$$<pseudoclass>`](#$$pseudoclass)
-      - [`$inherit`](#$inherit)
+      - [`$<label>`](#label)
+      - [`$$<pseudoclass>`](#pseudoclass)
+      - [`$inherit`](#inherit)
       - [Combining them together](#combining-them-together)
     - [`styleObject.mix`](#styleobjectmix)
     - [`styleObject.copy()`](#styleobjectcopy)
@@ -70,6 +70,7 @@ Gem.js is here to change that. Finally, modern application development for the b
     - [Default style](#default-style)
   - [Tips and Recommendations](#tips-and-recommendations)
     - [Don't Create a node until you need it](#dont-create-a-node-until-you-need-it)
+  - [Other Gem Modules](#other-gem-modules)
 - [Decisions](#decisions)
 - [What `Gem.js` is ***not***](#what-gemjs-is-not)
 - [Contributors](#contributors)
@@ -1229,6 +1230,13 @@ And while gem.js generally rejects css's use of cascading, there is some similar
 ### Don't Create a node until you need it
 
 Often in traditional web development, all the HTML will be rendered and any javascript for them initialized on page load, and the elements that shouldn't be shown to the user are simply hidden, and then shown when needed. Using gem.js, its recommended that you create and remove nodes as needed, rather than showing and hiding (using `visible`). The only reason to use the show/hide technique is if the element in question is particularly expensive to generate.
+
+Other Gem Modules
+=================
+
+Here's a list of other available Gem modules:
+
+* [gemtk](https://github.com/Tixit/gemtk) - A toolkit of gems for common components.
 
 Decisions
 =========
