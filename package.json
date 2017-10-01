@@ -4,7 +4,7 @@
      "web", "components", "html", "css", "style", "view", "react",
      "angular", "angularjs", "blocks", "application", "react", "backbone"
  ],
- "version":"2.4.2",
+ "version":"2.4.3",
  "main": "src/node_modules/Gem.js",
  "contributors": [
     "Billy Tetrud <bitetrudpublic@gmail.com> (https://github.com/fresheneesz/)",
@@ -26,10 +26,10 @@
     "hashmap":"https://github.com/Tixit/hashmap/archive/c666bbe32a8d23bbafc96c5d8f18e385b1b00f27.tar.gz"
  },
  "devDependencies": {
-    "deadunit":"5.2.0",
-    "build-modules":"2.0.6",
-    "async-future":"",
-    "colors":"",
-    "requirejs": ""
+    "deadunit":"*",
+    "build-modules":"*",
+    "async-future":"*",
+    "colors":"*",
+    "requirejs": "*"
  }
 }

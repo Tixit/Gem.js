@@ -27,6 +27,7 @@ module.exports = function(t) {
 
 
 
+
     //*
     this.test('simple styling',function(t) {
         this.count(2)
@@ -1343,6 +1344,25 @@ module.exports = function(t) {
             })
 
             this.test('nth-child', function() {
+                var parameterParseTestCases = {
+                    '2': {constant:2, variable:0},
+                    'n': {constant:0, variable:1},
+                    '2n': {constant:0, variable:2},
+                    '2+n': {constant:2, variable:1},
+                    'n+2': {constant:2, variable:1},
+                    '2n+2': {constant:2, variable:2},
+                    '2+2n': {constant:2, variable:2},
+                    '2-n': {constant:2, variable:-1},
+                    'n-2': {constant:-2, variable:1},
+                    '2n-2': {constant:-2, variable:2},
+                    '2-2n': {constant:2, variable:-2}
+                }
+
+                for(var param in parameterParseTestCases) {
+                    this.log(param)
+                    this.ok(testUtils.equal(Style.parseNthChildParameter(param), parameterParseTestCases[param]), Style.parseNthChildParameter(param), parameterParseTestCases[param])
+                }
+
                 var C = proto(Gem, function(superclass) {
                     this.name = 'C'
 

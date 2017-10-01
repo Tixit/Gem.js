@@ -1328,6 +1328,7 @@ Optimization ideas:
 Changelog
 ========
 
+* 2.4.3 - Fixing bug in nth child rendering that caused 2+n and n+2 to parse incorrectly.
 * 2.4.1 - Fixing bug where ifoff for dom events wasn't being called properly, resulting in duplicate event calls if an event handler was removed and re-added
 * 2.4.0
     * Adding quiet.selected and quiet.val properties to the various gems that have normal `selected` and `val` properties
