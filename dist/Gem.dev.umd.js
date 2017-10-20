@@ -3467,9 +3467,9 @@ function getPseudoclassStyleFor(style, state) {
 
 // finds the default style for a gem, mixes it with the appropriate ancestor styles, and returns the result
 function createDefaultGemStyle(that) {
-    if(that.defaultStyle !== undefined) {
-        var defaultStyle = getStyleObject(that.defaultStyle)
-    }
+    // if(that.defaultStyle !== undefined) {
+    //     var defaultStyle = getStyleObject(that.defaultStyle)      // what was this for?
+    // }
 
     // get list of default styles
     var defaultStyles = []

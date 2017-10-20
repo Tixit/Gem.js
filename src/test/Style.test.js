@@ -226,6 +226,66 @@ module.exports = function(t) {
             t.eq(childNode.css('color'), 'rgb(2, 20, 200)')
             t.eq(child.yes, true)
         })
+
+        this.test('Testing various inheritance from default styles', function(t) {
+             var X = proto(Block, function() {
+                this.name = 'X'
+                this.defaultStyle = Style({
+                  $a: {
+                      color: 'rgb(100, 200, 250)',
+                      $setup: function(gem) {
+                          gem.yes = true
+                      },
+                      $kill: function(gem) {
+                          gem.no = true
+                      },
+                      $state: function(state) {
+                          return {
+                              width: 10
+                          }
+                      }
+                  },
+                  $setup: function(gem) {
+                      gem.yes = true
+                  },
+                  $kill: function(gem) {
+                      gem.no = true
+                  },
+                  $state: function(state) {
+                      return {
+                          width: 10
+                      }
+                  }
+                })
+             })
+
+             var x = X()
+             var block = Block(x)
+
+             block.style = Style({
+                 X: {
+                     $a: {
+                      $inherit: true
+                    }
+                 }
+             })
+
+             var text = Text('a','hi')
+             x.add(text)
+
+             x.attach()
+
+             testUtils.demo('Inheriting from an inner style in a defaultStyle wasnt working', x)
+
+             t.eq($(text.domNode).css('color'), 'rgb(100, 200, 250)')
+             t.eq($(text.domNode).css('display'), 'inline-block') // should be the base default value
+             t.eq(x.yes, true)
+             t.eq(text.yes, true)
+             t.eq(x.no, undefined)
+             t.eq(text.no, undefined)
+             t.eq($(x.domNode).css('width'), '10px')
+             t.eq($(text.domNode).css('width'), '10px')
+       })
     })
 
     this.test("inheritance of component styles", function() {
@@ -2418,36 +2478,7 @@ module.exports = function(t) {
 //            this.eq(rightFirstNode.css('border'), '1px solid rgb(128, 0, 0)')
 //            this.eq(rightFirstNode.css('backgroundColor'), 'rgb(0, 0, 128)')
 //        })
-//
-//        // todo:
-//        this.test('Inheriting from an inner style in a defaultStyle wasnt working', function(t) {
-//
-//            var X = proto(Block, function() {
-//               this.name = 'X'
-//               this.defaultStyle = Style({
-//                 $a: {
-//                   color: 'rgb(100, 200, 250)'
-//                 }
-//               })
-//            })
-//
-//            var x = X()
-//            x.style = Style({
-//              $a: {
-//                 inherit: true
-//               }
-//            })
-//
-//            var text = Text('a','hi')
-//            x.add(text)
-//
-//            x.attach()
-//
-//            testUtils.demo('Inheriting from an inner style in a defaultStyle wasnt working', x)
-//
-//            t.eq($(text.domNode).css('color'), 'rgb(100, 200, 250)')
-//            t.eq($(text.domNode).css('display'), 'inline-block') // should be the base default value
-//        })
+
 
         this.test('$inherit directly inside a pseudoclass was? working', function(t) {
 

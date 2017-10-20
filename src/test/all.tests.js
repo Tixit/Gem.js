@@ -12,8 +12,9 @@ module.exports = function() {
         this.count(1)
         this.timeout(700*1000) // for some reason this isn't working properly - the test is timing out when this is set to 20 seconds without 20 seconds between asserts
           
-                                                        
-        //*
+
+                return t.test('Style',require('./Style.test')).complete
+        /*
         this.test("all", function(t) {
             this.count(4)
 
